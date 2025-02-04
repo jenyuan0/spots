@@ -31,7 +31,7 @@ export async function getSiteData({ isPreviewMode }) {
 			'gHeader',
 			'gFooter',
 			'settingsMenu',
-			'settingsSharing',
+			'settingsGeneral',
 			'settingsIntegration',
 			'settingsBrandColors',
 		],

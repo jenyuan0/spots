@@ -134,7 +134,7 @@ const customForm = groq`
 // Construct our "site" GROQ
 export const site = groq`
 	"site": {
-		"title": *[_type == "settingsSharing"][0].siteTitle,
+		"title": *[_type == "settingsGeneral"][0].siteTitle,
 		"announcement": *[_type == "gAnnouncement"][0]{
 			display,
 			messages,
@@ -158,7 +158,7 @@ export const site = groq`
 				${menu}
 			},
 		},
-		"sharing": *[_type == "settingsSharing"][0]{
+		"sharing": *[_type == "settingsGeneral"][0]{
 			shareGraphic,
 			favicon,
 			faviconLight
