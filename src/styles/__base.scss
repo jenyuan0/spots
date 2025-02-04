@@ -32,7 +32,7 @@
 
 	--s-section: 100px;
 	--s-contain: Max(3vw, 10px);
-	--s-contain-max: 2000px;
+	--s-contain-max: 2480px;
 	--s-contain-dynamic: Max(
 		var(--s-contain),
 		calc((100vw - var(--s-contain-max)) / 2)

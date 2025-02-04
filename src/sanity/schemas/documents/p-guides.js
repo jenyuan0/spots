@@ -4,7 +4,7 @@ import { BookIcon } from '@sanity/icons';
 
 export default defineType({
 	title: 'News',
-	name: 'pBlogIndex',
+	name: 'pGuides',
 	type: 'document',
 	icon: BookIcon,
 	groups: [
@@ -27,7 +27,7 @@ export default defineType({
 				field: SlugField,
 			},
 			validation: (Rule) => Rule.required(),
-			initialValue: { _type: 'slug', current: 'blog' },
+			initialValue: { _type: 'slug', current: 'guides' },
 			readOnly: true,
 			group: 'settings',
 		},

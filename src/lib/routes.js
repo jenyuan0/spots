@@ -14,10 +14,14 @@ export const getRoute = ({ documentType, slug }) => {
 			return '/';
 		case 'pGeneral':
 			return `/${slug}`;
-		case 'pBlogIndex':
-			return '/blog';
-		case 'pBlog':
-			return `/blog/${slug}`;
+		case 'pGuide':
+			return '/guides';
+		case 'gGuides':
+			return `/guides/${slug}`;
+		case 'gLocations':
+			return `/locations/${slug}`;
+		case 'gItineraries':
+			return `/itineraries/${slug}`;
 		case 'externalUrl':
 			return slug;
 

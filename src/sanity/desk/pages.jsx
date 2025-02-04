@@ -1,11 +1,12 @@
 import {
 	HomeIcon,
-	MasterDetailIcon,
+	EnvelopeIcon,
 	UnknownIcon,
 	DocumentsIcon,
+	BookIcon,
 } from '@sanity/icons';
 
-const homePage = (S) => {
+const pageHome = (S) => {
 	return S.listItem()
 		.title('Homepage')
 		.child(
@@ -18,7 +19,7 @@ const homePage = (S) => {
 		.icon(HomeIcon);
 };
 
-const contactPage = (S) => {
+const pageContact = (S) => {
 	return S.listItem()
 		.title('Contact Page')
 		.child(
@@ -28,10 +29,10 @@ const contactPage = (S) => {
 				.schemaType('pContact')
 				.documentId('pContact')
 		)
-		.icon(MasterDetailIcon);
+		.icon(EnvelopeIcon);
 };
 
-const errorPage = (S) => {
+const pageError = (S) => {
 	return S.listItem()
 		.title('404 Page')
 		.child(
@@ -44,6 +45,19 @@ const errorPage = (S) => {
 		.icon(UnknownIcon);
 };
 
+export const pageGuidesIndex = (S) => {
+	return S.listItem()
+		.title('Guides Index')
+		.child(
+			S.editor()
+				.id('pGuides')
+				.title('Guides Index')
+				.schemaType('pGuides')
+				.documentId('pGuides')
+		)
+		.icon(BookIcon);
+};
+
 export const pagesMenu = (S) => {
 	return S.listItem()
 		.title('Primary Pages')
@@ -52,7 +66,7 @@ export const pagesMenu = (S) => {
 		.child(
 			S.list()
 				.title('Primary Pages')
-				.items([homePage(S), contactPage(S), errorPage(S)])
+				.items([pageHome(S), pageError(S), pageContact(S), pageGuidesIndex(S)])
 		);
 };
 

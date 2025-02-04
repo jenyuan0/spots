@@ -3,7 +3,7 @@ import { TagsIcon } from '@sanity/icons';
 
 export default defineType({
 	title: 'Categories',
-	name: 'pBlogCategory',
+	name: 'gCategories',
 	type: 'document',
 	icon: TagsIcon,
 	fields: [
@@ -26,8 +26,7 @@ export default defineType({
 			validation: (Rule) => Rule.required(),
 		},
 		{
-			title: 'Category Color',
-			name: 'categoryColor',
+			name: 'color',
 			type: 'reference',
 			to: [{ type: 'settingsBrandColors' }],
 		},

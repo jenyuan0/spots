@@ -3,7 +3,7 @@ import { BsPeopleFill } from 'react-icons/bs';
 
 export default defineType({
 	title: 'Author',
-	name: 'pBlogAuthor',
+	name: 'gAuthors',
 	type: 'document',
 	icon: BsPeopleFill,
 	fields: [

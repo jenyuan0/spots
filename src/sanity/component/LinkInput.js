@@ -6,13 +6,7 @@ import { isValidUrl } from '@/lib/helpers';
 import { getRoute } from '@/lib/routes';
 import { client } from '@/sanity/lib/client';
 
-const pageDocumentOrder = [
-	'pHome',
-	'pGeneral',
-	'pBlogIndex',
-	'pBlog',
-	'pContact',
-];
+const pageDocumentOrder = ['pHome', 'pGeneral', 'pGuides', 'pContact'];
 
 const fetchOptions = async () => {
 	const groqQuery = `* [_type in ${JSON.stringify(pageDocumentOrder)}] {

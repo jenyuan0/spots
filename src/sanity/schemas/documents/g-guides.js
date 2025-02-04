@@ -3,8 +3,8 @@ import { BookIcon } from '@sanity/icons';
 import { SlugField } from '@/sanity/component/SlugField';
 
 export default defineType({
-	title: 'Blog',
-	name: 'pBlog',
+	title: 'Guides',
+	name: 'gGuides',
 	type: 'document',
 	icon: BookIcon,
 	groups: [
@@ -44,7 +44,7 @@ export default defineType({
 			title: 'Author',
 			name: 'author',
 			type: 'reference',
-			to: [{ type: 'pBlogAuthor' }],
+			to: [{ type: 'gAuthors' }],
 		},
 		{
 			title: 'Categories',
@@ -53,7 +53,7 @@ export default defineType({
 			of: [
 				{
 					type: 'reference',
-					to: { type: 'pBlogCategory' },
+					to: { type: 'gCategories' },
 				},
 			],
 			group: 'content',
@@ -84,17 +84,16 @@ export default defineType({
 			group: 'content',
 		},
 		{
-			title: 'Related News',
-			name: 'relatedBlogs',
+			name: 'related',
 			type: 'array',
 			description:
-				'If left empty, will be pulled 2 news from the same category',
+				'If left empty, will be pulled 2 articles from the same category',
 			of: [
 				{
 					title: 'News',
 					name: 'news',
 					type: 'reference',
-					to: [{ type: 'pBlog' }],
+					to: [{ type: 'gGuides' }],
 				},
 			],
 		},
@@ -112,7 +111,7 @@ export default defineType({
 			categories: 'categories.0.title',
 		},
 		prepare({ title = 'Untitled', slug = {}, categories }) {
-			const path = `/blog/${slug.current}`;
+			const path = `/guides/${slug.current}`;
 			const categoryTitle = categories ?? '';
 			const subtitle = `[${
 				categoryTitle ? categoryTitle : '(missing category)'

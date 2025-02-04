@@ -30,16 +30,19 @@ import accordionList from './schemas/modules/accordion-list';
 import gAnnouncement from './schemas/documents/g-announcement';
 import gHeader from './schemas/documents/g-header';
 import gFooter from './schemas/documents/g-footer';
+import gLocations from './schemas/documents/g-locations';
+import gItineraries from './schemas/documents/g-itineraries';
+import gGuides from './schemas/documents/g-guides';
+import gFAQ from './schemas/documents/g-faq';
+import gCategories from './schemas/documents/g-categories';
+import gAuthors from './schemas/documents/g-authors';
 
 // Page types
 import pGeneral from './schemas/documents/p-general';
 import p404 from './schemas/documents/p-404';
 import pHome from './schemas/documents/p-home';
 
-import pBlogIndex from './schemas/documents/p-blog-index';
-import pBlog from './schemas/documents/p-blog';
-import pBlogAuthor from './schemas/documents/p-blog-author';
-import pBlogCategory from './schemas/documents/p-blog-category';
+import pGuides from './schemas/documents/p-guides';
 import pContact from './schemas/documents/p-contact';
 
 const schemas = [
@@ -71,15 +74,18 @@ const schemas = [
 	gAnnouncement,
 	gHeader,
 	gFooter,
+	gLocations,
+	gItineraries,
+	gGuides,
+	gFAQ,
+	gCategories,
+	gAuthors,
 
 	pGeneral,
 	p404,
 	pHome,
 
-	pBlogIndex,
-	pBlog,
-	pBlogAuthor,
-	pBlogCategory,
+	pGuides,
 	pContact,
 ];
 

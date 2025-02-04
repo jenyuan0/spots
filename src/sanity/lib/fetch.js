@@ -74,8 +74,14 @@ export function getPagesPaths({ pageType }) {
 		switch (pageType) {
 			case 'pGeneral':
 				return groq`*[_type == "pGeneral" ].slug.current`;
-			case 'pBlog':
-				return groq`*[_type == "pBlog" ].slug.current`;
+			case 'gLocations':
+				return groq`*[_type == "gLocations" ].slug.current`;
+			case 'gItineraries':
+				return groq`*[_type == "gItineraries" ].slug.current`;
+			case 'gGuides':
+				return groq`*[_type == "gGuides" ].slug.current`;
+			case 'gFAQ':
+				return groq`*[_type == "gFAQ" ].slug.current`;
 			default:
 				console.warn('Invalid Page Type:', pageType);
 				return groq`*[_type == "pGeneral" ].slug.current`;

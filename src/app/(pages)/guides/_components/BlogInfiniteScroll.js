@@ -17,7 +17,7 @@ import { getBlogPostData } from '@/sanity/lib/queries';
 import { client } from '@/sanity/lib/client';
 
 const getBlogQueryGROQ = ({ pageParam, pageSize }) => {
-	let queryGroq = `_type == "pBlog"`;
+	let queryGroq = `_type == "gGuide"`;
 
 	return `*[${queryGroq}] | order(_updatedAt desc) [(${pageParam} * ${pageSize})...(${pageParam} + 1) * ${pageSize}]{
 		${getBlogPostData('card')}

@@ -1,4 +1,4 @@
-import { ComponentIcon, EnvelopeIcon } from '@sanity/icons';
+import { ComponentIcon } from '@sanity/icons';
 
 export const globalMenu = (S) => {
 	return S.listItem()
