@@ -89,7 +89,7 @@ export const globalAuthors = (S) => {
 		.icon(UserIcon);
 };
 
-export const pageGuideFilters = (S) => {
+export const pageGuidesFilters = (S) => {
 	return S.listItem()
 		.title('Filters')
 		.child(
@@ -114,11 +114,11 @@ export const pageGuideFilters = (S) => {
 					S.listItem()
 						.title('By Author')
 						.child(
-							S.documentTypeList('pBlogAuthor')
+							S.documentTypeList('gAuthor')
 								.title('Guides by Author')
 								.child((authorId) =>
 									S.documentList()
-										.title('Blogs')
+										.title('Guides')
 										.apiVersion(apiVersion)
 										.filter('_type == "gGuides" && $authorId == author._ref')
 										.params({ authorId })

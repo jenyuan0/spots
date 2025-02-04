@@ -1,21 +1,21 @@
-import PageBlogIndex from './_components/PageBlogIndex';
-import PreviewPageBlogIndex from './_components/PreviewPageBlogIndex';
+import PageGuidesIndex from './_components/PageGuidesIndex';
+import PreviewPageGuidesIndex from './_components/PreviewPageGuidesIndex';
 import { draftMode } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { LiveQuery } from 'next-sanity/preview/live-query';
 import defineMetadata from '@/lib/defineMetadata';
-import { getBlogIndexPage } from '@/sanity/lib/fetch';
-import { pageBlogIndexWithArticleDataSSGQuery } from '@/sanity/lib/queries';
+import { getGuidesIndexPage } from '@/sanity/lib/fetch';
+import { pageGuidesIndexWithArticleDataSSGQuery } from '@/sanity/lib/queries';
 
 export async function generateMetadata() {
 	const isPreviewMode = draftMode().isEnabled;
-	const data = await getBlogIndexPage({ isPreviewMode });
+	const data = await getGuidesIndexPage({ isPreviewMode });
 	return defineMetadata({ data });
 }
 
 export default async function Page() {
 	const isPreviewMode = draftMode().isEnabled;
-	const pageData = await getBlogIndexPage({
+	const pageData = await getGuidesIndexPage({
 		isPreviewMode,
 		isArticleDataSSG: true,
 	});
@@ -26,11 +26,11 @@ export default async function Page() {
 	return (
 		<LiveQuery
 			enabled={isPreviewMode}
-			query={pageBlogIndexWithArticleDataSSGQuery}
+			query={pageGuidesIndexWithArticleDataSSGQuery}
 			initialData={page}
-			as={PreviewPageBlogIndex}
+			as={PreviewPageGuidesIndex}
 		>
-			<PageBlogIndex data={page} />
+			<PageGuidesIndex data={page} />
 		</LiveQuery>
 	);
 }

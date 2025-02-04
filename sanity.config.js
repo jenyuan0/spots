@@ -19,7 +19,7 @@ import { noteField } from 'sanity-plugin-note-field';
 
 export const previewBaseURL = '/api/preview';
 export const previewDocumentTypes = [pGeneral.name, p404.name];
-const allowDuplicateDocumentTypes = ['pGeneral', 'pBlog', 'settingsRedirect'];
+const allowDuplicateDocumentTypes = ['pGeneral', 'gGuides', 'settingsRedirect'];
 
 const commonPlugins = [
 	structureTool({

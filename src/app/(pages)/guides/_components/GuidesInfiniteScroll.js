@@ -4,23 +4,23 @@
 	By default, the component used is SSG (<ListWithSSG/>). If you need to use the client fetch, follow these steps:
 
 	1.	Uncomment the <ListWithClientQuery /> component and delete the <ListWithSSG/> component.
-	2.	Go to the blog fetch function getBlogIndexPage located in 'src/app/(pages)/blog/page.js', and set isArticleDataSSG to false. Alternatively, you can modify the pageBlogIndexWithArticleDataSSGQuery located in 'src/sanity/lib/queries' to remove the query articleListAllQuery.
+	2.	Go to the guides fetch function getGuidesIndexPage located in 'src/app/(pages)/guides/page.js', and set isArticleDataSSG to false. Alternatively, you can modify the pageGuidesIndexWithArticleDataSSGQuery located in 'src/sanity/lib/queries' to remove the query articleListAllQuery.
 
 */
 
 'use client';
 import React, { useState, useEffect } from 'react';
-import BlogCard from '@/components/BlogCard';
+import GuideCard from '@/components/GuideCard';
 import { InView } from 'react-intersection-observer';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { getBlogPostData } from '@/sanity/lib/queries';
+import { getGuidesData } from '@/sanity/lib/queries';
 import { client } from '@/sanity/lib/client';
 
-const getBlogQueryGROQ = ({ pageParam, pageSize }) => {
-	let queryGroq = `_type == "gGuide"`;
+const getGuidesQueryGROQ = ({ pageParam, pageSize }) => {
+	let queryGroq = `_type == "gGuides"`;
 
 	return `*[${queryGroq}] | order(_updatedAt desc) [(${pageParam} * ${pageSize})...(${pageParam} + 1) * ${pageSize}]{
-		${getBlogPostData('card')}
+		${getGuidesData('card')}
 	}`;
 };
 
@@ -37,7 +37,7 @@ const ListWithClientQuery = ({ data }) => {
 		infiniteScrollCompleteLabel ?? 'You’ve reached the end';
 
 	const fetchArticles = async ({ pageParam }) => {
-		const query = getBlogQueryGROQ({
+		const query = getGuidesQueryGROQ({
 			pageParam,
 			pageSize: itemsPerPage,
 		});
@@ -54,7 +54,7 @@ const ListWithClientQuery = ({ data }) => {
 		isFetchingNextPage,
 		status,
 	} = useInfiniteQuery({
-		queryKey: ['blogs'],
+		queryKey: ['guides'],
 		queryFn: ({ pageParam }) => fetchArticles({ pageParam }),
 		initialPageParam: 0,
 		getNextPageParam: (lastPage, allPages) => {
@@ -70,11 +70,11 @@ const ListWithClientQuery = ({ data }) => {
 				<p>Error: {error.message}</p>
 			) : (
 				<>
-					<section className="p-blog-articles">
+					<section className="p-guides-articles">
 						{articlesData.pages.map((group, i) => (
 							<React.Fragment key={i}>
 								{group.map((item) => (
-									<BlogCard key={item._id} data={item} />
+									<GuideCard key={item._id} data={item} />
 								))}
 							</React.Fragment>
 						))}
@@ -94,7 +94,7 @@ const ListWithClientQuery = ({ data }) => {
 					) : (
 						<InView
 							as="section"
-							className="p-blog__footer"
+							className="p-guides__footer"
 							onChange={(inView) => {
 								if (inView && hasNextPage && !isFetchingNextPage) {
 									fetchNextPage();
@@ -151,9 +151,9 @@ const ListWithSSG = ({ data }) => {
 				<p>Error: {listState}</p>
 			) : (
 				<>
-					<div className="p-blog-articles__list">
+					<div className="p-guides-articles__list">
 						{listData.map((item, index) => (
-							<BlogCard key={item._id} data={item} />
+							<GuideCard key={item._id} data={item} />
 						))}
 					</div>
 					{paginationMethod === 'load-more' ? (
@@ -171,7 +171,7 @@ const ListWithSSG = ({ data }) => {
 					) : (
 						<InView
 							as="section"
-							className="p-blog__footer"
+							className="p-guides__footer"
 							onChange={(inView) => {
 								if (
 									inView &&
@@ -193,7 +193,7 @@ const ListWithSSG = ({ data }) => {
 	);
 };
 
-export default function BlogInfiniteScroll({ data }) {
+export default function GuidesInfiniteScroll({ data }) {
 	return (
 		<>
 			<ListWithSSG data={data} />

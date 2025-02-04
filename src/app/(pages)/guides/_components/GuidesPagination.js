@@ -4,25 +4,25 @@
 	By default, the component used is SSG (<ListWithSSG/>). If you need to use the client fetch, follow these steps:
 
 	1.	Uncomment the <ListWithClientQuery /> component and delete the <ListWithSSG/> component.
-	2.	Go to the blog fetch function getBlogIndexPage located in 'src/app/(pages)/blog/page.js', and set isArticleDataSSG to false. Alternatively, you can modify the pageBlogIndexWithArticleDataSSGQuery located in 'src/sanity/lib/queries' to remove the query articleListAllQuery.
+	2.	Go to the guides fetch function getGuidesIndexPage located in 'src/app/(pages)/guides/page.js', and set isArticleDataSSG to false. Alternatively, you can modify the pageGuidesIndexWithArticleDataSSGQuery located in 'src/sanity/lib/queries' to remove the query articleListAllQuery.
 
 */
 
 'use client';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import React, { useState, useEffect } from 'react';
-import BlogCard from '@/components/BlogCard';
+import GuideCard from '@/components/GuideCard';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { client } from '@/sanity/lib/client';
-import { getBlogPostData } from '@/sanity/lib/queries';
+import { getGuidesData } from '@/sanity/lib/queries';
 
-const getBlogQueryGROQ = ({ pageNumber, pageSize }) => {
-	let queryGroq = `_type == "pBlog"`;
+const getGuidesQueryGROQ = ({ pageNumber, pageSize }) => {
+	let queryGroq = `_type == "gGuides"`;
 
 	return `*[${queryGroq}] | order(_updatedAt desc) [(${pageNumber} * ${pageSize})...(${pageNumber} + 1) * ${pageSize}]{
-		${getBlogPostData('card')}
+		${getGuidesData('card')}
 	}`;
 };
 
@@ -31,7 +31,7 @@ const ListWithClientQuery = ({ data, currentPageNumber }) => {
 	const pageNumber = Number(currentPageNumber);
 
 	const fetchArticles = async ({ pageNumber, itemsPerPage }) => {
-		const query = getBlogQueryGROQ({
+		const query = getGuidesQueryGROQ({
 			pageNumber,
 			pageSize: itemsPerPage,
 		});
@@ -47,7 +47,7 @@ const ListWithClientQuery = ({ data, currentPageNumber }) => {
 		isFetching,
 		isPlaceholderData,
 	} = useQuery({
-		queryKey: ['blogs', pageNumber],
+		queryKey: ['guides', pageNumber],
 		queryFn: () => fetchArticles({ pageNumber, itemsPerPage }),
 		placeholderData: keepPreviousData,
 	});
@@ -59,9 +59,9 @@ const ListWithClientQuery = ({ data, currentPageNumber }) => {
 			) : isError ? (
 				<div>Error: {error.message}</div>
 			) : (
-				<div className="p-blog-articles__list">
+				<div className="p-guides-articles__list">
 					{articlesData.map((item, index) => (
-						<BlogCard key={item._id} data={item} />
+						<GuideCard key={item._id} data={item} />
 					))}
 				</div>
 			)}
@@ -86,9 +86,9 @@ const ListWithSSG = ({ data, currentPageNumber }) => {
 			{listState === 'isLoading' ? (
 				<p>Loading...</p>
 			) : (
-				<div className="p-blog-articles__list">
+				<div className="p-guides-articles__list">
 					{listData.map((item, index) => (
-						<BlogCard key={item._id} data={item} />
+						<GuideCard key={item._id} data={item} />
 					))}
 				</div>
 			)}
@@ -96,7 +96,7 @@ const ListWithSSG = ({ data, currentPageNumber }) => {
 	);
 };
 
-export default function BlogPagination({ data }) {
+export default function GuidesPagination({ data }) {
 	const searchParams = useSearchParams();
 	const currentPageNumber = searchParams.get('page') || 1;
 	const { itemsTotalCount, itemsPerPage } = data;
@@ -106,17 +106,17 @@ export default function BlogPagination({ data }) {
 			{/* <ListWithClientQuery data={data} currentPageNumber={currentPageNumber} /> */}
 			<ListWithSSG data={data} currentPageNumber={currentPageNumber} />
 			{ARTICLE_TOTAL_PAGE > 1 && (
-				<div className="c-blog-pagination__pagination f-h f-a-c f-j-c">
+				<div className="c-guides-pagination__pagination f-h f-a-c f-j-c">
 					{Array.from({ length: ARTICLE_TOTAL_PAGE }, (_, index) => {
 						const pageNumber = index + 1;
 						return (
 							<Link
 								href={{
-									pathname: '/blog',
+									pathname: '/guides',
 									query: { page: pageNumber },
 								}}
 								key={index}
-								className={clsx('c-blog-pagination__pagination__number', {
+								className={clsx('c-guides-pagination__pagination__number', {
 									'is-active': pageNumber === Number(currentPageNumber),
 								})}
 							>

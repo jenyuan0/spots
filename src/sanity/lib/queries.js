@@ -225,8 +225,8 @@ export const pageContactQuery = groq`
 // 		sharing
 // 	}`;
 
-// BLOG
-export const getBlogPostData = (type) => {
+// GUIDES
+export const getGuidesData = (type) => {
 	let defaultData = groq`
 		_type,
 		_id,
@@ -251,46 +251,46 @@ export const getBlogPostData = (type) => {
 };
 
 export const articleListAllQuery = groq`
-		"articleList": *[_type == "pBlog"] | order(_updatedAt desc) {
-			${getBlogPostData('card')}
+		"articleList": *[_type == "gGuides"] | order(_updatedAt desc) {
+			${getGuidesData('card')}
 		}
 `;
 
-export const pageBlogIndexDefaultQuery = groq`
+export const pageGuidesIndexDefaultQuery = groq`
 		_type,
 		title,
-		"slug": "blog",
+		"slug": "guides",
 		itemsPerPage,
 		paginationMethod,
 		loadMoreButtonLabel,
 		infiniteScrollCompleteLabel,
-		"itemsTotalCount": count(*[_type == "pBlog"]),
+		"itemsTotalCount": count(*[_type == "gGuides"]),
 		sharing`;
 
-export const pageBlogIndex = groq`
-	*[_type == "pBlogIndex"][0]{
-		${pageBlogIndexDefaultQuery}
+export const pageGuidesIndex = groq`
+	*[_type == "pGuides"][0]{
+		${pageGuidesIndexDefaultQuery}
 	}`;
 
-export const pageBlogIndexWithArticleDataSSGQuery = groq`
-	*[_type == "pBlogIndex"][0]{
-		${pageBlogIndexDefaultQuery},
+export const pageGuidesIndexWithArticleDataSSGQuery = groq`
+	*[_type == "pGuides"][0]{
+		${pageGuidesIndexDefaultQuery},
 		${articleListAllQuery}
 	}`;
 
-export const pageBlogPaginationMethodQuery = groq`
+export const pageGuidesPaginationMethodQuery = groq`
 	{
-		"articleTotalNumber": count(*[_type == "pBlog"])}
-		"itemsPerPage": *[_type == "pBlogIndex"][0].itemsPerPage
+		"articleTotalNumber": count(*[_type == "gGuides"])}
+		"itemsPerPage": *[_type == "pGuides"][0].itemsPerPage
 	}`;
 
-export const pageBlogSingleQuery = groq`
-	*[_type == "pBlog" && slug.current == $slug][0]{
-		${getBlogPostData()},
-		"defaultRelatedBlogs": *[_type == "pBlog"
+export const pageGuidesSingleQuery = groq`
+	*[_type == "gGuides" && slug.current == $slug][0]{
+		${getGuidesData()},
+		"defaultRelated": *[_type == "gGuides"
 			&& count(categories[@._ref in ^.^.categories[]._ref ]) > 0
 			&& _id != ^._id
 			] | order(publishedAt desc, _createdAt desc) [0..1] {
-				${getBlogPostData('card')}
+				${getGuidesData('card')}
 			}
 	}`;

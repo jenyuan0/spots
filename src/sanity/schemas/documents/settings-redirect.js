@@ -23,7 +23,7 @@ export default defineType({
 			validation: (rule) => slugValidator(rule),
 			description: (
 				<>
-					Enter path (e.g. /blog/lorem-ipsum). Source path supports{' '}
+					Enter path (e.g. /guides/lorem-ipsum). Source path supports{' '}
 					<a
 						href="https://nextjs.org/docs/pages/api-reference/next-config-js/redirects#path-matching"
 						target="_blank"

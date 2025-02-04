@@ -125,35 +125,35 @@ export function getContactPage({ queryParams, isPreviewMode }) {
 // 	});
 // }
 
-// BLOG
-export function getBlogPaginationMethodData() {
+// GUIDES
+export function getGuidesPaginationMethodData() {
 	return sanityFetch({
-		query: queries.pageBlogPaginationMethodQuery,
-		tags: ['pBlogIndex', 'pBlog'],
+		query: queries.pageGuidesPaginationMethodQuery,
+		tags: ['pGuides', 'gGuides'],
 	});
 }
 
-export function getBlogIndexPage({ isPreviewMode, isArticleDataSSG }) {
+export function getGuidesIndexPage({ isPreviewMode, isArticleDataSSG }) {
 	const query = getPageDataStructure({
 		query: isArticleDataSSG
-			? queries.pageBlogIndexWithArticleDataSSGQuery
-			: queries.pageBlogIndex,
+			? queries.pageGuidesIndexWithArticleDataSSGQuery
+			: queries.pageGuidesIndex,
 	});
 
 	return sanityFetch({
 		query,
-		tags: ['pBlogIndex'],
+		tags: ['pGuides'],
 		isPreviewMode,
 	});
 }
 
-export function getBlogSinglePage({ queryParams, isPreviewMode }) {
-	const query = getPageDataStructure({ query: queries.pageBlogSingleQuery });
+export function getGuidesSinglePage({ queryParams, isPreviewMode }) {
+	const query = getPageDataStructure({ query: queries.pageGuidesSingleQuery });
 
 	return sanityFetch({
 		query,
 		params: queryParams,
-		tags: [`pBlog:${queryParams.slug}`],
+		tags: [`gGuides:${queryParams.slug}`],
 		isPreviewMode,
 	});
 }
