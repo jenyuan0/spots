@@ -1,0 +1,18 @@
+.g-footer {
+	&__main {
+		padding: 20px var(--s-contain);
+	}
+
+	&__sub {
+		padding: 10px var(--s-contain);
+		border-top: 1px solid var(--cr-subtle);
+	}
+
+	&__links ul {
+		gap: 10px;
+	}
+
+	&__legal ul {
+		gap: 10px;
+	}
+}

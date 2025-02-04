@@ -1,0 +1,34 @@
+.g-progress {
+	position: fixed;
+	width: 100%;
+	height: 8px;
+	top: 0;
+	left: 0;
+	z-index: 500;
+
+	&[data-progress='101'] {
+		opacity: 0;
+		transition: opacity 0.3s 0.8s;
+
+		.c-progress__indicator {
+			transform-origin: right center;
+			transition-duration: 0.8s;
+		}
+	}
+}
+
+.c-progress {
+	width: 100%;
+	overflow: hidden;
+	height: 3px;
+
+	&__indicator {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		z-index: 1;
+		background-color: var(--cr-accent);
+		transform-origin: left center;
+		transition: transform 0.4s var(--e-inOut-circ);
+	}
+}

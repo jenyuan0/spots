@@ -1,0 +1,29 @@
+.c-portable-table {
+	tr:nth-child(2n+1) {
+		background-color: rgba(0, 0, 0, 0.2)
+	}
+
+	@media screen and (max-width: 601px) {
+		overflow-x: auto;
+
+		table {
+			min-width: 600px;
+		}
+
+		&::-webkit-scrollbar {
+			height: 5px;
+			border-radius: 5px;
+		}
+
+		&::-webkit-scrollbar-track {
+			margin: 0 var(--s-contain);
+			background-color: var(--cr-subtle-5);
+		}
+
+		&::-webkit-scrollbar-thumb {
+			height: 5px;
+			border-radius: 5px;
+			background-color: var(--cr-accent);
+		}
+	}
+}

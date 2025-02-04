@@ -1,0 +1,21 @@
+.c-vimeo-video {
+	position: relative;
+	overflow: hidden;
+	user-select: none;
+	pointer-events: none;
+
+	&:after {
+		content: '';
+		display: block;
+		padding-top: calc(1 / var(--aspect-ratio) * 100%);
+	}
+
+	&__iframe {
+		opacity: 0;
+		transition: opacity 0.2s;
+	}
+
+	&.is-loaded &__iframe {
+		opacity: 1;
+	}
+}

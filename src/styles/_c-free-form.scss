@@ -1,0 +1,45 @@
+.c-free-form {
+	margin-left: auto;
+	margin-right: auto;
+	color: var(--text-color);
+	background-color: var(--background-color);
+	max-width: var(--max-width);
+
+	&.text-align-left {
+		text-align: left;
+	}
+
+	&.text-align-center {
+		text-align: center;
+	}
+
+	&.text-align-right {
+		text-align: right;
+	}
+
+	&.text-align-justify {
+		text-align: justify;
+	}
+
+	&.with-padding {
+		padding-top: var(--spacing-top);
+		padding-bottom: var(--spacing-bottom);
+	}
+
+	&.with-margin {
+		margin-top: var(--spacing-top);
+		margin-bottom: var(--spacing-bottom);
+	}
+
+	@media screen and (max-width: 600px) {
+		&.with-padding {
+			padding-top: var(--spacing-top-mobile);
+			padding-bottom: var(--spacing-bottom-mobile);
+		}
+
+		&.with-margin {
+			margin-top: var(--spacing-top-mobile);
+			margin-bottom: var(--spacing-bottom-mobile);
+		}
+	}
+}

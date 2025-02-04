@@ -1,0 +1,68 @@
+// ***Mixins***
+
+// *** RWD ***
+/* Example usage:
+  .something {
+      padding: 20px;
+
+      @include mobileUp {
+        padding: 10px;
+      }
+    }
+*/
+@mixin tabletUp {
+	@media screen and (min-width: 1025px) {
+		@content;
+	}
+}
+@mixin tabletDown {
+	@media screen and (max-width: 1024px) {
+		@content;
+	}
+}
+@mixin mobileUp {
+	@media screen and (min-width: 601px) {
+		@content;
+	}
+}
+@mixin mobileDown {
+	@media screen and (max-width: 600px) {
+		@content;
+	}
+}
+
+// *** Hover ***
+/* Example usage:
+  .btn {
+    color: var(--cr-white);
+    background-color: var(--cr-black);
+
+    @include hover {
+      color: var(--cr-black);
+      background-color: var(--cr-white);
+    }
+  }
+*/
+@mixin hover {
+	@media (hover: hover) {
+		&:not([disabled]):hover {
+			@content;
+		}
+	}
+}
+
+// ***Placeholder***
+@mixin placeholder {
+	&::placeholder {
+		@content;
+	}
+	&::-webkit-input-placeholder {
+		@content;
+	}
+	&::-moz-placeholder {
+		@content;
+	}
+	&:-ms-input-placeholder {
+		@content;
+	}
+}

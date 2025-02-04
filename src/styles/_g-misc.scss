@@ -1,0 +1,9 @@
+// override starter-library/scss/__animation.scss opacity 0
+body {
+	opacity: 1;
+}
+
+#main {
+	min-height: var(--s-main-min-height);
+	padding: 0.1px 0;
+}
