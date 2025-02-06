@@ -8,10 +8,9 @@ export default function defineMetadata({ data }) {
 
 	const siteTitle = site?.title || '';
 	const metaDesc = page?.sharing?.metaDesc || '';
-	const metaTitle =
-		page?.sharing?.metaTitle || page?.title
-			? `${page?.title} | ${siteTitle}`
-			: siteTitle;
+	const metaTitle = page?.isHomepage
+		? page?.sharing?.metaTitle || siteTitle
+		: `${page?.sharing?.metaTitle || page?.title || 'Page not found'} | ${siteTitle}`;
 
 	const siteFavicon = site?.sharing?.favicon || false;
 	const siteFaviconUrl = siteFavicon

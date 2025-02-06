@@ -1,6 +1,6 @@
 import { ControlsIcon } from '@sanity/icons';
 import { defineType } from 'sanity';
-import { getSwatch } from '../../lib/helpers';
+import { getSwatch } from '@/sanity/lib/helpers';
 
 export default defineType({
 	title: 'Color',

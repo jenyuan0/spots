@@ -1,47 +1,22 @@
 import { defineType } from 'sanity';
-import { SlugField } from '@/sanity/component/SlugField';
+import title from '@/sanity/lib/title';
+import slug from '@/sanity/lib/slug';
+import sharing from '@/sanity/lib/sharing';
+import customImage from '@/sanity/lib/custom-image';
 
 export default defineType({
-	title: 'Page',
+	title: 'Itineraries',
 	name: 'gItineraries',
 	type: 'document',
 	fields: [
+		title(),
+		slug(),
 		{
-			title: 'Title',
-			name: 'title',
-			type: 'string',
-			validation: (Rule) => [Rule.required()],
-		},
-		{
-			title: 'Page Slug (URL)',
-			name: 'slug',
-			type: 'slug',
-			components: {
-				field: SlugField,
-			},
-			options: {
-				source: 'title',
-				maxLength: 200,
-				slugify: (input) =>
-					input
-						.toLowerCase()
-						.replace(/[\s\W-]+/g, '-')
-						.replace(/^-+|-+$/g, '')
-						.slice(0, 200),
-			},
-			validation: (Rule) => [Rule.required()],
-		},
-		{
-			title: 'Page Modules',
-			name: 'pageModules',
+			name: 'images',
 			type: 'array',
-			of: [{ type: 'freeform' }, { type: 'carousel' }, { type: 'marquee' }],
+			of: [customImage({ hasCropOptions: true })],
 		},
-		{
-			title: 'SEO + Share Settings',
-			name: 'sharing',
-			type: 'sharing',
-		},
+		sharing(),
 	],
 	preview: {
 		select: {

@@ -1,6 +1,6 @@
 import { defineType } from 'sanity';
 import { EditIcon } from '@sanity/icons';
-import { getPortableTextPreview } from '../../lib/helpers';
+import { getPortableTextPreview } from '@/sanity/lib/helpers';
 
 export default defineType({
 	title: 'Announcement Settings',
@@ -28,7 +28,6 @@ export default defineType({
 					type: 'object',
 					fields: [
 						{
-							title: 'Content',
 							name: 'content',
 							type: 'portableTextSimple',
 						},

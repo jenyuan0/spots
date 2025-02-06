@@ -2,9 +2,11 @@ import { globalMenu } from './desk/global';
 import { pagesMenu, otherPagesMenu } from './desk/pages';
 import {
 	globalLocations,
+	globalItinerariesDay,
 	globalItineraries,
 	globalGuides,
 	globalFAQ,
+	globalAds,
 	globalCategories,
 	globalAuthors,
 } from './desk/g-misc';
@@ -21,12 +23,15 @@ const deskStructure = (S) =>
 			otherPagesMenu(S),
 			S.divider(),
 			globalLocations(S),
+			globalItinerariesDay(S),
 			globalItineraries(S),
+			S.divider(),
 			globalGuides(S),
 			globalFAQ(S),
+			globalAds(S),
 			S.divider(),
 			globalCategories(S),
-			globalAuthors(S),
+			// globalAuthors(S),
 			S.divider(),
 			menusMenu(S),
 			colorsMenu(S),

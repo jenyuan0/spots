@@ -1,6 +1,5 @@
 import { EditIcon } from '@sanity/icons';
 import { defineType } from 'sanity';
-
 import { getPortableTextPreview } from '@/sanity/lib/helpers';
 
 export default defineType({
@@ -11,10 +10,6 @@ export default defineType({
 		{
 			name: 'content',
 			type: 'portableText',
-		},
-		{
-			name: 'sectionAppearance',
-			type: 'sectionAppearance',
 		},
 	],
 	preview: {

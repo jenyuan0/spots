@@ -1,6 +1,6 @@
 import { EllipsisHorizontalIcon } from '@sanity/icons';
 import { defineType } from 'sanity';
-import customImage from '../../lib/custom-image';
+import customImage from '@/sanity/lib/custom-image';
 
 export default defineType({
 	name: 'marquee',

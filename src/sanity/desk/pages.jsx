@@ -5,6 +5,7 @@ import {
 	DocumentsIcon,
 	BookIcon,
 } from '@sanity/icons';
+import { apiVersion } from '@/sanity/env';
 
 const pageHome = (S) => {
 	return S.listItem()
@@ -79,7 +80,7 @@ export const otherPagesMenu = (S) => {
 			S.documentTypeList('pGeneral')
 				.title('Other Pages')
 				.filter(`_type == "pGeneral"`)
-				.apiVersion('v2023-08-01')
+				.apiVersion(apiVersion)
 				.child((documentId) =>
 					S.document().documentId(documentId).schemaType('pGeneral')
 				)

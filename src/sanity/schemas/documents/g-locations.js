@@ -1,57 +1,95 @@
 import { defineType } from 'sanity';
-import { SlugField } from '@/sanity/component/SlugField';
+import title from '@/sanity/lib/title';
+import slug from '@/sanity/lib/slug';
+import sharing from '@/sanity/lib/sharing';
+import customImage from '@/sanity/lib/custom-image';
 
 export default defineType({
-	title: 'Page',
+	title: 'Locations',
 	name: 'gLocations',
 	type: 'document',
 	fields: [
+		title(),
+		slug(),
 		{
-			title: 'Title',
-			name: 'title',
-			type: 'string',
-			validation: (Rule) => [Rule.required()],
-		},
-		{
-			title: 'Page Slug (URL)',
-			name: 'slug',
-			type: 'slug',
-			components: {
-				field: SlugField,
-			},
-			options: {
-				source: 'title',
-				maxLength: 200,
-				slugify: (input) =>
-					input
-						.toLowerCase()
-						.replace(/[\s\W-]+/g, '-')
-						.replace(/^-+|-+$/g, '')
-						.slice(0, 200),
-			},
-			validation: (Rule) => [Rule.required()],
-		},
-		{
-			title: 'Page Modules',
-			name: 'pageModules',
+			name: 'categories',
 			type: 'array',
-			of: [{ type: 'freeform' }, { type: 'carousel' }, { type: 'marquee' }],
+			of: [
+				{
+					type: 'reference',
+					to: [{ type: 'gCategories' }],
+				},
+			],
 		},
 		{
-			title: 'SEO + Share Settings',
-			name: 'sharing',
-			type: 'sharing',
+			name: 'images',
+			type: 'array',
+			of: [customImage({ hasCropOptions: true })],
+			options: {
+				layout: 'grid',
+			},
 		},
+		{
+			name: 'content',
+			type: 'portableTextSimple',
+		},
+		{
+			name: 'fees',
+			type: 'array',
+			of: [
+				{
+					name: 'fee',
+					type: 'string',
+				},
+			],
+		},
+		{
+			name: 'related',
+			type: 'array',
+			of: [
+				{
+					type: 'reference',
+					to: [{ type: 'gLocations' }],
+				},
+			],
+		},
+		{
+			name: 'relatedGuides',
+			type: 'array',
+			of: [
+				{
+					type: 'reference',
+					to: [{ type: 'gGuides' }],
+				},
+			],
+		},
+		sharing(),
 	],
 	preview: {
 		select: {
 			title: 'title',
-			slug: 'slug',
+			categories0: 'categories.0.title',
+			categories1: 'categories.1.title',
+			categories2: 'categories.2.title',
+			images: 'images',
 		},
-		prepare({ title = 'Untitled', slug = {} }) {
+		prepare({
+			title = 'Untitled',
+			categories0,
+			categories1,
+			categories2,
+			images,
+		}) {
+			const categories = [categories0, categories1, categories2].filter(
+				Boolean
+			);
+			const subtitle =
+				categories.length > 0 ? `${categories.join(', ')}` : 'Missing category';
+
 			return {
-				title,
-				subtitle: slug.current ? `/${slug.current}` : 'Missing page slug',
+				title: title,
+				subtitle: subtitle,
+				media: images[0],
 			};
 		},
 	},

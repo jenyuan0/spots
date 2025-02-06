@@ -1,5 +1,10 @@
 import { defineType } from 'sanity';
 import { TagsIcon } from '@sanity/icons';
+import title from '@/sanity/lib/title';
+import slug from '@/sanity/lib/slug';
+import sharing from '@/sanity/lib/sharing';
+
+// Potentially setup a separate category list for locations / vs guides, as they will need their own stand alone meta title and description... Or... just two separate "sharing" modules
 
 export default defineType({
 	title: 'Categories',
@@ -7,36 +12,23 @@ export default defineType({
 	type: 'document',
 	icon: TagsIcon,
 	fields: [
-		{ name: 'title', type: 'string' },
-		{
-			title: 'URL Slug',
-			name: 'slug',
-			type: 'slug',
-			description: '(required)',
-			options: {
-				source: 'title',
-				maxLength: 200,
-				slugify: (input) =>
-					input
-						.toLowerCase()
-						.replace(/[\s\W-]+/g, '-')
-						.replace(/^-+|-+$/g, '')
-						.slice(0, 200),
-			},
-			validation: (Rule) => Rule.required(),
-		},
+		title(),
+		slug(),
 		{
 			name: 'color',
 			type: 'reference',
 			to: [{ type: 'settingsBrandColors' }],
 		},
+		sharing(),
 	],
 	preview: {
 		select: {
 			title: 'title',
 		},
-		prepare: ({ title }) => ({
-			title,
-		}),
+		prepare({ title }) {
+			return {
+				title: title,
+			};
+		},
 	},
 });

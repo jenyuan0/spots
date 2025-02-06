@@ -1,126 +1,77 @@
 import { defineType } from 'sanity';
-import { BookIcon } from '@sanity/icons';
-import { SlugField } from '@/sanity/component/SlugField';
+import { BlockContentIcon } from '@sanity/icons';
+import title from '@/sanity/lib/title';
+import slug from '@/sanity/lib/slug';
+import sharing from '@/sanity/lib/sharing';
+import customImage from '@/sanity/lib/custom-image';
 
 export default defineType({
 	title: 'Guides',
 	name: 'gGuides',
 	type: 'document',
-	icon: BookIcon,
-	groups: [
-		{ title: 'Content', name: 'content' },
-		{ title: 'Settings', name: 'settings' },
-	],
 	fields: [
+		title(),
+		slug(),
 		{
-			name: 'title',
-			title: 'Title',
-			type: 'string',
-			validation: (Rule) => Rule.required(),
-			group: 'content',
-		},
-		{
-			title: 'URL Slug',
-			name: 'slug',
-			type: 'slug',
-			description: '(required)',
-			components: {
-				field: SlugField,
-			},
+			name: 'publishDate',
+			type: 'date',
 			options: {
-				source: 'title',
-				maxLength: 200,
-				slugify: (input) =>
-					input
-						.toLowerCase()
-						.replace(/[\s\W-]+/g, '-')
-						.replace(/^-+|-+$/g, '')
-						.slice(0, 200),
+				dateFormat: 'MM/DD/YY',
+				calendarTodayLabel: 'Today',
 			},
-			group: 'settings',
 			validation: (Rule) => Rule.required(),
 		},
+		customImage({ name: 'thumb' }),
 		{
-			title: 'Author',
-			name: 'author',
-			type: 'reference',
-			to: [{ type: 'gAuthors' }],
+			name: 'showContentTable',
+			type: 'boolean',
 		},
 		{
-			title: 'Categories',
-			name: 'categories',
+			name: 'showMap',
+			type: 'boolean',
+		},
+		{
+			name: 'pageModules',
 			type: 'array',
 			of: [
+				{ type: 'freeform' },
+				{ type: 'carousel' },
+				{ type: 'locationList' },
 				{
-					type: 'reference',
-					to: { type: 'gCategories' },
+					title: 'Ad',
+					type: 'object',
+					icon: BlockContentIcon,
+					fields: [
+						{
+							name: 'ads',
+							type: 'reference',
+							to: [{ type: 'gAds' }],
+						},
+					],
 				},
 			],
-			group: 'content',
-			validation: (Rule) => Rule.unique(),
-		},
-		// {
-		// 	title: 'Publish date',
-		// 	name: 'publishDate',
-		// 	type: 'date',
-		// 	options: {
-		// 		dateFormat: 'MM/DD/YY',
-		// 		calendarTodayLabel: 'Today',
-		// 	},
-		// 	group: 'content',
-		// 	validation: (Rule) => Rule.required(),
-		// },
-		{
-			name: 'excerpt',
-			title: 'Excerpt',
-			type: 'text',
-			group: 'content',
-			validation: (Rule) => Rule.required(),
-		},
-		{
-			title: 'Content',
-			name: 'content',
-			type: 'portableText',
-			group: 'content',
 		},
 		{
 			name: 'related',
 			type: 'array',
-			description:
-				'If left empty, will be pulled 2 articles from the same category',
 			of: [
 				{
-					title: 'News',
-					name: 'news',
 					type: 'reference',
 					to: [{ type: 'gGuides' }],
 				},
 			],
 		},
-		{
-			title: 'SEO + Share Settings',
-			name: 'sharing',
-			type: 'sharing',
-			group: 'settings',
-		},
+		sharing(),
 	],
 	preview: {
 		select: {
 			title: 'title',
 			slug: 'slug',
-			categories: 'categories.0.title',
 		},
-		prepare({ title = 'Untitled', slug = {}, categories }) {
-			const path = `/guides/${slug.current}`;
-			const categoryTitle = categories ?? '';
-			const subtitle = `[${
-				categoryTitle ? categoryTitle : '(missing category)'
-			}] - ${slug.current ? path : '(missing slug)'}`;
-
+		prepare({ title = 'Untitled', slug = {} }) {
 			return {
-				title: title,
-				subtitle: subtitle,
-				media: BookIcon,
+				title,
+				subtitle: slug.current ? `/${slug.current}` : 'Missing page slug',
 			};
 		},
 	},

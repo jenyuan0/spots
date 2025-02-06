@@ -1,5 +1,5 @@
-import { UnknownIcon } from '@sanity/icons';
 import { defineType } from 'sanity';
+import { UnknownIcon } from '@sanity/icons';
 import callToAction from '@/sanity/lib/call-to-action';
 
 export default defineType({

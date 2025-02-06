@@ -1,5 +1,5 @@
 import { DocumentVideoIcon } from '@sanity/icons';
-import customImage from './custom-image';
+import customImage from '@/sanity/lib/custom-image';
 
 export default function vimeoVideo({
 	title,

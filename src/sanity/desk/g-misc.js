@@ -1,10 +1,12 @@
 import {
 	PinIcon,
 	HighlightIcon,
+	CalendarIcon,
 	BookIcon,
 	CommentIcon,
 	TagsIcon,
 	UserIcon,
+	BlockContentIcon,
 } from '@sanity/icons';
 import { apiVersion } from '@/sanity/env';
 
@@ -17,13 +19,33 @@ export const globalLocations = (S) => {
 			S.documentTypeList('gLocations')
 				.title('Locations')
 				.filter(`_type == "gLocations"`)
-				.apiVersion('v2023-08-01')
+				.apiVersion(apiVersion)
 				.child((documentId) =>
 					S.document().documentId(documentId).schemaType('gLocations')
 				)
 				.canHandleIntent(
 					(intent, { type }) =>
 						['create', 'edit'].includes(intent) && type === 'gLocations'
+				)
+		);
+};
+
+export const globalItinerariesDay = (S) => {
+	return S.listItem()
+		.title('Itineraries (day)')
+		.schemaType('gItinerariesDay')
+		.icon(CalendarIcon)
+		.child(
+			S.documentTypeList('gItinerariesDay')
+				.title('Itineraries (day)')
+				.filter(`_type == "gItinerariesDay"`)
+				.apiVersion(apiVersion)
+				.child((documentId) =>
+					S.document().documentId(documentId).schemaType('gItinerariesDay')
+				)
+				.canHandleIntent(
+					(intent, { type }) =>
+						['create', 'edit'].includes(intent) && type === 'gItinerariesDay'
 				)
 		);
 };
@@ -35,9 +57,9 @@ export const globalItineraries = (S) => {
 		.icon(HighlightIcon)
 		.child(
 			S.documentTypeList('gItineraries')
-				.title('Locations')
+				.title('Itineraries')
 				.filter(`_type == "gItineraries"`)
-				.apiVersion('v2023-08-01')
+				.apiVersion(apiVersion)
 				.child((documentId) =>
 					S.document().documentId(documentId).schemaType('gItineraries')
 				)
@@ -64,13 +86,33 @@ export const globalFAQ = (S) => {
 			S.documentTypeList('gFAQ')
 				.title('FAQ')
 				.filter(`_type == "gFAQ"`)
-				.apiVersion('v2023-08-01')
+				.apiVersion(apiVersion)
 				.child((documentId) =>
 					S.document().documentId(documentId).schemaType('gFAQ')
 				)
 				.canHandleIntent(
 					(intent, { type }) =>
 						['create', 'edit'].includes(intent) && type === 'gFAQ'
+				)
+		);
+};
+
+export const globalAds = (S) => {
+	return S.listItem()
+		.title('Ads')
+		.schemaType('gAds')
+		.icon(BlockContentIcon)
+		.child(
+			S.documentTypeList('gAds')
+				.title('Ads')
+				.filter(`_type == "gAds"`)
+				.apiVersion(apiVersion)
+				.child((documentId) =>
+					S.document().documentId(documentId).schemaType('gAds')
+				)
+				.canHandleIntent(
+					(intent, { type }) =>
+						['create', 'edit'].includes(intent) && type === 'gAds'
 				)
 		);
 };

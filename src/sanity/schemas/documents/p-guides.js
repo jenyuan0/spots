@@ -1,42 +1,20 @@
 import { defineType } from 'sanity';
-import { SlugField } from '@/sanity/component/SlugField';
-import { BookIcon } from '@sanity/icons';
+import title from '@/sanity/lib/title';
+import slug from '@/sanity/lib/slug';
+import sharing from '@/sanity/lib/sharing';
 
 export default defineType({
-	title: 'News',
+	title: 'Guides',
 	name: 'pGuides',
 	type: 'document',
-	icon: BookIcon,
-	groups: [
-		{ title: 'Content', name: 'content' },
-		{ title: 'Settings', name: 'settings' },
-	],
 	fields: [
-		{
-			name: 'title',
-			title: 'Title',
-			type: 'string',
-			validation: (Rule) => Rule.required(),
-			group: 'content',
-		},
-		{
-			title: 'Page Slug (URL)',
-			name: 'slug',
-			type: 'slug',
-			components: {
-				field: SlugField,
-			},
-			validation: (Rule) => Rule.required(),
-			initialValue: { _type: 'slug', current: 'guides' },
-			readOnly: true,
-			group: 'settings',
-		},
+		title(),
+		slug(),
 		{
 			name: 'itemsPerPage',
 			type: 'number',
 			validation: (rule) => rule.min(4).required(),
 			initialValue: 4,
-			group: 'content',
 		},
 
 		{
@@ -54,13 +32,11 @@ export default defineType({
 				layout: 'radio',
 			},
 			initialValue: 'page-numbers',
-			group: 'content',
 		},
 		{
 			name: 'loadMoreButtonLabel',
 			title: 'Load more label',
 			type: 'string',
-			group: 'content',
 			hidden: ({ parent }) => {
 				const { paginationMethod } = parent;
 				if (paginationMethod !== 'load-more') {
@@ -72,7 +48,6 @@ export default defineType({
 			name: 'infiniteScrollCompleteLabel',
 			title: 'No more items to load message',
 			type: 'string',
-			group: 'content',
 			hidden: ({ parent }) => {
 				const { paginationMethod } = parent;
 				if (paginationMethod === 'page-numbers') {
@@ -80,20 +55,17 @@ export default defineType({
 				}
 			},
 		},
-		{
-			title: 'SEO + Share Settings',
-			name: 'sharing',
-			type: 'sharing',
-			group: 'settings',
-		},
+		sharing(),
 	],
 	preview: {
 		select: {
 			title: 'title',
+			slug: 'slug',
 		},
-		prepare({ title = 'Untitled' }) {
+		prepare({ title = 'Untitled', slug = {} }) {
 			return {
-				title: title,
+				title,
+				subtitle: slug.current ? `/${slug.current}` : 'Missing page slug',
 			};
 		},
 	},
