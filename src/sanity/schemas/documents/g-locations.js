@@ -12,6 +12,11 @@ export default defineType({
 		title(),
 		slug(),
 		{
+			name: 'geo',
+			type: 'geopoint',
+			validation: (Rule) => [Rule.required()],
+		},
+		{
 			name: 'categories',
 			type: 'array',
 			of: [
@@ -44,7 +49,7 @@ export default defineType({
 			],
 		},
 		{
-			name: 'related',
+			name: 'relatedLocations',
 			type: 'array',
 			of: [
 				{
@@ -68,6 +73,7 @@ export default defineType({
 	preview: {
 		select: {
 			title: 'title',
+			geo: 'geo',
 			categories0: 'categories.0.title',
 			categories1: 'categories.1.title',
 			categories2: 'categories.2.title',
@@ -75,21 +81,26 @@ export default defineType({
 		},
 		prepare({
 			title = 'Untitled',
+			geo,
 			categories0,
 			categories1,
 			categories2,
 			images,
 		}) {
-			const categories = [categories0, categories1, categories2].filter(
-				Boolean
-			);
-			const subtitle =
-				categories.length > 0 ? `${categories.join(', ')}` : 'Missing category';
+			const categories = [categories0, categories1, categories2];
+
+			if (!geo || !categories.some(Boolean)) {
+				return {
+					title,
+					subtitle: !geo ? '[Missing Geo]' : '[Missing Category]',
+					media: <span>⚠️</span>,
+				};
+			}
 
 			return {
 				title: title,
-				subtitle: subtitle,
-				media: images[0],
+				subtitle: categories.filter(Boolean).join(', '),
+				media: images?.[0] || false,
 			};
 		},
 	},

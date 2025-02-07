@@ -7,7 +7,29 @@ export default defineType({
 	icon: PinIcon,
 	fields: [
 		{
-			name: 'locationList',
+			name: 'locations',
+			type: 'array',
+			of: [
+				{
+					type: 'reference',
+					to: [{ type: 'gLocations' }],
+				},
+			],
+		},
+		{
+			title: 'Fallback (Rain)',
+			name: 'fallbackRains',
+			type: 'array',
+			of: [
+				{
+					type: 'reference',
+					to: [{ type: 'gLocations' }],
+				},
+			],
+		},
+		{
+			title: 'Fallback (Long Wait)',
+			name: 'fallbackLongWait',
 			type: 'array',
 			of: [
 				{
@@ -19,12 +41,12 @@ export default defineType({
 	],
 	preview: {
 		select: {
-			location0: 'locationList.0.title',
-			location1: 'locationList.1.title',
-			location2: 'locationList.2.title',
-			location3: 'locationList.3.title',
-			location4: 'locationList.4.title',
-			images: 'locationList.0.images',
+			location0: 'locations.0.title',
+			location1: 'locations.1.title',
+			location2: 'locations.2.title',
+			location3: 'locations.3.title',
+			location4: 'locations.4.title',
+			images: 'locations.0.images',
 		},
 		prepare({ location0, location1, location2, location3, location4, images }) {
 			const locationTitles = [
@@ -41,7 +63,7 @@ export default defineType({
 
 			return {
 				title: title,
-				media: images[0] || PinIcon,
+				media: images?.[0] || PinIcon,
 			};
 		},
 	},

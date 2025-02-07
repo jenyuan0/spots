@@ -2,6 +2,7 @@ import { defineType } from 'sanity';
 import title from '@/sanity/lib/title';
 import sharing from '@/sanity/lib/sharing';
 import customImage from '@/sanity/lib/custom-image';
+import { getActivitiesPreview } from '@/sanity/lib/helpers';
 
 export default defineType({
 	title: 'Itineraries (days)',
@@ -48,11 +49,14 @@ export default defineType({
 		select: {
 			title: 'title',
 			titleAdmin: 'titleAdmin',
+			activities: 'activities',
+			images: 'images',
 		},
-		prepare({ title, titleAdmin }) {
+		prepare({ title, titleAdmin, activities, images }) {
 			return {
 				title: titleAdmin || title || 'Untitled',
-				// subtitle,
+				subtitle: getActivitiesPreview(activities),
+				media: images?.[0] || PinIcon,
 			};
 		},
 	},

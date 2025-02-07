@@ -43,30 +43,19 @@ export default defineType({
 			of: [
 				{
 					type: 'object',
-					fields: [
-						{
-							title: 'option',
-							name: 'option',
-							type: 'string',
-						},
-					],
+					fields: [{ title: 'option', name: 'option', type: 'string' }],
 				},
 			],
-			hidden: ({ parent }) => {
-				return parent.inputType !== 'select';
-			},
+			hidden: ({ parent }) => parent.inputType !== 'select',
 		}),
 		defineField({
 			name: 'placeholder',
 			title: 'Placeholder',
 			type: 'string',
-			hidden: ({ parent }) => {
-				return (
-					parent.inputType === 'checkbox' ||
-					parent.inputType === 'select' ||
-					parent.inputType === 'file'
-				);
-			},
+			hidden: ({ parent }) =>
+				parent.inputType === 'checkbox' ||
+				parent.inputType === 'select' ||
+				parent.inputType === 'file',
 		}),
 	],
 	preview: {

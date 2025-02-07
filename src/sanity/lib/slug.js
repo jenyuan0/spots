@@ -2,7 +2,7 @@ import { SlugField } from '@/sanity/component/SlugField';
 
 export default function slug({ initialValue, readOnly, group } = {}) {
 	return {
-		title: 'Page Slug (URL)',
+		title: 'Slug (Page URL)',
 		name: 'slug',
 		type: 'slug',
 		components: {

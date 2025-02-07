@@ -3,6 +3,8 @@ import title from '@/sanity/lib/title';
 import slug from '@/sanity/lib/slug';
 import sharing from '@/sanity/lib/sharing';
 import customImage from '@/sanity/lib/custom-image';
+import { PriceInput } from '@/sanity/component/PriceInput';
+import { getActivitiesPreview } from '@/sanity/lib/helpers';
 
 export default defineType({
 	title: 'Itineraries',
@@ -16,6 +18,295 @@ export default defineType({
 			type: 'array',
 			of: [customImage({ hasCropOptions: true })],
 		},
+		{
+			title: 'Plan (by day)',
+			name: 'plan',
+			type: 'array',
+			of: [
+				{
+					type: 'object',
+					fields: [
+						{
+							name: 'itineraryDay',
+							type: 'reference',
+							to: [{ type: 'gItinerariesDay' }],
+						},
+						{
+							name: 'dayTitle',
+							description: "Defaults to itinerary day's title when left empty",
+							type: 'string',
+						},
+
+						{
+							title: 'Content (Highlight)',
+							name: 'content',
+							description:
+								"Defaults to itinerary day's content when left empty",
+							type: 'portableTextSimple',
+						},
+					],
+					preview: {
+						select: {
+							dayTitle: 'dayTitle',
+							itineraryDay: 'itineraryDay',
+							activities: 'itineraryDay.activities',
+							images: 'itineraryDay.images',
+						},
+						prepare({ dayTitle, itineraryDay, activities, images }) {
+							return {
+								title:
+									dayTitle ||
+									itineraryDay.titleAdmin ||
+									itineraryDay.title ||
+									'Untitled',
+								subtitle: getActivitiesPreview(activities),
+								media: images?.[0] || false,
+							};
+						},
+					},
+				},
+			],
+		},
+		{
+			name: 'type',
+			type: 'string',
+			options: {
+				list: [
+					{ title: 'Premade', value: 'premade' },
+					{ title: 'Custom', value: 'custom' },
+				],
+				layout: 'radio',
+				direction: 'horizontal',
+			},
+		},
+
+		// PREMADE ITINERARIES
+		{
+			title: '# of Days',
+			name: 'NumOfDays',
+			type: 'number',
+			hidden: ({ parent }) => parent.type !== 'premade',
+		},
+		{
+			title: '# of Travelers',
+			name: 'NumOfTravelers',
+			type: 'number',
+			hidden: ({ parent }) => parent.type !== 'premade',
+		},
+		{
+			title: 'Budget (USD)',
+			name: 'budget',
+			type: 'object',
+			hidden: ({ parent }) => parent.type !== 'premade',
+			options: {
+				columns: 2,
+			},
+			fields: [
+				{
+					title: 'Low',
+					name: 'budgetLow',
+					type: 'number',
+					components: {
+						field: PriceInput,
+					},
+				},
+				{
+					title: 'High',
+					name: 'budgetHigh',
+					type: 'number',
+					components: {
+						field: PriceInput,
+					},
+				},
+			],
+		},
+		{
+			name: 'accomodations',
+			type: 'array',
+			of: [
+				{
+					type: 'reference',
+					to: [{ type: 'gLocations' }],
+					options: {
+						filter: `_type == "gLocations" && references(*[_type == "gCategories" && slug.current == "hotels"]._id)`,
+					},
+				},
+			],
+			hidden: ({ parent }) => parent.type !== 'premade',
+		},
+
+		// CUSTOM ITINERARIES
+		{
+			name: 'passcode',
+			type: 'string',
+			hidden: ({ parent }) => parent.type !== 'custom',
+		},
+		{
+			name: 'name',
+			type: 'string',
+			validation: (Rule) =>
+				Rule.required().custom(
+					(value) => !parent?.type || parent.type !== 'custom' || true
+				),
+			hidden: ({ parent }) => parent.type !== 'custom',
+		},
+		{
+			name: 'startDate',
+			description: 'Paris date (auto converted to the visitors local time)',
+			type: 'date',
+			options: {
+				dateFormat: 'MM/DD/YY',
+				calendarTodayLabel: 'Today',
+			},
+			validation: (Rule) =>
+				Rule.required().custom(
+					(value) => !parent?.type || parent.type !== 'custom' || true
+				),
+			hidden: ({ parent }) => parent.type !== 'custom',
+		},
+		{
+			name: 'introMessage',
+			type: 'portableTextSimple',
+		},
+		// {
+		// 	name: 'flight',
+		// 	type: 'string',
+		// 	hidden: ({ parent }) => parent.type !== 'custom',
+		// },
+		{
+			name: 'accomodation',
+			type: 'object',
+			hidden: ({ parent }) => parent.type !== 'custom',
+			fields: [
+				{
+					title: 'Check-in Time',
+					name: 'accomodationCheckInTime',
+					type: 'datetime',
+				},
+				{
+					title: 'Check-out Time',
+					name: 'accomodationCheckOutTime',
+					type: 'datetime',
+				},
+				{
+					title: 'Notes',
+					name: 'accomodationNotes',
+					type: 'portableTextSimple',
+				},
+				{
+					title: 'Attachments',
+					name: 'accomodationAttachments',
+					type: 'array',
+					of: [
+						{
+							name: 'file',
+							type: 'file',
+						},
+					],
+				},
+			],
+		},
+		{
+			title: 'Reservations',
+			name: 'reservations',
+			type: 'array',
+			of: [
+				{
+					type: 'object',
+					fields: [
+						{
+							type: 'reference',
+							name: 'location',
+							to: [{ type: 'gLocations' }],
+						},
+						{
+							name: 'startTime',
+							type: 'datetime',
+						},
+						{
+							name: 'endTime',
+							type: 'datetime',
+						},
+						{
+							name: 'notes',
+							type: 'portableTextSimple',
+						},
+						{
+							name: 'attachments',
+							type: 'array',
+							of: [
+								{
+									name: 'file',
+									type: 'file',
+								},
+							],
+						},
+					],
+					preview: {
+						select: {
+							title: 'location.title',
+							startTime: 'startTime',
+							endTime: 'endTime',
+							images: 'location.images',
+						},
+						prepare({ title, startTime, endTime, images }) {
+							if (!startTime)
+								return {
+									title,
+									subtitle: '[Missing time]',
+									media: <span>⚠️</span>,
+								};
+
+							const formatTime = (date) =>
+								date.toLocaleString('en-US', {
+									hour: 'numeric',
+									minute: '2-digit',
+									hour12: true,
+								});
+
+							const formatDate = (date) =>
+								date.toLocaleString('en-US', {
+									month: 'short',
+									day: 'numeric',
+								});
+
+							const start = new Date(startTime);
+							const end = new Date(endTime);
+							const sameDay = start.toDateString() === end.toDateString();
+							const isInvalidRange = end <= start;
+							const timeRange = sameDay
+								? `${formatDate(start)}, ${formatTime(start)}—${formatTime(end)}`
+								: `${formatDate(start)}, ${formatTime(start)}—${formatDate(end)}, ${formatTime(end)}`;
+
+							if (isInvalidRange) {
+								return {
+									title,
+									subtitle: `[End time must be later than start time] ${timeRange}`,
+									media: <span>⚠️</span>,
+								};
+							}
+
+							return {
+								title,
+								subtitle: timeRange,
+								media: images?.[0] || false,
+							};
+						},
+					},
+				},
+			],
+			hidden: ({ parent }) => parent.type !== 'custom',
+		},
+		{
+			name: 'emergencyContact',
+			type: 'portableTextSimple',
+			hidden: ({ parent }) => parent.type !== 'custom',
+		},
+		{
+			name: 'endingMessage',
+			type: 'portableTextSimple',
+		},
+
 		sharing(),
 	],
 	preview: {

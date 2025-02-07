@@ -85,6 +85,18 @@ export const getPortableTextPreview = (content) => {
 	return 'Empty';
 };
 
+export const getActivitiesPreview = (activities) => {
+	const locationList = activities?.filter(
+		(obj) => obj._type === 'locationList'
+	);
+	const countNestedArrays = (arr) => arr.flat(Infinity).length;
+	const locationsCount = locationList
+		? countNestedArrays(locationList.map((a) => a.locations))
+		: 0;
+
+	return `${locationList?.length || 0} ${locationList?.length == 1 ? 'activity' : 'activities'} | ${locationsCount} ${locationsCount == 1 ? 'location' : 'locations'}`;
+};
+
 export const getSwatch = (color) => {
 	return (
 		<div

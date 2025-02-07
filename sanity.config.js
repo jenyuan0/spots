@@ -10,7 +10,9 @@ import {
 	dataset,
 	previewSecretId,
 	projectId,
+	googleMapAPI,
 } from './src/sanity/env';
+import { googleMapsInput } from '@sanity/google-maps-input';
 import pGeneral from '/src/sanity/schemas/documents/p-general';
 import p404 from './src/sanity/schemas/documents/p-404';
 import schemas from './src/sanity/schema';
@@ -29,6 +31,9 @@ const commonPlugins = [
 	colorInput(),
 	portableTable(),
 	noteField(),
+	googleMapsInput({
+		apiKey: googleMapAPI,
+	}),
 ];
 
 const devPlugins = [
