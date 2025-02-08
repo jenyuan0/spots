@@ -11,11 +11,6 @@ export default defineType({
 	fields: [
 		title(),
 		{
-			title: 'Title (Admin only)',
-			name: 'titleAdmin',
-			type: 'string',
-		},
-		{
 			title: 'Content (Highlight)',
 			name: 'content',
 			type: 'portableTextSimple',
@@ -48,15 +43,14 @@ export default defineType({
 	preview: {
 		select: {
 			title: 'title',
-			titleAdmin: 'titleAdmin',
 			activities: 'activities',
 			images: 'images',
 		},
-		prepare({ title, titleAdmin, activities, images }) {
+		prepare({ title, activities, images }) {
 			return {
-				title: titleAdmin || title || 'Untitled',
+				title: title || 'Untitled',
 				subtitle: getActivitiesPreview(activities),
-				media: images?.[0] || PinIcon,
+				media: images?.[0] || false,
 			};
 		},
 	},

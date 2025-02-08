@@ -48,17 +48,12 @@ export default defineType({
 					preview: {
 						select: {
 							dayTitle: 'dayTitle',
-							itineraryDay: 'itineraryDay',
 							activities: 'itineraryDay.activities',
 							images: 'itineraryDay.images',
 						},
-						prepare({ dayTitle, itineraryDay, activities, images }) {
+						prepare({ dayTitle, activities, images }) {
 							return {
-								title:
-									dayTitle ||
-									itineraryDay.titleAdmin ||
-									itineraryDay.title ||
-									'Untitled',
+								title: dayTitle || 'Untitled',
 								subtitle: getActivitiesPreview(activities),
 								media: images?.[0] || false,
 							};
@@ -250,41 +245,51 @@ export default defineType({
 							images: 'location.images',
 						},
 						prepare({ title, startTime, endTime, images }) {
-							if (!startTime)
+							// Helper functions for date/time formatting
+							const formatTime = (date) => {
+								if (!date) return '';
+								return date.toLocaleString('en-US', {
+									hour: 'numeric',
+									minute: '2-digit',
+									hour12: true,
+								});
+							};
+
+							const formatDate = (date) => {
+								if (!date) return '';
+								return date.toLocaleString('en-US', {
+									month: 'short',
+									day: 'numeric',
+								});
+							};
+
+							// Early return for missing start time
+							if (!startTime) {
 								return {
 									title,
 									subtitle: '[Missing time]',
 									media: <span>⚠️</span>,
 								};
-
-							const formatTime = (date) =>
-								date.toLocaleString('en-US', {
-									hour: 'numeric',
-									minute: '2-digit',
-									hour12: true,
-								});
-
-							const formatDate = (date) =>
-								date.toLocaleString('en-US', {
-									month: 'short',
-									day: 'numeric',
-								});
+							}
 
 							const start = new Date(startTime);
-							const end = new Date(endTime);
-							const sameDay = start.toDateString() === end.toDateString();
-							const isInvalidRange = end <= start;
-							const timeRange = sameDay
-								? `${formatDate(start)}, ${formatTime(start)}—${formatTime(end)}`
-								: `${formatDate(start)}, ${formatTime(start)}—${formatDate(end)}, ${formatTime(end)}`;
+							const end = endTime ? new Date(endTime) : null;
 
-							if (isInvalidRange) {
+							// Validate dates
+							if (end && end <= start) {
 								return {
 									title,
-									subtitle: `[End time must be later than start time] ${timeRange}`,
+									subtitle: `[End time must be later than start time] ${formatDate(start)}, ${formatTime(start)}`,
 									media: <span>⚠️</span>,
 								};
 							}
+
+							// Generate time range string
+							const timeRange = end
+								? start.toDateString() === end.toDateString()
+									? `${formatDate(start)}, ${formatTime(start)}—${formatTime(end)}`
+									: `${formatDate(start)}, ${formatTime(start)}—${formatDate(end)}, ${formatTime(end)}`
+								: `${formatDate(start)}, ${formatTime(start)}`;
 
 							return {
 								title,

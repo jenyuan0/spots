@@ -16,6 +16,8 @@ import portableText from './schemas/objects/portable-text';
 import portableTextSimple from './schemas/objects/portable-text-simple';
 import sectionAppearance from './schemas/objects/section-appearance';
 import socialLink from './schemas/objects/social-link';
+import hourSelect from './schemas/objects/hour-select';
+import priceSelect from './schemas/objects/price-select';
 
 // Module types
 import freeform from './schemas/modules/freeform';
@@ -63,6 +65,8 @@ const schemas = [
 	portableTextSimple,
 	sectionAppearance,
 	socialLink,
+	hourSelect,
+	priceSelect,
 
 	freeform,
 	carousel,

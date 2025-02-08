@@ -33,14 +33,18 @@ export default function StudioPage() {
 
 				::selection {
 					text-shadow: none;
-					color: #fff !important;
-					background-color: #000 !important;
+					// color: #fff !important;
+					// background-color: #000 !important;
 				}
 
 				::-moz-selection {
 					text-shadow: none;
-					color: #fff !important;
-					background-color: #000 !important;
+					// color: #fff !important;
+					// background-color: #000 !important;
+				}
+
+				[data-fullscreen='false'] {
+					height: 10em !important;
 				}
 			`}</style>
 		</div>

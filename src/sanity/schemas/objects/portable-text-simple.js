@@ -23,6 +23,9 @@ export default defineType({
 					},
 				],
 			},
+			options: {
+				spellCheck: true,
+			},
 		},
 	],
 });

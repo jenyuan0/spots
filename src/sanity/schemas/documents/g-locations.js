@@ -17,6 +17,23 @@ export default defineType({
 			validation: (Rule) => [Rule.required()],
 		},
 		{
+			name: 'address',
+			title: 'Address',
+			type: 'object',
+			fields: [
+				{ name: 'street', type: 'string' },
+				{ name: 'city', type: 'string', initialValue: 'Paris' },
+				{ name: 'zip', type: 'string' },
+			],
+			options: {
+				columns: 2,
+			},
+		},
+		{
+			name: 'price',
+			type: 'priceSelect',
+		},
+		{
 			name: 'categories',
 			type: 'array',
 			of: [
@@ -37,6 +54,21 @@ export default defineType({
 		{
 			name: 'content',
 			type: 'portableTextSimple',
+		},
+		{
+			title: 'Content (Itinerary Only)',
+			name: 'contentItinerary',
+			type: 'portableTextSimple',
+		},
+		{
+			name: 'urls',
+			type: 'array',
+			of: [
+				{
+					name: 'url',
+					type: 'url',
+				},
+			],
 		},
 		{
 			name: 'fees',
