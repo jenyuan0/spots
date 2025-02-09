@@ -87,6 +87,9 @@ export default defineType({
 				{
 					type: 'reference',
 					to: [{ type: 'gLocations' }],
+					options: {
+						filter: `references(*[_id !== _id]._id)`,
+					},
 				},
 			],
 		},

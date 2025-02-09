@@ -58,6 +58,9 @@ export default defineType({
 				{
 					type: 'reference',
 					to: [{ type: 'gGuides' }],
+					options: {
+						filter: `references(*[_id !== _id]._id)`,
+					},
 				},
 			],
 		},

@@ -55,6 +55,13 @@ export const callToAction = groq`
 	"isButton": true
 `;
 
+export const categoryMeta = groq`
+	_id,
+	title,
+	"slug": slug.current,
+	categoryColor->{...color}
+`;
+
 // Construct our "portable text content" GROQ
 export const portableTextContent = groq`
 	...,
@@ -251,21 +258,21 @@ export const getGuidesData = (type) => {
 };
 
 export const articleListAllQuery = groq`
-		"articleList": *[_type == "gGuides"] | order(_updatedAt desc) {
-			${getGuidesData('card')}
-		}
+	"articleList": *[_type == "gGuides"] | order(_updatedAt desc) {
+		${getGuidesData('card')}
+	}
 `;
 
 export const pageGuidesIndexDefaultQuery = groq`
-		_type,
-		title,
-		"slug": "guides",
-		itemsPerPage,
-		paginationMethod,
-		loadMoreButtonLabel,
-		infiniteScrollCompleteLabel,
-		"itemsTotalCount": count(*[_type == "gGuides"]),
-		sharing`;
+	_type,
+	title,
+	"slug": "guides",
+	itemsPerPage,
+	paginationMethod,
+	loadMoreButtonLabel,
+	infiniteScrollCompleteLabel,
+	"itemsTotalCount": count(*[_type == "gGuides"]),
+	sharing`;
 
 export const pageGuidesIndex = groq`
 	*[_type == "pGuides"][0]{
@@ -292,5 +299,91 @@ export const pageGuidesSingleQuery = groq`
 			&& _id != ^._id
 			] | order(publishedAt desc, _createdAt desc) [0..1] {
 				${getGuidesData('card')}
+			}
+	}`;
+
+// LOCATIONS
+export const getLocationsData = (type) => {
+	let defaultData = groq`
+		title,
+		_id,
+		"slug": slug.current,
+		geo,
+		address{
+			street,
+			city,
+			zip
+		},
+		price,
+		"categories": {
+			${categoryMeta}
+		},
+		"image": {
+			${imageMeta}
+		},
+		urls,
+		fees,`;
+	if (type === 'card') {
+		// defaultData += groq`excerpt`;
+	} else {
+		defaultData += groq`
+		content[]{
+			${portableTextContent}
+		},
+		contentItinerary[]{
+			${portableTextContent}
+		},
+		"relatedLocations": relatedLocations[]->{
+			${getLocationsData('card')}
+		},
+		"relatedGuides": relatedGuides[]->{
+			${getGuidesData('card')}
+		}`;
+	}
+	return defaultData;
+};
+
+export const locationListAllQuery = groq`
+	"locationList": *[_type == "gLocations"] | order(_updatedAt desc) {
+		${getLocationsData('card')}
+	}
+`;
+
+export const pageLocationsIndexDefaultQuery = groq`
+	_type,
+	title,
+	"slug": "locations",
+	itemsPerPage,
+	paginationMethod,
+	loadMoreButtonLabel,
+	infiniteScrollCompleteLabel,
+	"itemsTotalCount": count(*[_type == "gLocations"]),
+	sharing`;
+
+export const pageLocationsIndex = groq`
+	*[_type == "pLocations"][0]{
+		${pageLocationsIndexDefaultQuery}
+	}`;
+
+export const pageLocationsIndexWithArticleDataSSGQuery = groq`
+	*[_type == "pLocations"][0]{
+		${pageLocationsIndexDefaultQuery},
+		${locationListAllQuery}
+	}`;
+
+export const pageLocationsPaginationMethodQuery = groq`
+	{
+		"articleTotalNumber": count(*[_type == "gLocations"])}
+		"itemsPerPage": *[_type == "pLocations"][0].itemsPerPage
+	}`;
+
+export const pageLocationSingleQuery = groq`
+	*[_type == "gLocations" && slug.current == $slug][0]{
+		${getLocationsData()},
+		"defaultRelated": *[_type == "gLocations"
+			&& count(categories[@._ref in ^.^.categories[]._ref ]) > 0
+			&& _id != ^._id
+			] | order(publishedAt desc, _createdAt desc) [0..1] {
+				${getLocationsData('card')}
 			}
 	}`;

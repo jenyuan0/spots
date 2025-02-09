@@ -157,3 +157,38 @@ export function getGuidesSinglePage({ queryParams, isPreviewMode }) {
 		isPreviewMode,
 	});
 }
+
+// LOCATIONS
+export function getLocationsPaginationMethodData() {
+	return sanityFetch({
+		query: queries.pageLocationsPaginationMethodQuery,
+		tags: ['pLocations', 'gLocations'],
+	});
+}
+
+export function getLocationsIndexPage({ isPreviewMode, isArticleDataSSG }) {
+	const query = getPageDataStructure({
+		query: isArticleDataSSG
+			? queries.pageLocationsIndexWithArticleDataSSGQuery
+			: queries.pageLocationsIndex,
+	});
+
+	return sanityFetch({
+		query,
+		tags: ['pLocations'],
+		isPreviewMode,
+	});
+}
+
+export function getLocationsSinglePage({ queryParams, isPreviewMode }) {
+	const query = getPageDataStructure({
+		query: queries.pageLocationSingleQuery,
+	});
+
+	return sanityFetch({
+		query,
+		params: queryParams,
+		tags: [`gLocations:${queryParams.slug}`],
+		isPreviewMode,
+	});
+}

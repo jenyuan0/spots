@@ -4,6 +4,7 @@ import {
 	UnknownIcon,
 	DocumentsIcon,
 	BookIcon,
+	PinIcon,
 } from '@sanity/icons';
 import { apiVersion } from '@/sanity/env';
 
@@ -59,6 +60,19 @@ export const pageGuidesIndex = (S) => {
 		.icon(BookIcon);
 };
 
+export const pageLocationsIndex = (S) => {
+	return S.listItem()
+		.title('Locations Index')
+		.child(
+			S.editor()
+				.id('pLocations')
+				.title('Locations Index')
+				.schemaType('pLocations')
+				.documentId('pLocations')
+		)
+		.icon(PinIcon);
+};
+
 export const pagesMenu = (S) => {
 	return S.listItem()
 		.title('Primary Pages')
@@ -67,7 +81,13 @@ export const pagesMenu = (S) => {
 		.child(
 			S.list()
 				.title('Primary Pages')
-				.items([pageHome(S), pageError(S), pageContact(S), pageGuidesIndex(S)])
+				.items([
+					pageHome(S),
+					pageError(S),
+					pageContact(S),
+					pageGuidesIndex(S),
+					pageLocationsIndex(S),
+				])
 		);
 };
 

@@ -46,6 +46,7 @@ import pGeneral from './schemas/documents/p-general';
 import p404 from './schemas/documents/p-404';
 import pHome from './schemas/documents/p-home';
 import pGuides from './schemas/documents/p-guides';
+import pLocations from './schemas/documents/p-locations';
 import pContact from './schemas/documents/p-contact';
 
 const schemas = [
@@ -93,6 +94,7 @@ const schemas = [
 	pHome,
 
 	pGuides,
+	pLocations,
 	pContact,
 ];
 
