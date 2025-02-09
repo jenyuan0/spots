@@ -26,7 +26,6 @@ import marquee from './schemas/modules/marquee';
 import newsletter from './schemas/modules/newsletter';
 import accordion from './schemas/modules/accordion';
 import accordionList from './schemas/modules/accordion-list';
-import locationList from './schemas/modules/location-list';
 
 // Global types
 import gAnnouncement from './schemas/documents/g-announcement';
@@ -75,7 +74,6 @@ const schemas = [
 	newsletter,
 	accordion,
 	accordionList,
-	locationList,
 
 	gAnnouncement,
 	gHeader,

@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import GuideCard from '@/components/GuideCard';
+import LocationCard from '@/components/LocationCard';
 import { InView } from 'react-intersection-observer';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { getLocationsData } from '@/sanity/lib/queries';
@@ -44,7 +44,7 @@ const ListWithClientQuery = ({ data }) => {
 		isFetchingNextPage,
 		status,
 	} = useInfiniteQuery({
-		queryKey: ['guides'],
+		queryKey: ['locations'],
 		queryFn: ({ pageParam }) => fetchArticles({ pageParam }),
 		initialPageParam: 0,
 		getNextPageParam: (lastPage, allPages) => {
@@ -64,7 +64,7 @@ const ListWithClientQuery = ({ data }) => {
 						{articlesData.pages.map((group, i) => (
 							<React.Fragment key={i}>
 								{group.map((item) => (
-									<GuideCard key={item._id} data={item} />
+									<LocationCard key={item._id} data={item} />
 								))}
 							</React.Fragment>
 						))}
@@ -143,7 +143,7 @@ const ListWithSSG = ({ data }) => {
 				<>
 					<div className="p-locations-articles__list">
 						{listData.map((item, index) => (
-							<GuideCard key={item._id} data={item} />
+							<LocationCard key={item._id} data={item} />
 						))}
 					</div>
 					{paginationMethod === 'load-more' ? (

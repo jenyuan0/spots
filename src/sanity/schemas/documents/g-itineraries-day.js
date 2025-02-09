@@ -3,6 +3,7 @@ import title from '@/sanity/lib/title';
 import sharing from '@/sanity/lib/sharing';
 import customImage from '@/sanity/lib/custom-image';
 import { getActivitiesPreview } from '@/sanity/lib/helpers';
+import locationList from '@/sanity/lib/location-list';
 
 export default defineType({
 	title: 'Itineraries (days)',
@@ -26,7 +27,14 @@ export default defineType({
 		{
 			name: 'activities',
 			type: 'array',
-			of: [{ type: 'locationList' }, { type: 'freeform' }],
+			of: [
+				locationList({
+					showStartTime: true,
+					showFallbackRains: true,
+					showFallbackWait: true,
+				}),
+				{ type: 'freeform' },
+			],
 		},
 		{
 			name: 'relatedGuides',

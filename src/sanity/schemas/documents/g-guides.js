@@ -4,6 +4,7 @@ import title from '@/sanity/lib/title';
 import slug from '@/sanity/lib/slug';
 import sharing from '@/sanity/lib/sharing';
 import customImage from '@/sanity/lib/custom-image';
+import locationList from '@/sanity/lib/location-list';
 
 export default defineType({
 	title: 'Guides',
@@ -36,7 +37,7 @@ export default defineType({
 			of: [
 				{ type: 'freeform' },
 				{ type: 'carousel' },
-				{ type: 'locationList' },
+				locationList(),
 				{
 					title: 'Ad',
 					type: 'object',
@@ -58,9 +59,6 @@ export default defineType({
 				{
 					type: 'reference',
 					to: [{ type: 'gGuides' }],
-					options: {
-						filter: `references(*[_id !== _id]._id)`,
-					},
 				},
 			],
 		},

@@ -240,11 +240,8 @@ export const getGuidesData = (type) => {
 		title,
 		"slug": slug.current,
 		author->{name},
-		categories[]-> {
-			_id,
-			title,
-			"slug": slug.current,
-			categoryColor->{...color}
+		"categories": categories[]->{
+			${categoryMeta}
 		},`;
 	if (type === 'card') {
 		defaultData += groq`excerpt`;
@@ -315,10 +312,10 @@ export const getLocationsData = (type) => {
 			zip
 		},
 		price,
-		"categories": {
+		"categories": categories[]->{
 			${categoryMeta}
 		},
-		"image": {
+		"images": images[]{
 			${imageMeta}
 		},
 		urls,
@@ -380,10 +377,16 @@ export const pageLocationsPaginationMethodQuery = groq`
 export const pageLocationSingleQuery = groq`
 	*[_type == "gLocations" && slug.current == $slug][0]{
 		${getLocationsData()},
-		"defaultRelated": *[_type == "gLocations"
+		"defaultRelatedLocations": *[_type == "gLocations"
 			&& count(categories[@._ref in ^.^.categories[]._ref ]) > 0
 			&& _id != ^._id
 			] | order(publishedAt desc, _createdAt desc) [0..1] {
 				${getLocationsData('card')}
+			},
+		"defaultRelatedGuides": *[_type == "gGuides"
+			&& count(categories[@._ref in ^.^.categories[]._ref ]) > 0
+			&& _id != ^._id
+			] | order(publishedAt desc, _createdAt desc) [0..1] {
+				${getGuidesData('card')}
 			}
 	}`;

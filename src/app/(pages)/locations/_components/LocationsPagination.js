@@ -1,7 +1,7 @@
 'use client';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import React, { useState, useEffect } from 'react';
-import GuideCard from '@/components/GuideCard';
+import LocationCard from '@/components/LocationCard';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -51,7 +51,7 @@ const ListWithClientQuery = ({ data, currentPageNumber }) => {
 			) : (
 				<div className="p-locations-articles__list">
 					{articlesData.map((item, index) => (
-						<GuideCard key={item._id} data={item} />
+						<LocationCard key={item._id} data={item} />
 					))}
 				</div>
 			)}
@@ -78,7 +78,7 @@ const ListWithSSG = ({ data, currentPageNumber }) => {
 			) : (
 				<div className="p-locations-articles__list">
 					{listData.map((item, index) => (
-						<GuideCard key={item._id} data={item} />
+						<LocationCard key={item._id} data={item} />
 					))}
 				</div>
 			)}
