@@ -91,7 +91,7 @@ export default function LocationsPagination({ data }) {
 	const currentPageNumber = searchParams.get('page') || 1;
 	const { itemsTotalCount, itemsPerPage } = data;
 	const ARTICLE_TOTAL_PAGE = Math.round(itemsTotalCount / itemsPerPage);
-	console.log('sss', itemsPerPage, ARTICLE_TOTAL_PAGE);
+
 	return (
 		<>
 			{/* <ListWithClientQuery data={data} currentPageNumber={currentPageNumber} /> */}

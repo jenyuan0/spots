@@ -1,4 +1,3 @@
-import { defineType } from 'sanity';
 import { DoubleChevronDownIcon } from '@sanity/icons';
 import accordion from '@/sanity/schemas/objects/accordion';
 

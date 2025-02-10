@@ -1,11 +1,11 @@
-import PageLocationsSingle from '../_components/PageLocationsSingle';
-import PreviewPageLocationsSingle from '../_components/PreviewPageLocationsSingle';
+import PageItinerarySingle from '../_components/PageItinerarySingle';
+import PreviewPageItinerarySingle from '../_components/PreviewPageItinerarySingle';
 import { draftMode } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { LiveQuery } from 'next-sanity/preview/live-query';
 import defineMetadata from '@/lib/defineMetadata';
-import { pageLocationsSingleQuery } from '@/sanity/lib/queries';
-import { getLocationsSinglePage, getPagesPaths } from '@/sanity/lib/fetch';
+import { pageItinerariesSingleQuery } from '@/sanity/lib/queries';
+import { getItinerariesSinglePage, getPagesPaths } from '@/sanity/lib/fetch';
 
 export async function generateStaticParams() {
 	const slugs = await getPagesPaths({ pageType: 'gGuides' });
@@ -15,7 +15,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
 	const isPreviewMode = draftMode().isEnabled;
-	const data = await getLocationsSinglePage({
+	const data = await getItinerariesSinglePage({
 		queryParams: params,
 		isPreviewMode,
 	});
@@ -24,23 +24,25 @@ export async function generateMetadata({ params }) {
 
 export default async function Page({ params }) {
 	const isPreviewMode = draftMode().isEnabled;
-	const pageData = await getLocationsSinglePage({
+	const pageData = await getItinerariesSinglePage({
 		queryParams: params,
 		isPreviewMode,
 	});
 	const { page } = pageData || {};
+
+	// console.log('xxx', pageData);
 
 	if (!page) return notFound();
 
 	return (
 		<LiveQuery
 			enabled={isPreviewMode}
-			query={pageLocationsSingleQuery}
+			query={pageItinerariesSingleQuery}
 			initialData={page}
 			params={{ slug: params.slug }}
-			as={PreviewPageLocationsSingle}
+			as={PreviewPageItinerarySingle}
 		>
-			<PageLocationsSingle data={page} />
+			<PageItinerarySingle data={page} />
 		</LiveQuery>
 	);
 }

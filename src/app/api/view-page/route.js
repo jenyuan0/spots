@@ -15,5 +15,6 @@ export async function GET(request) {
 	}
 
 	const url = getRoute({ documentType, slug });
+
 	redirect(url);
 }

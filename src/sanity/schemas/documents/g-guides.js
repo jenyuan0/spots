@@ -24,7 +24,22 @@ export default defineType({
 			},
 			validation: (Rule) => Rule.required(),
 		},
+		{
+			name: 'categories',
+			type: 'array',
+			of: [
+				{
+					type: 'reference',
+					to: [{ type: 'gCategories' }],
+				},
+			],
+		},
 		customImage({ name: 'thumb' }),
+		{
+			name: 'excerpt',
+			type: 'text',
+			rows: 4,
+		},
 		{
 			name: 'showContentTable',
 			type: 'boolean',

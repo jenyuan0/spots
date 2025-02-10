@@ -32,7 +32,7 @@ export default defineType({
 							to: [{ type: 'gItinerariesDay' }],
 						},
 						{
-							name: 'dayTitle',
+							name: 'title',
 							description: "Defaults to itinerary day's title when left empty",
 							type: 'string',
 						},
@@ -47,13 +47,14 @@ export default defineType({
 					],
 					preview: {
 						select: {
-							dayTitle: 'dayTitle',
+							title: 'title',
+							dayTitle: 'itineraryDay.title',
 							activities: 'itineraryDay.activities',
 							images: 'itineraryDay.images',
 						},
-						prepare({ dayTitle, activities, images }) {
+						prepare({ title, dayTitle, activities, images }) {
 							return {
-								title: dayTitle || 'Untitled',
+								title: title || dayTitle || 'Untitled',
 								subtitle: getActivitiesPreview(activities),
 								media: images?.[0] || false,
 							};

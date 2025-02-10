@@ -182,13 +182,27 @@ export function getLocationsIndexPage({ isPreviewMode, isArticleDataSSG }) {
 
 export function getLocationsSinglePage({ queryParams, isPreviewMode }) {
 	const query = getPageDataStructure({
-		query: queries.pageLocationSingleQuery,
+		query: queries.pageLocationsSingleQuery,
 	});
 
 	return sanityFetch({
 		query,
 		params: queryParams,
 		tags: [`gLocations:${queryParams.slug}`],
+		isPreviewMode,
+	});
+}
+
+// ITINERARY
+export function getItinerariesSinglePage({ queryParams, isPreviewMode }) {
+	const query = getPageDataStructure({
+		query: queries.pageItinerariesSingleQuery,
+	});
+
+	return sanityFetch({
+		query,
+		params: queryParams,
+		tags: [`gItineraries:${queryParams.slug}`],
 		isPreviewMode,
 	});
 }

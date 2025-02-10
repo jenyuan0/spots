@@ -374,7 +374,7 @@ export const pageLocationsPaginationMethodQuery = groq`
 		"itemsPerPage": *[_type == "pLocations"][0].itemsPerPage
 	}`;
 
-export const pageLocationSingleQuery = groq`
+export const pageLocationsSingleQuery = groq`
 	*[_type == "gLocations" && slug.current == $slug][0]{
 		${getLocationsData()},
 		"defaultRelatedLocations": *[_type == "gLocations"
@@ -389,4 +389,72 @@ export const pageLocationSingleQuery = groq`
 			] | order(publishedAt desc, _createdAt desc) [0..1] {
 				${getGuidesData('card')}
 			}
+	}`;
+
+export const pageItinerariesSingleQuery = groq`
+	*[_type == "gItineraries" && slug.current == $slug][0]{
+		title,
+		_id,
+		"slug": slug.current,
+		"images": images[]{
+			${imageMeta}
+		},
+	  plan[]{
+			"day": itineraryDay->{
+				title,
+				content,
+				"images": images[]{
+					${imageMeta}
+				},
+				"activities": activities[] {
+					_type == "locationList" => {
+						_id,
+						title,
+						startTime,
+						content,
+						"locations": locations[]->{
+							${getLocationsData('card')}
+						},
+						"fallbackRains": fallbackRains[]->{
+							${getLocationsData('card')}
+						},
+						"fallbackLongWait": fallbackLongWait[]->{
+							${getLocationsData('card')}
+						}
+					},
+					_type == 'freeform' => {
+						${freeformObj}
+					}
+				},
+				"relatedGuides": relatedGuides[]->{
+					${getGuidesData('card')}
+				}
+			},
+			dayTitle,
+			content
+		},
+		type,
+		...select(type == "premade" => {
+			NumOfDays,
+			NumOfTravelers,
+			"budget": {
+				"low": budget.budgetLow,
+				"high": budget.budgetHigh
+			},
+			"accommodations": accomodations[]->{
+				${getLocationsData('card')}
+			}
+		}),
+		...select(type == "custom" => {
+			passcode,
+			name,
+			startDate,
+			"accommodation": {
+				"checkInTime": accomodation.accomodationCheckInTime,
+				"checkOutTime": accomodation.accomodationCheckOutTime,
+				"notes": accomodation.accomodationNotes,
+				"attachments": accomodation.accomodationAttachments
+			}
+		}),
+		introMessage
 	}`;

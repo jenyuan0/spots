@@ -26,7 +26,7 @@ export default function PageLocationsSingle({ data }) {
 
 	return (
 		<>
-			<section className="p-guides-single">
+			<section className="p-guides-single" style={{ maxWidth: '900px' }}>
 				<h1 className="p-guides-single__title">{title}</h1>
 				<div className="p-guides-single__content wysiwyg-page">
 					<h2 className="t-h-3">Content</h2>

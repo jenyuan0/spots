@@ -75,7 +75,6 @@ const schemas = [
 	pGeneral,
 	p404,
 	pHome,
-
 	pGuides,
 	pLocations,
 	pContact,

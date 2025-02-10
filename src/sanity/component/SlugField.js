@@ -1,7 +1,6 @@
 import { Card, Flex, Text } from '@sanity/ui';
 import { useFormValue } from 'sanity';
 import { previewBaseURL } from '/sanity.config';
-
 import { getWindowURl } from '@/lib/routes';
 import { previewSecretId } from '@/sanity/env';
 
