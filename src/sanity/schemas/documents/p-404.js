@@ -1,6 +1,6 @@
 import { defineType } from 'sanity';
 import { UnknownIcon } from '@sanity/icons';
-import callToAction from '@/sanity/lib/call-to-action';
+import callToAction from '@/sanity/schemas/objects/call-to-action';
 
 export default defineType({
 	title: 'Page 404',

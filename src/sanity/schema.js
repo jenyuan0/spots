@@ -19,14 +19,6 @@ import socialLink from './schemas/objects/social-link';
 import hourSelect from './schemas/objects/hour-select';
 import priceSelect from './schemas/objects/price-select';
 
-// Module types
-import freeform from './schemas/modules/freeform';
-import carousel from './schemas/modules/carousel';
-import marquee from './schemas/modules/marquee';
-import newsletter from './schemas/modules/newsletter';
-import accordion from './schemas/modules/accordion';
-import accordionList from './schemas/modules/accordion-list';
-
 // Global types
 import gAnnouncement from './schemas/documents/g-announcement';
 import gHeader from './schemas/documents/g-header';
@@ -67,13 +59,6 @@ const schemas = [
 	socialLink,
 	hourSelect,
 	priceSelect,
-
-	freeform,
-	carousel,
-	marquee,
-	newsletter,
-	accordion,
-	accordionList,
 
 	gAnnouncement,
 	gHeader,

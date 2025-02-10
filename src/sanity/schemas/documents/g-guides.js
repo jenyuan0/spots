@@ -1,10 +1,12 @@
 import { defineType } from 'sanity';
 import { BlockContentIcon } from '@sanity/icons';
-import title from '@/sanity/lib/title';
-import slug from '@/sanity/lib/slug';
-import sharing from '@/sanity/lib/sharing';
-import customImage from '@/sanity/lib/custom-image';
-import locationList from '@/sanity/lib/location-list';
+import title from '@/sanity/schemas/objects/title';
+import slug from '@/sanity/schemas/objects/slug';
+import sharing from '@/sanity/schemas/objects/sharing';
+import customImage from '@/sanity/schemas/objects/custom-image';
+import freeform from '@/sanity/schemas/objects/freeform';
+import carousel from '@/sanity/schemas/objects/carousel';
+import locationList from '@/sanity/schemas/objects/location-list';
 
 export default defineType({
 	title: 'Guides',
@@ -35,8 +37,8 @@ export default defineType({
 			name: 'pageModules',
 			type: 'array',
 			of: [
-				{ type: 'freeform' },
-				{ type: 'carousel' },
+				freeform(),
+				carousel(),
 				locationList(),
 				{
 					title: 'Ad',

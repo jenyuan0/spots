@@ -1,8 +1,8 @@
 import { defineType } from 'sanity';
-import title from '@/sanity/lib/title';
-import slug from '@/sanity/lib/slug';
-import sharing from '@/sanity/lib/sharing';
-import customImage from '@/sanity/lib/custom-image';
+import title from '@/sanity/schemas/objects/title';
+import slug from '@/sanity/schemas/objects/slug';
+import sharing from '@/sanity/schemas/objects/sharing';
+import customImage from '@/sanity/schemas/objects/custom-image';
 import { PriceInput } from '@/sanity/component/PriceInput';
 import { getActivitiesPreview } from '@/sanity/lib/helpers';
 

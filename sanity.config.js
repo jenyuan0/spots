@@ -16,7 +16,7 @@ import { googleMapsInput } from '@sanity/google-maps-input';
 import pGeneral from '/src/sanity/schemas/documents/p-general';
 import p404 from './src/sanity/schemas/documents/p-404';
 import schemas from './src/sanity/schema';
-import { portableTable } from './src/sanity/lib/portable-table';
+import { portableTable } from './src/sanity/schemas/objects/portable-table';
 import { noteField } from 'sanity-plugin-note-field';
 
 export const previewBaseURL = '/api/preview';

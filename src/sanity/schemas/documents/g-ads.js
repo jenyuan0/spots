@@ -1,7 +1,7 @@
 import { defineType } from 'sanity';
 import { BlockContentIcon } from '@sanity/icons';
-import title from '@/sanity/lib/title';
-import customImage from '@/sanity/lib/custom-image';
+import title from '@/sanity/schemas/objects/title';
+import customImage from '@/sanity/schemas/objects/custom-image';
 
 export default defineType({
 	title: 'Ads',

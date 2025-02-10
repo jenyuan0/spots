@@ -1,8 +1,10 @@
 import { defineType } from 'sanity';
-import title from '@/sanity/lib/title';
-import slug from '@/sanity/lib/slug';
-import sharing from '@/sanity/lib/sharing';
-import customImage from '@/sanity/lib/custom-image';
+import title from '@/sanity/schemas/objects/title';
+import slug from '@/sanity/schemas/objects/slug';
+import sharing from '@/sanity/schemas/objects/sharing';
+import freeform from '@/sanity/schemas/objects/freeform';
+import carousel from '@/sanity/schemas/objects/carousel';
+import customImage from '@/sanity/schemas/objects/custom-image';
 
 export default defineType({
 	title: 'Page',
@@ -15,7 +17,7 @@ export default defineType({
 			title: 'Page Modules',
 			name: 'pageModules',
 			type: 'array',
-			of: [{ type: 'freeform' }, { type: 'carousel' }, { type: 'marquee' }],
+			of: [freeform(), carousel(), customImage()],
 		},
 		sharing(),
 	],

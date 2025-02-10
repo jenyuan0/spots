@@ -1,9 +1,10 @@
 import { defineType } from 'sanity';
-import title from '@/sanity/lib/title';
-import sharing from '@/sanity/lib/sharing';
-import customImage from '@/sanity/lib/custom-image';
+import title from '@/sanity/schemas/objects/title';
+import sharing from '@/sanity/schemas/objects/sharing';
+import customImage from '@/sanity/schemas/objects/custom-image';
 import { getActivitiesPreview } from '@/sanity/lib/helpers';
-import locationList from '@/sanity/lib/location-list';
+import freeform from '@/sanity/schemas/objects/freeform';
+import locationList from '@/sanity/schemas/objects/location-list';
 
 export default defineType({
 	title: 'Itineraries (days)',
@@ -33,7 +34,7 @@ export default defineType({
 					showFallbackRains: true,
 					showFallbackWait: true,
 				}),
-				{ type: 'freeform' },
+				freeform(),
 			],
 		},
 		{
