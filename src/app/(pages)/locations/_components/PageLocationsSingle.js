@@ -4,7 +4,7 @@ import React from 'react';
 import CustomPortableText from '@/components/CustomPortableText';
 import { hasArrayValue } from '@/lib/helpers';
 import Carousel from '@/components/Carousel';
-import Image from '@/components/Image';
+import Img from '@/components/Image';
 import LocationCard from '@/components/LocationCard';
 import GuideCard from '@/components/GuideCard';
 
@@ -64,7 +64,7 @@ export default function PageLocationsSingle({ data }) {
 							autoplayInterval={3000}
 						>
 							{images?.map((image) => (
-								<Image key={image.id} image={image} />
+								<Img key={image.id} image={image} />
 							))}
 						</Carousel>
 					)}

@@ -4,7 +4,7 @@ import React from 'react';
 import CustomPortableText from '@/components/CustomPortableText';
 import { hasArrayValue } from '@/lib/helpers';
 import Carousel from '@/components/Carousel';
-import Image from '@/components/Image';
+import Img from '@/components/Image';
 import LocationCard from '@/components/LocationCard';
 import GuideCard from '@/components/GuideCard';
 
@@ -37,7 +37,7 @@ export default function PageItinerarySingle({ data }) {
 					{plan &&
 						plan?.map((plan, index) => {
 							return (
-								<div key={index}>
+								<div key={crypto.randomUUID()}>
 									<h2>
 										Day {index + 1}: {plan.dayTitle || plan?.day.title}{' '}
 									</h2>
@@ -54,13 +54,13 @@ export default function PageItinerarySingle({ data }) {
 											autoplayInterval={3000}
 										>
 											{plan?.day?.images?.map((image) => (
-												<Image key={image.id} image={image} />
+												<Img key={image.id} image={image} />
 											))}
 										</Carousel>
 									)}
 									{plan.day.activities.map((activity, index) => {
 										return (
-											<div key={index}>
+											<div key={crypto.randomUUID()}>
 												ACTIVITY {index + 1}:{console.log(activity)}
 											</div>
 										);
@@ -81,7 +81,7 @@ export default function PageItinerarySingle({ data }) {
 					Accomodations:
 					{accomodations &&
 						accomodations?.map((accomodation) => (
-							<LocationCard data={accomodation} />
+							<LocationCard key={crypto.randomUUID()} data={accomodation} />
 						))}{' '}
 					<br />
 					<br />
@@ -116,7 +116,7 @@ export default function PageItinerarySingle({ data }) {
 							autoplayInterval={3000}
 						>
 							{images?.map((image) => (
-								<Image key={image.id} image={image} />
+								<Img key={image.id} image={image} />
 							))}
 						</Carousel>
 					)}
