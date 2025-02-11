@@ -161,8 +161,19 @@ export default defineType({
 			hidden: ({ parent }) => parent.type !== 'custom',
 		},
 		{
+			name: 'emergencyContact',
+			type: 'portableTextSimple',
+			hidden: ({ parent }) => parent.type !== 'custom',
+		},
+		{
 			name: 'introMessage',
 			type: 'portableTextSimple',
+			hidden: ({ parent }) => parent.type !== 'custom',
+		},
+		{
+			name: 'endingMessage',
+			type: 'portableTextSimple',
+			hidden: ({ parent }) => parent.type !== 'custom',
 		},
 		// {
 		// 	name: 'flight',
@@ -174,6 +185,14 @@ export default defineType({
 			type: 'object',
 			hidden: ({ parent }) => parent.type !== 'custom',
 			fields: [
+				{
+					name: 'accomodationLocation',
+					type: 'reference',
+					to: [{ type: 'gLocations' }],
+					options: {
+						filter: `_type == "gLocations" && references(*[_type == "gCategories" && slug.current == "hotels"]._id)`,
+					},
+				},
 				{
 					title: 'Check-in Time',
 					name: 'accomodationCheckInTime',
@@ -263,6 +282,14 @@ export default defineType({
 									day: 'numeric',
 								});
 							};
+							// Early return for missing location
+							if (!title) {
+								return {
+									title,
+									subtitle: '[Missing location]',
+									media: <span>⚠️</span>,
+								};
+							}
 
 							// Early return for missing start time
 							if (!startTime) {
@@ -302,15 +329,6 @@ export default defineType({
 				},
 			],
 			hidden: ({ parent }) => parent.type !== 'custom',
-		},
-		{
-			name: 'emergencyContact',
-			type: 'portableTextSimple',
-			hidden: ({ parent }) => parent.type !== 'custom',
-		},
-		{
-			name: 'endingMessage',
-			type: 'portableTextSimple',
 		},
 
 		sharing(),

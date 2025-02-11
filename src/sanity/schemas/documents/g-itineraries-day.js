@@ -11,7 +11,7 @@ export default defineType({
 	name: 'gItinerariesDay',
 	type: 'document',
 	fields: [
-		title(),
+		title({ title: 'Title (for admins only)' }),
 		{
 			title: 'Content (Highlight)',
 			name: 'content',

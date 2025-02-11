@@ -47,6 +47,19 @@ export const imageMeta = groq`
    }
 `;
 
+// Construct our "image meta" GROQ
+export const fileMeta = groq`
+  asset,
+  ...asset -> {
+    "id": assetId,
+    "filename": originalFilename,
+    "type": mimeType,
+    "size": size,
+    "url": url,
+    "extension": extension
+  }
+`;
+
 export const callToAction = groq`
 	label,
 	link {
@@ -409,6 +422,7 @@ export const pageItinerariesSingleQuery = groq`
 				"activities": activities[] {
 					_type == "locationList" => {
 						_id,
+						_type,
 						title,
 						startTime,
 						content,
@@ -430,7 +444,7 @@ export const pageItinerariesSingleQuery = groq`
 					${getGuidesData('card')}
 				}
 			},
-			dayTitle,
+			title,
 			content
 		},
 		type,
@@ -449,12 +463,22 @@ export const pageItinerariesSingleQuery = groq`
 			passcode,
 			name,
 			startDate,
+			introMessage,
+			endingMessage,
+			emergencyContact,
 			"accommodation": {
+				"location": accomodation.accomodationLocation->{${getLocationsData('card')}},
 				"checkInTime": accomodation.accomodationCheckInTime,
 				"checkOutTime": accomodation.accomodationCheckOutTime,
 				"notes": accomodation.accomodationNotes,
 				"attachments": accomodation.accomodationAttachments
+			},
+			"reservations": reservations[]{
+				"location": location->{${getLocationsData('card')}},
+				"startTime": startTime,
+				"endTime": endTime,
+				"notes": notes,
+				"attachments": attachments[]{${fileMeta}}
 			}
 		}),
-		introMessage
 	}`;

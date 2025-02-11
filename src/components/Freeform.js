@@ -16,7 +16,7 @@ export default function Freeform({ data, className }) {
 		spacingBottom = 0,
 		spacingTopMobile = spacingTop,
 		spacingBottomMobile = spacingBottom,
-	} = sectionAppearance;
+	} = sectionAppearance ?? {};
 
 	const isPadding = !!backgroundColor;
 	const sectionStyle = {

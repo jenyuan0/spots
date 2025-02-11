@@ -5,3 +5,62 @@
 		margin-bottom: 40px;
 	}
 }
+
+.data-container {
+	max-width: 1200px;
+	margin: 40px auto;
+}
+
+.data-container-small {
+	max-width: 400px;
+	margin: 40px auto;
+}
+
+.data-block {
+	margin: 20px;
+	padding: 20px;
+	background-color: rgba(125, 125, 125, 0.2);
+	border: 1px solid;
+
+	h1 {
+		margin: 20px 0;
+		font-size: 40px;
+	}
+
+	h2 {
+		margin: 20px 0;
+		font-size: 30px;
+	}
+
+	h3 {
+		margin: 10px 0;
+		font-size: 20px;
+	}
+}
+
+.data-card {
+	display: flex;
+	max-width: 420px;
+	gap: 10px;
+	padding: 10px;
+	border-radius: 4px;
+	flex-direction: row;
+
+	img {
+		width: 100px;
+	}
+
+	h3 {
+		font-size: 14px;
+	}
+}
+
+.data-block-blue {
+	background-color: rgba(0, 0, 255, 0.2);
+	border: 1px solid blue;
+}
+
+.data-block-red {
+	background-color: rgba(255, 0, 0, 0.2);
+	border: 1px solid red;
+}
