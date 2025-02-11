@@ -6,6 +6,15 @@ import customImage from '@/sanity/schemas/objects/custom-image';
 import { PriceInput } from '@/sanity/component/PriceInput';
 import { getActivitiesPreview } from '@/sanity/lib/helpers';
 
+const requiredIfCustom = ({ Rule }) => {
+	Rule.custom((field, context) => {
+		if (context.parent?.type === 'custom') {
+			return field ? true : 'This field is required when type is custom';
+		}
+		return true;
+	});
+};
+
 export default defineType({
 	title: 'Itineraries',
 	name: 'gItineraries',
@@ -140,10 +149,7 @@ export default defineType({
 		{
 			name: 'name',
 			type: 'string',
-			validation: (Rule) =>
-				Rule.required().custom(
-					(value) => !parent?.type || parent.type !== 'custom' || true
-				),
+			validation: (Rule) => requiredIfCustom({ Rule: Rule }),
 			hidden: ({ parent }) => parent.type !== 'custom',
 		},
 		{
@@ -154,10 +160,7 @@ export default defineType({
 				dateFormat: 'MM/DD/YY',
 				calendarTodayLabel: 'Today',
 			},
-			validation: (Rule) =>
-				Rule.required().custom(
-					(value) => !parent?.type || parent.type !== 'custom' || true
-				),
+			validation: (Rule) => requiredIfCustom({ Rule: Rule }),
 			hidden: ({ parent }) => parent.type !== 'custom',
 		},
 		{
@@ -331,7 +334,7 @@ export default defineType({
 			hidden: ({ parent }) => parent.type !== 'custom',
 		},
 
-		sharing(),
+		sharing({ disableIndex: true }),
 	],
 	preview: {
 		select: {

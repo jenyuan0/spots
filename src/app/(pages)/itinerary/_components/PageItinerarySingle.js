@@ -221,35 +221,42 @@ export default function PageItinerarySingle({ data }) {
 					</div>
 					<br />
 					<br />
-					<h1>RESERVATIONS:</h1>
-					<div className="data-block">
-						{reservations?.map((item, index) => {
-							return (
-								<div className="data-block" key={`item-${index}`}>
-									<LocationCard key={`item-${index}`} data={item?.location} />
-									Time: {item?.startTime} — {item?.endTime || 'NO END'}
-									<br />
-									Notes: {console.log(item?.notes)}
-									{item?.notes ? (
-										<CustomPortableText blocks={item?.notes} />
-									) : (
-										'NONE'
-									)}
-									<br />
-									Attachments:{' '}
-									<ul>
-										{item?.attachments?.map((attachment, index) => (
-											<li key={`attachment-${index}`}>
-												<CustomLink link={{ route: attachment.url }}>
-													{attachment.filename}
-												</CustomLink>
-											</li>
-										))}
-									</ul>
-								</div>
-							);
-						})}
-					</div>
+					{reservations && (
+						<>
+							<h1>RESERVATIONS:</h1>
+							<div className="data-block">
+								{reservations?.map((item, index) => {
+									return (
+										<div className="data-block" key={`item-${index}`}>
+											<LocationCard
+												key={`item-${index}`}
+												data={item?.location}
+											/>
+											Time: {item?.startTime} — {item?.endTime || 'NO END'}
+											<br />
+											Notes: {console.log(item?.notes)}
+											{item?.notes ? (
+												<CustomPortableText blocks={item?.notes} />
+											) : (
+												'NONE'
+											)}
+											<br />
+											Attachments:{' '}
+											<ul>
+												{item?.attachments?.map((attachment, index) => (
+													<li key={`attachment-${index}`}>
+														<CustomLink link={{ route: attachment.url }}>
+															{attachment.filename}
+														</CustomLink>
+													</li>
+												))}
+											</ul>
+										</div>
+									);
+								})}
+							</div>
+						</>
+					)}
 				</div>
 			</section>
 		</>
