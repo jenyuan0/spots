@@ -3,10 +3,7 @@
 import React from 'react';
 import { hasArrayValue } from '@/lib/helpers';
 import PageModules from '@/components/PageModules';
-import CustomPortableText from '@/components/CustomPortableText';
 import Img from '@/components/Image';
-import Carousel from '@/components/Carousel';
-import LocationCard from '@/components/LocationCard';
 import GuideCard from '@/components/GuideCard';
 
 export default function PageGuidesSingle({ data }) {
@@ -41,7 +38,7 @@ export default function PageGuidesSingle({ data }) {
 					<br />
 					<br />
 					{pageModules?.map((module, i) => (
-						<div className="data-block">
+						<div key={`page-module-${i}`} className="data-block">
 							<h3>Module type: {module._type}</h3>
 							<PageModules key={`page-module-${i}`} module={module} />
 						</div>
