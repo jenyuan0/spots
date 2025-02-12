@@ -7,11 +7,9 @@ export default function PageGeneral({ data }) {
 
 	return (
 		<div className="p-general c-small">
-			{pageModules &&
-				pageModules.length > 0 &&
-				pageModules?.map((module, i) => (
-					<PageModules key={i} module={module} />
-				))}
+			{pageModules?.map((module, i) => (
+				<PageModules key={`page-module-${i}`} module={module} />
+			))}
 		</div>
 	);
 }

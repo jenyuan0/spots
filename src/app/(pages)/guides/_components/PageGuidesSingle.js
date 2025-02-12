@@ -40,13 +40,12 @@ export default function PageGuidesSingle({ data }) {
 					Show Map: {showMap?.toString() || 'FALSE'}
 					<br />
 					<br />
-					{pageModules?.length &&
-						pageModules?.map((module, i) => (
-							<div className="data-block">
-								<h3>Module type: {module._type}</h3>
-								<PageModules key={i} module={module} />
-							</div>
-						))}
+					{pageModules?.map((module, i) => (
+						<div className="data-block">
+							<h3>Module type: {module._type}</h3>
+							<PageModules key={`page-module-${i}`} module={module} />
+						</div>
+					))}
 				</div>
 
 				<div className="data-block">

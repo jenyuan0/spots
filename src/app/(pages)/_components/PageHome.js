@@ -7,10 +7,9 @@ export default function PageHome({ data }) {
 
 	return (
 		<div className="p-home">
-			{pageModules &&
-				pageModules?.map((module, i) => (
-					<PageModules key={i} module={module} />
-				))}
+			{pageModules?.map((module, i) => (
+				<PageModules key={i} module={module} />
+			))}
 		</div>
 	);
 }
