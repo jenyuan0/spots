@@ -23,18 +23,30 @@
 	border: 1px solid;
 
 	h1 {
-		margin: 20px 0;
 		font-size: 40px;
+		margin-bottom: 40px;
+
+		&:not(:first-child) {
+			margin-top: 40px;
+		}
 	}
 
 	h2 {
-		margin: 20px 0;
 		font-size: 30px;
+		margin-bottom: 20px;
+
+		&:not(:first-child) {
+			margin-top: 20px;
+		}
 	}
 
 	h3 {
-		margin: 10px 0;
 		font-size: 20px;
+		margin-bottom: 10px;
+
+		&:not(:first-child) {
+			margin-top: 10px;
+		}
 	}
 }
 
@@ -45,6 +57,7 @@
 	padding: 10px;
 	border-radius: 4px;
 	flex-direction: row;
+	margin: 5px;
 
 	img {
 		width: 100px;

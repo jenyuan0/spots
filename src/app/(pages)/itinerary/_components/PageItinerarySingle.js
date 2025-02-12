@@ -2,6 +2,7 @@
 
 import React from 'react';
 import CustomPortableText from '@/components/CustomPortableText';
+import LocationList from '@/components/LocationList';
 import CustomLink from '@/components/CustomLink';
 import Img from '@/components/Image';
 import Carousel from '@/components/Carousel';
@@ -16,46 +17,7 @@ export function getActivities({ data }) {
 			return <CustomPortableText blocks={data} />;
 
 		case 'locationList':
-			const {
-				title,
-				startTime,
-				content,
-				locations,
-				fallbackRains,
-				fallbackLongWait,
-			} = data;
-
-			return (
-				<>
-					<h2>
-						{title || 'NO TITLE'} @ {startTime || 'NO TIME'}
-					</h2>
-					{content && <CustomPortableText blocks={content} />}
-					<div className="locations">
-						<h3>Locations:</h3>
-						{locations &&
-							locations?.map((item, index) => (
-								<LocationCard key={`item-${index}`} data={item} />
-							))}
-					</div>
-					<div className="locations">
-						<h3>Fallback (rain):</h3>
-						{fallbackRains
-							? fallbackRains?.map((item, index) => (
-									<LocationCard key={`item-${index}`} data={item} />
-								))
-							: 'NONE'}
-					</div>
-					<div className="locations">
-						<h3>Fallback (long wait):</h3>
-						{fallbackLongWait
-							? fallbackLongWait?.map((item, index) => (
-									<LocationCard key={`item-${index}`} data={item} />
-								))
-							: 'NONE'}
-					</div>
-				</>
-			);
+			return <LocationList data={data} />;
 	}
 }
 
@@ -64,7 +26,9 @@ export default function PageItinerarySingle({ data }) {
 		title,
 		images,
 		plan,
+		guides,
 		type,
+
 		NumOfDays,
 		NumOfTravelers,
 		budget,
@@ -82,8 +46,8 @@ export default function PageItinerarySingle({ data }) {
 
 	return (
 		<>
-			<section className="p-guides-single data-container">
-				<h1 className="p-guides-single__title">{title}</h1>
+			<section className="p-itinerary-single data-container">
+				<h1 className="p-itinerary-single__title">{title}</h1>
 
 				{images && (
 					<div className="data-container-small">
@@ -99,7 +63,7 @@ export default function PageItinerarySingle({ data }) {
 					</div>
 				)}
 
-				<div className="p-guides-single__content">
+				<div className="p-itinerary-single__content">
 					<h1>PLAN:</h1>
 					{plan?.map((plan, index) => {
 						return (
@@ -150,6 +114,20 @@ export default function PageItinerarySingle({ data }) {
 
 					<br />
 					<br />
+
+					{guides && (
+						<>
+							<h1>Guides:</h1>
+							<div className="data-block">
+								{guides?.map((item, index) => {
+									return <GuideCard key={`item-${index}`} data={item} />;
+								})}
+							</div>
+						</>
+					)}
+
+					<br />
+					<br />
 					<h1>TYPE: {type}</h1>
 					<div className="data-block">
 						{type == 'premade' ? (
@@ -168,11 +146,11 @@ export default function PageItinerarySingle({ data }) {
 							</>
 						) : (
 							<>
-								Passcode: {passcode}
+								Passcode: {passcode || 'NONE'}
 								<br />
-								Name: {name}
+								Name: {name || 'NONE'}
 								<br />
-								Start Date: {startDate}
+								Start Date: {startDate || 'NONE'}
 								<br />
 								Intro Message:{' '}
 								{introMessage ? (
@@ -234,7 +212,7 @@ export default function PageItinerarySingle({ data }) {
 											/>
 											Time: {item?.startTime} — {item?.endTime || 'NO END'}
 											<br />
-											Notes: {console.log(item?.notes)}
+											Notes:
 											{item?.notes ? (
 												<CustomPortableText blocks={item?.notes} />
 											) : (

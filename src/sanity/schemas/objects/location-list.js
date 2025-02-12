@@ -76,7 +76,6 @@ export default function locationList({
 				location2: 'locations.2.title',
 				location3: 'locations.3.title',
 				location4: 'locations.4.title',
-				images: 'locations.0.images',
 			},
 			prepare({
 				title,
@@ -101,7 +100,7 @@ export default function locationList({
 						: 'No locations';
 
 				return {
-					title: `${title || 'Untitled'} @ ${startTime || '[No specific time]'}`,
+					title: `${title || 'Untitled'}${showStartTime ? ` @ ${startTime || '[No specific time]'}` : ''}`,
 					subtitle: subtitle,
 					media: images?.[0] || PinIcon,
 				};

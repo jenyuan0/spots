@@ -130,9 +130,9 @@ export default defineType({
 			}
 
 			return {
-				title: title,
+				title,
 				subtitle: categories.filter(Boolean).join(', '),
-				media: images?.[0] || false,
+				media: images?.[0],
 			};
 		},
 	},

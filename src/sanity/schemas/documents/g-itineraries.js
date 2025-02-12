@@ -73,6 +73,16 @@ export default defineType({
 			],
 		},
 		{
+			name: 'guides',
+			type: 'array',
+			of: [
+				{
+					type: 'reference',
+					to: [{ type: 'gGuides' }],
+				},
+			],
+		},
+		{
 			name: 'type',
 			type: 'string',
 			options: {

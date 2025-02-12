@@ -102,6 +102,69 @@ export const freeformObj = groq`
 	sectionAppearance
 `;
 
+export const getLocationsData = (type) => {
+	let defaultData = groq`
+		title,
+		_id,
+		"slug": slug.current,
+		"categories": categories[]->{
+			${categoryMeta}
+		},`;
+	if (type === 'card') {
+		defaultData += groq`
+			"thumb": images[0]{
+					${imageMeta}
+			},
+		`;
+	} else {
+		defaultData += groq`
+			geo,
+			address{
+				street,
+				city,
+				zip
+			},
+			price,
+			"images": images[]{
+				${imageMeta}
+			},
+			urls,
+			fees,
+			content[]{
+				${portableTextContent}
+			},
+			contentItinerary[]{
+				${portableTextContent}
+			},
+			"relatedLocations": relatedLocations[]->{
+				${getLocationsData('card')}
+			},
+			"relatedGuides": relatedGuides[]->{
+				${getGuidesData('card')}
+			}
+		`;
+	}
+	return defaultData;
+};
+
+export const locationListObj = groq`
+	...,
+	_id,
+	_type,
+	title,
+	startTime,
+	content,
+	"locations": locations[]->{
+		${getLocationsData('card')}
+	},
+	"fallbackRains": fallbackRains[]->{
+		${getLocationsData('card')}
+	},
+	"fallbackLongWait": fallbackLongWait[]->{
+		${getLocationsData('card')}
+	}
+`;
+
 // Construct our content "modules" GROQ
 export const pageModules = groq`
 	_type == 'freeform' => {
@@ -133,6 +196,9 @@ export const pageModules = groq`
 		reverse,
 		pausable
 	},
+	_type == 'locationList' => {
+		${locationListObj}
+	}
 `;
 
 const customForm = groq`
@@ -252,7 +318,10 @@ export const getGuidesData = (type) => {
 		_id,
 		title,
 		"slug": slug.current,
-		author->{name},
+		thumb{
+			${imageMeta}
+		},
+		publishDate,
 		"categories": categories[]->{
 			${categoryMeta}
 		},`;
@@ -260,8 +329,13 @@ export const getGuidesData = (type) => {
 		defaultData += groq`excerpt`;
 	} else {
 		defaultData += groq`
-		content[]{
-			${portableTextContent}
+		showContentTable,
+		showMap,
+		pageModules[]{
+			${pageModules}
+		},
+		"related": related[]->{
+			${getGuidesData('card')}
 		}`;
 	}
 	return defaultData;
@@ -313,46 +387,6 @@ export const pageGuidesSingleQuery = groq`
 	}`;
 
 // LOCATIONS
-export const getLocationsData = (type) => {
-	let defaultData = groq`
-		title,
-		_id,
-		"slug": slug.current,
-		geo,
-		address{
-			street,
-			city,
-			zip
-		},
-		price,
-		"categories": categories[]->{
-			${categoryMeta}
-		},
-		"images": images[]{
-			${imageMeta}
-		},
-		urls,
-		fees,`;
-	if (type === 'card') {
-		// defaultData += groq`excerpt`;
-	} else {
-		defaultData += groq`
-		content[]{
-			${portableTextContent}
-		},
-		contentItinerary[]{
-			${portableTextContent}
-		},
-		"relatedLocations": relatedLocations[]->{
-			${getLocationsData('card')}
-		},
-		"relatedGuides": relatedGuides[]->{
-			${getGuidesData('card')}
-		}`;
-	}
-	return defaultData;
-};
-
 export const locationListAllQuery = groq`
 	"locationList": *[_type == "gLocations"] | order(_updatedAt desc) {
 		${getLocationsData('card')}
@@ -393,13 +427,13 @@ export const pageLocationsSingleQuery = groq`
 		"defaultRelatedLocations": *[_type == "gLocations"
 			&& count(categories[@._ref in ^.^.categories[]._ref ]) > 0
 			&& _id != ^._id
-			] | order(publishedAt desc, _createdAt desc) [0..1] {
+			] | order(publishedAt desc, _createdAt desc) [0..3] {
 				${getLocationsData('card')}
 			},
 		"defaultRelatedGuides": *[_type == "gGuides"
 			&& count(categories[@._ref in ^.^.categories[]._ref ]) > 0
 			&& _id != ^._id
-			] | order(publishedAt desc, _createdAt desc) [0..1] {
+			] | order(publishedAt desc, _createdAt desc) [0..3] {
 				${getGuidesData('card')}
 			}
 	}`;
@@ -421,20 +455,7 @@ export const pageItinerariesSingleQuery = groq`
 				},
 				"activities": activities[] {
 					_type == "locationList" => {
-						_id,
-						_type,
-						title,
-						startTime,
-						content,
-						"locations": locations[]->{
-							${getLocationsData('card')}
-						},
-						"fallbackRains": fallbackRains[]->{
-							${getLocationsData('card')}
-						},
-						"fallbackLongWait": fallbackLongWait[]->{
-							${getLocationsData('card')}
-						}
+						${locationListObj}
 					},
 					_type == 'freeform' => {
 						${freeformObj}
@@ -447,6 +468,10 @@ export const pageItinerariesSingleQuery = groq`
 			title,
 			content
 		},
+		"guides": guides[]->{
+			${getGuidesData('card')}
+		},
+
 		type,
 		...select(type == "premade" => {
 			NumOfDays,

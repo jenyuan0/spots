@@ -30,8 +30,6 @@ export default async function Page({ params }) {
 	});
 	const { page } = pageData || {};
 
-	// console.log('xxx', pageData);
-
 	if (!page) return notFound();
 
 	return (

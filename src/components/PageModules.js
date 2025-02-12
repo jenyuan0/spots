@@ -7,6 +7,7 @@ const Carousel = dynamic(() => import('./Carousel'));
 const Freeform = dynamic(() => import('./Freeform'), {
 	loading: () => <p>Loading...</p>,
 });
+const LocationList = dynamic(() => import('./LocationList'));
 
 export default function PageModules({ module }) {
 	const type = module._type;
@@ -23,13 +24,16 @@ export default function PageModules({ module }) {
 					autoplayInterval={module?.autoplayInterval * 1000 || false}
 				>
 					{module.items?.map((el, index) => (
-						<Img key={index} image={el} />
+						<Img key={`${module._key}-${index}`} image={el} />
 					))}
 				</Carousel>
 			);
 
 		case 'marquee':
 			return <Marquee data={module} />;
+
+		case 'locationList':
+			return <LocationList data={module} />;
 
 		default:
 			return null;

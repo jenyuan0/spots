@@ -3,11 +3,11 @@ import { hasArrayValue } from '@/lib/helpers';
 import Img from '@/components/Image';
 
 export default function LocationCard({ data }) {
-	const { images, title, excerpt, slug, categories } = data || {};
+	const { thumb, title, excerpt, slug, categories } = data || {};
 
 	return (
 		<div className="c-locations-card data-card data-block-blue">
-			{images && <Img image={images[0]} />}
+			{thumb && <Img image={thumb} />}
 			<div className="c-locations-card__content">
 				{title && <h3 className="c-locations-card__title">{title}</h3>}
 				{hasArrayValue(categories) && (

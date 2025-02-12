@@ -15,6 +15,7 @@ export default defineType({
 	fields: [
 		title(),
 		slug(),
+		customImage({ name: 'thumb' }),
 		{
 			name: 'publishDate',
 			type: 'date',
@@ -34,19 +35,20 @@ export default defineType({
 				},
 			],
 		},
-		customImage({ name: 'thumb' }),
 		{
 			name: 'excerpt',
 			type: 'text',
-			rows: 4,
+			rows: 2,
 		},
 		{
 			name: 'showContentTable',
 			type: 'boolean',
+			initialValue: false,
 		},
 		{
 			name: 'showMap',
 			type: 'boolean',
+			initialValue: false,
 		},
 		{
 			name: 'pageModules',
@@ -84,12 +86,26 @@ export default defineType({
 	preview: {
 		select: {
 			title: 'title',
-			slug: 'slug',
+			thumb: 'thumb',
+			categories0: 'categories.0.title',
+			categories1: 'categories.1.title',
+			categories2: 'categories.2.title',
 		},
-		prepare({ title = 'Untitled', slug = {} }) {
+		prepare({
+			title = 'Untitled',
+			categories0,
+			categories1,
+			categories2,
+			thumb,
+		}) {
+			const categories = [categories0, categories1, categories2];
+
 			return {
 				title,
-				subtitle: slug.current ? `/${slug.current}` : 'Missing page slug',
+				subtitle: categories.some(Boolean)
+					? categories.filter(Boolean).join(', ')
+					: '[Missing Category]',
+				media: thumb,
 			};
 		},
 	},

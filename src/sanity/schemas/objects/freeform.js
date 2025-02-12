@@ -17,10 +17,12 @@ export default function freeform() {
 				content: 'content',
 			},
 			prepare({ content }) {
+				const firstImage = content.find((item) => item._type === 'image');
+
 				return {
 					title: getPortableTextPreview(content),
 					subtitle: 'Freeform',
-					media: EditIcon,
+					media: firstImage || EditIcon,
 				};
 			},
 		},
