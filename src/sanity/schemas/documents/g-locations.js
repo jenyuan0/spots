@@ -44,6 +44,20 @@ export default defineType({
 			],
 		},
 		{
+			name: 'subcategories',
+			type: 'array',
+			of: [
+				{
+					type: 'reference',
+					to: [{ type: 'gSubcategories' }],
+					options: {
+						// filter: `_type == "gSubcategories" && references(*[_type == "gCategories" && _id in ^.^.categories[]._ref]._id)`,
+					},
+				},
+			],
+			hidden: ({ parent }) => !parent?.categories,
+		},
+		{
 			name: 'images',
 			type: 'array',
 			of: [customImage({ hasCropOptions: true })],
@@ -106,6 +120,7 @@ export default defineType({
 		select: {
 			title: 'title',
 			// geo: 'geo',
+			price: 'price',
 			categories0: 'categories.0.title',
 			categories1: 'categories.1.title',
 			categories2: 'categories.2.title',
@@ -114,6 +129,7 @@ export default defineType({
 		prepare({
 			title = 'Untitled',
 			// geo,
+			price,
 			categories0,
 			categories1,
 			categories2,
@@ -139,7 +155,7 @@ export default defineType({
 
 			return {
 				title,
-				subtitle: categories.filter(Boolean).join(', '),
+				subtitle: `[${price || 'Missing Price'}] ${categories.filter(Boolean).join(', ')}`,
 				media: images?.[0],
 			};
 		},

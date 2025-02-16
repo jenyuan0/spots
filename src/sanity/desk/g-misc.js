@@ -124,6 +124,13 @@ export const globalCategories = (S) => {
 		.icon(TagsIcon);
 };
 
+export const globalSubcategories = (S) => {
+	return S.listItem()
+		.title('Subcategories')
+		.child(S.documentTypeList('gSubcategories').title('Subcategories'))
+		.icon(TagsIcon);
+};
+
 export const globalAuthors = (S) => {
 	return S.listItem()
 		.title('Authors')

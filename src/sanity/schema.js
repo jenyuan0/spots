@@ -29,6 +29,7 @@ import gItineraries from './schemas/documents/g-itineraries';
 import gGuides from './schemas/documents/g-guides';
 import gFAQ from './schemas/documents/g-faq';
 import gCategories from './schemas/documents/g-categories';
+import gSubcategories from './schemas/documents/g-subcategories';
 import gAuthors from './schemas/documents/g-authors';
 import gAds from './schemas/documents/g-ads';
 
@@ -69,6 +70,7 @@ const schemas = [
 	gGuides,
 	gFAQ,
 	gCategories,
+	gSubcategories,
 	gAuthors,
 	gAds,
 

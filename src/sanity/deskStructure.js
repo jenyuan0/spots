@@ -8,6 +8,7 @@ import {
 	globalFAQ,
 	globalAds,
 	globalCategories,
+	globalSubcategories,
 	globalAuthors,
 } from './desk/g-misc';
 import { menusMenu } from './desk/menus';
@@ -31,6 +32,7 @@ const deskStructure = (S) =>
 			globalAds(S),
 			S.divider(),
 			globalCategories(S),
+			globalSubcategories(S),
 			// globalAuthors(S),
 			S.divider(),
 			menusMenu(S),

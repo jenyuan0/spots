@@ -75,6 +75,12 @@ export const categoryMeta = groq`
 	categoryColor->{...color}
 `;
 
+export const subcategoryMeta = groq`
+	_id,
+	title,
+	"slug": slug.current,
+`;
+
 // Construct our "portable text content" GROQ
 export const portableTextContent = groq`
 	...,
@@ -109,6 +115,9 @@ export const getLocationsData = (type) => {
 		"slug": slug.current,
 		"categories": categories[]->{
 			${categoryMeta}
+		},
+		"subcategories": subcategories[]->{
+			${subcategoryMeta}
 		},`;
 	if (type === 'card') {
 		defaultData += groq`

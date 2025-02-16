@@ -15,9 +15,12 @@ export default function PageLocationsSingle({ data }) {
 		address,
 		price,
 		categories,
+		subcategories,
 		images,
 		content,
 		contentItinerary,
+		urls,
+		fees,
 		relatedLocations,
 		relatedGuides,
 		defaultRelatedLocations,
@@ -67,10 +70,18 @@ export default function PageLocationsSingle({ data }) {
 						<br />
 						zip: {address?.zip || 'EMPTY'}
 						<br />
-						PRICE: ${price || 'EMPTY'}
+						<br />
+						PRICE: {price || 'EMPTY'}
+						<br />
 						<br />
 						CATEGORIES: {categories?.map((cat) => cat.title).join(', ')}
 						<br />
+						SUBCATEGORIES: {subcategories?.map((cat) => cat.title).join(', ')}
+						<br />
+						<br />
+						URLs: {urls?.join(', ') || 'EMPTY'}
+						<br />
+						Fees: {fees?.join(', ') || 'EMPTY'}
 					</div>
 				</div>
 

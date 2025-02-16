@@ -5,5 +5,7 @@ export default defineType({
 	type: 'string',
 	options: {
 		list: ['$', '$$', '$$$', '$$$$'],
+		layout: 'radio',
+		direction: 'horizontal',
 	},
 });
