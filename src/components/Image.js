@@ -11,6 +11,7 @@ export default function Img({
 	responsiveImage,
 	breakpoint = 600,
 	quality = 80,
+	isAutoFormat, // Use JPG by default (assuming most files are photos rather than graphics)
 }) {
 	const { ref, inView } = useInView({
 		triggerOnce: true,
@@ -28,9 +29,11 @@ export default function Img({
 		...{
 			height: inView ? imageHeight : Math.round(100 / aspectRatio),
 		},
+		...(!isAutoFormat && { format: 'jpg' }),
 		quality,
 	});
 	const responsiveImageSrc = buildImageSrc(responsiveImage, {
+		...(!isAutoFormat && { format: 'jpg' }),
 		quality,
 	});
 
