@@ -57,9 +57,9 @@ export default function PageLocationsSingle({ data }) {
 						)}
 						<br />
 						<br />
-						lat: {geo.lat || 'EMPTY'}
+						lat: {geo?.lat || 'EMPTY'}
 						<br />
-						lng: {geo.lng || 'EMPTY'}
+						lng: {geo?.lng || 'EMPTY'}
 						<br />
 						street: {address?.street || 'EMPTY'}
 						<br />
