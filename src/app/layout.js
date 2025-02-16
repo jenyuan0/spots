@@ -7,6 +7,7 @@ import { getSiteData } from '@/sanity/lib/fetch';
 import defineMetadata from '@/lib/defineMetadata';
 import Layout from '@/layout';
 import StyledJsxRegistry from '@/lib/registry';
+import localFont from 'next/font/local';
 import ReactQueryProvider from '@/lib/providers/ReactQueryProvider';
 import StoreProvider from '@/lib/providers/StoreProvider';
 import HeadTrackingCode from '@/layout/HeadTrackingCode';
@@ -19,6 +20,32 @@ export async function generateMetadata({ isPreviewMode }) {
 	const data = await getSiteData({ isPreviewMode });
 	return defineMetadata({ data });
 }
+
+const fontKalice = localFont({
+	src: [
+		{
+			path: '../../public/fonts/kalice-regular.woff2',
+			weight: '400',
+			style: 'normal',
+		},
+		{
+			path: '../../public/fonts/kalice-regular-italic.woff2',
+			weight: '400',
+			style: 'italic',
+		},
+		{
+			path: '../../public/fonts/kalice-bold.woff2',
+			weight: '700',
+			style: 'normal',
+		},
+		{
+			path: '../../public/fonts/kalice-bold-italic.woff2',
+			weight: '700',
+			style: 'italic',
+		},
+	],
+	variable: '--font-kalice',
+});
 
 export default async function RootLayout({ children, params }) {
 	const isPreviewMode = draftMode().isEnabled;
@@ -36,7 +63,7 @@ export default async function RootLayout({ children, params }) {
 	return (
 		<StoreProvider>
 			<ReactQueryProvider>
-				<html lang="en">
+				<html lang="en" className={`${fontKalice.variable}`}>
 					<head>
 						<meta
 							httpEquiv="Content-Type"
