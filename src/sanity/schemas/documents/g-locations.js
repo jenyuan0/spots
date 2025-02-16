@@ -14,7 +14,7 @@ export default defineType({
 		{
 			name: 'geo',
 			type: 'geopoint',
-			validation: (Rule) => [Rule.required()],
+			// validation: (Rule) => [Rule.required()],
 		},
 		{
 			name: 'address',
@@ -105,7 +105,7 @@ export default defineType({
 	preview: {
 		select: {
 			title: 'title',
-			geo: 'geo',
+			// geo: 'geo',
 			categories0: 'categories.0.title',
 			categories1: 'categories.1.title',
 			categories2: 'categories.2.title',
@@ -113,7 +113,7 @@ export default defineType({
 		},
 		prepare({
 			title = 'Untitled',
-			geo,
+			// geo,
 			categories0,
 			categories1,
 			categories2,
@@ -121,10 +121,18 @@ export default defineType({
 		}) {
 			const categories = [categories0, categories1, categories2];
 
-			if (!geo || !categories.some(Boolean)) {
+			// if (!geo || !categories.some(Boolean)) {
+			// 	return {
+			// 		title,
+			// 		subtitle: !geo ? '[Missing Geo]' : '[Missing Category]',
+			// 		media: <span>⚠️</span>,
+			// 	};
+			// }
+
+			if (!categories.some(Boolean)) {
 				return {
 					title,
-					subtitle: !geo ? '[Missing Geo]' : '[Missing Category]',
+					subtitle: '[Missing Category]',
 					media: <span>⚠️</span>,
 				};
 			}
