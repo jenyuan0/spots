@@ -96,7 +96,7 @@ export default function locationList({
 				].filter(Boolean);
 				const subtitle =
 					locationTitles.length > 0
-						? `${locationTitles.join(', ')}`
+						? `${locationTitles.join(' • ')}`
 						: 'No locations';
 
 				return {

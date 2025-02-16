@@ -34,6 +34,21 @@ export default defineType({
 					to: [{ type: 'gCategories' }],
 				},
 			],
+			validation: (Rule) => [Rule.required()],
+		},
+		{
+			name: 'subcategories',
+			type: 'array',
+			of: [
+				{
+					type: 'reference',
+					to: [{ type: 'gSubcategories' }],
+					options: {
+						// filter: `_type == "gSubcategories" && references(*[_type == "gCategories" && _id in ^.^.categories[]._ref]._id)`,
+					},
+				},
+			],
+			hidden: ({ parent }) => !parent?.categories,
 		},
 		{
 			name: 'excerpt',
@@ -90,21 +105,27 @@ export default defineType({
 			categories0: 'categories.0.title',
 			categories1: 'categories.1.title',
 			categories2: 'categories.2.title',
+			subcategories0: 'subcategories.0.title',
+			subcategories1: 'subcategories.1.title',
+			subcategories2: 'subcategories.2.title',
 		},
 		prepare({
 			title = 'Untitled',
 			categories0,
 			categories1,
 			categories2,
+			subcategories0,
+			subcategories1,
+			subcategories2,
 			thumb,
 		}) {
 			const categories = [categories0, categories1, categories2];
+			const subcategories = [subcategories0, subcategories1, subcategories2];
 
 			return {
 				title,
-				subtitle: categories.some(Boolean)
-					? categories.filter(Boolean).join(', ')
-					: '[Missing Category]',
+				subtitle:
+					`${categories.filter(Boolean).join(' • ')}${subcategories.some(Boolean) ? ` / ${subcategories.filter(Boolean).join(' • ')}` : ''}`.trim(),
 				media: thumb,
 			};
 		},

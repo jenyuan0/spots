@@ -30,7 +30,7 @@ export default function PageGuidesSingle({ data }) {
 				<div className="p-guides-single__content data-block">
 					Publish Date: {publishDate}
 					<br />
-					Categories: {categories?.map((cat) => cat.title).join(', ')}
+					Categories: {categories?.map((cat) => cat.title).join(' • ')}
 					<br />
 					Show Content Table: {showContentTable?.toString() || 'FALSE'}
 					<br />

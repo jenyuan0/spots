@@ -74,14 +74,14 @@ export default function PageLocationsSingle({ data }) {
 						PRICE: {price || 'EMPTY'}
 						<br />
 						<br />
-						CATEGORIES: {categories?.map((cat) => cat.title).join(', ')}
+						CATEGORIES: {categories?.map((cat) => cat.title).join(' • ')}
 						<br />
-						SUBCATEGORIES: {subcategories?.map((cat) => cat.title).join(', ')}
+						SUBCATEGORIES: {subcategories?.map((cat) => cat.title).join(' • ')}
 						<br />
 						<br />
-						URLs: {urls?.join(', ') || 'EMPTY'}
+						URLs: {urls?.join(' • ') || 'EMPTY'}
 						<br />
-						Fees: {fees?.join(', ') || 'EMPTY'}
+						Fees: {fees?.join(' • ') || 'EMPTY'}
 					</div>
 				</div>
 

@@ -42,6 +42,7 @@ export default defineType({
 					to: [{ type: 'gCategories' }],
 				},
 			],
+			validation: (Rule) => [Rule.required()],
 		},
 		{
 			name: 'subcategories',
@@ -124,6 +125,9 @@ export default defineType({
 			categories0: 'categories.0.title',
 			categories1: 'categories.1.title',
 			categories2: 'categories.2.title',
+			subcategories0: 'subcategories.0.title',
+			subcategories1: 'subcategories.1.title',
+			subcategories2: 'subcategories.2.title',
 			images: 'images',
 		},
 		prepare({
@@ -133,9 +137,13 @@ export default defineType({
 			categories0,
 			categories1,
 			categories2,
+			subcategories0,
+			subcategories1,
+			subcategories2,
 			images,
 		}) {
 			const categories = [categories0, categories1, categories2];
+			const subcategories = [subcategories0, subcategories1, subcategories2];
 
 			// if (!geo || !categories.some(Boolean)) {
 			// 	return {
@@ -145,17 +153,10 @@ export default defineType({
 			// 	};
 			// }
 
-			if (!categories.some(Boolean)) {
-				return {
-					title,
-					subtitle: '[Missing Category]',
-					media: <span>⚠️</span>,
-				};
-			}
-
 			return {
 				title,
-				subtitle: `[${price || 'Missing Price'}] ${categories.filter(Boolean).join(', ')}`,
+				subtitle:
+					`[${price ? price : '-'}] ${categories.filter(Boolean).join(' • ')}${subcategories.some(Boolean) ? ` / ${subcategories.filter(Boolean).join(' • ')}` : ''}`.trim(),
 				media: images?.[0],
 			};
 		},
