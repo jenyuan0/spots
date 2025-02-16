@@ -6,6 +6,18 @@
 	--cr-accent: #0000ff;
 	--cr-black: #000000;
 	--cr-white: #ffffff;
+	--cr-brown: #403232;
+	--cr-cream: #fef9eb;
+	--cr-blue-l: #bddcee;
+	--cr-blue-d: #134767;
+	--cr-green-l: #cadbc2;
+	--cr-green-d: #023a29;
+	--cr-red-l: #efbfa7;
+	--cr-red-d: #a33600;
+	--cr-orange-l: #eedcbd;
+	--cr-orange-d: #ba7401;
+	--cr-purple-l: #faecff;
+	--cr-purple-d: #6d5576;
 
 	--t-h-1: 64px/1 var(--font-kalice), 'Times', serif;
 	--t-h-2: 36px/1 var(--font-kalice), 'Times', serif;
@@ -16,7 +28,6 @@
 	--t-l-1: 700 12px/1 'Helvetica Neue', Helvetica, sans-serif;
 	--t-l-2: 10px/1 'Helvetica Neue', Helvetica, sans-serif;
 
-	--s-section: 100px;
 	--s-contain: Max(3vw, 10px);
 	--s-contain-max: 2480px;
 	--s-contain-dynamic: Max(
@@ -32,7 +43,18 @@
 			) - var(--s-footer, 0px)
 	); // Set minimum container height to fill screen, keeping footer at bottom.
 
-	// Add variables below for values that need to be consistent across the website. For example: --gap, --br (border-radius)
+	--br-1: 4px;
+	--br-2: 8px;
+	--br-3: 16px;
+	--s-1-v: 5px;
+	--s-1-h: 5px;
+	--s-2-v: 10px;
+	--s-2-h: 10px;
+	--s-3-v: 20px;
+	--s-3-h: 20px;
+	--s-4-v: 40px;
+	--s-4-h: 40px;
+	--s-section: 120px;
 }
 
 @media screen and (max-width: 600px) {
