@@ -42,6 +42,9 @@ export default function HeaderItinerary({ data, activeDay, colors }) {
 					<li>
 						<Link href={''}>What to Pack</Link>
 					</li>
+					<li>
+						<Link href={''}>Before your trip</Link>
+					</li>
 				</ul>
 			</div>
 			<div className="g-header-itinerary__links">
