@@ -42,7 +42,7 @@ export default defineType({
 						},
 						{
 							name: 'title',
-							description: "Defaults to itinerary day's title when left empty",
+							description: 'Defaults to date',
 							type: 'string',
 						},
 

@@ -3,20 +3,10 @@ import LocationCard from '@/components/LocationCard';
 import CustomPortableText from '@/components/CustomPortableText';
 
 export default function LocationList({ data }) {
-	const {
-		title,
-		startTime,
-		content,
-		locations,
-		fallbackRains,
-		fallbackLongWait,
-	} = data;
+	const { content, locations, fallbackRains, fallbackLongWait } = data;
 
 	return (
 		<>
-			<h2>
-				{title || 'NO TITLE'} @ {startTime || 'NO TIME'}
-			</h2>
 			{content && <CustomPortableText blocks={content} />}
 			<div className="locations">
 				<h3>Locations:</h3>

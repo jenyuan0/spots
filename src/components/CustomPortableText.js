@@ -72,7 +72,6 @@ const portableTextComponents = {
 			return <PortableTable blocks={value} />;
 		},
 	},
-
 	marks: {
 		link: ({ value, children }) => {
 			return <CustomLink link={value}>{children}</CustomLink>;

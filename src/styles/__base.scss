@@ -21,14 +21,23 @@
 
 	--t-h-1: 64px/1 var(--font-kalice), 'Times', serif;
 	--t-h-2: 36px/1 var(--font-kalice), 'Times', serif;
-	--t-h-3: 20px/1 var(--font-kalice), 'Times', serif;
-	--t-h-4: 16px/1 var(--font-kalice), 'Times', serif;
+	--t-h-3: 26px/1 var(--font-kalice), 'Times', serif;
+	--t-h-4: 500 18px/1 var(--font-kalice), 'Times', serif;
 	--t-b-1: 16px/1.25 'Helvetica Neue', Helvetica, sans-serif;
 	--t-b-2: 14px/1.25 'Helvetica Neue', Helvetica, sans-serif;
-	--t-l-1: 700 12px/1 'Helvetica Neue', Helvetica, sans-serif;
-	--t-l-2: 10px/1 'Helvetica Neue', Helvetica, sans-serif;
+	--t-l-1: 700 14px/1 'Helvetica Neue', Helvetica, sans-serif;
+	--t-l-2: 12px/1 'Helvetica Neue', Helvetica, sans-serif;
 
+	--s-sidebar: 190px;
 	--s-contain: Max(3vw, 10px);
+	--s-contain-min: Min(
+		100vw - var(--s-sidebar) * 2 - var(--s-contain) * 4,
+		540px
+	);
+	--s-contain-med: Min(
+		100vw - var(--s-sidebar) * 2 - var(--s-contain) * 4,
+		800px
+	);
 	--s-contain-max: 2480px;
 	--s-contain-dynamic: Max(
 		var(--s-contain),
@@ -43,9 +52,6 @@
 			) - var(--s-footer, 0px)
 	); // Set minimum container height to fill screen, keeping footer at bottom.
 
-	--br-1: 4px;
-	--br-2: 8px;
-	--br-3: 16px;
 	--s-1-v: 5px;
 	--s-1-h: 5px;
 	--s-2-v: 10px;
@@ -55,6 +61,11 @@
 	--s-4-v: 40px;
 	--s-4-h: 40px;
 	--s-section: 120px;
+
+	--br-1: 4px;
+	--br-2: 8px;
+	--br-3: 16px;
+	--shadow-1: 0px 12px 40px rgba(0, 0, 0, 0.15);
 }
 
 @media screen and (max-width: 600px) {
@@ -140,6 +151,10 @@ body {
 
 .t-h-2 {
 	font: var(--t-h-2);
+}
+
+.t-h-4 {
+	font: var(--t-h-4);
 }
 
 h1,
@@ -480,28 +495,7 @@ textarea {
 .wysiwyg,
 .wysiwyg-page {
 	> *:not(:last-child) {
-		margin-bottom: 20px;
-	}
-
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6,
-	.t-h-1,
-	.t-h-2,
-	.t-h-3,
-	.t-h-4,
-	.t-h-5,
-	.t-h-6 {
-		&:not(:first-child) {
-			margin-top: 36px;
-		}
-
-		a {
-			text-decoration: underline;
-		}
+		margin-bottom: 10px;
 	}
 
 	.btn,
@@ -517,7 +511,7 @@ textarea {
 	p,
 	ol,
 	ul {
-		font: var(--t-b-2);
+		font: var(--t-b-1);
 
 		a {
 			text-decoration: underline;
@@ -592,31 +586,29 @@ textarea {
 
 // General page specific WYSIWYG stylings
 .wysiwyg-page {
-	// WP specific
-	.aligncenter,
-	.alignleft,
-	.alignright {
-		display: block;
-		padding: 0;
+	> *:not(:last-child) {
+		margin-bottom: 20px;
 	}
 
-	.aligncenter {
-		float: none;
-		margin: 0.5em auto 1em;
-	}
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	.t-h-1,
+	.t-h-2,
+	.t-h-3,
+	.t-h-4,
+	.t-h-5,
+	.t-h-6 {
+		&:not(:first-child) {
+			margin-top: 36px;
+		}
 
-	.alignright {
-		float: right;
-		margin: 0.5em 0 1em 1em;
-	}
-
-	.alignleft {
-		float: left;
-		margin: 0.5em 1em 1em 0;
-	}
-
-	.wp-caption p.wp-caption-text {
-		margin-top: 5px;
+		a {
+			text-decoration: underline;
+		}
 	}
 }
 

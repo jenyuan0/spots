@@ -14,6 +14,7 @@ import ProgressLoader from './ProgressLoader';
 export default function Layout({ children, siteData }) {
 	const { announcement, header, footer } = siteData || {};
 	const pathname = usePathname();
+	const pathArray = pathname.split('/').filter(Boolean);
 
 	useEffect(() => {
 		siteSetup();
@@ -34,9 +35,13 @@ export default function Layout({ children, siteData }) {
 			<ProgressLoader />
 			<AdaSkip />
 			<Announcement data={announcement} />
-			<Header siteData={siteData} data={header} />
+			{pathArray?.[0] !== 'itinerary' && (
+				<Header siteData={siteData} data={header} />
+			)}
 			<Main>{children}</Main>
-			<Footer siteData={siteData} data={footer} />
+			{pathArray?.[0] !== 'itinerary' && (
+				<Footer siteData={siteData} data={footer} />
+			)}
 		</>
 	);
 }

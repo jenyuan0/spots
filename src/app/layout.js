@@ -34,6 +34,16 @@ const fontKalice = localFont({
 			style: 'italic',
 		},
 		{
+			path: '../../public/fonts/kalice-medium.woff2',
+			weight: '500',
+			style: 'normal',
+		},
+		{
+			path: '../../public/fonts/kalice-medium-italic.woff2',
+			weight: '500',
+			style: 'italic',
+		},
+		{
 			path: '../../public/fonts/kalice-bold.woff2',
 			weight: '700',
 			style: 'normal',

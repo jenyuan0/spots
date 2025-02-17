@@ -1,0 +1,51 @@
+.g-header-itinerary {
+	position: fixed;
+	top: 50%;
+	transform: translate3d(0, -50%, 0);
+	left: var(--s-contain);
+	width: var(--s-sidebar);
+	padding: var(--s-4-v) var(--s-2-h);
+	color: var(--cr-brown);
+	background-color: var(--cr-white);
+	border-radius: var(--br-2);
+	box-shadow: var(--shadow-1);
+	gap: 30px;
+	text-align: center;
+
+	&__links {
+		&__title {
+			margin-bottom: 10px;
+			color: var(--cr-red-d);
+		}
+	}
+
+	&__daylist__li {
+		position: relative;
+		width: 33.3%;
+		white-space: nowrap;
+		text-align: center;
+
+		&:before {
+			content: '';
+			position: absolute;
+			display: block;
+			width: 24px;
+			height: 24px;
+			border-radius: 100%;
+			top: 50%;
+			left: 50%;
+			transform: scale(0) translate3d(-50%, -50%, 0);
+			background-color: var(--cr-dot);
+			transition: 0.4s;
+		}
+
+		&.is-active:before {
+			transform: translate3d(-50%, -50%, 0);
+		}
+	}
+
+	&__details,
+	&__others {
+		gap: 8px;
+	}
+}

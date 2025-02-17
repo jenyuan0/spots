@@ -3,7 +3,6 @@ import title from '@/sanity/schemas/objects/title';
 import sharing from '@/sanity/schemas/objects/sharing';
 import customImage from '@/sanity/schemas/objects/custom-image';
 import { getActivitiesPreview } from '@/sanity/lib/helpers';
-import freeform from '@/sanity/schemas/objects/freeform';
 import locationList from '@/sanity/schemas/objects/location-list';
 
 export default defineType({
@@ -34,7 +33,6 @@ export default defineType({
 					showFallbackRains: true,
 					showFallbackWait: true,
 				}),
-				freeform(),
 			],
 		},
 		{

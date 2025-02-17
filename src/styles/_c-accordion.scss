@@ -1,10 +1,10 @@
 .c-accordion {
 	position: relative;
-	border-bottom: 1px solid currentColor;
+	border-bottom: 1px solid var(--cr-subtle);
 
 	&__toggle {
 		width: 100%;
-		padding: var(--padding-v) 0;
+		padding: var(--s-3-v) 0;
 		gap: 10px;
 		text-align: left;
 
@@ -14,19 +14,28 @@
 		}
 	}
 
+	&__icon {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 30px;
+		height: 30px;
+		border: 1px solid var(--cr-subtle);
+		border-radius: 100%;
+	}
+
 	&__title {
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
+		flex: 1;
+		text-align: left;
 	}
 
 	&__content {
 		overflow: hidden;
 		pointer-events: none;
-	}
 
-	&__content-interior {
-		padding-bottom: var(--padding-v);
+		&__inner {
+			padding-bottom: var(--s-3-v);
+		}
 	}
 
 	&.is-active {
@@ -35,7 +44,7 @@
 		}
 
 		.c-accordion__toggle .icon-caret-down {
-			transform: rotate(180deg);
+			transform: scaleY(-1);
 		}
 
 		.c-accordion__content {

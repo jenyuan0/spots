@@ -1,6 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
+import { formatToAMPM } from '@/lib/helpers';
+import HeaderItinerary from '@/layout/HeaderItinerary';
 import CustomPortableText from '@/components/CustomPortableText';
 import LocationList from '@/components/LocationList';
 import CustomLink from '@/components/CustomLink';
@@ -8,18 +10,8 @@ import Img from '@/components/Image';
 import Carousel from '@/components/Carousel';
 import LocationCard from '@/components/LocationCard';
 import GuideCard from '@/components/GuideCard';
-
-export function getActivities({ data }) {
-	const { _type } = data;
-
-	switch (_type) {
-		case 'freeform':
-			return <CustomPortableText blocks={data} />;
-
-		case 'locationList':
-			return <LocationList data={data} />;
-	}
-}
+import Accordion from '@/components/Accordions/Accordion';
+import { format, add } from 'date-fns';
 
 export default function PageItinerarySingle({ data }) {
 	const {
@@ -43,10 +35,98 @@ export default function PageItinerarySingle({ data }) {
 		accommodation,
 		reservations,
 	} = data || {};
+	const colors = ['green', 'blue', 'red', 'orange', 'purple'];
+	const [activeDay, setActiveDay] = useState(0);
+	const startDateObj = new Date(startDate);
+	const convertToAMPM = (militaryTime) => {
+		const [hours, minutes] = militaryTime.split(':');
+		let hour = parseInt(hours);
+		const minute = parseInt(minutes);
+		const period = hour >= 12 ? 'PM' : 'AM';
+
+		// Convert hour to 12-hour format
+		if (hour === 0) {
+			hour = 12;
+		} else if (hour > 12) {
+			hour = hour - 12;
+		}
+
+		const formattedMinutes = minute.toString().padStart(2, '0');
+
+		return `${hour}:${formattedMinutes} ${period}`;
+	};
 
 	return (
 		<>
-			<section className="p-itinerary-single data-container">
+			{type == 'custom' && (
+				<HeaderItinerary data={data} colors={colors} activeDay={activeDay} />
+			)}
+
+			{plan?.map((plan, i) => {
+				const date = add(startDateObj, { days: i });
+
+				return (
+					<div
+						className="p-itinerary__plan f-v f-a-s"
+						key={`item-${i}`}
+						style={{
+							'--cr-text': `var(--cr-${colors[i % colors.length]}-d)`,
+							'--cr-background': `var(--cr-${colors[i % colors.length]}-l)`,
+						}}
+					>
+						<div className="p-itinerary__plan__header wysiwyg">
+							<div className="t-l-1">Day {i + 1}</div>
+							<h2 className="t-h-2">{plan.title || format(date, 'MMMM do')}</h2>
+						</div>
+
+						{plan?.day?.images && (
+							<div className="p-itinerary__plan__images">
+								<Carousel
+									isShowDots={true}
+									isAutoplay={true}
+									autoplayInterval={3000}
+								>
+									{plan?.day?.images?.map((image) => (
+										<Img key={image.id} image={image} />
+									))}
+								</Carousel>
+							</div>
+						)}
+
+						{(plan.content || plan?.day?.content) && (
+							<div className="p-itinerary__plan__highlight wysiwyg">
+								<h3 className="t-l-1">Day Highlight</h3>
+								<CustomPortableText blocks={plan.content || plan.day.content} />
+							</div>
+						)}
+
+						<div className="p-itinerary__plan__activities">
+							<h2 className="p-itinerary__plan__activities__title t-l-1">
+								Activities
+							</h2>
+							{plan.day?.activities.map((activity, index) => {
+								const { title, startTime } = activity;
+								const locationLength = activity.locations?.length || 0;
+
+								return (
+									<Accordion
+										key={`${i}-activity-${index}`}
+										title={
+											title ||
+											`${locationLength} Spot${locationLength !== 1 && 's'}`
+										}
+										subtitle={startTime ? convertToAMPM(startTime) : '-'}
+									>
+										<LocationList data={activity} />
+									</Accordion>
+								);
+							})}
+						</div>
+					</div>
+				);
+			})}
+
+			<section className="p-itinerary data-container">
 				<h1 className="p-itinerary-single__title">{title}</h1>
 
 				{images && (
@@ -64,54 +144,6 @@ export default function PageItinerarySingle({ data }) {
 				)}
 
 				<div className="p-itinerary-single__content">
-					<h1>PLAN:</h1>
-					{plan?.map((plan, index) => {
-						return (
-							<div className="data-block" key={`item-${index}`}>
-								<h2>
-									Day {index + 1}: {plan.title || plan?.day.title}{' '}
-								</h2>
-
-								<div className="data-block">
-									Content:{' '}
-									{plan.content || plan?.day?.content ? (
-										<CustomPortableText
-											blocks={plan.content || plan.day.content}
-										/>
-									) : (
-										'NONE'
-									)}
-								</div>
-
-								<div className="data-block">
-									{plan?.day?.images && (
-										<Carousel
-											isShowDots={true}
-											isAutoplay={true}
-											autoplayInterval={3000}
-										>
-											{plan?.day?.images?.map((image) => (
-												<Img key={image.id} image={image} />
-											))}
-										</Carousel>
-									)}
-								</div>
-
-								<h2>Activities:</h2>
-								{plan.day?.activities.map((activity, index) => {
-									return (
-										<div className="data-block" key={`activity-${index}`}>
-											<strong>
-												ACTIVITY {index + 1} ({activity._type}):
-											</strong>{' '}
-											{getActivities({ data: activity })}
-										</div>
-									);
-								})}
-							</div>
-						);
-					})}
-
 					<br />
 					<br />
 

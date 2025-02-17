@@ -1,0 +1,55 @@
+.p-itinerary {
+	&__plan {
+		width: var(--s-contain-med);
+		margin-inline: auto;
+		margin-block: var(--s-4-v);
+		padding: var(--s-4-v) var(--s-4-h);
+		gap: var(--s-4-v);
+		border-radius: var(--br-3);
+		box-shadow: var(--shadow-1);
+		color: var(--cr-text);
+		background-color: var(--cr-background);
+
+		&__header {
+			text-align: center;
+		}
+
+		&__images {
+			width: calc(100% + var(--s-4-h) * 2);
+			margin-inline: calc(-1 * var(--s-4-h));
+		}
+
+		&__highlight {
+			max-width: 500px;
+			margin-inline: auto;
+			text-align: center;
+		}
+
+		&__activities {
+			&__title {
+				margin-bottom: 20px;
+				text-align: center;
+			}
+
+			.c-accordion:first-of-type {
+				border-top: 1px solid var(--cr-subtle);
+			}
+
+			.c-accordion__subtitle {
+				width: 80px;
+				white-space: nowrap;
+				font: var(--t-l-1);
+			}
+
+			.c-accordion__title {
+				font: var(--t-h-3);
+				text-transform: capitalize;
+			}
+
+			.c-accordion__icon {
+				color: var(--cr-background);
+				background-color: var(--cr-text);
+			}
+		}
+	}
+}

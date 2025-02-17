@@ -16,6 +16,7 @@ const accordionAnim = {
 export default function Accordion({
 	isActive = false,
 	title,
+	subtitle,
 	className,
 	onHandleToggle,
 	children,
@@ -49,8 +50,11 @@ export default function Accordion({
 				className="c-accordion__toggle f-h f-a-c user-select-disable"
 				onClick={handleToggle}
 			>
+				<div className="c-accordion__subtitle">{subtitle}</div>
 				<div className="c-accordion__title">{title}</div>
-				<div className="icon-caret-down" />
+				<div className="c-accordion__icon">
+					<div className="icon-caret-down" />
+				</div>
 			</button>
 			<AnimatePresence>
 				{isExpanded && (
