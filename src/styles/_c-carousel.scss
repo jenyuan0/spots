@@ -1,6 +1,6 @@
 .c-carousel {
-	--dot-size: 10px;
-	--dot-gap: 5px;
+	--dot-size: 12px;
+	--dot-gap: 8px;
 
 	position: relative;
 	width: 100%;
@@ -34,7 +34,7 @@
 
 	&__controls {
 		display: flex;
-		justify-content: space-between;
+		justify-content: center;
 	}
 
 	&__buttons {
@@ -69,6 +69,7 @@
 		width: var(--dot-size);
 		height: var(--dot-size);
 		border-radius: 100%;
+		border: 2px solid transparent;
 		background-color: var(--cr-black);
 		border: none;
 		box-shadow: none;
@@ -89,13 +90,8 @@
 		}
 
 		&:not(.is-selected) {
-			opacity: 0.3;
-		}
-
-		@media (hover: hover) {
-			&:hover {
-				opacity: 0.6;
-			}
+			border: 2px solid;
+			background-color: transparent;
 		}
 	}
 }

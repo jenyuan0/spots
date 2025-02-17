@@ -3,7 +3,7 @@
 // ***SETTINGS***
 
 :root {
-	--cr-accent: #0000ff;
+	--cr-accent: var(--cr-blue-d);
 	--cr-black: #000000;
 	--cr-white: #ffffff;
 	--cr-brown: #403232;
@@ -66,6 +66,8 @@
 	--br-2: 8px;
 	--br-3: 16px;
 	--shadow-1: 0px 12px 40px rgba(0, 0, 0, 0.15);
+	--shadow-2: 0px 6px 20px rgba(0, 0, 0, 0.15);
+	--shadow-2-transparent: 0px 6px 20px rgba(0, 0, 0, 0);
 }
 
 @media screen and (max-width: 600px) {
@@ -190,104 +192,6 @@ p,
 ol,
 ul {
 	text-wrap: pretty;
-}
-
-// ***BUTTONS***
-
-.btn,
-.btn-outline,
-.btn-underline {
-	--height: 45px;
-	--outline: 2px;
-	--t-duration: 0.3s;
-
-	position: relative;
-	display: inline-flex;
-	justify-content: center;
-	align-items: center;
-	white-space: nowrap;
-	text-align: center;
-	box-shadow: unset;
-	border: unset;
-	outline: unset;
-	cursor: pointer;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-o-user-select: none;
-	user-select: none;
-
-	height: var(--height);
-	font: var(--t-b-2);
-	line-height: 1;
-}
-
-.btn,
-.btn-outline {
-	padding: 0 25px;
-	overflow: hidden;
-	transition:
-		background-color var(--t-duration),
-		color var(--t-duration);
-}
-
-.btn {
-	color: var(--cr-white);
-	background-color: var(--cr-black);
-
-	@include hover {
-		color: var(--cr-black);
-		background-color: var(--cr-accent);
-	}
-}
-
-.btn-outline {
-	color: inherit;
-	border: var(--outline) solid;
-
-	@include hover {
-		color: var(--cr-accent);
-	}
-}
-
-.btn-underline {
-	--height: unset;
-
-	font: var(--t-b-2);
-	line-height: 1;
-	padding: 0 1px 0.2em;
-
-	&:before,
-	&:after {
-		content: '';
-		position: absolute;
-		display: block;
-		width: 100%;
-		top: 100%;
-		left: 0;
-		border-top: var(--outline) solid;
-		transform-origin: right;
-	}
-
-	&:after {
-		transform: scaleX(0);
-		border-color: var(--cr-accent);
-		transition: transform var(--t-duration);
-	}
-
-	@include hover {
-		&:after {
-			transform: scaleX(1);
-			transform-origin: left;
-		}
-	}
-}
-
-.btn[disabled],
-button[disabled],
-input[disabled] {
-	color: inherit;
-	background-color: var(--cr-subtle-2);
-	cursor: not-allowed;
 }
 
 // ***FORMS***

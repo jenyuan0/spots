@@ -4,13 +4,16 @@
 @import '_animation';
 
 // ***COMPONENTS***
+@import 'c-button';
 @import 'c-free-form';
 @import 'c-accordion';
 @import 'c-carousel';
 @import 'c-vimeo-video';
 @import 'c-portable-table';
-@import 'c-guides-card';
 @import 'c-progress';
+@import 'c-guide-card';
+@import 'c-location-card';
+@import 'c-location-list';
 
 // ***GLOBAL***
 @import 'g-misc';

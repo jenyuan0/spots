@@ -118,6 +118,11 @@ export const getLocationsData = (type) => {
 		},
 		"subcategories": subcategories[]->{
 			${subcategoryMeta}
+		},
+		address{
+			street,
+			city,
+			zip
 		},`;
 	if (type === 'card') {
 		defaultData += groq`
@@ -128,11 +133,6 @@ export const getLocationsData = (type) => {
 	} else {
 		defaultData += groq`
 			geo,
-			address{
-				street,
-				city,
-				zip
-			},
 			price,
 			"images": images[]{
 				${imageMeta}

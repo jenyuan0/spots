@@ -99,6 +99,24 @@ export function formatNewLineToBr(text) {
 	});
 }
 
+export function formatTimeToAMPM(militaryTime) {
+	const [hours, minutes] = militaryTime.split(':');
+	let hour = parseInt(hours);
+	const minute = parseInt(minutes);
+	const period = hour >= 12 ? 'PM' : 'AM';
+
+	// Convert hour to 12-hour format
+	if (hour === 0) {
+		hour = 12;
+	} else if (hour > 12) {
+		hour = hour - 12;
+	}
+
+	const formattedMinutes = minute.toString().padStart(2, '0');
+
+	return `${hour}:${formattedMinutes} ${period}`;
+}
+
 // ***UTILITIES / VALIDATION***
 
 export function validateEmail(string) {

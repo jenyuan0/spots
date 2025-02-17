@@ -2,20 +2,34 @@ import React from 'react';
 import LocationCard from '@/components/LocationCard';
 import CustomPortableText from '@/components/CustomPortableText';
 
-export default function LocationList({ data }) {
+export default function LocationList({ data, color, reservations }) {
 	const { content, locations, fallbackRains, fallbackLongWait } = data;
+	console.log(reservations);
 
 	return (
-		<>
-			{content && <CustomPortableText blocks={content} />}
-			<div className="locations">
-				<h3>Locations:</h3>
-				{locations &&
-					locations?.map((item, index) => (
-						<LocationCard key={`item-${index}`} data={item} />
+		<div className="c-location-list">
+			{content && (
+				<div className="c-location-list__content">
+					<CustomPortableText blocks={content} />
+				</div>
+			)}
+
+			{locations && (
+				<div className="c-location-list__cards">
+					{locations.map((item, index) => (
+						<LocationCard
+							key={`item-${index}`}
+							data={item}
+							layout={'horizontal'}
+							color={color}
+							reservation={reservations.find(
+								(obj) => obj?.location._id === item._id
+							)}
+						/>
 					))}
-			</div>
-			<div className="locations">
+				</div>
+			)}
+			{/* <div className="locations">
 				<h3>Fallback (rain):</h3>
 				{fallbackRains
 					? fallbackRains?.map((item, index) => (
@@ -30,7 +44,7 @@ export default function LocationList({ data }) {
 							<LocationCard key={`item-${index}`} data={item} />
 						))
 					: 'NONE'}
-			</div>
-		</>
+			</div> */}
+		</div>
 	);
 }

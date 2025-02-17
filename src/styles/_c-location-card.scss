@@ -1,0 +1,45 @@
+.c-location-card {
+	display: flex;
+	background-color: var(--cr-white);
+	box-shadow: var(--shadow-2);
+	border-radius: var(--br-2);
+	padding: var(--s-1-v);
+
+	&__thumb {
+		position: relative;
+		aspect-ratio: 1.5;
+		min-height: 135px;
+		border-radius: var(--br-2);
+		overflow: hidden;
+	}
+
+	&__content {
+		display: flex;
+		flex-direction: column;
+		padding: var(--s-3-v) var(--s-3-h);
+		gap: 10px;
+	}
+
+	&__actions {
+		display: flex;
+		align-items: center;
+		margin-top: auto;
+		gap: 12px;
+	}
+}
+
+.c-location-card[data-layout='vertical'] {
+	flex-direction: row;
+}
+
+.c-location-card[data-layout='horizontal'] {
+	flex-direction: row;
+
+	.c-location-card__thumb {
+		width: 33%;
+	}
+
+	.c-location-card__content {
+		flex: 1;
+	}
+}

@@ -106,7 +106,7 @@ export default function Carousel({
 			</div>
 
 			{(isShowDots || isShowNav) && !isSingleSlide && isDraggable && (
-				<div className="c-carousel__controls c">
+				<div className="c-carousel__controls">
 					{isShowDots && (
 						<div className="c-carousel__dots">
 							{scrollSnaps.map((_, index) => (

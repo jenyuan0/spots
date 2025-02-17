@@ -1,0 +1,201 @@
+.btn,
+.btn-outline,
+.btn-underline {
+	--height: 45px;
+	--outline: 2px;
+
+	position: relative;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	white-space: nowrap;
+	text-align: center;
+	box-shadow: unset;
+	border: unset;
+	outline: unset;
+	cursor: pointer;
+	user-select: none;
+
+	height: var(--height);
+	border-radius: calc(var(--height) / 2);
+	font: var(--t-l-1);
+	line-height: 1;
+}
+
+.btn,
+.btn-outline {
+	--cr-primary: var(--cr-brown);
+	--cr-secondary: var(--cr-cream);
+
+	min-width: 120px;
+	padding: 0 20px;
+	overflow: hidden;
+	box-shadow: var(--shadow-2-transparent);
+	transition:
+		color var(--t-1),
+		box-shadow var(--t-1);
+
+	&:before {
+		content: '';
+		display: block;
+		position: absolute;
+		inset: 2px;
+		transform: scale(0);
+		border-radius: calc(var(--height) / 2);
+		background-color: var(--cr-secondary);
+		transition: transform var(--t-1);
+	}
+
+	&.size-small {
+		--height: 30px;
+		padding: 0 10px;
+		min-width: unset;
+	}
+
+	&.cr-black {
+		--cr-primary: var(--cr-black);
+		--cr-secondary: var(--cr-cream);
+	}
+
+	&.cr-white {
+		--cr-primary: var(--cr-white);
+		--cr-secondary: var(--cr-brown);
+	}
+
+	&.cr-brown {
+		--cr-primary: var(--cr-brown);
+		--cr-secondary: var(--cr-cream);
+	}
+
+	&.cr-cream {
+		--cr-primary: var(--cr-cream);
+		--cr-secondary: var(--cr-brown);
+	}
+
+	&.cr-blue-l {
+		--cr-primary: var(--cr-blue-l);
+		--cr-secondary: var(--cr-blue-d);
+	}
+
+	&.cr-blue-d {
+		--cr-primary: var(--cr-blue-d);
+		--cr-secondary: var(--cr-cream);
+	}
+
+	&.cr-green-l {
+		--cr-primary: var(--cr-green-d);
+		--cr-secondary: var(--cr-green-l);
+	}
+
+	&.cr-green-d {
+		--cr-primary: var(--cr-green-d);
+		--cr-secondary: var(--cr-cream);
+	}
+
+	&.cr-red-l {
+		--cr-primary: var(--cr-red-l);
+		--cr-secondary: var(--cr-red-d);
+	}
+
+	&.cr-red-d {
+		--cr-primary: var(--cr-red-d);
+		--cr-secondary: var(--cr-cream);
+	}
+
+	&.cr-orange-l {
+		--cr-primary: var(--cr-orange-l);
+		--cr-secondary: var(--cr-orange-d);
+	}
+
+	&.cr-orange-d {
+		--cr-primary: var(--cr-orange-d);
+		--cr-secondary: var(--cr-cream);
+	}
+
+	&.cr-purple-l {
+		--cr-primary: var(--cr-purple-l);
+		--cr-secondary: var(--cr-purple-d);
+	}
+
+	&.cr-purple-d {
+		--cr-primary: var(--cr-purple-d);
+		--cr-secondary: var(--cr-cream);
+	}
+
+	span {
+		position: relative;
+	}
+
+	@include hover {
+		box-shadow: var(--shadow-2);
+
+		&:before {
+			transform: scale(1);
+		}
+	}
+}
+
+.btn {
+	background-color: var(--cr-primary);
+	color: var(--cr-secondary);
+
+	@include hover {
+		color: var(--cr-primary);
+	}
+}
+
+.btn-outline {
+	color: inherit;
+	border: var(--outline) solid;
+
+	&:before {
+		inset: 1px;
+		background-color: var(--cr-primary);
+	}
+
+	@include hover {
+		color: var(--cr-secondary);
+		border-color: var(--cr-primary);
+	}
+}
+
+.btn-underline {
+	--height: unset;
+
+	font: var(--t-l-1);
+	line-height: 1;
+	padding: 0 1px 0.2em;
+
+	&:before,
+	&:after {
+		content: '';
+		position: absolute;
+		display: block;
+		width: 100%;
+		top: 100%;
+		left: 0;
+		border-top: var(--outline) solid;
+		transform-origin: right;
+	}
+
+	&:after {
+		transform: scaleX(0);
+		border-color: var(--cr-secondary);
+		transition: transform var(--t-1);
+	}
+
+	@include hover {
+		&:after {
+			transform: scaleX(1);
+			transform-origin: left;
+		}
+	}
+}
+
+.btn[disabled],
+button[disabled],
+input[disabled] {
+	color: inherit;
+	background-color: var(--cr-subtle-2);
+	cursor: not-allowed;
+}

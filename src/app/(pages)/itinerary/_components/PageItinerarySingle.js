@@ -1,17 +1,19 @@
 'use client';
 
 import React, { useState } from 'react';
-import { formatToAMPM } from '@/lib/helpers';
+import { formatTimeToAMPM } from '@/lib/helpers';
+import clsx from 'clsx';
 import HeaderItinerary from '@/layout/HeaderItinerary';
 import CustomPortableText from '@/components/CustomPortableText';
 import LocationList from '@/components/LocationList';
 import CustomLink from '@/components/CustomLink';
 import Img from '@/components/Image';
+import Button from '@/components/Button';
 import Carousel from '@/components/Carousel';
 import LocationCard from '@/components/LocationCard';
 import GuideCard from '@/components/GuideCard';
 import Accordion from '@/components/Accordions/Accordion';
-import { format, add } from 'date-fns';
+import { format, add, isSameMonth } from 'date-fns';
 
 export default function PageItinerarySingle({ data }) {
 	const {
@@ -38,23 +40,7 @@ export default function PageItinerarySingle({ data }) {
 	const colors = ['green', 'blue', 'red', 'orange', 'purple'];
 	const [activeDay, setActiveDay] = useState(0);
 	const startDateObj = new Date(startDate);
-	const convertToAMPM = (militaryTime) => {
-		const [hours, minutes] = militaryTime.split(':');
-		let hour = parseInt(hours);
-		const minute = parseInt(minutes);
-		const period = hour >= 12 ? 'PM' : 'AM';
-
-		// Convert hour to 12-hour format
-		if (hour === 0) {
-			hour = 12;
-		} else if (hour > 12) {
-			hour = hour - 12;
-		}
-
-		const formattedMinutes = minute.toString().padStart(2, '0');
-
-		return `${hour}:${formattedMinutes} ${period}`;
-	};
+	const endDateObj = add(startDateObj, { days: plan.length });
 
 	return (
 		<>
@@ -62,16 +48,44 @@ export default function PageItinerarySingle({ data }) {
 				<HeaderItinerary data={data} colors={colors} activeDay={activeDay} />
 			)}
 
+			<div className="p-itinerary__header wysiwyg">
+				<div className="t-l-1">
+					{format(startDateObj, 'MMMM do')}—
+					{isSameMonth(startDateObj, endDateObj)
+						? format(endDateObj, 'do')
+						: format(endDateObj, 'MMMM do')}
+				</div>
+				<h1 className="t-h-1">{title}</h1>
+			</div>
+
+			{/* {images && (
+				<div className="p-itinerary__images">
+					<Carousel
+						isShowDots={true}
+						isAutoplay={true}
+						itemWidth={'auto'}
+						gap={'10px'}
+					>
+						{images?.map((image) => (
+							<div key={image.id} className="p-itinerary__images__image">
+								<Img image={image} />
+							</div>
+						))}
+					</Carousel>
+				</div>
+			)} */}
+
 			{plan?.map((plan, i) => {
 				const date = add(startDateObj, { days: i });
+				const color = colors[i % colors.length];
 
 				return (
 					<div
 						className="p-itinerary__plan f-v f-a-s"
-						key={`item-${i}`}
+						key={`plan-${i}`}
 						style={{
-							'--cr-text': `var(--cr-${colors[i % colors.length]}-d)`,
-							'--cr-background': `var(--cr-${colors[i % colors.length]}-l)`,
+							'--cr-primary': `var(--cr-${color}-d)`,
+							'--cr-secondary': `var(--cr-${color}-l)`,
 						}}
 					>
 						<div className="p-itinerary__plan__header wysiwyg">
@@ -84,10 +98,10 @@ export default function PageItinerarySingle({ data }) {
 								<Carousel
 									isShowDots={true}
 									isAutoplay={true}
-									autoplayInterval={3000}
+									autoplayInterval={6000}
 								>
-									{plan?.day?.images?.map((image) => (
-										<Img key={image.id} image={image} />
+									{plan?.day?.images?.map((image, i) => (
+										<Img key={`image-${i}-${image.id}`} image={image} />
 									))}
 								</Carousel>
 							</div>
@@ -115,34 +129,26 @@ export default function PageItinerarySingle({ data }) {
 											title ||
 											`${locationLength} Spot${locationLength !== 1 && 's'}`
 										}
-										subtitle={startTime ? convertToAMPM(startTime) : '-'}
+										subtitle={startTime ? formatTimeToAMPM(startTime) : '-'}
 									>
-										<LocationList data={activity} />
+										<LocationList
+											data={activity}
+											color={color}
+											reservations={reservations}
+										/>
 									</Accordion>
 								);
 							})}
+						</div>
+
+						<div className="p-itinerary__plan__footer f-v f-a-c">
+							<Button className={clsx('btn', `cr-${color}-d`)}>Show Map</Button>
 						</div>
 					</div>
 				);
 			})}
 
 			<section className="p-itinerary data-container">
-				<h1 className="p-itinerary-single__title">{title}</h1>
-
-				{images && (
-					<div className="data-container-small">
-						<Carousel
-							isShowDots={true}
-							isAutoplay={true}
-							autoplayInterval={3000}
-						>
-							{images?.map((image) => (
-								<Img key={image.id} image={image} />
-							))}
-						</Carousel>
-					</div>
-				)}
-
 				<div className="p-itinerary-single__content">
 					<br />
 					<br />

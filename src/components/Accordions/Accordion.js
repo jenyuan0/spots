@@ -67,7 +67,7 @@ export default function Accordion({
 						variants={accordionAnim}
 						aria-hidden={!isExpanded}
 					>
-						<div className="c-accordion__inner wysiwyg">{children}</div>
+						<div className="c-accordion__inner">{children}</div>
 					</motion.div>
 				)}
 			</AnimatePresence>

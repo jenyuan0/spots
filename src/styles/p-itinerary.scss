@@ -1,4 +1,10 @@
 .p-itinerary {
+	&__header {
+		width: var(--s-contain-med);
+		margin: var(--s-section) auto;
+		text-align: center;
+	}
+
 	&__plan {
 		width: var(--s-contain-med);
 		margin-inline: auto;
@@ -7,8 +13,20 @@
 		gap: var(--s-4-v);
 		border-radius: var(--br-3);
 		box-shadow: var(--shadow-1);
-		color: var(--cr-text);
-		background-color: var(--cr-background);
+		color: var(--cr-primary);
+		background-color: var(--cr-secondary);
+
+		::selection {
+			text-shadow: none;
+			color: var(--cr-secondary);
+			background-color: var(--cr-primary);
+		}
+
+		::-moz-selection {
+			text-shadow: none;
+			color: var(--cr-secondary);
+			background-color: var(--cr-primary);
+		}
 
 		&__header {
 			text-align: center;
@@ -17,6 +35,18 @@
 		&__images {
 			width: calc(100% + var(--s-4-h) * 2);
 			margin-inline: calc(-1 * var(--s-4-h));
+
+			.c-carousel__viewport {
+				background-color: var(--cr-primary);
+			}
+
+			.c-carousel__controls {
+				margin-top: var(--s-2-v);
+			}
+
+			.c-carousel__dot.is-selected {
+				background-color: var(--cr-primary);
+			}
 		}
 
 		&__highlight {
@@ -47,8 +77,14 @@
 			}
 
 			.c-accordion__icon {
-				color: var(--cr-background);
-				background-color: var(--cr-text);
+				color: var(--cr-secondary);
+				background-color: var(--cr-primary);
+			}
+
+			.c-location-list {
+				padding-left: calc(80px + 10px);
+				padding-right: calc(30px + 10px);
+				padding-block: 20px;
 			}
 		}
 	}
