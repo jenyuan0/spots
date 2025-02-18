@@ -1,28 +1,18 @@
-import { hasArrayValue } from '@/lib/helpers';
-import clsx from 'clsx';
+import { add, isSameMonth } from 'date-fns';
+import { hasArrayValue, formatTime } from '@/lib/helpers';
 import Img from '@/components/Image';
 import Button from '@/components/Button';
-import { format, add, isSameMonth } from 'date-fns';
-import Map from '@/components/Map';
 
-export default function LocationCard({
-	data,
-	layout = 'vertical',
-	color = 'green',
-	reservation,
-}) {
-	const { thumb, title, slug, categories, address, subcategories } = data || {};
+export default function LocationCard({ data, layout = 'vertical' }) {
+	const { thumb, title, slug, categories, address, subcategories, res } =
+		data || {};
 	const addressString =
 		address &&
 		Object.values(address)
 			.filter((value) => value)
 			.join(', ');
-
-	const formatTime = (time) => {
-		return format(time, 'h:mm a');
-	};
-	const resStart = reservation?.startTime && new Date(reservation?.startTime);
-	// const resEnd = reservation?.endTime && new Date(reservation?.endTime);
+	const resStart = res?.startTime && new Date(res?.startTime);
+	// const resEnd = res?.endTime && new Date(res?.endTime);
 	// const timeRange =
 	// 	resStart &&
 	// 	(resEnd
@@ -31,7 +21,7 @@ export default function LocationCard({
 
 	return (
 		<div className={'c-location-card'} data-layout={layout}>
-			<div className="c-location-card__thumb bg-subtle">
+			<div className="c-location-card__thumb">
 				<span className="object-fit">{thumb && <Img image={thumb} />}</span>
 			</div>
 

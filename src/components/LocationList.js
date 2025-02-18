@@ -2,7 +2,7 @@ import React from 'react';
 import LocationCard from '@/components/LocationCard';
 import CustomPortableText from '@/components/CustomPortableText';
 
-export default function LocationList({ data, color, reservations }) {
+export default function LocationList({ data }) {
 	const { content, locations, fallbackRains, fallbackLongWait } = data;
 
 	return (
@@ -20,10 +20,6 @@ export default function LocationList({ data, color, reservations }) {
 							key={`item-${index}`}
 							data={item}
 							layout={'horizontal'}
-							color={color}
-							reservation={reservations.find(
-								(obj) => obj?.location._id === item._id
-							)}
 						/>
 					))}
 				</div>

@@ -1,6 +1,13 @@
 import React, { useState, useCallback } from 'react';
+import clsx from 'clsx';
+import { formatTimeToAMPM, formatTime } from '@/lib/helpers';
 import { AdvancedMarker, APIProvider, Map } from '@vis.gl/react-google-maps';
 import Img from '@/components/Image';
+
+// TODO:
+// 1. make route
+// 2. getbounds to set zoom level
+// 3. customize map color scheme
 
 const getMiddle = (prop, markers) => {
 	// Extract values for the given property (lat/lng)
@@ -36,28 +43,7 @@ export default function Maps({ locations }) {
 		lng: getMiddle('lng', locations),
 	};
 
-	const getBounds = useCallback(() => {
-		const bounds = new window.google.maps.LatLngBounds();
-		locations.forEach((location) => {
-			bounds.extend(new window.google.maps.LatLng(location.lat, location.lng));
-		});
-		return bounds;
-	}, [locations]);
-
-	// Function to fit bounds and set zoom
-	const onLoad = useCallback(
-		(map) => {
-			const bounds = getBounds();
-			map.fitBounds(bounds);
-			console.log(bounds);
-			// Optional: set max/min zoom levels
-			const listener = window.google.maps.event.addListener(map, 'idle', () => {
-				if (map.getZoom() > 16) map.setZoom(16);
-				window.google.maps.event.removeListener(listener);
-			});
-		},
-		[getBounds]
-	);
+	console.log(locations);
 
 	return (
 		<div className="c-map bg-subtle">
@@ -65,11 +51,10 @@ export default function Maps({ locations }) {
 				<Map
 					defaultCenter={center}
 					defaultZoom={13}
-					// colorScheme={'LIGHT'}
 					gestureHandling={'greedy'}
+					// colorScheme={'LIGHT'}
 					// disableDefaultUI={true}
 					mapId="x"
-					onLoad={onLoad}
 				>
 					{locations.map((location, index) => {
 						const isSelected = selectedMarker === location.title;
@@ -81,40 +66,31 @@ export default function Maps({ locations }) {
 								title={location.title}
 								onClick={() => setSelectedMarker(location.title)}
 							>
-								<div
-									style={{
-										// padding: '8px 16px',
-										// border: '2px solid #000000',
-										// borderRadius: '20px',
-										// background: isSelected ? '#ff0000' : '#ffffff',
-										// color: isSelected ? '#ffffff' : '#000000',
-										cursor: 'pointer',
-										transition: 'all 0.3s ease',
-									}}
-								>
-									<div
-										style={{
-											position: 'relative',
-											width: '60px',
-											height: '60px',
-											borderRadius: '100px',
-											overflow: 'hidden',
-										}}
-									>
+								<div className="c-map__marker">
+									<div className="c-map__marker__thumb">
 										<span className="object-fit">
 											<Img image={location.thumb} />
 										</span>
 									</div>
 									<div
-										style={{
-											padding: '8px 16px',
-											border: '2px solid #000000',
-											borderRadius: '20px',
-											transition: 'all 0.3s ease',
-											transform: isSelected ? 'scale(1.2)' : 'scale(1)',
-										}}
+										className={clsx('c-map__marker__content', {
+											'is-selected': isSelected,
+										})}
 									>
-										{location.title}
+										<div className="c-map__marker__title">{location.title}</div>
+										{(location?.res?.startTime ||
+											location?.activity?.startTime) && (
+											<div className="c-map__marker__time t-l-2">
+												{location?.res?.startTime ? (
+													<>
+														Reservation:{' '}
+														{formatTime(new Date(location?.res?.startTime))}
+													</>
+												) : (
+													formatTimeToAMPM(location.activity.startTime)
+												)}
+											</div>
+										)}
 									</div>
 								</div>
 							</AdvancedMarker>
@@ -122,85 +98,6 @@ export default function Maps({ locations }) {
 					})}
 				</Map>
 			</APIProvider>
-			{/* <GoogleMap
-				mapContainerStyle={containerStyle}
-				center={{
-					lat: locations[0].lat,
-					lng: locations[0].lng,
-				}}
-				zoom={10}
-				onLoad={onLoad}
-				onUnmount={onUnmount}
-			>
-				{locations.map((location) => {
-					const isSelected = selectedMarker === location.name;
-
-					return (
-						<AdvancedMarker
-							key={location.name}
-							position={{ lat: location.lat, lng: location.lng }}
-							title={location.name}
-							onClick={() => setSelectedMarker(location.name)}
-						>
-							<div
-								style={{
-									padding: '8px 16px',
-									background: isSelected ? '#ff0000' : '#ffffff',
-									border: '2px solid #000000',
-									borderRadius: '20px',
-									color: isSelected ? '#ffffff' : '#000000',
-									cursor: 'pointer',
-									transition: 'all 0.3s ease',
-									transform: isSelected ? 'scale(1.2)' : 'scale(1)',
-								}}
-							>
-								{location.name}
-							</div>
-						</AdvancedMarker>
-					);
-				})}
-			</GoogleMap> */}
 		</div>
 	);
-
-	// return (
-	// 	<LoadScript
-	// 		googleMapsApiKey={process.env.NEXT_PUBLIC_SANITY_GOOGLE_MAP_API_KEY}
-	// 		libraries={['marker']}
-	// 	>
-	// 		<GoogleMap
-	// 			mapContainerStyle={mapStyles}
-	// 			zoom={13}
-	// 			center={{ lat: locations[0].lat, lng: locations[0].lng }}
-	// 		>
-	// 			{locations.map((location) => {
-	// 				const isSelected = selectedMarker === location.name;
-
-	// 				return (
-	// 					<AdvancedMarkerElement
-	// 						key={location.name}
-	// 						position={{ lat: location.lat, lng: location.lng }}
-	// 						title={location.name}
-	// 						onClick={() => setSelectedMarker(location.name)}
-	// 					>
-	// 						<div
-	// 							style={{
-	// 								padding: '8px 16px',
-	// 								background: isSelected ? '#ff0000' : '#ffffff',
-	// 								border: '2px solid #000000',
-	// 								borderRadius: '20px',
-	// 								color: isSelected ? '#ffffff' : '#000000',
-	// 								cursor: 'pointer',
-	// 								transition: 'all 0.3s ease',
-	// 								transform: isSelected ? 'scale(1.2)' : 'scale(1)',
-	// 							}}
-	// 						>
-	// 							{location.name}
-	// 						</div>
-	// 					</AdvancedMarkerElement>
-	// 				);
-	// 			})}
-	// 		</GoogleMap>
-	// 	</LoadScript>
-	// );
 }

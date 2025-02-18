@@ -1,5 +1,6 @@
 import sanitizeHtml from 'sanitize-html';
 import { imageBuilder } from '@/sanity/lib/image';
+import { format, add, isSameMonth } from 'date-fns';
 
 // ***UTILITIES / GET***
 
@@ -99,22 +100,30 @@ export function formatNewLineToBr(text) {
 	});
 }
 
-export function formatTimeToAMPM(militaryTime) {
-	const [hours, minutes] = militaryTime.split(':');
-	let hour = parseInt(hours);
-	const minute = parseInt(minutes);
-	const period = hour >= 12 ? 'PM' : 'AM';
-
-	// Convert hour to 12-hour format
-	if (hour === 0) {
-		hour = 12;
-	} else if (hour > 12) {
-		hour = hour - 12;
+export function formatTime(time) {
+	if (!isNaN(time)) {
+		return format(time, 'h:mm a');
 	}
+}
 
-	const formattedMinutes = minute.toString().padStart(2, '0');
+export function formatTimeToAMPM(militaryTime) {
+	if (militaryTime) {
+		const [hours, minutes] = militaryTime.split(':');
+		let hour = parseInt(hours);
+		const minute = parseInt(minutes);
+		const period = hour >= 12 ? 'PM' : 'AM';
 
-	return `${hour}:${formattedMinutes} ${period}`;
+		// Convert hour to 12-hour format
+		if (hour === 0) {
+			hour = 12;
+		} else if (hour > 12) {
+			hour = hour - 12;
+		}
+
+		const formattedMinutes = minute.toString().padStart(2, '0');
+
+		return `${hour}:${formattedMinutes} ${period}`;
+	}
 }
 
 // ***UTILITIES / VALIDATION***

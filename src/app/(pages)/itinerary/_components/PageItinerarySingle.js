@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { formatTimeToAMPM } from '@/lib/helpers';
-import { format, add, isSameMonth } from 'date-fns';
+import { format, add, isSameDay, isSameMonth } from 'date-fns';
 import clsx from 'clsx';
 import HeaderItinerary from '@/layout/HeaderItinerary';
 import CustomPortableText from '@/components/CustomPortableText';
@@ -76,10 +76,27 @@ export default function PageItinerarySingle({ data }) {
 			{plan?.map((plan, i) => {
 				const date = add(startDateObj, { days: i });
 				const color = colors[i % colors.length];
-				const allLocations = plan?.day?.activities
+				const activities = plan?.day?.activities;
+				const activitiesWithRes = activities.map((activity) => ({
+					...activity,
+					locations: Array.isArray(activity.locations)
+						? activity.locations.map((location) => ({
+								...location,
+								res: reservations.find(
+									(r) =>
+										r.location._id === location._id &&
+										isSameDay(r?.startTime, date) // Check dates for reservations at the same location on different days
+								),
+							}))
+						: [],
+				}));
+				const mapLocations = activitiesWithRes // w/ reservation and activity title attached
 					.reduce((acc, activity) => {
 						const locations = Array.isArray(activity.locations)
-							? activity.locations
+							? activity.locations.map((location) => ({
+									...location,
+									activity: activity,
+								}))
 							: [];
 						return [...acc, ...locations];
 					}, [])
@@ -124,7 +141,7 @@ export default function PageItinerarySingle({ data }) {
 							<h2 className="p-itinerary__plan__activities__title t-l-1">
 								Activities
 							</h2>
-							{plan.day?.activities.map((activity, index) => {
+							{activitiesWithRes?.map((activity, index) => {
 								const { title, startTime } = activity;
 								const locationLength = activity.locations?.length || 0;
 
@@ -137,11 +154,7 @@ export default function PageItinerarySingle({ data }) {
 										}
 										subtitle={startTime ? formatTimeToAMPM(startTime) : '-'}
 									>
-										<LocationList
-											data={activity}
-											color={color}
-											reservations={reservations}
-										/>
+										<LocationList data={activity} />
 									</Accordion>
 								);
 							})}
@@ -151,7 +164,7 @@ export default function PageItinerarySingle({ data }) {
 							<Button className={clsx('btn', `cr-${color}-d`)}>Show Map</Button>
 						</div>
 
-						<Map locations={allLocations} />
+						<Map locations={mapLocations} />
 					</div>
 				);
 			})}
