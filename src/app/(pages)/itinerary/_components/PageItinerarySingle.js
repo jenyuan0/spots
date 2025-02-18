@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { formatTimeToAMPM } from '@/lib/helpers';
+import { format, add, isSameMonth } from 'date-fns';
 import clsx from 'clsx';
 import HeaderItinerary from '@/layout/HeaderItinerary';
 import CustomPortableText from '@/components/CustomPortableText';
@@ -13,7 +14,7 @@ import Carousel from '@/components/Carousel';
 import LocationCard from '@/components/LocationCard';
 import GuideCard from '@/components/GuideCard';
 import Accordion from '@/components/Accordions/Accordion';
-import { format, add, isSameMonth } from 'date-fns';
+import Map from '@/components/Map';
 
 export default function PageItinerarySingle({ data }) {
 	const {
@@ -47,7 +48,6 @@ export default function PageItinerarySingle({ data }) {
 			{type == 'custom' && (
 				<HeaderItinerary data={data} colors={colors} activeDay={activeDay} />
 			)}
-
 			<div className="p-itinerary__header wysiwyg">
 				<div className="t-l-1">
 					{format(startDateObj, 'MMMM do')}—
@@ -57,7 +57,6 @@ export default function PageItinerarySingle({ data }) {
 				</div>
 				<h1 className="t-h-1">{title}</h1>
 			</div>
-
 			{/* {images && (
 				<div className="p-itinerary__images">
 					<Carousel
@@ -74,10 +73,17 @@ export default function PageItinerarySingle({ data }) {
 					</Carousel>
 				</div>
 			)} */}
-
 			{plan?.map((plan, i) => {
 				const date = add(startDateObj, { days: i });
 				const color = colors[i % colors.length];
+				const allLocations = plan?.day?.activities
+					.reduce((acc, activity) => {
+						const locations = Array.isArray(activity.locations)
+							? activity.locations
+							: [];
+						return [...acc, ...locations];
+					}, [])
+					.filter((location) => location !== '');
 
 				return (
 					<div
@@ -93,7 +99,7 @@ export default function PageItinerarySingle({ data }) {
 							<h2 className="t-h-2">{plan.title || format(date, 'MMMM do')}</h2>
 						</div>
 
-						{plan?.day?.images && (
+						{plan.day?.images && (
 							<div className="p-itinerary__plan__images">
 								<Carousel
 									isShowDots={true}
@@ -144,6 +150,8 @@ export default function PageItinerarySingle({ data }) {
 						<div className="p-itinerary__plan__footer f-v f-a-c">
 							<Button className={clsx('btn', `cr-${color}-d`)}>Show Map</Button>
 						</div>
+
+						<Map locations={allLocations} />
 					</div>
 				);
 			})}

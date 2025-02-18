@@ -10,7 +10,7 @@ export default function GuideCard({ data }) {
 			{thumb && <Img image={thumb} />}
 
 			<div className="c-guide-card__content">
-				{title && <h3 className="c-guide-card__title">{title}</h3>}
+				<h3 className="c-guide-card__title">{title}</h3>
 				<p>{publishDate}</p>
 				{hasArrayValue(categories) && (
 					<ul className="c-guide-card__categories">

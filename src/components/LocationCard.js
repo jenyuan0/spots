@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import Img from '@/components/Image';
 import Button from '@/components/Button';
 import { format, add, isSameMonth } from 'date-fns';
-import { endWith } from 'rxjs';
+import Map from '@/components/Map';
 
 export default function LocationCard({
 	data,
@@ -22,58 +22,46 @@ export default function LocationCard({
 		return format(time, 'h:mm a');
 	};
 	const resStart = reservation?.startTime && new Date(reservation?.startTime);
-	const resEnd = reservation?.endTime && new Date(reservation?.endTime);
-	const timeRange =
-		resStart &&
-		(resEnd
-			? `${formatTime(resStart)}—${formatTime(resEnd)}`
-			: formatTime(resStart));
+	// const resEnd = reservation?.endTime && new Date(reservation?.endTime);
+	// const timeRange =
+	// 	resStart &&
+	// 	(resEnd
+	// 		? `${formatTime(resStart)}—${formatTime(resEnd)}`
+	// 		: formatTime(resStart));
 
 	return (
 		<div className={'c-location-card'} data-layout={layout}>
-			<div className="c-location-card__thumb">
+			<div className="c-location-card__thumb bg-subtle">
 				<span className="object-fit">{thumb && <Img image={thumb} />}</span>
 			</div>
 
 			<div className="c-location-card__content">
-				{title && <h3 className="c-location-card__title t-h-4">{title}</h3>}
+				<div className="c-location-card__header">
+					<h3 className="c-location-card__title t-h-4">{title}</h3>
+					{resStart && (
+						<div className={'c-location-card__reservation'}>
+							Reservation: {formatTime(resStart)}
+						</div>
+					)}
+				</div>
 				{(hasArrayValue(subcategories) || hasArrayValue(categories)) && (
 					<div className="c-location-card__categories t-b-2">
-						{(subcategories || [])
-							.concat(categories)
+						{(subcategories || categories)
 							.map((item) => item.title)
 							.join(' • ')}
 					</div>
 				)}
 				<div className="c-location-card__actions">
-					{timeRange ? (
-						<Button
-							className={clsx(
-								'btn-outline',
-								'size-small',
-								color && `cr-${color}-d`
-							)}
-							href={`/locations/${slug}`}
-							target="_blank"
-						>
-							Reservation at {timeRange}
-						</Button>
-					) : (
-						<Button
-							className={clsx(
-								'btn-outline',
-								'size-small',
-								color && `cr-${color}-d`
-							)}
-							href={`/locations/${slug}`}
-							target="_blank"
-						>
-							More Details
-						</Button>
-					)}
+					<Button
+						className={'btn-underline'}
+						href={`/locations/${slug}`}
+						target="_blank"
+					>
+						Details
+					</Button>
 					{addressString && (
 						<Button
-							className={clsx('btn-underline', color && `cr-${color}-d`)}
+							className={'btn-underline'}
 							href={`https://www.google.com/maps/dir//${encodeURIComponent(addressString)}`}
 							target="_blank"
 						>

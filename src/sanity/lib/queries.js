@@ -119,6 +119,7 @@ export const getLocationsData = (type) => {
 		"subcategories": subcategories[]->{
 			${subcategoryMeta}
 		},
+		geo,
 		address{
 			street,
 			city,
@@ -132,7 +133,6 @@ export const getLocationsData = (type) => {
 		`;
 	} else {
 		defaultData += groq`
-			geo,
 			price,
 			"images": images[]{
 				${imageMeta}
@@ -463,12 +463,7 @@ export const pageItinerariesSingleQuery = groq`
 					${imageMeta}
 				},
 				"activities": activities[] {
-					_type == "locationList" => {
-						${locationListObj}
-					},
-					_type == 'freeform' => {
-						${freeformObj}
-					}
+					${locationListObj}
 				},
 				"relatedGuides": relatedGuides[]->{
 					${getGuidesData('card')}

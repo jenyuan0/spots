@@ -4,7 +4,6 @@ import CustomPortableText from '@/components/CustomPortableText';
 
 export default function LocationList({ data, color, reservations }) {
 	const { content, locations, fallbackRains, fallbackLongWait } = data;
-	console.log(reservations);
 
 	return (
 		<div className="c-location-list">

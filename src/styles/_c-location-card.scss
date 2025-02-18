@@ -4,6 +4,7 @@
 	box-shadow: var(--shadow-2);
 	border-radius: var(--br-2);
 	padding: var(--s-1-v);
+	gap: 10px;
 
 	&__thumb {
 		position: relative;
@@ -16,15 +17,33 @@
 	&__content {
 		display: flex;
 		flex-direction: column;
-		padding: var(--s-3-v) var(--s-3-h);
-		gap: 10px;
+		padding: var(--s-2-v) var(--s-2-h);
+		gap: 5px;
+	}
+
+	&__header {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: 5px;
+	}
+
+	&__reservation {
+		padding: 4px 6px;
+		font: var(--t-l-1);
+		border: 1px solid;
+		border-radius: var(--br-1);
+		background-color: var(--cr-cream);
+		box-shadow: var(--shadow-2);
 	}
 
 	&__actions {
 		display: flex;
 		align-items: center;
 		margin-top: auto;
-		gap: 12px;
+		gap: 10px;
 	}
 }
 
