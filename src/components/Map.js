@@ -8,6 +8,7 @@ import Img from '@/components/Image';
 // 1. make route
 // 2. getbounds to set zoom level
 // 3. customize map color scheme
+// 4. custom border radius via #filter-round is not working
 
 const getMiddle = (prop, markers) => {
 	// Extract values for the given property (lat/lng)

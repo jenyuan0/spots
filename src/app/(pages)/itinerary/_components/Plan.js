@@ -54,6 +54,7 @@ export default function Plan({ index, plan, reservations, color, date }) {
 	// Data processing
 	const activities = plan?.day?.activities || [];
 	const activitiesPlusRes = processActivities(activities, reservations, date);
+	const baseId = useId();
 
 	// State management
 	const [isMapActive, setIsMapActive] = useState(false);
@@ -184,10 +185,10 @@ export default function Plan({ index, plan, reservations, color, date }) {
 						{activities?.map((activity, i) => {
 							const { title, startTime } = activity;
 							const locationLength = activity.locations?.length || 0;
-							const id = useId();
+							const id = `${baseId}-activity-${i}`;
 
 							return (
-								<li className="t-l-1">
+								<li key={id} className="t-l-1">
 									<input
 										id={id}
 										type="checkbox"
