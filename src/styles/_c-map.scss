@@ -1,6 +1,35 @@
 .c-map {
-	width: 100%;
-	height: 450px;
+	&__close {
+		position: absolute;
+		top: calc(var(--s-3-v) + 8px);
+		right: calc(var(--s-3-h) + 8px);
+	}
+
+	&__filters {
+		position: absolute;
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		top: calc(var(--s-3-v) + 8px);
+		left: calc(var(--s-3-h) + 8px);
+		background-color: var(--cr-white);
+		border-radius: var(--br-2);
+		box-shadow: var(--shadow-1);
+		padding: 20px;
+
+		ul {
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+		}
+
+		li {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			gap: 4px;
+		}
+	}
 
 	&__marker {
 		display: flex;
@@ -14,11 +43,13 @@
 		border-radius: 50px;
 		transition:
 			color var(--t-1),
-			background-color var(--t-1);
+			background-color var(--t-1),
+			border-color var(--t-1);
 
 		@include hover {
 			color: var(--cr-secondary, --cr-green-d);
 			background-color: var(--cr-primary, --cr-green-l);
+			border-color: transparent;
 		}
 
 		&__thumb {

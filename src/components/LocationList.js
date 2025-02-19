@@ -8,7 +8,7 @@ export default function LocationList({ data }) {
 	return (
 		<div className="c-location-list">
 			{content && (
-				<div className="c-location-list__content">
+				<div className="c-location-list__content wysiwyg">
 					<CustomPortableText blocks={content} />
 				</div>
 			)}

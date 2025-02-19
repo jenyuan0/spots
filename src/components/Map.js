@@ -43,8 +43,6 @@ export default function Maps({ locations }) {
 		lng: getMiddle('lng', locations),
 	};
 
-	console.log(locations);
-
 	return (
 		<div className="c-map bg-subtle">
 			<APIProvider apiKey={process.env.NEXT_PUBLIC_SANITY_GOOGLE_MAP_API_KEY}>
@@ -58,6 +56,12 @@ export default function Maps({ locations }) {
 				>
 					{locations.map((location, index) => {
 						const isSelected = selectedMarker === location.title;
+						const resStartTime = location?.res?.startTime
+							? formatTime(new Date(location.res.startTime))
+							: false;
+						const actStartTime = location?.activity?.startTime
+							? formatTimeToAMPM(location.activity.startTime)
+							: false;
 
 						return (
 							<AdvancedMarker
@@ -78,16 +82,14 @@ export default function Maps({ locations }) {
 										})}
 									>
 										<div className="c-map__marker__title">{location.title}</div>
-										{(location?.res?.startTime ||
-											location?.activity?.startTime) && (
+										{(resStartTime || actStartTime) && (
 											<div className="c-map__marker__time t-l-2">
-												{location?.res?.startTime ? (
-													<>
-														Reservation:{' '}
-														{formatTime(new Date(location?.res?.startTime))}
-													</>
+												{resStartTime ? (
+													<span>Reservation: {resStartTime}</span>
+												) : location?.activity?.title ? (
+													`${location.activity.title} (${actStartTime})`
 												) : (
-													formatTimeToAMPM(location.activity.startTime)
+													actStartTime
 												)}
 											</div>
 										)}

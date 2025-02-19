@@ -200,3 +200,9 @@ input[disabled] {
 	background-color: var(--cr-subtle-2);
 	cursor: not-allowed;
 }
+
+.btn__text {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}

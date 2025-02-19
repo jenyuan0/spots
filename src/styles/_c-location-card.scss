@@ -10,7 +10,7 @@
 		position: relative;
 		aspect-ratio: 1.5;
 		min-height: 135px;
-		border-radius: var(--br-2);
+		border-radius: calc(var(--br-2) / 1.5);
 		overflow: hidden;
 		background-color: var(--cr-subtle);
 	}

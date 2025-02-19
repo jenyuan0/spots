@@ -1,4 +1,5 @@
 import { PinIcon } from '@sanity/icons';
+import title from '@/sanity/schemas/objects/title';
 
 export default function locationList({
 	showStartTime = false,
@@ -10,10 +11,7 @@ export default function locationList({
 		type: 'object',
 		icon: PinIcon,
 		fields: [
-			{
-				name: 'title',
-				type: 'string',
-			},
+			title(),
 			...(showStartTime
 				? [
 						{

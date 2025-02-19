@@ -1,20 +1,20 @@
 'use client';
 
 import React, { useState } from 'react';
-import { formatTimeToAMPM } from '@/lib/helpers';
 import { format, add, isSameDay, isSameMonth } from 'date-fns';
-import clsx from 'clsx';
 import HeaderItinerary from '@/layout/HeaderItinerary';
 import CustomPortableText from '@/components/CustomPortableText';
-import LocationList from '@/components/LocationList';
 import CustomLink from '@/components/CustomLink';
 import Img from '@/components/Image';
 import Button from '@/components/Button';
-import Carousel from '@/components/Carousel';
 import LocationCard from '@/components/LocationCard';
 import GuideCard from '@/components/GuideCard';
-import Accordion from '@/components/Accordions/Accordion';
-import Map from '@/components/Map';
+import Plan from './Plan';
+
+// TODO:
+// 1. custom background image for each day
+// 2. weather dependent icon next to each day's title
+// 3. more fun
 
 export default function PageItinerarySingle({ data }) {
 	const {
@@ -40,13 +40,21 @@ export default function PageItinerarySingle({ data }) {
 	} = data || {};
 	const colors = ['green', 'blue', 'red', 'orange', 'purple'];
 	const [activeDay, setActiveDay] = useState(0);
+	const [activeTab, setActiveTab] = useState('plan');
 	const startDateObj = new Date(startDate);
 	const endDateObj = add(startDateObj, { days: plan.length });
 
 	return (
 		<>
 			{type == 'custom' && (
-				<HeaderItinerary data={data} colors={colors} activeDay={activeDay} />
+				<HeaderItinerary
+					data={data}
+					colors={colors}
+					activeDay={activeDay}
+					setActiveDay={setActiveDay}
+					activeTab={activeTab}
+					setActiveTab={setActiveTab}
+				/>
 			)}
 			<div className="p-itinerary__header wysiwyg">
 				<div className="t-l-1">
@@ -57,117 +65,29 @@ export default function PageItinerarySingle({ data }) {
 				</div>
 				<h1 className="t-h-1">{title}</h1>
 			</div>
-			{/* {images && (
-				<div className="p-itinerary__images">
-					<Carousel
-						isShowDots={true}
-						isAutoplay={true}
-						itemWidth={'auto'}
-						gap={'10px'}
-					>
-						{images?.map((image) => (
-							<div key={image.id} className="p-itinerary__images__image">
-								<Img image={image} />
-							</div>
-						))}
-					</Carousel>
-				</div>
-			)} */}
-			{plan?.map((plan, i) => {
-				const date = add(startDateObj, { days: i });
-				const color = colors[i % colors.length];
-				const activities = plan?.day?.activities;
-				const activitiesWithRes = activities.map((activity) => ({
-					...activity,
-					locations: Array.isArray(activity.locations)
-						? activity.locations.map((location) => ({
-								...location,
-								res: reservations.find(
-									(r) =>
-										r.location._id === location._id &&
-										isSameDay(r?.startTime, date) // Check dates for reservations at the same location on different days
-								),
-							}))
-						: [],
-				}));
-				const mapLocations = activitiesWithRes // w/ reservation and activity title attached
-					.reduce((acc, activity) => {
-						const locations = Array.isArray(activity.locations)
-							? activity.locations.map((location) => ({
-									...location,
-									activity: activity,
-								}))
-							: [];
-						return [...acc, ...locations];
-					}, [])
-					.filter((location) => location !== '');
 
-				return (
-					<div
-						className="p-itinerary__plan f-v f-a-s"
-						key={`plan-${i}`}
-						style={{
-							'--cr-primary': `var(--cr-${color}-d)`,
-							'--cr-secondary': `var(--cr-${color}-l)`,
-						}}
-					>
-						<div className="p-itinerary__plan__header wysiwyg">
-							<div className="t-l-1">Day {i + 1}</div>
-							<h2 className="t-h-2">{plan.title || format(date, 'MMMM do')}</h2>
-						</div>
+			<div className="p-itinerary__tab" dataTabActive={activeTab == 'plan'}>
+				{plan?.map((plan, i) => {
+					const date = add(startDateObj, { days: i });
+					const color = colors[i % colors.length];
 
-						{plan.day?.images && (
-							<div className="p-itinerary__plan__images">
-								<Carousel
-									isShowDots={true}
-									isAutoplay={true}
-									autoplayInterval={6000}
-								>
-									{plan?.day?.images?.map((image, i) => (
-										<Img key={`image-${i}-${image.id}`} image={image} />
-									))}
-								</Carousel>
-							</div>
-						)}
+					return (
+						<Plan
+							key={`plan-${i}`}
+							index={i}
+							plan={plan}
+							reservations={reservations}
+							date={date}
+							color={color}
+						/>
+					);
+				})}
+			</div>
 
-						{(plan.content || plan?.day?.content) && (
-							<div className="p-itinerary__plan__highlight wysiwyg">
-								<h3 className="t-l-1">Day Highlight</h3>
-								<CustomPortableText blocks={plan.content || plan.day.content} />
-							</div>
-						)}
-
-						<div className="p-itinerary__plan__activities">
-							<h2 className="p-itinerary__plan__activities__title t-l-1">
-								Activities
-							</h2>
-							{activitiesWithRes?.map((activity, index) => {
-								const { title, startTime } = activity;
-								const locationLength = activity.locations?.length || 0;
-
-								return (
-									<Accordion
-										key={`${i}-activity-${index}`}
-										title={
-											title ||
-											`${locationLength} Spot${locationLength !== 1 && 's'}`
-										}
-										subtitle={startTime ? formatTimeToAMPM(startTime) : '-'}
-									>
-										<LocationList data={activity} />
-									</Accordion>
-								);
-							})}
-						</div>
-
-						<div className="p-itinerary__plan__footer f-v f-a-c">
-							<Button className={clsx('btn', `cr-${color}-d`)}>Show Map</Button>
-						</div>
-
-						<Map locations={mapLocations} />
-					</div>
-				);
-			})}
+			<div
+				className="p-itinerary__tab"
+				dataTabActive={activeTab == 'plan'}
+			></div>
 
 			<section className="p-itinerary data-container">
 				<div className="p-itinerary-single__content">

@@ -91,5 +91,74 @@
 				background-color: var(--cr-secondary);
 			}
 		}
+
+		&__map {
+			position: fixed;
+			inset: 0;
+			display: flex;
+			flex-direction: column;
+			padding: var(--s-3-v) var(--s-3-h);
+			gap: var(--s-3-v);
+			background-color: var(--cr-white);
+			transition:
+				opacity var(--t-2),
+				transform var(--t-2);
+			z-index: 100;
+
+			&:not(.is-active) {
+				opacity: 0;
+				pointer-events: none;
+				transform: scale(0.95);
+			}
+
+			.c-map {
+				flex: 1;
+				filter: url(#filter-round);
+				clip-path: polygon(
+					0 0,
+					calc(100% - 140px) 0,
+					calc(100% - 140px) 65px,
+					100% 65px,
+					100% 100%,
+					100% 100%,
+					0 100%
+				);
+			}
+
+			&__close {
+				position: absolute;
+				top: calc(var(--s-3-v) + 8px);
+				right: calc(var(--s-3-h) + 8px);
+			}
+
+			&__filters {
+				position: absolute;
+				display: flex;
+				flex-direction: column;
+				gap: 20px;
+				top: calc(var(--s-3-v) + 8px);
+				left: calc(var(--s-3-h) + 8px);
+				background-color: var(--cr-white);
+				border-radius: var(--br-2);
+				box-shadow: var(--shadow-1);
+				padding: 20px;
+
+				ul {
+					display: flex;
+					flex-direction: column;
+					gap: 8px;
+				}
+
+				li {
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+				}
+
+				label {
+					padding-left: 4px;
+				}
+			}
+		}
 	}
 }
