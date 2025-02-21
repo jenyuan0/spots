@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { client } from '@/sanity/lib/client';
 import { useSearchParams } from 'next/navigation';
@@ -106,7 +106,7 @@ export function ContentLocation({ data, color }) {
 	);
 }
 
-export default function Magnify() {
+export function Magnify() {
 	const [isActive, setIsActive] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [content, setContent] = useState({});
@@ -231,5 +231,13 @@ export default function Magnify() {
 				)}
 			</div>
 		</div>
+	);
+}
+
+export default function Export() {
+	return (
+		<Suspense>
+			<Magnify />
+		</Suspense>
 	);
 }

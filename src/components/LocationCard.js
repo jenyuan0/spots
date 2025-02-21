@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import { add, isSameMonth } from 'date-fns';
 import { hasArrayValue, formatTime } from '@/lib/helpers';
 import Link from 'next/link';
 import Img from '@/components/Image';
@@ -19,6 +18,10 @@ export default function LocationCard({ data, layout = 'vertical', color }) {
 	const resStart = res?.startTime && new Date(res?.startTime);
 	const setMag = useMagnify((state) => state.setMag);
 	const { hasPressedKeys } = useKey();
+
+	{
+		console.log(hasPressedKeys);
+	}
 
 	return (
 		<div className={'c-card'} data-layout={layout}>
