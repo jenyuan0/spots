@@ -3,6 +3,8 @@
 .btn-underline {
 	--height: 45px;
 	--outline: 1.5px;
+	--cr-primary: var(--cr-brown);
+	--cr-secondary: var(--cr-cream);
 
 	position: relative;
 	display: inline-flex;
@@ -24,9 +26,6 @@
 
 .btn,
 .btn-outline {
-	--cr-primary: var(--cr-brown);
-	--cr-secondary: var(--cr-cream);
-
 	min-width: 120px;
 	padding: 0 20px;
 	overflow: hidden;

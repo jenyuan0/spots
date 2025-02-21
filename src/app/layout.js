@@ -85,7 +85,7 @@ export default async function RootLayout({ children, params }) {
 					</head>
 					<StyledJsxRegistry>
 						<body>
-							{bodyContent}
+							{bodyContent}{' '}
 							<svg
 								width="0"
 								height="0"
@@ -102,9 +102,13 @@ export default async function RootLayout({ children, params }) {
 										in="blur"
 										mode="matrix"
 										values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9"
-										result="goo"
+										result="filter"
 									/>
-									<feComposite in="SourceGraphic" in2="goo" operator="atop" />
+									<feComposite
+										in="SourceGraphic"
+										in2="filter"
+										operator="atop"
+									/>
 								</filter>
 							</svg>
 						</body>

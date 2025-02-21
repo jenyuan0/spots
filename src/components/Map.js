@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { formatTimeToAMPM, formatTime } from '@/lib/helpers';
 import { AdvancedMarker, APIProvider, Map } from '@vis.gl/react-google-maps';
@@ -11,6 +11,10 @@ import Img from '@/components/Image';
 // 4. custom border radius via #filter-round is not working
 
 const getMiddle = (prop, markers) => {
+	if (!markers) {
+		return 0;
+	}
+
 	// Extract values for the given property (lat/lng)
 	const values = markers.map((m) => m['geo'][prop]);
 	let min = Math.min(...values);
@@ -37,7 +41,7 @@ const getMiddle = (prop, markers) => {
 	return result;
 };
 
-export default function Maps({ locations }) {
+export default function theMap({ id, locations }) {
 	const [selectedMarker, setSelectedMarker] = useState();
 	const center = {
 		lat: getMiddle('lat', locations),
@@ -45,7 +49,7 @@ export default function Maps({ locations }) {
 	};
 
 	return (
-		<div className="c-map bg-subtle">
+		<div className="c-map">
 			<APIProvider apiKey={process.env.NEXT_PUBLIC_SANITY_GOOGLE_MAP_API_KEY}>
 				<Map
 					defaultCenter={center}
@@ -53,7 +57,7 @@ export default function Maps({ locations }) {
 					gestureHandling={'greedy'}
 					// colorScheme={'LIGHT'}
 					// disableDefaultUI={true}
-					mapId="x"
+					mapId={id || 'x'}
 				>
 					{locations.map((location, index) => {
 						const isSelected = selectedMarker === location.title;

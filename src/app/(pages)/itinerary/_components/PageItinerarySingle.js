@@ -10,6 +10,7 @@ import Button from '@/components/Button';
 import LocationCard from '@/components/LocationCard';
 import GuideCard from '@/components/GuideCard';
 import Plan from './Plan';
+import Reservations from './Reservations';
 
 // TODO:
 // 1. custom background image for each day
@@ -41,8 +42,10 @@ export default function PageItinerarySingle({ data }) {
 	const colors = ['green', 'blue', 'red', 'orange', 'purple'];
 	const [activeDay, setActiveDay] = useState(0);
 	const [activeTab, setActiveTab] = useState('plan');
-	const startDateObj = new Date(startDate);
-	const endDateObj = add(startDateObj, { days: plan.length });
+	const startDateObj = startDate ? new Date(startDate) : false;
+	const endDateObj = startDateObj
+		? add(startDateObj, { days: plan.length })
+		: false;
 
 	return (
 		<>
@@ -57,18 +60,23 @@ export default function PageItinerarySingle({ data }) {
 				/>
 			)}
 			<div className="p-itinerary__header wysiwyg">
-				<div className="t-l-1">
-					{format(startDateObj, 'MMMM do')}—
-					{isSameMonth(startDateObj, endDateObj)
-						? format(endDateObj, 'do')
-						: format(endDateObj, 'MMMM do')}
-				</div>
+				{startDateObj && (
+					<div className="t-l-1">
+						{format(startDateObj, 'MMMM do')}—
+						{isSameMonth(startDateObj, endDateObj)
+							? format(endDateObj, 'do')
+							: format(endDateObj, 'MMMM do')}
+					</div>
+				)}
 				<h1 className="t-h-1">{title}</h1>
 			</div>
 
-			<div className="p-itinerary__tab" dataTabActive={activeTab == 'plan'}>
+			<div
+				className="p-itinerary__tab"
+				datatabactive={activeTab == 'plan' ? 'true' : 'false'}
+			>
 				{plan?.map((plan, i) => {
-					const date = add(startDateObj, { days: i });
+					const date = startDateObj ? add(startDateObj, { days: i }) : false;
 					const color = colors[i % colors.length];
 
 					return (
@@ -84,10 +92,10 @@ export default function PageItinerarySingle({ data }) {
 				})}
 			</div>
 
-			<div
+			{/* <div
 				className="p-itinerary__tab"
-				dataTabActive={activeTab == 'plan'}
-			></div>
+				datatabactive={activeTab == 'plan' ? 'true' : 'false'}
+			></div> */}
 
 			<section className="p-itinerary data-container">
 				<div className="p-itinerary-single__content">
@@ -178,44 +186,10 @@ export default function PageItinerarySingle({ data }) {
 					</div>
 					<br />
 					<br />
-					{reservations && (
-						<>
-							<h1>RESERVATIONS:</h1>
-							<div className="data-block">
-								{reservations?.map((item, index) => {
-									return (
-										<div className="data-block" key={`item-${index}`}>
-											<LocationCard
-												key={`item-${index}`}
-												data={item?.location}
-											/>
-											Time: {item?.startTime} — {item?.endTime || 'NO END'}
-											<br />
-											Notes:
-											{item?.notes ? (
-												<CustomPortableText blocks={item?.notes} />
-											) : (
-												'NONE'
-											)}
-											<br />
-											Attachments:{' '}
-											<ul>
-												{item?.attachments?.map((attachment, index) => (
-													<li key={`attachment-${index}`}>
-														<CustomLink link={{ route: attachment.url }}>
-															{attachment.filename}
-														</CustomLink>
-													</li>
-												))}
-											</ul>
-										</div>
-									);
-								})}
-							</div>
-						</>
-					)}
 				</div>
 			</section>
+
+			{reservations && <Reservations reservations={reservations} />}
 		</>
 	);
 }

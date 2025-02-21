@@ -109,20 +109,26 @@
 				opacity: 0;
 				pointer-events: none;
 				transform: scale(0.95);
+
+				* {
+					pointer-events: none !important;
+				}
 			}
 
 			.c-map {
 				flex: 1;
 				filter: url(#filter-round);
-				clip-path: polygon(
-					0 0,
-					calc(100% - 140px) 0,
-					calc(100% - 140px) 65px,
-					100% 65px,
-					100% 100%,
-					100% 100%,
-					0 100%
-				);
+
+				& > div {
+					clip-path: polygon(
+						0 0,
+						calc(100% - 140px) 0,
+						calc(100% - 140px) 65px,
+						100% 65px,
+						100% 100%,
+						0 100%
+					);
+				}
 			}
 
 			&__close {
@@ -159,6 +165,23 @@
 					padding-left: 4px;
 				}
 			}
+		}
+	}
+
+	&__reservations {
+		width: var(--s-contain-med);
+		margin-inline: auto;
+
+		&__header {
+			text-align: center;
+		}
+
+		&__list {
+			margin-block: var(--s-4-v);
+			border-radius: var(--br-3);
+			box-shadow: var(--shadow-1);
+			color: var(--cr-primary);
+			// background-color: var(--cr-secondary);
 		}
 	}
 }

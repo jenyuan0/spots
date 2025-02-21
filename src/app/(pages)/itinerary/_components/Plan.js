@@ -13,7 +13,7 @@ import Accordion from '@/components/Accordions/Accordion';
 import Map from '@/components/Map';
 
 // Helper functions
-const processActivities = (activities, reservations, date) =>
+const getActivitiesPlusRes = (activities, reservations, date) =>
 	activities.map((activity) => ({
 		...activity,
 		locations: Array.isArray(activity.locations)
@@ -25,11 +25,12 @@ const processActivities = (activities, reservations, date) =>
 	}));
 
 const findReservation = (location, reservations, date) =>
-	reservations.find(
-		(r) => r.location._id === location._id && isSameDay(r?.startTime, date)
+	reservations?.find(
+		(r) =>
+			r.location._id === location._id && date && isSameDay(r?.startTime, date)
 	);
 
-const getLocationsWithActivity = (activitiesPlusRes) =>
+const getLocationsPlusActivity = (activitiesPlusRes) =>
 	activitiesPlusRes
 		.reduce(
 			(acc, activity) => [
@@ -51,14 +52,16 @@ const getColorStyles = (color) => ({
 });
 
 export default function Plan({ index, plan, reservations, color, date }) {
-	// Data processing
-	const activities = plan?.day?.activities || [];
-	const activitiesPlusRes = processActivities(activities, reservations, date);
 	const baseId = useId();
+	const activities = plan?.day?.activities || [];
+	const activitiesPlusRes = getActivitiesPlusRes(
+		activities,
+		reservations,
+		date
+	);
 
 	// State management
 	const [isMapActive, setIsMapActive] = useState(false);
-	const [mapLocations, setMapLocations] = useState([]);
 	const [checkedActivities, setCheckedActivities] = useState(() => {
 		const initialSet = new Set();
 		activities.forEach((activity) => initialSet.add(activity.title));
@@ -67,34 +70,25 @@ export default function Plan({ index, plan, reservations, color, date }) {
 
 	const filterLocationsByActivities = useCallback(() => {
 		if (checkedActivities.size === 0) {
-			return getLocationsWithActivity([]);
+			return getLocationsPlusActivity([]);
 		}
-
-		// Filter locations for checked activities
 		const filteredActivities = activitiesPlusRes.filter((activity) =>
 			checkedActivities.has(activity.title)
 		);
-		return getLocationsWithActivity(filteredActivities);
+		return getLocationsPlusActivity(filteredActivities);
 	}, [activitiesPlusRes, checkedActivities]);
 
 	// Handle checkbox changes
 	const handleActivityToggle = (title) => {
 		setCheckedActivities((prev) => {
 			const next = new Set(prev);
-			if (next.has(title)) {
-				next.delete(title);
-			} else {
-				next.add(title);
-			}
+			next.has(title) ? next.delete(title) : next.add(title);
 			return next;
 		});
 	};
 
 	// Process locations for map
 	useEffect(() => {
-		setMapLocations(filterLocationsByActivities());
-
-		// Handle escape key press
 		const handleEscape = (event) => {
 			if (event.key === 'Escape') {
 				setIsMapActive(false);
@@ -103,7 +97,7 @@ export default function Plan({ index, plan, reservations, color, date }) {
 
 		document.addEventListener('keydown', handleEscape);
 		return () => document.removeEventListener('keydown', handleEscape);
-	}, [checkedActivities, filterLocationsByActivities]);
+	}, []);
 
 	return (
 		<div className="p-itinerary__plan f-v f-a-s" style={getColorStyles(color)}>
@@ -164,7 +158,7 @@ export default function Plan({ index, plan, reservations, color, date }) {
 					'is-active': isMapActive,
 				})}
 			>
-				<Map locations={mapLocations} />
+				<Map id={baseId} locations={filterLocationsByActivities()} />
 				<Button
 					className={clsx(
 						'p-itinerary__plan__map__close',
@@ -195,7 +189,7 @@ export default function Plan({ index, plan, reservations, color, date }) {
 										checked={checkedActivities.has(title)}
 										onChange={() => handleActivityToggle(title)}
 									/>
-									<label for={id}>
+									<label htmlFor={id}>
 										{startTime && formatTimeToAMPM(startTime)} {title}
 										{locationLength && ` (${locationLength})`}
 									</label>
