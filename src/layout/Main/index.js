@@ -6,6 +6,7 @@ import { pageTransitionFade } from '@/lib/animate';
 
 export default function Main({ children }) {
 	const pathname = usePathname();
+
 	return (
 		<motion.main
 			id="main"

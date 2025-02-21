@@ -21,6 +21,7 @@ export default function PageItinerarySingle({ data }) {
 	const {
 		title,
 		images,
+		startingColor,
 		plan,
 		guides,
 		type,
@@ -39,7 +40,14 @@ export default function PageItinerarySingle({ data }) {
 		accommodation,
 		reservations,
 	} = data || {};
-	const colors = ['green', 'blue', 'red', 'orange', 'purple'];
+	const selectColor = (arr, color) => {
+		const index = arr.indexOf(color);
+		return [...arr.slice(index), ...arr.slice(0, index)];
+	};
+	const colors = selectColor(
+		['green', 'blue', 'red', 'orange', 'purple'],
+		startingColor || 'green'
+	);
 	const [activeDay, setActiveDay] = useState(0);
 	const [activeTab, setActiveTab] = useState('plan');
 	const startDateObj = startDate ? new Date(startDate) : false;

@@ -22,35 +22,6 @@
 	border-radius: calc(var(--height) / 2);
 	font: var(--t-l-1);
 	line-height: 1;
-}
-
-.btn,
-.btn-outline {
-	min-width: 120px;
-	padding: 0 20px;
-	overflow: hidden;
-	box-shadow: var(--shadow-2-transparent);
-	transition:
-		color var(--t-1),
-		box-shadow var(--t-1);
-
-	&:before {
-		content: '';
-		display: block;
-		position: absolute;
-		inset: 2px;
-		transform: scale(0);
-		border-radius: calc(var(--height) / 2);
-		background-color: var(--cr-secondary);
-		transition: transform var(--t-1);
-	}
-
-	&.size-small {
-		--height: 24px;
-		padding: 0 8px;
-		min-width: unset;
-		font-size: 13px;
-	}
 
 	&.cr-black {
 		--cr-primary: var(--cr-black);
@@ -80,6 +51,7 @@
 	&.cr-blue-d {
 		--cr-primary: var(--cr-blue-d);
 		--cr-secondary: var(--cr-cream);
+		--cr-underline: var(--cr-blue-l);
 	}
 
 	&.cr-green-l {
@@ -90,6 +62,7 @@
 	&.cr-green-d {
 		--cr-primary: var(--cr-green-d);
 		--cr-secondary: var(--cr-cream);
+		--cr-underline: var(--cr-green-l);
 	}
 
 	&.cr-red-l {
@@ -100,6 +73,7 @@
 	&.cr-red-d {
 		--cr-primary: var(--cr-red-d);
 		--cr-secondary: var(--cr-cream);
+		--cr-underline: var(--cr-red-l);
 	}
 
 	&.cr-orange-l {
@@ -110,6 +84,7 @@
 	&.cr-orange-d {
 		--cr-primary: var(--cr-orange-d);
 		--cr-secondary: var(--cr-cream);
+		--cr-underline: var(--cr-orange-l);
 	}
 
 	&.cr-purple-l {
@@ -120,6 +95,36 @@
 	&.cr-purple-d {
 		--cr-primary: var(--cr-purple-d);
 		--cr-secondary: var(--cr-cream);
+		--cr-underline: var(--cr-purple-l);
+	}
+}
+
+.btn,
+.btn-outline {
+	min-width: 120px;
+	padding: 0 20px;
+	overflow: hidden;
+	box-shadow: var(--shadow-2-transparent);
+	transition:
+		color var(--t-1),
+		box-shadow var(--t-1);
+
+	&:before {
+		content: '';
+		display: block;
+		position: absolute;
+		inset: 2px;
+		transform: scale(0);
+		border-radius: calc(var(--height) / 2);
+		background-color: var(--cr-secondary);
+		transition: transform var(--t-1);
+	}
+
+	&.size-small {
+		--height: 24px;
+		padding: 0 8px;
+		min-width: unset;
+		font-size: 13px;
 	}
 
 	span {
@@ -179,8 +184,8 @@
 	}
 
 	&:after {
+		border-color: var(--cr-underline, var(--cr-secondary));
 		transform: scaleX(0);
-		border-color: var(--cr-secondary);
 		transition: transform var(--t-1);
 	}
 

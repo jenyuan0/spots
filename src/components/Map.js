@@ -3,12 +3,14 @@ import clsx from 'clsx';
 import { formatTimeToAMPM, formatTime } from '@/lib/helpers';
 import { AdvancedMarker, APIProvider, Map } from '@vis.gl/react-google-maps';
 import Img from '@/components/Image';
+import useMagnify from '@/hooks/useMagnify';
 
 // TODO:
 // 1. make route
 // 2. getbounds to set zoom level
 // 3. customize map color scheme
 // 4. custom border radius via #filter-round is not working
+// 5. map should have it's own query URL
 
 const getMiddle = (prop, markers) => {
 	if (!markers) {
@@ -16,7 +18,9 @@ const getMiddle = (prop, markers) => {
 	}
 
 	// Extract values for the given property (lat/lng)
-	const values = markers.map((m) => m['geo'][prop]);
+	const values = markers
+		.map((m) => (m['geo'] && m['geo'][prop] ? m['geo'][prop] : null))
+		.filter(Boolean);
 	let min = Math.min(...values);
 	let max = Math.max(...values);
 
@@ -47,6 +51,7 @@ export default function TheMap({ id, locations }) {
 		lat: getMiddle('lat', locations),
 		lng: getMiddle('lng', locations),
 	};
+	const setMag = useMagnify((state) => state.setMag);
 
 	return (
 		<div className="c-map">
@@ -69,38 +74,49 @@ export default function TheMap({ id, locations }) {
 							: false;
 
 						return (
-							<AdvancedMarker
-								key={`${location.title}-${index}`}
-								position={{ lat: location.geo.lat, lng: location.geo.lng }}
-								title={location.title}
-								onClick={() => setSelectedMarker(location.title)}
-							>
-								<div className="c-map__marker">
-									<div className="c-map__marker__thumb">
-										<span className="object-fit">
-											<Img image={location.thumb} />
-										</span>
-									</div>
-									<div
-										className={clsx('c-map__marker__content', {
-											'is-selected': isSelected,
-										})}
-									>
-										<div className="c-map__marker__title">{location.title}</div>
-										{(resStartTime || actStartTime) && (
-											<div className="c-map__marker__time t-l-2">
-												{resStartTime ? (
-													<span>Reservation: {resStartTime}</span>
-												) : location?.activity?.title ? (
-													`${location.activity.title} (${actStartTime})`
-												) : (
-													actStartTime
-												)}
+							location?.geo && (
+								<AdvancedMarker
+									key={`${location.title}-${index}`}
+									position={{ lat: location.geo.lat, lng: location.geo.lng }}
+									title={location.title}
+									onClick={() => {
+										setMag({
+											content: location,
+											url: `/locations/${location.slug}`,
+											isQueryUrl: true,
+										});
+										setSelectedMarker(location.title);
+									}}
+								>
+									<div className="c-map__marker">
+										<div className="c-map__marker__thumb">
+											<span className="object-fit">
+												<Img image={location.thumb} />
+											</span>
+										</div>
+										<div
+											className={clsx('c-map__marker__content', {
+												'is-selected': isSelected,
+											})}
+										>
+											<div className="c-map__marker__title">
+												{location.title}
 											</div>
-										)}
+											{(resStartTime || actStartTime) && (
+												<div className="c-map__marker__time t-l-2">
+													{resStartTime ? (
+														<span>Reservation: {resStartTime}</span>
+													) : location?.activity?.title ? (
+														`${location.activity.title} (${actStartTime})`
+													) : (
+														actStartTime
+													)}
+												</div>
+											)}
+										</div>
 									</div>
-								</div>
-							</AdvancedMarker>
+								</AdvancedMarker>
+							)
 						);
 					})}
 				</Map>

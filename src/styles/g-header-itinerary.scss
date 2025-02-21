@@ -1,8 +1,8 @@
 .g-header-itinerary {
 	position: fixed;
 	top: 50%;
-	transform: translate3d(0, -50%, 0);
 	left: var(--s-contain);
+	transform: translate3d(0, -50%, 0);
 	width: var(--s-sidebar);
 	padding: var(--s-4-v) var(--s-2-h);
 	color: var(--cr-brown);

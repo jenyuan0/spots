@@ -3,12 +3,4 @@
 	width: 100%;
 	padding: 10px var(--s-contain);
 	z-index: 100;
-
-	position: sticky;
-	top: 0;
-	background-color: white;
-
-	&__links ul {
-		gap: 10px;
-	}
 }

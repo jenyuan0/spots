@@ -63,7 +63,7 @@ export default function Accordion({
 						initial="collapsed"
 						animate="expanded"
 						exit="collapsed"
-						transition={{ duration: 0.4, ease: [0, 1, 0.8, 1] }}
+						transition={{ duration: 0.25, ease: [0, 0.55, 0.45, 1] }}
 						variants={accordionAnim}
 						aria-hidden={!isExpanded}
 					>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { siteSetup } from '@/hooks/useVsSetup';
 import * as gtag from '@/lib/gtag';
@@ -8,13 +8,13 @@ import AdaSkip from './AdaSkip';
 import Announcement from './Announcement';
 import Footer from './Footer';
 import Header from './Header';
+import Magnify from './Magnify';
 import Main from './Main';
 import ProgressLoader from './ProgressLoader';
 
 export default function Layout({ children, siteData }) {
-	const { announcement, header, footer } = siteData || {};
+	const { announcement, header, showHeader, footer } = siteData || {};
 	const pathname = usePathname();
-	const pathArray = pathname.split('/').filter(Boolean);
 
 	useEffect(() => {
 		siteSetup();
@@ -35,13 +35,10 @@ export default function Layout({ children, siteData }) {
 			<ProgressLoader />
 			<AdaSkip />
 			<Announcement data={announcement} />
-			{pathArray?.[0] !== 'itinerary' && (
-				<Header siteData={siteData} data={header} />
-			)}
+			{showHeader && <Header siteData={siteData} data={header} />}
 			<Main>{children}</Main>
-			{pathArray?.[0] !== 'itinerary' && (
-				<Footer siteData={siteData} data={footer} />
-			)}
+			<Magnify />
+			{showHeader && <Footer siteData={siteData} data={footer} />}
 		</>
 	);
 }

@@ -28,6 +28,22 @@ export default defineType({
 			of: [customImage({ hasCropOptions: true })],
 		},
 		{
+			name: 'startingColor',
+			type: 'string',
+			options: {
+				list: [
+					{ title: 'Green', value: 'green' },
+					{ title: 'Blue', value: 'blue' },
+					{ title: 'Red', value: 'red' },
+					{ title: 'Orange', value: 'orange' },
+					{ title: 'Purple', value: 'purple' },
+				],
+				layout: 'radio',
+				direction: 'horizontal',
+			},
+			initialValue: 'green',
+		},
+		{
 			title: 'Plan (by day)',
 			name: 'plan',
 			type: 'array',

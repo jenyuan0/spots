@@ -1,20 +1,16 @@
+import clsx from 'clsx';
 import { add, isSameMonth } from 'date-fns';
 import { hasArrayValue, formatTime } from '@/lib/helpers';
 import Link from 'next/link';
 import Img from '@/components/Image';
 import Button from '@/components/Button';
-import { create } from 'zustand';
+import useMagnify from '@/hooks/useMagnify';
+import useKey from '@/hooks/useKey';
 
-const useStore = create((set) => ({
-	magnify: 0,
-	increasePopulation: () => set((state) => ({ magnify: state.magnify + 1 })),
-	removeAllMag: () => set({ magnify: 0 }),
-	updateMag: (newMag) => set({ magnify: newMag }),
-}));
-
-export default function LocationCard({ data, layout = 'vertical' }) {
+export default function LocationCard({ data, layout = 'vertical', color }) {
 	const { thumb, title, slug, categories, subcategories, address, res } =
 		data || {};
+	const url = `/locations/${slug}`;
 	const addressString =
 		address &&
 		Object.values(address)
@@ -27,6 +23,8 @@ export default function LocationCard({ data, layout = 'vertical' }) {
 	// 	(resEnd
 	// 		? `${formatTime(resStart)}—${formatTime(resEnd)}`
 	// 		: formatTime(resStart));
+	const setMag = useMagnify((state) => state.setMag);
+	const { hasPressedKeys } = useKey();
 
 	return (
 		<div className={'c-card'} data-layout={layout}>
@@ -52,15 +50,24 @@ export default function LocationCard({ data, layout = 'vertical' }) {
 				)}
 				<div className="c-card__actions">
 					<Button
-						className={'btn-underline'}
-						href={`/locations/${slug}`}
-						target="_blank"
+						className={clsx('btn-underline', color && `cr-${color}-d`)}
+						href={url}
+						{...(!hasPressedKeys && {
+							onClick: (e) => {
+								e.preventDefault();
+								setMag({
+									content: data,
+									url: url,
+									isQueryUrl: true,
+								});
+							},
+						})}
 					>
 						Details
 					</Button>
 					{addressString && (
 						<Link
-							className={'btn-underline'}
+							className={clsx('btn-underline', color && `cr-${color}-d`)}
 							href={`https://www.google.com/maps/dir//${encodeURIComponent(addressString)}`}
 							target="_blank"
 						>

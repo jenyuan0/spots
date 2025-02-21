@@ -1,0 +1,23 @@
+.g-magnify {
+	position: fixed;
+	height: 100%;
+	width: Min(450px, calc(100vw - var(--s-contain) * 2));
+	top: 0;
+	right: 0;
+	padding: var(--s-4-v) var(--s-2-h);
+	color: var(--cr-brown);
+	background-color: var(--cr-white);
+	box-shadow: var(--shadow-1);
+	gap: 30px;
+	text-align: center;
+	z-index: 200;
+	transition:
+		box-shadow var(--t-2),
+		transform var(--t-2);
+
+	&:not(.is-active) {
+		transform: translate3d(100%, 0, 0);
+		box-shadow: var(--shadow-1-transparent);
+		transition-delay: 0.15s;
+	}
+}

@@ -30,7 +30,8 @@ export default function slug({ initialValue, readOnly, group } = {}) {
 					.toLowerCase()
 					.normalize('NFD')
 					.replace(/[\u0300-\u036f]/g, '') // Remove diacritics
-					.replace(/[\s\W-]+/g, '-')
+					.replace(/'/g, '') // Remove apostrophes
+					.replace(/[\s\W-]+/g, '-') // Convert other non-word chars to hyphens
 					.replace(/^-+|-+$/g, '')
 					.slice(0, 200);
 			},

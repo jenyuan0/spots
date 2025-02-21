@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback, useId } from 'react';
 import { formatTimeToAMPM } from '@/lib/helpers';
 import { format, isSameDay } from 'date-fns';
 import clsx from 'clsx';
+import useEscKey from '@/hooks/useEscKey';
 import CustomPortableText from '@/components/CustomPortableText';
 import LocationList from '@/components/LocationList';
 import Img from '@/components/Image';
@@ -57,7 +58,8 @@ export default function Plan({ index, plan, reservations, color, date }) {
 	const activitiesPlusRes = getActivitiesPlusRes(
 		activities,
 		reservations,
-		date
+		date,
+		color
 	);
 
 	// State management
@@ -87,17 +89,9 @@ export default function Plan({ index, plan, reservations, color, date }) {
 		});
 	};
 
-	// Process locations for map
-	useEffect(() => {
-		const handleEscape = (event) => {
-			if (event.key === 'Escape') {
-				setIsMapActive(false);
-			}
-		};
-
-		document.addEventListener('keydown', handleEscape);
-		return () => document.removeEventListener('keydown', handleEscape);
-	}, []);
+	useEscKey(() => {
+		setIsMapActive(false);
+	});
 
 	return (
 		<div className="p-itinerary__plan f-v f-a-s" style={getColorStyles(color)}>
@@ -134,9 +128,9 @@ export default function Plan({ index, plan, reservations, color, date }) {
 						<Accordion
 							key={`${index}-activity-${i}`}
 							title={title}
-							subtitle={startTime ? formatTimeToAMPM(startTime) : '-'}
+							subtitle={startTime ? formatTimeToAMPM(startTime) : 'Optional'}
 						>
-							<LocationList data={activity} />
+							<LocationList data={activity} color={color} />
 						</Accordion>
 					);
 				})}
