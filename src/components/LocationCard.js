@@ -19,10 +19,6 @@ export default function LocationCard({ data, layout = 'vertical', color }) {
 	const setMag = useMagnify((state) => state.setMag);
 	const { hasPressedKeys } = useKey();
 
-	{
-		console.log(hasPressedKeys);
-	}
-
 	return (
 		<div className={'c-card'} data-layout={layout}>
 			<div className="c-card__thumb">
