@@ -74,10 +74,11 @@ export default function TheMap({ id, locations, color }) {
 							: false;
 
 						return (
-							location?.geo && (
+							location.geo?.lat &&
+							location.geo?.lng && (
 								<AdvancedMarker
 									key={`${location.title}-${index}`}
-									position={{ lat: location.geo.lat, lng: location.geo.lng }}
+									position={{ lat: location.geo?.lat, lng: location.geo?.lng }}
 									title={location.title}
 									onClick={() => {
 										setMag({
