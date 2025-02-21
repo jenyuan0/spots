@@ -41,7 +41,7 @@ const getMiddle = (prop, markers) => {
 	return result;
 };
 
-export default function theMap({ id, locations }) {
+export default function TheMap({ id, locations }) {
 	const [selectedMarker, setSelectedMarker] = useState();
 	const center = {
 		lat: getMiddle('lat', locations),
