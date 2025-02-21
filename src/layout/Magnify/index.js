@@ -2,37 +2,163 @@ import React, { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { client } from '@/sanity/lib/client';
 import { useSearchParams } from 'next/navigation';
+import { formatAddress } from '@/lib/helpers';
+import { format } from 'date-fns';
+import Carousel from '@/components/Carousel';
+import Link from 'next/link';
+import Img from '@/components/Image';
 import Button from '@/components/Button';
+import CustomPortableText from '@/components/CustomPortableText';
 import useOutsideClick from '@/hooks/useOutsideClick';
 import useEscKey from '@/hooks/useEscKey';
 import useMagnify from '@/hooks/useMagnify';
+import { fileMeta } from '@/sanity/lib/queries';
+
+export function ContentLocation({ data, color }) {
+	const { _id, title, address, images, content, contentItinerary, urls, fees } =
+		data?.content || {};
+	const res = data.reservations?.find((r) => r.location._id === _id);
+	const resStart = res?.startTime && new Date(res?.startTime);
+	const resEnd = res?.endTime && new Date(res?.endTime);
+	const timeRange =
+		resStart &&
+		(resEnd
+			? `${format(resStart, 'MMMM do, h:mm aaa')}—${format(resEnd, 'h:mm aaa')}`
+			: format(resStart, 'MMMM do, h:mm aaa'));
+	const addressString =
+		address &&
+		Object.values(address)
+			.filter((value) => value)
+			.join(', ');
+
+	return (
+		<div className="g-magnify-locations">
+			{title && <h2 className="g-magnify-locations__heading t-h-2">{title}</h2>}
+			{(resStart || res?.notes) && (
+				<div className="g-magnify-locations__res wysiwyg">
+					<h3 className="t-l-1">Reservation</h3>
+					{timeRange && <div className="t-h-4">{timeRange}</div>}
+					{res?.notes && <CustomPortableText blocks={res.notes} />}
+
+					{res?.attachments && (
+						<ul>
+							{res?.attachments.map((att, i) => (
+								<Link key={`res-att-${i}`} href={att.url} target={'_blank'}>
+									{att.filename}
+								</Link>
+							))}
+						</ul>
+					)}
+				</div>
+			)}
+			{images && (
+				<div className="g-magnify-locations__images">
+					<Carousel isShowDots={true} isAutoplay={true} autoplayInterval={3000}>
+						{images.map((image, i) => (
+							<Img key={`image-${i}`} image={image} />
+						))}
+					</Carousel>
+				</div>
+			)}
+			{content && (
+				<div className="g-magnify-locations__content wysiwyg">
+					<CustomPortableText blocks={content} />
+				</div>
+			)}
+			{contentItinerary && (
+				<div className="g-magnify-locations__content wysiwyg">
+					<CustomPortableText blocks={contentItinerary} />
+				</div>
+			)}
+			{address && (
+				<div className="g-magnify-locations__address wysiwyg">
+					<h3 className="t-l-1">Address</h3>
+					<div className="t-h-4">{formatAddress(address)}</div>
+					<Link
+						className={clsx('btn-underline', color && `cr-${color}-d`)}
+						href={`https://www.google.com/maps/dir//${encodeURIComponent(addressString)}`}
+						target="_blank"
+					>
+						Get Direction
+					</Link>
+				</div>
+			)}
+			{fees?.length && (
+				<div className="g-magnify-locations__fees wysiwyg">
+					<h3 className="t-l-1">Fees</h3>
+					<p>{fees.map((fee) => fee).join(' • ')}</p>
+				</div>
+			)}
+			{urls?.length && (
+				<div className="g-magnify-locations__urls wysiwyg">
+					<ul>
+						{urls.map((url, i) => (
+							<li key={`url-${i}`}>
+								<Link href={url} target={'_blank'}>
+									{url.replace(/^http:\/\/|^https:\/\//, '').replace(/\/$/, '')}
+								</Link>
+							</li>
+						))}
+					</ul>
+				</div>
+			)}
+		</div>
+	);
+}
 
 export default function Magnify() {
-	const { mag, setMag } = useMagnify();
-	const searchParams = useSearchParams();
-	const [content, setContent] = useState(null);
 	const [isActive, setIsActive] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+	const [content, setContent] = useState({});
+	const [color, setColor] = useState(null);
+	const [pageSlug, setPageSlug] = useState(null);
+	const { mag, clearMag } = useMagnify();
+	const searchParams = useSearchParams();
 	const containerRef = useRef();
 	const timerRef = useRef();
 
 	const fetchContent = async (mParam) => {
+		setIsLoading(true);
+
 		try {
-			const slug = mParam.split('/').pop();
-			const result = await client.fetch(
-				`*[_type == "gLocations" && slug.current == "${slug}"][0]`
-			);
-			setMag({
-				content: result,
-				url: `/locations/${slug}`,
-				isQueryUrl: true,
+			const dataSlug = mParam.split('/').pop();
+			const [content, reservations] = await Promise.all([
+				client.fetch(
+					`*[_type == "gLocations" && slug.current == "${dataSlug}"][0]`
+				),
+				client.fetch(`
+					*[_type == "gItineraries" && slug.current == "${pageSlug}"][0].reservations[]{
+						"location": location->{
+							_id
+						},
+						startTime,
+						endTime,
+						notes,
+						attachments[]{${fileMeta}}
+					}
+				`),
+			]);
+			setContent({
+				content: content,
+				reservations: reservations,
 			});
+			setIsActive(true);
 		} catch (error) {
 			console.error('Error fetching data:', error);
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
 	useEffect(() => {
+		setPageSlug(window?.location.pathname?.split('/').pop());
+	}, []);
+
+	useEffect(() => {
 		const mParam = searchParams.get('m');
+		const cParam = searchParams.get('c');
+		setColor(cParam);
+
 		if (mParam) {
 			fetchContent(mParam);
 		} else {
@@ -44,15 +170,15 @@ export default function Magnify() {
 	useEffect(() => {
 		cleanup();
 
-		if (mag?.content) {
-			setContent(mag.content);
-			setIsActive(true);
-			if (mag.url) {
-				window.history.pushState({}, '', `?m=${mag.url}`);
-			}
+		if (mag?.slug) {
+			window.history.pushState(
+				{},
+				'',
+				`?m=/${mag?.type}/${mag.slug}${mag?.color ? `&c=${mag.color}` : ''}`
+			);
 		}
-	}, [mag]);
-	// Cleanup function to prevent memory leaks
+	}, [mag?.slug]);
+
 	const cleanup = () => {
 		if (timerRef.current) {
 			clearTimeout(timerRef.current);
@@ -62,32 +188,48 @@ export default function Magnify() {
 
 	const handleClose = () => {
 		if (!isActive) return;
+
 		setIsActive(false);
-		cleanup();
+		if (timerRef.current) {
+			clearTimeout(timerRef.current);
+		}
 
 		timerRef.current = setTimeout(() => {
-			setContent(null);
+			setContent({});
+			clearMag();
 			window.history.pushState({}, '', window.location.pathname);
 		}, 500);
 	};
 
 	useOutsideClick(containerRef, handleClose);
 	useEscKey(handleClose);
-	console.log(content);
+
 	return (
 		<div
 			ref={containerRef}
 			className={clsx('g-magnify', { 'is-active': isActive })}
+			style={{
+				'--cr-primary': `var(--cr-${color}-d)`,
+				'--cr-secondary': `var(--cr-${color}-l)`,
+			}}
 			role="dialog"
 			aria-modal={isActive}
 		>
-			<Button
-				className={clsx('btn', content?.color && `cr-${content.color}-d`)}
-				onClick={handleClose}
-			>
-				Close
-			</Button>
-			{content?.title && <h2>{content.title}</h2>}
+			<div className="g-magnify__header">
+				<Button
+					className={clsx('btn', color && `cr-${color}-d`)}
+					onClick={handleClose}
+				>
+					<span className="icon-close" />
+					Close
+				</Button>
+			</div>
+
+			<div className="g-magnify__content">
+				{content && !isLoading && (
+					<ContentLocation data={content} color={color} />
+				)}
+			</div>
 		</div>
 	);
 }

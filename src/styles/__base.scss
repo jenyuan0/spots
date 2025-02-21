@@ -88,13 +88,8 @@ html {
 }
 
 // ***BRAND COLORS***
-::selection {
-	text-shadow: none;
-	color: var(--cr-white);
-	background-color: var(--cr-accent);
-}
 
-::-moz-selection {
+@include selection {
 	text-shadow: none;
 	color: var(--cr-white);
 	background-color: var(--cr-accent);
@@ -406,13 +401,17 @@ textarea {
 		margin-bottom: 10px;
 	}
 
+	.t-l-3:not(:last-child) {
+		margin-bottom: 5px;
+	}
+
 	.btn,
 	.btn-outline,
 	.btn-underline {
 		text-decoration: unset;
 
 		&:not(:first-child) {
-			margin-top: 20px;
+			margin-top: 10px;
 		}
 	}
 

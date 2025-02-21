@@ -8,7 +8,7 @@ import useMagnify from '@/hooks/useMagnify';
 import useKey from '@/hooks/useKey';
 
 export default function LocationCard({ data, layout = 'vertical', color }) {
-	const { thumb, title, slug, categories, subcategories, address, res } =
+	const { thumb, title, slug, categories, subcategories, geo, address, res } =
 		data || {};
 	const url = `/locations/${slug}`;
 	const addressString =
@@ -17,12 +17,6 @@ export default function LocationCard({ data, layout = 'vertical', color }) {
 			.filter((value) => value)
 			.join(', ');
 	const resStart = res?.startTime && new Date(res?.startTime);
-	// const resEnd = res?.endTime && new Date(res?.endTime);
-	// const timeRange =
-	// 	resStart &&
-	// 	(resEnd
-	// 		? `${formatTime(resStart)}—${formatTime(resEnd)}`
-	// 		: formatTime(resStart));
 	const setMag = useMagnify((state) => state.setMag);
 	const { hasPressedKeys } = useKey();
 
@@ -56,24 +50,23 @@ export default function LocationCard({ data, layout = 'vertical', color }) {
 							onClick: (e) => {
 								e.preventDefault();
 								setMag({
-									content: data,
-									url: url,
-									isQueryUrl: true,
+									slug: slug,
+									type: 'location',
+									color: color,
 								});
 							},
 						})}
 					>
 						Details
 					</Button>
-					{addressString && (
-						<Link
-							className={clsx('btn-underline', color && `cr-${color}-d`)}
-							href={`https://www.google.com/maps/dir//${encodeURIComponent(addressString)}`}
-							target="_blank"
-						>
-							Get Direction
-						</Link>
-					)}
+
+					<Link
+						className={clsx('btn-underline', color && `cr-${color}-d`)}
+						href={`https://www.google.com/maps/dir//${encodeURIComponent(addressString)}`}
+						target="_blank"
+					>
+						Get Direction
+					</Link>
 				</div>
 			</div>
 		</div>

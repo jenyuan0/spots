@@ -126,6 +126,23 @@ export function formatTimeToAMPM(militaryTime) {
 	}
 }
 
+export function formatAddress(address) {
+	const { street, city, zip } = address;
+	// Capitalize each word except articles and prepositions
+	const formatStreet = (str) => {
+		return str
+			.split(' ')
+			.map((word) =>
+				['de', 'du', 'des', 'le', 'la', 'les', 'à', 'en'].includes(word)
+					? word
+					: word.charAt(0).toUpperCase() + word.slice(1)
+			)
+			.join(' ');
+	};
+
+	return `${street ? `${formatStreet(street)}, ` : ''}${city || ''} ${zip}`;
+}
+
 // ***UTILITIES / VALIDATION***
 
 export function validateEmail(string) {

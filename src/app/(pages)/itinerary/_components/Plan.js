@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useId } from 'react';
-import { formatTimeToAMPM } from '@/lib/helpers';
+import React, { useState, useCallback, useId } from 'react';
+import { formatTimeToAMPM, scrollEnable, scrollDisable } from '@/lib/helpers';
 import { format, isSameDay } from 'date-fns';
 import clsx from 'clsx';
 import useEscKey from '@/hooks/useEscKey';
@@ -89,9 +89,11 @@ export default function Plan({ index, plan, reservations, color, date }) {
 		});
 	};
 
-	useEscKey(() => {
+	const handleMapClose = () => {
 		setIsMapActive(false);
-	});
+		scrollDisable();
+	};
+	useEscKey(handleMapClose);
 
 	return (
 		<div className="p-itinerary__plan f-v f-a-s" style={getColorStyles(color)}>
@@ -141,6 +143,7 @@ export default function Plan({ index, plan, reservations, color, date }) {
 					className={clsx('btn', `cr-${color}-d`)}
 					onClick={() => {
 						setIsMapActive(true);
+						scrollEnable();
 					}}
 				>
 					Show Map
@@ -152,16 +155,18 @@ export default function Plan({ index, plan, reservations, color, date }) {
 					'is-active': isMapActive,
 				})}
 			>
-				<Map id={baseId} locations={filterLocationsByActivities()} />
+				<Map
+					id={baseId}
+					locations={filterLocationsByActivities()}
+					color={color}
+				/>
 				<Button
 					className={clsx(
 						'p-itinerary__plan__map__close',
 						'btn',
 						`cr-${color}-d`
 					)}
-					onClick={() => {
-						setIsMapActive(false);
-					}}
+					onClick={handleMapClose}
 				>
 					<span className="icon-close" />
 					Close

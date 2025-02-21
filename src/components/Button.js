@@ -13,7 +13,7 @@ export default function Button({
 	if (isButton) {
 		return (
 			<button onClick={onClick} className={className}>
-				<span className="btn__text">{children}</span>
+				<div className="btn__text">{children}</div>
 			</button>
 		);
 	}

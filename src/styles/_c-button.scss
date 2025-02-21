@@ -127,10 +127,6 @@
 		font-size: 13px;
 	}
 
-	span {
-		position: relative;
-	}
-
 	@include hover {
 		box-shadow: var(--shadow-2);
 
@@ -206,6 +202,7 @@ input[disabled] {
 }
 
 .btn__text {
+	position: relative;
 	display: flex;
 	align-items: center;
 	gap: 5px;

@@ -133,7 +133,6 @@ export const getLocationsData = (type) => {
 		`;
 	} else {
 		defaultData += groq`
-			price,
 			"images": images[]{
 				${imageMeta}
 			},

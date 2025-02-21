@@ -45,7 +45,7 @@ const getMiddle = (prop, markers) => {
 	return result;
 };
 
-export default function TheMap({ id, locations }) {
+export default function TheMap({ id, locations, color }) {
 	const [selectedMarker, setSelectedMarker] = useState();
 	const center = {
 		lat: getMiddle('lat', locations),
@@ -81,9 +81,10 @@ export default function TheMap({ id, locations }) {
 									title={location.title}
 									onClick={() => {
 										setMag({
-											content: location,
-											url: `/locations/${location.slug}`,
-											isQueryUrl: true,
+											slug: location.slug,
+											type: 'location',
+											color: color,
+											// url: `/locations/${location.slug}&c=${color}`,
 										});
 										setSelectedMarker(location.title);
 									}}

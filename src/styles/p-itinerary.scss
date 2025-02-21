@@ -16,13 +16,7 @@
 		color: var(--cr-primary);
 		background-color: var(--cr-secondary);
 
-		::selection {
-			text-shadow: none;
-			color: var(--cr-secondary);
-			background-color: var(--cr-primary);
-		}
-
-		::-moz-selection {
+		@include selection {
 			text-shadow: none;
 			color: var(--cr-secondary);
 			background-color: var(--cr-primary);
@@ -38,10 +32,6 @@
 
 			.c-carousel__viewport {
 				background-color: var(--cr-primary);
-			}
-
-			.c-carousel__controls {
-				margin-top: var(--s-2-v);
 			}
 
 			.c-carousel__dot.is-selected {
