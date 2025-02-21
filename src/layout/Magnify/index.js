@@ -73,7 +73,7 @@ export function ContentLocation({ data, color }) {
 			{address && (
 				<div className="g-magnify-locations__address wysiwyg">
 					<h3 className="t-l-1">Address</h3>
-					<div className="t-h-4">{formatAddress(address)}</div>
+					<div className="t-h-3">{formatAddress(address)}</div>
 					<Link
 						className={clsx('btn-underline', color && `cr-${color}-d`)}
 						href={`https://www.google.com/maps/dir//${encodeURIComponent(addressString)}`}

@@ -140,7 +140,7 @@ export function formatAddress(address) {
 			.join(' ');
 	};
 
-	return `${street ? `${formatStreet(street)}, ` : ''}${city || ''} ${zip}`;
+	return `${street ? `${formatStreet(street)}, ` : ''}${city || ''} ${zip || ''}`;
 }
 
 // ***UTILITIES / VALIDATION***

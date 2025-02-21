@@ -91,7 +91,7 @@ export default function Plan({ index, plan, reservations, color, date }) {
 
 	const handleMapClose = () => {
 		setIsMapActive(false);
-		scrollDisable();
+		scrollEnable();
 	};
 	useEscKey(handleMapClose);
 
@@ -143,7 +143,7 @@ export default function Plan({ index, plan, reservations, color, date }) {
 					className={clsx('btn', `cr-${color}-d`)}
 					onClick={() => {
 						setIsMapActive(true);
-						scrollEnable();
+						scrollDisable();
 					}}
 				>
 					Show Map
