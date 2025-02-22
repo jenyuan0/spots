@@ -31,6 +31,17 @@
 		}
 	}
 
+	@keyframes fadeScaleIn {
+		0% {
+			opacity: 0;
+			transform: scale(0.4);
+		}
+		100% {
+			opacity: 1;
+			transform: scale(1);
+		}
+	}
+
 	&__marker {
 		display: flex;
 		align-items: center;
@@ -41,6 +52,8 @@
 		padding: 4px;
 		border: 1px solid;
 		border-radius: 50px;
+		animation: 0.4s fadeScaleIn both;
+		animation-delay: calc(0.02 * var(--index));
 		transition:
 			color var(--t-1),
 			background-color var(--t-1),
@@ -67,6 +80,14 @@
 			gap: 2px;
 			padding: 4px 15px;
 			padding-right: 20px;
+
+			display: none;
+		}
+
+		@include hover {
+			&__content {
+				width: auto;
+			}
 		}
 
 		&__title {

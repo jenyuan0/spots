@@ -79,6 +79,7 @@ export default function TheMap({ id, locations, color }) {
 								<AdvancedMarker
 									key={`${location.title}-${index}`}
 									position={{ lat: location.geo?.lat, lng: location.geo?.lng }}
+									style={{ '--index': `${index}s` }}
 									title={location.title}
 									onClick={() => {
 										setMag({

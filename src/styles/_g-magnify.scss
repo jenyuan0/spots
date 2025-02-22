@@ -4,7 +4,8 @@
 
 	position: fixed;
 	height: 100%;
-	width: Min(450px, calc(100vw - var(--s-contain) * 2));
+	overflow-y: auto;
+	width: Min(600px, calc(100vw - var(--s-contain) * 2));
 	top: 0;
 	right: 0;
 	padding: var(--s-4-v) 0;
@@ -44,6 +45,12 @@
 		padding-inline: var(--s-4-h);
 		margin-bottom: var(--s-4-v);
 		text-align: center;
+	}
+
+	&__images {
+		margin-inline: var(--s-3-h);
+		overflow: hidden;
+		border-radius: var(--br-2);
 	}
 
 	&__res {

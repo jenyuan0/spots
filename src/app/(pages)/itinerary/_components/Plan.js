@@ -93,7 +93,12 @@ export default function Plan({ index, plan, reservations, color, date }) {
 		setIsMapActive(false);
 		scrollEnable();
 	};
-	useEscKey(handleMapClose);
+
+	useEscKey(() => {
+		if (!window.location.search.includes('?m=')) {
+			handleMapClose();
+		}
+	});
 
 	return (
 		<div className="p-itinerary__plan f-v f-a-s" style={getColorStyles(color)}>
