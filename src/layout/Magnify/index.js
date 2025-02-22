@@ -13,18 +13,12 @@ import useOutsideClick from '@/hooks/useOutsideClick';
 import useEscKey from '@/hooks/useEscKey';
 import useMagnify from '@/hooks/useMagnify';
 import { fileMeta } from '@/sanity/lib/queries';
+import { hasArrayValue } from '@/lib/helpers';
 
 export function ContentLocation({ data, color }) {
 	const { _id, title, address, images, content, contentItinerary, urls, fees } =
 		data?.content || {};
-	const res = data.reservations?.find((r) => r.location._id === _id);
-	const resStart = res?.startTime && new Date(res?.startTime);
-	const resEnd = res?.endTime && new Date(res?.endTime);
-	const timeRange =
-		resStart &&
-		(resEnd
-			? `${format(resStart, 'MMMM do, h:mm aaa')}—${format(resEnd, 'h:mm aaa')}`
-			: format(resStart, 'MMMM do, h:mm aaa'));
+	const res = data.reservations?.filter((r) => r.location._id === _id);
 	const addressString =
 		address &&
 		Object.values(address)
@@ -34,21 +28,35 @@ export function ContentLocation({ data, color }) {
 	return (
 		<div className="g-magnify-locations">
 			{title && <h2 className="g-magnify-locations__heading t-h-2">{title}</h2>}
-			{(resStart || res?.notes) && (
+			{res?.length > 0 && (
 				<div className="g-magnify-locations__res wysiwyg">
-					<h3 className="t-l-1">Reservation</h3>
-					{timeRange && <div className="t-h-4">{timeRange}</div>}
-					{res?.notes && <CustomPortableText blocks={res.notes} />}
+					<h3 className="t-l-1">Reservation{res.length > 1 && 's'}</h3>
+					{res?.map((res, i) => {
+						const resStart = res?.startTime && new Date(res?.startTime);
+						const resEnd = res?.endTime && new Date(res?.endTime);
+						const timeRange =
+							resStart &&
+							(resEnd
+								? `${format(resStart, 'MMMM do, h:mm aaa')}—${format(resEnd, 'h:mm aaa')}`
+								: format(resStart, 'MMMM do, h:mm aaa'));
 
-					{res?.attachments && (
-						<ul>
-							{res?.attachments.map((att, i) => (
-								<Link key={`res-att-${i}`} href={att.url} target={'_blank'}>
-									{att.filename}
-								</Link>
-							))}
-						</ul>
-					)}
+						return (
+							<div key={`res-${i}`}>
+								{timeRange && <div className="t-h-4">{timeRange}</div>}
+								{res?.notes && <CustomPortableText blocks={res.notes} />}
+
+								{res?.attachments && (
+									<ul>
+										{res?.attachments.map((att, i) => (
+											<Link key={`res-att-${i}`} href={att.url} target="_blank">
+												{att.filename}
+											</Link>
+										))}
+									</ul>
+								)}
+							</div>
+						);
+					})}
 				</div>
 			)}
 			{images && (
@@ -83,19 +91,21 @@ export function ContentLocation({ data, color }) {
 					</Link>
 				</div>
 			)}
-			{fees?.length && (
+			{hasArrayValue(fees) && (
 				<div className="g-magnify-locations__fees wysiwyg">
 					<h3 className="t-l-1">Fees</h3>
 					<p>{fees.map((fee) => fee).join(' • ')}</p>
 				</div>
 			)}
-			{urls?.length && (
+			{hasArrayValue(urls) && (
 				<div className="g-magnify-locations__urls wysiwyg">
 					<ul>
 						{urls.map((url, i) => (
 							<li key={`url-${i}`}>
 								<Link href={url} target={'_blank'}>
-									{url.replace(/^http:\/\/|^https:\/\//, '').replace(/\/$/, '')}
+									{url
+										.replace(/^(https?:\/\/)?(www\.)?/, '')
+										.replace(/\/$/, '')}
 								</Link>
 							</li>
 						))}

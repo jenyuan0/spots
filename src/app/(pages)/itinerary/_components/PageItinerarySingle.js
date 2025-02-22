@@ -15,7 +15,7 @@ import Reservations from './Reservations';
 // TODO:
 // 1. custom background image for each day
 // 2. weather dependent icon next to each day's title
-// 3. more fun
+// 3. more fun - weather dependent scenary based on section or active accordion, e.g. cloud emerging, sun coming up then going down, etc.
 
 export default function PageItinerarySingle({ data }) {
 	const {

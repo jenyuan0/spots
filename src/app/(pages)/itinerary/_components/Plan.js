@@ -82,11 +82,19 @@ export default function Plan({ index, plan, reservations, color, date }) {
 
 	// Handle checkbox changes
 	const handleActivityToggle = (title) => {
-		setCheckedActivities((prev) => {
-			const next = new Set(prev);
-			next.has(title) ? next.delete(title) : next.add(title);
-			return next;
-		});
+		if (title === 'selectAll') {
+			setCheckedActivities(
+				new Set(activities.map((activity) => activity.title))
+			);
+		} else if (title === 'deselectAll') {
+			setCheckedActivities(new Set());
+		} else {
+			setCheckedActivities((prev) => {
+				const next = new Set(prev);
+				next.has(title) ? next.delete(title) : next.add(title);
+				return next;
+			});
+		}
 	};
 
 	const handleMapClose = () => {
@@ -103,10 +111,15 @@ export default function Plan({ index, plan, reservations, color, date }) {
 	return (
 		<div className="p-itinerary__plan f-v f-a-s" style={getColorStyles(color)}>
 			<div className="p-itinerary__plan__header wysiwyg">
-				<div className="t-l-1">Day {index + 1}</div>
-				<h2 className="t-h-2">{plan.title || format(date, 'MMMM do')}</h2>
+				{!plan.title && !date ? (
+					<h2 className="t-h-1">Day {index + 1}</h2>
+				) : (
+					<>
+						<div className="t-l-1">Day {index + 1}</div>
+						<h2 className="t-h-2">{plan.title || format(date, 'MMMM do')}</h2>
+					</>
+				)}
 			</div>
-
 			{plan.day?.images && (
 				<div className="p-itinerary__plan__images">
 					<Carousel isShowDots={true} isAutoplay={true} autoplayInterval={6000}>
@@ -116,14 +129,12 @@ export default function Plan({ index, plan, reservations, color, date }) {
 					</Carousel>
 				</div>
 			)}
-
 			{(plan.content || plan?.day?.content) && (
 				<div className="p-itinerary__plan__highlight wysiwyg">
 					<h3 className="t-l-1">Day Highlight</h3>
 					<CustomPortableText blocks={plan.content || plan.day.content} />
 				</div>
 			)}
-
 			<div className="p-itinerary__plan__activities">
 				<h2 className="p-itinerary__plan__activities__title t-l-1">
 					Activities
@@ -142,7 +153,6 @@ export default function Plan({ index, plan, reservations, color, date }) {
 					);
 				})}
 			</div>
-
 			<div className="p-itinerary__plan__footer f-v f-a-c">
 				<Button
 					className={clsx('btn', `cr-${color}-d`)}
@@ -154,7 +164,6 @@ export default function Plan({ index, plan, reservations, color, date }) {
 					Show Map
 				</Button>
 			</div>
-
 			<div
 				className={clsx('p-itinerary__plan__map', {
 					'is-active': isMapActive,
@@ -178,7 +187,7 @@ export default function Plan({ index, plan, reservations, color, date }) {
 				</Button>
 
 				<div className="p-itinerary__plan__map__filters">
-					<h2 className="t-h-4">{plan.title || format(date, 'MMMM do')}</h2>
+					<h2 className="t-h-3">{plan.title || format(date, 'MMMM do')}</h2>
 					<ul>
 						{activities?.map((activity, i) => {
 							const { title, startTime } = activity;
@@ -194,12 +203,30 @@ export default function Plan({ index, plan, reservations, color, date }) {
 										onChange={() => handleActivityToggle(title)}
 									/>
 									<label htmlFor={id}>
-										{startTime && formatTimeToAMPM(startTime)} {title}
+										{startTime && formatTimeToAMPM(startTime)} - {title}
 										{locationLength && ` (${locationLength})`}
 									</label>
 								</li>
 							);
 						})}
+
+						<li className="p-itinerary__plan__map__filters__batch-action t-l-2">
+							<button
+								onClick={() => {
+									handleActivityToggle(
+										checkedActivities.size == activities.length
+											? 'deselectAll'
+											: 'selectAll'
+									);
+								}}
+							>
+								<u>
+									{checkedActivities.size == activities.length
+										? 'Deselect All'
+										: 'Select All'}
+								</u>
+							</button>
+						</li>
 					</ul>
 				</div>
 			</div>

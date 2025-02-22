@@ -21,7 +21,7 @@ export function getUrlBaseAndPath(url) {
 }
 
 export function hasArrayValue(arr) {
-	return Array.isArray(arr) && arr.length > 0;
+	return Array.isArray(arr) && arr.length > 0 && arr.some((item) => item != '');
 }
 
 // ***UTILITIES / FORMAT***

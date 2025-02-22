@@ -139,10 +139,13 @@
 				box-shadow: var(--shadow-1);
 				padding: 20px;
 
+				&__batch-action {
+					margin-top: 10px;
+				}
+
 				ul {
 					display: flex;
 					flex-direction: column;
-					gap: 8px;
 				}
 
 				li {
@@ -152,7 +155,12 @@
 				}
 
 				label {
-					padding-left: 4px;
+					padding-block: 4px;
+				}
+
+				@media (hover: hover) {
+					input {
+					}
 				}
 			}
 		}
