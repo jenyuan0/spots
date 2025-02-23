@@ -12,6 +12,7 @@ import Button from '@/components/Button';
 import Carousel from '@/components/Carousel';
 import Accordion from '@/components/Accordions/Accordion';
 import Map from '@/components/Map';
+import { IconMaximize, IconMinimize } from '@/components/SvgIcons';
 
 // Helper functions
 const getActivitiesPlusRes = (activities, reservations, date) =>
@@ -161,6 +162,7 @@ export default function Plan({ index, plan, reservations, color, date }) {
 						scrollDisable();
 					}}
 				>
+					<IconMaximize />
 					Show Map
 				</Button>
 			</div>
@@ -182,8 +184,8 @@ export default function Plan({ index, plan, reservations, color, date }) {
 					)}
 					onClick={handleMapClose}
 				>
-					<span className="icon-close" />
-					Close
+					<IconMinimize />
+					Close Map
 				</Button>
 
 				<div className="p-itinerary__plan__map__filters">

@@ -22,6 +22,12 @@
 			background-color: var(--cr-primary);
 		}
 
+		@media (hover: hover) {
+			*:focus-visible {
+				outline-color: var(--cr-primary) !important;
+			}
+		}
+
 		&__header {
 			text-align: center;
 		}
@@ -112,8 +118,8 @@
 				& > div {
 					clip-path: polygon(
 						0 0,
-						calc(100% - 140px) 0,
-						calc(100% - 140px) 65px,
+						calc(100% - 155px) 0,
+						calc(100% - 155px) 65px,
 						100% 65px,
 						100% 100%,
 						0 100%
@@ -156,11 +162,6 @@
 
 				label {
 					padding-block: 4px;
-				}
-
-				@media (hover: hover) {
-					input {
-					}
 				}
 			}
 		}

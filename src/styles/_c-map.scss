@@ -16,6 +16,10 @@
 		}
 	}
 
+	[class*='marker-view']:hover {
+		z-index: 1;
+	}
+
 	&__marker {
 		display: flex;
 		align-items: center;
@@ -27,7 +31,7 @@
 		border: 1px solid;
 		border-radius: 50px;
 		animation: 0.4s fadeScaleIn both;
-		animation-delay: calc(0.02 * var(--index));
+		animation-delay: calc(0.02s * var(--index));
 		transition:
 			color var(--t-1),
 			background-color var(--t-1),

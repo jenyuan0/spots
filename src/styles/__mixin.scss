@@ -77,3 +77,21 @@
 		@content;
 	}
 }
+
+// ***Misc***
+@mixin customScrollbar($color: var(--cr-brown)) {
+	&::-webkit-scrollbar {
+		width: 5px;
+	}
+
+	&::-webkit-scrollbar-track {
+		border-radius: 10px;
+		background-color: var(--cr-subtle);
+		margin: 5px 0;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: $color;
+		border-radius: 10px;
+	}
+}

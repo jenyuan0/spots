@@ -97,6 +97,11 @@
 		--cr-secondary: var(--cr-cream);
 		--cr-underline: var(--cr-purple-l);
 	}
+
+	svg {
+		width: 0.8em;
+		margin-right: 0.4em;
+	}
 }
 
 .btn,
