@@ -40,6 +40,9 @@ import pHome from './schemas/documents/p-home';
 import pGuides from './schemas/documents/p-guides';
 import pLocations from './schemas/documents/p-locations';
 import pContact from './schemas/documents/p-contact';
+import pTripBespoke from './schemas/documents/p-trip-bespoke';
+import pTripReady from './schemas/documents/p-trip-ready';
+import pHotelBooking from './schemas/documents/p-hotel-booking';
 
 const schemas = [
 	settingsGeneral,
@@ -80,6 +83,9 @@ const schemas = [
 	pGuides,
 	pLocations,
 	pContact,
+	pTripBespoke,
+	pTripReady,
+	pHotelBooking,
 ];
 
 export default schemas;

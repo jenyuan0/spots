@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import Menu from '@/components/Menu';
 import { motion } from 'framer-motion';
 import { pageTransitionFade } from '@/lib/animate';
 

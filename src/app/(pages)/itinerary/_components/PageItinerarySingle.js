@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { format, add, isSameDay, isSameMonth } from 'date-fns';
 import HeaderItinerary from '@/layout/HeaderItinerary';
 import CustomPortableText from '@/components/CustomPortableText';
-import CustomLink from '@/components/CustomLink';
 import Img from '@/components/Image';
 import Button from '@/components/Button';
 import LocationCard from '@/components/LocationCard';

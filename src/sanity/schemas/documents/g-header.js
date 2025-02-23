@@ -6,10 +6,10 @@ export default defineType({
 	type: 'document',
 	fields: [
 		{
-			title: 'Menu',
+			title: 'Menus',
 			name: 'menu',
-			type: 'reference',
-			to: [{ type: 'settingsMenu' }],
+			type: 'array',
+			of: [{ type: 'settingsMenu' }],
 		},
 	],
 	preview: {

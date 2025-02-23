@@ -5,6 +5,7 @@ import {
 	DocumentsIcon,
 	BookIcon,
 	PinIcon,
+	DocumentIcon,
 } from '@sanity/icons';
 import { apiVersion } from '@/sanity/env';
 
@@ -73,6 +74,45 @@ export const pageLocationsIndex = (S) => {
 		.icon(PinIcon);
 };
 
+export const pageTripBespoke = (S) => {
+	return S.listItem()
+		.title('Bespoke Trips')
+		.child(
+			S.editor()
+				.id('pTripBespoke')
+				.title('Bespoke Trips')
+				.schemaType('pTripBespoke')
+				.documentId('pTripBespoke')
+		)
+		.icon(DocumentIcon);
+};
+
+export const pageTripReady = (S) => {
+	return S.listItem()
+		.title('Ready-to-Book Trips')
+		.child(
+			S.editor()
+				.id('pTripReady')
+				.title('Ready-to-Book Trips')
+				.schemaType('pTripReady')
+				.documentId('pTripReady')
+		)
+		.icon(DocumentIcon);
+};
+
+export const pageHotelBooking = (S) => {
+	return S.listItem()
+		.title('Hotel Booking')
+		.child(
+			S.editor()
+				.id('pHotelBooking')
+				.title('Hotel Booking')
+				.schemaType('pHotelBooking')
+				.documentId('pHotelBooking')
+		)
+		.icon(DocumentIcon);
+};
+
 export const pagesMenu = (S) => {
 	return S.listItem()
 		.title('Primary Pages')
@@ -87,6 +127,9 @@ export const pagesMenu = (S) => {
 					pageContact(S),
 					pageGuidesIndex(S),
 					pageLocationsIndex(S),
+					pageTripBespoke(S),
+					pageTripReady(S),
+					pageHotelBooking(S),
 				])
 		);
 };

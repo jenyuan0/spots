@@ -1,6 +1,6 @@
 import { PortableText } from '@portabletext/react';
 import React from 'react';
-import CustomLink from '@/components/CustomLink';
+import Link from '@/components/CustomLink';
 import PortableTable from './PortableTable';
 import Img from '@/components/Image';
 
@@ -25,9 +25,9 @@ const portableTextComponents = {
 			const { link } = value || {};
 			if (link && link?.route) {
 				return (
-					<CustomLink link={link}>
+					<Link href={link.route} isNewTab={link.isNewTab}>
 						<Img image={value} />
-					</CustomLink>
+					</Link>
 				);
 			}
 			return <Img image={value} />;
@@ -74,13 +74,17 @@ const portableTextComponents = {
 	},
 	marks: {
 		link: ({ value, children }) => {
-			return <CustomLink link={value}>{children}</CustomLink>;
+			return (
+				<Link href={value?.route} isNewTab={value?.isNewTab}>
+					{children}
+				</Link>
+			);
 		},
 		callToAction: ({ value, children }) => {
 			return (
-				<CustomLink link={value.link} isButton={true}>
+				<Link href={value?.route} isNewTab={value?.isNewTab}>
 					{children}
-				</CustomLink>
+				</Link>
 			);
 		},
 	},

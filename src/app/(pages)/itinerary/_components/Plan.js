@@ -4,7 +4,7 @@ import React, { useState, useCallback, useId } from 'react';
 import { formatTimeToAMPM, scrollEnable, scrollDisable } from '@/lib/helpers';
 import { format, isSameDay } from 'date-fns';
 import clsx from 'clsx';
-import useEscKey from '@/hooks/useEscKey';
+import useKey from '@/hooks/useKey';
 import CustomPortableText from '@/components/CustomPortableText';
 import LocationList from '@/components/LocationList';
 import Img from '@/components/Image';
@@ -103,7 +103,7 @@ export default function Plan({ index, plan, reservations, color, date }) {
 		scrollEnable();
 	};
 
-	useEscKey(() => {
+	useKey(() => {
 		if (!window.location.search.includes('?m=')) {
 			handleMapClose();
 		}
@@ -157,12 +157,12 @@ export default function Plan({ index, plan, reservations, color, date }) {
 			<div className="p-itinerary__plan__footer f-v f-a-c">
 				<Button
 					className={clsx('btn', `cr-${color}-d`)}
+					icon={<IconMaximize />}
 					onClick={() => {
 						setIsMapActive(true);
 						scrollDisable();
 					}}
 				>
-					<IconMaximize />
 					Show Map
 				</Button>
 			</div>
@@ -182,9 +182,9 @@ export default function Plan({ index, plan, reservations, color, date }) {
 						'btn',
 						`cr-${color}-d`
 					)}
+					icon={<IconMinimize />}
 					onClick={handleMapClose}
 				>
-					<IconMinimize />
 					Close Map
 				</Button>
 

@@ -12,8 +12,12 @@ const pageDocumentOrder = [
 	'pGeneral',
 	'pGuides',
 	'gGuides',
+	'pLocations',
 	'gLocations',
 	'gItineraries',
+	'pTripBespoke',
+	'pTripReady',
+	'pHotelBooking',
 ];
 
 const fetchOptions = async () => {

@@ -29,7 +29,7 @@
 	--t-l-1: 700 14px/1 'Helvetica Neue', Helvetica, sans-serif;
 	--t-l-2: 12px/1 'Helvetica Neue', Helvetica, sans-serif;
 
-	--s-sidebar: 190px;
+	--s-sidebar: Min(240px, 100%);
 	--s-contain: Max(3vw, 10px);
 	--s-contain-min: Min(
 		100vw - var(--s-sidebar) * 2 - var(--s-contain) * 4,
@@ -47,10 +47,7 @@
 	--s-vp-height: 100vh;
 	--s-vp-height: 100svh;
 	--s-main-min-height: calc(
-		var(--s-vp-height) - var(--s-announcement, 0px) - var(
-				--s-header,
-				0px
-			) - var(--s-footer, 0px)
+		var(--s-vp-height) - var(--s-announcement, 0px) - var(--s-footer, 0px)
 	); // Set minimum container height to fill screen, keeping footer at bottom.
 
 	--s-1-v: 5px;

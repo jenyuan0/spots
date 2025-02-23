@@ -1,51 +1,51 @@
-import clsx from 'clsx';
+import React from 'react';
 import { useRouter } from 'next/navigation';
 import NextLink from 'next/link';
-import React from 'react';
+import useKey from '@/hooks/useKey';
 
-export { NextLink };
+// Add prop validation
+const isValidRoute = (route) => {
+	return typeof route === 'string' && route.length > 0;
+};
+
 export default function CustomLink({
-	link,
+	href,
 	title,
 	children,
 	className,
 	ariaLabel,
 	isNewTab,
-	isButton,
+	onClick,
 	...props
 }) {
+	if (!href || !isValidRoute(href)) return null;
+
 	const router = useRouter();
+	const { hasPressedKeys } = useKey();
+	const isMailTo = href?.match('^mailto:');
 
-	if (!link.route) return null;
+	const handleClick = (event) => {
+		onClick?.(event);
 
-	const { route } = link;
-	const isOpenNewTab = isNewTab ?? link.isNewTab;
+		if (event.defaultPrevented) return;
 
-	const onHandleClick = (event) => {
-		if (
-			document.startViewTransition &&
-			!isOpenNewTab &&
-			!(event.metaKey || event.ctrlKey)
-			// Check if the Command key (on Mac) or Control key (on Windows/Linux) is pressed
-		) {
+		if (document.startViewTransition && !isNewTab && !hasPressedKeys) {
 			event.preventDefault();
 			document.startViewTransition(() => {
-				router.push(route);
+				router.push(href);
 			});
 		}
 	};
 
 	return (
 		<NextLink
-			href={route}
-			target={route?.match('^mailto:') || isOpenNewTab ? '_blank' : null}
-			rel={isOpenNewTab ? 'noopener noreferrer' : null}
-			aria-label={ariaLabel || `${title || `Go to ${route}`}`}
-			className={clsx(className, {
-				btn: isButton,
-			})}
+			href={href}
+			target={isMailTo || isNewTab ? '_blank' : undefined}
+			rel={isNewTab ? 'noopener noreferrer' : undefined}
+			aria-label={ariaLabel}
+			className={className}
+			onClick={handleClick}
 			{...props}
-			onClick={onHandleClick}
 		>
 			{title || children}
 		</NextLink>

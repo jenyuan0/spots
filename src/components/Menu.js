@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import CustomLink from '@/components/CustomLink';
+import Link from '@/components/CustomLink';
 import Dropdown from '@/components/MenuDropdown';
 import { usePathname } from 'next/navigation';
 import { checkIfActive } from '@/lib/routes';
@@ -46,7 +46,9 @@ export default function Menu({ items, className, ulClassName }) {
 
 					return (
 						<li key={index} className={clsx({ 'is-active': isActive })}>
-							<CustomLink link={link} title={item.title} />
+							<Link href={link.route} isNewTab={link.isNewTab}>
+								{item.title}
+							</Link>
 						</li>
 					);
 				})}

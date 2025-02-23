@@ -35,7 +35,7 @@ export default function Layout({ children, siteData }) {
 			<ProgressLoader />
 			<AdaSkip />
 			<Announcement data={announcement} />
-			{showHeader && <Header siteData={siteData} data={header} />}
+			{showHeader && <Header data={header} />}
 			<Main>{children}</Main>
 			<Magnify />
 			{showHeader && <Footer siteData={siteData} data={footer} />}

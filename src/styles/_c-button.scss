@@ -19,6 +19,7 @@
 	user-select: none;
 
 	height: var(--height);
+	gap: 15px;
 	border-radius: calc(var(--height) / 2);
 	font: var(--t-l-1);
 	line-height: 1;
@@ -96,11 +97,6 @@
 		--cr-primary: var(--cr-purple-d);
 		--cr-secondary: var(--cr-cream);
 		--cr-underline: var(--cr-purple-l);
-	}
-
-	svg {
-		width: 0.8em;
-		margin-right: 0.4em;
 	}
 }
 
@@ -206,9 +202,16 @@ input[disabled] {
 	cursor: not-allowed;
 }
 
-.btn__text {
-	position: relative;
-	display: flex;
-	align-items: center;
-	gap: 5px;
+.btn {
+	&__icon {
+		position: relative;
+		width: calc(var(--height) * 0.35);
+		margin-right: auto;
+	}
+
+	&__text {
+		position: relative;
+		flex: 1;
+		gap: 5px;
+	}
 }

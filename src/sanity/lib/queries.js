@@ -19,13 +19,6 @@ const menu = groq`
 		title,
 		link {
 			${link}
-		},
-		dropdownItems[]{
-			_key,
-			title,
-			link {
-				${link}
-			},
 		}
 	}
 `;
@@ -240,7 +233,7 @@ export const site = groq`
 			"link": ${link}
 		},
 		"header": *[_type == "gHeader"][0]{
-			menu->{
+			menu[]{
 				${menu}
 			}
 		},

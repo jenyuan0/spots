@@ -13,7 +13,7 @@ export default defineType({
 		{
 			name: 'items',
 			type: 'array',
-			of: [{ type: 'navItem' }, { type: 'navDropdown' }],
+			of: [{ type: 'navItem' }],
 		},
 	],
 	preview: {

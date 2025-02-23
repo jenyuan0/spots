@@ -6,21 +6,29 @@ export default function Button({
 	className = '',
 	href,
 	target,
+	icon,
 	children,
 }) {
 	const isButton = !href;
 
+	const content = (
+		<>
+			{icon && <div className="btn__icon">{icon}</div>}
+			<div className="btn__text">{children}</div>
+		</>
+	);
+
 	if (isButton) {
 		return (
 			<button onClick={onClick} className={className}>
-				<div className="btn__text">{children}</div>
+				{content}
 			</button>
 		);
 	}
 
 	return (
-		<Link onClick={onClick} className={className} href={href} target={target}>
-			<span>{children}</span>
+		<Link href={href} target={target} className={className} onClick={onClick}>
+			{content}
 		</Link>
 	);
 }

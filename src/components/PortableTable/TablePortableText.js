@@ -1,5 +1,5 @@
 import React from 'react';
-import CustomLink from '@/components/CustomLink';
+import Link from '@/components/CustomLink';
 import { PortableText } from '@portabletext/react';
 
 const tablePortableTextComponents = {
@@ -9,7 +9,11 @@ const tablePortableTextComponents = {
 	},
 	marks: {
 		link: ({ value, children }) => {
-			return <CustomLink link={value}>{children}</CustomLink>;
+			return (
+				<Link href={value?.route} isNewTab={value?.isNewTab}>
+					{children}
+				</Link>
+			);
 		},
 	},
 };

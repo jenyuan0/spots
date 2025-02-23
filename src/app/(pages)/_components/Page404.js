@@ -1,6 +1,6 @@
 'use client';
 
-import CustomLink from '@/components/CustomLink';
+import Link from '@/components/CustomLink';
 import CustomPortableText from '@/components/CustomPortableText';
 
 export default function Page404({ data }) {
@@ -14,12 +14,9 @@ export default function Page404({ data }) {
 				{paragraph && <CustomPortableText blocks={paragraph} />}
 
 				{callToAction && (
-					<CustomLink
-						link={callToAction.link}
-						isNewTab={callToAction.isNewTab}
-						title={callToAction.label}
-						isButton={true}
-					/>
+					<Link link={callToAction?.link} isNewTab={callToAction?.isNewTab}>
+						{callToAction.label}
+					</Link>
 				)}
 			</div>
 		</div>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export default function useKey() {
+export default function useKey(onEscape) {
 	const [pressedKeys, setPressedKeys] = useState({
 		command: false, // For Mac
 		ctrl: false, // For Windows/Linux
@@ -27,9 +27,15 @@ export default function useKey() {
 				ctrl: e.ctrlKey,
 				shift: e.shiftKey,
 				alt: e.altKey,
+				escape: e.key === 'Escape',
 			};
 			setPressedKeys(newPressedKeys);
 			setHasPressedKeys(Object.values(newPressedKeys).includes(true));
+
+			// Call onEscape callback when Escape key is released
+			if (e.key === 'Escape' && onEscape) {
+				onEscape();
+			}
 		};
 
 		window.addEventListener('keydown', handleKeyDown);
@@ -39,7 +45,7 @@ export default function useKey() {
 			window.removeEventListener('keydown', handleKeyDown);
 			window.removeEventListener('keyup', handleKeyUp);
 		};
-	}, []);
+	}, [onEscape]);
 
 	return {
 		pressedKeys,

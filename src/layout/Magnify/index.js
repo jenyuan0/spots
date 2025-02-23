@@ -10,7 +10,7 @@ import Img from '@/components/Image';
 import Button from '@/components/Button';
 import CustomPortableText from '@/components/CustomPortableText';
 import useOutsideClick from '@/hooks/useOutsideClick';
-import useEscKey from '@/hooks/useEscKey';
+import useKey from '@/hooks/useKey';
 import useMagnify from '@/hooks/useMagnify';
 import { fileMeta } from '@/sanity/lib/queries';
 import { hasArrayValue } from '@/lib/helpers';
@@ -212,7 +212,7 @@ export function Magnify() {
 	};
 
 	useOutsideClick(containerRef, handleClose);
-	useEscKey(handleClose);
+	useKey(handleClose);
 
 	return (
 		<div

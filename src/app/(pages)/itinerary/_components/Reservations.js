@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import CustomLink from '@/components/CustomLink';
+import Link from '@/components/CustomLink';
 import CustomPortableText from '@/components/CustomPortableText';
 import LocationCard from '@/components/LocationCard';
 
@@ -37,9 +37,7 @@ export default function Reservations({ reservations }) {
 							<ul>
 								{item?.attachments?.map((attachment, index) => (
 									<li key={`attachment-${index}`}>
-										<CustomLink link={{ route: attachment.url }}>
-											{attachment.filename}
-										</CustomLink>
+										<Link href={attachment.url}>{attachment.filename}</Link>
 									</li>
 								))}
 							</ul>

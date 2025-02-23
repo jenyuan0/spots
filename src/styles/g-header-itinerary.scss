@@ -1,17 +1,5 @@
 .g-header-itinerary {
-	position: fixed;
-	top: 50%;
-	left: var(--s-contain);
-	transform: translate3d(0, -50%, 0);
-	width: var(--s-sidebar);
-	padding: var(--s-4-v) var(--s-2-h);
-	color: var(--cr-brown);
-	background-color: var(--cr-white);
-	border-radius: var(--br-2);
-	box-shadow: var(--shadow-1);
-	gap: 30px;
-	text-align: center;
-	z-index: 100;
+	@include sidebarLeft;
 
 	&__links {
 		&__title {
