@@ -211,7 +211,10 @@ input[disabled] {
 
 	&__text {
 		position: relative;
+		display: flex;
 		flex: 1;
+		justify-content: center;
+		align-items: center;
 		gap: 5px;
 	}
 }

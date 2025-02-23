@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { pageTransitionFade } from '@/lib/animate';
+import Menu from '@/components/Menu';
 
 export default function Footer({ siteData, data }) {
 	const footerRef = useRef();

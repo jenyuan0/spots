@@ -28,10 +28,6 @@ export default function Layout({ children, siteData }) {
 		}
 	}, [siteData, pathname]);
 
-	if (pathname.startsWith('/sanity')) {
-		return children;
-	}
-
 	const fetchIsCustomItinerary = async (pathname) => {
 		try {
 			const dataSlug = pathname.split('/').pop();
@@ -60,6 +56,10 @@ export default function Layout({ children, siteData }) {
 			setIsCustomItinerary(false);
 		}
 	}, [pathname]);
+
+	if (pathname.startsWith('/sanity')) {
+		return children;
+	}
 
 	return (
 		<>

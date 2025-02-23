@@ -350,3 +350,20 @@ export function isValidUrl(urlString) {
 	);
 	return !!urlPattern.test(urlString);
 }
+
+export function colorArray(startingColor) {
+	let arr = ['green', 'blue', 'red', 'orange', 'purple'];
+
+	if (!startingColor) {
+		// If no color provided, shuffle array randomly
+		const shuffled = [...arr];
+		for (let i = shuffled.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+		}
+		return shuffled;
+	}
+	// Otherwise use original rotation logic
+	const index = arr.indexOf(startingColor);
+	return [...arr.slice(index), ...arr.slice(0, index)];
+}

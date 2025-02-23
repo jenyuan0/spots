@@ -1,0 +1,46 @@
+.p-home {
+	&__hero {
+		--padding: 10px;
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		margin: var(--padding);
+		height: calc(100svh - var(--padding) * 2);
+		border-radius: var(--br-3);
+		overflow: hidden;
+
+		&__heading {
+			position: relative;
+			margin: auto;
+			width: var(--s-container-med);
+			color: var(--cr-white);
+		}
+	}
+
+	&__intro {
+		width: var(--s-container-med);
+		margin: var(--s-section) auto;
+		text-align: center;
+	}
+
+	&__hiw {
+		height: 120svh;
+	}
+
+	&__spot {
+		position: absolute;
+		width: 80px;
+		height: 80px;
+		top: 0;
+		left: 0;
+		transform-origin: center;
+		margin: -40px;
+
+		&__link {
+			position: absolute;
+			inset: 0;
+			background-color: var(--cr-primary);
+			border-radius: 100%;
+		}
+	}
+}

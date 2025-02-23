@@ -18,12 +18,12 @@ export default function CustomLink({
 	onClick,
 	...props
 }) {
-	if (!href || !isValidRoute(href)) return null;
-
 	const router = useRouter();
 	const { hasPressedKeys } = useKey();
-	const isMailTo = href?.match('^mailto:');
 
+	if (!href || !isValidRoute(href)) return null;
+
+	const isMailTo = href?.match('^mailto:');
 	const handleClick = (event) => {
 		onClick?.(event);
 

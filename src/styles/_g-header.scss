@@ -33,6 +33,7 @@
 	&__links {
 		&__title {
 			margin-bottom: 10px;
+			color: var(--cr-blue-d);
 		}
 
 		&__ul {
@@ -44,6 +45,8 @@
 	}
 
 	&__cta {
+		margin-top: 20px;
+
 		.btn {
 			width: 100%;
 		}

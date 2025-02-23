@@ -6,7 +6,6 @@ import { checkIfActive } from '@/lib/routes';
 import Link from '@/components/CustomLink';
 import MobileMenuTrigger from './mobile-menu-trigger';
 import Button from '@/components/Button';
-import { IconWriting } from '@/components/SvgIcons';
 
 function HeaderLinks({ title, items }) {
 	const baseId = useId();

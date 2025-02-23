@@ -31,18 +31,18 @@
 
 	--s-sidebar: Min(240px, 100%);
 	--s-contain: Max(3vw, 10px);
-	--s-contain-min: Min(
-		100vw - var(--s-sidebar) * 2 - var(--s-contain) * 4,
-		540px
-	);
-	--s-contain-med: Min(
-		100vw - var(--s-sidebar) * 2 - var(--s-contain) * 4,
-		800px
-	);
 	--s-contain-max: 2480px;
 	--s-contain-dynamic: Max(
 		var(--s-contain),
 		calc((100vw - var(--s-contain-max)) / 2)
+	);
+	--s-container-min: Min(
+		100vw - var(--s-sidebar) * 2 - var(--s-contain) * 4,
+		540px
+	);
+	--s-container-med: Min(
+		100vw - var(--s-sidebar) * 2 - var(--s-contain) * 4,
+		800px
 	);
 	--s-vp-height: 100vh;
 	--s-vp-height: 100svh;
@@ -396,7 +396,7 @@ textarea {
 .wysiwyg,
 .wysiwyg-page {
 	> *:not(:last-child) {
-		margin-bottom: 10px;
+		margin-bottom: 15px;
 	}
 
 	.t-l-3:not(:last-child) {
@@ -416,11 +416,43 @@ textarea {
 	p,
 	ol,
 	ul {
-		font: var(--t-b-1);
+		a {
+			text-decoration: underline;
+		}
+	}
+}
+
+// General page specific WYSIWYG stylings
+.wysiwyg-page {
+	> *:not(:last-child) {
+		margin-bottom: 20px;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	.t-h-1,
+	.t-h-2,
+	.t-h-3,
+	.t-h-4,
+	.t-h-5,
+	.t-h-6 {
+		&:not(:first-child) {
+			margin-top: 36px;
+		}
 
 		a {
 			text-decoration: underline;
 		}
+	}
+
+	p,
+	ol,
+	ul {
+		font: var(--t-b-1);
 	}
 
 	ul,
@@ -485,34 +517,6 @@ textarea {
 
 		p {
 			font: inherit;
-		}
-	}
-}
-
-// General page specific WYSIWYG stylings
-.wysiwyg-page {
-	> *:not(:last-child) {
-		margin-bottom: 20px;
-	}
-
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6,
-	.t-h-1,
-	.t-h-2,
-	.t-h-3,
-	.t-h-4,
-	.t-h-5,
-	.t-h-6 {
-		&:not(:first-child) {
-			margin-top: 36px;
-		}
-
-		a {
-			text-decoration: underline;
 		}
 	}
 }

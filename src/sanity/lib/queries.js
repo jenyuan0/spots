@@ -264,9 +264,18 @@ export const pageHomeQuery = `
 		"slug": slug.current,
 		sharing,
 		"isHomepage": true,
-		pageModules[]{
-			${pageModules}
-		}
+		heroHeading[]{
+			${portableTextContent}
+		},
+		heroImage,
+		heroSpots[]->{
+			title,
+			_id,
+			"slug": slug.current,
+		},
+		introTitle,
+		introHeading,
+		introCta
 	}
 `;
 

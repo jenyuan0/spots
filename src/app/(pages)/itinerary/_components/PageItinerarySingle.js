@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { colorArray } from '@/lib/helpers';
 import { format, add, isSameDay, isSameMonth } from 'date-fns';
 import HeaderItinerary from '@/layout/HeaderItinerary';
 import CustomPortableText from '@/components/CustomPortableText';
@@ -39,14 +40,7 @@ export default function PageItinerarySingle({ data }) {
 		accommodation,
 		reservations,
 	} = data || {};
-	const selectColor = (arr, color) => {
-		const index = arr.indexOf(color);
-		return [...arr.slice(index), ...arr.slice(0, index)];
-	};
-	const colors = selectColor(
-		['green', 'blue', 'red', 'orange', 'purple'],
-		startingColor || 'green'
-	);
+	const colors = colorArray(startingColor || 'green');
 	const [activeDay, setActiveDay] = useState(0);
 	const [activeTab, setActiveTab] = useState('plan');
 	const startDateObj = startDate ? new Date(startDate) : false;
@@ -104,7 +98,7 @@ export default function PageItinerarySingle({ data }) {
 				datatabactive={activeTab == 'plan' ? 'true' : 'false'}
 			></div> */}
 
-			<section className="p-itinerary data-container">
+			<section className="p-itinerary">
 				<div className="p-itinerary-single__content">
 					<br />
 					<br />
