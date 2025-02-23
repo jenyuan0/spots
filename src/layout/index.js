@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { client } from '@/sanity/lib/client';
 import { siteSetup } from '@/hooks/useVsSetup';
 import * as gtag from '@/lib/gtag';
 import AdaSkip from './AdaSkip';
@@ -13,8 +14,9 @@ import Main from './Main';
 import ProgressLoader from './ProgressLoader';
 
 export default function Layout({ children, siteData }) {
-	const { announcement, header, showHeader, footer } = siteData || {};
+	const { announcement, header, footer } = siteData || {};
 	const pathname = usePathname();
+	const [isCustomItinerary, setIsCustomItinerary] = useState(false);
 
 	useEffect(() => {
 		siteSetup();
@@ -30,15 +32,44 @@ export default function Layout({ children, siteData }) {
 		return children;
 	}
 
+	const fetchIsCustomItinerary = async (pathname) => {
+		try {
+			const dataSlug = pathname.split('/').pop();
+			const showHeader = await Promise.all([
+				client.fetch(
+					`*[_type == "gItineraries" && slug.current == "${dataSlug}"][0] {
+						"value": coalesce(
+							select(
+									defined(slug.current) && type == "custom" => false,
+									true
+							)
+						)
+					}.value`
+				),
+			]);
+			setIsCustomItinerary(showHeader);
+		} catch (error) {
+			console.error('Error fetching data:', error);
+		}
+	};
+
+	useEffect(() => {
+		if (pathname.includes('/itinerary/')) {
+			fetchIsCustomItinerary(pathname);
+		} else {
+			setIsCustomItinerary(false);
+		}
+	}, [pathname]);
+
 	return (
 		<>
 			<ProgressLoader />
 			<AdaSkip />
 			<Announcement data={announcement} />
-			{showHeader && <Header data={header} />}
+			{!isCustomItinerary && <Header data={header} />}
 			<Main>{children}</Main>
 			<Magnify />
-			{showHeader && <Footer siteData={siteData} data={footer} />}
+			{!isCustomItinerary && <Footer siteData={siteData} data={footer} />}
 		</>
 	);
 }

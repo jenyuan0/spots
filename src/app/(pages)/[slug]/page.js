@@ -10,6 +10,7 @@ import PreviewPageGeneral from '../_components/PreviewPageGeneral';
 export async function generateStaticParams() {
 	const slugs = await getPagesPaths({ pageType: 'pGeneral' });
 	const params = slugs.map((slug) => ({ slug }));
+
 	return params;
 }
 

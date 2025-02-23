@@ -61,8 +61,12 @@ export default function Header({ data }) {
 					</h1>
 				</div>
 
-				{data?.menu?.map((el) => (
-					<HeaderLinks title={el?.title} items={el?.items} />
+				{data?.menu?.map((el, i) => (
+					<HeaderLinks
+						key={`header-link-${i}`}
+						title={el?.title}
+						items={el?.items}
+					/>
 				))}
 
 				<div className="g-header__cta">

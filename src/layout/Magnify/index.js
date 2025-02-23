@@ -127,7 +127,7 @@ export function Magnify() {
 	const containerRef = useRef();
 	const timerRef = useRef();
 
-	const fetchContent = async (mParam) => {
+	const fetchLocationContent = async (mParam) => {
 		setIsLoading(true);
 
 		try {
@@ -170,7 +170,7 @@ export function Magnify() {
 		setColor(cParam);
 
 		if (mParam) {
-			fetchContent(mParam);
+			fetchLocationContent(mParam);
 		} else {
 			setIsActive(false);
 		}

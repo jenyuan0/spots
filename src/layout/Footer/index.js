@@ -33,7 +33,7 @@ export default function Footer({ siteData, data }) {
 
 				<div className="g-footer__sub f-h f-a-c">
 					<div className="g-footer__copyright">
-						© {new Date().getFullYear()} {siteData.title}
+						© {new Date().getFullYear()} {siteData?.title}
 					</div>
 
 					{data?.menuLegal?.items && (

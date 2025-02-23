@@ -8,7 +8,7 @@ import { pageItinerariesSingleQuery } from '@/sanity/lib/queries';
 import { getItinerariesSinglePage, getPagesPaths } from '@/sanity/lib/fetch';
 
 export async function generateStaticParams() {
-	const slugs = await getPagesPaths({ pageType: 'gGuides' });
+	const slugs = await getPagesPaths({ pageType: 'gItineraries' });
 	const params = slugs.map((slug) => ({ slug }));
 	return params;
 }

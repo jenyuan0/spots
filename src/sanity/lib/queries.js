@@ -237,14 +237,6 @@ export const site = groq`
 				${menu}
 			}
 		},
-		"showHeader": *[_type == "gItineraries"][0] {
-			"value": coalesce(
-				select(
-						defined(slug.current) && type == "custom" => false,
-						true
-				)
-			)
-		}.value,
 		"footer": *[_type == "gFooter"][0]{
 			menu->{
 				${menu}
