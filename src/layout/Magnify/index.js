@@ -59,6 +59,19 @@ export function ContentLocation({ data, color }) {
 					})}
 				</div>
 			)}
+			{address && (
+				<div className="g-magnify-locations__address wysiwyg">
+					<h3 className="t-l-1">Address</h3>
+					<div className="t-h-3">{formatAddress(address)}</div>
+					<Link
+						className={clsx('btn-underline', color && `cr-${color}-d`)}
+						href={`https://www.google.com/maps/dir//${encodeURIComponent(addressString)}`}
+						target="_blank"
+					>
+						Get Direction
+					</Link>
+				</div>
+			)}
 			{images && (
 				<div className="g-magnify-locations__images">
 					<Carousel isShowDots={true} isAutoplay={true} autoplayInterval={3000}>
@@ -76,19 +89,6 @@ export function ContentLocation({ data, color }) {
 			{contentItinerary && (
 				<div className="g-magnify-locations__content wysiwyg">
 					<CustomPortableText blocks={contentItinerary} />
-				</div>
-			)}
-			{address && (
-				<div className="g-magnify-locations__address wysiwyg">
-					<h3 className="t-l-1">Address</h3>
-					<div className="t-h-3">{formatAddress(address)}</div>
-					<Link
-						className={clsx('btn-underline', color && `cr-${color}-d`)}
-						href={`https://www.google.com/maps/dir//${encodeURIComponent(addressString)}`}
-						target="_blank"
-					>
-						Get Direction
-					</Link>
 				</div>
 			)}
 			{hasArrayValue(fees) && (
