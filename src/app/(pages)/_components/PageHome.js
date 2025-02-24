@@ -179,7 +179,7 @@ function Highlights({ highlights }) {
 	const ref = useRef(null);
 	const { scrollYProgress } = useScroll({
 		target: ref,
-		offset: ['start 50%', 'end end'],
+		offset: ['25% 50%', 'end end'],
 	});
 
 	const springConfig = useMemo(
