@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState, useMemo } from 'react';
-import clsx from 'clsx';
-import { colorArray, getRandomInt } from '@/lib/helpers';
+import { colorArray, getRandomInt, springConfig } from '@/lib/helpers';
 import Img from '@/components/Image';
 import CustomPortableText from '@/components/CustomPortableText';
 import useMagnify from '@/hooks/useMagnify';
@@ -10,9 +9,9 @@ import useKey from '@/hooks/useKey';
 import Link from '@/components/CustomLink';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 
-// Spot component for individual animated dots
-function HeroSpot({ index, data, scrollYProgress }) {
-	const [dot, setDot] = useState({
+// Spot component for individual animated spots
+function HeroSpot({ index, lastChild, data, scrollYProgress }) {
+	const [spot, setSpot] = useState({
 		x: 1000,
 		y: 1000,
 	});
@@ -21,14 +20,12 @@ function HeroSpot({ index, data, scrollYProgress }) {
 	const { hasPressedKeys } = useKey();
 
 	useEffect(() => {
-		const randomColor = colorArray();
-
-		setDot({
-			color: randomColor[0] || 'green',
-			lightOrDark: Math.random() < 0.5 ? 'l' : 'd',
+		setSpot({
 			x: data?.x,
 			y: data?.y,
 			slug: data.slug,
+			color: data?.color,
+			lightOrDark: index % 2 ? 'l' : 'd',
 		});
 
 		setScreen({
@@ -36,7 +33,7 @@ function HeroSpot({ index, data, scrollYProgress }) {
 			y: window.innerHeight / 2,
 			height: window.innerHeight,
 		});
-	}, [data]);
+	}, [data, lastChild]);
 
 	// Create motion values outside of the render
 	const motionX = useTransform(
@@ -50,19 +47,18 @@ function HeroSpot({ index, data, scrollYProgress }) {
 			1,
 		],
 		[
-			dot.x,
-			dot.x + getRandomInt(5, 25),
-			dot.x - getRandomInt(5, 25),
-			dot.x + getRandomInt(5, 25),
-			dot.x - getRandomInt(5, 25),
-			dot.x + getRandomInt(5, 25),
+			spot.x,
+			spot.x + getRandomInt(5, 25),
+			spot.x - getRandomInt(5, 25),
+			spot.x + getRandomInt(5, 25),
+			spot.x - getRandomInt(5, 25),
+			spot.x + getRandomInt(5, 25),
 			screen.x,
 			screen.x,
 			screen.x,
 			screen.x + (index % 2 === 0 ? 1 : -1) * getRandomInt(200, 400),
 		]
 	);
-
 	const motionY = useTransform(
 		scrollYProgress,
 		[
@@ -74,47 +70,39 @@ function HeroSpot({ index, data, scrollYProgress }) {
 			1,
 		],
 		[
-			dot.y,
-			dot.y + getRandomInt(5, 25),
-			dot.y - getRandomInt(5, 25),
-			dot.y + getRandomInt(5, 25),
-			dot.y - getRandomInt(5, 25),
-			dot.y + getRandomInt(5, 25),
+			spot.y,
+			spot.y + getRandomInt(5, 25),
+			spot.y - getRandomInt(5, 25),
+			spot.y + getRandomInt(5, 25),
+			spot.y - getRandomInt(5, 25),
+			spot.y + getRandomInt(5, 25),
 			screen.height - getRandomInt(20, screen.height / 2),
 			screen.height + 70,
 			screen.height + 70,
 			screen.height + (Math.random() * 800 - 200),
 		]
 	);
-
 	const motionOpacity = useTransform(
 		scrollYProgress,
 		[0, 0.5, 0.9, getRandomInt(91, 99) * 0.01, 1],
 		[1, 1, 1, 0, 0]
 	);
-
 	const motionScale = useTransform(
 		scrollYProgress,
-		[0, 0.15, 1],
-		[1, 0.2, 0.2]
+		[0, 0.15, 0.8, 1],
+		[1, 0.2, lastChild ? 0.24 : 0.2, 0.2]
 	);
-
-	const springConfig = {
-		stiffness: 200,
-		damping: 30,
-		mass: 0.5,
-	};
 
 	const springX = useSpring(motionX, springConfig);
 	const springY = useSpring(motionY, springConfig);
 	const springScale = useSpring(motionScale, springConfig);
 
-	if (dot.slug) {
+	if (spot.slug) {
 		return (
 			<motion.div
 				className={'p-home__spot'}
 				style={{
-					'--cr-primary': `var(--cr-${dot.color}-${dot.lightOrDark})`,
+					'--cr-primary': `var(--cr-${spot.color}-${spot.lightOrDark})`,
 					x: springX,
 					y: springY,
 					scale: springScale,
@@ -123,14 +111,14 @@ function HeroSpot({ index, data, scrollYProgress }) {
 			>
 				<Link
 					className={'p-home__spot__link'}
-					href={`/locations/${dot.slug}`}
+					href={`/locations/${spot.slug}`}
 					{...(!hasPressedKeys && {
 						onClick: (e) => {
 							e.preventDefault();
 							setMag({
-								slug: dot.slug,
+								slug: spot.slug,
 								type: 'location',
-								color: dot.color,
+								color: spot.color,
 							});
 						},
 					})}
@@ -182,15 +170,6 @@ function Highlights({ highlights }) {
 		offset: ['25% 50%', 'end end'],
 	});
 
-	const springConfig = useMemo(
-		() => ({
-			stiffness: 200,
-			damping: 30,
-			mass: 0.5,
-		}),
-		[]
-	);
-
 	return (
 		<section ref={ref} className="p-home__highlights g g-3">
 			{highlights?.map((el, index) => (
@@ -221,8 +200,9 @@ export default function PageHome({ data }) {
 		target: heroRef,
 		offset: ['start start', 'end start'],
 	});
+	const [primaryColor, setPrimaryColor] = useState('green');
+	const [spots, setSpots] = useState([]);
 
-	const [positions, setPositions] = useState([]);
 	// Function to check for overlaps
 	const checkOverlap = (x, y, existingPositions) => {
 		const minDistance = innerWidth * 0.05;
@@ -237,7 +217,7 @@ export default function PageHome({ data }) {
 		return hasOverlap || isCenterArea;
 	};
 
-	// Generate all positions first
+	// Generate all spots first
 	useEffect(() => {
 		const paddingX = Math.min(window.innerWidth * 0.15, 400);
 		const paddingY = Math.max(window.innerHeight * 0.2, 100);
@@ -249,19 +229,43 @@ export default function PageHome({ data }) {
 			let x, y;
 
 			while (!validPosition && attempts < 25) {
+				const color = colorArray()[0];
 				x = Math.random() * (window.innerWidth - paddingX * 2) + paddingX;
 				y = Math.random() * (window.innerHeight - paddingY * 2) + paddingY / 2;
 
 				if (!checkOverlap(x, y, newPositions)) {
 					validPosition = true;
-					newPositions.push({ x, y });
+					newPositions.push({ x, y, color });
+					setPrimaryColor(color);
 				}
 				attempts++;
 			}
 		});
 
-		setPositions(newPositions);
+		setSpots(newPositions);
 	}, [heroSpots]);
+
+	// Use useMemo to prevent re-renders
+	const spotElements = useMemo(() => {
+		return heroSpots && spots.length
+			? heroSpots.map((el, i) => {
+					return (
+						<HeroSpot
+							key={`spot-${i}`}
+							index={i}
+							lastChild={i === heroSpots.length - 1}
+							data={{
+								...el,
+								color: spots[i]?.color,
+								x: spots[i]?.x,
+								y: spots[i]?.y,
+							}}
+							scrollYProgress={scrollYProgress}
+						/>
+					);
+				})
+			: null;
+	}, [heroSpots, spots, scrollYProgress]);
 
 	return (
 		<>
@@ -271,23 +275,17 @@ export default function PageHome({ data }) {
 						{heroImage && <Img image={heroImage} />}
 					</span>
 				</div>
-				{heroSpots &&
-					positions.length &&
-					heroSpots.map((el, i) => (
-						<HeroSpot
-							key={`spot-${i}`}
-							index={i}
-							data={{ ...el, x: positions[i]?.x, y: positions[i]?.y }}
-							scrollYProgress={scrollYProgress}
-						/>
-					))}
+				{spotElements}
 				{heroHeading && (
 					<h1 className="p-home__hero__heading t-h-1">
 						<CustomPortableText blocks={heroHeading} hasPTag={false} />
 					</h1>
 				)}
 			</section>
-			<section className="p-home__intro wysiwyg">
+			<section
+				className="p-home__intro wysiwyg"
+				style={{ '--cr-primary': `var(--cr-${primaryColor}-d)` }}
+			>
 				{introTitle && (
 					<h2 className="p-home__intro__title t-l-1">{introTitle}</h2>
 				)}

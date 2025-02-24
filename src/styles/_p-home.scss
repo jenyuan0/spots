@@ -29,6 +29,7 @@
 		width: var(--s-container-med);
 		margin: var(--s-section) auto;
 		text-align: center;
+		color: var(--cr-primary, var(--cr-brown));
 	}
 
 	@keyframes rotate {

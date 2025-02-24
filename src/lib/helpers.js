@@ -367,3 +367,9 @@ export function colorArray(startingColor) {
 	const index = arr.indexOf(startingColor);
 	return [...arr.slice(index), ...arr.slice(0, index)];
 }
+
+export const springConfig = {
+	stiffness: 200,
+	damping: 30,
+	mass: 0.5,
+};
