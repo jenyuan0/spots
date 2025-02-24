@@ -6,6 +6,9 @@
 		flex-direction: column;
 		margin: var(--padding);
 		height: calc(100svh - var(--padding) * 2);
+		border-radius: var(--br-3);
+		box-shadow: var(--shadow-1);
+		z-index: 1;
 
 		&__image {
 			border-radius: var(--br-3);
@@ -16,6 +19,7 @@
 			position: relative;
 			margin: auto;
 			width: var(--s-container-med);
+			text-align: center;
 			color: var(--cr-white);
 		}
 	}
@@ -36,8 +40,10 @@
 	}
 
 	&__highlights {
-		gap: 10vw;
-		padding: 10vw;
+		gap: var(--s-contain);
+		max-width: var(--s-container-lge);
+		margin: auto;
+		padding: 10vw 0;
 
 		&__item {
 			position: relative;
@@ -50,6 +56,10 @@
 
 		&__rotate {
 			animation: rotate 40s linear infinite;
+		}
+
+		&__item:nth-child(odd) &__rotate {
+			animation-direction: reverse;
 		}
 	}
 

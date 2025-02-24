@@ -44,6 +44,10 @@
 		100vw - var(--s-sidebar) * 2 - var(--s-contain) * 4,
 		800px
 	);
+	--s-container-lge: Min(
+		100vw - var(--s-sidebar) * 2 - var(--s-contain) * 4,
+		1800px
+	);
 	--s-vp-height: 100vh;
 	--s-vp-height: 100svh;
 	--s-main-min-height: calc(

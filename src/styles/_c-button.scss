@@ -107,8 +107,8 @@
 	overflow: hidden;
 	box-shadow: var(--shadow-2-transparent);
 	transition:
-		color var(--t-1),
-		box-shadow var(--t-1);
+		color var(--t-2),
+		box-shadow var(--t-2);
 
 	&:before {
 		content: '';
@@ -118,7 +118,7 @@
 		transform: scale(0);
 		border-radius: calc(var(--height) / 2);
 		background-color: var(--cr-secondary);
-		transition: transform var(--t-1);
+		transition: transform var(--t-2);
 	}
 
 	&.size-small {

@@ -43,8 +43,8 @@ function HeroSpot({ index, data, scrollYProgress }) {
 		scrollYProgress,
 		[
 			0,
-			...Array.from({ length: 3 }, () => getRandomInt(1, 149) * 0.001).sort(),
-			0.15,
+			...Array.from({ length: 3 }, () => getRandomInt(1, 1500) * 0.0001).sort(),
+			0.151,
 			0.3,
 			0.8,
 			1,
@@ -65,8 +65,8 @@ function HeroSpot({ index, data, scrollYProgress }) {
 		scrollYProgress,
 		[
 			0,
-			...Array.from({ length: 3 }, () => getRandomInt(1, 149) * 0.001).sort(),
-			0.15,
+			...Array.from({ length: 3 }, () => getRandomInt(1, 1500) * 0.0001).sort(),
+			0.151,
 			0.3,
 			0.8,
 			1,
@@ -105,7 +105,7 @@ function HeroSpot({ index, data, scrollYProgress }) {
 	const springY = useSpring(motionY, springConfig);
 	const springScale = useSpring(motionScale, springConfig);
 
-	if (dot) {
+	if (dot.slug) {
 		return (
 			<motion.div
 				className={'p-home__spot'}
@@ -140,12 +140,12 @@ function HeroSpot({ index, data, scrollYProgress }) {
 const HighlightItem = ({ scrollYProgress, index, springConfig, el }) => {
 	const opacityTransform = useTransform(
 		scrollYProgress,
-		[0, 0.2 + index * 0.18],
+		[0, 0.2 + index * 0.2],
 		[0, 1]
 	);
 	const rotateTransform = useTransform(
 		scrollYProgress,
-		[0, 0.2 + index * 0.18],
+		[0, 0.2 + index * 0.2],
 		[0, '360deg * 0.3']
 	);
 
@@ -221,9 +221,9 @@ export default function PageHome({ data }) {
 	const [positions, setPositions] = useState([]);
 	// Function to check for overlaps
 	const checkOverlap = (x, y, existingPositions) => {
-		const minDistance = 120;
+		const minDistance = 100;
 		const centerY = window.innerHeight / 2;
-		const isCenterArea = y > centerY - 80 && y < centerY + 80;
+		const isCenterArea = y > centerY - 100 && y < centerY + 100;
 		const hasOverlap = existingPositions.some((pos) => {
 			const dx = pos.x - x;
 			const dy = pos.y - y;
@@ -243,7 +243,7 @@ export default function PageHome({ data }) {
 			let attempts = 0;
 			let x, y;
 
-			while (!validPosition && attempts < 10) {
+			while (!validPosition && attempts < 25) {
 				x = Math.random() * (window.innerWidth - padding * 2) + padding;
 				y = Math.random() * (window.innerHeight - padding * 2) + padding;
 
