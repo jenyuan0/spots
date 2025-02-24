@@ -128,9 +128,9 @@ export function formatTimeToAMPM(militaryTime) {
 
 export function formatAddress(address) {
 	const { street, city, zip } = address;
-	// Capitalize each word except articles and prepositions
 	const formatStreet = (str) => {
 		return str
+			.trim()
 			.split(' ')
 			.map((word) =>
 				['de', 'du', 'des', 'le', 'la', 'les', 'à', 'en'].includes(word)
@@ -140,7 +140,7 @@ export function formatAddress(address) {
 			.join(' ');
 	};
 
-	return `${street ? `${formatStreet(street)}, ` : ''}${city || ''} ${zip || ''}`;
+	return `${street ? `${formatStreet(street.trim())}, ` : ''}${city?.trim() || ''}`;
 }
 
 // ***UTILITIES / VALIDATION***

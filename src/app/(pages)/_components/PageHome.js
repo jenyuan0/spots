@@ -43,7 +43,7 @@ function HeroSpot({ index, data, scrollYProgress }) {
 		scrollYProgress,
 		[
 			0,
-			...Array.from({ length: 3 }, () => getRandomInt(1, 1500) * 0.0001).sort(),
+			...Array.from({ length: 5 }, () => getRandomInt(1, 1500) * 0.0001).sort(),
 			0.151,
 			0.3,
 			0.8,
@@ -51,6 +51,8 @@ function HeroSpot({ index, data, scrollYProgress }) {
 		],
 		[
 			dot.x,
+			dot.x + getRandomInt(5, 25),
+			dot.x - getRandomInt(5, 25),
 			dot.x + getRandomInt(5, 25),
 			dot.x - getRandomInt(5, 25),
 			dot.x + getRandomInt(5, 25),
@@ -65,7 +67,7 @@ function HeroSpot({ index, data, scrollYProgress }) {
 		scrollYProgress,
 		[
 			0,
-			...Array.from({ length: 3 }, () => getRandomInt(1, 1500) * 0.0001).sort(),
+			...Array.from({ length: 5 }, () => getRandomInt(1, 1500) * 0.0001).sort(),
 			0.151,
 			0.3,
 			0.8,
@@ -73,6 +75,8 @@ function HeroSpot({ index, data, scrollYProgress }) {
 		],
 		[
 			dot.y,
+			dot.y + getRandomInt(5, 25),
+			dot.y - getRandomInt(5, 25),
 			dot.y + getRandomInt(5, 25),
 			dot.y - getRandomInt(5, 25),
 			dot.y + getRandomInt(5, 25),
@@ -235,7 +239,8 @@ export default function PageHome({ data }) {
 
 	// Generate all positions first
 	useEffect(() => {
-		const padding = Math.max(window.innerWidth * 0.2, 300);
+		const paddingX = Math.min(window.innerWidth * 0.15, 400);
+		const paddingY = Math.max(window.innerHeight * 0.2, 100);
 		const newPositions = [];
 
 		heroSpots?.forEach(() => {
@@ -244,8 +249,8 @@ export default function PageHome({ data }) {
 			let x, y;
 
 			while (!validPosition && attempts < 25) {
-				x = Math.random() * (window.innerWidth - padding * 2) + padding;
-				y = Math.random() * (window.innerHeight - padding * 2) + padding;
+				x = Math.random() * (window.innerWidth - paddingX * 2) + paddingX;
+				y = Math.random() * (window.innerHeight - paddingY * 2) + paddingY / 2;
 
 				if (!checkOverlap(x, y, newPositions)) {
 					validPosition = true;
@@ -266,11 +271,6 @@ export default function PageHome({ data }) {
 						{heroImage && <Img image={heroImage} />}
 					</span>
 				</div>
-				{heroHeading && (
-					<h1 className="p-home__hero__heading t-h-1">
-						<CustomPortableText blocks={heroHeading} hasPTag={false} />
-					</h1>
-				)}
 				{heroSpots &&
 					positions.length &&
 					heroSpots.map((el, i) => (
@@ -281,6 +281,11 @@ export default function PageHome({ data }) {
 							scrollYProgress={scrollYProgress}
 						/>
 					))}
+				{heroHeading && (
+					<h1 className="p-home__hero__heading t-h-1">
+						<CustomPortableText blocks={heroHeading} hasPTag={false} />
+					</h1>
+				)}
 			</section>
 			<section className="p-home__intro wysiwyg">
 				{introTitle && (

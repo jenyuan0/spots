@@ -97,12 +97,12 @@ export function ContentLocation({ data, color }) {
 				</div>
 			)}
 			{content && (
-				<div className="g-magnify-locations__content wysiwyg">
+				<div className="g-magnify-locations__content wysiwyg-page">
 					<CustomPortableText blocks={content} />
 				</div>
 			)}
 			{contentItinerary && (
-				<div className="g-magnify-locations__content wysiwyg">
+				<div className="g-magnify-locations__content wysiwyg-page">
 					<CustomPortableText blocks={contentItinerary} />
 				</div>
 			)}

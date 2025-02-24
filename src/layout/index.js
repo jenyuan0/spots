@@ -43,7 +43,7 @@ export default function Layout({ children, siteData }) {
 					}.value`
 				),
 			]);
-			setIsCustomItinerary(showHeader);
+			setIsCustomItinerary(!showHeader);
 		} catch (error) {
 			console.error('Error fetching data:', error);
 		}
