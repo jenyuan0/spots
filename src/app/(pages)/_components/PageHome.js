@@ -139,7 +139,7 @@ function Highlights({ highlights }) {
 	const ref = useRef(null);
 	const { scrollYProgress } = useScroll({
 		target: ref,
-		offset: ['start 50%', 'end end'],
+		offset: ['80% end', 'end end'],
 	});
 
 	const springConfig = {
@@ -147,30 +147,31 @@ function Highlights({ highlights }) {
 		damping: 30,
 		mass: 0.5,
 	};
+
+	// Create spring animations at component level
+	const items = highlights?.map((_, index) => {
+		const opacity = useSpring(
+			useTransform(scrollYProgress, [0, 0.2 + index * 0.18], [0, 1]),
+			springConfig
+		);
+
+		const rotate = useSpring(
+			useTransform(scrollYProgress, [0, 0.2 + index * 0.18], [0, 360 * 0.25]),
+			springConfig
+		);
+
+		return { opacity, rotate };
+	});
+
 	return (
 		<section ref={ref} className="p-home__highlights g g-3">
 			{highlights?.map((el, index) => (
 				<motion.div
-					key={index}
 					className="p-home__highlights__item"
-					initial={{ opacity: 0, rotate: '-10deg' }}
+					initial={{ opacity: 0, rotate: -10 }}
 					style={{
-						opacity: useSpring(
-							useTransform(
-								scrollYProgress,
-								[0, 0.2 + index * 0.18], // Stagger the start point
-								[0, 1]
-							),
-							springConfig
-						),
-						rotate: useSpring(
-							useTransform(
-								scrollYProgress,
-								[0, 0.2 + index * 0.18], // Stagger the start point
-								[0, '360deg * 0.25']
-							),
-							springConfig
-						),
+						opacity: items[index].opacity,
+						rotate: items[index].rotate,
 					}}
 				>
 					<div className="p-home__highlights__rotate p-fill">
