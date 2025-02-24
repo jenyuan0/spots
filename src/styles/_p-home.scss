@@ -70,8 +70,8 @@
 
 	&__spot {
 		position: absolute;
-		width: 80px;
-		height: 80px;
+		width: Min(5vw, 80px);
+		aspect-ratio: 1;
 		top: 0;
 		left: 0;
 		transform-origin: center;

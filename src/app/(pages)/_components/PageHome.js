@@ -225,7 +225,7 @@ export default function PageHome({ data }) {
 	const [positions, setPositions] = useState([]);
 	// Function to check for overlaps
 	const checkOverlap = (x, y, existingPositions) => {
-		const minDistance = 100;
+		const minDistance = innerWidth * 0.05;
 		const centerY = window.innerHeight / 2;
 		const isCenterArea = y > centerY - 100 && y < centerY + 100;
 		const hasOverlap = existingPositions.some((pos) => {
