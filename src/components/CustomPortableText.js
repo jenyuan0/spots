@@ -41,34 +41,18 @@ export default function CustomPortableText({ blocks, hasPTag = true }) {
 				if (!embedSnippet) {
 					return null;
 				}
-				const width = embedSnippet.match(/width="\s*(\d+)"/)[1];
-				const height = embedSnippet.match(/height="\s*(\d+)"/)[1];
-				const aspectRatio =
-					width && height ? `${(height / width) * 100}%` : '56.25%';
+				const widthMatch = embedSnippet.match(/width="\s*(\d+)"/);
+				const heightMatch = embedSnippet.match(/height="\s*(\d+)"/);
+				const width = widthMatch?.[1];
+				const height = heightMatch?.[1];
+				const aspectRatio = width && height ? width / height : 1.77;
 
 				return (
-					<>
-						<div
-							className="iframe-container"
-							dangerouslySetInnerHTML={{ __html: embedSnippet }}
-						/>
-						<style jsx>{`
-							.iframe-container {
-								position: relative;
-								height: 0;
-								overflow: hidden;
-								max-width: 100%;
-								padding-bottom: ${aspectRatio};
-							}
-							:global(.iframe-container iframe) {
-								position: absolute;
-								top: 0;
-								left: 0;
-								width: 100%;
-								height: 100%;
-							}
-						`}</style>
-					</>
+					<div
+						className="c-iframe"
+						style={{ '--aspect-ratio': aspectRatio }}
+						dangerouslySetInnerHTML={{ __html: embedSnippet }}
+					/>
 				);
 			},
 			portableTable: (props) => {
