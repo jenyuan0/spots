@@ -35,6 +35,14 @@ export default defineType({
 			name: 'introHeading',
 			type: 'portableTextSimple',
 		},
+		{
+			name: 'highlights',
+			type: 'array',
+			of: [customImage({ hasCropOptions: true })],
+			options: {
+				layout: 'grid',
+			},
+		},
 		callToAction({ name: 'introCta' }),
 		sharing(),
 	],

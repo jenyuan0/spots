@@ -23,6 +23,33 @@
 		text-align: center;
 	}
 
+	@keyframes rotate {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
+
+	&__highlights {
+		gap: 10vw;
+		padding: 10vw;
+
+		&__item {
+			position: relative;
+			flex: 1;
+			max-width: 600px;
+			aspect-ratio: 1;
+			border-radius: 100%;
+			overflow: hidden;
+		}
+
+		&__rotate {
+			animation: rotate 40s linear infinite;
+		}
+	}
+
 	&__hiw {
 		height: 120svh;
 	}

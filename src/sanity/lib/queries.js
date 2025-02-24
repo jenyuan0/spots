@@ -275,7 +275,10 @@ export const pageHomeQuery = `
 		},
 		introTitle,
 		introHeading,
-		introCta
+		introCta,
+		"highlights": highlights[]{
+			${imageMeta}
+		},
 	}
 `;
 

@@ -135,6 +135,55 @@ function Spot({ index, data, scrollYProgress }) {
 	}
 }
 
+function Highlights({ highlights }) {
+	const ref = useRef(null);
+	const { scrollYProgress } = useScroll({
+		target: ref,
+		offset: ['start 50%', 'end end'],
+	});
+
+	const springConfig = {
+		stiffness: 200,
+		damping: 30,
+		mass: 0.5,
+	};
+	return (
+		<section ref={ref} className="p-home__highlights g g-3">
+			{highlights?.map((el, index) => (
+				<motion.div
+					key={index}
+					className="p-home__highlights__item"
+					initial={{ opacity: 0, rotate: '-10deg' }}
+					style={{
+						opacity: useSpring(
+							useTransform(
+								scrollYProgress,
+								[0, 0.2 + index * 0.18], // Stagger the start point
+								[0, 1]
+							),
+							springConfig
+						),
+						rotate: useSpring(
+							useTransform(
+								scrollYProgress,
+								[0, 0.2 + index * 0.18], // Stagger the start point
+								[0, '360deg * 0.25']
+							),
+							springConfig
+						),
+					}}
+				>
+					<div className="p-home__highlights__rotate p-fill">
+						<span className="object-fit">
+							<Img image={el} />
+						</span>
+					</div>
+				</motion.div>
+			))}
+		</section>
+	);
+}
+
 export default function PageHome({ data }) {
 	const {
 		heroHeading,
@@ -143,6 +192,7 @@ export default function PageHome({ data }) {
 		introTitle,
 		introHeading,
 		introCta,
+		highlights,
 	} = data || {};
 	const heroRef = useRef(null);
 	const { scrollYProgress } = useScroll({
@@ -217,6 +267,9 @@ export default function PageHome({ data }) {
 					</Link>
 				)}
 			</section>
+
+			<Highlights highlights={highlights} />
+
 			<section className="p-home__hiw"></section>
 
 			{heroSpots &&
