@@ -11,7 +11,7 @@ import Link from '@/components/CustomLink';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 
 // Spot component for individual animated dots
-function Spot({ index, data, scrollYProgress }) {
+function HeroSpot({ index, data, scrollYProgress }) {
 	const [dot, setDot] = useState({
 		x: 1000,
 		y: 1000,
@@ -43,8 +43,8 @@ function Spot({ index, data, scrollYProgress }) {
 		scrollYProgress,
 		[
 			0,
-			...Array.from({ length: 3 }, () => getRandomInt(0, 50) * 0.001).sort(),
-			0.05,
+			...Array.from({ length: 3 }, () => getRandomInt(1, 149) * 0.001).sort(),
+			0.15,
 			0.3,
 			0.8,
 			1,
@@ -65,8 +65,8 @@ function Spot({ index, data, scrollYProgress }) {
 		scrollYProgress,
 		[
 			0,
-			...Array.from({ length: 3 }, () => getRandomInt(0, 50) * 0.001).sort(),
-			0.05,
+			...Array.from({ length: 3 }, () => getRandomInt(1, 149) * 0.001).sort(),
+			0.15,
 			0.3,
 			0.8,
 			1,
@@ -91,7 +91,7 @@ function Spot({ index, data, scrollYProgress }) {
 
 	const motionScale = useTransform(
 		scrollYProgress,
-		[0, 0.05, 1],
+		[0, 0.15, 1],
 		[1, 0.2, 0.2]
 	);
 
@@ -261,14 +261,26 @@ export default function PageHome({ data }) {
 	return (
 		<>
 			<section ref={heroRef} className="p-home__hero">
-				<span className="object-fit">
-					{heroImage && <Img image={heroImage} />}
-				</span>
+				<div className="p-home__hero__image p-fill">
+					<span className="object-fit">
+						{heroImage && <Img image={heroImage} />}
+					</span>
+				</div>
 				{heroHeading && (
 					<h1 className="p-home__hero__heading t-h-1">
 						<CustomPortableText blocks={heroHeading} hasPTag={false} />
 					</h1>
 				)}
+				{heroSpots &&
+					positions.length &&
+					heroSpots.map((el, i) => (
+						<HeroSpot
+							key={`spot-${i}`}
+							index={i}
+							data={{ ...el, x: positions[i]?.x, y: positions[i]?.y }}
+							scrollYProgress={scrollYProgress}
+						/>
+					))}
 			</section>
 			<section className="p-home__intro wysiwyg">
 				{introTitle && (
@@ -289,17 +301,6 @@ export default function PageHome({ data }) {
 			<Highlights highlights={highlights} />
 
 			<section className="p-home__hiw"></section>
-
-			{heroSpots &&
-				positions.length &&
-				heroSpots.map((el, i) => (
-					<Spot
-						key={`spot-${i}`}
-						index={i}
-						data={{ ...el, x: positions[i]?.x, y: positions[i]?.y }}
-						scrollYProgress={scrollYProgress}
-					/>
-				))}
 		</>
 	);
 }

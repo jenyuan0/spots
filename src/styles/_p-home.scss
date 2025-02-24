@@ -6,8 +6,11 @@
 		flex-direction: column;
 		margin: var(--padding);
 		height: calc(100svh - var(--padding) * 2);
-		border-radius: var(--br-3);
-		overflow: hidden;
+
+		&__image {
+			border-radius: var(--br-3);
+			overflow: hidden;
+		}
 
 		&__heading {
 			position: relative;
