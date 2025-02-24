@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 import clsx from 'clsx';
 import { colorArray, getRandomInt } from '@/lib/helpers';
 import Img from '@/components/Image';
@@ -10,6 +10,7 @@ import useKey from '@/hooks/useKey';
 import Link from '@/components/CustomLink';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 
+// Spot component for individual animated dots
 function Spot({ index, data, scrollYProgress }) {
 	const [dot, setDot] = useState({
 		x: 1000,
@@ -37,7 +38,8 @@ function Spot({ index, data, scrollYProgress }) {
 		});
 	}, [data]);
 
-	const x = useTransform(
+	// Create motion values outside of the render
+	const motionX = useTransform(
 		scrollYProgress,
 		[
 			0,
@@ -59,8 +61,7 @@ function Spot({ index, data, scrollYProgress }) {
 		]
 	);
 
-	// Add vertical wave motion
-	const y = useTransform(
+	const motionY = useTransform(
 		scrollYProgress,
 		[
 			0,
@@ -82,13 +83,17 @@ function Spot({ index, data, scrollYProgress }) {
 		]
 	);
 
-	// Add fade out effect
-	const opacity = useTransform(
+	const motionOpacity = useTransform(
 		scrollYProgress,
 		[0, 0.5, 0.9, getRandomInt(91, 99) * 0.01, 1],
 		[1, 1, 1, 0, 0]
 	);
-	const scale = useTransform(scrollYProgress, [0, 0.05, 1], [1, 0.2, 0.2]);
+
+	const motionScale = useTransform(
+		scrollYProgress,
+		[0, 0.05, 1],
+		[1, 0.2, 0.2]
+	);
 
 	const springConfig = {
 		stiffness: 200,
@@ -96,13 +101,9 @@ function Spot({ index, data, scrollYProgress }) {
 		mass: 0.5,
 	};
 
-	const springX = useSpring(x, springConfig);
-	const springY = useSpring(y, springConfig);
-	const springScale = useSpring(scale, springConfig);
-
-	// const springX = x;
-	// const springY = y;
-	// const springScale = scale;
+	const springX = useSpring(motionX, springConfig);
+	const springY = useSpring(motionY, springConfig);
+	const springScale = useSpring(motionScale, springConfig);
 
 	if (dot) {
 		return (
@@ -113,7 +114,7 @@ function Spot({ index, data, scrollYProgress }) {
 					x: springX,
 					y: springY,
 					scale: springScale,
-					opacity,
+					opacity: motionOpacity,
 				}}
 			>
 				<Link
@@ -135,51 +136,67 @@ function Spot({ index, data, scrollYProgress }) {
 	}
 }
 
+// Separate component for highlights to avoid hook issues
+const HighlightItem = ({ scrollYProgress, index, springConfig, el }) => {
+	const opacityTransform = useTransform(
+		scrollYProgress,
+		[0, 0.2 + index * 0.18],
+		[0, 1]
+	);
+	const rotateTransform = useTransform(
+		scrollYProgress,
+		[0, 0.2 + index * 0.18],
+		[0, '360deg * 0.3']
+	);
+
+	const opacity = useSpring(opacityTransform, springConfig);
+	const rotate = useSpring(rotateTransform, springConfig);
+
+	return (
+		<motion.div
+			key={index}
+			className="p-home__highlights__item"
+			initial={{ opacity: 0, rotate: '-10deg' }}
+			style={{
+				opacity,
+				rotate,
+			}}
+		>
+			<div className="p-home__highlights__rotate p-fill">
+				<span className="object-fit">
+					<Img image={el} />
+				</span>
+			</div>
+		</motion.div>
+	);
+};
+
 function Highlights({ highlights }) {
 	const ref = useRef(null);
 	const { scrollYProgress } = useScroll({
 		target: ref,
-		offset: ['80% end', 'end end'],
+		offset: ['start 50%', 'end end'],
 	});
 
-	const springConfig = {
-		stiffness: 200,
-		damping: 30,
-		mass: 0.5,
-	};
-
-	// Create spring animations at component level
-	const items = highlights?.map((_, index) => {
-		const opacity = useSpring(
-			useTransform(scrollYProgress, [0, 0.2 + index * 0.18], [0, 1]),
-			springConfig
-		);
-
-		const rotate = useSpring(
-			useTransform(scrollYProgress, [0, 0.2 + index * 0.18], [0, 360 * 0.25]),
-			springConfig
-		);
-
-		return { opacity, rotate };
-	});
+	const springConfig = useMemo(
+		() => ({
+			stiffness: 200,
+			damping: 30,
+			mass: 0.5,
+		}),
+		[]
+	);
 
 	return (
 		<section ref={ref} className="p-home__highlights g g-3">
 			{highlights?.map((el, index) => (
-				<motion.div
-					className="p-home__highlights__item"
-					initial={{ opacity: 0, rotate: -10 }}
-					style={{
-						opacity: items[index].opacity,
-						rotate: items[index].rotate,
-					}}
-				>
-					<div className="p-home__highlights__rotate p-fill">
-						<span className="object-fit">
-							<Img image={el} />
-						</span>
-					</div>
-				</motion.div>
+				<HighlightItem
+					key={index}
+					scrollYProgress={scrollYProgress}
+					index={index}
+					springConfig={springConfig}
+					el={el}
+				/>
 			))}
 		</section>
 	);
@@ -221,7 +238,7 @@ export default function PageHome({ data }) {
 		const padding = Math.max(window.innerWidth * 0.2, 300);
 		const newPositions = [];
 
-		heroSpots.forEach(() => {
+		heroSpots?.forEach(() => {
 			let validPosition = false;
 			let attempts = 0;
 			let x, y;
