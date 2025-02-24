@@ -72,6 +72,21 @@ export function ContentLocation({ data, color }) {
 					</Link>
 				</div>
 			)}
+			{hasArrayValue(urls) && (
+				<div className="g-magnify-locations__urls wysiwyg">
+					<ul>
+						{urls.map((url, i) => (
+							<li key={`url-${i}`}>
+								<Link href={url} target={'_blank'}>
+									{url
+										.replace(/^(https?:\/\/)?(www\.)?/, '')
+										.replace(/\/$/, '')}
+								</Link>
+							</li>
+						))}
+					</ul>
+				</div>
+			)}
 			{images && (
 				<div className="g-magnify-locations__images">
 					<Carousel isShowDots={true} isAutoplay={true} autoplayInterval={3000}>
@@ -95,21 +110,6 @@ export function ContentLocation({ data, color }) {
 				<div className="g-magnify-locations__fees wysiwyg">
 					<h3 className="t-l-1">Fees</h3>
 					<p>{fees.map((fee) => fee).join(' • ')}</p>
-				</div>
-			)}
-			{hasArrayValue(urls) && (
-				<div className="g-magnify-locations__urls wysiwyg">
-					<ul>
-						{urls.map((url, i) => (
-							<li key={`url-${i}`}>
-								<Link href={url} target={'_blank'}>
-									{url
-										.replace(/^(https?:\/\/)?(www\.)?/, '')
-										.replace(/\/$/, '')}
-								</Link>
-							</li>
-						))}
-					</ul>
 				</div>
 			)}
 		</div>
