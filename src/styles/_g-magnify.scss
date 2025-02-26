@@ -49,12 +49,6 @@
 		text-align: center;
 	}
 
-	&__images {
-		margin-inline: var(--s-3-h);
-		overflow: hidden;
-		border-radius: var(--br-2);
-	}
-
 	&__res {
 		padding: var(--s-2-v) var(--s-2-h);
 		margin: var(--s-4-v) var(--s-3-h);
@@ -65,7 +59,13 @@
 	}
 
 	&__images {
+		margin-inline: var(--s-3-h);
 		margin-bottom: var(--s-3-v);
+
+		.c-carousel__viewport {
+			overflow: hidden;
+			border-radius: var(--br-2);
+		}
 	}
 
 	&__content,

@@ -15,7 +15,7 @@ import useMagnify from '@/hooks/useMagnify';
 import { fileMeta } from '@/sanity/lib/queries';
 import { hasArrayValue } from '@/lib/helpers';
 
-export function ContentLocation({ data, color }) {
+export function ContentLocation({ data, color = 'green' }) {
 	const { _id, title, address, images, content, contentItinerary, urls, fees } =
 		data?.content || {};
 	const res = data.reservations?.filter((r) => r.location._id === _id);

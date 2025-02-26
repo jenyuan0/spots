@@ -79,7 +79,9 @@ export default defineType({
 						},
 						prepare({ title, dayTitle, activities, images }) {
 							return {
-								title: title || dayTitle || 'Untitled',
+								title: title
+									? `${title} (${dayTitle})`
+									: dayTitle || 'Untitled',
 								subtitle: getActivitiesPreview(activities),
 								media: images?.[0] || false,
 							};
