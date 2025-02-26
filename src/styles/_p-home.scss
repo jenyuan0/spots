@@ -1,11 +1,13 @@
 .p-home {
+	$hero-padding: 10px;
+	$dot-size: Min(5vw, 80px);
+
 	&__hero {
-		--padding: 10px;
 		position: relative;
 		display: flex;
 		flex-direction: column;
-		margin: var(--padding);
-		height: calc(100svh - var(--padding) * 2);
+		padding: $hero-padding;
+		height: var(--s-vp-height);
 		border-radius: var(--br-3);
 		box-shadow: var(--shadow-1);
 		z-index: 1;
@@ -22,6 +24,41 @@
 			text-align: center;
 			color: var(--cr-white);
 			pointer-events: none;
+		}
+
+		&__nudge {
+			position: absolute;
+			bottom: calc($hero-padding * 2);
+			left: 50%;
+			transform: translate3d(-50%, 0, 0);
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			pointer-events: none;
+			transition: opacity var(--t-2);
+
+			&:not(.is-active) {
+				opacity: 0;
+			}
+
+			@keyframes fadeInOut {
+				0%,
+				85%,
+				100% {
+					opacity: 0;
+				}
+				20% {
+					opacity: 1;
+				}
+			}
+
+			&-dot {
+				width: calc($dot-size * 0.1);
+				aspect-ratio: 1;
+				background-color: var(--cr-white);
+				border-radius: 100%;
+				animation: 3s calc(0.2s * var(--index)) fadeInOut infinite;
+			}
 		}
 	}
 
@@ -71,12 +108,12 @@
 
 	&__spot {
 		position: absolute;
-		width: Min(5vw, 80px);
+		width: $dot-size;
 		aspect-ratio: 1;
 		top: 0;
 		left: 0;
 		transform-origin: center;
-		margin: -40px;
+		margin: calc($dot-size / 2 * -1);
 
 		&__link {
 			position: absolute;

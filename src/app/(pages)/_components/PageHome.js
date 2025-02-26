@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState, useMemo } from 'react';
+import clsx from 'clsx';
 import { colorArray, getRandomInt, springConfig } from '@/lib/helpers';
 import Img from '@/components/Image';
 import CustomPortableText from '@/components/CustomPortableText';
@@ -128,6 +129,129 @@ function HeroSpot({ index, lastChild, data, scrollYProgress }) {
 	}
 }
 
+export function Hero({ data }) {
+	const { heroHeading, heroImage, heroSpots } = data || {};
+	const heroRef = useRef(null);
+	const { scrollYProgress } = useScroll({
+		target: heroRef,
+		offset: ['start start', 'end start'],
+	});
+	const [spots, setSpots] = useState([]);
+	const [isNudgeActive, setIsNudgeActive] = useState(true);
+
+	useEffect(() => {
+		const scroll = scrollYProgress.onChange((value) => {
+			setIsNudgeActive(value >= 0.15 ? false : true);
+		});
+
+		return () => scroll();
+	}, [scrollYProgress]);
+
+	// Function to check for overlaps
+	const checkOverlap = (x, y, existingPositions) => {
+		const minDistance = innerWidth * 0.05;
+		const centerY = window.innerHeight / 2;
+		const isCenterArea = y > centerY - 100 && y < centerY + 100;
+		const hasOverlap = existingPositions.some((pos) => {
+			const dx = pos.x - x;
+			const dy = pos.y - y;
+			return Math.sqrt(dx * dx + dy * dy) < minDistance;
+		});
+
+		return hasOverlap || isCenterArea;
+	};
+
+	// Generate all spots first
+	useEffect(() => {
+		const generateSpots = () => {
+			const paddingX = Math.min(window.innerWidth * 0.15, 400);
+			const paddingY = Math.max(window.innerHeight * 0.2, 100);
+			const newPositions = [];
+
+			heroSpots?.forEach(() => {
+				let validPosition = false;
+				let attempts = 0;
+				let x, y;
+
+				while (!validPosition && attempts < 25) {
+					const color = colorArray()[0];
+					x = Math.random() * (window.innerWidth - paddingX * 2) + paddingX;
+					y =
+						Math.random() * (window.innerHeight - paddingY * 2) + paddingY / 2;
+
+					if (!checkOverlap(x, y, newPositions)) {
+						validPosition = true;
+						newPositions.push({ x, y, color });
+						document.documentElement.style.setProperty(
+							'--cr-primary',
+							`var(--cr-${color || 'green'}-d)`
+						);
+					}
+					attempts++;
+				}
+			});
+
+			setSpots(newPositions);
+		};
+
+		generateSpots();
+		window.addEventListener('resize', generateSpots);
+
+		return () => window.removeEventListener('resize', generateSpots);
+	}, [heroSpots]);
+
+	// Use useMemo to prevent re-renders
+	const spotElements = useMemo(() => {
+		return heroSpots && spots.length
+			? heroSpots.map((el, i) => {
+					return (
+						<HeroSpot
+							key={`spot-${i}`}
+							index={i}
+							lastChild={i === heroSpots.length - 1}
+							data={{
+								...el,
+								color: spots[i]?.color,
+								x: spots[i]?.x,
+								y: spots[i]?.y,
+							}}
+							scrollYProgress={scrollYProgress}
+						/>
+					);
+				})
+			: null;
+	}, [heroSpots, spots, scrollYProgress]);
+
+	return (
+		<section ref={heroRef} className="p-home__hero">
+			<div className="p-home__hero__image p-fill">
+				<span className="object-fit">
+					{heroImage && <Img image={heroImage} />}
+				</span>
+			</div>
+			{spotElements}
+			{heroHeading && (
+				<h1 className="p-home__hero__heading t-h-1">
+					<CustomPortableText blocks={heroHeading} hasPTag={false} />
+				</h1>
+			)}
+			<div
+				className={clsx('p-home__hero__nudge', { 'is-active': isNudgeActive })}
+			>
+				{Array(3)
+					.fill(null)
+					.map((_, i) => (
+						<div
+							key={`hero-nudge-dot-${i}`}
+							style={{ '--index': i }}
+							className="p-home__hero__nudge-dot"
+						/>
+					))}
+			</div>
+		</section>
+	);
+}
+
 // Separate component for highlights to avoid hook issues
 const HighlightItem = ({ scrollYProgress, index, springConfig, el }) => {
 	const opacityTransform = useTransform(
@@ -186,106 +310,13 @@ function Highlights({ highlights }) {
 }
 
 export default function PageHome({ data }) {
-	const {
-		heroHeading,
-		heroImage,
-		heroSpots,
-		introTitle,
-		introHeading,
-		introCta,
-		highlights,
-	} = data || {};
-	const heroRef = useRef(null);
-	const { scrollYProgress } = useScroll({
-		target: heroRef,
-		offset: ['start start', 'end start'],
-	});
-	const [primaryColor, setPrimaryColor] = useState('green');
-	const [spots, setSpots] = useState([]);
-
-	// Function to check for overlaps
-	const checkOverlap = (x, y, existingPositions) => {
-		const minDistance = innerWidth * 0.05;
-		const centerY = window.innerHeight / 2;
-		const isCenterArea = y > centerY - 100 && y < centerY + 100;
-		const hasOverlap = existingPositions.some((pos) => {
-			const dx = pos.x - x;
-			const dy = pos.y - y;
-			return Math.sqrt(dx * dx + dy * dy) < minDistance;
-		});
-
-		return hasOverlap || isCenterArea;
-	};
-
-	// Generate all spots first
-	useEffect(() => {
-		const paddingX = Math.min(window.innerWidth * 0.15, 400);
-		const paddingY = Math.max(window.innerHeight * 0.2, 100);
-		const newPositions = [];
-
-		heroSpots?.forEach(() => {
-			let validPosition = false;
-			let attempts = 0;
-			let x, y;
-
-			while (!validPosition && attempts < 25) {
-				const color = colorArray()[0];
-				x = Math.random() * (window.innerWidth - paddingX * 2) + paddingX;
-				y = Math.random() * (window.innerHeight - paddingY * 2) + paddingY / 2;
-
-				if (!checkOverlap(x, y, newPositions)) {
-					validPosition = true;
-					newPositions.push({ x, y, color });
-					setPrimaryColor(color);
-				}
-				attempts++;
-			}
-		});
-
-		setSpots(newPositions);
-	}, [heroSpots]);
-
-	// Use useMemo to prevent re-renders
-	const spotElements = useMemo(() => {
-		return heroSpots && spots.length
-			? heroSpots.map((el, i) => {
-					return (
-						<HeroSpot
-							key={`spot-${i}`}
-							index={i}
-							lastChild={i === heroSpots.length - 1}
-							data={{
-								...el,
-								color: spots[i]?.color,
-								x: spots[i]?.x,
-								y: spots[i]?.y,
-							}}
-							scrollYProgress={scrollYProgress}
-						/>
-					);
-				})
-			: null;
-	}, [heroSpots, spots, scrollYProgress]);
+	const { introTitle, introHeading, introCta, highlights } = data || {};
 
 	return (
 		<>
-			<section ref={heroRef} className="p-home__hero">
-				<div className="p-home__hero__image p-fill">
-					<span className="object-fit">
-						{heroImage && <Img image={heroImage} />}
-					</span>
-				</div>
-				{spotElements}
-				{heroHeading && (
-					<h1 className="p-home__hero__heading t-h-1">
-						<CustomPortableText blocks={heroHeading} hasPTag={false} />
-					</h1>
-				)}
-			</section>
-			<section
-				className="p-home__intro wysiwyg"
-				style={{ '--cr-primary': `var(--cr-${primaryColor}-d)` }}
-			>
+			<Hero data={data} />
+
+			<section className="p-home__intro wysiwyg">
 				{introTitle && (
 					<h2 className="p-home__intro__title t-l-1">{introTitle}</h2>
 				)}
