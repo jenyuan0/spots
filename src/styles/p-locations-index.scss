@@ -38,6 +38,10 @@
 		@container main (min-width: 1200px) {
 			grid-template-columns: repeat(3, 1fr);
 		}
+
+		@container main (min-width: 1600px) {
+			grid-template-columns: repeat(4, 1fr);
+		}
 	}
 
 	&__pagination {

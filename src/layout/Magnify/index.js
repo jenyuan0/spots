@@ -120,7 +120,7 @@ export function Magnify() {
 	const [isActive, setIsActive] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [content, setContent] = useState({});
-	const [color, setColor] = useState(null);
+	const [color, setColor] = useState('brown');
 	const [pageSlug, setPageSlug] = useState(null);
 	const { mag, clearMag } = useMagnify();
 	const searchParams = useSearchParams();
@@ -167,7 +167,8 @@ export function Magnify() {
 	useEffect(() => {
 		const mParam = searchParams.get('m');
 		const cParam = searchParams.get('c');
-		setColor(cParam);
+
+		if (cParam) setColor(cParam);
 
 		if (mParam) {
 			fetchLocationContent(mParam);

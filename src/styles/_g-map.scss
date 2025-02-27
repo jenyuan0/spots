@@ -18,7 +18,8 @@
 	}
 }
 
-// #main {
-// 	margin-left: calc(var(--s-sidebar) + var(--s-contain) * 2);
-// 	margin-right: calc(40% + var(--s-contain));
-// }
+#main {
+	margin-left: calc(var(--s-sidebar) + var(--s-contain) * 2);
+	margin-right: calc(var(--s-sidebar) + var(--s-contain) * 2);
+	// margin-right: calc(40% + var(--s-contain));
+}

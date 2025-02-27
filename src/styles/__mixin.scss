@@ -79,7 +79,7 @@
 }
 
 // ***Misc***
-@mixin customScrollbar($color: var(--cr-brown)) {
+@mixin customScrollbar($color: var(--cr-brown-d)) {
 	&::-webkit-scrollbar {
 		width: 5px;
 	}

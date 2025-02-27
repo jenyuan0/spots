@@ -3,7 +3,7 @@
 .btn-underline {
 	--height: 45px;
 	--outline: 1.5px;
-	--cr-primary: var(--cr-brown);
+	--cr-primary: var(--cr-brown-d);
 	--cr-secondary: var(--cr-cream);
 
 	position: relative;
@@ -31,17 +31,18 @@
 
 	&.cr-white {
 		--cr-primary: var(--cr-white);
-		--cr-secondary: var(--cr-brown);
+		--cr-secondary: var(--cr-brown-d);
 	}
 
-	&.cr-brown {
-		--cr-primary: var(--cr-brown);
+	&.cr-brown-l {
+		--cr-primary: var(--cr-brown-l);
+		--cr-secondary: var(--cr-brown-d);
+	}
+
+	&.cr-brown-d {
+		--cr-primary: var(--cr-brown-d);
 		--cr-secondary: var(--cr-cream);
-	}
-
-	&.cr-cream {
-		--cr-primary: var(--cr-cream);
-		--cr-secondary: var(--cr-brown);
+		--cr-underline: var(--cr-brown-l);
 	}
 
 	&.cr-blue-l {

@@ -7,8 +7,6 @@
 		display: flex;
 		flex-direction: column;
 		height: var(--s-vp-height);
-		border-radius: var(--br-3);
-		box-shadow: var(--shadow-1);
 		z-index: 1;
 
 		&__image {
@@ -66,7 +64,7 @@
 		width: var(--s-container-med);
 		margin: var(--s-section) auto;
 		text-align: center;
-		color: var(--cr-primary, var(--cr-brown));
+		color: var(--cr-primary, var(--cr-brown-d));
 	}
 
 	@keyframes rotate {

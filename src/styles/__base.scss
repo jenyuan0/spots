@@ -18,7 +18,9 @@
 	--cr-orange-d: #d46700;
 	--cr-purple-l: #faecff;
 	--cr-purple-d: #55405c;
-	--cr-overlay: rgba(0, 0, 0, 0.5);
+
+	--cr-brown-d: var(--cr-brown);
+	--cr-brown-l: #e9e6d1;
 
 	--t-h-1: 64px/1 var(--font-kalice), 'Times', serif;
 	--t-h-2: 36px/1 var(--font-kalice), 'Times', serif;
