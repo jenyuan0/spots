@@ -166,6 +166,78 @@ export const locationListObj = groq`
 	}
 `;
 
+export const getItineraryData = (type) => {
+	let defaultData = groq`
+		title,
+		_id,
+		"slug": slug.current,
+		"images": images[]{
+			${imageMeta}
+		},
+		"numDays": length(plan[]),`;
+	if (type === 'card') {
+		defaultData += groq`excerpt`;
+	} else {
+		defaultData += groq`
+		startingColor,
+	  plan[]{
+			"day": itineraryDay->{
+				title,
+				content,
+				"images": images[]{
+					${imageMeta}
+				},
+				"activities": activities[] {
+					${locationListObj}
+				},
+				"relatedGuides": relatedGuides[]->{
+					${getGuidesData('card')}
+				}
+			},
+			title,
+			content
+		},
+		"guides": guides[]->{
+			${getGuidesData('card')}
+		},
+		type,
+		...select(type == "premade" => {
+			NumOfDays,
+			NumOfTravelers,
+			"budget": {
+				"low": budget.budgetLow,
+				"high": budget.budgetHigh
+			},
+			"accommodations": accomodations[]->{
+				${getLocationsData('card')}
+			}
+		}),
+		...select(type == "custom" => {
+			passcode,
+			name,
+			startDate,
+			introMessage,
+			endingMessage,
+			emergencyContact,
+			"accommodation": {
+				"location": accomodation.accomodationLocation->{${getLocationsData('card')}},
+				"checkInTime": accomodation.accomodationCheckInTime,
+				"checkOutTime": accomodation.accomodationCheckOutTime,
+				"notes": accomodation.accomodationNotes,
+				"attachments": accomodation.accomodationAttachments
+			},
+			"reservations": reservations[]{
+				"location": location->{${getLocationsData('card')}},
+				"startTime": startTime,
+				"endTime": endTime,
+				"notes": notes,
+				"attachments": attachments[]{${fileMeta}}
+			}
+		}),`;
+	}
+	return defaultData;
+};
+
 // Construct our content "modules" GROQ
 export const pageModules = groq`
 	_type == 'freeform' => {
@@ -392,7 +464,7 @@ export const pageGuidesSingleQuery = groq`
 	*[_type == "gGuides" && slug.current == $slug][0]{
 		${getGuidesData()},
 		"defaultRelated": *[_type == "gGuides"
-			&& count(categories[@._ref in ^.^.categories[]._ref ]) > 0
+			&& count(categories[@._ref in ^.^.categories[]._ref]) > 0
 			&& _id != ^._id
 			] | order(publishedAt desc, _createdAt desc) [0..1] {
 				${getGuidesData('card')}
@@ -410,11 +482,47 @@ export const pageLocationsIndexDefaultQuery = groq`
 	_type,
 	title,
 	"slug": "locations",
+	heading[]{
+		${portableTextContent}
+	},
 	itemsPerPage,
 	paginationMethod,
 	loadMoreButtonLabel,
 	infiniteScrollCompleteLabel,
 	"itemsTotalCount": count(*[_type == "gLocations"]),
+	guideList[]{
+		title,
+		content[]{
+			${portableTextContent}
+		},
+		color,
+		"items": items[]{
+			_type == 'guide' => @-> {
+				${getGuidesData('card')}
+			},
+			_type == 'category' => {
+				"category": @-> {
+					_id,
+					title,
+					"guides": *[_type == "gGuides" && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
+						${getGuidesData('card')}
+					}
+				}
+			},
+			_type == 'subcategory' => {
+				"subcategory": @-> {
+					_id,
+					title,
+					"guides": *[_type == "gSubcategories" && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
+						${getGuidesData('card')}
+					}
+				}
+			},
+			_type == 'itinerary' => @-> {
+				${getItineraryData()}
+			},
+		}
+	},
 	sharing`;
 
 export const pageLocationsIndex = groq`
@@ -453,65 +561,5 @@ export const pageLocationsSingleQuery = groq`
 
 export const pageItinerariesSingleQuery = groq`
 	*[_type == "gItineraries" && slug.current == $slug][0]{
-		title,
-		_id,
-		"slug": slug.current,
-		"images": images[]{
-			${imageMeta}
-		},
-		startingColor,
-	  plan[]{
-			"day": itineraryDay->{
-				title,
-				content,
-				"images": images[]{
-					${imageMeta}
-				},
-				"activities": activities[] {
-					${locationListObj}
-				},
-				"relatedGuides": relatedGuides[]->{
-					${getGuidesData('card')}
-				}
-			},
-			title,
-			content
-		},
-		"guides": guides[]->{
-			${getGuidesData('card')}
-		},
-		type,
-		...select(type == "premade" => {
-			NumOfDays,
-			NumOfTravelers,
-			"budget": {
-				"low": budget.budgetLow,
-				"high": budget.budgetHigh
-			},
-			"accommodations": accomodations[]->{
-				${getLocationsData('card')}
-			}
-		}),
-		...select(type == "custom" => {
-			passcode,
-			name,
-			startDate,
-			introMessage,
-			endingMessage,
-			emergencyContact,
-			"accommodation": {
-				"location": accomodation.accomodationLocation->{${getLocationsData('card')}},
-				"checkInTime": accomodation.accomodationCheckInTime,
-				"checkOutTime": accomodation.accomodationCheckOutTime,
-				"notes": accomodation.accomodationNotes,
-				"attachments": accomodation.accomodationAttachments
-			},
-			"reservations": reservations[]{
-				"location": location->{${getLocationsData('card')}},
-				"startTime": startTime,
-				"endTime": endTime,
-				"notes": notes,
-				"attachments": attachments[]{${fileMeta}}
-			}
-		}),
+		${getItineraryData()}
 	}`;

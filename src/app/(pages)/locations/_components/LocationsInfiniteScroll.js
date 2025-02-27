@@ -141,7 +141,7 @@ const ListWithSSG = ({ data }) => {
 				<p>Error: {listState}</p>
 			) : (
 				<>
-					<div className="p-locations-articles__list">
+					<div className="p-locations__list">
 						{listData.map((item, index) => (
 							<LocationCard key={item._id} data={item} />
 						))}

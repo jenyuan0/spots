@@ -1,0 +1,94 @@
+.p-locations {
+	&__heading {
+		margin: var(--s-4-v) 0;
+	}
+
+	&__filters {
+		display: flex;
+		margin: var(--s-4-v) 0;
+		justify-content: space-between;
+		padding: var(--s-3-v) 0;
+		border-top: 1px solid var(--cr-subtle);
+		border-bottom: 1px solid var(--cr-subtle);
+
+		&__link {
+			display: block;
+			width: 80px;
+			justify-content: space-between;
+			text-align: center;
+
+			svg {
+				width: 30px;
+				height: 30px;
+				margin: 0 auto 10px;
+			}
+		}
+	}
+
+	&__list {
+		display: grid;
+		grid-template-columns: repeat(1, 1fr);
+		gap: 10px;
+
+		@container main (min-width: 700px) {
+			grid-template-columns: repeat(2, 1fr);
+			gap: 16px;
+		}
+
+		@container main (min-width: 1200px) {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	&__pagination {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin: var(--s-4-v) 0 var(--s-section);
+		gap: 5px;
+
+		&__num {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 40px;
+			height: 40px;
+			border-radius: 100%;
+			box-shadow: var(--shadow-3-transparent);
+			transition:
+				background var(--t-1),
+				box-shadow var(--t-1);
+
+			@media (hover: hover) {
+				&:hover {
+					background-color: var(--cr-subtle);
+				}
+			}
+
+			&.is-active {
+				background-color: var(--cr-white);
+				box-shadow: var(--shadow-3);
+			}
+		}
+	}
+
+	&__guides {
+		margin: var(--s-3-v) 0;
+		border-radius: var(--br-3);
+		color: var(--cr-primary);
+		background-color: var(--cr-secondary);
+		box-shadow: var(--shadow-1);
+
+		&__header {
+			padding: var(--s-4-v) var(--s-4-h) 0;
+		}
+
+		.c-carousel__viewport {
+			padding: var(--s-4-v) var(--s-4-h);
+		}
+
+		.c-card {
+			max-width: 300px;
+		}
+	}
+}

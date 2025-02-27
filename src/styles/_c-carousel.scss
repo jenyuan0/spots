@@ -35,7 +35,6 @@
 	&__controls {
 		display: flex;
 		justify-content: center;
-		margin-top: 10px;
 	}
 
 	&__buttons {
@@ -46,10 +45,30 @@
 	}
 
 	&__button {
+		position: absolute;
+		top: 50%;
+		transform: translate3d(0, -50%, 0);
+		width: 36px;
+		height: 36px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background-color: var(--cr-white);
+		box-shadow: var(--shadow-3);
+		border-radius: 100%;
+
+		&--prev {
+			left: 0;
+			transform: translate3d(-50%, -50%, 0);
+		}
+
+		&--next {
+			right: 0;
+			transform: translate3d(50%, -50%, 0);
+		}
+
 		&:disabled {
-			opacity: 0.3;
-			cursor: not-allowed;
-			background-color: transparent;
+			opacity: 0;
 		}
 
 		@media (hover: none) and (pointer: coarse) {
@@ -63,6 +82,7 @@
 		justify-content: flex-start;
 		align-items: center;
 		gap: var(--dot-gap);
+		margin-top: 10px;
 	}
 
 	&__dot {

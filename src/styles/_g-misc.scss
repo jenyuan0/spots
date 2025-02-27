@@ -11,6 +11,8 @@ html {
 #main {
 	min-height: var(--s-main-min-height);
 	padding: 0.1px 0;
+	container-type: inline-size;
+	container-name: main;
 }
 
 .icon-caret,

@@ -49,7 +49,7 @@ const ListWithClientQuery = ({ data, currentPageNumber }) => {
 			) : isError ? (
 				<div>Error: {error.message}</div>
 			) : (
-				<div className="p-locations-articles__list">
+				<div className="p-locations__list">
 					{articlesData.map((item, index) => (
 						<LocationCard key={item._id} data={item} />
 					))}
@@ -76,7 +76,7 @@ const ListWithSSG = ({ data, currentPageNumber }) => {
 			{listState === 'isLoading' ? (
 				<p>Loading...</p>
 			) : (
-				<div className="p-locations-articles__list">
+				<div className="p-locations__list">
 					{listData.map((item, index) => (
 						<LocationCard key={item._id} data={item} />
 					))}
@@ -97,24 +97,79 @@ export default function LocationsPagination({ data }) {
 			{/* <ListWithClientQuery data={data} currentPageNumber={currentPageNumber} /> */}
 			<ListWithSSG data={data} currentPageNumber={currentPageNumber} />
 			{ARTICLE_TOTAL_PAGE > 1 && (
-				<div className="c-locations-pagination__pagination f-h f-a-c f-j-c">
-					{Array.from({ length: ARTICLE_TOTAL_PAGE }, (_, index) => {
-						const pageNumber = index + 1;
-						return (
-							<Link
-								href={{
-									pathname: '/locations',
-									query: { page: pageNumber },
-								}}
-								key={index}
-								className={clsx('c-locations-pagination__pagination__number', {
-									'is-active': pageNumber === Number(currentPageNumber),
-								})}
-							>
-								{pageNumber}
-							</Link>
-						);
-					})}
+				<div className="p-locations__pagination">
+					{(() => {
+						const pages = [];
+						const currentPage = Number(currentPageNumber);
+
+						if (currentPage === 1) {
+							// First page - show first 3 pages
+							for (let i = 1; i <= Math.min(3, ARTICLE_TOTAL_PAGE); i++) {
+								pages.push(i);
+							}
+
+							if (ARTICLE_TOTAL_PAGE > 3) {
+								pages.push('...');
+								pages.push(ARTICLE_TOTAL_PAGE);
+							}
+						} else if (currentPage === ARTICLE_TOTAL_PAGE) {
+							// Last page - show last 3 pages
+							if (ARTICLE_TOTAL_PAGE > 3) {
+								pages.push(1);
+								pages.push('...');
+							}
+							for (
+								let i = Math.max(1, ARTICLE_TOTAL_PAGE - 2);
+								i <= ARTICLE_TOTAL_PAGE;
+								i++
+							) {
+								pages.push(i);
+							}
+						} else {
+							// Middle pages - show previous, current, and next
+							if (currentPage > 2) {
+								pages.push(1);
+								pages.push('...');
+							}
+
+							pages.push(currentPage - 1);
+							pages.push(currentPage);
+							pages.push(currentPage + 1);
+
+							if (currentPage < ARTICLE_TOTAL_PAGE - 1) {
+								pages.push('...');
+								pages.push(ARTICLE_TOTAL_PAGE);
+							}
+						}
+
+						return pages.map((page, index) => {
+							if (page === '...') {
+								return (
+									<span
+										key={`ellipsis-${index}`}
+										className="p-locations__pagination__ellipsis"
+									>
+										...
+									</span>
+								);
+							}
+
+							return (
+								<Link
+									href={{
+										pathname: '/locations',
+										query: { page },
+									}}
+									key={page}
+									className={clsx('p-locations__pagination__num t-l-1', {
+										'is-active': page === currentPage,
+									})}
+								>
+									{page}
+								</Link>
+							);
+						});
+					})()}
 				</div>
 			)}
 		</>

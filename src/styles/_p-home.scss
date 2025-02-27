@@ -6,13 +6,13 @@
 		position: relative;
 		display: flex;
 		flex-direction: column;
-		padding: $hero-padding;
 		height: var(--s-vp-height);
 		border-radius: var(--br-3);
 		box-shadow: var(--shadow-1);
 		z-index: 1;
 
 		&__image {
+			margin: $hero-padding;
 			border-radius: var(--br-3);
 			overflow: hidden;
 		}

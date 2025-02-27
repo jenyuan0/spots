@@ -64,7 +64,7 @@ export default function TheMap({ id, locations, color }) {
 					// disableDefaultUI={true}
 					mapId={id || 'x'}
 				>
-					{locations.map((location, index) => {
+					{locations?.map((location, index) => {
 						const isSelected = selectedMarker === location.title;
 						const resStartTime = location?.res?.startTime
 							? formatTime(new Date(location.res.startTime))

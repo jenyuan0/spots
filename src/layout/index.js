@@ -9,8 +9,9 @@ import AdaSkip from './AdaSkip';
 import Announcement from './Announcement';
 import Footer from './Footer';
 import Header from './Header';
-import Magnify from './Magnify';
 import Main from './Main';
+import AsideMap from './AsideMap';
+import Magnify from './Magnify';
 import ProgressLoader from './ProgressLoader';
 
 export default function Layout({ children, siteData }) {
@@ -68,6 +69,7 @@ export default function Layout({ children, siteData }) {
 			<Announcement data={announcement} />
 			{!isCustomItinerary && <Header data={header} />}
 			<Main>{children}</Main>
+			{/* <AsideMap /> */}
 			<Magnify />
 			{!isCustomItinerary && <Footer siteData={siteData} data={footer} />}
 		</>

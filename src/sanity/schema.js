@@ -18,6 +18,7 @@ import sectionAppearance from './schemas/objects/section-appearance';
 import socialLink from './schemas/objects/social-link';
 import hourSelect from './schemas/objects/hour-select';
 import priceSelect from './schemas/objects/price-select';
+import colorSelect from './schemas/objects/color-select';
 
 // Global types
 import gAnnouncement from './schemas/documents/g-announcement';
@@ -63,6 +64,7 @@ const schemas = [
 	socialLink,
 	hourSelect,
 	priceSelect,
+	colorSelect,
 
 	gAnnouncement,
 	gHeader,

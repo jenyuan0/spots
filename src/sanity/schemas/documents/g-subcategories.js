@@ -8,6 +8,7 @@ export default defineType({
 	title: 'Subcategories',
 	name: 'gSubcategories',
 	type: 'document',
+	icon: TagsIcon,
 	fields: [
 		title(),
 		slug(),
@@ -29,6 +30,7 @@ export default defineType({
 			return {
 				title: title,
 				subtitle: category ? `Parent: ${category}` : '',
+				media: TagsIcon,
 			};
 		},
 	},
