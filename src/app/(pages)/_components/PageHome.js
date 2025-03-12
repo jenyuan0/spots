@@ -44,7 +44,7 @@ function HeroSpot({ index, data, lastChild, scrollYProgress }) {
 			...Array.from({ length: 5 }, () => getRandomInt(1, 1500) * 0.0001).sort(),
 			0.151,
 			0.3,
-			0.8,
+			0.85,
 			1,
 		],
 		[
@@ -67,7 +67,7 @@ function HeroSpot({ index, data, lastChild, scrollYProgress }) {
 			...Array.from({ length: 5 }, () => getRandomInt(1, 1500) * 0.0001).sort(),
 			0.151,
 			0.3,
-			0.8,
+			0.85,
 			1,
 		],
 		[
