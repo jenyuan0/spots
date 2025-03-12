@@ -11,7 +11,7 @@ import Link from '@/components/CustomLink';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 
 // Spot component for individual animated spots
-function HeroSpot({ index, lastChild, data, scrollYProgress }) {
+function HeroSpot({ index, data, lastChild, scrollYProgress }) {
 	const [spot, setSpot] = useState({
 		x: 1000,
 		y: 1000,
@@ -208,13 +208,13 @@ export function Hero({ data }) {
 						<HeroSpot
 							key={`spot-${i}`}
 							index={i}
-							lastChild={i === heroSpots.length - 1}
 							data={{
 								...el,
 								color: spots[i]?.color,
 								x: spots[i]?.x,
 								y: spots[i]?.y,
 							}}
+							lastChild={i === heroSpots.length - 1}
 							scrollYProgress={scrollYProgress}
 						/>
 					);
@@ -222,13 +222,21 @@ export function Hero({ data }) {
 			: null;
 	}, [heroSpots, spots, scrollYProgress]);
 
+	const motionScale = useTransform(scrollYProgress, [0, 1], [1, 0.85]);
+	const springScale = useSpring(motionScale, springConfig);
+
 	return (
 		<section ref={heroRef} className="p-home__hero">
-			<div className="p-home__hero__image p-fill">
+			<motion.div
+				className={'p-home__hero__image p-fill'}
+				style={{
+					scale: springScale,
+				}}
+			>
 				<span className="object-fit">
 					{heroImage && <Img image={heroImage} />}
 				</span>
-			</div>
+			</motion.div>
 			{spotElements}
 			{heroHeading && (
 				<h1 className="p-home__hero__heading t-h-1">

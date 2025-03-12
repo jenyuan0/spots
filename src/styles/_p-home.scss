@@ -26,7 +26,7 @@
 
 		&__nudge {
 			position: absolute;
-			bottom: calc($hero-padding * 2);
+			bottom: calc($hero-padding * 3);
 			left: 50%;
 			transform: translate3d(-50%, 0, 0);
 			display: flex;
