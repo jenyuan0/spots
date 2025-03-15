@@ -51,7 +51,7 @@
 		margin: var(--s-4-v) 0 var(--s-section);
 		gap: 5px;
 
-		&__num {
+		&__button {
 			display: flex;
 			justify-content: center;
 			align-items: center;
@@ -64,7 +64,7 @@
 				box-shadow var(--t-1);
 
 			@media (hover: hover) {
-				&:hover {
+				&:not(.is-disabled):hover {
 					background-color: var(--cr-subtle);
 				}
 			}
@@ -72,6 +72,11 @@
 			&.is-active {
 				background-color: var(--cr-white);
 				box-shadow: var(--shadow-3);
+			}
+
+			&.is-disabled {
+				opacity: 0.2;
+				cursor: not-allowed;
 			}
 		}
 	}

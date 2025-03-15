@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useId } from 'react';
+import React, { useEffect, useState, useId } from 'react';
 import clsx from 'clsx';
 import { usePathname } from 'next/navigation';
 import { scrollEnable, scrollDisable } from '@/lib/helpers';
@@ -38,7 +38,7 @@ function HeaderLinks({ title, items }) {
 	);
 }
 
-export default function Header({ data }) {
+export default function Header({ data, isActive }) {
 	const pathname = usePathname();
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -53,13 +53,12 @@ export default function Header({ data }) {
 
 	return (
 		<>
-			<header className={'g-header'}>
+			<header className={clsx('g-header', { 'is-active': isActive })}>
 				<div className="g-header__logo">
 					<h1 className="t-h-2">
 						<Link href={'/'}>SPOTS</Link>
 					</h1>
 				</div>
-
 				{data?.menu?.map((el, i) => (
 					<HeaderLinks
 						key={`header-link-${i}`}
@@ -67,7 +66,6 @@ export default function Header({ data }) {
 						items={el?.items}
 					/>
 				))}
-
 				<div className="g-header__cta">
 					<Button className="btn">Get in Touch</Button>
 				</div>

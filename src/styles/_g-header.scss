@@ -14,16 +14,27 @@
 	gap: 30px;
 	text-align: center;
 	z-index: 100;
+	opacity: 0;
+	pointer-events: none;
+	transition: transform var(--t-2);
+
+	&.is-active {
+		transform: translate3d(0%, -50%, 0);
+		opacity: 1;
+		pointer-events: auto;
+	}
 }
 
 @mixin sidebarLeft {
 	@include sidebar;
 	left: var(--s-contain);
+	transform: translate3d(-100%, -50%, 0);
 }
 
 @mixin sidebarRight {
 	@include sidebar;
 	right: var(--s-contain);
+	transform: translate3d(100%, -50%, 0);
 }
 
 .g-header {

@@ -32,24 +32,16 @@
 	--t-l-2: 12px/1 'Helvetica Neue', Helvetica, sans-serif;
 
 	--s-sidebar: Min(240px, 100%);
+	--s-sidebar-w-contain: calc(var(--s-sidebar) + var(--s-contain) * 2);
 	--s-contain: Min(3vw, 40px);
 	--s-contain-max: 2480px;
 	--s-contain-dynamic: Max(
 		var(--s-contain),
 		calc((100vw - var(--s-contain-max)) / 2)
 	);
-	--s-container-min: Min(
-		100vw - var(--s-sidebar) * 2 - var(--s-contain) * 4,
-		540px
-	);
-	--s-container-med: Min(
-		100vw - var(--s-sidebar) * 2 - var(--s-contain) * 4,
-		800px
-	);
-	--s-container-lge: Min(
-		100vw - var(--s-sidebar) * 2 - var(--s-contain) * 4,
-		1800px
-	);
+	--s-container-min: Min(100vw - calc(var(--s-sidebar-w-contain) * 2), 540px);
+	--s-container-med: Min(100vw - calc(var(--s-sidebar-w-contain) * 2), 800px);
+	--s-container-lge: Min(100vw - calc(var(--s-sidebar-w-contain) * 2), 1800px);
 	--s-vp-height: 100vh;
 	--s-vp-height: 100svh;
 	--s-main-min-height: calc(

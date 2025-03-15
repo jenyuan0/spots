@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { client } from '@/sanity/lib/client';
 import { getLocationsData } from '@/sanity/lib/queries';
+import useAsideMap from '@/hooks/useAsideMap';
 
 const getLocationsQueryGROQ = ({ pageNumber, pageSize }) => {
 	let queryGroq = `_type == "gLocations"`;
@@ -63,12 +64,17 @@ const ListWithSSG = ({ data, currentPageNumber }) => {
 	const { locationList, itemsPerPage } = data;
 	const [listState, setListState] = useState('isLoading');
 	const [listData, setListData] = useState([]);
+	const setAsideMapLocations = useAsideMap(
+		(state) => state.setAsideMapLocations
+	);
 
 	useEffect(() => {
 		const pageSizeStart = (currentPageNumber - 1) * itemsPerPage;
 		const pageSizeEnd = currentPageNumber * itemsPerPage;
-		setListData(locationList.slice(pageSizeStart, pageSizeEnd));
+		const currentLocations = locationList.slice(pageSizeStart, pageSizeEnd);
+		setListData(currentLocations);
 		setListState(null);
+		setAsideMapLocations(currentLocations);
 	}, [locationList, itemsPerPage, currentPageNumber]);
 
 	return (
@@ -85,7 +91,6 @@ const ListWithSSG = ({ data, currentPageNumber }) => {
 		</>
 	);
 };
-
 export default function LocationsPagination({ data }) {
 	const searchParams = useSearchParams();
 	const currentPageNumber = searchParams.get('page') || 1;
@@ -98,6 +103,17 @@ export default function LocationsPagination({ data }) {
 			<ListWithSSG data={data} currentPageNumber={currentPageNumber} />
 			{ARTICLE_TOTAL_PAGE > 1 && (
 				<div className="p-locations__pagination">
+					<Link
+						href={{
+							pathname: '/locations',
+							query: { page: Math.max(1, Number(currentPageNumber) - 1) },
+						}}
+						className={clsx('p-locations__pagination__button', {
+							'is-disabled': currentPageNumber === '1',
+						})}
+					>
+						<div className="icon-caret-left" />
+					</Link>
 					{(() => {
 						const pages = [];
 						const currentPage = Number(currentPageNumber);
@@ -161,7 +177,7 @@ export default function LocationsPagination({ data }) {
 										query: { page },
 									}}
 									key={page}
-									className={clsx('p-locations__pagination__num t-l-1', {
+									className={clsx('p-locations__pagination__button t-l-1', {
 										'is-active': page === currentPage,
 									})}
 								>
@@ -170,6 +186,22 @@ export default function LocationsPagination({ data }) {
 							);
 						});
 					})()}
+					<Link
+						href={{
+							pathname: '/locations',
+							query: {
+								page: Math.min(
+									ARTICLE_TOTAL_PAGE,
+									Number(currentPageNumber) + 1
+								),
+							},
+						}}
+						className={clsx('p-locations__pagination__button', {
+							'is-disabled': currentPageNumber === String(ARTICLE_TOTAL_PAGE),
+						})}
+					>
+						<div className="icon-caret-right" />
+					</Link>
 				</div>
 			)}
 		</>

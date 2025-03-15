@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { formatTimeToAMPM, formatTime } from '@/lib/helpers';
 import { AdvancedMarker, APIProvider, Map } from '@vis.gl/react-google-maps';
@@ -8,6 +8,7 @@ import useMagnify from '@/hooks/useMagnify';
 // TODO:
 // 1. make route
 // 2. getbounds to set zoom level
+// 2.5 recenter location change
 // 3. customize map color scheme
 // 4. custom border radius via #filter-round is not working
 // 5. map should have it's own query URL
@@ -47,18 +48,24 @@ const getMiddle = (prop, markers) => {
 
 export default function TheMap({ id, locations, color }) {
 	const [selectedMarker, setSelectedMarker] = useState();
-	const center = {
-		lat: getMiddle('lat', locations),
-		lng: getMiddle('lng', locations),
-	};
+	const [center, setCenter] = useState();
+	const [zoom, setZoom] = useState(13);
 	const setMag = useMagnify((state) => state.setMag);
+
+	useEffect(() => {
+		setCenter({
+			lat: getMiddle('lat', locations),
+			lng: getMiddle('lng', locations),
+		});
+		setZoom(13);
+	}, [locations]);
 
 	return (
 		<div className="c-map">
 			<APIProvider apiKey={process.env.NEXT_PUBLIC_SANITY_GOOGLE_MAP_API_KEY}>
 				<Map
 					defaultCenter={center}
-					defaultZoom={13}
+					defaultZoom={zoom}
 					gestureHandling={'greedy'}
 					// colorScheme={'LIGHT'}
 					// disableDefaultUI={true}

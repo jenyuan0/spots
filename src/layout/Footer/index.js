@@ -1,9 +1,10 @@
 import React, { useEffect, useRef } from 'react';
+import clsx from 'clsx';
 import { motion } from 'framer-motion';
 import { pageTransitionFade } from '@/lib/animate';
 import Menu from '@/components/Menu';
 
-export default function Footer({ siteData, data }) {
+export default function Footer({ siteData, data, isActive }) {
 	const footerRef = useRef();
 
 	useEffect(() => {
@@ -20,7 +21,9 @@ export default function Footer({ siteData, data }) {
 				initial="initial"
 				animate="animate"
 				variants={pageTransitionFade}
-				className="g-footer cr-white bg-black"
+				className={clsx('g-footer cr-white bg-black', {
+					'is-active': isActive,
+				})}
 			>
 				<div className="g-footer__main">
 					{data?.menu?.items && (
@@ -31,7 +34,6 @@ export default function Footer({ siteData, data }) {
 						/>
 					)}
 				</div>
-
 				<div className="g-footer__sub f-h f-a-c">
 					<div className="g-footer__copyright">
 						© {new Date().getFullYear()} {siteData?.title}

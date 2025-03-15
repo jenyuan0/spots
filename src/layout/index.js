@@ -13,11 +13,16 @@ import Main from './Main';
 import AsideMap from './AsideMap';
 import Magnify from './Magnify';
 import ProgressLoader from './ProgressLoader';
+import useAsideMap from '@/hooks/useAsideMap';
 
 export default function Layout({ children, siteData }) {
 	const { announcement, header, footer } = siteData || {};
 	const pathname = usePathname();
-	const [isCustomItinerary, setIsCustomItinerary] = useState(false);
+	const [isHeaderActive, setIsHeaderActive] = useState(false);
+	const [isFooterActive, setIsFooterActive] = useState(false);
+	const [isMainSpaceL, setIsMainSpaceL] = useState(false);
+	const [isMainSpaceR, setIsMainSpaceR] = useState(false);
+	const setAsideMapActive = useAsideMap((state) => state.setAsideMapActive);
 
 	useEffect(() => {
 		siteSetup();
@@ -32,7 +37,7 @@ export default function Layout({ children, siteData }) {
 	const fetchIsCustomItinerary = async (pathname) => {
 		try {
 			const dataSlug = pathname.split('/').pop();
-			const showHeader = await Promise.all([
+			const showItineraryHeader = await Promise.all([
 				client.fetch(
 					`*[_type == "gItineraries" && slug.current == "${dataSlug}"][0] {
 						"value": coalesce(
@@ -44,7 +49,8 @@ export default function Layout({ children, siteData }) {
 					}.value`
 				),
 			]);
-			setIsCustomItinerary(!showHeader);
+			setIsHeaderActive(!showItineraryHeader);
+			setIsFooterActive(!showItineraryHeader);
 		} catch (error) {
 			console.error('Error fetching data:', error);
 		}
@@ -54,8 +60,12 @@ export default function Layout({ children, siteData }) {
 		if (pathname.includes('/itinerary/')) {
 			fetchIsCustomItinerary(pathname);
 		} else {
-			setIsCustomItinerary(false);
+			setIsHeaderActive(true);
+			setIsFooterActive(true);
 		}
+		setIsMainSpaceL(pathname !== '/');
+		setIsMainSpaceR(pathname !== '/');
+		setAsideMapActive(pathname.includes('/locations'));
 	}, [pathname]);
 
 	if (pathname.startsWith('/sanity')) {
@@ -67,11 +77,13 @@ export default function Layout({ children, siteData }) {
 			<ProgressLoader />
 			<AdaSkip />
 			<Announcement data={announcement} />
-			{!isCustomItinerary && <Header data={header} />}
-			<Main>{children}</Main>
-			{/* <AsideMap /> */}
+			<Header data={header} isActive={isHeaderActive} />
+			<Main isSpaceL={isMainSpaceL} isSpaceR={isMainSpaceR}>
+				{children}
+			</Main>
+			<AsideMap />
 			<Magnify />
-			{!isCustomItinerary && <Footer siteData={siteData} data={footer} />}
+			<Footer siteData={siteData} data={footer} isActive={isFooterActive} />
 		</>
 	);
 }

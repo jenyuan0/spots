@@ -166,7 +166,7 @@ export function Magnify() {
 
 	useEffect(() => {
 		const mParam = searchParams.get('m');
-		const cParam = searchParams.get('c');
+		const cParam = searchParams.get('mc');
 
 		if (cParam) setColor(cParam);
 
@@ -182,11 +182,20 @@ export function Magnify() {
 		cleanup();
 
 		if (mag?.slug) {
-			window.history.pushState(
-				{},
-				'',
-				`?m=/${mag?.type}/${mag.slug}${mag?.color ? `&c=${mag.color}` : ''}`
-			);
+			const url = new URL(window.location.href);
+			const params = url.searchParams;
+
+			// Remove existing 'm' parameter if present
+			params.delete('m');
+
+			// Add new 'm' parameter
+			const mValue = `/${mag.type}/${mag.slug}`;
+
+			// If there are other params, append with &m=, otherwise use ?m=
+			const separator = params.toString() ? '&' : '?';
+			const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}${separator}m=${mValue}${mag?.color ? `&mc=${mag.color}` : ''}`;
+
+			window.history.pushState({}, '', newUrl);
 		}
 	}, [mag?.slug]);
 
@@ -208,7 +217,18 @@ export function Magnify() {
 		timerRef.current = setTimeout(() => {
 			setContent({});
 			clearMag();
-			window.history.pushState({}, '', window.location.pathname);
+
+			// Reset URL param
+			const url = new URL(window.location.href);
+			const params = url.searchParams;
+
+			// Remove only specific parameters
+			params.delete('m');
+			params.delete('mc');
+
+			// Construct new URL with remaining parameters
+			const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
+			window.history.pushState({}, '', newUrl);
 		}, 500);
 	};
 

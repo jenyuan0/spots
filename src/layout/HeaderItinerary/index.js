@@ -6,7 +6,7 @@ export default function HeaderItinerary({ data, activeDay, colors }) {
 	const { plan, accomodation, reservations } = data;
 
 	return (
-		<header className={'g-header-itinerary'}>
+		<header className={'g-header-itinerary is-active'}>
 			<div className="g-header-itinerary__logo">
 				<h1 className="t-h-2">
 					<Link href={'/'}>SPOTS</Link>
