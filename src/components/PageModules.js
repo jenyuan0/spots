@@ -8,6 +8,7 @@ const Freeform = dynamic(() => import('./Freeform'), {
 	loading: () => <p>Loading...</p>,
 });
 const LocationList = dynamic(() => import('./LocationList'));
+const Ad = dynamic(() => import('./Ad'));
 
 export default function PageModules({ module }) {
 	const type = module._type;
@@ -34,6 +35,9 @@ export default function PageModules({ module }) {
 
 		case 'locationList':
 			return <LocationList data={module} />;
+
+		case 'gAds':
+			return <Ad data={module} />;
 
 		default:
 			return null;

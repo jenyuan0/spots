@@ -1,6 +1,12 @@
 .c-location-list {
-	&__content:not(:last-child) {
+	&__title:not(:last-child),
+	&__content:not(:last-child),
+	&__item-content:not(:last-child) {
 		margin-bottom: 40px;
+	}
+
+	&__item-content {
+		margin-top: 20px;
 	}
 
 	&__cards {

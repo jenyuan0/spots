@@ -32,11 +32,7 @@ export default function GuideCard({ data, layout = 'vertical' }) {
 					</div>
 				)}
 				<div className="c-card__actions">
-					<Link
-						className={'btn-underline'}
-						href={`/guides/${slug}`}
-						target="_blank"
-					>
+					<Link className={'btn-underline'} href={`/guides/${slug}`}>
 						Read
 					</Link>
 				</div>

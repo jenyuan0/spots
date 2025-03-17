@@ -10,6 +10,7 @@ const isValidRoute = (route) => {
 
 export default function CustomLink({
 	href,
+	link,
 	title,
 	children,
 	className,
@@ -21,7 +22,7 @@ export default function CustomLink({
 	const router = useRouter();
 	const { hasPressedKeys } = useKey();
 
-	if (!href || !isValidRoute(href)) return null;
+	if (!isValidRoute(href || link?.route)) return null;
 
 	const isMailTo = href?.match('^mailto:');
 	const handleClick = (event) => {
@@ -39,7 +40,7 @@ export default function CustomLink({
 
 	return (
 		<NextLink
-			href={href}
+			href={href || link.route}
 			target={isMailTo || isNewTab ? '_blank' : undefined}
 			rel={isNewTab ? 'noopener noreferrer' : undefined}
 			aria-label={ariaLabel}

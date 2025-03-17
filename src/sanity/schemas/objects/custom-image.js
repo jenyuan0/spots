@@ -42,9 +42,6 @@ export default function customImage({
 						{
 							name: 'link',
 							type: 'link',
-							options: {
-								isHighlighted: true,
-							},
 						},
 					]
 				: []),

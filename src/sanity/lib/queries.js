@@ -117,6 +117,9 @@ export const getLocationsData = (type) => {
 			street,
 			city,
 			zip
+		},
+		content[]{
+			${portableTextContent}
 		},`;
 	if (type === 'card') {
 		defaultData += groq`
@@ -131,9 +134,6 @@ export const getLocationsData = (type) => {
 			},
 			urls,
 			fees,
-			content[]{
-				${portableTextContent}
-			},
 			contentItinerary[]{
 				${portableTextContent}
 			},
@@ -239,6 +239,21 @@ export const getItineraryData = (type) => {
 };
 
 // Construct our content "modules" GROQ
+// export const adObj = groq`
+// 	...,
+// 	_id,
+// 	_type,
+// 	title,
+// 	content[]{
+// 		${portableTextContent}
+// 	},
+// 	image{
+// 		${imageMeta}
+// 	},
+// 	newsletterID,
+// 	callToAction
+// `;
+
 export const pageModules = groq`
 	_type == 'freeform' => {
 		${freeformObj}
@@ -271,24 +286,25 @@ export const pageModules = groq`
 	},
 	_type == 'locationList' => {
 		${locationListObj}
-	}
+	},
+	_type == 'ad' =>  *[_type == 'gAds' && _id == ^._ref][0]
 `;
 
 const customForm = groq`
-		customForm {
-			formFields[] {
-				placeholder,
+	customForm {
+		formFields[] {
+			placeholder,
+			_key,
+			required,
+			fieldLabel,
+			inputType,
+			selectOptions[] {
 				_key,
-				required,
-				fieldLabel,
-				inputType,
-				selectOptions[] {
-					_key,
-					"title": option,
-					"value": option
-				}
+				"title": option,
+				"value": option
 			}
-		}`;
+		}
+	}`;
 
 // Construct our "site" GROQ
 export const site = groq`

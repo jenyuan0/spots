@@ -11,7 +11,9 @@ export default function locationList({
 		type: 'object',
 		icon: PinIcon,
 		fields: [
-			title(),
+			title({
+				initialValue: 'The Spots',
+			}),
 			...(showStartTime
 				? [
 						{

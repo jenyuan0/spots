@@ -24,9 +24,9 @@
 
 	--t-h-1: 64px/1 var(--font-kalice), 'Times', serif;
 	--t-h-2: 36px/1.15 var(--font-kalice), 'Times', serif;
-	--t-h-3: 26px/1.15 var(--font-kalice), 'Times', serif;
-	--t-h-4: 500 18px/1.15 var(--font-kalice), 'Times', serif;
-	--t-b-1: 16px/1.25 'Helvetica Neue', Helvetica, sans-serif;
+	--t-h-3: 30px/1.15 var(--font-kalice), 'Times', serif;
+	--t-h-4: 500 20px/1.15 var(--font-kalice), 'Times', serif;
+	--t-b-1: 18px/1.25 'Helvetica Neue', Helvetica, sans-serif;
 	--t-b-2: 14px/1.25 'Helvetica Neue', Helvetica, sans-serif;
 	--t-l-1: 700 14px/1 'Helvetica Neue', Helvetica, sans-serif;
 	--t-l-2: 12px/1 'Helvetica Neue', Helvetica, sans-serif;
@@ -41,7 +41,7 @@
 	);
 	--s-container-min: Min(100vw - calc(var(--s-sidebar-w-contain) * 2), 540px);
 	--s-container-med: Min(100vw - calc(var(--s-sidebar-w-contain) * 2), 800px);
-	--s-container-lge: Min(100vw - calc(var(--s-sidebar-w-contain) * 2), 1800px);
+	--s-container-lge: Min(100vw - calc(var(--s-sidebar-w-contain) * 2), 1600px);
 	--s-vp-height: 100vh;
 	--s-vp-height: 100svh;
 	--s-main-min-height: calc(
@@ -425,6 +425,10 @@ textarea {
 .wysiwyg-page {
 	> *:not(:last-child) {
 		margin-bottom: 20px;
+	}
+
+	.t-h-4:not(:last-child) {
+		margin-bottom: 10px;
 	}
 
 	h1,

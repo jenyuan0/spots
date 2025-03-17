@@ -73,16 +73,9 @@ export default defineType({
 				carousel(),
 				locationList(),
 				{
-					title: 'Ad',
-					type: 'object',
-					icon: BlockContentIcon,
-					fields: [
-						{
-							name: 'ads',
-							type: 'reference',
-							to: [{ type: 'gAds' }],
-						},
-					],
+					name: 'ad',
+					type: 'reference',
+					to: [{ type: 'gAds' }],
 				},
 			],
 		},

@@ -149,7 +149,7 @@ export default function Plan({ index, plan, reservations, color, date }) {
 							title={title}
 							subtitle={startTime ? formatTimeToAMPM(startTime) : 'Optional'}
 						>
-							<LocationList data={activity} color={color} />
+							<LocationList data={activity} color={color} isItinerary={true} />
 						</Accordion>
 					);
 				})}

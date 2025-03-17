@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import React from 'react';
-
 import CustomPortableText from '@/components/CustomPortableText';
 import { buildRgbaCssString } from '@/lib/helpers';
 
@@ -33,7 +32,7 @@ export default function Freeform({ data, className }) {
 		<section
 			className={clsx(
 				'c-free-form',
-				'wysiwyg',
+				'wysiwyg-page',
 				`text-align-${textAlign || 'none'}`,
 				className,
 				{

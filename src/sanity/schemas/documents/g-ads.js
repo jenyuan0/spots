@@ -2,6 +2,7 @@ import { defineType } from 'sanity';
 import { BlockContentIcon } from '@sanity/icons';
 import title from '@/sanity/schemas/objects/title';
 import customImage from '@/sanity/schemas/objects/custom-image';
+import callToAction from '@/sanity/schemas/objects/call-to-action';
 
 export default defineType({
 	title: 'Ads',
@@ -16,6 +17,7 @@ export default defineType({
 		},
 		customImage({ hasCropOptions: true }),
 		{ name: 'newsletterID', type: 'string' },
+		callToAction(),
 	],
 	preview: {
 		select: {
