@@ -23,6 +23,9 @@ export default function Layout({ children, siteData }) {
 	const [isMainSpaceL, setIsMainSpaceL] = useState(false);
 	const [isMainSpaceR, setIsMainSpaceR] = useState(false);
 	const setAsideMapActive = useAsideMap((state) => state.setAsideMapActive);
+	const setAsideMapLocations = useAsideMap(
+		(state) => state.setAsideMapLocations
+	);
 
 	useEffect(() => {
 		siteSetup();
@@ -65,7 +68,10 @@ export default function Layout({ children, siteData }) {
 		}
 		setIsMainSpaceL(pathname !== '/');
 		setIsMainSpaceR(pathname !== '/');
-		setAsideMapActive(pathname.includes('/locations'));
+
+		// aside map is set on the page level
+		setAsideMapActive(false);
+		setAsideMapLocations(false);
 	}, [pathname]);
 
 	if (pathname.startsWith('/sanity')) {

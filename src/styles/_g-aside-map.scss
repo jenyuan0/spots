@@ -41,25 +41,22 @@ $expanded_width: calc(var(--s-sidebar-w-contain) + Max(35vw, 300px));
 	}
 
 	&__toggle {
+		--size: 40px;
+
 		position: absolute;
 		width: 100%;
 		top: 50%;
 		left: 0;
 		transform: translate3d(-50%, -50%, 0);
 
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 40px;
-		height: 40px;
+		width: var(--size);
+		height: var(--size);
 		border-radius: 100%;
 		box-shadow: var(--shadow-3-transparent);
-		transition:
-			color var(--t-1),
-			background var(--t-1),
-			box-shadow var(--t-1);
+		transition: var(--t-1);
 		background-color: var(--cr-white);
 		box-shadow: var(--shadow-3);
+		overflow: hidden;
 
 		&:before,
 		&:after {
@@ -68,7 +65,9 @@ $expanded_width: calc(var(--s-sidebar-w-contain) + Max(35vw, 300px));
 			position: absolute;
 			inset: 0;
 			border-radius: 100%;
-			transition: transform var(--t-2);
+			transition:
+				transform var(--t-1),
+				border-radius var(--t-1);
 		}
 
 		&:before {
@@ -80,14 +79,44 @@ $expanded_width: calc(var(--s-sidebar-w-contain) + Max(35vw, 300px));
 			border: 2px solid var(--cr-white);
 		}
 
-		@media (hover: hover) {
-			&:not(.is-disabled):hover:before {
-				transform: scale(1);
-			}
+		&__icon {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: var(--size);
+			height: var(--size);
+			transition: transform var(--t-1);
 		}
 
-		&__icon {
-			transition: transform var(--t-1);
+		&__label {
+			position: absolute;
+			white-space: nowrap;
+			left: var(--size);
+			top: 50%;
+			transform: translateY(-50%);
+			opacity: 0;
+			pointer-events: none;
+			transition: var(--t-1);
+		}
+
+		@media (hover: hover) {
+			&:hover {
+				width: calc(90px + 10px * 2 + var(--size));
+				border-radius: var(--br-2);
+			}
+
+			&:hover:before {
+				transform: scale(1);
+				border-radius: var(--br-2);
+			}
+
+			&:hover:after {
+				border-radius: var(--br-2);
+			}
+
+			&:hover &__label {
+				opacity: 1;
+			}
 		}
 	}
 

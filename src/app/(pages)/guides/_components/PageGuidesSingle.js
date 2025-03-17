@@ -1,10 +1,11 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { hasArrayValue } from '@/lib/helpers';
 import PageModules from '@/components/PageModules';
 import Img from '@/components/Image';
 import GuideCard from '@/components/GuideCard';
+import useAsideMap from '@/hooks/useAsideMap';
 
 export default function PageGuidesSingle({ data }) {
 	const {
@@ -18,6 +19,27 @@ export default function PageGuidesSingle({ data }) {
 		related,
 		defaultRelated,
 	} = data || {};
+	const setAsideMapActive = useAsideMap((state) => state.setAsideMapActive);
+	const setAsideMapLocations = useAsideMap(
+		(state) => state.setAsideMapLocations
+	);
+
+	useEffect(() => {
+		const locations = pageModules
+			.filter((item) => item._type === 'locationList')
+			.reduce((acc, curr) => [...acc, ...curr.locations], [])
+			.filter(
+				(location, index, self) =>
+					self.findIndex(
+						(l) => JSON.stringify(l) === JSON.stringify(location)
+					) === index
+			);
+
+		setTimeout(() => {
+			setAsideMapLocations(locations);
+			setAsideMapActive(true);
+		}, 1);
+	}, [pageModules]);
 
 	return (
 		<>

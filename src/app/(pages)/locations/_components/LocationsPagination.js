@@ -64,6 +64,7 @@ const ListWithSSG = ({ data, currentPageNumber }) => {
 	const { locationList, itemsPerPage } = data;
 	const [listState, setListState] = useState('isLoading');
 	const [listData, setListData] = useState([]);
+	const setAsideMapActive = useAsideMap((state) => state.setAsideMapActive);
 	const setAsideMapLocations = useAsideMap(
 		(state) => state.setAsideMapLocations
 	);
@@ -74,7 +75,11 @@ const ListWithSSG = ({ data, currentPageNumber }) => {
 		const currentLocations = locationList.slice(pageSizeStart, pageSizeEnd);
 		setListData(currentLocations);
 		setListState(null);
-		setAsideMapLocations(currentLocations);
+
+		setTimeout(() => {
+			setAsideMapLocations(currentLocations);
+			setAsideMapActive(true);
+		}, 1);
 	}, [locationList, itemsPerPage, currentPageNumber]);
 
 	return (

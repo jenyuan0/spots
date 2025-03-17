@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useRef, useState } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import Map from '@/components/Map';
 import Button from '@/components/Button';
@@ -22,16 +22,20 @@ export default function AsideMap() {
 			role="dialog"
 			aria-modal={asideMapActive}
 		>
-			<Map locations={locations} />
+			{locations && <Map locations={locations} />}
 			<button
 				type="button"
 				className="g-aside-map__toggle"
 				onClick={() => {
 					setAsideMapExpand(!asideMapExpand);
-					console.log(asideMapExpand);
 				}}
 			>
-				<div className="g-aside-map__toggle__icon icon-caret-left" />
+				<div className="g-aside-map__toggle__icon">
+					<div className="icon-caret-left" />
+				</div>
+				<div className="g-aside-map__toggle__label t-l-1">
+					{asideMapExpand ? 'Collapse' : 'Expand'} Map
+				</div>
 			</button>
 		</div>
 	);
