@@ -96,6 +96,10 @@
 			padding: var(--s-4-v) var(--s-4-h);
 		}
 
+		.c-carousel__container {
+			align-items: stretch;
+		}
+
 		.c-card {
 			max-width: 300px;
 		}

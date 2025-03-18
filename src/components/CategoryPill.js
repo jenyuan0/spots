@@ -34,7 +34,7 @@ function Icon({ slug }) {
 	}
 }
 
-export default function CategoryPills({ data }) {
+export default function CategoryPill({ data }) {
 	const { title, slug, parentCategory } = data;
 	const colorD = data?.colorD || parentCategory?.colorD;
 	const colorL = data?.colorL || parentCategory?.colorL;

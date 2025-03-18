@@ -84,7 +84,7 @@ function GuideRow({ data }) {
 			<div className="p-locations__guides__list">
 				<Carousel loop={false} isShowNav={true} gap={'10px'}>
 					{guides.map((el, i) => {
-						return <GuideCard key={`${id}-${i}`} data={el} />;
+						return <GuideCard key={`${id}-${i}`} data={el} color={color} />;
 					})}
 				</Carousel>
 			</div>

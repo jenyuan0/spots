@@ -59,6 +59,22 @@ export function ContentLocation({ data, color = 'green' }) {
 					})}
 				</div>
 			)}
+			{images && (
+				<div className="g-magnify-locations__images">
+					<Carousel
+						isShowDots={true}
+						isAutoplay={true}
+						autoplayInterval={3000}
+						gap={'5px'}
+					>
+						{images.map((image, i) => (
+							<div className="g-magnify-locations__image bg-subtle">
+								<Img key={`image-${i}`} image={image} />
+							</div>
+						))}
+					</Carousel>
+				</div>
+			)}
 			{address && (
 				<div className="g-magnify-locations__address wysiwyg-b-1">
 					<h3 className="t-l-1">Address</h3>
@@ -85,15 +101,6 @@ export function ContentLocation({ data, color = 'green' }) {
 							</li>
 						))}
 					</ul>
-				</div>
-			)}
-			{images && (
-				<div className="g-magnify-locations__images">
-					<Carousel isShowDots={true} isAutoplay={true} autoplayInterval={3000}>
-						{images.map((image, i) => (
-							<Img key={`image-${i}`} image={image} />
-						))}
-					</Carousel>
 				</div>
 			)}
 			{content && (

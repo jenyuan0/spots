@@ -15,8 +15,8 @@ export default function Carousel({
 	containScroll = 'trimSnaps',
 	dragFree = false,
 	gap = '0px',
-	itemWidth = 100, // as %
-	itemMinWidth = 0, // as px
+	itemWidth = 'auto',
+	itemMinWidth = 0,
 	loop = true,
 	slidesToScroll = 1,
 
@@ -91,7 +91,7 @@ export default function Carousel({
 		<div
 			className={clsx('c-carousel', className)}
 			style={{
-				'--item-width': `${itemWidth}%`,
+				'--item-width': itemWidth,
 				'--item-min-width': `${itemMinWidth}px`,
 				'--item-gap': gap,
 			}}

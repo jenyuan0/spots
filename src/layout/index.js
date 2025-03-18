@@ -12,6 +12,7 @@ import Header from './Header';
 import Main from './Main';
 import AsideMap from './AsideMap';
 import Magnify from './Magnify';
+import Lightbox from './Lightbox';
 import ProgressLoader from './ProgressLoader';
 import useAsideMap from '@/hooks/useAsideMap';
 
@@ -89,6 +90,7 @@ export default function Layout({ children, siteData }) {
 			</Main>
 			<AsideMap />
 			<Magnify />
+			<Lightbox />
 			<Footer siteData={siteData} data={footer} isActive={isFooterActive} />
 		</>
 	);

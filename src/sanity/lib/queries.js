@@ -66,8 +66,8 @@ export const categoryMeta = groq`
 	title,
 	"slug": slug.current,
 	"colorTitle": color->title,
-  "colorD": color->colorD.hex,
-  "colorL": color->colorL.hex
+	"colorD": color->colorD.hex,
+	"colorL": color->colorL.hex
 `;
 
 export const subcategoryMeta = groq`
@@ -115,6 +115,7 @@ export const getLocationsData = (type) => {
 		"subcategories": subcategories[]->{
 			${subcategoryMeta}
 		},
+		"color": lower(categories[0]->color->title),
 		geo,
 		address{
 			street,
@@ -428,7 +429,11 @@ export const getGuidesData = (type) => {
 		publishDate,
 		"categories": categories[]->{
 			${categoryMeta}
-		},`;
+		},
+		"subcategories": subcategories[]->{
+			${subcategoryMeta}
+		},
+		"color": lower(categories[0]->color->title),`;
 	if (type === 'card') {
 		defaultData += groq`excerpt`;
 	} else {

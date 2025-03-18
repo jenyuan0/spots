@@ -12,6 +12,7 @@ import useMagnify from '@/hooks/useMagnify';
 // 3. customize map color scheme
 // 4. custom border radius via #filter-round is not working
 // 5. map should have it's own query URL
+// make all circles have category specific color
 
 const getMiddle = (prop, markers) => {
 	if (!markers) {
@@ -98,7 +99,13 @@ export default function TheMap({ id, locations, color }) {
 										setSelectedMarker(location.title);
 									}}
 								>
-									<div className="c-map__marker">
+									<div
+										className="c-map__marker"
+										style={{
+											'--cr-primary': `var(--cr-${location.color}-d)`,
+											'--cr-secondary': `var(--cr-${location.color}-l)`,
+										}}
+									>
 										<div className="c-map__marker__thumb">
 											<span className="object-fit">
 												<Img image={location.thumb} />

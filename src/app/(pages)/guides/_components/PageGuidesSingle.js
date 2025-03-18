@@ -7,6 +7,7 @@ import PageModules from '@/components/PageModules';
 import Img from '@/components/Image';
 import GuideCard from '@/components/GuideCard';
 import useAsideMap from '@/hooks/useAsideMap';
+import CategoryPill from '@/components/CategoryPill';
 
 // TODO:
 // min to read in &__header__subtitle
@@ -18,6 +19,7 @@ export default function PageGuidesSingle({ data }) {
 		thumb,
 		publishDate,
 		categories,
+		subcategories,
 		showContentTable,
 		showMap,
 		pageModules,
@@ -55,12 +57,20 @@ export default function PageGuidesSingle({ data }) {
 					</div>
 				)}
 				<div className="p-guides-single__heading">
+					<div className="p-guides-single__categories t-b-1">
+						{categories?.slice(0, 3).map((item) => (
+							<CategoryPill className="pill" key={item.id} data={item} />
+						))}
+						{categories?.length < 3 &&
+							subcategories
+								?.slice(0, 3 - categories.length)
+								.map((item) => (
+									<CategoryPill className="pill" key={item.id} data={item} />
+								))}
+					</div>
 					<h1 className="t-h-2">{title}</h1>
 					<div className="p-guides-single__subtitle t-b-1">
 						{format(publishDate, 'MMMM do')}
-					</div>
-					<div className="p-guides-single__cat t-b-1">
-						{categories?.map((cat) => cat.title).join(' • ')}
 					</div>
 				</div>
 			</section>

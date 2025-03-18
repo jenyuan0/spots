@@ -121,8 +121,8 @@ $expanded_width: calc(var(--s-sidebar-w-contain) + Max(35vw, 300px));
 	}
 
 	.is-expand &__toggle {
-		color: var(--cr-green-d);
-		background-color: var(--cr-green-l);
+		color: var(--cr-brown);
+		background-color: var(--cr-cream);
 
 		&__icon {
 			transform: scaleX(-1);

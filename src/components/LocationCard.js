@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import { hasArrayValue, formatTime } from '@/lib/helpers';
-import Link from 'next/link';
 import Img from '@/components/Image';
 import Button from '@/components/Button';
 import CategoryPill from '@/components/CategoryPill';
@@ -23,6 +22,7 @@ export default function LocationCard({ data, layout = 'vertical', color }) {
 		res,
 		content,
 	} = data || {};
+	const cardColor = color || data.color;
 	const url = `/locations/${slug}`;
 	const addressString =
 		address &&
@@ -32,8 +32,6 @@ export default function LocationCard({ data, layout = 'vertical', color }) {
 	const resStart = res?.startTime && new Date(res?.startTime);
 	const setMag = useMagnify((state) => state.setMag);
 	const { hasPressedKeys } = useKey();
-	const categoryColorTitle = (categories[0]?.colorTitle).toLowerCase();
-	const cardColor = color || categoryColorTitle;
 
 	return (
 		<div
@@ -45,19 +43,20 @@ export default function LocationCard({ data, layout = 'vertical', color }) {
 				<span className="object-fit">{thumb && <Img image={thumb} />}</span>
 			</div>
 			<div className="c-card__info">
-				{(hasArrayValue(categories) || hasArrayValue(subcategories)) && (
-					<div className="c-card__categories t-b-2">
-						{categories?.slice(0, 3).map((item) => (
-							<CategoryPill className="pill" key={item.id} data={item} />
-						))}
-						{categories?.length < 3 &&
-							subcategories
-								?.slice(0, 3 - categories.length)
-								.map((item) => (
-									<CategoryPill className="pill" key={item.id} data={item} />
-								))}
-					</div>
-				)}
+				{layout !== 'horizontal' &&
+					(hasArrayValue(categories) || hasArrayValue(subcategories)) && (
+						<div className="c-card__categories">
+							{categories?.slice(0, 3).map((item) => (
+								<CategoryPill className="pill" key={item.id} data={item} />
+							))}
+							{categories?.length < 3 &&
+								subcategories
+									?.slice(0, 3 - categories.length)
+									.map((item) => (
+										<CategoryPill className="pill" key={item.id} data={item} />
+									))}
+						</div>
+					)}
 				<div className="c-card__header">
 					<h3 className="c-card__title t-h-4">{title}</h3>
 					{resStart && (
@@ -88,14 +87,13 @@ export default function LocationCard({ data, layout = 'vertical', color }) {
 					>
 						Details
 					</Button>
-
-					<Link
+					<Button
 						className={clsx('btn-underline', cardColor && `cr-${cardColor}-d`)}
 						href={`https://www.google.com/maps/dir//${encodeURIComponent(addressString)}`}
 						target="_blank"
 					>
 						Get Direction
-					</Link>
+					</Button>
 				</div>
 			</div>
 		</div>

@@ -1,7 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
 import Map from '@/components/Map';
-import Button from '@/components/Button';
 import useAsideMap from '@/hooks/useAsideMap';
 
 export default function AsideMap() {

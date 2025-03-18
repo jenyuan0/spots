@@ -109,6 +109,7 @@
 	box-shadow: var(--shadow-2-transparent);
 	transition:
 		color var(--t-2),
+		border var(--t-2),
 		box-shadow var(--t-2);
 
 	&:before {

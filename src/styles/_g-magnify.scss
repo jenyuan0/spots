@@ -59,17 +59,11 @@
 	}
 
 	&__images {
-		margin-inline: var(--s-3-h);
 		margin-bottom: var(--s-3-v);
 
 		img {
-			height: 400px;
+			height: 360px;
 		}
-
-		// .c-carousel__viewport {
-		// 	overflow: hidden;
-		// 	border-radius: var(--br-2);
-		// }
 	}
 
 	&__content,

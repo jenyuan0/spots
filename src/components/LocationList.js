@@ -2,6 +2,9 @@ import React from 'react';
 import LocationCard from '@/components/LocationCard';
 import CustomPortableText from '@/components/CustomPortableText';
 
+// TODO
+// fallback locations
+
 export default function LocationList({ data, color, isItinerary = false }) {
 	const { title, content, locations, fallbackRains, fallbackLongWait } = data;
 
@@ -28,7 +31,7 @@ export default function LocationList({ data, color, isItinerary = false }) {
 				</div>
 			)}
 
-			{isItinerary && (
+			{/* {isItinerary && (
 				<>
 					<div className="locations">
 						<h3>Fallback (rain):</h3>
@@ -47,7 +50,7 @@ export default function LocationList({ data, color, isItinerary = false }) {
 							: 'NONE'}
 					</div>
 				</>
-			)}
+			)} */}
 		</div>
 	);
 }

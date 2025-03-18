@@ -1,9 +1,9 @@
+import clsx from 'clsx';
 import { hasArrayValue } from '@/lib/helpers';
-import Link from 'next/link';
 import Img from '@/components/Image';
 import Button from '@/components/Button';
 
-export default function GuideCard({ data, layout = 'vertical' }) {
+export default function GuideCard({ data, layout = 'vertical', color }) {
 	const {
 		title,
 		slug,
@@ -32,9 +32,12 @@ export default function GuideCard({ data, layout = 'vertical' }) {
 					</div>
 				)}
 				<div className="c-card__actions">
-					<Link className={'btn-underline'} href={`/guides/${slug}`}>
+					<Button
+						className={clsx('btn-underline', color && `cr-${color}-d`)}
+						href={`/guides/${slug}`}
+					>
 						Read
-					</Link>
+					</Button>
 				</div>
 			</div>
 		</div>

@@ -8,6 +8,7 @@ import CustomPortableText from '@/components/CustomPortableText';
 import useMagnify from '@/hooks/useMagnify';
 import useKey from '@/hooks/useKey';
 import Link from '@/components/CustomLink';
+import Button from '@/components/Button';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 
 // Spot component for individual animated spots
@@ -129,7 +130,7 @@ function HeroSpot({ index, data, lastChild, scrollYProgress }) {
 	}
 }
 
-export function Hero({ data }) {
+export function Hero({ data, setPrimaryColor }) {
 	const { heroHeading, heroImage, heroSpots } = data || {};
 	const heroRef = useRef(null);
 	const { scrollYProgress } = useScroll({
@@ -182,10 +183,7 @@ export function Hero({ data }) {
 					if (!checkOverlap(x, y, newPositions)) {
 						validPosition = true;
 						newPositions.push({ x, y, color });
-						document.documentElement.style.setProperty(
-							'--cr-primary',
-							`var(--cr-${color || 'green'}-d)`
-						);
+						setPrimaryColor(color);
 					}
 					attempts++;
 				}
@@ -198,7 +196,7 @@ export function Hero({ data }) {
 		window.addEventListener('resize', generateSpots);
 
 		return () => window.removeEventListener('resize', generateSpots);
-	}, [heroSpots]);
+	}, [heroSpots, setPrimaryColor]);
 
 	// Use useMemo to prevent re-renders
 	const spotElements = useMemo(() => {
@@ -319,12 +317,16 @@ function Highlights({ highlights }) {
 
 export default function PageHome({ data }) {
 	const { introTitle, introHeading, introCta, highlights } = data || {};
+	const [primaryColor, setPrimaryColor] = useState();
 
 	return (
 		<>
-			<Hero data={data} />
+			<Hero data={data} setPrimaryColor={setPrimaryColor} />
 
-			<section className="p-home__intro wysiwyg">
+			<section
+				className="p-home__intro wysiwyg"
+				style={{ '--cr-primary': `var(--cr-${primaryColor}-d)` }}
+			>
 				{introTitle && (
 					<h2 className="p-home__intro__title t-l-1">{introTitle}</h2>
 				)}
@@ -334,9 +336,13 @@ export default function PageHome({ data }) {
 					</p>
 				)}
 				{introCta && (
-					<Link link={introCta?.link} isNewTab={introCta?.isNewTab}>
+					<Button
+						className={clsx('btn-outline', `cr-${primaryColor}-d`)}
+						link={introCta?.link}
+						isNewTab={introCta?.isNewTab}
+					>
 						{introCta.label}
-					</Link>
+					</Button>
 				)}
 			</section>
 
