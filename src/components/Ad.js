@@ -9,7 +9,7 @@ export default function Ad({ data }) {
 	return (
 		<div className="c-ad">
 			<h3 className="t-h-3">{title}</h3>
-			<div className="c-ad-content wysiwyg">
+			<div className="c-ad-content wysiwyg-b-1">
 				<CustomPortableText blocks={content} />
 				{callToAction && (
 					<Link

@@ -20,7 +20,7 @@ export default function GuideCard({ data, layout = 'vertical' }) {
 				<span className="object-fit">{thumb && <Img image={thumb} />}</span>
 			</div>
 
-			<div className="c-card__content">
+			<div className="c-card__info">
 				<div className="c-card__header">
 					<h3 className="c-card__title t-h-4">{title}</h3>
 				</div>

@@ -15,19 +15,25 @@ export default defineType({
 			validation: (Rule) => Rule.required(),
 		},
 		{
-			title: 'Color',
-			name: 'color',
+			name: 'colorD',
 			type: 'color',
 			options: {
 				disableAlpha: true,
 			},
 			validation: (Rule) => Rule.required(),
 		},
+		{
+			name: 'colorL',
+			type: 'color',
+			options: {
+				disableAlpha: true,
+			},
+		},
 	],
 	preview: {
 		select: {
 			title: 'title',
-			color: 'color',
+			color: 'colorD',
 		},
 		prepare({ title, color }) {
 			return {

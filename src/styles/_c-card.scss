@@ -1,5 +1,7 @@
 .c-card {
 	display: flex;
+	min-width: 0;
+	overflow: hidden;
 	background-color: var(--cr-white);
 	box-shadow: var(--shadow-2);
 	border-radius: var(--br-2);
@@ -13,11 +15,16 @@
 		background-color: var(--cr-subtle);
 	}
 
-	&__content {
+	&__info {
 		display: flex;
 		flex-direction: column;
 		flex: 1;
 		padding: var(--s-2-v) var(--s-2-h);
+		gap: 15px;
+	}
+
+	&__categories {
+		display: flex;
 		gap: 5px;
 	}
 
@@ -36,6 +43,13 @@
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 		padding-bottom: 0.1em;
+	}
+
+	&__content {
+		display: -webkit-box;
+		-webkit-line-clamp: 7;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
 	}
 
 	&__badge {
@@ -76,7 +90,21 @@
 		min-height: 135px;
 	}
 
-	.c-card__content {
+	.c-card__info {
+		flex: 1;
+	}
+}
+
+.c-card[data-layout='horizontal-full'] {
+	flex-direction: row;
+
+	.c-card__thumb {
+		flex: 1;
+		max-width: 300px;
+		aspect-ratio: 1;
+	}
+
+	.c-card__info {
 		flex: 1;
 	}
 }

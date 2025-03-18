@@ -29,7 +29,7 @@ export function ContentLocation({ data, color = 'green' }) {
 		<div className="g-magnify-locations">
 			{title && <h2 className="g-magnify-locations__heading t-h-2">{title}</h2>}
 			{res?.length > 0 && (
-				<div className="g-magnify-locations__res wysiwyg">
+				<div className="g-magnify-locations__res wysiwyg-b-1">
 					<h3 className="t-l-1">Reservation{res.length > 1 && 's'}</h3>
 					{res?.map((res, i) => {
 						const resStart = res?.startTime && new Date(res?.startTime);
@@ -41,7 +41,7 @@ export function ContentLocation({ data, color = 'green' }) {
 								: format(resStart, 'MMMM do, h:mm aaa'));
 
 						return (
-							<div key={`res-${i}`}>
+							<p key={`res-${i}`}>
 								{timeRange && <div className="t-h-4">{timeRange}</div>}
 								{res?.notes && <CustomPortableText blocks={res.notes} />}
 
@@ -54,15 +54,15 @@ export function ContentLocation({ data, color = 'green' }) {
 										))}
 									</ul>
 								)}
-							</div>
+							</p>
 						);
 					})}
 				</div>
 			)}
 			{address && (
-				<div className="g-magnify-locations__address wysiwyg">
+				<div className="g-magnify-locations__address wysiwyg-b-1">
 					<h3 className="t-l-1">Address</h3>
-					<div className="t-h-3">{formatAddress(address)}</div>
+					<p className="t-h-3">{formatAddress(address)}</p>
 					<Link
 						className={clsx('btn-underline', color && `cr-${color}-d`)}
 						href={`https://www.google.com/maps/dir//${encodeURIComponent(addressString)}`}
@@ -73,7 +73,7 @@ export function ContentLocation({ data, color = 'green' }) {
 				</div>
 			)}
 			{hasArrayValue(urls) && (
-				<div className="g-magnify-locations__urls wysiwyg">
+				<div className="g-magnify-locations__urls wysiwyg-b-1">
 					<ul>
 						{urls.map((url, i) => (
 							<li key={`url-${i}`}>
@@ -97,17 +97,17 @@ export function ContentLocation({ data, color = 'green' }) {
 				</div>
 			)}
 			{content && (
-				<div className="g-magnify-locations__content wysiwyg-page">
+				<div className="g-magnify-locations__content wysiwyg-b-1">
 					<CustomPortableText blocks={content} />
 				</div>
 			)}
 			{contentItinerary && (
-				<div className="g-magnify-locations__content wysiwyg-page">
+				<div className="g-magnify-locations__content wysiwyg-b-1">
 					<CustomPortableText blocks={contentItinerary} />
 				</div>
 			)}
 			{hasArrayValue(fees) && (
-				<div className="g-magnify-locations__fees wysiwyg">
+				<div className="g-magnify-locations__fees wysiwyg-b-1">
 					<h3 className="t-l-1">Fees</h3>
 					<p>{fees.map((fee) => fee).join(' • ')}</p>
 				</div>

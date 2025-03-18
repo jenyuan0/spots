@@ -1,5 +1,4 @@
 import React from 'react';
-import clsx from 'clsx';
 import LocationCard from '@/components/LocationCard';
 import CustomPortableText from '@/components/CustomPortableText';
 
@@ -8,30 +7,23 @@ export default function LocationList({ data, color, isItinerary = false }) {
 
 	return (
 		<div className="c-location-list">
-			{!isItinerary && <h2 className="c-location-list__title">{title}</h2>}
+			{!isItinerary && (
+				<h2 className="c-location-list__title t-h-2">{title}</h2>
+			)}
 			{content && (
-				<div className="c-location-list__content wysiwyg">
+				<div className="c-location-list__content wysiwyg-b-1">
 					<CustomPortableText blocks={content} />
 				</div>
 			)}
-
 			{locations && (
 				<div className="c-location-list__cards">
 					{locations.map((item, index) => (
-						<React.Fragment key={`item-${index}`}>
-							<LocationCard
-								key={`item-${index}`}
-								data={item}
-								layout={'horizontal'}
-								color={color}
-							/>
-							{item.content && (
-								<div className="c-location-list__item-content wysiwyg-page">
-									<h3 className="t-h-3">{item.title}</h3>
-									<CustomPortableText blocks={item.content} />
-								</div>
-							)}
-						</React.Fragment>
+						<LocationCard
+							key={`item-${index}`}
+							data={item}
+							layout={isItinerary ? 'horizontal' : 'horizontal-full'}
+							color={color}
+						/>
 					))}
 				</div>
 			)}

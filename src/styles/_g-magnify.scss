@@ -62,10 +62,14 @@
 		margin-inline: var(--s-3-h);
 		margin-bottom: var(--s-3-v);
 
-		.c-carousel__viewport {
-			overflow: hidden;
-			border-radius: var(--br-2);
+		img {
+			height: 400px;
 		}
+
+		// .c-carousel__viewport {
+		// 	overflow: hidden;
+		// 	border-radius: var(--br-2);
+		// }
 	}
 
 	&__content,

@@ -169,6 +169,8 @@
 	line-height: 1;
 	padding-bottom: 0.2em;
 
+	color: var(--cr-primary);
+
 	&:before,
 	&:after {
 		content: '';
@@ -217,5 +219,25 @@ input[disabled] {
 		justify-content: center;
 		align-items: center;
 		gap: 5px;
+	}
+}
+
+.pill {
+	display: inline-flex;
+	white-space: nowrap;
+	justify-content: center;
+	align-items: center;
+	width: fit-content;
+	padding: 0 1em;
+	height: 28px;
+	gap: 0.8em;
+	font: var(--t-b-3);
+	border-radius: 14px;
+	color: var(--cr-primary, var(--cr-brown));
+	background-color: var(--cr-secondary, var(--cr-subtle));
+	user-select: none;
+
+	svg {
+		width: 0.9em;
 	}
 }

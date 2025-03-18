@@ -3,7 +3,9 @@ import { TagsIcon } from '@sanity/icons';
 import title from '@/sanity/schemas/objects/title';
 import slug from '@/sanity/schemas/objects/slug';
 import sharing from '@/sanity/schemas/objects/sharing';
+import { getSwatch } from '@/sanity/lib/helpers';
 
+// TODO
 // Potentially setup a separate category list for locations / vs guides, as they will need their own stand alone meta title and description... Or... just two separate "sharing" modules
 
 export default defineType({
@@ -24,11 +26,12 @@ export default defineType({
 	preview: {
 		select: {
 			title: 'title',
+			color: 'color.colorD',
 		},
-		prepare({ title }) {
+		prepare({ title, color }) {
 			return {
 				title: title,
-				medi: TagsIcon,
+				media: color?.hex ? getSwatch(color.hex.toUpperCase()) : TagsIcon,
 			};
 		},
 	},

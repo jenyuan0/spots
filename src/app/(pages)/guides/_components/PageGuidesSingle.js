@@ -31,7 +31,7 @@ export default function PageGuidesSingle({ data }) {
 
 	useEffect(() => {
 		const locations = pageModules
-			.filter((item) => item._type === 'locationList')
+			?.filter((item) => item._type === 'locationList')
 			.reduce((acc, curr) => [...acc, ...curr.locations], [])
 			.filter(
 				(location, index, self) =>
@@ -42,7 +42,7 @@ export default function PageGuidesSingle({ data }) {
 
 		setTimeout(() => {
 			setAsideMapLocations(locations);
-			setAsideMapActive(true);
+			setAsideMapActive(locations.length && showMap);
 		}, 1);
 	}, [pageModules]);
 
@@ -59,6 +59,9 @@ export default function PageGuidesSingle({ data }) {
 					<div className="p-guides-single__subtitle t-b-1">
 						{format(publishDate, 'MMMM do')}
 					</div>
+					<div className="p-guides-single__cat t-b-1">
+						{categories?.map((cat) => cat.title).join(' • ')}
+					</div>
 				</div>
 			</section>
 
@@ -68,37 +71,24 @@ export default function PageGuidesSingle({ data }) {
 						<PageModules key={`page-module-${i}`} module={module} />
 					</div>
 				))}
-
-				<div className="p-guides-single__content data-block">
-					Categories: {categories?.map((cat) => cat.title).join(' • ')}
-					<br />
-					Show Content Table: {showContentTable?.toString() || 'FALSE'}
-					<br />
-					Show Map: {showMap?.toString() || 'FALSE'}
-					<br />
-				</div>
-
-				<div className="data-block">
-					{(hasArrayValue(related) || hasArrayValue(defaultRelated)) && (
-						<section className="p-guides-related">
-							<h2 className="p-guides-related__title">Related Guides</h2>
-							<div className="p-guides-related__content">
-								{[...Array(4)].map((_, index) => {
-									const relatedItems = related || [];
-									const defaultItems = defaultRelated || [];
-									const allItems = [...relatedItems, ...defaultItems];
-									const item = allItems[index];
-									return (
-										item && (
-											<GuideCard key={`${item._id}-${index}`} data={item} />
-										)
-									);
-								})}
-							</div>
-						</section>
-					)}
-				</div>
 			</section>
+
+			{(hasArrayValue(related) || hasArrayValue(defaultRelated)) && (
+				<section className="p-guides-related">
+					<h2 className="p-guides-single-related__title">Related Guides</h2>
+					<div className="p-guides-single-related__content">
+						{[...Array(4)].map((_, index) => {
+							const relatedItems = related || [];
+							const defaultItems = defaultRelated || [];
+							const allItems = [...relatedItems, ...defaultItems];
+							const item = allItems[index];
+							return (
+								item && <GuideCard key={`${item._id}-${index}`} data={item} />
+							);
+						})}
+					</div>
+				</section>
+			)}
 		</>
 	);
 }

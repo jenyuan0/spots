@@ -131,7 +131,7 @@ export default function Plan({ index, plan, reservations, color, date }) {
 				</div>
 			)}
 			{(plan.content || plan?.day?.content) && (
-				<div className="p-itinerary__plan__highlight wysiwyg">
+				<div className="p-itinerary__plan__highlight wysiwyg-b-1">
 					<h3 className="t-l-1">Day Highlight</h3>
 					<CustomPortableText blocks={plan.content || plan.day.content} />
 				</div>

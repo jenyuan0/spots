@@ -65,13 +65,16 @@ export const categoryMeta = groq`
 	_id,
 	title,
 	"slug": slug.current,
-	categoryColor->{...color}
+	"colorTitle": color->title,
+  "colorD": color->colorD.hex,
+  "colorL": color->colorL.hex
 `;
 
 export const subcategoryMeta = groq`
 	_id,
 	title,
 	"slug": slug.current,
+	parentCategory->{${categoryMeta}}
 `;
 
 // Construct our "portable text content" GROQ
