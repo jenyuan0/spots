@@ -1,0 +1,71 @@
+.g-lightbox {
+	position: fixed;
+	inset: 0;
+	padding: var(--s-3-v) var(--s-3-h);
+	z-index: 300;
+	background-color: rgba(0, 0, 0, 0.95);
+
+	display: flex;
+	flex-direction: column;
+	gap: var(--s-3-v);
+	transition: opacity var(--t-2);
+
+	&:not(.is-active) {
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	&__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 10px;
+	}
+
+	&__close,
+	&__tools {
+		width: 120px;
+	}
+
+	&__tools {
+		display: flex;
+		justify-content: flex-end;
+	}
+
+	&__counter {
+		width: 100px;
+		white-space: nowrap;
+		text-align: center;
+	}
+
+	&__image {
+		position: relative;
+		height: 100%;
+	}
+
+	&__images,
+	.c-carousel,
+	.c-carousel__viewport {
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+	}
+
+	.c-carousel {
+		&__container {
+			flex: 1;
+		}
+
+		&__buttons {
+			color: var(--cr-black);
+		}
+
+		&__button--prev {
+			left: var(--s-3-h);
+		}
+
+		&__button--next {
+			right: var(--s-3-h);
+		}
+	}
+}

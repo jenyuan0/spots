@@ -1,14 +1,21 @@
 import { useEffect } from 'react';
 
-export default function useOutsideClick(ref, callBackFunc) {
+export default function useOutsideClick(ref, callBackFunc, excludeClass) {
 	useEffect(() => {
 		function handleClickOutside(e) {
-			const refs = Array.isArray(ref) ? ref : [ref];
-			const refsClicked = refs.filter((el) => {
-				return el?.current && el?.current.contains(e.target);
-			});
+			const classes =
+				typeof excludeClass === 'string' ? [excludeClass] : excludeClass;
 
-			if (refsClicked.length == 0) {
+			if (classes?.some((cls) => e.target.closest(`.${cls}`))) {
+				return;
+			}
+
+			const refs = Array.isArray(ref) ? ref : [ref];
+			const isOutside = refs.every(
+				(r) => r.current && !r.current.contains(e.target)
+			);
+
+			if (isOutside) {
 				callBackFunc();
 			}
 		}

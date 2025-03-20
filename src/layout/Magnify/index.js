@@ -12,6 +12,7 @@ import CustomPortableText from '@/components/CustomPortableText';
 import useOutsideClick from '@/hooks/useOutsideClick';
 import useKey from '@/hooks/useKey';
 import useMagnify from '@/hooks/useMagnify';
+import useLightbox from '@/hooks/useLightbox';
 import { fileMeta } from '@/sanity/lib/queries';
 import { hasArrayValue } from '@/lib/helpers';
 
@@ -24,6 +25,7 @@ export function ContentLocation({ data, color = 'green' }) {
 		Object.values(address)
 			.filter((value) => value)
 			.join(', ');
+	const { setLightboxImages, setLightboxActive } = useLightbox();
 
 	return (
 		<div className="g-magnify-locations">
@@ -61,16 +63,18 @@ export function ContentLocation({ data, color = 'green' }) {
 			)}
 			{images && (
 				<div className="g-magnify-locations__images">
-					<Carousel
-						isShowDots={true}
-						isAutoplay={true}
-						autoplayInterval={3000}
-						gap={'5px'}
-					>
+					<Carousel isShowDots={true} gap={'5px'}>
 						{images.map((image, i) => (
-							<div className="g-magnify-locations__image bg-subtle">
+							<button
+								key={`image-${i}`}
+								className="g-magnify-locations__image bg-subtle"
+								onClick={() => {
+									setLightboxImages(images, i);
+									setLightboxActive(true);
+								}}
+							>
 								<Img key={`image-${i}`} image={image} />
-							</div>
+							</button>
 						))}
 					</Carousel>
 				</div>
@@ -130,6 +134,7 @@ export function Magnify() {
 	const [color, setColor] = useState('brown');
 	const [pageSlug, setPageSlug] = useState(null);
 	const { mag, clearMag } = useMagnify();
+	const { lightboxActive } = useLightbox();
 	const searchParams = useSearchParams();
 	const containerRef = useRef();
 	const timerRef = useRef();
@@ -239,8 +244,12 @@ export function Magnify() {
 		}, 500);
 	};
 
-	useOutsideClick(containerRef, handleClose);
-	useKey(handleClose);
+	useOutsideClick(containerRef, handleClose, 'g-lightbox');
+	useKey(() => {
+		if (!lightboxActive) {
+			handleClose();
+		}
+	});
 
 	return (
 		<div

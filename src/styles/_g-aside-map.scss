@@ -41,89 +41,31 @@ $expanded_width: calc(var(--s-sidebar-w-contain) + Max(35vw, 300px));
 	}
 
 	&__toggle {
-		--size: 40px;
-
 		position: absolute;
-		width: 100%;
 		top: 50%;
 		left: 0;
 		transform: translate3d(-50%, -50%, 0);
 
-		width: var(--size);
-		height: var(--size);
-		border-radius: 100%;
-		box-shadow: var(--shadow-3-transparent);
-		transition: var(--t-1);
-		background-color: var(--cr-white);
-		box-shadow: var(--shadow-3);
-		overflow: hidden;
-
-		&:before,
-		&:after {
-			content: '';
-			display: block;
-			position: absolute;
-			inset: 0;
-			border-radius: 100%;
-			transition:
-				transform var(--t-1),
-				border-radius var(--t-1);
-		}
-
-		&:before {
-			transform: scale(0);
-			background-color: var(--cr-subtle);
-		}
-
-		&:after {
-			border: 2px solid var(--cr-white);
-		}
-
-		&__icon {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			width: var(--size);
-			height: var(--size);
-			transition: transform var(--t-1);
-		}
-
 		&__label {
 			position: absolute;
 			white-space: nowrap;
-			left: var(--size);
+			left: calc(100% + 5px);
 			top: 50%;
-			transform: translateY(-50%);
+			transform: translate3d(-10%, -50%, 0);
 			opacity: 0;
 			pointer-events: none;
 			transition: var(--t-1);
 		}
 
 		@media (hover: hover) {
-			&:hover {
-				width: calc(90px + 10px * 2 + var(--size));
-				border-radius: var(--br-2);
-			}
-
-			&:hover:before {
-				transform: scale(1);
-				border-radius: var(--br-2);
-			}
-
-			&:hover:after {
-				border-radius: var(--br-2);
-			}
-
 			&:hover &__label {
+				transform: translate3d(0, -50%, 0);
 				opacity: 1;
 			}
 		}
 	}
 
 	.is-expand &__toggle {
-		color: var(--cr-brown);
-		background-color: var(--cr-cream);
-
 		&__icon {
 			transform: scaleX(-1);
 		}

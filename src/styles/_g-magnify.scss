@@ -60,9 +60,20 @@
 
 	&__images {
 		margin-bottom: var(--s-3-v);
+	}
+
+	&__image {
+		overflow: hidden;
 
 		img {
 			height: 360px;
+			transition: var(--t-3);
+		}
+
+		@media (hover: hover) {
+			img:hover {
+				opacity: 0.8;
+			}
 		}
 	}
 

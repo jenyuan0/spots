@@ -28,6 +28,9 @@ export default function Carousel({
 	isAutoHeight = true,
 	children,
 	className,
+
+	initialActiveIndex = 0,
+	setActiveIndex,
 }) {
 	const options = {
 		align: isFade ? 'center' : align,
@@ -38,6 +41,7 @@ export default function Carousel({
 		slidesToScroll,
 		inViewThreshold: 1,
 		skipSnaps: true,
+		startIndex: initialActiveIndex,
 	};
 	const autoplayOptions = {
 		stopOnInteraction: false,
@@ -75,15 +79,29 @@ export default function Carousel({
 		}
 	}, [emblaApi]);
 
+	const onSelect = useCallback(() => {
+		if (!emblaApi) return;
+
+		if (setActiveIndex) {
+			setActiveIndex(emblaApi.selectedScrollSnap());
+		}
+	}, [emblaApi]);
+
 	useEffect(() => {
 		if (!emblaApi) return;
 
 		setIsSingleSlide(emblaApi.scrollSnapList().length <= 1);
-
 		updateDraggable(emblaApi);
-
 		emblaApi.on('resize', updateDraggable);
-	}, [emblaApi, updateDraggable]);
+
+		emblaApi.on('select', onSelect);
+		onSelect();
+
+		return () => {
+			emblaApi.off('resize', updateDraggable);
+			emblaApi.off('select', onSelect);
+		};
+	}, [emblaApi, updateDraggable, onSelect]);
 
 	if (!children?.length > 0) return null;
 

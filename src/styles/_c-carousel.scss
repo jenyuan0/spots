@@ -45,17 +45,13 @@
 	}
 
 	&__button {
+		@include triggerProperties;
+
 		position: absolute;
 		top: 50%;
 		transform: translate3d(0, -50%, 0);
-		width: 36px;
-		height: 36px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background-color: var(--cr-white);
+		background-color: var(--cr-primary);
 		box-shadow: var(--shadow-3);
-		border-radius: 100%;
 
 		&--prev {
 			left: 0;
@@ -82,7 +78,7 @@
 		justify-content: flex-start;
 		align-items: center;
 		gap: var(--dot-gap);
-		margin-top: 10px;
+		margin-top: 15px;
 	}
 
 	&__dot {
