@@ -107,7 +107,7 @@ html {
 		// repeat properties to override unsets
 		outline-offset: 3px !important;
 		outline-style: dashed !important;
-		outline-color: var(--cr-accent) !important;
+		outline-color: var(--cr-primary, var(--cr-accent)) !important;
 	}
 }
 

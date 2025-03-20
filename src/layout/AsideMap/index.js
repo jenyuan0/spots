@@ -8,6 +8,9 @@ export default function AsideMap() {
 	const { locations, asideMapActive, asideMapExpand, setAsideMapExpand } =
 		useAsideMap();
 
+	// TODO
+	// Dynamically set toggle color based on the most popular location color
+
 	return (
 		<div
 			className={clsx('g-aside-map', {

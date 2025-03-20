@@ -20,7 +20,8 @@
 		position: absolute;
 		bottom: 10px;
 		right: 10px;
-		transition: var(--t-2);
+		transition: var(--t-1);
+		transform: translateY(10%);
 		opacity: 0;
 	}
 
@@ -80,6 +81,7 @@
 	@media (hover: hover) {
 		&:hover &__lightbox {
 			opacity: 1;
+			transform: translateY(0%);
 		}
 	}
 
