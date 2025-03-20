@@ -264,8 +264,8 @@ input[disabled] {
 	}
 
 	svg {
-		width: calc(var(--size) * 0.4);
-		height: calc(var(--size) * 0.4);
+		width: calc(var(--size) * 0.35);
+		height: calc(var(--size) * 0.35);
 	}
 
 	@media (hover: hover) {

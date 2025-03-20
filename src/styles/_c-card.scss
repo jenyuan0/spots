@@ -7,12 +7,21 @@
 	border-radius: var(--br-2);
 	padding: var(--s-1-v);
 	gap: 10px;
+	color: var(--cr-primary);
 
 	&__thumb {
 		position: relative;
 		border-radius: calc(var(--br-2) / 1.5);
 		overflow: hidden;
 		background-color: var(--cr-subtle);
+	}
+
+	&__lightbox {
+		position: absolute;
+		bottom: 10px;
+		right: 10px;
+		transition: var(--t-3);
+		opacity: 0;
 	}
 
 	&__info {
@@ -47,15 +56,15 @@
 
 	&__content {
 		display: -webkit-box;
-		-webkit-line-clamp: 7;
+		-webkit-line-clamp: 5;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}
 
 	&__badge {
-		padding: 4px 6px;
+		padding: 6px 8px;
 		font: var(--t-l-1);
-		border: 1px solid;
+		border: 1px solid var(--cr-subtle);
 		border-radius: var(--br-1);
 		background-color: var(--cr-cream);
 		box-shadow: var(--shadow-3);
@@ -66,6 +75,17 @@
 		align-items: center;
 		margin-top: auto;
 		gap: 10px;
+	}
+
+	@media (hover: hover) {
+		&:hover &__lightbox {
+			opacity: 1;
+		}
+	}
+
+	@include selection {
+		color: var(--cr-white);
+		background-color: var(--cr-primary);
 	}
 }
 

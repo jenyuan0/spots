@@ -93,7 +93,7 @@ html {
 @include selection {
 	text-shadow: none;
 	color: var(--cr-white);
-	background-color: var(--cr-accent);
+	background-color: var(--cr-brown);
 }
 
 @media (hover: hover) {

@@ -27,7 +27,6 @@ export default function useKey(onEscape) {
 				ctrl: e.ctrlKey,
 				shift: e.shiftKey,
 				alt: e.altKey,
-				escape: e.key === 'Escape',
 			};
 			setPressedKeys(newPressedKeys);
 			setHasPressedKeys(Object.values(newPressedKeys).includes(true));

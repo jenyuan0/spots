@@ -116,6 +116,9 @@ export const getLocationsData = (type) => {
 			${subcategoryMeta}
 		},
 		"color": lower(categories[0]->color->title),
+		"images": images[]{
+			${imageMeta}
+		},
 		geo,
 		address{
 			street,
@@ -126,16 +129,13 @@ export const getLocationsData = (type) => {
 			${portableTextContent}
 		},`;
 	if (type === 'card') {
-		defaultData += groq`
-			"thumb": images[0]{
-					${imageMeta}
-			},
-		`;
+		// defaultData += groq`
+		// 	"thumb": images[0]{
+		// 			${imageMeta}
+		// 	},
+		// `;
 	} else {
 		defaultData += groq`
-			"images": images[]{
-				${imageMeta}
-			},
 			urls,
 			fees,
 			contentItinerary[]{

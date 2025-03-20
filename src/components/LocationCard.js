@@ -5,19 +5,20 @@ import Button from '@/components/Button';
 import CategoryPill from '@/components/CategoryPill';
 import CustomPortableText from '@/components/CustomPortableText';
 import useMagnify from '@/hooks/useMagnify';
+import useLightbox from '@/hooks/useLightbox';
 import useKey from '@/hooks/useKey';
+import { IconMaximize } from '@/components/SvgIcons';
 
 // TODO:
 // Ability to expand image gallery on click
 
 export default function LocationCard({ data, layout = 'vertical', color }) {
 	const {
-		thumb,
+		images,
 		title,
 		slug,
 		categories,
 		subcategories,
-		geo,
 		address,
 		res,
 		content,
@@ -31,16 +32,28 @@ export default function LocationCard({ data, layout = 'vertical', color }) {
 			.join(', ');
 	const resStart = res?.startTime && new Date(res?.startTime);
 	const setMag = useMagnify((state) => state.setMag);
+	const { setLightboxImages, setLightboxActive } = useLightbox();
 	const { hasPressedKeys } = useKey();
 
 	return (
 		<div
 			className={'c-card'}
-			style={{ color: `var(--cr-${cardColor}-d, var(--cr-brown))` }}
+			style={{ '--cr-primary': `var(--cr-${cardColor}-d, var(--cr-brown))` }}
 			data-layout={layout}
 		>
 			<div className="c-card__thumb">
-				<span className="object-fit">{thumb && <Img image={thumb} />}</span>
+				<span className="object-fit">
+					{images && <Img image={images[0]} />}
+				</span>
+				<button
+					className="c-card__lightbox trigger"
+					onClick={() => {
+						setLightboxImages(images);
+						setLightboxActive(true);
+					}}
+				>
+					<IconMaximize />
+				</button>
 			</div>
 			<div className="c-card__info">
 				{layout !== 'horizontal' &&
@@ -59,12 +72,12 @@ export default function LocationCard({ data, layout = 'vertical', color }) {
 					)}
 				<div className="c-card__header">
 					<h3 className="c-card__title t-h-4">{title}</h3>
-					{resStart && (
-						<div className={'c-card__badge'}>
-							Reservation: {formatTime(resStart)}
-						</div>
-					)}
 				</div>
+				{resStart && (
+					<div className={'c-card__badge'}>
+						Reservation: {formatTime(resStart)}
+					</div>
+				)}
 				{layout == 'horizontal-full' && content && (
 					<div className="c-card__content wysiwyg-b-2">
 						<CustomPortableText blocks={content} />
