@@ -1,11 +1,4 @@
-.btn,
-.btn-outline,
-.btn-underline {
-	--height: 45px;
-	--outline: 1.5px;
-	--cr-primary: var(--cr-brown-d);
-	--cr-secondary: var(--cr-cream);
-
+@mixin buttonProperties {
 	position: relative;
 	display: inline-flex;
 	justify-content: center;
@@ -15,9 +8,20 @@
 	box-shadow: unset;
 	border: unset;
 	outline: unset;
+}
+
+.btn,
+.btn-outline,
+.btn-underline {
+	--height: 45px;
+	--outline: 1.5px;
+	--cr-primary: var(--cr-brown-d);
+	--cr-secondary: var(--cr-cream);
+
+	@include buttonProperties;
+
 	cursor: pointer;
 	user-select: none;
-
 	height: var(--height);
 	gap: 15px;
 	border-radius: calc(var(--height) / 2);
@@ -117,10 +121,13 @@
 		display: block;
 		position: absolute;
 		inset: 2px;
-		transform: scale(0);
+		transform: scale(0.9);
+		opacity: 0;
 		border-radius: calc(var(--height) / 2);
 		background-color: var(--cr-secondary);
-		transition: transform var(--t-2);
+		transition:
+			opacity var(--t-2),
+			transform var(--t-2);
 	}
 
 	&.size-small {
@@ -135,6 +142,7 @@
 
 		&:before {
 			transform: scale(1);
+			opacity: 1;
 		}
 	}
 }
@@ -155,6 +163,11 @@
 	&:before {
 		inset: 1px;
 		background-color: var(--cr-primary);
+	}
+
+	&.cr-white {
+		--cr-primary: var(--cr-white);
+		--cr-secondary: var(--cr-black);
 	}
 
 	@include hover {
@@ -223,22 +236,82 @@ input[disabled] {
 	}
 }
 
+@mixin triggerProperties {
+	--size: 40px;
+	--outline: 1.5px;
+	--cr-primary: var(--cr-white);
+	--cr-secondary: inherit;
+	@include buttonProperties;
+
+	width: var(--size);
+	height: var(--size);
+	gap: 5px;
+	border-radius: 100%;
+	font: var(--t-l-1);
+	line-height: 1;
+	transition: var(--t-1);
+
+	&:before {
+		content: '';
+		display: block;
+		position: absolute;
+		inset: var(--outline);
+		border-radius: 100%;
+		transform: scale(0.8);
+		opacity: 0;
+		background-color: var(--cr-subtle-1);
+		transition: var(--t-1);
+	}
+
+	svg {
+		width: calc(var(--size) * 0.4);
+		height: calc(var(--size) * 0.4);
+	}
+
+	@media (hover: hover) {
+		&:hover:before {
+			opacity: 1;
+			transform: scale(1);
+		}
+	}
+}
+
+.trigger,
+.trigger-outline {
+	@include triggerProperties;
+}
+
+.trigger {
+	background-color: var(--cr-primary);
+	box-shadow: var(--shadow-3);
+}
+
+.trigger-outline {
+	border: var(--outline) solid var(--cr-primary);
+}
+
 .pill {
-	display: inline-flex;
-	white-space: nowrap;
-	justify-content: center;
-	align-items: center;
-	width: fit-content;
+	@include buttonProperties;
+
 	padding: 0 1em;
 	height: 28px;
 	gap: 0.8em;
 	font: var(--t-b-3);
 	border-radius: 14px;
-	color: var(--cr-primary, var(--cr-brown));
-	background-color: var(--cr-secondary, var(--cr-subtle));
-	user-select: none;
+	color: var(--cr-secondary, var(--cr-brown));
+	background-color: var(--cr-primary, var(--cr-subtle));
 
 	svg {
 		width: 0.9em;
+	}
+
+	&.cr-brown-d {
+		--cr-primary: var(--cr-brown-d);
+		--cr-secondary: var(--cr-brown-l);
+	}
+
+	@include selection {
+		color: var(--cr-secondary);
+		background-color: var(--cr-primary);
 	}
 }

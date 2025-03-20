@@ -44,8 +44,8 @@ export default function CategoryPill({ data }) {
 		<div
 			className="pill"
 			style={{
-				'--cr-primary': colorD,
-				'--cr-secondary': colorL,
+				'--cr-primary': colorL,
+				'--cr-secondary': colorD,
 			}}
 		>
 			<Icon slug={iconSlug} />

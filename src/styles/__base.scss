@@ -86,6 +86,10 @@ html {
 
 // ***BRAND COLORS***
 
+// TODO
+// Make all selection match color (e.g. green location card should have green selection)
+// use --cr-foreground / background rather than primary / secondary?
+
 @include selection {
 	text-shadow: none;
 	color: var(--cr-white);

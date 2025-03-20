@@ -29,11 +29,11 @@ export default function AsideMap() {
 					setAsideMapExpand(!asideMapExpand);
 				}}
 			>
-				<div className="g-aside-map__toggle__icon">
-					<div className="icon-caret-left" />
-				</div>
-				<div className="g-aside-map__toggle__label t-l-1">
+				<div className="g-aside-map__toggle__label pill cr-brown-d t-l-1">
 					{asideMapExpand ? 'Collapse' : 'Expand'} Map
+				</div>
+				<div className="g-aside-map__toggle__icon trigger">
+					<div className="icon-caret-left" />
 				</div>
 			</button>
 		</div>
