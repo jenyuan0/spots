@@ -262,17 +262,18 @@ export function Magnify() {
 			role="dialog"
 			aria-modal={isActive}
 		>
-			<div className="g-magnify__header">
-				<Button
-					className={clsx('btn', color && `cr-${color}-d`)}
-					onClick={handleClose}
+			<button type="button" className="g-magnify__toggle" onClick={handleClose}>
+				<div
+					className={clsx('g-magnify__toggle__label', 'pill', `cr-${color}-d`)}
 				>
-					<span className="icon-close" />
 					Close
-				</Button>
-			</div>
+				</div>
+				<div className="g-magnify__toggle__icon trigger">
+					<div className="icon-close" />
+				</div>
+			</button>
 
-			<div className="g-magnify__content">
+			<div className="g-magnify__body">
 				{content && !isLoading && (
 					<ContentLocation data={content} color={color} />
 				)}

@@ -1,5 +1,30 @@
 $expanded_width: calc(var(--s-sidebar-w-contain) + Max(35vw, 300px));
 
+@mixin asideToggle {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	transform: translate3d(-50%, -50%, 0);
+
+	&__label {
+		position: absolute;
+		white-space: nowrap;
+		left: calc(100% + 5px);
+		top: 50%;
+		transform: translate3d(-10%, -50%, 0);
+		opacity: 0;
+		pointer-events: none;
+		transition: var(--t-1);
+	}
+
+	@media (hover: hover) {
+		&:hover &__label {
+			transform: translate3d(0, -50%, 0);
+			opacity: 1;
+		}
+	}
+}
+
 .g-aside-map {
 	position: fixed;
 	top: 50%;
@@ -41,28 +66,7 @@ $expanded_width: calc(var(--s-sidebar-w-contain) + Max(35vw, 300px));
 	}
 
 	&__toggle {
-		position: absolute;
-		top: 50%;
-		left: 0;
-		transform: translate3d(-50%, -50%, 0);
-
-		&__label {
-			position: absolute;
-			white-space: nowrap;
-			left: calc(100% + 5px);
-			top: 50%;
-			transform: translate3d(-10%, -50%, 0);
-			opacity: 0;
-			pointer-events: none;
-			transition: var(--t-1);
-		}
-
-		@media (hover: hover) {
-			&:hover &__label {
-				transform: translate3d(0, -50%, 0);
-				opacity: 1;
-			}
-		}
+		@include asideToggle;
 	}
 
 	.is-expand &__toggle {

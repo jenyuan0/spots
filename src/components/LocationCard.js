@@ -45,15 +45,17 @@ export default function LocationCard({ data, layout = 'vertical', color }) {
 				<span className="object-fit">
 					{images && <Img image={images[0]} />}
 				</span>
-				<button
-					className="c-card__lightbox trigger"
-					onClick={() => {
-						setLightboxImages(images);
-						setLightboxActive(true);
-					}}
-				>
-					<IconMaximize />
-				</button>
+				{images && (
+					<button
+						className="c-card__lightbox trigger"
+						onClick={() => {
+							setLightboxImages(images);
+							setLightboxActive(true);
+						}}
+					>
+						<IconMaximize />
+					</button>
+				)}
 			</div>
 			<div className="c-card__info">
 				{layout !== 'horizontal' &&

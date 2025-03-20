@@ -4,11 +4,9 @@
 
 	position: fixed;
 	height: 100%;
-	overflow-y: auto;
 	width: Min(600px, calc(100vw - var(--s-contain) * 2));
 	top: 0;
 	right: 0;
-	padding: var(--s-4-v) 0;
 	color: var(--cr-primary);
 	background-color: var(--cr-white);
 	box-shadow: var(--shadow-1);
@@ -18,7 +16,22 @@
 		box-shadow var(--t-2),
 		transform var(--t-2);
 
-	@include customScrollbar(var(--cr-primary));
+	&__toggle {
+		@include asideToggle;
+		top: 40px;
+		transition: opacity var(--t-1);
+	}
+
+	&__body {
+		height: 100%;
+		overflow-y: auto;
+		padding: var(--s-4-v) 0;
+		@include customScrollbar(var(--cr-primary));
+	}
+
+	.c-carousel__dot.is-selected {
+		background-color: var(--cr-primary);
+	}
 
 	&:not(.is-active) {
 		transform: translate3d(100%, 0, 0);
@@ -26,18 +39,13 @@
 		transition-delay: 0.15s;
 	}
 
+	&:not(.is-active) &__toggle {
+		opacity: 0;
+	}
+
 	@include selection {
 		text-shadow: none;
 		color: var(--cr-secondary);
-		background-color: var(--cr-primary);
-	}
-
-	&__header {
-		margin-bottom: var(--s-4-v);
-		text-align: center;
-	}
-
-	.c-carousel__dot.is-selected {
 		background-color: var(--cr-primary);
 	}
 }
