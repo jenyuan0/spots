@@ -245,6 +245,10 @@ export function Magnify() {
 	};
 
 	useOutsideClick(containerRef, handleClose, 'g-lightbox');
+
+	// TODO
+	// having to click esc twice in order to close magnify
+
 	useKey(() => {
 		if (!lightboxActive) {
 			handleClose();

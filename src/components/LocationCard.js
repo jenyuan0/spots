@@ -9,9 +9,6 @@ import useLightbox from '@/hooks/useLightbox';
 import useKey from '@/hooks/useKey';
 import { IconMaximize } from '@/components/SvgIcons';
 
-// TODO:
-// Ability to expand image gallery on click
-
 export default function LocationCard({ data, layout = 'vertical', color }) {
 	const {
 		images,
@@ -62,13 +59,21 @@ export default function LocationCard({ data, layout = 'vertical', color }) {
 					(hasArrayValue(categories) || hasArrayValue(subcategories)) && (
 						<div className="c-card__categories">
 							{categories?.slice(0, 3).map((item) => (
-								<CategoryPill className="pill" key={item.id} data={item} />
+								<CategoryPill
+									className="pill"
+									key={`category-${item.id}`}
+									data={item}
+								/>
 							))}
 							{categories?.length < 3 &&
 								subcategories
 									?.slice(0, 3 - categories.length)
 									.map((item) => (
-										<CategoryPill className="pill" key={item.id} data={item} />
+										<CategoryPill
+											className="pill"
+											key={`subcategory-${item.id}`}
+											data={item}
+										/>
 									))}
 						</div>
 					)}

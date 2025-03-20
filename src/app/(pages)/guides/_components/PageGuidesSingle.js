@@ -20,7 +20,6 @@ export default function PageGuidesSingle({ data }) {
 		publishDate,
 		categories,
 		subcategories,
-		showContentTable,
 		showMap,
 		pageModules,
 		related,
@@ -59,13 +58,21 @@ export default function PageGuidesSingle({ data }) {
 				<div className="p-guides-single__heading">
 					<div className="p-guides-single__categories t-b-1">
 						{categories?.slice(0, 3).map((item) => (
-							<CategoryPill className="pill" key={item.id} data={item} />
+							<CategoryPill
+								className="pill"
+								key={`category-${item.id}`}
+								data={item}
+							/>
 						))}
 						{categories?.length < 3 &&
 							subcategories
 								?.slice(0, 3 - categories.length)
 								.map((item) => (
-									<CategoryPill className="pill" key={item.id} data={item} />
+									<CategoryPill
+										className="pill"
+										key={`subcategory-${item.id}`}
+										data={item}
+									/>
 								))}
 					</div>
 					<h1 className="t-h-2">{title}</h1>
@@ -78,7 +85,7 @@ export default function PageGuidesSingle({ data }) {
 			<section className="p-guides-single__body">
 				{pageModules?.map((module, i) => (
 					<div key={`page-module-${i}`} className="p-guides-single__module">
-						<PageModules key={`page-module-${i}`} module={module} />
+						<PageModules module={module} />
 					</div>
 				))}
 			</section>
@@ -92,9 +99,7 @@ export default function PageGuidesSingle({ data }) {
 							const defaultItems = defaultRelated || [];
 							const allItems = [...relatedItems, ...defaultItems];
 							const item = allItems[index];
-							return (
-								item && <GuideCard key={`${item._id}-${index}`} data={item} />
-							);
+							return item && <GuideCard key={item._id} data={item} />;
 						})}
 					</div>
 				</section>
