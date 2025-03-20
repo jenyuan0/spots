@@ -38,8 +38,9 @@ export default function PageLocationsSingle({ data }) {
 							isShowDots={true}
 							isAutoplay={true}
 							autoplayInterval={3000}
+							itemWidth="100%"
 						>
-							{images?.map((image) => (
+							{images.map((image) => (
 								<Img key={image.id} image={image} />
 							))}
 						</Carousel>
