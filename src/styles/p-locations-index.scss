@@ -80,28 +80,4 @@
 			}
 		}
 	}
-
-	&__guides {
-		margin: var(--s-3-v) 0;
-		border-radius: var(--br-3);
-		color: var(--cr-primary);
-		background-color: var(--cr-secondary);
-		box-shadow: var(--shadow-1);
-
-		&__header {
-			padding: var(--s-4-v) var(--s-4-h) 0;
-		}
-
-		.c-carousel__viewport {
-			padding: var(--s-4-v) var(--s-4-h);
-		}
-
-		.c-carousel__container {
-			align-items: stretch;
-		}
-
-		.c-card {
-			width: 300px;
-		}
-	}
 }

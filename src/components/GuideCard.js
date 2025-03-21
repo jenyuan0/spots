@@ -3,7 +3,7 @@ import { hasArrayValue } from '@/lib/helpers';
 import Img from '@/components/Image';
 import Button from '@/components/Button';
 import Link from '@/components/CustomLink';
-import CategoryPill from '@/components/CategoryPill';
+import CategoryPillList from '@/components/CategoryPillList';
 
 export default function GuideCard({ data, layout = 'vertical', color }) {
 	const {
@@ -27,23 +27,11 @@ export default function GuideCard({ data, layout = 'vertical', color }) {
 				{layout !== 'horizontal' &&
 					(hasArrayValue(categories) || hasArrayValue(subcategories)) && (
 						<div className="c-card__categories">
-							{categories?.slice(0, 3).map((item) => (
-								<CategoryPill
-									className="pill"
-									key={`category-${item._id}`}
-									data={item}
-								/>
-							))}
-							{categories?.length < 3 &&
-								subcategories
-									?.slice(0, 3 - categories.length)
-									.map((item) => (
-										<CategoryPill
-											className="pill"
-											key={`subcategory-${item._id}`}
-											data={item}
-										/>
-									))}
+							<CategoryPillList
+								categories={categories}
+								subcategories={subcategories}
+								limit={3}
+							/>
 						</div>
 					)}
 				<div className="c-card__header">

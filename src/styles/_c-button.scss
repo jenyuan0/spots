@@ -300,6 +300,7 @@ input[disabled] {
 	border-radius: 14px;
 	color: var(--cr-secondary, var(--cr-brown));
 	background-color: var(--cr-primary, var(--cr-subtle));
+	transition: var(--t-1);
 
 	svg {
 		width: 0.9em;
@@ -313,5 +314,12 @@ input[disabled] {
 	@include selection {
 		color: var(--cr-secondary);
 		background-color: var(--cr-primary);
+	}
+
+	@media (hover: hover) {
+		&[href]:hover {
+			color: var(--cr-primary, var(--cr-subtle));
+			background-color: var(--cr-secondary, var(--cr-brown));
+		}
 	}
 }

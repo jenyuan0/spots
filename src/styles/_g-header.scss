@@ -46,12 +46,10 @@
 		align-items: center;
 		justify-content: space-between;
 		gap: 10px;
-		padding: 16px;
+		padding: 12px;
 		margin-inline: 10px;
-		border: 1px solid var(--cr-subtle-1);
-		background-color: var(--cr-cream);
-		border-radius: var(--br-2);
-		box-shadow: var(--shadow-3);
+		border-top: 1px solid var(--cr-subtle);
+		border-bottom: 1px solid var(--cr-subtle);
 
 		&__flag {
 			display: flex;

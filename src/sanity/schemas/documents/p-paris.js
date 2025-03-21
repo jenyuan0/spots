@@ -2,7 +2,8 @@ import { defineType } from 'sanity';
 import title from '@/sanity/schemas/objects/title';
 import slug from '@/sanity/schemas/objects/slug';
 import sharing from '@/sanity/schemas/objects/sharing';
-import guideList from '@/sanity/schemas/objects/guide-list';
+import contentList from '@/sanity/schemas/objects/content-list';
+import customImage from '@/sanity/schemas/objects/custom-image';
 // import locationList from '@/sanity/schemas/objects/location-list';
 
 export default defineType({
@@ -13,13 +14,31 @@ export default defineType({
 		title({ readOnly: true }),
 		slug({ readOnly: true }),
 		{
-			name: 'heading',
+			name: 'heroHeading',
 			type: 'portableTextSimple',
 		},
 		{
-			name: 'guideList',
+			name: 'heroImages',
 			type: 'array',
-			of: [guideList()],
+			of: [customImage({ hasCropOptions: true })],
+			options: {
+				layout: 'grid',
+			},
+		},
+		{
+			name: 'locationCategories',
+			type: 'array',
+			of: [
+				{
+					type: 'reference',
+					to: [{ type: 'gCategories' }],
+				},
+			],
+		},
+		{
+			name: 'contentList',
+			type: 'array',
+			of: [contentList()],
 		},
 		sharing(),
 	],

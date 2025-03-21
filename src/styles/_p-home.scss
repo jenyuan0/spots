@@ -67,15 +67,6 @@
 		color: var(--cr-primary, var(--cr-brown-d));
 	}
 
-	@keyframes rotate {
-		from {
-			transform: rotate(0deg);
-		}
-		to {
-			transform: rotate(360deg);
-		}
-	}
-
 	&__highlights {
 		gap: var(--s-contain);
 		max-width: var(--s-container-lge);

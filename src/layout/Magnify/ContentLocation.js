@@ -1,0 +1,140 @@
+import React, { Suspense, useEffect, useRef, useState } from 'react';
+import clsx from 'clsx';
+import { formatAddress } from '@/lib/helpers';
+import { format } from 'date-fns';
+import Carousel from '@/components/Carousel';
+import Link from 'next/link';
+import Img from '@/components/Image';
+import CustomPortableText from '@/components/CustomPortableText';
+import CategoryPillList from '@/components/CategoryPillList';
+import useLightbox from '@/hooks/useLightbox';
+import { hasArrayValue } from '@/lib/helpers';
+
+export default function ContentLocation({ data, color = 'green' }) {
+	const {
+		_id,
+		title,
+		address,
+		images,
+		categories,
+		subcategories,
+		content,
+		contentItinerary,
+		urls,
+		fees,
+	} = data?.content || {};
+	const res = data.reservations?.filter((r) => r.location._id === _id);
+	const addressString =
+		address &&
+		Object.values(address)
+			.filter((value) => value)
+			.join(', ');
+	const { setLightboxImages, setLightboxActive } = useLightbox();
+
+	return (
+		<div className="g-magnify-locations">
+			{title && <h2 className="g-magnify-locations__heading t-h-2">{title}</h2>}
+			{res?.length > 0 && (
+				<div className="g-magnify-locations__res wysiwyg-b-1">
+					<h3 className="t-l-1">Reservation{res.length > 1 && 's'}</h3>
+					{res?.map((res, i) => {
+						const resStart = res?.startTime && new Date(res?.startTime);
+						const resEnd = res?.endTime && new Date(res?.endTime);
+						const timeRange =
+							resStart &&
+							(resEnd
+								? `${format(resStart, 'MMMM do, h:mm aaa')}—${format(resEnd, 'h:mm aaa')}`
+								: format(resStart, 'MMMM do, h:mm aaa'));
+
+						return (
+							<p key={`res-${i}`}>
+								{timeRange && <div className="t-h-4">{timeRange}</div>}
+								{res?.notes && <CustomPortableText blocks={res.notes} />}
+
+								{res?.attachments && (
+									<ul>
+										{res?.attachments.map((att, i) => (
+											<Link key={`res-att-${i}`} href={att.url} target="_blank">
+												{att.filename}
+											</Link>
+										))}
+									</ul>
+								)}
+							</p>
+						);
+					})}
+				</div>
+			)}
+			{images && (
+				<div className="g-magnify-locations__images">
+					<Carousel isShowDots={true} gap={'5px'}>
+						{images.map((image, i) => (
+							<button
+								key={`image-${i}`}
+								className="g-magnify-locations__image bg-subtle"
+								onClick={() => {
+									setLightboxImages(images, i);
+									setLightboxActive(true);
+								}}
+							>
+								<Img key={`image-${i}`} image={image} />
+							</button>
+						))}
+					</Carousel>
+				</div>
+			)}
+			{address && (
+				<div className="g-magnify-locations__address wysiwyg-b-1">
+					<h3 className="t-l-1">Address</h3>
+					<p className="t-h-3">{formatAddress(address)}</p>
+					<Link
+						className={clsx('btn-underline', color && `cr-${color}-d`)}
+						href={`https://www.google.com/maps/dir//${encodeURIComponent(addressString)}`}
+						target="_blank"
+					>
+						Get Direction
+					</Link>
+				</div>
+			)}
+			{hasArrayValue(urls) && (
+				<div className="g-magnify-locations__urls wysiwyg-b-1">
+					<ul>
+						{urls.map((url, i) => (
+							<li key={`url-${i}`}>
+								<Link href={url} target={'_blank'}>
+									{url
+										.replace(/^(https?:\/\/)?(www\.)?/, '')
+										.replace(/\/$/, '')}
+								</Link>
+							</li>
+						))}
+					</ul>
+				</div>
+			)}
+			{(hasArrayValue(categories) || hasArrayValue(subcategories)) && (
+				<div className="g-magnify-locations__categories">
+					<CategoryPillList
+						categories={categories}
+						subcategories={subcategories}
+					/>
+				</div>
+			)}
+			{content && (
+				<div className="g-magnify-locations__content wysiwyg-b-1">
+					<CustomPortableText blocks={content} />
+				</div>
+			)}
+			{contentItinerary && (
+				<div className="g-magnify-locations__content wysiwyg-b-1">
+					<CustomPortableText blocks={contentItinerary} />
+				</div>
+			)}
+			{hasArrayValue(fees) && (
+				<div className="g-magnify-locations__fees wysiwyg-b-1">
+					<h3 className="t-l-1">Fees</h3>
+					<p>{fees.map((fee) => fee).join(' • ')}</p>
+				</div>
+			)}
+		</div>
+	);
+}

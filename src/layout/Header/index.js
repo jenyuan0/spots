@@ -76,7 +76,7 @@ export default function Header({ data, isActive }) {
 
 				<motion.div whileHover="hover">
 					<Link className="g-header__destination" href={'/paris'}>
-						<div className="g-header__destination__label t-h-4">
+						<div className="g-header__destination__label t-h-5">
 							Explore Paris
 						</div>
 						<div className="g-header__destination__flag">

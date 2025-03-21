@@ -67,8 +67,11 @@ export default function Layout({ children, siteData }) {
 			setIsHeaderActive(true);
 			setIsFooterActive(true);
 		}
-		setIsMainSpaceL(pathname !== '/');
-		setIsMainSpaceR(pathname !== '/');
+
+		const isMainSpace = !['/', '/paris'].includes(pathname);
+
+		setIsMainSpaceL(isMainSpace);
+		setIsMainSpaceR(isMainSpace);
 
 		// aside map is set on the page level
 		setAsideMapActive(false);

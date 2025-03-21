@@ -114,10 +114,10 @@ export const getGuidesData = (type) => {
 			${imageMeta}
 		},
 		publishDate,
-		"categories": categories[]->{
+		categories[]->{
 			${categoryMeta}
 		},
-		"subcategories": subcategories[]->{
+		subcategories[]->{
 			${subcategoryMeta}
 		},
 		"color": lower(categories[0]->color->title),`;
@@ -142,14 +142,14 @@ export const getLocationsData = (type) => {
 		title,
 		_id,
 		"slug": slug.current,
-		"categories": categories[]->{
+		categories[]->{
 			${categoryMeta}
 		},
-		"subcategories": subcategories[]->{
+		subcategories[]->{
 			${subcategoryMeta}
 		},
 		"color": lower(categories[0]->color->title),
-		"images": images[]{
+		images[]{
 			${imageMeta}
 		},
 		geo,
@@ -192,13 +192,13 @@ export const locationListObj = groq`
 	title,
 	startTime,
 	content,
-	"locations": locations[]->{
+	locations[]->{
 		${getLocationsData('card')}
 	},
-	"fallbackRains": fallbackRains[]->{
+	fallbackRains[]->{
 		${getLocationsData('card')}
 	},
-	"fallbackLongWait": fallbackLongWait[]->{
+	fallbackLongWait[]->{
 		${getLocationsData('card')}
 	}
 `;
@@ -208,7 +208,7 @@ export const getItineraryData = (type) => {
 		title,
 		_id,
 		"slug": slug.current,
-		"images": images[]{
+		images[]{
 			${imageMeta}
 		},
 		"numDays": length(plan[]),`;
@@ -221,13 +221,13 @@ export const getItineraryData = (type) => {
 			"day": itineraryDay->{
 				title,
 				content,
-				"images": images[]{
+				images[]{
 					${imageMeta}
 				},
-				"activities": activities[] {
+				activities[] {
 					${locationListObj}
 				},
-				"relatedGuides": relatedGuides[]->{
+				relatedGuides[]->{
 					${getGuidesData('card')}
 				}
 			},
@@ -454,16 +454,23 @@ export const pageParisQuery = groq`
 	*[_type == "pParis"][0]{
 		title,
 		"slug": slug.current,
-		heading[]{
+		heroHeading[]{
 			${portableTextContent}
 		},
-		guideList[]{
+		heroImages,
+		"locationCategories": locationCategories[]->{
+			${categoryMeta}
+		},
+		"locationList": *[_type == "gLocations"] | order(_updatedAt desc)[0...12] {
+			${getLocationsData('card')}
+		},
+		contentList[]{
 			title,
+			subtitle,
 			content[]{
 				${portableTextContent}
 			},
-			color,
-			"items": items[]{
+			items[]{
 				_type == 'guide' => @-> {
 					${getGuidesData('card')}
 				},

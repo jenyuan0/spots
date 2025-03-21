@@ -1,5 +1,5 @@
 import React from 'react';
-import Link from 'next/link';
+import Link from '@/components/CustomLink';
 import {
 	IconArchitecture,
 	IconSite,
@@ -9,47 +9,49 @@ import {
 	IconShop,
 } from './SvgIcons';
 
-// TODO
-// add links to categories?
+const iconMap = {
+	'health-beauty': IconArchitecture,
+	'sights-attractions': IconSite,
+	'food-drinks': IconDine,
+	'night-life': IconDrinks,
+	hotels: IconHotel,
+	'shopping-gifts': IconShop,
+};
 
-function Icon({ slug }) {
-	switch (slug) {
-		case 'health-beauty':
-			return <IconArchitecture />;
-
-		case 'sights-attractions':
-			return <IconSite />;
-
-		case 'food-drinks':
-			return <IconDine />;
-
-		case 'night-life':
-			return <IconDrinks />;
-
-		case 'hotels':
-			return <IconHotel />;
-
-		case 'shopping-gifts':
-			return <IconShop />;
-	}
-}
-
-export default function CategoryPill({ data }) {
+export default function CategoryPill({ data, isLink = false }) {
 	const { title, slug, parentCategory } = data;
 	const colorD = data?.colorD || parentCategory?.colorD;
 	const colorL = data?.colorL || parentCategory?.colorL;
 	const iconSlug = parentCategory?.slug || slug;
+	const Icon = iconMap[iconSlug];
 
-	return (
-		<div
-			className="pill"
-			style={{
-				'--cr-primary': colorL,
-				'--cr-secondary': colorD,
-			}}
-		>
-			<Icon slug={iconSlug} />
-			{title}
-		</div>
-	);
+	if (isLink) {
+		return (
+			<Link
+				className="pill"
+				style={{
+					'--cr-primary': colorL,
+					'--cr-secondary': colorD,
+				}}
+				href={`/paris/locations/${slug}`}
+			>
+				{Icon && <Icon />}
+				{title}
+			</Link>
+		);
+	} else {
+		return (
+			<div
+				className="pill"
+				style={{
+					'--cr-primary': colorL,
+					'--cr-secondary': colorD,
+					...(!isLink ? { 'pointer-events': 'none' } : {}),
+				}}
+			>
+				{Icon && <Icon />}
+				{title}
+			</div>
+		);
+	}
 }

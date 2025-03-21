@@ -1,19 +1,21 @@
 import title from '@/sanity/schemas/objects/title';
 import { getPortableTextPreview } from '@/sanity/lib/helpers';
 
-export default function guideList() {
+export default function contentList() {
 	return {
-		name: 'guideList',
+		name: 'contentList',
 		type: 'object',
 		fields: [
-			title(),
+			title({
+				required: false,
+			}),
+			{
+				name: 'subtitle',
+				type: 'string',
+			},
 			{
 				name: 'content',
 				type: 'portableTextSimple',
-			},
-			{
-				name: 'color',
-				type: 'colorSelect',
 			},
 			{
 				name: 'items',
@@ -46,17 +48,11 @@ export default function guideList() {
 			select: {
 				title: 'title',
 				content: 'content',
-				color: 'color',
 			},
-			prepare({ title, content, color }) {
+			prepare({ title, content }) {
 				return {
 					title: title || 'Untitled',
 					subtitle: content ? getPortableTextPreview(content) : '',
-					media: (
-						<span
-							style={{ position: 'absolute', inset: 0, background: color }}
-						></span>
-					),
 				};
 			},
 		},

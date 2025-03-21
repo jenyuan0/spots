@@ -3,11 +3,18 @@
 	min-width: 0;
 	overflow: hidden;
 	background-color: var(--cr-white);
-	box-shadow: var(--shadow-2);
+	box-shadow: var(--shadow-2-transparent);
 	border-radius: var(--br-2);
 	padding: var(--s-1-v);
 	gap: 10px;
 	color: var(--cr-primary);
+	transition: var(--t-1);
+
+	@media (hover: hover) {
+		&:hover {
+			box-shadow: var(--shadow-2);
+		}
+	}
 
 	&__thumb {
 		position: relative;
@@ -31,11 +38,6 @@
 		flex: 1;
 		padding: var(--s-2-v) var(--s-2-h);
 		gap: 15px;
-	}
-
-	&__categories {
-		display: flex;
-		gap: 5px;
 	}
 
 	&__header {

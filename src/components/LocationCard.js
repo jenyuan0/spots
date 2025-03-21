@@ -3,7 +3,7 @@ import { hasArrayValue, formatTime } from '@/lib/helpers';
 import Img from '@/components/Image';
 import Button from '@/components/Button';
 import Link from '@/components/CustomLink';
-import CategoryPill from '@/components/CategoryPill';
+import CategoryPillList from '@/components/CategoryPillList';
 import CustomPortableText from '@/components/CustomPortableText';
 import useMagnify from '@/hooks/useMagnify';
 import useLightbox from '@/hooks/useLightbox';
@@ -59,27 +59,15 @@ export default function LocationCard({ data, layout = 'vertical', color }) {
 				{layout !== 'horizontal' &&
 					(hasArrayValue(categories) || hasArrayValue(subcategories)) && (
 						<div className="c-card__categories">
-							{categories?.slice(0, 3).map((item) => (
-								<CategoryPill
-									className="pill"
-									key={`category-${item._id}`}
-									data={item}
-								/>
-							))}
-							{categories?.length < 3 &&
-								subcategories
-									?.slice(0, 3 - categories.length)
-									.map((item) => (
-										<CategoryPill
-											className="pill"
-											key={`subcategory-${item._id}`}
-											data={item}
-										/>
-									))}
+							<CategoryPillList
+								categories={categories}
+								subcategories={subcategories}
+								limit={3}
+							/>
 						</div>
 					)}
 				<div className="c-card__header">
-					<h3 className="c-card__title t-h-4">
+					<h3 className="c-card__title t-h-3">
 						<Link href={url}>{title}</Link>
 					</h3>
 				</div>
