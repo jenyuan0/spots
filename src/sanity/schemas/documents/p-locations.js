@@ -22,7 +22,6 @@ export default defineType({
 			validation: (rule) => rule.min(1).required(),
 			initialValue: 4,
 		},
-
 		{
 			name: 'paginationMethod',
 			type: 'string',
@@ -60,11 +59,6 @@ export default defineType({
 					return true;
 				}
 			},
-		},
-		{
-			name: 'guideList',
-			type: 'array',
-			of: [guideList()],
 		},
 		sharing(),
 	],

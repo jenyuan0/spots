@@ -6,6 +6,7 @@ import {
 	BookIcon,
 	PinIcon,
 	DocumentIcon,
+	EarthGlobeIcon,
 } from '@sanity/icons';
 import { apiVersion } from '@/sanity/env';
 
@@ -46,6 +47,19 @@ const pageError = (S) => {
 				.documentId('p404')
 		)
 		.icon(UnknownIcon);
+};
+
+export const pageParis = (S) => {
+	return S.listItem()
+		.title('Paris')
+		.child(
+			S.editor()
+				.id('pParis')
+				.title('Paris')
+				.schemaType('pParis')
+				.documentId('pParis')
+		)
+		.icon(EarthGlobeIcon);
 };
 
 export const pageGuidesIndex = (S) => {
@@ -125,11 +139,13 @@ export const pagesMenu = (S) => {
 					pageHome(S),
 					pageError(S),
 					pageContact(S),
-					pageGuidesIndex(S),
-					pageLocationsIndex(S),
 					pageTripBespoke(S),
 					pageTripReady(S),
 					pageHotelBooking(S),
+					S.divider(),
+					pageParis(S),
+					pageGuidesIndex(S),
+					pageLocationsIndex(S),
 				])
 		);
 };

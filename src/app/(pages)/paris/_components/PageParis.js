@@ -1,9 +1,6 @@
 'use client';
 
 import React, { useId } from 'react';
-import LocationsPagination from '../locations/_components/LocationsPagination';
-import LocationsInfiniteScroll from '../locations/_components/LocationsInfiniteScroll';
-import { Suspense } from 'react';
 import Link from '@/components/CustomLink';
 import CustomPortableText from '@/components/CustomPortableText';
 import GuideCard from '@/components/GuideCard';
@@ -109,6 +106,8 @@ function GuideList({ data }) {
 export default function PageParis({ data }) {
 	const { heading, paginationMethod, guideList } = data || {};
 
+	console.log(data);
+
 	return (
 		<>
 			<section className="p-locations__heading">
@@ -118,51 +117,6 @@ export default function PageParis({ data }) {
 					</h1>
 				)}
 			</section>
-			<section className="p-locations__filters">
-				<Link className="p-locations__filters__link" href="/">
-					<IconDemo1 />
-					<div className="p-locations__filters__label t-l-1">
-						All <br /> Spots
-					</div>
-				</Link>
-				<Link className="p-locations__filters__link" href="/">
-					<IconDemo1 />
-					<div className="p-locations__filters__label t-l-1">
-						Food <br />& Drinks
-					</div>
-				</Link>
-				<Link className="p-locations__filters__link" href="/">
-					<IconDemo1 />
-					<div className="p-locations__filters__label t-l-1">
-						Sights & Attractions
-					</div>
-				</Link>
-				<Link className="p-locations__filters__link" href="/">
-					<IconDemo1 />
-					<div className="p-locations__filters__label t-l-1">
-						Gifts & Shopping
-					</div>
-				</Link>
-				<Link className="p-locations__filters__link" href="/">
-					<IconDemo1 />
-					<div className="p-locations__filters__label t-l-1">
-						Gifts & Shopping
-					</div>
-				</Link>
-				<Link className="p-locations__filters__link" href="/">
-					<IconDemo1 />
-					<div className="p-locations__filters__label t-l-1">
-						Gifts & Shopping
-					</div>
-				</Link>
-			</section>
-			{paginationMethod === 'page-numbers' || !paginationMethod ? (
-				<Suspense>
-					<LocationsPagination data={data} />
-				</Suspense>
-			) : (
-				<LocationsInfiniteScroll data={data} />
-			)}
 
 			{guideList?.map((el, index) => (
 				<GuideList key={`guide-row-${index}`} data={el} />

@@ -4,20 +4,19 @@ import { draftMode } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { LiveQuery } from 'next-sanity/preview/live-query';
 import defineMetadata from '@/lib/defineMetadata';
-import { getLocationsIndexPage } from '@/sanity/lib/fetch';
-import { pageLocationsIndexWithArticleDataSSGQuery } from '@/sanity/lib/queries';
+import { getParisPage } from '@/sanity/lib/fetch';
+import { pageParisQuery } from '@/sanity/lib/queries';
 
 export async function generateMetadata() {
 	const isPreviewMode = draftMode().isEnabled;
-	const data = await getLocationsIndexPage({ isPreviewMode });
+	const data = await getParisPage({ isPreviewMode });
 	return defineMetadata({ data });
 }
 
 export default async function Page() {
 	const isPreviewMode = draftMode().isEnabled;
-	const pageData = await getLocationsIndexPage({
+	const pageData = await getParisPage({
 		isPreviewMode,
-		isArticleDataSSG: true,
 	});
 	const { page } = pageData || {};
 
@@ -26,7 +25,7 @@ export default async function Page() {
 	return (
 		<LiveQuery
 			enabled={isPreviewMode}
-			query={pageLocationsIndexWithArticleDataSSGQuery}
+			query={pageParisQuery}
 			initialData={page}
 			as={PreviewPageParis}
 		>

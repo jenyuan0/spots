@@ -38,12 +38,14 @@ import gAds from './schemas/documents/g-ads';
 import pGeneral from './schemas/documents/p-general';
 import p404 from './schemas/documents/p-404';
 import pHome from './schemas/documents/p-home';
-import pGuides from './schemas/documents/p-guides';
-import pLocations from './schemas/documents/p-locations';
 import pContact from './schemas/documents/p-contact';
 import pTripBespoke from './schemas/documents/p-trip-bespoke';
 import pTripReady from './schemas/documents/p-trip-ready';
 import pHotelBooking from './schemas/documents/p-hotel-booking';
+
+import pParis from './schemas/documents/p-paris';
+import pGuides from './schemas/documents/p-guides';
+import pLocations from './schemas/documents/p-locations';
 
 const schemas = [
 	settingsGeneral,
@@ -82,12 +84,13 @@ const schemas = [
 	pGeneral,
 	p404,
 	pHome,
-	pGuides,
-	pLocations,
 	pContact,
 	pTripBespoke,
 	pTripReady,
 	pHotelBooking,
+	pParis,
+	pGuides,
+	pLocations,
 ];
 
 export default schemas;

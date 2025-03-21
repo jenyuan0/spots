@@ -125,6 +125,18 @@ export function getContactPage({ queryParams, isPreviewMode }) {
 // 	});
 // }
 
+// PARIS PAGE
+export function getParisPage({ queryParams, isPreviewMode }) {
+	const query = getPageDataStructure({ query: queries.pageParisQuery });
+
+	return sanityFetch({
+		query,
+		params: queryParams,
+		tags: ['pParis'],
+		isPreviewMode,
+	});
+}
+
 // GUIDES
 export function getGuidesPaginationMethodData() {
 	return sanityFetch({

@@ -104,6 +104,39 @@ export const freeformObj = groq`
 	sectionAppearance
 `;
 
+export const getGuidesData = (type) => {
+	let defaultData = groq`
+		_type,
+		_id,
+		title,
+		"slug": slug.current,
+		thumb{
+			${imageMeta}
+		},
+		publishDate,
+		"categories": categories[]->{
+			${categoryMeta}
+		},
+		"subcategories": subcategories[]->{
+			${subcategoryMeta}
+		},
+		"color": lower(categories[0]->color->title),`;
+	if (type === 'card') {
+		defaultData += groq`excerpt`;
+	} else {
+		defaultData += groq`
+		showContentTable,
+		showMap,
+		pageModules[]{
+			${pageModules}
+		},
+		"related": related[]->{
+			${getGuidesData('card')}
+		}`;
+	}
+	return defaultData;
+};
+
 export const getLocationsData = (type) => {
 	let defaultData = groq`
 		title,
@@ -416,40 +449,52 @@ export const pageContactQuery = groq`
 // 		sharing
 // 	}`;
 
-// GUIDES
-export const getGuidesData = (type) => {
-	let defaultData = groq`
-		_type,
-		_id,
+// PARIS PAGE
+export const pageParisQuery = groq`
+	*[_type == "pParis"][0]{
 		title,
 		"slug": slug.current,
-		thumb{
-			${imageMeta}
+		heading[]{
+			${portableTextContent}
 		},
-		publishDate,
-		"categories": categories[]->{
-			${categoryMeta}
+		guideList[]{
+			title,
+			content[]{
+				${portableTextContent}
+			},
+			color,
+			"items": items[]{
+				_type == 'guide' => @-> {
+					${getGuidesData('card')}
+				},
+				_type == 'category' => {
+					"category": @-> {
+						_id,
+						title,
+						"guides": *[_type == "gGuides" && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
+							${getGuidesData('card')}
+						}
+					}
+				},
+				_type == 'subcategory' => {
+					"subcategory": @-> {
+						_id,
+						title,
+						"guides": *[_type == "gSubcategories" && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
+							${getGuidesData('card')}
+						}
+					}
+				},
+				_type == 'itinerary' => @-> {
+					${getItineraryData()}
+				},
+			}
 		},
-		"subcategories": subcategories[]->{
-			${subcategoryMeta}
-		},
-		"color": lower(categories[0]->color->title),`;
-	if (type === 'card') {
-		defaultData += groq`excerpt`;
-	} else {
-		defaultData += groq`
-		showContentTable,
-		showMap,
-		pageModules[]{
-			${pageModules}
-		},
-		"related": related[]->{
-			${getGuidesData('card')}
-		}`;
+		sharing,
 	}
-	return defaultData;
-};
+`;
 
+// GUIDES
 export const articleListAllQuery = groq`
 	"articleList": *[_type == "gGuides"] | order(_updatedAt desc) {
 		${getGuidesData('card')}
@@ -514,39 +559,6 @@ export const pageLocationsIndexDefaultQuery = groq`
 	loadMoreButtonLabel,
 	infiniteScrollCompleteLabel,
 	"itemsTotalCount": count(*[_type == "gLocations"]),
-	guideList[]{
-		title,
-		content[]{
-			${portableTextContent}
-		},
-		color,
-		"items": items[]{
-			_type == 'guide' => @-> {
-				${getGuidesData('card')}
-			},
-			_type == 'category' => {
-				"category": @-> {
-					_id,
-					title,
-					"guides": *[_type == "gGuides" && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
-						${getGuidesData('card')}
-					}
-				}
-			},
-			_type == 'subcategory' => {
-				"subcategory": @-> {
-					_id,
-					title,
-					"guides": *[_type == "gSubcategories" && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
-						${getGuidesData('card')}
-					}
-				}
-			},
-			_type == 'itinerary' => @-> {
-				${getItineraryData()}
-			},
-		}
-	},
 	sharing`;
 
 export const pageLocationsIndex = groq`
