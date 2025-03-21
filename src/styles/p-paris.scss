@@ -115,11 +115,14 @@
 
 .p-paris__content-list {
 	display: flex;
-	gap: 20px;
 	align-items: center;
 	padding: var(--s-2-v) var(--s-sidebar-w-contain);
 	padding-right: 0;
-	border-top: 1px solid;
+	// border-top: 1px solid;
+
+	&:nth-child(odd) {
+		background-color: var(--cr-subtle);
+	}
 
 	&__header {
 		width: 360px;
@@ -140,7 +143,7 @@
 		}
 
 		&__viewport {
-			padding: var(--s-4-v) 0;
+			padding: var(--s-4-v) var(--s-4-h);
 		}
 
 		&__container {

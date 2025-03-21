@@ -71,8 +71,8 @@ export default function ContentList({ data }) {
 	return (
 		<section className="p-paris__content-list">
 			<div className="p-paris__content-list__header wysiwyg-b-2">
-				<h2 className="p-paris__content-list__title t-l-1">{title}</h2>
-				<h3 className="p-paris__content-list__subtitle t-h-2">{subtitle}</h3>
+				<h2 className="p-paris__content-list__title t-l-1">{subtitle}</h2>
+				<h3 className="p-paris__content-list__subtitle t-h-2">{title}</h3>
 				<CustomPortableText blocks={content} />
 			</div>
 			<div className="p-paris__content-list__items">

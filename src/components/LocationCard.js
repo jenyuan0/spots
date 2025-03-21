@@ -67,7 +67,7 @@ export default function LocationCard({ data, layout = 'vertical', color }) {
 						</div>
 					)}
 				<div className="c-card__header">
-					<h3 className="c-card__title t-h-3">
+					<h3 className="c-card__title t-h-4">
 						<Link href={url}>{title}</Link>
 					</h3>
 				</div>
