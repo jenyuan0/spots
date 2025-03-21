@@ -41,6 +41,43 @@
 	@include sidebarLeft;
 	gap: 40px;
 
+	&__destination {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 10px;
+		padding: 16px;
+		margin-inline: 10px;
+		border: 1px solid var(--cr-subtle-1);
+		background-color: var(--cr-cream);
+		border-radius: var(--br-2);
+		box-shadow: var(--shadow-3);
+
+		&__flag {
+			display: flex;
+			gap: 3px;
+		}
+
+		&__flag-dot {
+			width: 8px;
+			height: 8px;
+			border-radius: 100%;
+		}
+
+		&__flag-dot:nth-child(1) {
+			background-color: #000091;
+		}
+
+		&__flag-dot:nth-child(2) {
+			background-color: #ffffff;
+			border: 1px solid var(--cr-subtle);
+		}
+
+		&__flag-dot:nth-child(3) {
+			background-color: #e1000f;
+		}
+	}
+
 	&__links {
 		&__title {
 			margin-bottom: 10px;

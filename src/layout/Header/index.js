@@ -38,6 +38,8 @@ function HeaderLinks({ title, items }) {
 	);
 }
 
+import { motion } from 'framer-motion';
+
 export default function Header({ data, isActive }) {
 	const pathname = usePathname();
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -51,6 +53,18 @@ export default function Header({ data, isActive }) {
 		setIsMobileMenuOpen(false);
 	}, [pathname]);
 
+	const dotVariants = {
+		hover: (i) => ({
+			y: [0, -8, 0, 0, 0],
+			transition: {
+				duration: 1.6,
+				repeat: Infinity,
+				ease: 'easeInOut',
+				delay: i * 0.2,
+			},
+		}),
+	};
+
 	return (
 		<>
 			<header className={clsx('g-header', { 'is-active': isActive })}>
@@ -59,6 +73,25 @@ export default function Header({ data, isActive }) {
 						<Link href={'/'}>SPOTS</Link>
 					</h1>
 				</div>
+
+				<motion.div whileHover="hover">
+					<Link className="g-header__destination" href={'/paris'}>
+						<div className="g-header__destination__label t-h-4">
+							Explore Paris
+						</div>
+						<div className="g-header__destination__flag">
+							{[0, 1, 2].map((i) => (
+								<motion.div
+									key={i}
+									className="g-header__destination__flag-dot"
+									custom={i}
+									variants={dotVariants}
+								/>
+							))}
+						</div>
+					</Link>
+				</motion.div>
+
 				{data?.menu?.map((el, i) => (
 					<HeaderLinks
 						key={`header-link-${i}`}

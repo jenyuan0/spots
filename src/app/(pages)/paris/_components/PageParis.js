@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useId } from 'react';
-import LocationsPagination from './LocationsPagination';
-import LocationsInfiniteScroll from './LocationsInfiniteScroll';
+import LocationsPagination from '../locations/_components/LocationsPagination';
+import LocationsInfiniteScroll from '../locations/_components/LocationsInfiniteScroll';
 import { Suspense } from 'react';
 import Link from '@/components/CustomLink';
 import CustomPortableText from '@/components/CustomPortableText';
@@ -10,17 +10,24 @@ import GuideCard from '@/components/GuideCard';
 import { IconDemo1, IconDemo2, IconDemo3 } from '@/components/SvgIcons';
 import Carousel from '@/components/Carousel';
 
-function GuideRow({ data }) {
+function GuideList({ data }) {
 	const { title, content, color, items } = data;
 	const id = useId();
 
+	if (!items) return false;
+
 	function processGuidesPreserveDirectOrder(guideArrays, maxGuides = Infinity) {
+		// Input validation
+		if (!Array.isArray(guideArrays)) {
+			return [];
+		}
+
 		let directGuides = [];
 		let otherGuides = [];
 
 		// Process each item in the input array
 		for (const item of guideArrays) {
-			if (item._id) {
+			if (item?._id) {
 				directGuides.push(item);
 			} else if (item.category?.guides) {
 				otherGuides = otherGuides.concat(item.category.guides);
@@ -84,7 +91,14 @@ function GuideRow({ data }) {
 			<div className="p-locations__guides__list">
 				<Carousel loop={false} isShowNav={true} itemWidth="300px" gap="10px">
 					{guides.map((el, i) => {
-						return <GuideCard key={`${id}-${i}`} data={el} color={color} />;
+						return (
+							<GuideCard
+								layout={'horizontal'}
+								key={`${id}-${i}`}
+								data={el}
+								color={color}
+							/>
+						);
 					})}
 				</Carousel>
 			</div>
@@ -92,7 +106,7 @@ function GuideRow({ data }) {
 	);
 }
 
-export default function PageLocationsIndex({ data }) {
+export default function PageParis({ data }) {
 	const { heading, paginationMethod, guideList } = data || {};
 
 	return (
@@ -151,7 +165,7 @@ export default function PageLocationsIndex({ data }) {
 			)}
 
 			{guideList?.map((el, index) => (
-				<GuideRow key={`guide-row-${index}`} data={el} />
+				<GuideList key={`guide-row-${index}`} data={el} />
 			))}
 		</>
 	);

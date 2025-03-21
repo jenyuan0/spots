@@ -31,15 +31,19 @@ export default function PageGuidesSingle({ data }) {
 	);
 
 	useEffect(() => {
-		const locations = pageModules
-			?.filter((item) => item._type === 'locationList')
-			.reduce((acc, curr) => [...acc, ...curr.locations], [])
-			.filter(
-				(location, index, self) =>
-					self.findIndex(
-						(l) => JSON.stringify(l) === JSON.stringify(location)
-					) === index
-			);
+		const locations =
+			pageModules
+				?.filter((item) => item._type === 'locationList')
+				?.reduce((acc, curr) => {
+					if (!curr?.locations) return acc;
+					return [...acc, ...curr.locations];
+				}, [])
+				?.filter(
+					(location, index, self) =>
+						self.findIndex(
+							(l) => JSON.stringify(l) === JSON.stringify(location)
+						) === index
+				) || [];
 
 		setTimeout(() => {
 			setAsideMapLocations(locations);

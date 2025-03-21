@@ -114,7 +114,7 @@ export default function LocationsPagination({ data }) {
 							query: { page: Math.max(1, Number(currentPageNumber) - 1) },
 						}}
 						className={clsx('p-locations__pagination__button', {
-							'is-disabled': currentPageNumber === '1',
+							'is-disabled': Number(currentPageNumber) === 1,
 						})}
 					>
 						<div className="icon-caret-left" />
@@ -202,7 +202,7 @@ export default function LocationsPagination({ data }) {
 							},
 						}}
 						className={clsx('p-locations__pagination__button', {
-							'is-disabled': currentPageNumber === String(ARTICLE_TOTAL_PAGE),
+							'is-disabled': Number(currentPageNumber) === ARTICLE_TOTAL_PAGE,
 						})}
 					>
 						<div className="icon-caret-right" />

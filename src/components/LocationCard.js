@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import { hasArrayValue, formatTime } from '@/lib/helpers';
 import Img from '@/components/Image';
 import Button from '@/components/Button';
+import Link from '@/components/CustomLink';
 import CategoryPill from '@/components/CategoryPill';
 import CustomPortableText from '@/components/CustomPortableText';
 import useMagnify from '@/hooks/useMagnify';
@@ -21,7 +22,7 @@ export default function LocationCard({ data, layout = 'vertical', color }) {
 		content,
 	} = data || {};
 	const cardColor = color || data.color;
-	const url = `/locations/${slug}`;
+	const url = `/paris/locations/${slug}`;
 	const addressString =
 		address &&
 		Object.values(address)
@@ -61,7 +62,7 @@ export default function LocationCard({ data, layout = 'vertical', color }) {
 							{categories?.slice(0, 3).map((item) => (
 								<CategoryPill
 									className="pill"
-									key={`category-${item.id}`}
+									key={`category-${item._id}`}
 									data={item}
 								/>
 							))}
@@ -71,14 +72,16 @@ export default function LocationCard({ data, layout = 'vertical', color }) {
 									.map((item) => (
 										<CategoryPill
 											className="pill"
-											key={`subcategory-${item.id}`}
+											key={`subcategory-${item._id}`}
 											data={item}
 										/>
 									))}
 						</div>
 					)}
 				<div className="c-card__header">
-					<h3 className="c-card__title t-h-4">{title}</h3>
+					<h3 className="c-card__title t-h-4">
+						<Link href={url}>{title}</Link>
+					</h3>
 				</div>
 				{resStart && (
 					<div className={'c-card__badge'}>

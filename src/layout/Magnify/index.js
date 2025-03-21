@@ -7,7 +7,6 @@ import { format } from 'date-fns';
 import Carousel from '@/components/Carousel';
 import Link from 'next/link';
 import Img from '@/components/Image';
-import Button from '@/components/Button';
 import CustomPortableText from '@/components/CustomPortableText';
 import useOutsideClick from '@/hooks/useOutsideClick';
 import useKey from '@/hooks/useKey';
@@ -199,9 +198,11 @@ export function Magnify() {
 
 			// Remove existing 'm' parameter if present
 			params.delete('m');
+			params.delete('mc');
 
 			// Add new 'm' parameter
-			const mValue = `/${mag.type}/${mag.slug}`;
+			// const mValue = `/paris/${mag.type}/${mag.slug}`;
+			const mValue = `/${mag.slug}`;
 
 			// If there are other params, append with &m=, otherwise use ?m=
 			const separator = params.toString() ? '&' : '?';

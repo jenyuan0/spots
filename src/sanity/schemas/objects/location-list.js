@@ -13,6 +13,7 @@ export default function locationList({
 		fields: [
 			title({
 				initialValue: 'The Spots',
+				required: false,
 			}),
 			...(showStartTime
 				? [
@@ -100,7 +101,7 @@ export default function locationList({
 						: 'No locations';
 
 				return {
-					title: `${title || 'Untitled'}${showStartTime ? ` @ ${startTime || '[No specific time]'}` : ''}`,
+					title: `${title || '[Location List] Untitled'}${showStartTime ? ` @ ${startTime || '[No specific time]'}` : ''}`,
 					subtitle: subtitle,
 					media: images?.[0] || PinIcon,
 				};

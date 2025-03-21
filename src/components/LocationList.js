@@ -10,7 +10,7 @@ export default function LocationList({ data, color, isItinerary = false }) {
 
 	return (
 		<div className="c-location-list">
-			{!isItinerary && (
+			{!isItinerary && title && (
 				<h2 className="c-location-list__title t-h-2">{title}</h2>
 			)}
 			{content && (

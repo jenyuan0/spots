@@ -20,11 +20,6 @@ export default function guideList() {
 				type: 'array',
 				of: [
 					{
-						name: 'guide',
-						type: 'reference',
-						to: [{ type: 'gGuides' }],
-					},
-					{
 						name: 'category',
 						type: 'reference',
 						to: [{ type: 'gCategories' }],
@@ -33,6 +28,11 @@ export default function guideList() {
 						name: 'subcategory',
 						type: 'reference',
 						to: [{ type: 'gSubcategories' }],
+					},
+					{
+						name: 'guide',
+						type: 'reference',
+						to: [{ type: 'gGuides' }],
 					},
 					{
 						name: 'itinerary',
