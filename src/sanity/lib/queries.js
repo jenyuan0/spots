@@ -471,26 +471,47 @@ export const pageParisQuery = groq`
 				${portableTextContent}
 			},
 			items[]{
-				_type == 'guide' => @-> {
-					${getGuidesData('card')}
-				},
-				_type == 'category' => {
+				_type == 'categoryGuides' => {
 					"category": @-> {
 						_id,
 						title,
-						"guides": *[_type == "gGuides" && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
+						"items": *[_type == "gGuides" && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
 							${getGuidesData('card')}
 						}
 					}
 				},
-				_type == 'subcategory' => {
+				_type == 'subcategoryGuides' => {
 					"subcategory": @-> {
 						_id,
 						title,
-						"guides": *[_type == "gSubcategories" && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
+						"items": *[_type == "gSubcategories" && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
 							${getGuidesData('card')}
 						}
 					}
+				},
+				_type == 'guide' => @-> {
+					${getGuidesData('card')}
+				},
+				_type == 'categoryLocations' => {
+					"category": @-> {
+						_id,
+						title,
+						"items": *[_type == "gLocations" && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
+							${getLocationsData('card')}
+						}
+					}
+				},
+				_type == 'subcategoryLocations' => {
+					"subcategory": @-> {
+						_id,
+						title,
+						"items": *[_type == "gSubcategories" && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
+							${getLocationsData('card')}
+						}
+					}
+				},
+				_type == 'location' => @-> {
+					${getLocationsData('card')}
 				},
 				_type == 'itinerary' => @-> {
 					${getItineraryData()}

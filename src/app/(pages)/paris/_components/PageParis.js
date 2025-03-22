@@ -30,8 +30,10 @@ export default function PageParis({ data }) {
 	}, []);
 
 	useEffect(() => {
-		setAsideMapLocations(locationList);
-	}, []);
+		setTimeout(() => {
+			setAsideMapLocations(locationList);
+		}, 1);
+	}, [locationList]);
 
 	return (
 		<>

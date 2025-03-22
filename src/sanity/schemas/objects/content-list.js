@@ -22,12 +22,14 @@ export default function contentList() {
 				type: 'array',
 				of: [
 					{
-						name: 'category',
+						title: 'Guides / Categories',
+						name: 'categoryGuides',
 						type: 'reference',
 						to: [{ type: 'gCategories' }],
 					},
 					{
-						name: 'subcategory',
+						title: 'Guides / Subategories',
+						name: 'subcategoryGuides',
 						type: 'reference',
 						to: [{ type: 'gSubcategories' }],
 					},
@@ -35,6 +37,23 @@ export default function contentList() {
 						name: 'guide',
 						type: 'reference',
 						to: [{ type: 'gGuides' }],
+					},
+					{
+						title: 'Location / Categories',
+						name: 'categoryLocations',
+						type: 'reference',
+						to: [{ type: 'gCategories' }],
+					},
+					{
+						title: 'Location / Subategories',
+						name: 'subcategoryLocations',
+						type: 'reference',
+						to: [{ type: 'gSubcategories' }],
+					},
+					{
+						name: 'location',
+						type: 'reference',
+						to: [{ type: 'gLocations' }],
 					},
 					{
 						name: 'itinerary',

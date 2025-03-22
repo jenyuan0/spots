@@ -46,7 +46,6 @@ export default function CategoryPill({ data, isLink = false }) {
 				style={{
 					'--cr-primary': colorL,
 					'--cr-secondary': colorD,
-					...(!isLink ? { 'pointer-events': 'none' } : {}),
 				}}
 			>
 				{Icon && <Icon />}
