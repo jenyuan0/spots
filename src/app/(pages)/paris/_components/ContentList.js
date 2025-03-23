@@ -118,7 +118,7 @@ export default function ContentList({ data }) {
 					gap="16px"
 					aria-label="Content carousel"
 				>
-					{cards.map(renderCard)}
+					{cards?.map(renderCard)}
 				</Carousel>
 			</div>
 		</section>
