@@ -7,15 +7,13 @@ import Carousel from '@/components/Carousel';
 import LocationCard from '@/components/LocationCard';
 
 export default function ContentList({ data }) {
-	const { title, subtitle, content, items } = data;
+	const { title, subtitle, excerpt, items } = data;
 	const id = useId();
-
-	if (!items) {
-		return null;
-	}
 
 	const processCardsPreserveDirectOrder = useCallback(
 		(itemArrays, maxItems = Infinity) => {
+			if (itemArrays) return null;
+
 			if (!Array.isArray(itemArrays)) {
 				return [];
 			}
@@ -95,6 +93,8 @@ export default function ContentList({ data }) {
 		[id]
 	);
 
+	if (!items) return null;
+
 	return (
 		<section
 			className="p-paris__content-list"
@@ -102,16 +102,20 @@ export default function ContentList({ data }) {
 			aria-label="Content list"
 		>
 			<div className="p-paris__content-list__header wysiwyg-b-2">
-				<h2 className="p-paris__content-list__title t-l-1">{subtitle}</h2>
-				<h3 className="p-paris__content-list__subtitle t-h-2">{title}</h3>
-				<CustomPortableText blocks={content} />
+				{title && (
+					<h2 className="p-paris__content-list__title t-l-1">{title}</h2>
+				)}
+				{subtitle && (
+					<h3 className="p-paris__content-list__subtitle t-h-2">{subtitle}</h3>
+				)}
+				{excerpt && <CustomPortableText blocks={excerpt} />}
 			</div>
 			<div className="p-paris__content-list__items">
 				<Carousel
 					align="start"
 					loop={false}
 					isShowNav={true}
-					gap="10px"
+					gap="16px"
 					aria-label="Content carousel"
 				>
 					{cards.map(renderCard)}

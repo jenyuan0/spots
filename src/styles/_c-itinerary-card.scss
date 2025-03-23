@@ -1,0 +1,32 @@
+.c-itinerary-card {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	gap: 40px;
+	padding: var(--s-4-v) var(--s-4-h);
+	text-align: center;
+	color: var(--cr-cream);
+	background-color: var(--cr-primary);
+	box-shadow: var(--shadow-2-transparent);
+	transition: var(--t-1);
+
+	@media (hover: hover) {
+		&:hover {
+			box-shadow: var(--shadow-2);
+		}
+	}
+
+	&__thumb {
+		display: block;
+		width: 100%;
+
+		picture {
+			aspect-ratio: 1;
+		}
+	}
+
+	&__cta {
+		width: 160px;
+	}
+}

@@ -72,9 +72,9 @@ export default function Lightbox() {
 				>
 					{lightboxImages.images?.map((image, i) => (
 						<div className="g-lightbox__image" key={`image-${i}`}>
-							<span className="object-contain">
+							<div className="object-contain">
 								<Img key={`lightbox-image-${i}`} image={image} />
-							</span>
+							</div>
 						</div>
 					))}
 				</Carousel>

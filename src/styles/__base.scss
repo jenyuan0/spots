@@ -23,7 +23,7 @@
 	--cr-brown-l: #e9e6d1;
 
 	--t-h-1: 64px/1 var(--font-kalice), 'Times', serif;
-	--t-h-2: 36px/1.15 var(--font-kalice), 'Times', serif;
+	--t-h-2: 42px/1.15 var(--font-kalice), 'Times', serif;
 	--t-h-3: 30px/1.15 var(--font-kalice), 'Times', serif;
 	--t-h-4: 500 20px/1.15 var(--font-kalice), 'Times', serif;
 	--t-h-5: 500 16px/1.15 var(--font-kalice), 'Times', serif;
@@ -41,7 +41,7 @@
 		var(--s-contain),
 		calc((100vw - var(--s-contain-max)) / 2)
 	);
-	--s-container-min: Min(100vw - calc(var(--s-sidebar-w-contain) * 2), 540px);
+	--s-container-sml: Min(100vw - calc(var(--s-sidebar-w-contain) * 2), 540px);
 	--s-container-med: Min(100vw - calc(var(--s-sidebar-w-contain) * 2), 780px);
 	--s-container-lge: Min(100vw - calc(var(--s-sidebar-w-contain) * 2), 1600px);
 	--s-vp-height: 100vh;
@@ -58,6 +58,8 @@
 	--s-3-h: 20px;
 	--s-4-v: 40px;
 	--s-4-h: 40px;
+	--s-5-v: 80px;
+	--s-5-h: 80px;
 	--s-section: 120px;
 
 	--br-1: 4px;

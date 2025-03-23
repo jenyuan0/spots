@@ -14,7 +14,7 @@ export default function contentList() {
 				type: 'string',
 			},
 			{
-				name: 'content',
+				name: 'excerpt',
 				type: 'portableTextSimple',
 			},
 			{
@@ -55,23 +55,18 @@ export default function contentList() {
 						type: 'reference',
 						to: [{ type: 'gLocations' }],
 					},
-					{
-						name: 'itinerary',
-						type: 'reference',
-						to: [{ type: 'gItineraries' }],
-					},
 				],
 			},
 		],
 		preview: {
 			select: {
 				title: 'title',
-				content: 'content',
+				excerpt: 'excerpt',
 			},
-			prepare({ title, content }) {
+			prepare({ title, excerpt }) {
 				return {
 					title: title || 'Untitled',
-					subtitle: content ? getPortableTextPreview(content) : '',
+					subtitle: excerpt ? getPortableTextPreview(excerpt) : '',
 				};
 			},
 		},

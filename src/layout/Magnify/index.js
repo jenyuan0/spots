@@ -7,7 +7,7 @@ import useKey from '@/hooks/useKey';
 import useMagnify from '@/hooks/useMagnify';
 import useLightbox from '@/hooks/useLightbox';
 import { fileMeta } from '@/sanity/lib/queries';
-import ContentLocation from './ContentLocation';
+import MagnifyLocation from './MagnifyLocation';
 import { categoryMeta, subcategoryMeta } from '@/sanity/lib/queries';
 
 export function Magnify() {
@@ -172,7 +172,7 @@ export function Magnify() {
 
 			<div className="g-magnify__body">
 				{content && !isLoading && (
-					<ContentLocation data={content} color={color} />
+					<MagnifyLocation data={content} color={color} />
 				)}
 			</div>
 		</div>

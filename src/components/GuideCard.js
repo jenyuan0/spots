@@ -20,7 +20,7 @@ export default function GuideCard({ data, layout = 'vertical', color }) {
 	return (
 		<div className="c-card" data-layout={layout}>
 			<div className="c-card__thumb">
-				<span className="object-fit">{thumb && <Img image={thumb} />}</span>
+				<div className="object-fit">{thumb && <Img image={thumb} />}</div>
 			</div>
 
 			<div className="c-card__info">

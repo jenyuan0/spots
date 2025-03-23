@@ -21,11 +21,20 @@ export default defineType({
 	type: 'document',
 	fields: [
 		title(),
+		{
+			name: 'subtitle',
+			type: 'string',
+		},
 		slug(),
 		{
 			name: 'images',
 			type: 'array',
 			of: [customImage({ hasCropOptions: true })],
+		},
+		{
+			name: 'color',
+			type: 'reference',
+			to: [{ type: 'settingsBrandColors' }],
 		},
 		{
 			name: 'startingColor',
@@ -114,12 +123,6 @@ export default defineType({
 		},
 
 		// PREMADE ITINERARIES
-		{
-			title: '# of Days',
-			name: 'NumOfDays',
-			type: 'number',
-			hidden: ({ parent }) => parent.type !== 'premade',
-		},
 		{
 			title: '# of Travelers',
 			name: 'NumOfTravelers',

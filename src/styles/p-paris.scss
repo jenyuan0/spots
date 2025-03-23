@@ -79,11 +79,10 @@
 	&__grid {
 		display: grid;
 		grid-template-columns: repeat(1, 1fr);
-		gap: 10px;
+		gap: 16px;
 
 		@container main (min-width: 600px) {
 			grid-template-columns: repeat(2, 1fr);
-			gap: 16px;
 		}
 
 		@container main (min-width: 1200px) {
@@ -110,6 +109,41 @@
 
 	&__cta {
 		margin-right: auto;
+	}
+}
+
+.p-paris__itineraries {
+	position: relative;
+	padding: var(--s-5-v) 0;
+	color: var(--cr-primary);
+	background-color: var(--cr-white);
+	border-top: 1px solid;
+	border-bottom: 1px solid;
+	transition: color var(--t-2);
+
+	&__header {
+		text-align: center;
+		max-width: var(--s-container-sml);
+		margin: auto;
+		margin-bottom: calc(-1 * var(--s-4-v));
+	}
+
+	&__item {
+		transform-style: preserve-3d;
+		perspective: 1000px;
+	}
+
+	.c-carousel__container {
+		align-items: stretch;
+		padding: var(--s-5-v) 0;
+	}
+
+	.c-carousel__dots {
+		margin-top: calc(-1 * var(--s-4-v));
+	}
+
+	.c-carousel__dot.is-selected {
+		background-color: var(--cr-primary, var(--cr-black));
 	}
 }
 

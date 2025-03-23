@@ -40,9 +40,7 @@ export default function LocationCard({ data, layout = 'vertical', color }) {
 			data-layout={layout}
 		>
 			<div className="c-card__thumb">
-				<span className="object-fit">
-					{images && <Img image={images[0]} />}
-				</span>
+				<div className="object-fit">{images && <Img image={images[0]} />}</div>
 				{images && (
 					<button
 						className="c-card__lightbox trigger"

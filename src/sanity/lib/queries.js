@@ -61,6 +61,12 @@ export const callToAction = groq`
 	"isButton": true
 `;
 
+export const colorMeta = groq`
+	"title": title,
+	"colorD": colorD.hex,
+	"colorL": colorL.hex,
+`;
+
 export const categoryMeta = groq`
 	_id,
 	title,
@@ -206,12 +212,18 @@ export const locationListObj = groq`
 export const getItineraryData = (type) => {
 	let defaultData = groq`
 		title,
+		subtitle,
 		_id,
 		"slug": slug.current,
 		images[]{
 			${imageMeta}
 		},
-		"numDays": length(plan[]),`;
+		color->{
+			${colorMeta}
+		},
+		"totalDays": length(plan[]),
+		"totalActivities": count(plan[].itineraryDay->activities[]),
+		"totalLocations": count(plan[].itineraryDay->activities[].locations[]),`;
 	if (type === 'card') {
 		defaultData += groq`excerpt`;
 	} else {
@@ -239,7 +251,6 @@ export const getItineraryData = (type) => {
 		},
 		type,
 		...select(type == "premade" => {
-			NumOfDays,
 			NumOfTravelers,
 			"budget": {
 				"low": budget.budgetLow,
@@ -464,10 +475,17 @@ export const pageParisQuery = groq`
 		"locationList": *[_type == "gLocations"] | order(_updatedAt desc)[0...12] {
 			${getLocationsData('card')}
 		},
+		itinerariesTitle,
+		itinerariesExcerpt[]{
+			${portableTextContent}
+		},
+		"itinerariesItems": itinerariesItems[]->{
+			${getItineraryData('card')}
+		},
 		contentList[]{
 			title,
 			subtitle,
-			content[]{
+			excerpt[]{
 				${portableTextContent}
 			},
 			items[]{
@@ -512,9 +530,6 @@ export const pageParisQuery = groq`
 				},
 				_type == 'location' => @-> {
 					${getLocationsData('card')}
-				},
-				_type == 'itinerary' => @-> {
-					${getItineraryData()}
 				},
 			}
 		},

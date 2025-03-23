@@ -7,7 +7,7 @@ export default function AsideMap() {
 	const color = 'green';
 	const { locations, asideMapActive, asideMapExpand, setAsideMapExpand } =
 		useAsideMap();
-	console.log('locations', locations);
+
 	// TODO
 	// Dynamically set toggle color based on the most popular location color
 

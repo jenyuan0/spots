@@ -10,7 +10,7 @@ import CategoryPillList from '@/components/CategoryPillList';
 import useLightbox from '@/hooks/useLightbox';
 import { hasArrayValue } from '@/lib/helpers';
 
-export default function ContentLocation({ data, color = 'green' }) {
+export default function MagnifyLocation({ data, color = 'green' }) {
 	const {
 		_id,
 		title,

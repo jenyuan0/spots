@@ -36,6 +36,25 @@ export default defineType({
 			],
 		},
 		{
+			name: 'itinerariesTitle',
+			type: 'string',
+		},
+		{
+			name: 'itinerariesExcerpt',
+			type: 'portableTextSimple',
+		},
+		{
+			name: 'itinerariesItems',
+			type: 'array',
+			of: [
+				{
+					name: 'itinerary',
+					type: 'reference',
+					to: [{ type: 'gItineraries' }],
+				},
+			],
+		},
+		{
 			name: 'contentList',
 			type: 'array',
 			of: [contentList()],

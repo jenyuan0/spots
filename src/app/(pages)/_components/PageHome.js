@@ -231,9 +231,9 @@ export function Hero({ data, setPrimaryColor }) {
 					scale: springScale,
 				}}
 			>
-				<span className="object-fit">
+				<div className="object-fit">
 					{heroImage && <Img image={heroImage} />}
-				</span>
+				</div>
 			</motion.div>
 			{spotElements}
 			{heroHeading && (
@@ -285,9 +285,9 @@ const HighlightItem = ({ scrollYProgress, index, springConfig, el }) => {
 			}}
 		>
 			<div className="p-home__highlights__rotate p-fill">
-				<span className="object-fit">
+				<div className="object-fit">
 					<Img image={el} />
-				</span>
+				</div>
 			</div>
 		</motion.div>
 	);

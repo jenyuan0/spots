@@ -2,12 +2,15 @@
 
 import React, { useEffect, useRef } from 'react';
 import HeroSection from './HeroSection';
-import LocationSection from './LocationSection';
+import ItinerariesSection from './ItinerariesSection';
 import ContentList from './ContentList';
 import useAsideMap from '@/hooks/useAsideMap';
+import CategoryPill from '@/components/CategoryPill';
+import LocationCard from '@/components/LocationCard';
+import Button from '@/components/Button';
 
 export default function PageParis({ data }) {
-	const { locationList, contentList } = data || {};
+	const { locationList, locationCategories, contentList } = data || {};
 	const locationRef = useRef(null);
 	const setAsideMapActive = useAsideMap((state) => state.setAsideMapActive);
 	const setAsideMapLocations = useAsideMap(
@@ -38,9 +41,39 @@ export default function PageParis({ data }) {
 	return (
 		<>
 			<HeroSection data={data} />
-			<div ref={locationRef}>
-				<LocationSection data={data} />
-			</div>
+			{locationList && (
+				<section ref={locationRef} className="p-paris__locations">
+					<div className="p-paris__locations__grid">
+						{locationList.map((item, index) => (
+							<LocationCard
+								key={`item-${index}`}
+								data={item}
+								layout="vertical"
+							/>
+						))}
+					</div>
+
+					<div className="p-paris__locations__footer">
+						<Button
+							href={'/paris/locations'}
+							className="p-paris__locations__cta btn-outline"
+						>
+							View All Locations
+						</Button>
+						<span className="t-l-1 cr-subtle-5">or browse by categories:</span>
+						{locationCategories && (
+							<ul className="p-paris__locations__footer-categories">
+								{locationCategories.map((item) => (
+									<li key={`category-${item._id}`}>
+										<CategoryPill className="pill" data={item} isLink={true} />
+									</li>
+								))}
+							</ul>
+						)}
+					</div>
+				</section>
+			)}
+			<ItinerariesSection data={data} />
 			{contentList?.map((el, index) => (
 				<ContentList key={`guide-row-${index}`} data={el} />
 			))}
