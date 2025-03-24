@@ -1,10 +1,11 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
+import useAsideMap from '@/hooks/useAsideMap';
 import HeroSection from './HeroSection';
 import ItinerariesSection from './ItinerariesSection';
-import ContentList from './ContentList';
-import useAsideMap from '@/hooks/useAsideMap';
+import ContentListSection from './ContentListSection';
+import SeasonSection from './SeasonSection';
 import CategoryPill from '@/components/CategoryPill';
 import LocationCard from '@/components/LocationCard';
 import Button from '@/components/Button';
@@ -74,9 +75,8 @@ export default function PageParis({ data }) {
 				</section>
 			)}
 			<ItinerariesSection data={data} />
-			{contentList?.map((el, index) => (
-				<ContentList key={`guide-row-${index}`} data={el} />
-			))}
+			<ContentListSection data={data} />
+			<SeasonSection data={data} />
 		</>
 	);
 }

@@ -40,7 +40,10 @@ export default function ItineraryCard({ data }) {
 					<span className="t-b-1">{totalActivities}</span> Spot
 					{totalActivities > 1 && 's'}
 				</h3>
-				<Button className="c-itinerary-card__cta btn-outline cr-white">
+				<Button
+					className="c-itinerary-card__cta btn-outline cr-white"
+					href={url}
+				>
 					View Itinerary
 				</Button>
 			</div>

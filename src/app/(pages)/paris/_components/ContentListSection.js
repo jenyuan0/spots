@@ -3,20 +3,16 @@
 import React, { useId, useCallback, useMemo } from 'react';
 import CustomPortableText from '@/components/CustomPortableText';
 import GuideCard from '@/components/GuideCard';
-import Carousel from '@/components/Carousel';
 import LocationCard from '@/components/LocationCard';
 
-export default function ContentList({ data }) {
-	const { title, subtitle, excerpt, items } = data;
+export default function ContentListSection({ data }) {
+	const { contentList } = data;
 	const id = useId();
 
 	const processCardsPreserveDirectOrder = useCallback(
 		(itemArrays, maxItems = Infinity) => {
-			if (itemArrays) return null;
-
-			if (!Array.isArray(itemArrays)) {
-				return [];
-			}
+			if (!itemArrays) return null;
+			if (!Array.isArray(itemArrays)) return [];
 
 			const directItems = [];
 			let otherItems = [];
@@ -64,28 +60,24 @@ export default function ContentList({ data }) {
 			return [...directItems, ...finalOtherItems];
 		},
 		[]
-	); // Empty dependency array since function doesn't depend on props/state
-
-	const cards = useMemo(
-		() => processCardsPreserveDirectOrder(items, 6),
-		[items, processCardsPreserveDirectOrder]
 	);
 
 	const renderCard = useCallback(
 		(el, index) => {
+			if (!el) return null;
 			const key = `${id}-${el._id || index}-${index}`;
 			return el._type === 'gGuides' ? (
 				<GuideCard
 					key={key}
-					layout="vertical"
 					data={el}
+					layout="horizontal"
 					aria-label={`Guide card ${index + 1}`}
 				/>
 			) : (
 				<LocationCard
 					key={key}
-					layout="vertical"
 					data={el}
+					layout="horizontal"
 					aria-label={`Location card ${index + 1}`}
 				/>
 			);
@@ -93,34 +85,40 @@ export default function ContentList({ data }) {
 		[id]
 	);
 
-	if (!items) return null;
-
 	return (
-		<section
-			className="p-paris__content-list"
-			role="region"
-			aria-label="Content list"
-		>
-			<div className="p-paris__content-list__header wysiwyg-b-2">
-				{title && (
-					<h2 className="p-paris__content-list__title t-l-1">{title}</h2>
-				)}
-				{subtitle && (
-					<h3 className="p-paris__content-list__subtitle t-h-2">{subtitle}</h3>
-				)}
-				{excerpt && <CustomPortableText blocks={excerpt} />}
-			</div>
-			<div className="p-paris__content-list__items">
-				<Carousel
-					align="start"
-					loop={false}
-					isShowNav={true}
-					gap="16px"
-					aria-label="Content carousel"
-				>
-					{cards?.map(renderCard)}
-				</Carousel>
-			</div>
+		<section className="p-paris__content-list">
+			{contentList.map((item, index) => {
+				const cards = useMemo(
+					() => processCardsPreserveDirectOrder(item.items, 4),
+					[item.items]
+				);
+
+				return (
+					<div
+						key={`guide-row-${index}`}
+						className="p-paris__content-list__column"
+						role="region"
+						aria-label="Content list"
+					>
+						<div className="p-paris__content-list__header wysiwyg-b-2">
+							{item.title && (
+								<h2 className="p-paris__content-list__title t-l-2">
+									{item.title}
+								</h2>
+							)}
+							{item.subtitle && (
+								<h3 className="p-paris__content-list__subtitle t-h-3">
+									{item.subtitle}
+								</h3>
+							)}
+							{item.excerpt && <CustomPortableText blocks={item.excerpt} />}
+						</div>
+						<div className="p-paris__content-list__items">
+							{cards?.map((card, cardIndex) => renderCard(card, cardIndex))}
+						</div>
+					</div>
+				);
+			})}
 		</section>
 	);
 }

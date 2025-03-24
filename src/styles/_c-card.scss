@@ -114,6 +114,10 @@
 	.c-card__info {
 		flex: 1;
 	}
+
+	.c-card__lightbox {
+		--size: 36px;
+	}
 }
 
 .c-card[data-layout='horizontal-full'] {

@@ -68,7 +68,7 @@
 }
 
 .p-paris__locations {
-	max-width: var(--s-container-lge);
+	padding: 0 var(--s-sidebar-w-contain);
 	margin: 0 auto;
 	margin-bottom: var(--s-section);
 
@@ -148,44 +148,70 @@
 }
 
 .p-paris__content-list {
+	// TODO
+	// Make item gap consistent (use global variable?) paris__location-list, paris__content-list, etc.
 	display: flex;
-	align-items: center;
-	padding: var(--s-2-v) var(--s-sidebar-w-contain);
-	padding-right: 0;
-	// border-top: 1px solid;
+	max-width: var(--s-container-lge);
+	margin: var(--s-5-v) auto;
 
-	&:nth-child(odd) {
-		background-color: var(--cr-subtle);
+	&__column {
+		flex: 1;
+		padding: 0 var(--s-4-h);
 	}
 
 	&__header {
 		width: 360px;
 		min-width: 360px;
+		margin: 0 auto var(--s-4-v);
+		text-align: center;
 	}
 
 	&__items {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+}
+
+.p-paris__season {
+	display: flex;
+	gap: var(--s-3-h);
+	padding: var(--s-5-v) var(--s-sidebar-w-contain);
+	color: var(--cr-brown);
+	background-color: var(--cr-white);
+
+	&__header {
+		margin-bottom: var(--s-4-v);
 		flex: 1;
-		min-width: 0;
+		max-width: 600px;
 	}
 
-	.c-carousel {
-		&__button--prev {
-			left: var(--s-contain);
-		}
-		&__button--next {
-			right: var(--s-contain);
+	&__table {
+		flex: 1;
+		display: grid;
+		grid-auto-flow: column;
+		grid-auto-columns: 1fr;
+		grid-template-rows: repeat(4, auto);
+		gap: var(--s-4-v);
+
+		&__header {
+			padding: var(--s-3-v) 0;
+			border-bottom: 1px solid;
+
+			h3 {
+				text-transform: uppercase;
+			}
 		}
 
-		&__viewport {
-			padding: var(--s-4-v) var(--s-4-h);
-		}
+		&__body {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
 
-		&__container {
-			align-items: stretch;
+			li {
+				padding: var(--s-2-v) 0;
+				border-bottom: 1px solid var(--cr-subtle);
+			}
 		}
-	}
-
-	.c-card {
-		width: 400px;
 	}
 }
