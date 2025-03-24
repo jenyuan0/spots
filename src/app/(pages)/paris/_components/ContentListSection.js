@@ -17,7 +17,6 @@ export default function ContentListSection({ data }) {
 			const directItems = [];
 			let otherItems = [];
 
-			// Process each item in the input array
 			itemArrays.forEach((item) => {
 				if (item?._id) {
 					directItems.push(item);
@@ -28,12 +27,10 @@ export default function ContentListSection({ data }) {
 				}
 			});
 
-			// Early return for max items
 			if (directItems.length >= maxItems) {
 				return directItems.slice(0, maxItems);
 			}
 
-			// Shuffle other items using Fisher-Yates
 			const shuffledOtherItems = [...otherItems];
 			for (let i = shuffledOtherItems.length - 1; i > 0; i--) {
 				const j = Math.floor(Math.random() * (i + 1));
@@ -43,7 +40,6 @@ export default function ContentListSection({ data }) {
 				];
 			}
 
-			// Filter duplicates efficiently
 			const directItemIds = new Set(directItems.map((item) => item._id));
 			const finalOtherItems = shuffledOtherItems.reduce((acc, item) => {
 				if (
@@ -85,40 +81,42 @@ export default function ContentListSection({ data }) {
 		[id]
 	);
 
+	// Process all cards upfront using useMemo
+	const processedCards = useMemo(
+		() =>
+			contentList.map((item) => processCardsPreserveDirectOrder(item.items, 4)),
+		[contentList, processCardsPreserveDirectOrder]
+	);
+
 	return (
 		<section className="p-paris__content-list">
-			{contentList.map((item, index) => {
-				const cards = useMemo(
-					() => processCardsPreserveDirectOrder(item.items, 4),
-					[item.items]
-				);
-
-				return (
-					<div
-						key={`guide-row-${index}`}
-						className="p-paris__content-list__column"
-						role="region"
-						aria-label="Content list"
-					>
-						<div className="p-paris__content-list__header wysiwyg-b-2">
-							{item.title && (
-								<h2 className="p-paris__content-list__title t-l-2">
-									{item.title}
-								</h2>
-							)}
-							{item.subtitle && (
-								<h3 className="p-paris__content-list__subtitle t-h-3">
-									{item.subtitle}
-								</h3>
-							)}
-							{item.excerpt && <CustomPortableText blocks={item.excerpt} />}
-						</div>
-						<div className="p-paris__content-list__items">
-							{cards?.map((card, cardIndex) => renderCard(card, cardIndex))}
-						</div>
+			{contentList.map((item, index) => (
+				<div
+					key={`guide-row-${index}`}
+					className="p-paris__content-list__column"
+					role="region"
+					aria-label="Content list"
+				>
+					<div className="p-paris__content-list__header wysiwyg-b-2">
+						{item.title && (
+							<h2 className="p-paris__content-list__title t-l-2">
+								{item.title}
+							</h2>
+						)}
+						{item.subtitle && (
+							<h3 className="p-paris__content-list__subtitle t-h-3">
+								{item.subtitle}
+							</h3>
+						)}
+						{item.excerpt && <CustomPortableText blocks={item.excerpt} />}
 					</div>
-				);
-			})}
+					<div className="p-paris__content-list__items">
+						{processedCards[index]?.map((card, cardIndex) =>
+							renderCard(card, cardIndex)
+						)}
+					</div>
+				</div>
+			))}
 		</section>
 	);
 }

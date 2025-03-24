@@ -175,15 +175,47 @@
 
 .p-paris__season {
 	display: flex;
-	gap: var(--s-3-h);
+	gap: var(--s-5-h);
 	padding: var(--s-5-v) var(--s-sidebar-w-contain);
 	color: var(--cr-brown);
 	background-color: var(--cr-white);
 
 	&__header {
-		margin-bottom: var(--s-4-v);
+		position: relative;
 		flex: 1;
-		max-width: 600px;
+		text-align: center;
+		// color: var(--cr-cream);
+		background-color: var(--cr-subtle);
+
+		&__heading {
+			position: absolute;
+			inset: 0;
+			padding: var(--s-4-v) var(--s-4-h);
+
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+		}
+
+		&__hand {
+			position: absolute;
+			width: 20px;
+			height: 20px;
+			top: 50%;
+			left: 50%;
+			border-radius: 100%;
+			background-color: var(--cr-red-d);
+			transform: translate3d(-50%, -50%, 0);
+		}
+
+		&__label {
+			position: absolute;
+			top: 50%;
+			left: 100%;
+			transform: translate3d(10px, -50%, 0);
+			white-space: nowrap;
+			font: var(--t-b-1);
+		}
 	}
 
 	&__table {
