@@ -533,6 +533,21 @@ export const pageParisQuery = groq`
 				},
 			}
 		},
+		seasonsTitle,
+		seasons[]{
+			name,
+			description,
+			guide->{
+				"slug": slug.current
+			},
+			months[]{
+				name,
+				guide->{
+					"slug": slug.current
+				},
+			},
+			activities
+		},
 		sharing,
 	}
 `;

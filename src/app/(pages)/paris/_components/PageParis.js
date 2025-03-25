@@ -11,7 +11,7 @@ import LocationCard from '@/components/LocationCard';
 import Button from '@/components/Button';
 
 export default function PageParis({ data }) {
-	const { locationList, locationCategories, contentList } = data || {};
+	const { locationList, locationCategories } = data || {};
 	const locationRef = useRef(null);
 	const setAsideMapActive = useAsideMap((state) => state.setAsideMapActive);
 	const setAsideMapLocations = useAsideMap(

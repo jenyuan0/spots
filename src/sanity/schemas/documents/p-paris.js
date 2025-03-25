@@ -59,6 +59,69 @@ export default defineType({
 			type: 'array',
 			of: [contentList()],
 		},
+
+		{
+			name: 'seasonsTitle',
+			type: 'string',
+		},
+		{
+			name: 'seasons',
+			title: 'Seasons',
+			type: 'array',
+			of: [
+				{
+					type: 'object',
+					fields: [
+						{
+							name: 'name',
+							type: 'string',
+							validation: (Rule) => Rule.required(),
+						},
+						{
+							name: 'description',
+							title: 'Description',
+							type: 'text',
+							rows: 2,
+						},
+						{
+							type: 'reference',
+							name: 'guide',
+							to: [{ type: 'gGuides' }],
+						},
+						{
+							name: 'months',
+							title: 'Months',
+							type: 'array',
+							of: [
+								{
+									type: 'object',
+									fields: [
+										{
+											name: 'name',
+											type: 'string',
+											validation: (Rule) => Rule.required(),
+										},
+										{
+											type: 'reference',
+											name: 'guide',
+											to: [{ type: 'gGuides' }],
+										},
+									],
+								},
+							],
+						},
+						{
+							name: 'activities',
+							title: 'Activities',
+							type: 'array',
+							of: [{ type: 'string' }],
+							description:
+								'List of seasonal activities that rotate in the clock display',
+						},
+					],
+				},
+			],
+		},
 		sharing(),
 	],
 	preview: {

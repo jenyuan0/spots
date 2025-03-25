@@ -153,10 +153,10 @@
 	display: flex;
 	max-width: var(--s-container-lge);
 	margin: var(--s-5-v) auto;
+	gap: var(--s-5-h);
 
 	&__column {
 		flex: 1;
-		padding: 0 var(--s-4-h);
 	}
 
 	&__header {
@@ -174,37 +174,39 @@
 }
 
 .p-paris__season {
+	position: relative;
 	display: flex;
 	gap: var(--s-5-h);
+	align-items: center;
 	padding: var(--s-5-v) var(--s-sidebar-w-contain);
-	color: var(--cr-brown);
 	background-color: var(--cr-white);
 
-	&__header {
+	&__clock {
 		position: relative;
-		flex: 1;
-		text-align: center;
-		// color: var(--cr-cream);
-		background-color: var(--cr-subtle);
+		width: Min(100%, 360px);
+		aspect-ratio: 1;
+		margin: auto;
+		border-radius: 100%;
 
-		&__heading {
+		&:after {
+			content: '';
+			display: block;
 			position: absolute;
 			inset: 0;
-			padding: var(--s-4-v) var(--s-4-h);
-
-			display: flex;
-			flex-direction: column;
-			justify-content: space-between;
+			border: 1px solid var(--cr-primary);
+			border-radius: 100%;
+			opacity: 0.1;
 		}
 
-		&__hand {
+		&__center {
 			position: absolute;
 			width: 20px;
 			height: 20px;
 			top: 50%;
 			left: 50%;
 			border-radius: 100%;
-			background-color: var(--cr-red-d);
+			color: var(--cr-primary);
+			background-color: var(--cr-primary);
 			transform: translate3d(-50%, -50%, 0);
 		}
 
@@ -218,19 +220,25 @@
 		}
 	}
 
+	&__heading {
+		grid-column: span 2;
+	}
+
 	&__table {
-		flex: 1;
+		flex: 1 1;
 		display: grid;
-		grid-auto-flow: column;
-		grid-auto-columns: 1fr;
-		grid-template-rows: repeat(4, auto);
-		gap: var(--s-4-v);
+		grid-template-columns: repeat(2, 1fr);
+		grid-auto-flow: row;
+		gap: var(--s-5-v) var(--s-4-h);
 
 		&__header {
-			padding: var(--s-3-v) 0;
+			display: block;
+			margin-bottom: var(--s-3-v);
+			padding-bottom: var(--s-3-v);
 			border-bottom: 1px solid;
 
 			h3 {
+				margin-bottom: 5px;
 				text-transform: uppercase;
 			}
 		}
@@ -238,11 +246,23 @@
 		&__body {
 			display: flex;
 			flex-direction: column;
-			gap: 10px;
 
 			li {
-				padding: var(--s-2-v) 0;
+				display: flex;
+				gap: 10px;
+				align-items: center;
+				justify-content: space-between;
 				border-bottom: 1px solid var(--cr-subtle);
+			}
+
+			li h4 {
+				flex: 1;
+			}
+
+			li a,
+			li:not(:has(a)) {
+				display: flex;
+				padding: var(--s-2-v) 0;
 			}
 		}
 	}
