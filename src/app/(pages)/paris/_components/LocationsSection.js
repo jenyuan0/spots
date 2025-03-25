@@ -39,20 +39,20 @@ export default function LocationsSection({ data }) {
 
 	return (
 		<section ref={locationRef} className="p-paris__locations">
+			<h2 className="p-paris__locations__heading t-h-2">Find Your Spots</h2>
 			<div className="p-paris__locations__grid">
 				{locationList.map((item, index) => (
 					<LocationCard key={`item-${index}`} data={item} layout="horizontal" />
 				))}
 			</div>
-
 			<div className="p-paris__locations__footer">
 				<Button
 					href={'/paris/locations'}
 					className="p-paris__locations__cta btn-outline"
 				>
-					View All Locations
+					View All Spots (200+)
 				</Button>
-				<span className="t-l-1 cr-subtle-5">or browse by categories:</span>
+				<span className="t-l-1">or browse by categories:</span>
 				{locationCategories && (
 					<ul className="p-paris__locations__footer-categories">
 						{locationCategories.map((item) => (

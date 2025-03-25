@@ -72,7 +72,6 @@ export default function Header({ data, isActive }) {
 					<h1 className="g-header__logo t-h-2">
 						<Link href={'/'}>SPOTS</Link>
 					</h1>
-
 					{data?.menu?.map((el, i) => (
 						<HeaderLinks
 							key={`header-link-${i}`}
@@ -88,10 +87,13 @@ export default function Header({ data, isActive }) {
 						Guides <span className="icon-caret-down" />
 					</Link>
 					<Link href={'/paris/locations'}>
-						Spots <span className="icon-caret-down" />
+						Find Spots <span className="icon-caret-down" />
 					</Link>
+					<Link href={'/paris/guides'}>Ready-to-book Trips</Link>
 
-					<motion.div className="g-header__subheading" whileHover="hover">
+					<motion.div className="g-header__subheading t-h-5" whileHover="hover">
+						{/* <div className="t-h-5"> */}
+						An ever-growing collection of Parisian treasures
 						<div className="g-header__flag">
 							{[0, 1, 2].map((i) => (
 								<motion.div
@@ -102,9 +104,8 @@ export default function Header({ data, isActive }) {
 								/>
 							))}
 						</div>
-						<div className="t-h-5">
-							An ever-growing collection of Parisian treasures, refreshed weekly
-						</div>
+						refreshed weekly
+						{/* </div> */}
 					</motion.div>
 				</div>
 			</header>

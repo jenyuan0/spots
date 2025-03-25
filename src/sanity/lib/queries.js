@@ -468,7 +468,7 @@ export const pageParisQuery = groq`
 		"locationCategories": locationCategories[]->{
 			${categoryMeta}
 		},
-		"locationList": *[_type == "gLocations"] | order(_updatedAt desc)[0...24] {
+		"locationList": *[_type == "gLocations"] | order(_updatedAt desc)[0...12] {
 			${getLocationsData('card')}
 		},
 		itinerariesTitle,

@@ -3,13 +3,20 @@
 	top: 0;
 	display: flex;
 	flex-direction: column;
-	padding: 0 var(--s-contain);
+	padding: 0 var(--s-sidebar-w-contain);
 	gap: 0 20px;
 	margin-bottom: var(--s-4-v);
 	overflow: hidden;
 	color: var(--cr-cream);
 	background-color: var(--cr-green-d);
 	z-index: 100;
+
+	// margin: 10px;
+	// top: 10px;
+	// color: var(--cr-brown);
+	// background-color: var(--cr-white);
+	// border-radius: var(--br-1);
+	// box-shadow: var(--shadow-3);
 
 	&__primary {
 		display: flex;
@@ -25,6 +32,7 @@
 	&__links {
 		display: flex;
 		align-items: center;
+		margin-left: auto;
 
 		&__ul {
 			display: flex;
@@ -52,11 +60,12 @@
 
 	&__flag {
 		display: flex;
-		gap: 3px;
+		margin: 0 -0.2em;
+		gap: 2px;
 
 		&-dot {
-			width: 8px;
-			height: 8px;
+			width: 5px;
+			height: 5px;
 			border-radius: 100%;
 		}
 
