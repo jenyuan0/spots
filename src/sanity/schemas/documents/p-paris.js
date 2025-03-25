@@ -14,18 +14,6 @@ export default defineType({
 		title({ readOnly: true }),
 		slug({ readOnly: true }),
 		{
-			name: 'heroHeading',
-			type: 'portableTextSimple',
-		},
-		{
-			name: 'heroImages',
-			type: 'array',
-			of: [customImage({ hasCropOptions: true })],
-			options: {
-				layout: 'grid',
-			},
-		},
-		{
 			name: 'locationCategories',
 			type: 'array',
 			of: [

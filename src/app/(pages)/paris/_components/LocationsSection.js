@@ -41,7 +41,7 @@ export default function LocationsSection({ data }) {
 		<section ref={locationRef} className="p-paris__locations">
 			<div className="p-paris__locations__grid">
 				{locationList.map((item, index) => (
-					<LocationCard key={`item-${index}`} data={item} layout="vertical" />
+					<LocationCard key={`item-${index}`} data={item} layout="horizontal" />
 				))}
 			</div>
 

@@ -13,9 +13,9 @@ function HeaderLinks({ title, items }) {
 
 	return (
 		<div className="g-header__links">
-			{title && <div className="g-header__links__title t-l-2">{title}</div>}
+			{/* {title && <div className="g-header__links__title t-l-2">{title}</div>} */}
 			{items && (
-				<ul className="g-header__links__ul t-h-4">
+				<ul className="g-header__links__ul t-h-5">
 					{items.map((el, i) => {
 						const { link, title } = el;
 						const isActive = checkIfActive({
@@ -68,39 +68,44 @@ export default function Header({ data, isActive }) {
 	return (
 		<>
 			<header className={clsx('g-header', { 'is-active': isActive })}>
-				<div className="g-header__logo">
-					<h1 className="t-h-2">
+				<div className="g-header__primary">
+					<h1 className="g-header__logo t-h-2">
 						<Link href={'/'}>SPOTS</Link>
 					</h1>
+
+					{data?.menu?.map((el, i) => (
+						<HeaderLinks
+							key={`header-link-${i}`}
+							title={el?.title}
+							items={el?.items}
+						/>
+					))}
+					<Button className="btn-outline cr-white">Get in Touch</Button>
 				</div>
 
-				<motion.div whileHover="hover">
-					<Link className="g-header__destination" href={'/paris'}>
-						<div className="g-header__destination__label t-h-5">
-							Explore Paris
-						</div>
-						<div className="g-header__destination__flag">
+				<div className="g-header__nav t-l-1">
+					<Link href={'/paris/guides'}>
+						Guides <span className="icon-caret-down" />
+					</Link>
+					<Link href={'/paris/locations'}>
+						Spots <span className="icon-caret-down" />
+					</Link>
+
+					<motion.div className="g-header__subheading" whileHover="hover">
+						<div className="g-header__flag">
 							{[0, 1, 2].map((i) => (
 								<motion.div
 									key={i}
-									className="g-header__destination__flag-dot"
+									className="g-header__flag-dot"
 									custom={i}
 									variants={dotVariants}
 								/>
 							))}
 						</div>
-					</Link>
-				</motion.div>
-
-				{data?.menu?.map((el, i) => (
-					<HeaderLinks
-						key={`header-link-${i}`}
-						title={el?.title}
-						items={el?.items}
-					/>
-				))}
-				<div className="g-header__cta">
-					<Button className="btn">Get in Touch</Button>
+						<div className="t-h-5">
+							An ever-growing collection of Parisian treasures, refreshed weekly
+						</div>
+					</motion.div>
 				</div>
 			</header>
 

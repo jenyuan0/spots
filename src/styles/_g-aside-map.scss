@@ -1,5 +1,44 @@
 $expanded_width: calc(var(--s-sidebar-w-contain) + Max(35vw, 300px));
 
+@mixin sidebar {
+	position: fixed;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	top: 50%;
+	transform: translate3d(0, -50%, 0);
+	width: var(--s-sidebar);
+	padding: var(--s-4-v) var(--s-2-h);
+	color: var(--cr-brown-d);
+	background-color: var(--cr-white);
+	border-radius: var(--br-2);
+	box-shadow: var(--shadow-1);
+	gap: 30px;
+	text-align: center;
+	z-index: 100;
+	opacity: 0;
+	pointer-events: none;
+	transition: transform var(--t-2);
+
+	&.is-active {
+		transform: translate3d(0%, -50%, 0);
+		opacity: 1;
+		pointer-events: auto;
+	}
+}
+
+@mixin sidebarLeft {
+	@include sidebar;
+	left: var(--s-contain);
+	transform: translate3d(-100%, -50%, 0);
+}
+
+@mixin sidebarRight {
+	@include sidebar;
+	right: var(--s-contain);
+	transform: translate3d(100%, -50%, 0);
+}
+
 @mixin asideToggle {
 	position: absolute;
 	top: 50%;

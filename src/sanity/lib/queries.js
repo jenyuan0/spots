@@ -465,14 +465,10 @@ export const pageParisQuery = groq`
 	*[_type == "pParis"][0]{
 		title,
 		"slug": slug.current,
-		heroHeading[]{
-			${portableTextContent}
-		},
-		heroImages,
 		"locationCategories": locationCategories[]->{
 			${categoryMeta}
 		},
-		"locationList": *[_type == "gLocations"] | order(_updatedAt desc)[0...12] {
+		"locationList": *[_type == "gLocations"] | order(_updatedAt desc)[0...24] {
 			${getLocationsData('card')}
 		},
 		itinerariesTitle,
