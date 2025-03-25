@@ -180,6 +180,7 @@
 	align-items: center;
 	padding: var(--s-5-v) var(--s-sidebar-w-contain);
 	background-color: var(--cr-white);
+	border-top: 1px solid;
 
 	&__clock {
 		position: relative;
