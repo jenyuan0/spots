@@ -18,5 +18,9 @@
 		@container grid (min-width: 1600px) {
 			grid-template-columns: repeat(4, 1fr);
 		}
+
+		@container grid (min-width: 2000px) {
+			grid-template-columns: repeat(6, 1fr);
+		}
 	}
 }

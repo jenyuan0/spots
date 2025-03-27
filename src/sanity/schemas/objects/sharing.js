@@ -1,4 +1,4 @@
-export default function sharing({ disableIndex = false } = {}) {
+export default function sharing({ disableIndex = false, id } = {}) {
 	return {
 		title: 'SEO + Social Sharing',
 		name: 'sharing',

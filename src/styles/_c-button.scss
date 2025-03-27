@@ -316,6 +316,11 @@ input[disabled] {
 		background-color: var(--cr-primary);
 	}
 
+	&.is-active {
+		color: var(--cr-primary, var(--cr-subtle));
+		background-color: var(--cr-secondary, var(--cr-brown));
+	}
+
 	@media (hover: hover) {
 		&[href]:hover {
 			color: var(--cr-primary, var(--cr-subtle));

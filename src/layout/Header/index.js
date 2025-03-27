@@ -148,7 +148,7 @@ export default function Header({ data, isActive }) {
 					<Link href={'/'} className="g-header__logo t-h-3">
 						SPOTS
 					</Link>
-					<motion.div className="g-header__tagline t-h-4" whileHover="hover">
+					<motion.div className="g-header__tagline t-h-5" whileHover="hover">
 						<FrenchFlag />
 						An ever-growing collection of Parisian treasures refreshed weekly
 					</motion.div>

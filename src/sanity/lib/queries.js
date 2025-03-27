@@ -555,21 +555,46 @@ export const articleListAllQuery = groq`
 	}
 `;
 
-export const pageGuidesIndexDefaultQuery = groq`
-	_type,
+export const guidesIndexQuery = groq`
 	title,
-	"slug": "guides",
+	heading[]{
+		${portableTextContent}
+	},
+	"categories": categories[]->{
+		${categoryMeta}
+	},
 	itemsPerPage,
 	paginationMethod,
 	loadMoreButtonLabel,
 	infiniteScrollCompleteLabel,
-	"itemsTotalCount": count(*[_type == "gGuides"]),
+`;
+
+export const pageGuidesIndexDefaultQuery = groq`
+	_type,
+	title,
+	${guidesIndexQuery}
 	sharing`;
 
 export const pageGuidesIndex = groq`
 	*[_type == "pGuides"][0]{
 		${pageGuidesIndexDefaultQuery}
 	}`;
+
+export const pageGuidesCategoryQuery = groq`{
+	...*[_type == "pGuides"][0]{
+		${guidesIndexQuery}
+	},
+	"categorySlug": *[_type == "gCategories" && slug.current == $slug][0].slug.current,
+	"articleList": *[_type == "gGuides" && references(*[_type == "gCategories" && slug.current == $slug]._id)] {
+		${getGuidesData('card')}
+	},
+	"sharing": *[_type == "gCategories" && slug.current == $slug][0]{
+		"disableIndex": sharing.disableIndex,
+		"metaTitle": sharing.metaTitle,
+		"metaDesc": sharing.metaDesc,
+		"shareGraphic": sharing.shareGraphic
+	}
+}`;
 
 export const pageGuidesIndexWithArticleDataSSGQuery = groq`
 	*[_type == "pGuides"][0]{
@@ -601,24 +626,46 @@ export const locationListAllQuery = groq`
 	}
 `;
 
-export const pageLocationsIndexDefaultQuery = groq`
-	_type,
+export const locationIndexQuery = groq`
 	title,
-	"slug": "locations",
 	heading[]{
 		${portableTextContent}
+	},
+	"categories": categories[]->{
+		${categoryMeta}
 	},
 	itemsPerPage,
 	paginationMethod,
 	loadMoreButtonLabel,
 	infiniteScrollCompleteLabel,
-	"itemsTotalCount": count(*[_type == "gLocations"]),
+`;
+
+export const pageLocationsIndexDefaultQuery = groq`
+	_type,
+	"slug": "locations",
+	${locationIndexQuery}
 	sharing`;
 
 export const pageLocationsIndex = groq`
 	*[_type == "pLocations"][0]{
 		${pageLocationsIndexDefaultQuery}
 	}`;
+
+export const pageLocationsCategoryQuery = groq`{
+	...*[_type == "pGuides"][0]{
+		${guidesIndexQuery}
+	},
+	"categorySlug": *[_type == "gCategories" && slug.current == $slug][0].slug.current,
+	"locationList": *[_type == "gGuides" && references(*[_type == "gCategories" && slug.current == $slug]._id)] {
+		${getGuidesData('card')}
+	},
+	"sharing": *[_type == "gCategories" && slug.current == $slug][0]{
+		"disableIndex": sharing.disableIndex,
+		"metaTitle": sharing.metaTitle,
+		"metaDesc": sharing.metaDesc,
+		"shareGraphic": sharing.shareGraphic
+	}
+}`;
 
 export const pageLocationsIndexWithArticleDataSSGQuery = groq`
 	*[_type == "pLocations"][0]{
@@ -649,6 +696,7 @@ export const pageLocationsSingleQuery = groq`
 			}
 	}`;
 
+// ITINERARIES
 export const pageItinerariesSingleQuery = groq`
 	*[_type == "gItineraries" && slug.current == $slug][0]{
 		${getItineraryData()}

@@ -16,6 +16,16 @@ export default defineType({
 			type: 'portableTextSimple',
 		},
 		{
+			name: 'categories',
+			type: 'array',
+			of: [
+				{
+					type: 'reference',
+					to: [{ type: 'gCategories' }],
+				},
+			],
+		},
+		{
 			name: 'itemsPerPage',
 			type: 'number',
 			validation: (rule) => rule.min(1).required(),

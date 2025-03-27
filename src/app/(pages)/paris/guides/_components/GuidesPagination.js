@@ -12,8 +12,8 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import React, { useState, useEffect } from 'react';
 import GuideCard from '@/components/GuideCard';
-import clsx from 'clsx';
-import Link from 'next/link';
+import ResponsiveGrid from '@/components/ResponsiveGrid';
+import Pagination from '@/components/Pagination';
 import { useSearchParams } from 'next/navigation';
 import { client } from '@/sanity/lib/client';
 import { getGuidesData } from '@/sanity/lib/queries';
@@ -60,9 +60,11 @@ const ListWithClientQuery = ({ data, currentPageNumber }) => {
 				<div>Error: {error.message}</div>
 			) : (
 				<div className="p-guides-articles__list">
-					{articlesData.map((item, index) => (
-						<GuideCard key={item._id} data={item} />
-					))}
+					<ResponsiveGrid>
+						{articlesData.map((item, index) => (
+							<GuideCard key={item._id} data={item} />
+						))}
+					</ResponsiveGrid>
 				</div>
 			)}
 		</div>
@@ -87,9 +89,11 @@ const ListWithSSG = ({ data, currentPageNumber }) => {
 				<p>Loading...</p>
 			) : (
 				<div className="p-guides-articles__list">
-					{listData.map((item, index) => (
-						<GuideCard key={item._id} data={item} />
-					))}
+					<ResponsiveGrid>
+						{listData.map((item, index) => (
+							<GuideCard key={item._id} data={item} />
+						))}
+					</ResponsiveGrid>
 				</div>
 			)}
 		</>
@@ -98,34 +102,25 @@ const ListWithSSG = ({ data, currentPageNumber }) => {
 
 export default function GuidesPagination({ data }) {
 	const searchParams = useSearchParams();
-	const currentPageNumber = searchParams.get('page') || 1;
-	const { itemsTotalCount, itemsPerPage } = data;
-	const ARTICLE_TOTAL_PAGE = Math.round(itemsTotalCount / itemsPerPage);
+	const { categorySlug, itemsPerPage = 12 } = data;
+	const items = data?.articleList || [];
+	const itemsTotalCount = items.length;
+	const currentPageNumber = Number(searchParams.get('page')) || 1;
+	const totalPages = Math.ceil(itemsTotalCount / itemsPerPage); // Use ceil instead of round
+
+	if (itemsTotalCount === 0) {
+		return null; // Don't render pagination if no items
+	}
 
 	return (
 		<>
-			{/* <ListWithClientQuery data={data} currentPageNumber={currentPageNumber} /> */}
 			<ListWithSSG data={data} currentPageNumber={currentPageNumber} />
-			{ARTICLE_TOTAL_PAGE > 1 && (
-				<div className="c-guides-pagination__pagination f-h f-a-c f-j-c">
-					{Array.from({ length: ARTICLE_TOTAL_PAGE }, (_, index) => {
-						const pageNumber = index + 1;
-						return (
-							<Link
-								href={{
-									pathname: '/guides',
-									query: { page: pageNumber },
-								}}
-								key={index}
-								className={clsx('c-guides-pagination__pagination__number', {
-									'is-active': pageNumber === Number(currentPageNumber),
-								})}
-							>
-								{pageNumber}
-							</Link>
-						);
-					})}
-				</div>
+			{totalPages > 1 && (
+				<Pagination
+					currentPageNumber={currentPageNumber}
+					totalPage={totalPages}
+					url={`/paris/guides${categorySlug ? `/category/${categorySlug}` : ''}`}
+				/>
 			)}
 		</>
 	);

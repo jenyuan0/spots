@@ -8,8 +8,22 @@ export default defineType({
 	name: 'pGuides',
 	type: 'document',
 	fields: [
-		title(),
-		slug(),
+		title({ readOnly: true }),
+		slug({ readOnly: true }),
+		{
+			name: 'heading',
+			type: 'portableTextSimple',
+		},
+		{
+			name: 'categories',
+			type: 'array',
+			of: [
+				{
+					type: 'reference',
+					to: [{ type: 'gCategories' }],
+				},
+			],
+		},
 		{
 			name: 'itemsPerPage',
 			type: 'number',

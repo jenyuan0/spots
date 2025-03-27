@@ -1,15 +1,23 @@
-.p-guides {
+.p-guides__header {
+	width: var(--width-med);
+	margin: var(--s-section) auto;
+	text-align: center;
 }
 
-.c-guides-pagination {
-	&__pagination {
-		margin-top: 20px;
-		gap: 10px;
+.p-guides__body {
+	width: var(--width-lge);
+	margin: var(--s-section) auto;
+}
 
-		&__number {
-			&.is-active {
-				border: 1px solid;
-			}
-		}
+.p-guides__categories {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	margin-bottom: var(--s-3-v);
+
+	.pill:not(.is-active):not(:hover) {
+		--cr-primary: var(--cr-subtle) !important;
+		--cr-secondary: var(--cr-brown) !important;
 	}
 }

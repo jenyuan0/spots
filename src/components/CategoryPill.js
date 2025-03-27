@@ -1,4 +1,5 @@
 import React from 'react';
+import clsx from 'clsx';
 import Link from '@/components/CustomLink';
 import {
 	IconArchitecture,
@@ -18,22 +19,29 @@ const iconMap = {
 	'shopping-gifts': IconShop,
 };
 
-export default function CategoryPill({ data, isLink = false }) {
+export default function CategoryPill({
+	data,
+	postType = 'locations',
+	isLink = false,
+	isActive,
+}) {
 	const { title, slug, parentCategory } = data;
-	const colorD = data?.colorD || parentCategory?.colorD;
-	const colorL = data?.colorL || parentCategory?.colorL;
+	const colorD = data?.colorD || parentCategory?.colorD || 'var(--cr-brown-d)';
+	const colorL = data?.colorL || parentCategory?.colorL || 'var(--cr-brown-l)';
 	const iconSlug = parentCategory?.slug || slug;
 	const Icon = iconMap[iconSlug];
 
 	if (isLink) {
 		return (
 			<Link
-				className="pill"
+				className={clsx('pill', {
+					'is-active': isActive,
+				})}
 				style={{
 					'--cr-primary': colorL,
 					'--cr-secondary': colorD,
 				}}
-				href={`/paris/locations/${slug}`}
+				href={`/paris/${postType}${slug ? `/category/${slug}` : ''}`}
 			>
 				{Icon && <Icon />}
 				{title}

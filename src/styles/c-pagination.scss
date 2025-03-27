@@ -1,0 +1,36 @@
+.c-pagination {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: var(--s-4-v) 0 var(--s-section);
+	gap: 5px;
+
+	&__button {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 40px;
+		height: 40px;
+		border-radius: 100%;
+		box-shadow: var(--shadow-3-transparent);
+		transition:
+			background var(--t-1),
+			box-shadow var(--t-1);
+
+		@media (hover: hover) {
+			&:not(.is-disabled):hover {
+				background-color: var(--cr-subtle);
+			}
+		}
+
+		&.is-active {
+			background-color: var(--cr-white);
+			box-shadow: var(--shadow-3);
+		}
+
+		&.is-disabled {
+			opacity: 0.2;
+			cursor: not-allowed;
+		}
+	}
+}

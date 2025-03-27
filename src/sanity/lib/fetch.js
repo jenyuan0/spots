@@ -73,13 +73,17 @@ export function getPagesPaths({ pageType }) {
 	const getQuery = (pageType) => {
 		switch (pageType) {
 			case 'pGeneral':
-				return groq`*[_type == "pGeneral" ].slug.current`;
+				return groq`*[_type == "pGeneral"].slug.current`;
 			case 'gLocations':
-				return groq`*[_type == "gLocations" ].slug.current`;
+				return groq`*[_type == "gLocations"].slug.current`;
 			case 'gItineraries':
-				return groq`*[_type == "gItineraries" ].slug.current`;
+				return groq`*[_type == "gItineraries"].slug.current`;
 			case 'gGuides':
-				return groq`*[_type == "gGuides" ].slug.current`;
+				return groq`*[_type == "gGuides"].slug.current`;
+			case 'gCategories':
+				return groq`*[_type == "gCategories"].slug.current`;
+			case 'gSubcategories':
+				return groq`*[_type == "gSubcategories"].slug.current`;
 			case 'gFAQ':
 				return groq`*[_type == "gFAQ" ].slug.current`;
 			default:
@@ -159,6 +163,19 @@ export function getGuidesIndexPage({ isPreviewMode, isArticleDataSSG }) {
 	});
 }
 
+export function getGuidesCategoryPage({ queryParams, isPreviewMode }) {
+	const query = getPageDataStructure({
+		query: queries.pageGuidesCategoryQuery,
+	});
+
+	return sanityFetch({
+		query,
+		params: queryParams,
+		tags: [`gGuides:${queryParams.slug}`],
+		isPreviewMode,
+	});
+}
+
 export function getGuidesSinglePage({ queryParams, isPreviewMode }) {
 	const query = getPageDataStructure({ query: queries.pageGuidesSingleQuery });
 
@@ -188,6 +205,19 @@ export function getLocationsIndexPage({ isPreviewMode, isArticleDataSSG }) {
 	return sanityFetch({
 		query,
 		tags: ['pLocations'],
+		isPreviewMode,
+	});
+}
+
+export function getLocationsCategoryPage({ queryParams, isPreviewMode }) {
+	const query = getPageDataStructure({
+		query: queries.pageLocationsCategoryQuery,
+	});
+
+	return sanityFetch({
+		query,
+		params: queryParams,
+		tags: [`gLocations:${queryParams.slug}`],
 		isPreviewMode,
 	});
 }
