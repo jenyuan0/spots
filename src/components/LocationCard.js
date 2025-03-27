@@ -65,7 +65,7 @@ export default function LocationCard({
 							<CategoryPillList
 								categories={categories}
 								subcategories={subcategories}
-								limit={3}
+								limit={layout == 'vertical' ? 3 : 1}
 							/>
 						</div>
 					)}

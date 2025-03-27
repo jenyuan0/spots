@@ -652,12 +652,12 @@ export const pageLocationsIndex = groq`
 	}`;
 
 export const pageLocationsCategoryQuery = groq`{
-	...*[_type == "pGuides"][0]{
-		${guidesIndexQuery}
+	...*[_type == "pLocations"][0]{
+		${locationIndexQuery}
 	},
 	"categorySlug": *[_type == "gCategories" && slug.current == $slug][0].slug.current,
-	"locationList": *[_type == "gGuides" && references(*[_type == "gCategories" && slug.current == $slug]._id)] {
-		${getGuidesData('card')}
+	"locationList": *[_type == "gLocations" && references(*[_type == "gCategories" && slug.current == $slug]._id)] {
+		${getLocationsData('card')}
 	},
 	"sharing": *[_type == "gCategories" && slug.current == $slug][0]{
 		"disableIndex": sharing.disableIndex,
