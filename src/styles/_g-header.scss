@@ -3,7 +3,7 @@
 	top: var(--s-3-v);
 	display: flex;
 	flex-direction: column;
-	width: var(--s-container-med);
+	width: var(--width-med);
 	margin: var(--s-3-v) auto;
 	background-color: var(--cr-cream);
 	border: 1px solid;
@@ -12,7 +12,7 @@
 	z-index: 100;
 	transition:
 		background var(--t-2),
-		box-shadow var(--t-2);
+		box-shadow var(--t-3);
 
 	&.is-scrolled {
 		background-color: var(--cr-white);
@@ -35,7 +35,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		gap: 10px;
+		gap: 20px;
 		flex: 1;
 	}
 

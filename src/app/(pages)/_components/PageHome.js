@@ -12,7 +12,7 @@ import Button from '@/components/Button';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 
 // Spot component for individual animated spots
-function HeroSpot({ index, data, lastChild, scrollYProgress }) {
+function HeroSpot({ index, data, boundary, lastChild, scrollYProgress }) {
 	const [spot, setSpot] = useState({
 		x: 1000,
 		y: 1000,
@@ -31,9 +31,9 @@ function HeroSpot({ index, data, lastChild, scrollYProgress }) {
 		});
 
 		setScreen({
-			x: window.innerWidth / 2,
-			y: window.innerHeight / 2,
-			height: window.innerHeight,
+			x: boundary.width / 2,
+			y: boundary.height / 2,
+			height: boundary.height,
 		});
 	}, [data, lastChild]);
 
@@ -133,12 +133,16 @@ function HeroSpot({ index, data, lastChild, scrollYProgress }) {
 export function Hero({ data, setPrimaryColor }) {
 	const { heroHeading, heroImage, heroSpots } = data || {};
 	const heroRef = useRef(null);
+	const [boundary, setBoundary] = useState({
+		width: 0,
+		height: 0,
+	});
+	const [spots, setSpots] = useState([]);
+	const [isNudgeActive, setIsNudgeActive] = useState(true);
 	const { scrollYProgress } = useScroll({
 		target: heroRef,
 		offset: ['start start', 'end start'],
 	});
-	const [spots, setSpots] = useState([]);
-	const [isNudgeActive, setIsNudgeActive] = useState(true);
 
 	useEffect(() => {
 		const scroll = scrollYProgress.onChange((value) => {
@@ -148,11 +152,18 @@ export function Hero({ data, setPrimaryColor }) {
 		return () => scroll();
 	}, [scrollYProgress]);
 
+	useEffect(() => {
+		setBoundary({
+			width: heroRef.current.getBoundingClientRect().width,
+			height: heroRef.current.getBoundingClientRect().height,
+		});
+	}, [heroRef]);
+
 	// Function to check for overlaps
 	const checkOverlap = (x, y, existingPositions) => {
-		const minDistance = innerWidth * 0.05;
-		const centerY = window.innerHeight / 2;
-		const isCenterArea = y > centerY - 100 && y < centerY + 100;
+		const minDistance = boundary.width * 0.05;
+		const centerY = boundary.height / 2;
+		const isCenterArea = y > centerY - 50 && y < centerY + 50;
 		const hasOverlap = existingPositions.some((pos) => {
 			const dx = pos.x - x;
 			const dy = pos.y - y;
@@ -165,8 +176,8 @@ export function Hero({ data, setPrimaryColor }) {
 	// Generate all spots first
 	useEffect(() => {
 		const generateSpots = () => {
-			const paddingX = Math.min(window.innerWidth * 0.15, 400);
-			const paddingY = Math.max(window.innerHeight * 0.2, 100);
+			const paddingX = Math.min(boundary.width * 0.1, 100);
+			const paddingY = Math.max(boundary.height * 0.1, 100);
 			const newPositions = [];
 
 			heroSpots?.forEach(() => {
@@ -176,9 +187,8 @@ export function Hero({ data, setPrimaryColor }) {
 
 				while (!validPosition && attempts < 25) {
 					const color = colorArray()[0];
-					x = Math.random() * (window.innerWidth - paddingX * 2) + paddingX;
-					y =
-						Math.random() * (window.innerHeight - paddingY * 2) + paddingY / 2;
+					x = Math.random() * (boundary.width - paddingX * 2) + paddingX;
+					y = Math.random() * (boundary.height - paddingY * 2) + paddingY / 2;
 
 					if (!checkOverlap(x, y, newPositions)) {
 						validPosition = true;
@@ -196,7 +206,7 @@ export function Hero({ data, setPrimaryColor }) {
 		window.addEventListener('resize', generateSpots);
 
 		return () => window.removeEventListener('resize', generateSpots);
-	}, [heroSpots, setPrimaryColor]);
+	}, [heroSpots, boundary, setPrimaryColor]);
 
 	// Use useMemo to prevent re-renders
 	const spotElements = useMemo(() => {
@@ -206,6 +216,7 @@ export function Hero({ data, setPrimaryColor }) {
 						<HeroSpot
 							key={`spot-${i}`}
 							index={i}
+							boundary={boundary}
 							data={{
 								...el,
 								color: spots[i]?.color,

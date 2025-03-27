@@ -53,6 +53,8 @@ export default function GuideCard({ data, layout = 'vertical', color }) {
 					</Button>
 				</div>
 			</div>
+
+			<Link href={url} ariaLabel="Open Guide" className="p-fill" />
 		</div>
 	);
 }

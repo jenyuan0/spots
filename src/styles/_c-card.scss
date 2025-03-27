@@ -1,25 +1,31 @@
 .c-card {
+	position: relative;
 	display: flex;
 	min-width: 0;
 	overflow: hidden;
 	background-color: var(--cr-white);
-	box-shadow: var(--shadow-2-transparent);
+	padding: 2px;
+	box-shadow:
+		inset 0 0 0 2px transparent,
+		var(--shadow-2-transparent);
 	border-radius: var(--br-2);
-	padding: var(--s-1-v);
 	gap: 10px;
-	color: var(--cr-primary);
 	transition: var(--t-1);
 
 	@media (hover: hover) {
 		&:hover {
-			box-shadow: var(--shadow-2);
+			box-shadow:
+				inset 0 0 0 2px var(--cr-primary),
+				var(--shadow-2);
+			z-index: 10;
 		}
 	}
 
 	&__thumb {
 		position: relative;
-		border-radius: calc(var(--br-2) / 1.5);
 		overflow: hidden;
+		border-top-left-radius: calc(var(--br-1) * 1.5);
+		border-bottom-left-radius: calc(var(--br-1) * 1.5);
 		background-color: var(--cr-subtle);
 	}
 
@@ -30,13 +36,14 @@
 		transition: var(--t-1);
 		transform: translateY(10%);
 		opacity: 0;
+		z-index: 10;
 	}
 
 	&__info {
 		display: flex;
 		flex-direction: column;
 		flex: 1;
-		padding: var(--s-2-v) var(--s-2-h);
+		padding: var(--s-3-v) var(--s-2-h);
 		gap: 15px;
 	}
 
@@ -75,10 +82,12 @@
 	}
 
 	&__actions {
+		position: relative;
 		display: flex;
 		align-items: center;
 		margin-top: auto;
 		gap: 10px;
+		z-index: 10;
 	}
 
 	@media (hover: hover) {

@@ -51,7 +51,7 @@ export default function ItinerariesSection({ data }) {
 		>
 			<div className="p-paris__itineraries__header wysiwyg-b-1">
 				{itinerariesTitle && (
-					<h2 className="p-paris__itineraries__title t-h-3">
+					<h2 className="p-paris__itineraries__title t-h-2">
 						{itinerariesTitle}
 					</h2>
 				)}
@@ -60,7 +60,7 @@ export default function ItinerariesSection({ data }) {
 				)}
 			</div>
 			<Carousel
-				itemWidth="650px"
+				itemWidth="Min(650px, 60vw)"
 				gap="5px"
 				isShowDots
 				isAutoHeight={false}

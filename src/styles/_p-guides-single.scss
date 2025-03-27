@@ -5,12 +5,12 @@
 		justify-content: center;
 		align-items: center;
 		margin: auto;
-		max-width: var(--s-container-lge);
+		max-width: var(--width-lge);
 		margin: var(--s-4-v) auto;
 		padding: var(--s-4-v) 0;
 		border-bottom: 1px solid;
 
-		@container main (max-width: 1200px) {
+		@media screen and (max-width: 1200px) {
 			flex-direction: column;
 			align-items: stretch;
 			padding-bottom: 0;
@@ -32,7 +32,7 @@
 	&__body {
 		display: flex;
 		flex-direction: column;
-		max-width: var(--s-container-med);
+		width: var(--width-med);
 		margin: var(--s-4-v) auto;
 		gap: 80px;
 	}

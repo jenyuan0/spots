@@ -21,8 +21,6 @@ export default function Layout({ children, siteData }) {
 	const pathname = usePathname();
 	const [isHeaderActive, setIsHeaderActive] = useState(false);
 	const [isFooterActive, setIsFooterActive] = useState(false);
-	const [isMainSpaceL, setIsMainSpaceL] = useState(false);
-	const [isMainSpaceR, setIsMainSpaceR] = useState(false);
 	const setAsideMapActive = useAsideMap((state) => state.setAsideMapActive);
 	const setAsideMapLocations = useAsideMap(
 		(state) => state.setAsideMapLocations
@@ -68,11 +66,6 @@ export default function Layout({ children, siteData }) {
 			setIsFooterActive(true);
 		}
 
-		const isMainSpace = !['/', '/paris'].includes(pathname);
-
-		setIsMainSpaceL(isMainSpace);
-		setIsMainSpaceR(isMainSpace);
-
 		// aside map is set on the page level
 		setAsideMapActive(false);
 		setAsideMapLocations(false);
@@ -88,9 +81,7 @@ export default function Layout({ children, siteData }) {
 			<AdaSkip />
 			<Announcement data={announcement} />
 			<Header data={header} isActive={isHeaderActive} />
-			<Main isSpaceL={isMainSpaceL} isSpaceR={isMainSpaceR}>
-				{children}
-			</Main>
+			<Main>{children}</Main>
 			<AsideMap />
 			<Magnify />
 			<Lightbox />

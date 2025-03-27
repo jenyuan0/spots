@@ -61,7 +61,7 @@ export default function SeasonSection({ data }) {
 
 	return (
 		<section className="p-paris__season">
-			<SeasonalClock seasons={seasons} />
+			{/* <SeasonalClock seasons={seasons} /> */}
 			<div className="p-paris__season__table">
 				<h2 className="p-paris__season__heading t-h-2">{seasonsTitle}</h2>
 

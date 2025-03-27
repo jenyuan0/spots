@@ -34,21 +34,21 @@
 	--t-l-2: 12px/1 'Helvetica Neue', Helvetica, sans-serif;
 
 	--s-sidebar: Min(240px, 100%);
-	--s-sidebar-w-contain: calc(var(--s-sidebar) + var(--s-contain) * 2);
 	--s-contain: Min(3vw, 40px);
-	--s-contain-max: 2480px;
-	--s-contain-dynamic: Max(
-		var(--s-contain),
-		calc((100vw - var(--s-contain-max)) / 2)
-	);
-	--s-container-sml: Min(100vw - calc(var(--s-sidebar-w-contain) * 2), 540px);
-	--s-container-med: Min(100vw - calc(var(--s-sidebar-w-contain) * 2), 780px);
-	--s-container-lge: Min(100vw - calc(var(--s-sidebar-w-contain) * 2), 1600px);
 	--s-vp-height: 100vh;
 	--s-vp-height: 100svh;
 	--s-main-min-height: calc(
 		var(--s-vp-height) - var(--s-announcement, 0px) - var(--s-footer, 0px)
 	); // Set minimum container height to fill screen, keeping footer at bottom.
+
+	--width-sml: Min(100vw - calc(var(--s-contain) * 2), 600px);
+	--width-med: Min(100vw - calc(var(--s-contain) * 2), 1200px);
+	--width-lge: Min(100vw - calc(var(--s-contain) * 2), 1800px);
+	--width-max: Min(100vw - calc(var(--s-contain) * 2), 2480px);
+	--padding-sml: calc((100vw - var(--width-sml)) / 2);
+	--padding-med: calc((100vw - var(--width-med)) / 2);
+	--padding-lge: calc((100vw - var(--width-lge)) / 2);
+	--padding-max: calc((100vw - var(--width-max)) / 2);
 
 	--s-1-v: 5px;
 	--s-1-h: 5px;

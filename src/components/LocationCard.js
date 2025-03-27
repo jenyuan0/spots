@@ -10,7 +10,12 @@ import useLightbox from '@/hooks/useLightbox';
 import useKey from '@/hooks/useKey';
 import { IconMaximize } from '@/components/SvgIcons';
 
-export default function LocationCard({ data, layout = 'vertical', color }) {
+export default function LocationCard({
+	data,
+	layout = 'vertical',
+	color,
+	hasDirection = false,
+}) {
 	const {
 		images,
 		title,
@@ -71,7 +76,7 @@ export default function LocationCard({ data, layout = 'vertical', color }) {
 							layout == 'horizontal' ? 't-h-5' : 't-h-4'
 						)}
 					>
-						<Link href={url}>{title}</Link>
+						{title}
 					</h3>
 				</div>
 				{resStart && (
@@ -86,7 +91,7 @@ export default function LocationCard({ data, layout = 'vertical', color }) {
 				)}
 				<div className="c-card__actions">
 					<Button
-						className={clsx('btn-underline', cardColor && `cr-${cardColor}-d`)}
+						className={clsx('btn-underline', cardColor && `!cr-${cardColor}-d`)}
 						href={url}
 						{...(!hasPressedKeys && {
 							onClick: (e) => {
@@ -101,15 +106,21 @@ export default function LocationCard({ data, layout = 'vertical', color }) {
 					>
 						Details
 					</Button>
-					<Button
-						className={clsx('btn-underline', cardColor && `cr-${cardColor}-d`)}
-						href={`https://www.google.com/maps/dir//${encodeURIComponent(addressString)}`}
-						target="_blank"
-					>
-						Get Direction
-					</Button>
+					{hasDirection && (
+						<Button
+							className={clsx(
+								'btn-underline',
+								cardColor && `!cr-${cardColor}-d`
+							)}
+							href={`https://www.google.com/maps/dir//${encodeURIComponent(addressString)}`}
+							target="_blank"
+						>
+							Get Direction
+						</Button>
+					)}
 				</div>
 			</div>
+			<Link href={url} ariaLabel={'Open location'} className="p-fill" />
 		</div>
 	);
 }

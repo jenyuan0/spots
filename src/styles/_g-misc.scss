@@ -11,17 +11,6 @@ html {
 #main {
 	min-height: var(--s-main-min-height);
 	padding: 0.1px 0;
-	container-type: inline-size;
-	container-name: main;
-	transition: margin var(--t-1);
-
-	&.is-space-l {
-		margin-left: var(--s-sidebar-w-contain);
-	}
-
-	&.is-space-r {
-		margin-right: var(--s-sidebar-w-contain);
-	}
 }
 
 .icon-caret,

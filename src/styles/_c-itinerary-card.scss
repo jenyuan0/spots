@@ -1,20 +1,35 @@
 .c-itinerary-card {
+	container-type: inline-size;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
-	gap: 40px;
-	padding: var(--s-4-v) var(--s-4-h);
+
+	// TODO
+	// cqi fallback
+
+	gap: clamp(20px, 2cqi, 40px);
+	padding: clamp(20px, 2.5cqi, 40px);
 	text-align: center;
 	color: var(--cr-cream);
 	background-color: var(--cr-primary);
 	box-shadow: var(--shadow-3);
-	transition: var(--t-1);
+	transition:
+		transform var(--t-1),
+		box-shadow var(--t-1);
 
 	@media (hover: hover) {
 		&:hover {
 			box-shadow: var(--shadow-2);
 		}
+	}
+
+	.t-h-2 {
+		font-size: Max(24px, 8cqi);
+	}
+
+	.t-h-3 {
+		font-size: Max(20px, 5cqi);
 	}
 
 	&__thumb {

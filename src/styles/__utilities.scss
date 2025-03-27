@@ -45,18 +45,9 @@
 
 // ***LAYOUTS***
 
-.c,
-.c-small {
-	padding-left: var(--s-contain-dynamic);
-	padding-right: var(--s-contain-dynamic);
-}
-
-.c-small {
-	--s-contain-max: 900px;
-	--s-contain-dynamic: Max(
-		var(--s-contain),
-		calc((100vw - var(--s-contain-max)) / 2)
-	);
+.c {
+	padding-left: var(--padding-max);
+	padding-right: var(--padding-max);
 }
 
 .f-h,

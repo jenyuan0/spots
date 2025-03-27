@@ -25,25 +25,6 @@
 		}
 	}
 
-	&__list {
-		display: grid;
-		grid-template-columns: repeat(1, 1fr);
-		gap: 10px;
-
-		@container main (min-width: 700px) {
-			grid-template-columns: repeat(2, 1fr);
-			gap: 16px;
-		}
-
-		@container main (min-width: 1200px) {
-			grid-template-columns: repeat(3, 1fr);
-		}
-
-		@container main (min-width: 1600px) {
-			grid-template-columns: repeat(4, 1fr);
-		}
-	}
-
 	&__pagination {
 		display: flex;
 		align-items: center;

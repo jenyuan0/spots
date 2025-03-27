@@ -1,114 +1,92 @@
-.p-home {
-	$hero-padding: 10px;
-	$dot-size: Min(5vw, 80px);
+$dot-size: Min(5vw, 60px);
 
-	&__hero {
+.p-home__hero {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	height: Min(calc(var(--s-vp-height) - var(--s-header)), 1000px);
+	margin-top: calc((41px + var(--s-3-v)) * -1);
+	margin-inline: var(--padding-lge);
+	z-index: 1;
+
+	color: var(--cr-white);
+	background-color: var(--cr-black);
+
+	&__image {
+		border-radius: var(--br-2);
+		overflow: hidden;
+		border: 1px solid;
+	}
+
+	&__heading {
 		position: relative;
+		margin: auto;
+		width: var(--width-med);
+		text-align: center;
+		pointer-events: none;
+	}
+
+	&__nudge {
+		position: absolute;
+		bottom: 20px;
+		left: 50%;
+		transform: translate3d(-50%, 0, 0);
 		display: flex;
 		flex-direction: column;
-		height: var(--s-vp-height);
-		z-index: 1;
+		gap: 10px;
+		pointer-events: none;
+		transition: opacity var(--t-2);
 
-		&__image {
-			margin: $hero-padding;
-			border-radius: var(--br-3);
-			overflow: hidden;
+		&:not(.is-active) {
+			opacity: 0;
 		}
 
-		&__heading {
-			position: relative;
-			margin: auto;
-			width: var(--s-container-med);
-			text-align: center;
-			color: var(--cr-white);
-			pointer-events: none;
-		}
-
-		&__nudge {
-			position: absolute;
-			bottom: calc($hero-padding * 3);
-			left: 50%;
-			transform: translate3d(-50%, 0, 0);
-			display: flex;
-			flex-direction: column;
-			gap: 10px;
-			pointer-events: none;
-			transition: opacity var(--t-2);
-
-			&:not(.is-active) {
+		@keyframes fadeInOut {
+			0%,
+			85%,
+			100% {
 				opacity: 0;
 			}
-
-			@keyframes fadeInOut {
-				0%,
-				85%,
-				100% {
-					opacity: 0;
-				}
-				20% {
-					opacity: 1;
-				}
-			}
-
-			&-dot {
-				width: calc($dot-size * 0.1);
-				aspect-ratio: 1;
-				background-color: var(--cr-white);
-				border-radius: 100%;
-				animation: 3s calc(0.2s * var(--index)) fadeInOut infinite;
+			20% {
+				opacity: 1;
 			}
 		}
-	}
 
-	&__intro {
-		width: var(--s-container-med);
-		margin: var(--s-section) auto;
-		text-align: center;
-		color: var(--cr-primary, var(--cr-brown-d));
-	}
-
-	&__highlights {
-		gap: var(--s-contain);
-		max-width: var(--s-container-lge);
-		margin: auto;
-		padding: 10vw 0;
-
-		&__item {
-			position: relative;
-			flex: 1;
-			max-width: 600px;
+		&-dot {
+			width: calc($dot-size * 0.1);
 			aspect-ratio: 1;
+			background-color: var(--cr-white);
 			border-radius: 100%;
-			overflow: hidden;
-		}
-
-		&__rotate {
-			animation: rotate 40s linear infinite;
-		}
-
-		&__item:nth-child(odd) &__rotate {
-			animation-direction: reverse;
+			animation: 3s calc(0.2s * var(--index)) fadeInOut infinite;
 		}
 	}
+}
 
-	&__hiw {
-		height: 120svh;
-	}
+.p-home__spot {
+	position: absolute;
+	width: $dot-size;
+	aspect-ratio: 1;
+	top: 0;
+	left: 0;
+	transform-origin: center;
+	margin: calc($dot-size / 2 * -1);
 
-	&__spot {
+	&__link {
 		position: absolute;
-		width: $dot-size;
-		aspect-ratio: 1;
-		top: 0;
-		left: 0;
-		transform-origin: center;
-		margin: calc($dot-size / 2 * -1);
-
-		&__link {
-			position: absolute;
-			inset: 0;
-			background-color: var(--cr-primary);
-			border-radius: 100%;
-		}
+		inset: 0;
+		background-color: var(--cr-primary);
+		border-radius: 100%;
 	}
+}
+
+.p-home__intro {
+	width: var(--width-med);
+	margin: var(--s-section) auto;
+	text-align: center;
+	color: var(--cr-primary, var(--cr-brown-d));
+
+	p {
+		text-wrap: balance;
+	}
+	min-height: 4000px;
 }

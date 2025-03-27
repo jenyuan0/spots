@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useId } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import clsx from 'clsx';
 import { usePathname } from 'next/navigation';
 import { scrollEnable, scrollDisable } from '@/lib/helpers';
@@ -45,7 +45,7 @@ function NavLink({ nav }) {
 
 	return (
 		<ul className="g-header__nav__links user-select-disable">
-			{nav.map((item) => {
+			{nav.map((item, index) => {
 				// TODO
 				// Active state
 				// Megamenu
@@ -58,7 +58,10 @@ function NavLink({ nav }) {
 				// console.log(pathname, item.url);
 
 				return (
-					<li className={clsx({ 'is-active': isActive })}>
+					<li
+						key={`${item.title}-${index}`}
+						className={clsx({ 'is-active': isActive })}
+					>
 						<Link href={item?.url}>
 							{item?.title}
 							{item.hasCaret && (
@@ -103,8 +106,16 @@ const FrenchFlag = () => {
 
 export default function Header({ data, isActive }) {
 	const pathname = usePathname();
+	const ref = useRef();
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 	const [isScrolled, setIsScrolled] = useState(false);
+
+	useEffect(() => {
+		document.documentElement.style.setProperty(
+			'--s-header',
+			`${ref?.current?.offsetHeight || 0}px`
+		);
+	}, []);
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -127,6 +138,7 @@ export default function Header({ data, isActive }) {
 	return (
 		<>
 			<header
+				ref={ref}
 				className={clsx('g-header', {
 					'is-scrolled': isScrolled,
 					'is-active': isActive,
@@ -136,7 +148,7 @@ export default function Header({ data, isActive }) {
 					<Link href={'/'} className="g-header__logo t-h-3">
 						SPOTS
 					</Link>
-					<motion.div className="g-header__tagline t-h-5" whileHover="hover">
+					<motion.div className="g-header__tagline t-h-4" whileHover="hover">
 						<FrenchFlag />
 						An ever-growing collection of Parisian treasures refreshed weekly
 					</motion.div>

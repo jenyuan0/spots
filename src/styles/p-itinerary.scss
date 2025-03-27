@@ -1,12 +1,12 @@
 .p-itinerary {
 	&__header {
-		width: var(--s-container-med);
+		width: var(--width-med);
 		margin: var(--s-section) auto;
 		text-align: center;
 	}
 
 	&__plan {
-		width: var(--s-container-med);
+		width: var(--width-med);
 		margin-inline: auto;
 		margin-block: var(--s-4-v);
 		padding: var(--s-4-v) var(--s-4-h);
@@ -168,7 +168,7 @@
 	}
 
 	&__reservations {
-		width: var(--s-container-med);
+		width: var(--width-med);
 		margin-inline: auto;
 
 		&__header {
