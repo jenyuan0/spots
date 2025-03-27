@@ -10,11 +10,11 @@ $dot-size: Min(5vw, 60px);
 	z-index: 1;
 
 	color: var(--cr-white);
-	background-color: var(--cr-black);
 
 	&__image {
-		border-radius: var(--br-2);
+		border-radius: var(--br-3);
 		overflow: hidden;
+		background-color: var(--cr-black);
 		border: 1px solid;
 	}
 
@@ -88,5 +88,4 @@ $dot-size: Min(5vw, 60px);
 	p {
 		text-wrap: balance;
 	}
-	min-height: 4000px;
 }

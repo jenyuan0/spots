@@ -4,7 +4,7 @@
 
 	&__header {
 		text-align: center;
-		margin-bottom: var(--s-5-v);
+		margin-bottom: var(--s-4-v);
 
 		.t-h-1 {
 			text-wrap: balance;
@@ -179,7 +179,7 @@
 			li a,
 			li:not(:has(a)) {
 				display: flex;
-				padding: var(--s-2-v) 0;
+				padding: var(--s-3-v) 0;
 			}
 		}
 	}

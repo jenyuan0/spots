@@ -41,7 +41,7 @@ export default function LocationsSection({ data }) {
 	return (
 		<section ref={locationRef} className="p-paris__locations">
 			<div className="p-paris__locations__header wysiwyg">
-				<h2 className="t-l-1">Find Your Spots in Paris</h2>
+				<h2 className="t-l-2">Find Your Spots in Paris</h2>
 				<h3 className="t-h-2">Where every circle leads to discovery</h3>
 			</div>
 			<div className="p-paris__locations__grid">
@@ -64,7 +64,7 @@ export default function LocationsSection({ data }) {
 				</Button>
 				{locationCategories && (
 					<ul className="p-paris__locations__footer-categories">
-						<li className="t-b-2">By category:</li>
+						<li className="t-l-2">By category:</li>
 						{locationCategories.map((item) => (
 							<li key={`category-${item._id}`}>
 								<CategoryPill className="pill" data={item} isLink={true} />
