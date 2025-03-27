@@ -34,10 +34,6 @@ const rightNav = [
 		title: 'Ready-to-book Trips',
 		url: '/paris/ready-to-book-trips',
 	},
-	{
-		title: 'Plan a Trip',
-		url: '/plan-a-bespoke-trip',
-	},
 ];
 
 function NavLink({ nav }) {
