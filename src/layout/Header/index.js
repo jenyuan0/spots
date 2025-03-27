@@ -6,43 +6,114 @@ import { checkIfActive } from '@/lib/routes';
 import Link from '@/components/CustomLink';
 import MobileMenuTrigger from './mobile-menu-trigger';
 import Button from '@/components/Button';
+import { motion } from 'framer-motion';
 
-function HeaderLinks({ title, items }) {
-	const baseId = useId();
-	const pathName = usePathname();
+const leftNav = [
+	{
+		title: 'Explore Paris',
+		url: '/paris',
+	},
+	{
+		title: 'Guides',
+		url: '/paris/guides',
+		// hasCaret: true,
+	},
+	{
+		title: 'Locations',
+		url: '/paris/locations',
+		// hasCaret: true,
+	},
+];
+
+const rightNav = [
+	{
+		title: 'Book a Hotel',
+		url: '/book-a-hotel',
+	},
+	{
+		title: 'Ready-to-book Trips',
+		url: '/paris/ready-to-book-trips',
+	},
+	{
+		title: 'Plan a Trip',
+		url: '/plan-a-bespoke-trip',
+	},
+];
+
+function NavLink({ nav }) {
+	const pathname = usePathname();
 
 	return (
-		<div className="g-header__links">
-			{/* {title && <div className="g-header__links__title t-l-2">{title}</div>} */}
-			{items && (
-				<ul className="g-header__links__ul t-h-5">
-					{items.map((el, i) => {
-						const { link, title } = el;
-						const isActive = checkIfActive({
-							pathName: pathName,
-							url: link?.route,
-						});
+		<ul className="g-header__nav__links user-select-disable">
+			{nav.map((item) => {
+				// TODO
+				// Active state
+				// Megamenu
+				const isActive = false;
+				// const isActive = checkIfActive({
+				// 	pathname,
+				// 	url: item.url,
+				// });
 
-						return (
-							<li
-								key={`link-${baseId}-${i}`}
-								className={clsx({ 'is-active': isActive })}
-							>
-								<Link href={link.route}>{title}</Link>
-							</li>
-						);
-					})}
-				</ul>
-			)}
-		</div>
+				// console.log(pathname, item.url);
+
+				return (
+					<li className={clsx({ 'is-active': isActive })}>
+						<Link href={item?.url}>
+							{item?.title}
+							{item.hasCaret && (
+								<>
+									{' '}
+									<span className="icon-caret-down" />
+								</>
+							)}
+						</Link>
+					</li>
+				);
+			})}
+		</ul>
 	);
 }
+const FrenchFlag = () => {
+	const dotVariants = {
+		hover: (i) => ({
+			y: [0, -8, 0],
+			transition: {
+				duration: 1.2,
+				repeat: Infinity,
+				ease: 'easeInOut',
+				delay: i * 0.2,
+			},
+		}),
+	};
 
-import { motion } from 'framer-motion';
+	return (
+		<div className="g-header__flag">
+			{[0, 1, 2].map((i) => (
+				<motion.div
+					key={i}
+					className="g-header__flag-dot"
+					custom={i}
+					variants={dotVariants}
+				/>
+			))}
+		</div>
+	);
+};
 
 export default function Header({ data, isActive }) {
 	const pathname = usePathname();
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+	const [isScrolled, setIsScrolled] = useState(false);
+
+	useEffect(() => {
+		const handleScroll = () => {
+			setIsScrolled(window.scrollY > 20);
+		};
+
+		window.addEventListener('scroll', handleScroll);
+		return () => window.removeEventListener('scroll', handleScroll);
+	}, []);
 
 	const onToggleMenu = () => {
 		setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -53,60 +124,27 @@ export default function Header({ data, isActive }) {
 		setIsMobileMenuOpen(false);
 	}, [pathname]);
 
-	const dotVariants = {
-		hover: (i) => ({
-			y: [0, -8, 0, 0, 0],
-			transition: {
-				duration: 1.6,
-				repeat: Infinity,
-				ease: 'easeInOut',
-				delay: i * 0.2,
-			},
-		}),
-	};
-
 	return (
 		<>
-			<header className={clsx('g-header', { 'is-active': isActive })}>
+			<header
+				className={clsx('g-header', {
+					'is-scrolled': isScrolled,
+					'is-active': isActive,
+				})}
+			>
 				<div className="g-header__primary">
-					<h1 className="g-header__logo t-h-2">
-						<Link href={'/'}>SPOTS</Link>
-					</h1>
-					{data?.menu?.map((el, i) => (
-						<HeaderLinks
-							key={`header-link-${i}`}
-							title={el?.title}
-							items={el?.items}
-						/>
-					))}
-					<Button className="btn-outline cr-white">Get in Touch</Button>
-				</div>
-
-				<div className="g-header__nav t-l-1">
-					<Link href={'/paris/guides'}>
-						Guides <span className="icon-caret-down" />
+					<Link href={'/'} className="g-header__logo t-h-3">
+						SPOTS
 					</Link>
-					<Link href={'/paris/locations'}>
-						Find Spots <span className="icon-caret-down" />
-					</Link>
-					<Link href={'/paris/guides'}>Ready-to-book Trips</Link>
-
-					<motion.div className="g-header__subheading t-h-5" whileHover="hover">
-						{/* <div className="t-h-5"> */}
-						An ever-growing collection of Parisian treasures
-						<div className="g-header__flag">
-							{[0, 1, 2].map((i) => (
-								<motion.div
-									key={i}
-									className="g-header__flag-dot"
-									custom={i}
-									variants={dotVariants}
-								/>
-							))}
-						</div>
-						refreshed weekly
-						{/* </div> */}
+					<motion.div className="g-header__tagline t-h-5" whileHover="hover">
+						<FrenchFlag />
+						An ever-growing collection of Parisian treasures refreshed weekly
 					</motion.div>
+					<Button className="g-header__cta btn">Contact</Button>
+				</div>
+				<div className="g-header__nav t-l-1">
+					<NavLink nav={leftNav} />
+					<NavLink nav={rightNav} />
 				</div>
 			</header>
 
