@@ -1,4 +1,6 @@
 .c-category-pill-list {
 	display: flex;
-	gap: 5px;
+	gap: 8px 5px;
+	min-width: 0px;
+	flex-wrap: wrap;
 }

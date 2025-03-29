@@ -14,7 +14,7 @@
 	align-items: center;
 	justify-content: center;
 	gap: 10px;
-	margin-bottom: var(--s-3-v);
+	margin-bottom: var(--s-4-v);
 
 	.pill:not(.is-active):not(:hover) {
 		--cr-primary: var(--cr-subtle) !important;

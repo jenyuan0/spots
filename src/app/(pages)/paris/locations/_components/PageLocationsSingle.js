@@ -1,15 +1,20 @@
 'use client';
 
 import React from 'react';
-import { hasArrayValue } from '@/lib/helpers';
+import clsx from 'clsx';
+import { hasArrayValue, formatAddress } from '@/lib/helpers';
 import CustomPortableText from '@/components/CustomPortableText';
-import Carousel from '@/components/Carousel';
 import Img from '@/components/Image';
+import Link from '@/components/CustomLink';
+import CategoryPillList from '@/components/CategoryPillList';
+import ResponsiveGrid from '@/components/ResponsiveGrid';
 import LocationCard from '@/components/LocationCard';
 import GuideCard from '@/components/GuideCard';
+import useLightbox from '@/hooks/useLightbox';
 
 export default function PageLocationsSingle({ data }) {
 	const {
+		color,
 		title,
 		geo,
 		address,
@@ -18,7 +23,6 @@ export default function PageLocationsSingle({ data }) {
 		subcategories,
 		images,
 		content,
-		contentItinerary,
 		urls,
 		fees,
 		relatedLocations,
@@ -26,108 +30,150 @@ export default function PageLocationsSingle({ data }) {
 		defaultRelatedLocations,
 		defaultRelatedGuides,
 	} = data || {};
+	const addressString =
+		address &&
+		Object.values(address)
+			.filter((value) => value)
+			.join(', ');
+	const { setLightboxImages, setLightboxActive } = useLightbox();
+
+	// TODO
+	// Breadcrumb
+	// Share
+	// Why we like it?
 
 	return (
 		<>
-			<section className="p-locations-single data-container">
-				<h1 className="p-locations-single__title">{title}</h1>
-
-				<div className="data-container-small">
-					{images && (
-						<Carousel
-							isShowDots={true}
-							isAutoplay={true}
-							autoplayInterval={3000}
-							itemWidth="100%"
-						>
-							{images.map((image) => (
-								<Img key={image.id} image={image} />
-							))}
-						</Carousel>
-					)}
-				</div>
-
-				<div className="p-locations-single__content">
-					<div className="data-block">
-						CONTENT:{' '}
-						{content ? <CustomPortableText blocks={content} /> : 'EMPTY'}
-						<br />
-						<br />
-						CONTENT (Itinerary only:){' '}
-						{contentItinerary ? (
-							<CustomPortableText blocks={contentItinerary} />
-						) : (
-							'EMPTY'
+			<section className="p-locations-single__body">
+				<div className="p-locations-single__text">
+					<div className="p-locations-single__breadcrumb t-l-2">
+						<Link href="/paris/locations">Paris Locations</Link>
+						{categories && (
+							<>
+								{' / '}
+								<Link href={`/paris/locations/${categories[0].slug}`}>
+									{categories[0].title}
+								</Link>
+							</>
 						)}
-						<br />
-						<br />
-						lat: {geo?.lat || 'EMPTY'}
-						<br />
-						lng: {geo?.lng || 'EMPTY'}
-						<br />
-						street: {address?.street || 'EMPTY'}
-						<br />
-						city: {address?.city || 'EMPTY'}
-						<br />
-						zip: {address?.zip || 'EMPTY'}
-						<br />
-						<br />
-						PRICE: {price || 'EMPTY'}
-						<br />
-						<br />
-						CATEGORIES: {categories?.map((cat) => cat.title).join(' • ')}
-						<br />
-						SUBCATEGORIES: {subcategories?.map((cat) => cat.title).join(' • ')}
-						<br />
-						<br />
-						URLs: {urls?.join(' • ') || 'EMPTY'}
-						<br />
-						Fees: {fees?.join(' • ') || 'EMPTY'}
 					</div>
-				</div>
-
-				<div className="data-block">
-					{(hasArrayValue(relatedLocations) ||
-						hasArrayValue(defaultRelatedLocations)) && (
-						<section className="p-guides-related">
-							<h2 className="p-guides-related__title">Related Guides</h2>
-							<div className="p-guides-related__content">
-								{[...Array(4)].map((_, index) => {
-									const relatedItems = relatedLocations || [];
-									const defaultItems = defaultRelatedLocations || [];
-									const allItems = [...relatedItems, ...defaultItems];
-									const item = allItems[index];
-									return (
-										item && (
-											<LocationCard key={`${item._id}-${index}`} data={item} />
-										)
-									);
-								})}
-							</div>
-						</section>
+					<h1 className="p-locations-single__heading t-h-1">{title}</h1>
+					{address && (
+						<div className="p-locations-single__address wysiwyg-b-1">
+							<h3 className="t-l-1">Address</h3>
+							<p className="t-h-3">{formatAddress(address)}</p>
+							<Link
+								className={clsx('btn-underline', color && `cr-${color}-d`)}
+								href={`https://www.google.com/maps/dir//${encodeURIComponent(addressString)}`}
+								target="_blank"
+							>
+								Get Direction
+							</Link>
+						</div>
 					)}
-
-					{(hasArrayValue(relatedGuides) ||
-						hasArrayValue(defaultRelatedGuides)) && (
-						<section className="p-guides-related">
-							<h2 className="p-guides-related__title">Related Guides</h2>
-							<div className="p-guides-related__content">
-								{[...Array(4)].map((_, index) => {
-									const relatedItems = relatedGuides || [];
-									const defaultItems = defaultRelatedGuides || [];
-									const allItems = [...relatedItems, ...defaultItems];
-									const item = allItems[index];
-									return (
-										item && (
-											<GuideCard key={`${item._id}-${index}`} data={item} />
-										)
-									);
-								})}
-							</div>
-						</section>
+					{hasArrayValue(urls) && (
+						<div className="p-locations-single__urls wysiwyg-b-1">
+							<ul>
+								{urls.map((url, i) => (
+									<li key={`url-${i}`}>
+										<Link href={url} target={'_blank'}>
+											{url
+												.replace(/^(https?:\/\/)?(www\.)?/, '')
+												.replace(/\/$/, '')}
+										</Link>
+									</li>
+								))}
+							</ul>
+						</div>
+					)}
+					{content && (
+						<div className="p-locations-single__content wysiwyg-b-1">
+							<CustomPortableText blocks={content} />
+						</div>
+					)}
+					{(hasArrayValue(categories) || hasArrayValue(subcategories)) && (
+						<div className="p-locations-single__categories">
+							<CategoryPillList
+								categories={categories}
+								subcategories={subcategories}
+								isLink={true}
+							/>
+						</div>
+					)}
+					{hasArrayValue(fees) && (
+						<div className="p-locations-single__fees wysiwyg-b-1">
+							<h3 className="t-l-1">Fees</h3>
+							<p>{fees.map((fee) => fee).join(' • ')}</p>
+						</div>
 					)}
 				</div>
+				{images && (
+					<div className="p-locations-single__images">
+						{images.map((image, i) => (
+							<button
+								key={`image-${i}`}
+								className="p-locations-single__image bg-subtle"
+								onClick={() => {
+									setLightboxImages(images, i);
+									setLightboxActive(true);
+								}}
+							>
+								<Img key={`image-${i}`} image={image} />
+							</button>
+						))}
+					</div>
+				)}
 			</section>
+
+			{(hasArrayValue(relatedLocations) ||
+				hasArrayValue(defaultRelatedLocations)) && (
+				<section className="p-locations-single__related">
+					<h2 className="p-locations-single__related__title t-h-2">
+						More to Discover
+					</h2>
+					<div className="p-locations-single__related__list">
+						<ResponsiveGrid>
+							{[...Array(12)].map((_, index) => {
+								const relatedItems = relatedLocations || [];
+								const defaultItems = defaultRelatedLocations || [];
+								const allItems = [...relatedItems, ...defaultItems];
+								const item = allItems[index];
+								return (
+									item && (
+										<LocationCard
+											key={`${item._id}-${index}`}
+											data={item}
+											layout="horizontal"
+										/>
+									)
+								);
+							})}
+						</ResponsiveGrid>
+					</div>
+				</section>
+			)}
+
+			{(hasArrayValue(relatedGuides) ||
+				hasArrayValue(defaultRelatedGuides)) && (
+				<section className="p-locations-single__related">
+					<h2 className="p-locations-single__related__title t-h-2">
+						From our Guides
+					</h2>
+					<div className="p-locations-single__related__list">
+						<ResponsiveGrid>
+							{[...Array(12)].map((_, index) => {
+								const relatedItems = relatedGuides || [];
+								const defaultItems = defaultRelatedGuides || [];
+								const allItems = [...relatedItems, ...defaultItems];
+								const item = allItems[index];
+								return (
+									item && <GuideCard key={`${item._id}-${index}`} data={item} />
+								);
+							})}
+						</ResponsiveGrid>
+					</div>
+				</section>
+			)}
 		</>
 	);
 }

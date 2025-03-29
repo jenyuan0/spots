@@ -1,14 +1,13 @@
-import React, { Suspense, useEffect, useRef, useState } from 'react';
+import React from 'react';
 import clsx from 'clsx';
-import { formatAddress } from '@/lib/helpers';
 import { format } from 'date-fns';
-import Carousel from '@/components/Carousel';
-import Link from 'next/link';
+import { hasArrayValue, formatAddress } from '@/lib/helpers';
+import Link from '@/components/CustomLink';
 import Img from '@/components/Image';
 import CustomPortableText from '@/components/CustomPortableText';
+import Carousel from '@/components/Carousel';
 import CategoryPillList from '@/components/CategoryPillList';
 import useLightbox from '@/hooks/useLightbox';
-import { hasArrayValue } from '@/lib/helpers';
 
 export default function MagnifyLocation({ data, color = 'green' }) {
 	const {
@@ -50,7 +49,6 @@ export default function MagnifyLocation({ data, color = 'green' }) {
 							<p key={`res-${i}`}>
 								{timeRange && <div className="t-h-4">{timeRange}</div>}
 								{res?.notes && <CustomPortableText blocks={res.notes} />}
-
 								{res?.attachments && (
 									<ul>
 										{res?.attachments.map((att, i) => (
@@ -111,14 +109,6 @@ export default function MagnifyLocation({ data, color = 'green' }) {
 					</ul>
 				</div>
 			)}
-			{(hasArrayValue(categories) || hasArrayValue(subcategories)) && (
-				<div className="g-magnify-locations__categories">
-					<CategoryPillList
-						categories={categories}
-						subcategories={subcategories}
-					/>
-				</div>
-			)}
 			{content && (
 				<div className="g-magnify-locations__content wysiwyg-b-1">
 					<CustomPortableText blocks={content} />
@@ -127,6 +117,15 @@ export default function MagnifyLocation({ data, color = 'green' }) {
 			{contentItinerary && (
 				<div className="g-magnify-locations__content wysiwyg-b-1">
 					<CustomPortableText blocks={contentItinerary} />
+				</div>
+			)}
+			{(hasArrayValue(categories) || hasArrayValue(subcategories)) && (
+				<div className="g-magnify-locations__categories">
+					<CategoryPillList
+						categories={categories}
+						subcategories={subcategories}
+						isLink={true}
+					/>
 				</div>
 			)}
 			{hasArrayValue(fees) && (

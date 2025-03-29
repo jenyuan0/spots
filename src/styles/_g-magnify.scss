@@ -52,9 +52,19 @@
 
 .g-magnify-locations {
 	&__heading {
-		padding-inline: var(--s-4-h);
-		margin-bottom: var(--s-4-v);
+		margin: 0 var(--s-4-h) var(--s-4-v);
 		text-align: center;
+	}
+
+	&__categories {
+		.c-category-pill-list {
+			justify-content: center;
+		}
+
+		.pill:not(.is-active):not(:hover) {
+			--cr-primary: var(--cr-subtle) !important;
+			--cr-secondary: var(--cr-brown) !important;
+		}
 	}
 
 	&__res {
@@ -66,6 +76,15 @@
 		border-radius: var(--br-1);
 	}
 
+	&__urls,
+	&__content,
+	&__address,
+	&__fees,
+	&__categories {
+		border-top: 1px solid var(--cr-subtle);
+		padding: var(--s-3-v) var(--s-3-h);
+	}
+
 	&__images {
 		margin-bottom: var(--s-3-v);
 	}
@@ -75,22 +94,6 @@
 
 		img {
 			height: 360px;
-			transition: var(--t-3);
 		}
-
-		@media (hover: hover) {
-			img:hover {
-				opacity: 0.8;
-			}
-		}
-	}
-
-	&__content,
-	&__address,
-	&__fees,
-	&__categories,
-	&__urls {
-		border-top: 1px solid var(--cr-subtle);
-		padding: var(--s-3-v) var(--s-3-h);
 	}
 }

@@ -8,6 +8,7 @@
 	box-shadow: unset;
 	border: unset;
 	outline: unset;
+	user-select: none;
 }
 
 .btn,
@@ -21,7 +22,6 @@
 	@include buttonProperties;
 
 	cursor: pointer;
-	user-select: none;
 	height: var(--height);
 	gap: 15px;
 	border-radius: calc(var(--height) / 2);

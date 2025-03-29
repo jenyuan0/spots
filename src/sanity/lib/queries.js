@@ -685,13 +685,13 @@ export const pageLocationsSingleQuery = groq`
 		"defaultRelatedLocations": *[_type == "gLocations"
 			&& count(categories[@._ref in ^.^.categories[]._ref ]) > 0
 			&& _id != ^._id
-			] | order(publishedAt desc, _createdAt desc) [0..3] {
+			] | order(publishedAt desc, _createdAt desc) [0..11] {
 				${getLocationsData('card')}
 			},
 		"defaultRelatedGuides": *[_type == "gGuides"
 			&& count(categories[@._ref in ^.^.categories[]._ref ]) > 0
 			&& _id != ^._id
-			] | order(publishedAt desc, _createdAt desc) [0..3] {
+			] | order(publishedAt desc, _createdAt desc) [0..11] {
 				${getGuidesData('card')}
 			}
 	}`;

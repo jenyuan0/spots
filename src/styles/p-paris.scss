@@ -20,6 +20,11 @@
 			align-items: center;
 			gap: 10px;
 		}
+
+		.pill:not(.is-active):not(:hover) {
+			--cr-primary: var(--cr-subtle) !important;
+			--cr-secondary: var(--cr-brown) !important;
+		}
 	}
 }
 

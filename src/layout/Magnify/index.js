@@ -6,16 +6,15 @@ import useOutsideClick from '@/hooks/useOutsideClick';
 import useKey from '@/hooks/useKey';
 import useMagnify from '@/hooks/useMagnify';
 import useLightbox from '@/hooks/useLightbox';
-import { fileMeta } from '@/sanity/lib/queries';
 import MagnifyLocation from './MagnifyLocation';
-import { categoryMeta, subcategoryMeta } from '@/sanity/lib/queries';
+import { getLocationsData, fileMeta } from '@/sanity/lib/queries';
 
 export function Magnify() {
 	const [isActive, setIsActive] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [content, setContent] = useState({});
-	const [color, setColor] = useState('brown');
 	const [pageSlug, setPageSlug] = useState(null);
+	const [color, setColor] = useState('brown');
 	const { mag, clearMag } = useMagnify();
 	const { lightboxActive } = useLightbox();
 	const searchParams = useSearchParams();
@@ -30,13 +29,7 @@ export function Magnify() {
 			const [content, reservations] = await Promise.all([
 				client.fetch(
 					`*[_type == "gLocations" && slug.current == "${dataSlug}"][0]{
-						...,
-						categories[]->{
-							${categoryMeta}
-						},
-						subcategories[]->{
-							${subcategoryMeta}
-						}
+						${getLocationsData()}
 					}`
 				),
 				client.fetch(`
@@ -69,10 +62,6 @@ export function Magnify() {
 
 	useEffect(() => {
 		const mParam = searchParams.get('m');
-		const cParam = searchParams.get('mc');
-
-		if (cParam) setColor(cParam);
-
 		if (mParam) {
 			fetchLocationContent(mParam);
 		} else {
@@ -90,19 +79,21 @@ export function Magnify() {
 
 			// Remove existing 'm' parameter if present
 			params.delete('m');
-			params.delete('mc');
 
 			// Add new 'm' parameter
-			// const mValue = `/paris/${mag.type}/${mag.slug}`;
 			const mValue = `/${mag.slug}`;
 
 			// If there are other params, append with &m=, otherwise use ?m=
 			const separator = params.toString() ? '&' : '?';
-			const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}${separator}m=${mValue}${mag?.color ? `&mc=${mag.color}` : ''}`;
+			const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}${separator}m=${mValue}`;
 
 			window.history.pushState({}, '', newUrl);
 		}
-	}, [mag?.slug]);
+
+		if (mag?.color) {
+			setColor(mag?.color);
+		}
+	}, [mag]);
 
 	const cleanup = () => {
 		if (timerRef.current) {
@@ -127,9 +118,7 @@ export function Magnify() {
 			const url = new URL(window.location.href);
 			const params = url.searchParams;
 
-			// Remove only specific parameters
 			params.delete('m');
-			params.delete('mc');
 
 			// Construct new URL with remaining parameters
 			const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;

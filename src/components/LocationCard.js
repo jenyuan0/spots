@@ -13,10 +13,10 @@ import { IconMaximize } from '@/components/SvgIcons';
 export default function LocationCard({
 	data,
 	layout = 'vertical',
-	color,
 	hasDirection = false,
 }) {
 	const {
+		color,
 		images,
 		title,
 		slug,
@@ -26,7 +26,6 @@ export default function LocationCard({
 		res,
 		content,
 	} = data || {};
-	const cardColor = color || data.color;
 	const url = `/paris/locations/${slug}`;
 	const addressString =
 		address &&
@@ -41,7 +40,7 @@ export default function LocationCard({
 	return (
 		<div
 			className={'c-card'}
-			style={{ '--cr-primary': `var(--cr-${cardColor}-d, var(--cr-brown))` }}
+			style={{ '--cr-primary': `var(--cr-${color}-d, var(--cr-brown))` }}
 			data-layout={layout}
 		>
 			<div className="c-card__thumb">
@@ -91,7 +90,7 @@ export default function LocationCard({
 				)}
 				<div className="c-card__actions">
 					<Button
-						className={clsx('btn-underline', cardColor && `!cr-${cardColor}-d`)}
+						className={clsx('btn-underline', color && `!cr-${color}-d`)}
 						href={url}
 						{...(!hasPressedKeys && {
 							onClick: (e) => {
@@ -99,7 +98,7 @@ export default function LocationCard({
 								setMag({
 									slug: slug,
 									type: 'location',
-									color: cardColor,
+									color: color,
 								});
 							},
 						})}
@@ -108,10 +107,7 @@ export default function LocationCard({
 					</Button>
 					{hasDirection && (
 						<Button
-							className={clsx(
-								'btn-underline',
-								cardColor && `!cr-${cardColor}-d`
-							)}
+							className={clsx('btn-underline', color && `!cr-${color}-d`)}
 							href={`https://www.google.com/maps/dir//${encodeURIComponent(addressString)}`}
 							target="_blank"
 						>

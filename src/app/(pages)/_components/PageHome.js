@@ -163,7 +163,7 @@ export function Hero({ data, setPrimaryColor }) {
 	const checkOverlap = (x, y, existingPositions) => {
 		const minDistance = boundary.width * 0.05;
 		const centerY = boundary.height / 2;
-		const isCenterArea = y > centerY - 50 && y < centerY + 50;
+		const isCenterArea = y > centerY - 100 && y < centerY + 100;
 		const hasOverlap = existingPositions.some((pos) => {
 			const dx = pos.x - x;
 			const dy = pos.y - y;
@@ -176,8 +176,8 @@ export function Hero({ data, setPrimaryColor }) {
 	// Generate all spots first
 	useEffect(() => {
 		const generateSpots = () => {
-			const paddingX = Math.min(boundary.width * 0.1, 100);
-			const paddingY = Math.max(boundary.height * 0.1, 100);
+			const paddingX = Math.min(boundary.width * 0.1, 150);
+			const paddingY = Math.max(boundary.height * 0.1, 150);
 			const newPositions = [];
 
 			heroSpots?.forEach(() => {
