@@ -26,15 +26,22 @@ export default function CustomPortableText({ blocks, hasPTag = true }) {
 				const { value } = data;
 				if (!value?.asset) return;
 
-				const { link } = value || {};
-				if (link && link?.route) {
-					return (
+				const { link, caption } = value || {};
+				const image =
+					link && link?.route ? (
 						<Link href={link.route} isNewTab={link.isNewTab}>
 							<Img image={value} />
 						</Link>
+					) : (
+						<Img image={value} />
 					);
-				}
-				return <Img image={value} />;
+
+				return (
+					<div className="c-portable-image">
+						{image}
+						{caption && <p className="c-portable-image__caption">{caption}</p>}
+					</div>
+				);
 			},
 			iframe: ({ value }) => {
 				const { embedSnippet } = value;
@@ -45,12 +52,12 @@ export default function CustomPortableText({ blocks, hasPTag = true }) {
 				const heightMatch = embedSnippet.match(/height="\s*(\d+)"/);
 				const width = widthMatch?.[1];
 				const height = heightMatch?.[1];
-				const aspectRatio = width && height ? width / height : 1.77;
+				const aspectRatio = width && height ? width / height : null;
 
 				return (
 					<div
 						className="c-iframe"
-						style={{ '--aspect-ratio': aspectRatio }}
+						style={aspectRatio && { '--aspect-ratio': aspectRatio }}
 						dangerouslySetInnerHTML={{ __html: embedSnippet }}
 					/>
 				);

@@ -116,7 +116,7 @@
 	.c-card__thumb {
 		flex: 1;
 		max-width: 200px;
-		min-height: 140px;
+		aspect-ratio: 1.25;
 		border-top-right-radius: 0;
 		border-bottom-right-radius: 0;
 	}

@@ -40,72 +40,76 @@ export default function PageLocationsSingle({ data }) {
 	// TODO
 	// Breadcrumb
 	// Share
-	// Why we like it?
+	// Why we like it? section
+	// and add price info
 
 	return (
 		<>
 			<section className="p-locations-single__body">
-				<div className="p-locations-single__text">
-					<div className="p-locations-single__breadcrumb t-l-2">
-						<Link href="/paris/locations">Paris Locations</Link>
-						{categories && (
-							<>
-								{' / '}
-								<Link href={`/paris/locations/${categories[0].slug}`}>
-									{categories[0].title}
+				<div className="p-locations-single__text-container">
+					<div className="p-locations-single__text-flex" />
+					<div className="p-locations-single__text">
+						<div className="p-locations-single__breadcrumb t-l-2">
+							<Link href="/paris/locations">Paris Locations</Link>
+							{categories && (
+								<>
+									{' / '}
+									<Link href={`/paris/locations/${categories[0].slug}`}>
+										{categories[0].title}
+									</Link>
+								</>
+							)}
+						</div>
+						<h1 className="p-locations-single__heading t-h-1">{title}</h1>
+						{address && (
+							<div className="p-locations-single__address wysiwyg-b-1">
+								<h3 className="t-l-1">Address</h3>
+								<p className="t-h-3">{formatAddress(address)}</p>
+								<Link
+									className={clsx('btn-underline', color && `cr-${color}-d`)}
+									href={`https://www.google.com/maps/dir//${encodeURIComponent(addressString)}`}
+									target="_blank"
+								>
+									Get Direction
 								</Link>
-							</>
+							</div>
+						)}
+						{hasArrayValue(urls) && (
+							<div className="p-locations-single__urls wysiwyg-b-1">
+								<ul>
+									{urls.map((url, i) => (
+										<li key={`url-${i}`}>
+											<Link href={url} target={'_blank'}>
+												{url
+													.replace(/^(https?:\/\/)?(www\.)?/, '')
+													.replace(/\/$/, '')}
+											</Link>
+										</li>
+									))}
+								</ul>
+							</div>
+						)}
+						{content && (
+							<div className="p-locations-single__content wysiwyg-b-1">
+								<CustomPortableText blocks={content} />
+							</div>
+						)}
+						{(hasArrayValue(categories) || hasArrayValue(subcategories)) && (
+							<div className="p-locations-single__categories">
+								<CategoryPillList
+									categories={categories}
+									subcategories={subcategories}
+									isLink={true}
+								/>
+							</div>
+						)}
+						{hasArrayValue(fees) && (
+							<div className="p-locations-single__fees wysiwyg-b-1">
+								<h3 className="t-l-1">Fees</h3>
+								<p>{fees.map((fee) => fee).join(' • ')}</p>
+							</div>
 						)}
 					</div>
-					<h1 className="p-locations-single__heading t-h-1">{title}</h1>
-					{address && (
-						<div className="p-locations-single__address wysiwyg-b-1">
-							<h3 className="t-l-1">Address</h3>
-							<p className="t-h-3">{formatAddress(address)}</p>
-							<Link
-								className={clsx('btn-underline', color && `cr-${color}-d`)}
-								href={`https://www.google.com/maps/dir//${encodeURIComponent(addressString)}`}
-								target="_blank"
-							>
-								Get Direction
-							</Link>
-						</div>
-					)}
-					{hasArrayValue(urls) && (
-						<div className="p-locations-single__urls wysiwyg-b-1">
-							<ul>
-								{urls.map((url, i) => (
-									<li key={`url-${i}`}>
-										<Link href={url} target={'_blank'}>
-											{url
-												.replace(/^(https?:\/\/)?(www\.)?/, '')
-												.replace(/\/$/, '')}
-										</Link>
-									</li>
-								))}
-							</ul>
-						</div>
-					)}
-					{content && (
-						<div className="p-locations-single__content wysiwyg-b-1">
-							<CustomPortableText blocks={content} />
-						</div>
-					)}
-					{(hasArrayValue(categories) || hasArrayValue(subcategories)) && (
-						<div className="p-locations-single__categories">
-							<CategoryPillList
-								categories={categories}
-								subcategories={subcategories}
-								isLink={true}
-							/>
-						</div>
-					)}
-					{hasArrayValue(fees) && (
-						<div className="p-locations-single__fees wysiwyg-b-1">
-							<h3 className="t-l-1">Fees</h3>
-							<p>{fees.map((fee) => fee).join(' • ')}</p>
-						</div>
-					)}
 				</div>
 				{images && (
 					<div className="p-locations-single__images">

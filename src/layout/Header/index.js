@@ -135,7 +135,7 @@ export default function Header({ data, isActive }) {
 		<>
 			<header
 				ref={ref}
-				className={clsx('g-header', {
+				className={clsx('g-header', 'use-select-disable', {
 					'is-scrolled': isScrolled,
 					'is-active': isActive,
 				})}
@@ -144,13 +144,22 @@ export default function Header({ data, isActive }) {
 					<Link href={'/'} className="g-header__logo t-h-3">
 						SPOTS
 					</Link>
-					<motion.div className="g-header__tagline t-h-5" whileHover="hover">
-						<FrenchFlag />
-						An ever-growing collection of Parisian treasures refreshed weekly
-					</motion.div>
+					<div className="g-header__primary__center">
+						<motion.div className="g-header__tagline t-h-5" whileHover="hover">
+							<FrenchFlag />
+							An ever-growing collection of Parisian treasures refreshed weekly
+						</motion.div>
+						<div
+							className="g-header__primary__nav t-l-1"
+							aria-hidden={isScrolled}
+						>
+							<NavLink nav={leftNav} />
+							<NavLink nav={rightNav} />
+						</div>
+					</div>
 					<Button className="g-header__cta btn">Contact</Button>
 				</div>
-				<div className="g-header__nav t-l-1">
+				<div className="g-header__nav t-l-1" aria-hidden={!isScrolled}>
 					<NavLink nav={leftNav} />
 					<NavLink nav={rightNav} />
 				</div>

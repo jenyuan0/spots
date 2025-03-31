@@ -44,7 +44,7 @@ export default function StudioPage() {
 				}
 
 				[data-fullscreen='false'] {
-					height: 10em !important;
+					// height: 10em !important;
 				}
 			`}</style>
 		</div>

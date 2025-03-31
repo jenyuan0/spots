@@ -13,10 +13,24 @@
 
 	&__text {
 		position: sticky;
-		top: calc(var(--s-header) + var(--s-3-v) * 2 + var(--s-section));
-		align-self: flex-start;
-		flex: 1;
-		max-width: 600px;
+		bottom: var(--s-4-v);
+		min-height: calc(
+			100vh - (var(--s-header) + var(--s-3-v) * 2 + var(--s-section))
+		);
+		min-height: calc(
+			100svh - (var(--s-header) + var(--s-3-v) * 2 + var(--s-section))
+		);
+
+		&-container {
+			display: flex;
+			flex-direction: column;
+			flex: 1;
+			// max-width: 600px;
+		}
+
+		&-flex {
+			flex: 1;
+		}
 	}
 
 	&__heading {

@@ -3,6 +3,7 @@ import { ImageIcon } from '@sanity/icons';
 export default function customImage({
 	title,
 	name = 'image',
+	hasCaptionOptions = false,
 	hasCropOptions = false,
 	hasLinkOptions = false,
 	...props
@@ -25,6 +26,14 @@ export default function customImage({
 				name: 'alt',
 				type: 'string',
 			},
+			...(hasCaptionOptions
+				? [
+						{
+							name: 'caption',
+							type: 'string',
+						},
+					]
+				: []),
 			...(hasCropOptions
 				? [
 						{

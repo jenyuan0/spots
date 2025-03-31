@@ -1,29 +1,39 @@
 .g-header {
 	position: sticky;
+	height: 100px;
 	top: var(--s-3-v);
-	display: flex;
-	flex-direction: column;
 	width: var(--width-med);
 	margin: var(--s-3-v) auto;
+	overflow: hidden;
 	background-color: var(--cr-cream);
 	border: 1px solid;
 	box-shadow: var(--shadow-1-transparent);
 	border-radius: var(--br-1);
 	z-index: 100;
 	transition:
+		height var(--t-2),
 		background var(--t-2),
 		box-shadow var(--t-3);
 
-	&.is-scrolled {
-		background-color: var(--cr-white);
-		box-shadow: var(--shadow-1);
-	}
-
 	&__primary {
+		position: relative;
 		display: flex;
 		align-items: center;
-		gap: 20px;
+		gap: var(--s-4-h);
 		padding: 8px var(--s-3-h);
+		z-index: 101;
+
+		&__center {
+			position: relative;
+			flex: 1;
+		}
+
+		&__nav {
+			display: flex;
+			justify-content: space-between;
+			transform: translate3d(0, 80px, 0);
+			transition: transform var(--t-2);
+		}
 	}
 
 	&__logo {
@@ -32,11 +42,14 @@
 	}
 
 	&__tagline {
+		position: absolute;
+		inset: 0;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		gap: 20px;
 		flex: 1;
+		transition: transform var(--t-2);
 	}
 
 	&__flag {
@@ -76,6 +89,7 @@
 		justify-content: space-between;
 		padding: 12px var(--s-3-h);
 		border-top: 1px solid;
+		transition: opacity var(--t-2);
 
 		&__links {
 			display: flex;
@@ -83,5 +97,23 @@
 			align-items: center;
 			white-space: nowrap;
 		}
+	}
+
+	&.is-scrolled {
+		height: 62px;
+		box-shadow: var(--shadow-1);
+	}
+
+	&.is-scrolled &__tagline {
+		transform: translate3d(0, 60px, 0);
+	}
+
+	&.is-scrolled &__primary__nav {
+		transform: translate3d(0, 0, 0);
+	}
+
+	&.is-scrolled &__nav {
+		opacity: 0;
+		pointer-events: none;
 	}
 }

@@ -58,7 +58,7 @@ export default defineType({
 				],
 			},
 		},
-		customImage({ hasLinkOptions: true }),
+		customImage({ hasLinkOptions: true, hasCaptionOptions: true }),
 		customIframe(),
 		{ title: 'Table', type: 'portableTable' },
 	],

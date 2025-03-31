@@ -68,7 +68,7 @@ export default defineType({
 		},
 		{
 			name: 'content',
-			type: 'portableTextSimple',
+			type: 'portableText',
 		},
 		{
 			title: 'Content (Itinerary Only)',

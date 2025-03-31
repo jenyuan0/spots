@@ -44,7 +44,6 @@ export default function MagnifyLocation({ data, color = 'green' }) {
 							(resEnd
 								? `${format(resStart, 'MMMM do, h:mm aaa')}—${format(resEnd, 'h:mm aaa')}`
 								: format(resStart, 'MMMM do, h:mm aaa'));
-
 						return (
 							<p key={`res-${i}`}>
 								{timeRange && <div className="t-h-4">{timeRange}</div>}
