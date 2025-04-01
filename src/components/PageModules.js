@@ -36,6 +36,16 @@ export default function PageModules({ module }) {
 		case 'locationList':
 			return <LocationList data={module} />;
 
+		case 'locationSingle':
+			return (
+				<LocationCard
+					data={module?.location}
+					additionalContent={module?.additionalContent}
+					layout="embed"
+					hasDirection={true}
+				/>
+			);
+
 		case 'gAds':
 			return <Ad data={module} />;
 

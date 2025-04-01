@@ -6,6 +6,7 @@ import { hasArrayValue, formatAddress } from '@/lib/helpers';
 import CustomPortableText from '@/components/CustomPortableText';
 import Img from '@/components/Image';
 import Link from '@/components/CustomLink';
+import Breadcrumb from '@/components/Breadcrumb';
 import CategoryPillList from '@/components/CategoryPillList';
 import ResponsiveGrid from '@/components/ResponsiveGrid';
 import LocationCard from '@/components/LocationCard';
@@ -36,9 +37,26 @@ export default function PageLocationsSingle({ data }) {
 			.filter((value) => value)
 			.join(', ');
 	const { setLightboxImages, setLightboxActive } = useLightbox();
+	const breadcrumb = [
+		{
+			title: 'Paris',
+			url: '/paris',
+		},
+		{
+			title: 'Locations',
+			url: '/paris/locations',
+		},
+		...(categories?.length
+			? [
+					{
+						title: categories[0].title,
+						url: `/paris/locations/${categories[0].slug}`,
+					},
+				]
+			: []),
+	];
 
 	// TODO
-	// Breadcrumb
 	// Share
 	// Why we like it? section
 	// and add price info
@@ -49,17 +67,7 @@ export default function PageLocationsSingle({ data }) {
 				<div className="p-locations-single__text-container">
 					<div className="p-locations-single__text-flex" />
 					<div className="p-locations-single__text">
-						<div className="p-locations-single__breadcrumb t-l-2">
-							<Link href="/paris/locations">Paris Locations</Link>
-							{categories && (
-								<>
-									{' / '}
-									<Link href={`/paris/locations/${categories[0].slug}`}>
-										{categories[0].title}
-									</Link>
-								</>
-							)}
-						</div>
+						<Breadcrumb data={breadcrumb} />
 						<h1 className="p-locations-single__heading t-h-1">{title}</h1>
 						{address && (
 							<div className="p-locations-single__address wysiwyg-b-1">
@@ -67,7 +75,8 @@ export default function PageLocationsSingle({ data }) {
 								<p className="t-h-3">{formatAddress(address)}</p>
 								<Link
 									className={clsx('btn-underline', color && `cr-${color}-d`)}
-									href={`https://www.google.com/maps/dir//${encodeURIComponent(addressString)}`}
+									// href={`https://www.google.com/maps/dir//${encodeURIComponent(addressString)}`}
+									href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(title)}+${encodeURIComponent(addressString)}`}
 									target="_blank"
 								>
 									Get Direction

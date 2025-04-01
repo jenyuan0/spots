@@ -3,6 +3,8 @@ import React from 'react';
 import Link from '@/components/CustomLink';
 import PortableTable from './PortableTable';
 import Img from '@/components/Image';
+import LocationList from '@/components/LocationList';
+import LocationCard from '@/components/LocationCard';
 
 export default function CustomPortableText({ blocks, hasPTag = true }) {
 	if (!blocks) return null;
@@ -16,6 +18,9 @@ export default function CustomPortableText({ blocks, hasPTag = true }) {
 			h4: ({ children }) => <h4>{children}</h4>,
 			h5: ({ children }) => <h5>{children}</h5>,
 			h6: ({ children }) => <h6>{children}</h6>,
+			'large-paragraph': ({ children }) => (
+				<p className="large-paragraph">{children}</p>
+			),
 		},
 		list: {
 			bullet: ({ children }) => <ul>{children}</ul>,
@@ -65,6 +70,27 @@ export default function CustomPortableText({ blocks, hasPTag = true }) {
 			portableTable: (props) => {
 				const { value } = props;
 				return <PortableTable blocks={value} />;
+			},
+			locationSingle: (props) => {
+				const { value } = props;
+
+				if (!value?.location) return null;
+
+				return (
+					<LocationCard
+						data={value.location}
+						additionalContent={value.location.additionalContent}
+						layout="embed"
+						hasDirection={true}
+					/>
+				);
+			},
+			locationList: (props) => {
+				const { value } = props;
+
+				if (!value?.locations) return null;
+
+				return <LocationList data={value} />;
 			},
 		},
 		marks: {

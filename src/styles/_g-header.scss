@@ -11,6 +11,7 @@
 	border-radius: var(--br-1);
 	z-index: 100;
 	transition:
+		width var(--t-2),
 		height var(--t-2),
 		background var(--t-2),
 		box-shadow var(--t-3);
@@ -100,6 +101,7 @@
 	}
 
 	&.is-scrolled {
+		width: Min(100vw - calc(var(--s-contain) * 2), 1240px);
 		height: 62px;
 		box-shadow: var(--shadow-1);
 	}

@@ -25,6 +25,7 @@ export default function LocationList({ data, color, isItinerary = false }) {
 							key={`item-${index}`}
 							data={item}
 							layout={'horizontal-full'}
+							hasDirection={true}
 						/>
 					))}
 				</div>

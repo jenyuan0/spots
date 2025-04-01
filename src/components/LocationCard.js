@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { hasArrayValue, formatTime } from '@/lib/helpers';
+import { hasArrayValue, formatTime, formatAddress } from '@/lib/helpers';
 import Img from '@/components/Image';
 import Button from '@/components/Button';
 import Link from '@/components/CustomLink';
@@ -10,11 +10,57 @@ import useLightbox from '@/hooks/useLightbox';
 import useKey from '@/hooks/useKey';
 import { IconMaximize } from '@/components/SvgIcons';
 
+// Extract ImageGallery into separate component
+const ImageGallery = ({ images, layout, onLightbox }) => {
+	if (layout === 'embed') {
+		if (!images) return null;
+
+		return (
+			<div className="c-card__gallery">
+				{images && images[0] && (
+					<Img image={images[0]} loading="lazy" alt={images[0]?.alt || ''} />
+				)}
+				{images && images[1] && (
+					<Img image={images[1]} loading="lazy" alt={images[1]?.alt || ''} />
+				)}
+			</div>
+		);
+	}
+
+	return (
+		<div className="c-card__thumb">
+			<div className="object-fit">
+				{images && (
+					<Img image={images[0]} loading="lazy" alt={images[0]?.alt || ''} />
+				)}
+			</div>
+			<button
+				className="c-card__lightbox trigger"
+				onClick={onLightbox}
+				aria-label="View full size images"
+			>
+				<IconMaximize />
+			</button>
+		</div>
+	);
+};
+
+// URL construction utility
+const constructLocationUrl = (slug) => `/paris/locations/${slug}`;
+
+// Main LocationCard component
 export default function LocationCard({
 	data,
 	layout = 'vertical',
 	hasDirection = false,
+	additionalContent,
 }) {
+	// Validate required data
+	if (!data) {
+		console.error('LocationCard: No data provided');
+		return null;
+	}
+
 	const {
 		color,
 		images,
@@ -25,98 +71,119 @@ export default function LocationCard({
 		address,
 		res,
 		content,
-	} = data || {};
-	const url = `/paris/locations/${slug}`;
+	} = data;
+
+	const url = constructLocationUrl(slug);
 	const addressString =
-		address &&
-		Object.values(address)
-			.filter((value) => value)
-			.join(', ');
+		address && Object.values(address).filter(Boolean).join(', ');
 	const resStart = res?.startTime && new Date(res?.startTime);
+
+	// Hooks
 	const setMag = useMagnify((state) => state.setMag);
 	const { setLightboxImages, setLightboxActive } = useLightbox();
 	const { hasPressedKeys } = useKey();
 
+	// Event handlers
+	const handleLightbox = () => {
+		setLightboxImages(images);
+		setLightboxActive(true);
+	};
+
+	const handleDetailsClick = (e) => {
+		if (!hasPressedKeys) {
+			e.preventDefault();
+			setMag({
+				slug,
+				type: 'location',
+				color,
+			});
+		}
+	};
+
 	return (
 		<div
-			className={'c-card'}
+			className="c-card"
 			style={{ '--cr-primary': `var(--cr-${color}-d, var(--cr-brown))` }}
 			data-layout={layout}
+			role="article"
 		>
-			<div className="c-card__thumb">
-				<div className="object-fit">{images && <Img image={images[0]} />}</div>
-				{images && (
-					<button
-						className="c-card__lightbox trigger"
-						onClick={() => {
-							setLightboxImages(images);
-							setLightboxActive(true);
-						}}
-					>
-						<IconMaximize />
-					</button>
-				)}
-			</div>
+			<ImageGallery
+				images={images}
+				layout={layout}
+				onLightbox={handleLightbox}
+			/>
+
 			<div className="c-card__info">
-				{layout !== 'horizontal' &&
+				{!['horizontal', 'embed'].includes(layout) &&
 					(hasArrayValue(categories) || hasArrayValue(subcategories)) && (
 						<div className="c-card__categories">
 							<CategoryPillList
 								categories={categories}
 								subcategories={subcategories}
-								limit={layout == 'vertical' ? 3 : 1}
+								limit={2}
 							/>
 						</div>
 					)}
+
 				<div className="c-card__header">
 					<h3
-						className={clsx(
-							'c-card__title',
-							layout == 'horizontal' ? 't-h-5' : 't-h-4'
-						)}
+						className={clsx('c-card__title', {
+							't-h-3': layout === 'embed',
+							't-h-4': layout === 'vertical',
+							't-h-5': layout === 'horizontal',
+						})}
 					>
 						{title}
 					</h3>
 				</div>
+
 				{resStart && (
-					<div className={'c-card__badge'}>
+					<div className="c-card__badge" role="status">
 						Reservation: {formatTime(resStart)}
 					</div>
 				)}
-				{layout == 'horizontal-full' && content && (
-					<div className="c-card__content wysiwyg-b-2">
-						<CustomPortableText blocks={content} />
-					</div>
-				)}
+
+				{(layout === 'horizontal-full' || layout === 'embed') &&
+					(content || additionalContent) && (
+						<div
+							className={`c-card__content wysiwyg-b-${layout === 'embed' ? '1' : '2'}`}
+						>
+							{content && <CustomPortableText blocks={content} />}
+							{additionalContent && (
+								<CustomPortableText blocks={additionalContent} />
+							)}
+						</div>
+					)}
+
 				<div className="c-card__actions">
 					<Button
 						className={clsx('btn-underline', color && `!cr-${color}-d`)}
 						href={url}
-						{...(!hasPressedKeys && {
-							onClick: (e) => {
-								e.preventDefault();
-								setMag({
-									slug: slug,
-									type: 'location',
-									color: color,
-								});
-							},
-						})}
+						onClick={handleDetailsClick}
+						aria-label={`View details for ${title}`}
 					>
 						Details
 					</Button>
-					{hasDirection && (
+
+					{hasDirection && addressString && (
 						<Button
 							className={clsx('btn-underline', color && `!cr-${color}-d`)}
-							href={`https://www.google.com/maps/dir//${encodeURIComponent(addressString)}`}
+							href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(title)}+${encodeURIComponent(addressString)}`}
 							target="_blank"
+							rel="noopener noreferrer"
+							aria-label={`Get directions to ${title}`}
 						>
 							Get Direction
 						</Button>
 					)}
 				</div>
 			</div>
-			<Link href={url} ariaLabel={'Open location'} className="p-fill" />
+
+			<Link
+				className="c-card__url p-fill"
+				href={url}
+				aria-label={`Open location details for ${title}`}
+			/>
 		</div>
 	);
 }

@@ -101,7 +101,7 @@ export default function locationList({
 						: 'No locations';
 
 				return {
-					title: `${title || '[Location List] Untitled'}${showStartTime ? ` @ ${startTime || '[No specific time]'}` : ''}`,
+					title: `${`[Location List] ${title || 'Untitled'}`}${showStartTime ? ` @ ${startTime || '[No specific time]'}` : ''}`,
 					subtitle: subtitle,
 					media: images?.[0] || PinIcon,
 				};

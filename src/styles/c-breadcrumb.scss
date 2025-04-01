@@ -1,0 +1,9 @@
+.c-breadcrumb {
+	display: flex;
+	list-style: none;
+	gap: 0.4em;
+
+	.c-breadcrumb__divider {
+		margin-left: 0.4em;
+	}
+}

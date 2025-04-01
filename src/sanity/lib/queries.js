@@ -126,15 +126,18 @@ export const getGuidesData = (type) => {
 		subcategories[]->{
 			${subcategoryMeta}
 		},
-		"color": lower(categories[0]->color->title),`;
+		"color": lower(categories[0]->color->title),
+		"colorHex": lower(categories[0]->color->colorD.hex),`;
 	if (type === 'card') {
 		defaultData += groq`excerpt`;
 	} else {
 		defaultData += groq`
-		showContentTable,
+		heroImage{
+			${imageMeta}
+		},
 		showMap,
-		pageModules[]{
-			${pageModules}
+		content[]{
+			${portableTextObj}
 		},
 		"related": related[]->{
 			${getGuidesData('card')}
@@ -208,6 +211,15 @@ export const locationListObj = groq`
 		${getLocationsData('card')}
 	}
 `;
+
+export const locationSingleObj = groq`
+	...,
+	location->{
+		${getLocationsData('card')}
+	},
+	additionalContent[]{
+		${portableTextContent}
+	},`;
 
 export const getItineraryData = (type) => {
 	let defaultData = groq`
@@ -335,6 +347,27 @@ export const pageModules = groq`
 	_type == 'locationList' => {
 		${locationListObj}
 	},
+	_type == 'locationSingle' => {
+		${locationSingleObj}
+	},
+	_type == 'ad' =>  *[_type == 'gAds' && _id == ^._ref][0]
+`;
+
+export const portableTextObj = groq`
+	...,
+	_type == 'carousel' => {
+		_type,
+		_key,
+		items,
+		autoplay,
+		autoplayInterval,
+	},
+	_type == 'locationList' => {
+		${locationListObj}
+	},
+	_type == 'locationSingle' => {
+		${locationSingleObj}
+	},
 	_type == 'ad' =>  *[_type == 'gAds' && _id == ^._ref][0]
 `;
 
@@ -430,12 +463,12 @@ export const page404Query = `*[_type == "p404" && _id == "p404"][0]{
 
 export const pagesBySlugQuery = groq`
 	*[_type == "pGeneral" && slug.current == $slug][0]{
-			title,
-			"slug": slug.current,
-			sharing,
-			pageModules[]{
-				${pageModules}
-			},
+		title,
+		"slug": slug.current,
+		sharing,
+		pageModules[]{
+			${pageModules}
+		},
 	}`;
 
 export const pageContactQuery = groq`

@@ -1,5 +1,4 @@
 .wysiwyg,
-.wysiwyg-page,
 .wysiwyg-b-1,
 .wysiwyg-b-2 {
 	> *:not(:last-child) {
@@ -51,55 +50,108 @@
 		margin-bottom: 20px;
 	}
 
-	.t-h-4:not(:last-child) {
-		margin-bottom: 10px;
-	}
-
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6,
-	.t-h-1,
-	.t-h-2,
-	.t-h-3,
-	.t-h-4,
-	.t-h-5,
-	.t-h-6 {
-		&:not(:first-child) {
-			margin-top: 36px;
-		}
+	> h1,
+	> h2,
+	> h3,
+	> h4,
+	> h5,
+	> h6,
+	> .t-h-1,
+	> .t-h-2,
+	> .t-h-3,
+	> .t-h-4,
+	> .t-h-5,
+	> .t-h-6 {
+		font: var(--t-h-3);
 
 		a {
 			text-decoration: underline;
 		}
+
+		b,
+		strong {
+			font-weight: 400;
+		}
 	}
 
-	p,
-	ol,
-	ul {
+	> h1,
+	> h2,
+	> .t-h-1,
+	> .t-h-2 {
+		&:not(:last-child) {
+			margin-bottom: 25px;
+		}
+		&:not(:first-child) {
+			margin-top: 80px;
+		}
+	}
+
+	> h3,
+	> h4,
+	> h5,
+	> h6,
+	> .t-h-3,
+	> .t-h-4,
+	> .t-h-5,
+	> .t-h-6 {
+		font: var(--t-h-4);
+
+		&:not(:last-child) {
+			margin-bottom: 10px;
+		}
+
+		&:not(:first-child) {
+			margin-top: 40px;
+		}
+	}
+
+	& > p,
+	& > ol,
+	& > ul {
 		font: var(--t-b-1);
+
+		b,
+		strong {
+			font-weight: 600;
+		}
 	}
 
-	ul,
-	ol {
+	.large-paragraph {
+		font: var(--t-h-3);
+	}
+
+	> ul,
+	> ol {
 		padding-left: 1em;
 
 		li:not(:last-child) {
 			margin-bottom: 0.4em;
 		}
+
+		ul,
+		ol {
+			margin-block: 0.8em;
+			padding-left: 1em;
+		}
+
+		ol {
+			list-style-type: decimal;
+		}
+
+		ul {
+			list-style-type: disc;
+		}
 	}
 
-	ol {
+	> ol {
 		list-style-type: decimal;
 	}
 
-	ul {
+	> ul {
 		list-style-type: disc;
 	}
 
-	blockquote {
+	> blockquote {
 		margin: 30px auto;
 		quotes: '\201C' '\201D' '\2018' '\2019';
 
@@ -124,7 +176,7 @@
 		}
 	}
 
-	table {
+	> table {
 		width: 100%;
 		font: var(--t-b-2);
 		border-collapse: collapse;

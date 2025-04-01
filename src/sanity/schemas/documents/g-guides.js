@@ -1,5 +1,4 @@
 import { defineType } from 'sanity';
-import { BlockContentIcon } from '@sanity/icons';
 import title from '@/sanity/schemas/objects/title';
 import slug from '@/sanity/schemas/objects/slug';
 import sharing from '@/sanity/schemas/objects/sharing';
@@ -7,6 +6,7 @@ import customImage from '@/sanity/schemas/objects/custom-image';
 import freeform from '@/sanity/schemas/objects/freeform';
 import carousel from '@/sanity/schemas/objects/carousel';
 import locationList from '@/sanity/schemas/objects/location-list';
+import locationSingle from '@/sanity/schemas/objects/location-single';
 
 export default defineType({
 	title: 'Guides',
@@ -56,28 +56,14 @@ export default defineType({
 			rows: 2,
 		},
 		{
-			name: 'showContentTable',
-			type: 'boolean',
-			initialValue: false,
-		},
-		{
 			name: 'showMap',
 			type: 'boolean',
 			initialValue: false,
 		},
+		customImage({ name: 'heroImage' }),
 		{
-			name: 'pageModules',
-			type: 'array',
-			of: [
-				freeform(),
-				carousel(),
-				locationList(),
-				{
-					name: 'ad',
-					type: 'reference',
-					to: [{ type: 'gAds' }],
-				},
-			],
+			name: 'content',
+			type: 'portableText',
 		},
 		{
 			name: 'related',

@@ -2,6 +2,8 @@ import { defineType } from 'sanity';
 import callToAction from '@/sanity/schemas/objects/call-to-action';
 import customIframe from '@/sanity/schemas/objects/custom-iframe';
 import customImage from '@/sanity/schemas/objects/custom-image';
+import locationList from '@/sanity/schemas/objects/location-list';
+import locationSingle from '@/sanity/schemas/objects/location-single';
 
 export default defineType({
 	name: 'portableText',
@@ -12,6 +14,22 @@ export default defineType({
 			type: 'block',
 			styles: [
 				{ title: 'Paragraph', value: 'normal' },
+				{
+					title: 'Large Paragraph',
+					value: 'large-paragraph',
+					component: ({ children }) => (
+						<p
+							style={{
+								fontSize: '24',
+								lineHeight: '1.5',
+								fontWeight: 700,
+								textTransform: 'unset',
+							}}
+						>
+							{children}
+						</p>
+					),
+				},
 				{
 					title: 'Heading 1',
 					value: 'h1',
@@ -60,6 +78,8 @@ export default defineType({
 		},
 		customImage({ hasLinkOptions: true, hasCaptionOptions: true }),
 		customIframe(),
+		locationSingle(),
+		locationList(),
 		{ title: 'Table', type: 'portableTable' },
 	],
 });

@@ -26,6 +26,21 @@
 		background-color: var(--cr-subtle);
 	}
 
+	&__gallery {
+		display: flex;
+		gap: var(--s-3-h);
+		align-items: center;
+
+		picture {
+			flex: 1;
+		}
+	}
+
+	&:nth-child(odd) &__gallery picture:nth-child(1),
+	&:nth-child(even) &__gallery picture:nth-child(2) {
+		max-width: 500px;
+	}
+
 	&__lightbox {
 		position: absolute;
 		bottom: 10px;
@@ -83,7 +98,7 @@
 		display: flex;
 		align-items: center;
 		margin-top: auto;
-		gap: 10px;
+		gap: 12px;
 		z-index: 10;
 	}
 
@@ -142,5 +157,29 @@
 
 	.c-card__info {
 		flex: 1;
+		padding-block: var(--s-3-v);
+	}
+}
+
+.c-card[data-layout='embed'] {
+	padding: 0 !important;
+	border: unset !important;
+	border-radius: 0 !important;
+	box-shadow: unset !important;
+	background-color: transparent !important;
+
+	flex-direction: column;
+	gap: var(--s-4-v);
+
+	.c-card__url {
+		display: none;
+	}
+
+	.c-card__info {
+		padding: 0;
+	}
+
+	.c-card__actions {
+		margin-top: 20px;
 	}
 }

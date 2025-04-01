@@ -55,7 +55,7 @@
 	}
 
 	&:not(.is-active) &__content {
-		transform: translate3d(100%, 0, 0);
+		transform: translate3d(calc(100% + 40px), 0, 0);
 		box-shadow: var(--shadow-1-transparent);
 		transition-delay: 0.15s;
 	}
