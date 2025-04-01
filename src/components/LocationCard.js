@@ -55,12 +55,6 @@ export default function LocationCard({
 	hasDirection = false,
 	additionalContent,
 }) {
-	// Validate required data
-	if (!data) {
-		console.error('LocationCard: No data provided');
-		return null;
-	}
-
 	const {
 		color,
 		images,
