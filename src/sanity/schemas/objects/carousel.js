@@ -11,7 +11,7 @@ export default function carousel() {
 				title: 'Items',
 				name: 'items',
 				type: 'array',
-				of: [customImage()],
+				of: [customImage({ hasCaptionOptions: true, hasCropOptions: true })],
 				validation: (Rule) => Rule.min(1).required(),
 			},
 			{

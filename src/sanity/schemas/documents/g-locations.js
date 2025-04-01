@@ -61,7 +61,7 @@ export default defineType({
 		{
 			name: 'images',
 			type: 'array',
-			of: [customImage({ hasCropOptions: true })],
+			of: [customImage({ hasCaptionOptions: true, hasCropOptions: true })],
 			options: {
 				layout: 'grid',
 			},
