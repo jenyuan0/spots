@@ -1,6 +1,5 @@
 import { LinkIcon, MasterDetailIcon, WarningOutlineIcon } from '@sanity/icons';
 import { defineType } from 'sanity';
-
 import { getRoute } from '@/lib/routes';
 
 export default defineType({

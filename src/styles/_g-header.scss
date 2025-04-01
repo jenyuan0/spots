@@ -105,11 +105,12 @@
 	}
 
 	&.is-scrolled &__tagline {
-		transform: translate3d(0, 60px, 0);
+		transform: translate3d(0, -60px, 0);
 	}
 
 	&.is-scrolled &__primary__nav {
 		transform: translate3d(0, 0, 0);
+		transition-delay: 0.2s;
 	}
 
 	&.is-scrolled &__nav {

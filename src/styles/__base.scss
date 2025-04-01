@@ -41,7 +41,7 @@
 		var(--s-vp-height) - var(--s-announcement, 0px) - var(--s-footer, 0px)
 	); // Set minimum container height to fill screen, keeping footer at bottom.
 
-	--width-sml: Min(100vw - calc(var(--s-contain) * 2), 600px);
+	--width-sml: Min(100vw - calc(var(--s-contain) * 2), 800px);
 	--width-med: Min(100vw - calc(var(--s-contain) * 2), 1200px);
 	--width-lge: Min(100vw - calc(var(--s-contain) * 2), 1800px);
 	--width-max: Min(100vw - calc(var(--s-contain) * 2), 2480px);

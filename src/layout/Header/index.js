@@ -58,7 +58,7 @@ function NavLink({ nav }) {
 						key={`${item.title}-${index}`}
 						className={clsx({ 'is-active': isActive })}
 					>
-						<Link href={item?.url}>
+						<Link href={item?.url} className={'increase-target-size'}>
 							{item?.title}
 							{item.hasCaret && (
 								<>

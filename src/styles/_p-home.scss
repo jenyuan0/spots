@@ -5,7 +5,7 @@ $dot-size: Min(5vw, 60px);
 	display: flex;
 	flex-direction: column;
 	height: Min(calc(var(--s-vp-height) - var(--s-header)), 1080px);
-	margin-top: calc((41px + var(--s-3-v)) * -1);
+	margin-top: calc((39px + var(--s-3-v)) * -1);
 	margin-inline: var(--padding-lge);
 	z-index: 1;
 

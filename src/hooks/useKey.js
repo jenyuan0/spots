@@ -37,12 +37,49 @@ export default function useKey(onEscape) {
 			}
 		};
 
+		const handleVisibilityChange = () => {
+			// Reset keys when tab/window loses focus
+			if (document.hidden) {
+				setPressedKeys({
+					command: false,
+					ctrl: false,
+					shift: false,
+					alt: false,
+				});
+				setHasPressedKeys(false);
+			} else {
+				// Recheck key states when focus returns
+				setPressedKeys({
+					command: false,
+					ctrl: false,
+					shift: false,
+					alt: false,
+				});
+				setHasPressedKeys(false);
+			}
+		};
+
+		const handleBlur = () => {
+			// Reset keys when window loses focus
+			setPressedKeys({
+				command: false,
+				ctrl: false,
+				shift: false,
+				alt: false,
+			});
+			setHasPressedKeys(false);
+		};
+
 		window.addEventListener('keydown', handleKeyDown);
 		window.addEventListener('keyup', handleKeyUp);
+		document.addEventListener('visibilitychange', handleVisibilityChange);
+		window.addEventListener('blur', handleBlur);
 
 		return () => {
 			window.removeEventListener('keydown', handleKeyDown);
 			window.removeEventListener('keyup', handleKeyUp);
+			document.removeEventListener('visibilitychange', handleVisibilityChange);
+			window.removeEventListener('blur', handleBlur);
 		};
 	}, [onEscape]);
 

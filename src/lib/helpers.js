@@ -252,56 +252,73 @@ export function sleeper(ms) {
 
 // ***REACT SPECIFIC***
 
-export function buildImageSrc(image, { width, height, format, quality = 80 }) {
-	if (!image) {
-		return false;
-	}
-
-	let imgSrc = imageBuilder.image(image);
-
-	if (width) {
-		imgSrc = imgSrc.width(Math.round(width));
-	}
-
-	if (height) {
-		imgSrc = imgSrc.height(Math.round(height));
-	}
-
-	if (format) {
-		imgSrc = imgSrc.format(format);
-	}
-
-	if (quality) {
-		imgSrc = imgSrc.quality(quality);
-	}
-
-	return imgSrc.fit('max').auto('format').url();
-}
-
-export function buildImageSrcSet(
+export function buildImageSrc(
 	image,
-	{ srcSizes, aspectRatio = 1, format, quality = 80 }
+	{ width, height, format, quality = 80 } = {}
 ) {
-	if (!image) {
+	if (!image || !imageBuilder) {
 		return false;
 	}
 
-	const sizes = srcSizes.map((width) => {
-		let imgSrc = buildImageSrc(image, {
-			...{ width },
-			height: aspectRatio && Math.round(width * aspectRatio) / 100,
-			...{ format },
-			...{ quality },
-		});
+	try {
+		let imgSrc = imageBuilder.image(image);
+
+		if (width) {
+			imgSrc = imgSrc.width(Math.round(width));
+		}
+
+		if (height) {
+			imgSrc = imgSrc.height(Math.round(height));
+		}
 
 		if (format) {
 			imgSrc = imgSrc.format(format);
 		}
 
-		return `${imgSrc} ${width}w`;
-	});
+		if (quality) {
+			imgSrc = imgSrc.quality(quality);
+		}
 
-	return sizes.join(',');
+		return imgSrc && imgSrc.fit('max').auto('format').url();
+	} catch (error) {
+		console.error('Error building image source:', error);
+		return false;
+	}
+}
+
+export function buildImageSrcSet(
+	image,
+	{ srcSizes, aspectRatio = 1, format, quality = 80 } = {}
+) {
+	if (!image || !srcSizes) {
+		return false;
+	}
+
+	try {
+		const sizes = srcSizes
+			.map((width) => {
+				let imgSrc = buildImageSrc(image, {
+					width,
+					height: aspectRatio
+						? Math.round(width * aspectRatio) / 100
+						: undefined,
+					format,
+					quality,
+				});
+
+				if (format) {
+					imgSrc = imgSrc.format(format);
+				}
+
+				return imgSrc ? `${imgSrc} ${width}w` : '';
+			})
+			.filter(Boolean);
+
+		return sizes.length ? sizes.join(',') : false;
+	} catch (error) {
+		console.error('Error building image srcset:', error);
+		return false;
+	}
 }
 
 export function buildRgbaCssString(color) {

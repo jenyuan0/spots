@@ -1,25 +1,38 @@
 .g-magnify {
 	--cr-primary: var(--cr-brown-d);
 	--cr-secondary: var(--cr-brown-l);
-
-	position: fixed;
-	height: 100%;
-	width: Min(600px, calc(100vw - var(--s-contain) * 2));
-	top: 0;
-	right: 0;
-	color: var(--cr-primary);
-	background-color: var(--cr-white);
-	box-shadow: var(--shadow-1);
-	gap: 30px;
+	position: relative;
 	z-index: 200;
-	transition:
-		box-shadow var(--t-2),
-		transform var(--t-2);
+
+	&__overlay {
+		display: block;
+		position: fixed;
+		inset: 0;
+		backdrop-filter: blur(2px);
+		background-color: rgba(0, 0, 0, 0.6);
+		transition: opacity var(--t-2);
+		cursor: default;
+	}
+
+	&__content {
+		position: fixed;
+		top: 0;
+		right: 0;
+		height: 100%;
+		width: Min(800px, calc(100vw - var(--s-contain) * 2));
+		color: var(--cr-primary);
+		background-color: var(--cr-white);
+		box-shadow: var(--shadow-1);
+		gap: 30px;
+		z-index: 200;
+		transition:
+			box-shadow var(--t-2),
+			transform var(--t-2);
+	}
 
 	&__toggle {
 		@include asideToggle;
 		top: 40px;
-		transition: opacity var(--t-1);
 	}
 
 	&__body {
@@ -34,13 +47,17 @@
 	}
 
 	&:not(.is-active) {
+		pointer-events: none;
+	}
+
+	&:not(.is-active) &__overlay {
+		opacity: 0;
+	}
+
+	&:not(.is-active) &__content {
 		transform: translate3d(100%, 0, 0);
 		box-shadow: var(--shadow-1-transparent);
 		transition-delay: 0.15s;
-	}
-
-	&:not(.is-active) &__toggle {
-		opacity: 0;
 	}
 
 	@include selection {
