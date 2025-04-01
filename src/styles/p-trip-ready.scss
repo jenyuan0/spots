@@ -1,0 +1,12 @@
+.p-trip-ready {
+	&__header {
+		margin: var(--s-section) auto;
+		padding: 0 var(--padding-lge);
+		text-align: center;
+	}
+
+	&__grid {
+		margin: var(--s-section) auto;
+		padding: 0 var(--padding-lge);
+	}
+}

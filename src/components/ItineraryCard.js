@@ -20,7 +20,7 @@ export default function ItineraryCard({ data }) {
 	return (
 		<div
 			className={'c-itinerary-card'}
-			style={{ '--cr-primary': color.colorD, '--cr-secondary': color.colorL }}
+			style={{ '--cr-primary': color?.colorD, '--cr-secondary': color?.colorL }}
 		>
 			<div className="c-itinerary-card__header wysiwyg">
 				<h2 className="t-l-2">

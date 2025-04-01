@@ -452,6 +452,16 @@ export const pageContactQuery = groq`
 	}
 `;
 
+export const pageTripReadyQuery = groq`
+	*[_type == "pTripReady"][0]{
+		title,
+		"slug": slug.current,
+		"itineraries": itineraries[]->{
+			${getItineraryData('card')}
+		},
+	}
+`;
+
 // new pages below...
 // export const pageAboutQuery = groq`
 // 	*[_type == "pAbout"][0]{

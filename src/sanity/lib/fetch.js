@@ -117,6 +117,17 @@ export function getContactPage({ queryParams, isPreviewMode }) {
 	});
 }
 
+export function getTripReadyPage({ queryParams, isPreviewMode }) {
+	const query = getPageDataStructure({ query: queries.pageTripReadyQuery });
+
+	return sanityFetch({
+		query,
+		params: queryParams,
+		tags: ['pTripReady'],
+		isPreviewMode,
+	});
+}
+
 // new pages below...
 // export function getAboutPage({ queryParams, isPreviewMode }) {
 // 	const query = getPageDataStructure({ query: queries.pageAboutQuery });

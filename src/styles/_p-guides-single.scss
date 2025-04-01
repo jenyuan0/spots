@@ -32,8 +32,18 @@
 	&__body {
 		display: flex;
 		flex-direction: column;
-		width: var(--width-med);
+		width: var(--width-sml);
 		margin: var(--s-4-v) auto;
 		gap: 80px;
+	}
+}
+
+.p-guides-single__related {
+	width: var(--width-lge);
+	margin: var(--s-section) auto;
+
+	&__title {
+		margin-bottom: var(--s-4-v);
+		text-align: center;
 	}
 }
