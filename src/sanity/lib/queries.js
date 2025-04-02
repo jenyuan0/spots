@@ -217,7 +217,7 @@ export const locationSingleObj = groq`
 	location->{
 		${getLocationsData('card')}
 	},
-	additionalContent[]{
+	contentReplace[]{
 		${portableTextContent}
 	},`;
 

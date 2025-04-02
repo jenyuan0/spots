@@ -179,6 +179,14 @@
 		padding: 0;
 	}
 
+	.c-card__header {
+		margin-bottom: 0;
+	}
+
+	.c-card__title {
+		color: var(--cr-primary);
+	}
+
 	.c-card__actions {
 		margin-top: 20px;
 	}

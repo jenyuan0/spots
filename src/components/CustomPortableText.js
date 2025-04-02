@@ -79,7 +79,7 @@ export default function CustomPortableText({ blocks, hasPTag = true }) {
 				return (
 					<LocationCard
 						data={value.location}
-						additionalContent={value.location.additionalContent}
+						contentReplace={value.location.contentReplace}
 						layout="embed"
 						hasDirection={true}
 					/>

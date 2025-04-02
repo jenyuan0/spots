@@ -13,7 +13,7 @@ export default function locationSingle({} = {}) {
 				to: [{ type: 'gLocations' }],
 			},
 			{
-				name: 'additionalContent',
+				name: 'contentReplace',
 				type: 'portableText',
 			},
 		],
@@ -21,14 +21,13 @@ export default function locationSingle({} = {}) {
 			select: {
 				title: 'location.title',
 				images: 'location.images',
-				additionalContent: 'additionalContent',
+				contentReplace: 'contentReplace',
 			},
-			prepare({ title, images, additionalContent }) {
+			prepare({ title, images, contentReplace }) {
 				return {
 					title: `[Location] ${title}`,
-					subtitle: additionalContent
-						? `[Additional Content] ${getPortableTextPreview(additionalContent)}`
-						: '[no additional content]',
+					subtitle:
+						contentReplace && `${getPortableTextPreview(contentReplace)}`,
 					media: images ? images[0] : PinIcon, // Check for image.asset
 				};
 			},

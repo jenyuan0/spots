@@ -53,7 +53,7 @@ export default function LocationCard({
 	data,
 	layout = 'vertical',
 	hasDirection = false,
-	additionalContent,
+	contentReplace,
 }) {
 	const {
 		color,
@@ -138,14 +138,11 @@ export default function LocationCard({
 				)}
 
 				{(layout === 'horizontal-full' || layout === 'embed') &&
-					(content || additionalContent) && (
+					(content || contentReplace) && (
 						<div
 							className={`c-card__content wysiwyg-b-${layout === 'embed' ? '1' : '2'}`}
 						>
-							{content && <CustomPortableText blocks={content} />}
-							{additionalContent && (
-								<CustomPortableText blocks={additionalContent} />
-							)}
+							<CustomPortableText blocks={contentReplace || content} />
 						</div>
 					)}
 
