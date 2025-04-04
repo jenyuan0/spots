@@ -1,11 +1,21 @@
 'use client';
 import React from 'react';
+import Breadcrumb from '@/components/Breadcrumb';
 import ItineraryCard from '@/components/ItineraryCard';
 import ResponsiveGrid from '@/components/ResponsiveGrid';
 
 export default function PageReadyToBook({ data }) {
 	const { title, itineraries } = data || {};
-
+	const breadcrumb = [
+		{
+			title: 'Paris',
+			url: '/paris',
+		},
+		{
+			title: 'Ready-to-Book Trips',
+			url: '/paris/ready-to-book-trips',
+		},
+	];
 	// TODO
 	// Include filters: 'for couples', 'first-timers', 'most popular'
 	// or 'most popular filters'
@@ -13,8 +23,8 @@ export default function PageReadyToBook({ data }) {
 	return (
 		<section className="p-trip-ready">
 			<div className="p-trip-ready__header wysiwyg">
-				<h1 className="t-l-2">Paris</h1>
-				<h2 className="t-h-1">{title}</h2>
+				<Breadcrumb data={breadcrumb} />
+				<h1 className="t-h-1">{title}</h1>
 			</div>
 			<div className="p-trip-ready__grid">
 				<ResponsiveGrid size="lge">

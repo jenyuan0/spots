@@ -7,6 +7,9 @@ import Button from '@/components/Button';
 import { IconSave } from '@/components/SvgIcons';
 import useKey from '@/hooks/useKey';
 
+// TODO
+// while image loads, fire progress bar
+
 export default function Lightbox() {
 	const [activeIndex, setActiveIndex] = useState(0);
 	const {

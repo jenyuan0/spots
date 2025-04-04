@@ -6,7 +6,7 @@
 	align-items: center;
 
 	// TODO
-	// cqi fallback
+	// cqi unit fallback
 
 	gap: clamp(20px, 2cqi, 40px);
 	padding: clamp(20px, 2.5cqi, 40px);
@@ -24,11 +24,12 @@
 		}
 	}
 
-	.t-h-2 {
+	&__subtitle {
+		height: 18cqi;
 		font-size: Max(24px, 8cqi);
 	}
 
-	.t-h-3 {
+	&__desc {
 		font-size: Max(20px, 5cqi);
 	}
 
@@ -42,6 +43,8 @@
 	}
 
 	&__cta {
+		position: relative;
 		width: 160px;
+		z-index: 10;
 	}
 }

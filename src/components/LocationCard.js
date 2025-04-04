@@ -34,13 +34,15 @@ const ImageGallery = ({ images, layout, onLightbox }) => {
 					<Img image={images[0]} loading="lazy" alt={images[0]?.alt || ''} />
 				)}
 			</div>
-			<button
-				className="c-card__lightbox trigger"
-				onClick={onLightbox}
-				aria-label="View full size images"
-			>
-				<IconMaximize />
-			</button>
+			{images && (
+				<button
+					className="c-card__lightbox trigger"
+					onClick={onLightbox}
+					aria-label="View full size images"
+				>
+					<IconMaximize />
+				</button>
+			)}
 		</div>
 	);
 };
@@ -155,7 +157,6 @@ export default function LocationCard({
 					>
 						Details
 					</Button>
-
 					{hasDirection && addressString && (
 						<Button
 							className={clsx('btn-underline', color && `!cr-${color}-d`)}

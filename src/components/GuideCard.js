@@ -22,7 +22,6 @@ export default function GuideCard({ data, layout = 'vertical', color }) {
 			<div className="c-card__thumb">
 				<div className="object-fit">{thumb && <Img image={thumb} />}</div>
 			</div>
-
 			<div className="c-card__info">
 				{layout !== 'horizontal' &&
 					(hasArrayValue(categories) || hasArrayValue(subcategories)) && (
@@ -41,7 +40,7 @@ export default function GuideCard({ data, layout = 'vertical', color }) {
 							layout == 'horizontal' ? 't-h-5' : 't-h-4'
 						)}
 					>
-						<Link href={url}>{title}</Link>
+						{title}
 					</h3>
 				</div>
 				<div className="c-card__actions">
@@ -53,7 +52,6 @@ export default function GuideCard({ data, layout = 'vertical', color }) {
 					</Button>
 				</div>
 			</div>
-
 			<Link href={url} ariaLabel="Open Guide" className="p-fill" />
 		</div>
 	);

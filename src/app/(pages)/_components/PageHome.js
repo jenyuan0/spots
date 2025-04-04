@@ -5,29 +5,22 @@ import clsx from 'clsx';
 import { colorArray, getRandomInt, springConfig } from '@/lib/helpers';
 import Img from '@/components/Image';
 import CustomPortableText from '@/components/CustomPortableText';
-import useMagnify from '@/hooks/useMagnify';
-import useKey from '@/hooks/useKey';
-import Link from '@/components/CustomLink';
+import LocationDot from '@/components/LocationDot';
 import Button from '@/components/Button';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 
 // Spot component for individual animated spots
-function HeroSpot({ index, data, boundary, lastChild, scrollYProgress }) {
+function HeroSpot({ index, data, boundary, isLastChild, scrollYProgress }) {
 	const [spot, setSpot] = useState({
 		x: 1000,
 		y: 1000,
 	});
 	const [screen, setScreen] = useState({ x: 0, y: 0 });
-	const setMag = useMagnify((state) => state.setMag);
-	const { hasPressedKeys } = useKey();
 
 	useEffect(() => {
 		setSpot({
 			x: data?.x,
 			y: data?.y,
-			slug: data.slug,
-			color: data?.color,
-			lightOrDark: index % 2 ? 'l' : 'd',
 		});
 
 		setScreen({
@@ -35,7 +28,7 @@ function HeroSpot({ index, data, boundary, lastChild, scrollYProgress }) {
 			y: boundary.height / 2,
 			height: boundary.height,
 		});
-	}, [data, lastChild]);
+	}, [data]);
 
 	// Create motion values outside of the render
 	const motionX = useTransform(
@@ -92,42 +85,28 @@ function HeroSpot({ index, data, boundary, lastChild, scrollYProgress }) {
 	const motionScale = useTransform(
 		scrollYProgress,
 		[0, 0.15, 0.8, 1],
-		[1, 0.2, lastChild ? 0.24 : 0.2, 0.2]
+		[1, 0.2, isLastChild ? 0.24 : 0.2, 0.2]
 	);
 
 	const springX = useSpring(motionX, springConfig);
 	const springY = useSpring(motionY, springConfig);
 	const springScale = useSpring(motionScale, springConfig);
 
-	if (spot.slug) {
-		return (
-			<motion.div
-				className={'p-home__spot'}
-				style={{
-					'--cr-primary': `var(--cr-${spot.color}-${spot.lightOrDark})`,
-					x: springX,
-					y: springY,
-					scale: springScale,
-					opacity: motionOpacity,
-				}}
-			>
-				<Link
-					className={'p-home__spot__link'}
-					href={`/locations/${spot.slug}`}
-					{...(!hasPressedKeys && {
-						onClick: (e) => {
-							e.preventDefault();
-							setMag({
-								slug: spot.slug,
-								type: 'location',
-								color: spot.color,
-							});
-						},
-					})}
-				/>
-			</motion.div>
-		);
-	}
+	if (!data) return null;
+
+	return (
+		<motion.div
+			className={'p-home__spot'}
+			style={{
+				x: springX,
+				y: springY,
+				scale: springScale,
+				opacity: motionOpacity,
+			}}
+		>
+			<LocationDot data={data} initialLightOrDark={isLastChild && 'd'} />
+		</motion.div>
+	);
 }
 
 export function Hero({ data, setPrimaryColor }) {
@@ -186,14 +165,12 @@ export function Hero({ data, setPrimaryColor }) {
 				let x, y;
 
 				while (!validPosition && attempts < 25) {
-					const color = colorArray()[0];
 					x = Math.random() * (boundary.width - paddingX * 2) + paddingX;
 					y = Math.random() * (boundary.height - paddingY * 2) + paddingY / 2;
 
 					if (!checkOverlap(x, y, newPositions)) {
 						validPosition = true;
-						newPositions.push({ x, y, color });
-						setPrimaryColor(color);
+						newPositions.push({ x, y });
 					}
 					attempts++;
 				}
@@ -206,7 +183,12 @@ export function Hero({ data, setPrimaryColor }) {
 		window.addEventListener('resize', generateSpots);
 
 		return () => window.removeEventListener('resize', generateSpots);
-	}, [heroSpots, boundary, setPrimaryColor]);
+	}, [heroSpots, boundary]);
+
+	useEffect(() => {
+		const lastSpot = heroSpots[heroSpots.length - 1];
+		setPrimaryColor(lastSpot?.color);
+	});
 
 	// Use useMemo to prevent re-renders
 	const spotElements = useMemo(() => {
@@ -219,11 +201,10 @@ export function Hero({ data, setPrimaryColor }) {
 							boundary={boundary}
 							data={{
 								...el,
-								color: spots[i]?.color,
 								x: spots[i]?.x,
 								y: spots[i]?.y,
 							}}
-							lastChild={i === heroSpots.length - 1}
+							isLastChild={i === heroSpots.length - 1}
 							scrollYProgress={scrollYProgress}
 						/>
 					);

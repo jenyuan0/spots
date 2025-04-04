@@ -3,4 +3,9 @@
 	gap: 8px 5px;
 	min-width: 0px;
 	flex-wrap: wrap;
+	list-style: none;
+
+	.pill {
+		text-decoration: unset;
+	}
 }

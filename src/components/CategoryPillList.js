@@ -11,15 +11,12 @@ export default function CategoryPillList({
 	const finalCategories = limit ? allCategories.slice(0, limit) : allCategories;
 
 	return (
-		<div className="c-category-pill-list">
+		<ul className="c-category-pill-list">
 			{finalCategories.map((item) => (
-				<CategoryPill
-					className="pill"
-					key={`${item._id}`}
-					data={item}
-					isLink={isLink}
-				/>
+				<li key={`${item._id}`}>
+					<CategoryPill className="pill" data={item} isLink={isLink} />
+				</li>
 			))}
-		</div>
+		</ul>
 	);
 }

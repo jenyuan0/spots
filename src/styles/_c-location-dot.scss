@@ -1,0 +1,14 @@
+.c-location-dot {
+	display: block;
+	width: var(--size, Min(5vw, 60px));
+	aspect-ratio: 1;
+	background-color: var(--cr-primary);
+	border-radius: 100%;
+	transition: transform var(--t-1);
+
+	@media (hover: hover) {
+		&:hover {
+			transform: scale(1.1);
+		}
+	}
+}

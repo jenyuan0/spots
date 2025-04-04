@@ -1,77 +1,64 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
-import useAsideMap from '@/hooks/useAsideMap';
-import CategoryPill from '@/components/CategoryPill';
-import LocationCard from '@/components/LocationCard';
-import ResponsiveGrid from '@/components/ResponsiveGrid';
+import React, { useEffect, useRef, useState } from 'react';
+import CategoryPillList from '@/components/CategoryPillList';
+import LocationDot from '@/components/LocationDot';
 import Button from '@/components/Button';
 
 export default function LocationsSection({ data }) {
 	const { locationList, locationCategories } = data || {};
-	const locationRef = useRef(null);
-	const setAsideMapActive = useAsideMap((state) => state.setAsideMapActive);
-	const setAsideMapLocations = useAsideMap(
-		(state) => state.setAsideMapLocations
-	);
+	const containerRef = useRef(null);
+	const [radius, setRadius] = useState(150);
 
 	useEffect(() => {
-		const observer = new IntersectionObserver(
-			([entry]) => {
-				setAsideMapActive(entry.isIntersecting);
-			},
-			{ threshold: 0.5 } // Trigger when 50% of the component is visible
-		);
+		const updateRadius = () => {
+			if (containerRef.current) {
+				setRadius(containerRef.current.offsetWidth / 2);
+			}
+		};
 
-		if (locationRef.current) {
-			observer.observe(locationRef.current);
-		}
-
-		return () => observer.disconnect();
+		updateRadius();
+		window.addEventListener('resize', updateRadius);
+		return () => window.removeEventListener('resize', updateRadius);
 	}, []);
-
-	useEffect(() => {
-		setTimeout(() => {
-			setAsideMapLocations(locationList);
-		}, 1);
-	}, [locationList]);
 
 	if (!locationList) return null;
 
+	const dots = locationList.map((item, index) => {
+		const angle = (index / locationList.length) * Math.PI * 2;
+		const x = radius * Math.cos(angle);
+		const y = radius * Math.sin(angle);
+
+		return { x, y, item };
+	});
+
 	return (
-		<section ref={locationRef} className="p-paris__locations">
-			<div className="p-paris__locations__header wysiwyg">
-				<h2 className="t-l-2">Find Your Spots in Paris</h2>
-				<h3 className="t-h-2">Where every circle leads to discovery</h3>
-			</div>
-			<div className="p-paris__locations__grid">
-				<ResponsiveGrid>
-					{locationList.map((item, index) => (
-						<LocationCard
-							key={`item-${index}`}
-							data={item}
-							layout="horizontal"
-						/>
-					))}
-				</ResponsiveGrid>
-			</div>
-			<div className="p-paris__locations__footer">
+		<section className="p-paris__locations">
+			<div className="p-paris__locations__text wysiwyg">
+				<h1 className="t-l-2">Find Your Spots in Paris</h1>
+				<h2 className="t-h-1">Where every circle leads to discovery</h2>
 				<Button
 					href={'/paris/locations'}
 					className="p-paris__locations__cta btn-outline"
 				>
 					View All Spots (200+)
 				</Button>
-				{locationCategories && (
-					<ul className="p-paris__locations__footer-categories">
-						<li className="t-l-2">By category:</li>
-						{locationCategories.map((item) => (
-							<li key={`category-${item._id}`}>
-								<CategoryPill className="pill" data={item} isLink={true} />
-							</li>
-						))}
-					</ul>
-				)}
+				<CategoryPillList categories={locationCategories} isLink={true} />
+			</div>
+			<div className="p-paris__locations__dots">
+				<div className="p-paris__locations__dots-container" ref={containerRef}>
+					{dots.map(({ x, y, item }, index) => (
+						<div
+							key={`dot-${index}`}
+							className="p-paris__locations__dot"
+							style={{
+								transform: `translate(-50%, -50%) translate(${x}px, ${y}px)`,
+							}}
+						>
+							<LocationDot data={item} />
+						</div>
+					))}
+				</div>
 			</div>
 		</section>
 	);

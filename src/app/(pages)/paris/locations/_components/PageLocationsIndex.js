@@ -3,11 +3,22 @@
 import React, { Suspense } from 'react';
 import LocationsPagination from './LocationsPagination';
 import LocationsInfiniteScroll from './LocationsInfiniteScroll';
+import Breadcrumb from '@/components/Breadcrumb';
 import CategoryPill from '@/components/CategoryPill';
 import CustomPortableText from '@/components/CustomPortableText';
 
 export default function PageLocationsIndex({ data }) {
 	const { heading, categorySlug, categories, paginationMethod } = data || {};
+	const breadcrumb = [
+		{
+			title: 'Paris',
+			url: '/paris',
+		},
+		{
+			title: 'Locations',
+			url: '/paris/locations',
+		},
+	];
 	const categoryAll = {
 		title: 'All Locations',
 		slug: '',
@@ -17,11 +28,11 @@ export default function PageLocationsIndex({ data }) {
 	return (
 		<>
 			<section className="p-locations__header wysiwyg">
-				<h1 className="t-l-2">Paris Locations</h1>
+				<Breadcrumb data={breadcrumb} />
 				{heading && (
-					<h2 className="t-h-1">
+					<h1 className="t-h-1">
 						<CustomPortableText blocks={heading} hasPTag={false} />
-					</h2>
+					</h1>
 				)}
 			</section>
 			<section className="p-locations__body">

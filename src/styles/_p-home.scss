@@ -1,5 +1,3 @@
-$dot-size: Min(5vw, 60px);
-
 .p-home__hero {
 	position: relative;
 	display: flex;
@@ -53,7 +51,7 @@ $dot-size: Min(5vw, 60px);
 		}
 
 		&-dot {
-			width: calc($dot-size * 0.1);
+			width: 10px;
 			aspect-ratio: 1;
 			background-color: var(--cr-white);
 			border-radius: 100%;
@@ -63,20 +61,14 @@ $dot-size: Min(5vw, 60px);
 }
 
 .p-home__spot {
+	--size: Min(5vw, 60px);
 	position: absolute;
-	width: $dot-size;
-	aspect-ratio: 1;
+	width: fit-content;
+	height: fit-content;
 	top: 0;
 	left: 0;
 	transform-origin: center;
-	margin: calc($dot-size / 2 * -1);
-
-	&__link {
-		position: absolute;
-		inset: 0;
-		background-color: var(--cr-primary);
-		border-radius: 100%;
-	}
+	margin: calc(var(--size) / 2 * -1);
 }
 
 .p-home__intro {

@@ -441,6 +441,7 @@ export const pageHomeQuery = `
 			title,
 			_id,
 			"slug": slug.current,
+			"color": lower(categories[0]->color->title),
 		},
 		introTitle,
 		introHeading,
@@ -511,7 +512,7 @@ export const pageParisQuery = groq`
 		"locationCategories": locationCategories[]->{
 			${categoryMeta}
 		},
-		"locationList": *[_type == "gLocations"] | order(_updatedAt desc)[0...12] {
+		"locationList": *[_type == "gLocations"] | order(_updatedAt desc)[0...30] {
 			${getLocationsData('card')}
 		},
 		itinerariesTitle,

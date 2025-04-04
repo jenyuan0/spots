@@ -2,6 +2,10 @@
 	width: var(--width-med);
 	margin: var(--s-section) auto;
 	text-align: center;
+
+	.c-breadcrumb {
+		justify-content: center;
+	}
 }
 
 .p-locations__body {
