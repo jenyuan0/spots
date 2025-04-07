@@ -66,14 +66,14 @@ export default function ContentListSection({ data }) {
 				<GuideCard
 					key={key}
 					data={el}
-					layout="horizontal"
+					layout="horizontal-1"
 					aria-label={`Guide card ${index + 1}`}
 				/>
 			) : (
 				<LocationCard
 					key={key}
 					data={el}
-					layout="horizontal"
+					layout="horizontal-1"
 					aria-label={`Location card ${index + 1}`}
 				/>
 			);

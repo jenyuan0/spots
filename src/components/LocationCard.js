@@ -53,12 +53,12 @@ const constructLocationUrl = (slug) => `/paris/locations/${slug}`;
 // Main LocationCard component
 export default function LocationCard({
 	data,
-	layout = 'vertical',
+	layout = 'vertical-1',
+	color,
 	hasDirection = false,
 	contentReplace,
 }) {
 	const {
-		color,
 		images,
 		title,
 		slug,
@@ -91,17 +91,22 @@ export default function LocationCard({
 			setMag({
 				slug,
 				type: 'location',
-				color,
+				color: data.color,
 			});
 		}
 	};
 
 	return (
 		<div
-			className="c-card"
-			style={{ '--cr-primary': `var(--cr-${color}-d, var(--cr-brown))` }}
+			className={'c-card'}
 			data-layout={layout}
 			role="article"
+			style={
+				color && {
+					'--cr-primary': `var(--cr-${color}-d)`,
+					'--cr-secondary': `var(--cr-${color}-l)`,
+				}
+			}
 		>
 			<ImageGallery
 				images={images}
@@ -110,13 +115,13 @@ export default function LocationCard({
 			/>
 
 			<div className="c-card__info">
-				{!['horizontal', 'embed'].includes(layout) &&
+				{!['horizontal-2', 'embed'].includes(layout) &&
 					(hasArrayValue(categories) || hasArrayValue(subcategories)) && (
 						<div className="c-card__categories">
 							<CategoryPillList
 								categories={categories}
 								subcategories={subcategories}
-								limit={2}
+								limit={layout == 'horizontal-1' ? 1 : 3}
 							/>
 						</div>
 					)}
@@ -126,7 +131,9 @@ export default function LocationCard({
 						className={clsx('c-card__title', {
 							't-h-3': layout === 'embed',
 							't-h-4': layout === 'vertical',
-							't-h-5': layout === 'horizontal',
+							't-h-3': layout === 'vertical-2',
+							't-h-5': layout === 'horizontal-1',
+							't-h-2': layout === 'horizontal-2',
 						})}
 					>
 						{title}
@@ -139,27 +146,28 @@ export default function LocationCard({
 					</div>
 				)}
 
-				{(layout === 'horizontal-full' || layout === 'embed') &&
-					(content || contentReplace) && (
-						<div
-							className={`c-card__content wysiwyg-b-${layout === 'embed' ? '1' : '2'}`}
-						>
-							<CustomPortableText blocks={contentReplace || content} />
-						</div>
-					)}
+				{layout == 'embed' && (content || contentReplace) && (
+					<div className={`c-card__content wysiwyg-b-1`}>
+						<CustomPortableText blocks={contentReplace || content} />
+					</div>
+				)}
 
 				<div className="c-card__actions">
 					<Button
-						className={clsx('btn-underline', color && `!cr-${color}-d`)}
+						className={clsx('btn-underline', {
+							'cr-cream': layout === 'vertical-2',
+						})}
 						href={url}
 						onClick={handleDetailsClick}
-						aria-label={`View details for ${title}`}
+						aria-label={`View more details for ${title}`}
 					>
 						Details
 					</Button>
 					{hasDirection && addressString && (
 						<Button
-							className={clsx('btn-underline', color && `!cr-${color}-d`)}
+							className={clsx('btn-underline', {
+								'cr-cream': layout === 'vertical-2',
+							})}
 							href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(title)}+${encodeURIComponent(addressString)}`}
 							target="_blank"
 							rel="noopener noreferrer"

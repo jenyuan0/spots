@@ -88,7 +88,7 @@ export default function PageLocationsSingle({ data }) {
 								<ul>
 									{urls.map((url, i) => (
 										<li key={`url-${i}`}>
-											<Link href={url} target={'_blank'}>
+											<Link href={url} isNewTab={true}>
 												{url
 													.replace(/^(https?:\/\/)?(www\.)?/, '')
 													.replace(/\/$/, '')}
@@ -144,6 +144,9 @@ export default function PageLocationsSingle({ data }) {
 					<h2 className="p-locations-single__related__title t-h-2">
 						More to Discover
 					</h2>
+					{/* TODO
+					// prioritize subcategories and other attributes such as editors pick, trending, etc.
+					 */}
 					<div className="p-locations-single__related__list">
 						<ResponsiveGrid>
 							{[...Array(12)].map((_, index) => {
@@ -156,7 +159,7 @@ export default function PageLocationsSingle({ data }) {
 										<LocationCard
 											key={`${item._id}-${index}`}
 											data={item}
-											layout="horizontal"
+											layout="vertical-2"
 										/>
 									)
 								);

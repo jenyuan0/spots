@@ -90,9 +90,18 @@ const ListWithSSG = ({ data, currentPageNumber }) => {
 			) : (
 				<div className="p-guides-articles__list">
 					<ResponsiveGrid>
-						{listData.map((item, index) => (
-							<GuideCard key={item._id} data={item} />
-						))}
+						{listData.map((item, index) => {
+							const isHorizontal = index % 3 == 0;
+
+							return (
+								<GuideCard
+									key={item._id}
+									data={item}
+									color={item.color}
+									layout={isHorizontal ? 'horizontal-2' : 'vertical-1'}
+								/>
+							);
+						})}
 					</ResponsiveGrid>
 				</div>
 			)}

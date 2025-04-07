@@ -24,7 +24,7 @@ export default function LocationList({ data, color, isItinerary = false }) {
 						<LocationCard
 							key={`item-${index}`}
 							data={item}
-							layout={'horizontal-full'}
+							layout={'horizontal-1'}
 							hasDirection={true}
 						/>
 					))}

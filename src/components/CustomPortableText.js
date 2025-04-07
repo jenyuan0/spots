@@ -80,6 +80,7 @@ export default function CustomPortableText({ blocks, hasPTag = true }) {
 					<LocationCard
 						data={value.location}
 						contentReplace={value.location.contentReplace}
+						color={value?.location?.color}
 						layout="embed"
 						hasDirection={true}
 					/>

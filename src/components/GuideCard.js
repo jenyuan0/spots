@@ -5,7 +5,7 @@ import Button from '@/components/Button';
 import Link from '@/components/CustomLink';
 import CategoryPillList from '@/components/CategoryPillList';
 
-export default function GuideCard({ data, layout = 'vertical', color }) {
+export default function GuideCard({ data, layout = 'vertical-1', color }) {
 	const {
 		title,
 		slug,
@@ -18,7 +18,16 @@ export default function GuideCard({ data, layout = 'vertical', color }) {
 	const url = `/paris/guides/${slug}`;
 
 	return (
-		<div className="c-card" data-layout={layout}>
+		<div
+			className={'c-card'}
+			data-layout={layout}
+			style={
+				color && {
+					'--cr-primary': `var(--cr-${color}-d)`,
+					'--cr-secondary': `var(--cr-cream)`,
+				}
+			}
+		>
 			<div className="c-card__thumb">
 				<div className="object-fit">{thumb && <Img image={thumb} />}</div>
 			</div>
@@ -29,26 +38,34 @@ export default function GuideCard({ data, layout = 'vertical', color }) {
 							<CategoryPillList
 								categories={categories}
 								subcategories={subcategories}
-								limit={layout == 'vertical' ? 3 : 1}
+								limit={layout == 'horizontal-1' ? 1 : 3}
 							/>
 						</div>
 					)}
 				<div className="c-card__header">
 					<h3
-						className={clsx(
-							'c-card__title',
-							layout == 'horizontal' ? 't-h-5' : 't-h-4'
-						)}
+						className={clsx('c-card__title', {
+							't-h-3': layout === 'embed',
+							't-h-4': layout === 'vertical-1',
+							't-h-3': layout === 'vertical-2',
+							't-h-5': layout === 'horizontal-1',
+							't-h-2': layout === 'horizontal-2',
+						})}
 					>
 						{title}
 					</h3>
 				</div>
+				{excerpt && layout == 'horizontal-2' && (
+					<p class="c-card__excerpt t-b-1">{excerpt}</p>
+				)}
 				<div className="c-card__actions">
 					<Button
-						className={clsx('btn-underline', color && `cr-${color}-d`)}
+						className={clsx('btn-underline', {
+							'cr-cream': color,
+						})}
 						href={url}
 					>
-						Read
+						Read Guide
 					</Button>
 				</div>
 			</div>

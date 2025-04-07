@@ -92,7 +92,7 @@ const ListWithSSG = ({ data, currentPageNumber }) => {
 				<div className="p-locations__list">
 					<ResponsiveGrid>
 						{listData?.map((item, index) => (
-							<LocationCard key={item._id} data={item} />
+							<LocationCard key={item._id} data={item} layout="vertical-2" />
 						))}
 					</ResponsiveGrid>
 				</div>

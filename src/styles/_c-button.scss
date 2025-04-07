@@ -38,6 +38,11 @@
 		--cr-secondary: var(--cr-brown-d);
 	}
 
+	&.cr-cream {
+		--cr-primary: var(--cr-cream);
+		--cr-secondary: var(--cr-white);
+	}
+
 	&.cr-brown-l {
 		--cr-primary: var(--cr-brown-l);
 		--cr-secondary: var(--cr-brown-d);
