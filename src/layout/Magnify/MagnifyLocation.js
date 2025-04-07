@@ -98,7 +98,7 @@ export default function MagnifyLocation({ data, color = 'green' }) {
 					<ul>
 						{urls.map((url, i) => (
 							<li key={`url-${i}`}>
-								<Link href={url} target={'_blank'}>
+								<Link href={url} isNewTab={true}>
 									{url
 										.replace(/^(https?:\/\/)?(www\.)?/, '')
 										.replace(/\/$/, '')}

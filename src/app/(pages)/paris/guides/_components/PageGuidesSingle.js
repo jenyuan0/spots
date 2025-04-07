@@ -27,6 +27,7 @@ export default function PageGuidesSingle({ data }) {
 		categories,
 		subcategories,
 		showMap,
+		excerpt,
 		content,
 		pageModules,
 		related,
@@ -104,6 +105,7 @@ export default function PageGuidesSingle({ data }) {
 			</section>
 
 			<section className="p-guides-single__body wysiwyg-page">
+				{excerpt && <p className="large-paragraph">{excerpt}</p>}
 				<CustomPortableText blocks={content} />
 			</section>
 

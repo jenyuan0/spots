@@ -127,7 +127,8 @@ export const getGuidesData = (type) => {
 			${subcategoryMeta}
 		},
 		"color": lower(categories[0]->color->title),
-		"colorHex": lower(categories[0]->color->colorD.hex),`;
+		"colorHex": lower(categories[0]->color->colorD.hex),
+		excerpt,`;
 	if (type === 'card') {
 		defaultData += groq`excerpt`;
 	} else {

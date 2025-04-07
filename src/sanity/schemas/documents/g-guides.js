@@ -53,7 +53,7 @@ export default defineType({
 		{
 			name: 'excerpt',
 			type: 'text',
-			rows: 2,
+			rows: 4,
 		},
 		{
 			name: 'showMap',

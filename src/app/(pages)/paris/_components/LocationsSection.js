@@ -35,7 +35,7 @@ export default function LocationsSection({ data }) {
 	return (
 		<section className="p-paris__locations">
 			<div className="p-paris__locations__text wysiwyg">
-				<h1 className="t-l-2">Find Your Spots in Paris</h1>
+				<h1 className="t-l-2">Explore Paris</h1>
 				<h2 className="t-h-1">Where every circle leads to discovery</h2>
 				<Button
 					href={'/paris/locations'}
