@@ -15,6 +15,7 @@ import {
 import Input from '@/components/Input';
 import Textarea from '@/components/Textarea';
 import Select from '@/components/Select';
+import Button from '@/components/Button';
 
 const VALIDATION_PATTERNS = {
 	email: {
@@ -90,8 +91,7 @@ const FormItem = ({ item, control }) => {
 };
 
 export default function CustomForm({ data }) {
-	const { formTitle, customForm, formFailureNotificationEmail } = data || {};
-	const { formFields } = customForm || {};
+	const { formTitle, formFields, formFailureNotificationEmail } = data || {};
 	const [formState, setFormState] = useState(FORM_STATES.IDLE);
 	const dispatch = useAppDispatch();
 
@@ -157,7 +157,7 @@ export default function CustomForm({ data }) {
 
 	return (
 		<div className="c-form">
-			<h4>{formTitle}</h4>
+			<h2>{formTitle}</h2>
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onHandleSubmit)}>
 					{formFieldsData.map((item) => {
@@ -165,13 +165,14 @@ export default function CustomForm({ data }) {
 							<FormItem key={item._key} item={item} control={form.control} />
 						);
 					})}
-					<button
+					<Button
 						type="submit"
 						disabled={formState === FORM_STATES.SUBMITTING}
-						className="btn"
+						className="btn cr-green-d"
+						caret={'right'}
 					>
 						{formState === FORM_STATES.SUBMITTING ? 'Submitting...' : 'Submit'}
-					</button>
+					</Button>
 				</form>
 			</Form>
 			{formState === FORM_STATES.SUCCESS && (

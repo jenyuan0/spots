@@ -7,7 +7,6 @@ import settingsIntegration from './schemas/documents/settings-integrations';
 
 // Object types
 import button from './schemas/objects/button';
-import formBuilder from './schemas/objects/form-builder';
 import formFields from './schemas/objects/form-builder/form-fields';
 import link from './schemas/objects/link';
 import navDropdown from './schemas/objects/nav-dropdown';
@@ -55,7 +54,6 @@ const schemas = [
 	settingsIntegration,
 
 	button,
-	formBuilder,
 	formFields,
 	link,
 	navDropdown,

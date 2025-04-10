@@ -373,18 +373,16 @@ export const portableTextObj = groq`
 `;
 
 const customForm = groq`
-	customForm {
-		formFields[] {
-			placeholder,
+	formFields[] {
+		placeholder,
+		_key,
+		required,
+		fieldLabel,
+		inputType,
+		selectOptions[] {
 			_key,
-			required,
-			fieldLabel,
-			inputType,
-			selectOptions[] {
-				_key,
-				"title": option,
-				"value": option
-			}
+			"title": option,
+			"value": option
 		}
 	}`;
 
