@@ -35,15 +35,62 @@ export default defineType({
 			name: 'introHeading',
 			type: 'portableTextSimple',
 		},
+		callToAction({ name: 'introCta' }),
 		{
-			name: 'highlights',
+			name: 'clockHeading',
+			type: 'string',
+		},
+		{
+			name: 'clockParagraph',
+			type: 'text',
+			rows: 4,
+		},
+		callToAction({ name: 'clockCta' }),
+		{
+			name: 'clockText',
 			type: 'array',
-			of: [customImage({ hasCropOptions: true })],
+			of: [
+				{
+					name: 'item',
+					type: 'object',
+					fields: [
+						{
+							name: 'text',
+							type: 'string',
+						},
+						customImage(),
+					],
+				},
+			],
+		},
+		{
+			name: 'masksHeading',
+			type: 'string',
+		},
+		{
+			name: 'masksParagraph',
+			type: 'text',
+			rows: 4,
+		},
+		{
+			name: 'masksImages',
+			type: 'array',
+			of: [customImage()],
 			options: {
 				layout: 'grid',
 			},
 		},
-		callToAction({ name: 'introCta' }),
+		callToAction({ name: 'masksCta' }),
+		{
+			name: 'toggleHeading',
+			type: 'string',
+		},
+		{
+			name: 'toggleParagraph',
+			type: 'text',
+			rows: 4,
+		},
+		callToAction({ name: 'toggleCta' }),
 		sharing(),
 	],
 	preview: {

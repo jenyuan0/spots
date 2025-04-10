@@ -76,8 +76,6 @@ export default function PageGuidesSingle({ data }) {
 					) === index
 			) || [];
 
-		console.log(locations);
-
 		setTimeout(() => {
 			setAsideMapLocations(locations);
 			setAsideMapActive(locations.length && showMap);

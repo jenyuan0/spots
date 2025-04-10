@@ -447,9 +447,19 @@ export const pageHomeQuery = `
 		introTitle,
 		introHeading,
 		introCta,
-		"highlights": highlights[]{
+		clockHeading,
+		clockParagraph,
+		clockText,
+		clockCta,
+		masksHeading,
+		masksParagraph,
+		masksCta,
+		masksImages[]{
 			${imageMeta}
 		},
+		toggleHeading,
+		toggleParagraph,
+		toggleCta
 	}
 `;
 
@@ -587,7 +597,6 @@ export const pageParisQuery = groq`
 					"slug": slug.current
 				},
 			},
-			activities
 		},
 		sharing,
 	}

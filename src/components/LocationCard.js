@@ -47,8 +47,8 @@ const ImageGallery = ({ images, layout, onLightbox }) => {
 	);
 };
 
-// URL construction utility
-const constructLocationUrl = (slug) => `/paris/locations/${slug}`;
+// TODO
+// Include pricing, address, and book CTA in embed view
 
 // Main LocationCard component
 export default function LocationCard({
@@ -69,7 +69,7 @@ export default function LocationCard({
 		content,
 	} = data;
 
-	const url = constructLocationUrl(slug);
+	const url = `/paris/locations/${slug}`;
 	const addressString =
 		address && Object.values(address).filter(Boolean).join(', ');
 	const resStart = res?.startTime && new Date(res?.startTime);
@@ -113,7 +113,6 @@ export default function LocationCard({
 				layout={layout}
 				onLightbox={handleLightbox}
 			/>
-
 			<div className="c-card__info">
 				{!['horizontal-2', 'embed'].includes(layout) &&
 					(hasArrayValue(categories) || hasArrayValue(subcategories)) && (
@@ -125,7 +124,6 @@ export default function LocationCard({
 							/>
 						</div>
 					)}
-
 				<div className="c-card__header">
 					<h3
 						className={clsx('c-card__title', {
@@ -139,19 +137,16 @@ export default function LocationCard({
 						{title}
 					</h3>
 				</div>
-
 				{resStart && (
 					<div className="c-card__badge" role="status">
 						Reservation: {formatTime(resStart)}
 					</div>
 				)}
-
 				{layout == 'embed' && (content || contentReplace) && (
 					<div className={`c-card__content wysiwyg-b-1`}>
 						<CustomPortableText blocks={contentReplace || content} />
 					</div>
 				)}
-
 				<div className="c-card__actions">
 					<Button
 						className={clsx('btn-underline', {
@@ -178,7 +173,6 @@ export default function LocationCard({
 					)}
 				</div>
 			</div>
-
 			<Link
 				className="c-card__url p-fill"
 				href={url}

@@ -37,4 +37,17 @@
 			grid-template-columns: repeat(4, 1fr);
 		}
 	}
+
+	@media (hover: hover) {
+		.c-card:hover {
+			transform: rotate(2deg);
+			z-index: 1;
+		}
+		.c-card:nth-child(2n):hover {
+			transform: rotate(-3deg);
+		}
+		.c-card:nth-child(3n):hover {
+			transform: rotate(3deg);
+		}
+	}
 }

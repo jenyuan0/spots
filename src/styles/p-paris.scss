@@ -126,45 +126,6 @@
 	background-color: var(--cr-white);
 	border-top: 1px solid;
 
-	&__clock {
-		position: relative;
-		width: Min(100%, 360px);
-		aspect-ratio: 1;
-		margin: auto;
-		border-radius: 100%;
-
-		&:after {
-			content: '';
-			display: block;
-			position: absolute;
-			inset: 0;
-			border: 1px solid var(--cr-primary);
-			border-radius: 100%;
-			opacity: 0.1;
-		}
-
-		&__center {
-			position: absolute;
-			width: 20px;
-			height: 20px;
-			top: 50%;
-			left: 50%;
-			border-radius: 100%;
-			color: var(--cr-primary);
-			background-color: var(--cr-primary);
-			transform: translate3d(-50%, -50%, 0);
-		}
-
-		&__label {
-			position: absolute;
-			top: 50%;
-			left: 100%;
-			transform: translate3d(10px, -50%, 0);
-			white-space: nowrap;
-			font: var(--t-b-1);
-		}
-	}
-
 	&__heading {
 		grid-column: 1 / -1;
 		text-align: center;

@@ -98,14 +98,6 @@ export default defineType({
 								},
 							],
 						},
-						{
-							name: 'activities',
-							title: 'Activities',
-							type: 'array',
-							of: [{ type: 'string' }],
-							description:
-								'List of seasonal activities that rotate in the clock display',
-						},
 					],
 				},
 			],
