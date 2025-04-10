@@ -136,15 +136,6 @@
 	margin: auto;
 	border-radius: 100%;
 
-	// &:after {
-	// 	content: '';
-	// 	display: block;
-	// 	position: absolute;
-	// 	inset: 0;
-	// 	border: 1px solid var(--cr-primary);
-	// 	border-radius: 100%;
-	// }
-
 	&__img {
 		position: absolute;
 		width: Min(100%, 600px);
@@ -184,13 +175,14 @@
 }
 
 .p-home__masks {
+	--gap: 10px;
 	display: grid;
 	width: Min(100%, 600px);
 	aspect-ratio: 1;
 	margin: auto;
 	grid-template-columns: repeat(3, 1fr);
 	align-items: center;
-	gap: 20px;
+	gap: var(--gap);
 
 	@keyframes topOut {
 		0% {
@@ -270,6 +262,43 @@
 		border-radius: 100%;
 		overflow: hidden;
 		background-color: var(--cr-subtle);
+
+		picture {
+			width: calc(300% + var(--gap) * 2);
+			height: calc(300% + var(--gap) * 2);
+			max-width: unset;
+		}
+
+		img {
+			width: 100% !important;
+			height: 100% !important;
+			object-fit: cover;
+		}
+
+		&:nth-child(2) picture {
+			transform: translate3d(-33.33%, 0, 0);
+		}
+		&:nth-child(3) picture {
+			transform: translate3d(-66.66%, 0, 0);
+		}
+		&:nth-child(4) picture {
+			transform: translate3d(0, -33.33%, 0);
+		}
+		&:nth-child(5) picture {
+			transform: translate3d(-33.33%, -33.33%, 0);
+		}
+		&:nth-child(6) picture {
+			transform: translate3d(-66.66%, -33.33%, 0);
+		}
+		&:nth-child(7) picture {
+			transform: translate3d(0, -66.66%, 0);
+		}
+		&:nth-child(8) picture {
+			transform: translate3d(-33.33%, -66.66%, 0);
+		}
+		&:nth-child(9) picture {
+			transform: translate3d(-66.66%, -66.66%, 0);
+		}
 	}
 
 	&__img {
@@ -397,6 +426,7 @@
 			border-top: 10px solid transparent;
 			border-bottom: 10px solid transparent;
 			border-left: 20px solid var(--cr-white);
+			opacity: 0;
 			transform: translate3d(-50%, -50%, 0) rotate(calc(var(--index) * 45deg));
 			transition: var(--t-3);
 		}
@@ -451,10 +481,11 @@
 	}
 
 	&[data-toggle='1'] &__sun:after {
-		transform: translate3d(-50%, -50%, 0) scale(0.8);
+		transform: translate3d(-50%, -50%, 0) scale(0.75);
 	}
 
 	&[data-toggle='1'] &__sun__dec {
+		opacity: 1;
 		transform: translate3d(-50%, -50%, 0) rotate(calc(var(--index) * 45deg))
 			translate(var(--dec-translate));
 		transition-delay: calc(var(--index) * 0.05s);

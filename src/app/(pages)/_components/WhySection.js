@@ -106,6 +106,7 @@ const ClockBlock = ({ data, index }) => {
 						className="btn-outline"
 						link={clockCta.link}
 						isNewTab={clockCta.isNewTab}
+						caret="right"
 					>
 						{clockCta.label}
 					</Button>
@@ -117,49 +118,50 @@ const ClockBlock = ({ data, index }) => {
 
 const MasksBlock = ({ data, index }) => {
 	const { masksHeading, masksParagraph, masksCta, masksImages } = data;
-	const intervalRefs = useRef([]);
-	const [states, setStates] = useState([]);
 	const ref = useRef(null);
 	const springScale = useScrollAnimation({ ref, index });
 
-	const splitImages = useMemo(() => {
-		if (!masksImages?.length) return [];
-
-		const splitArrayIntoEqualParts = (array, parts) => {
-			const itemsPerPart = Math.floor(array.length / parts);
-			const remainder = array.length % parts;
-
-			return Array.from({ length: parts }, (_, i) => {
-				const start = i * itemsPerPart + Math.min(i, remainder);
-				const end = start + itemsPerPart + (i < remainder ? 1 : 0);
-				return array.slice(start, end);
-			});
-		};
-
-		const split = splitArrayIntoEqualParts(masksImages, 9);
-		setStates(split.map(() => ({ activeIndex: 0, prevIndex: null })));
-		return split;
-	}, [masksImages]);
+	const [activeIndices, setActiveIndices] = useState(Array(9).fill(0));
 
 	useEffect(() => {
-		splitImages.forEach((images, blockIndex) => {
-			const randomInterval =
-				ANIMATION_CONFIG.MASKS_INTERVAL + (Math.random() * 2000 - 500);
+		const intervals = Array(9).fill(null);
+		let isPageVisible = true;
 
-			intervalRefs.current[blockIndex] = setInterval(() => {
-				setStates((prev) => {
-					const newStates = [...prev];
-					newStates[blockIndex] = {
-						prevIndex: prev[blockIndex].activeIndex,
-						activeIndex: (prev[blockIndex].activeIndex + 1) % images.length,
-					};
-					return newStates;
+		// Handle visibility change
+		const handleVisibilityChange = () => {
+			isPageVisible = document.visibilityState === 'visible';
+
+			if (!isPageVisible) {
+				// Clear intervals when page is hidden
+				intervals.forEach((interval) => clearInterval(interval));
+			} else {
+				// Restart intervals when page becomes visible
+				intervals.forEach((_, circleIndex) => {
+					intervals[circleIndex] = setInterval(() => {
+						setTimeout(() => {
+							setActiveIndices((prev) => {
+								const newIndices = [...prev];
+								newIndices[circleIndex] =
+									(prev[circleIndex] + 1) % masksImages.length;
+								return newIndices;
+							});
+						}, circleIndex * 50);
+					}, 5000);
 				});
-			}, randomInterval);
-		});
+			}
+		};
 
-		return () => intervalRefs.current.forEach(clearInterval);
-	}, [splitImages]);
+		// Set up initial intervals
+		handleVisibilityChange();
+
+		// Add visibility change listener
+		document.addEventListener('visibilitychange', handleVisibilityChange);
+
+		return () => {
+			intervals.forEach((interval) => clearInterval(interval));
+			document.removeEventListener('visibilitychange', handleVisibilityChange);
+		};
+	}, [masksImages.length]);
 
 	const renderMaskCircle = useCallback(
 		(item, blockIndex) => (
@@ -168,22 +170,24 @@ const MasksBlock = ({ data, index }) => {
 				className="p-home__masks__circle"
 				data-direction={blockIndex % 3}
 			>
-				{item.map((el, idx) => (
+				{masksImages?.map((el, idx) => (
 					<div
 						key={idx}
 						className={clsx('p-home__masks__img', {
-							'is-active': idx === states[blockIndex]?.activeIndex,
-							'is-prev': idx === states[blockIndex]?.prevIndex,
+							'is-active': idx === activeIndices[blockIndex],
+							'is-prev':
+								idx ===
+								(activeIndices[blockIndex] === 0
+									? masksImages.length - 1
+									: activeIndices[blockIndex] - 1),
 						})}
 					>
-						<span className="object-fit">
-							<Img image={el} />
-						</span>
+						<Img image={el} />
 					</div>
 				))}
 			</div>
 		),
-		[states]
+		[activeIndices, masksImages]
 	);
 
 	return (
@@ -194,7 +198,9 @@ const MasksBlock = ({ data, index }) => {
 		>
 			<div className="p-home__why-block__media">
 				<div className="p-home__masks">
-					{splitImages.map((item, index) => renderMaskCircle(item, index))}
+					{Array.from({ length: 9 }).map((item, index) =>
+						renderMaskCircle(item, index)
+					)}
 				</div>
 			</div>
 			<div className="p-home__why-block__text wysiwyg">
@@ -205,6 +211,7 @@ const MasksBlock = ({ data, index }) => {
 						className="btn-outline"
 						link={masksCta.link}
 						isNewTab={masksCta.isNewTab}
+						caret="right"
 					>
 						{masksCta.label}
 					</Button>
@@ -213,6 +220,7 @@ const MasksBlock = ({ data, index }) => {
 		</motion.div>
 	);
 };
+
 const ToggleBlock = ({ data, index }) => {
 	const { toggleHeading, toggleParagraph, toggleCta } = data;
 	const [toggle, setToggle] = useState(0);
@@ -289,6 +297,7 @@ const ToggleBlock = ({ data, index }) => {
 						className="btn-outline"
 						link={toggleCta.link}
 						isNewTab={toggleCta.isNewTab}
+						caret="right"
 					>
 						{toggleCta.label}
 					</Button>

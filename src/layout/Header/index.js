@@ -157,7 +157,9 @@ export default function Header({ data, isActive }) {
 							<NavLink nav={rightNav} />
 						</div>
 					</div>
-					<Button className="g-header__cta btn">Contact</Button>
+					<Button className="g-header__cta btn" caret="right">
+						Contact
+					</Button>
 				</div>
 				<div className="g-header__nav t-l-1" aria-hidden={!isScrolled}>
 					<NavLink nav={leftNav} />
