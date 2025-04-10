@@ -66,7 +66,7 @@ export default defineType({
 		},
 		prepare({ required, fieldLabel, inputType }) {
 			return {
-				title: `${fieldLabel} ${required ? '(optional)' : '(required)'}`,
+				title: `${fieldLabel} ${required ? '(required)' : '(optional)'}`,
 				subtitle: `Type: ${inputType}`,
 			};
 		},
