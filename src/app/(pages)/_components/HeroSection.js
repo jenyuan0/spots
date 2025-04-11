@@ -21,7 +21,6 @@ function HeroSpot({ index, data, boundary, isLastChild, scrollYProgress }) {
 			x: data?.x,
 			y: data?.y,
 		});
-
 		setScreen({
 			x: boundary.width / 2,
 			y: boundary.height / 2,
@@ -95,7 +94,7 @@ function HeroSpot({ index, data, boundary, isLastChild, scrollYProgress }) {
 
 	return (
 		<motion.div
-			className={'p-home__spot'}
+			className={'p-home__hero__spot'}
 			style={{
 				x: springX,
 				y: springY,
@@ -211,7 +210,7 @@ export default function HeroSection({ data, setPrimaryColor }) {
 			: null;
 	}, [heroSpots, spots, scrollYProgress]);
 
-	const motionScale = useTransform(scrollYProgress, [0, 1], [1, 0.95]);
+	const motionScale = useTransform(scrollYProgress, [0, 1], [1, 0.85]);
 	const springScale = useSpring(motionScale, springConfig);
 
 	return (

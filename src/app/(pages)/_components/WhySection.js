@@ -1,12 +1,6 @@
 'use client';
 
-import React, {
-	useState,
-	useEffect,
-	useCallback,
-	useMemo,
-	useRef,
-} from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { colorArray, springConfig } from '@/lib/helpers';
 import Img from '@/components/Image';
 import Button from '@/components/Button';
@@ -32,91 +26,11 @@ const useScrollAnimation = ({ ref, index = 0 }) => {
 		[0, 1],
 		[1, 0.9 + 0.01 * index]
 	);
+
 	return useSpring(motionScale, springConfig);
 };
 
-const ClockBlock = ({ data, index }) => {
-	const { clockHeading, clockParagraph, clockCta, clockText } = data;
-	const [state, setState] = useState({
-		rotatingText: clockText[0].text || '',
-		rotation: 0,
-		color: colorArray()[0].toLowerCase(),
-		textIndex: 0,
-	});
-
-	const ref = useRef(null);
-	const springScale = useScrollAnimation({ ref, index });
-
-	useEffect(() => {
-		if (!clockText?.length) return;
-
-		const interval = setInterval(() => {
-			setState((prev) => ({
-				textIndex: (prev.textIndex + 1) % clockText.length,
-				rotatingText: clockText[prev.textIndex].text,
-				rotation: (prev.rotation + ANIMATION_CONFIG.ROTATION_STEP) % 360,
-				color:
-					colorArray()[
-						Math.floor(Math.random() * colorArray.length)
-					].toLowerCase(),
-			}));
-		}, ANIMATION_CONFIG.ROTATION_INTERVAL);
-
-		return () => clearInterval(interval);
-	}, [clockText]);
-
-	return (
-		<motion.div
-			className="p-home__why-block"
-			ref={ref}
-			style={{ scale: springScale }}
-		>
-			<div className="p-home__why-block__media">
-				{clockText.map((item, index) => {
-					return (
-						<div
-							key={`clock-image-${index}`}
-							className={clsx('p-home__clock__img', {
-								'is-active': state.textIndex == index,
-							})}
-						>
-							<div className="object-fit">
-								{item.image && <Img image={item.image} />}
-							</div>
-						</div>
-					);
-				})}
-				<div
-					className="p-home__clock"
-					style={{ '--cr-primary': `var(--cr-${state.color}-l)` }}
-				>
-					<div
-						className="p-home__clock__center"
-						style={{ transform: `rotate(${state.rotation}deg)` }}
-					>
-						<div className="p-home__clock__label">{state.rotatingText}</div>
-					</div>
-				</div>
-			</div>
-			<div className="p-home__why-block__text wysiwyg">
-				<h2 className="t-b-1">{clockHeading}</h2>
-				<p className="t-h-2">{clockParagraph}</p>
-				{clockCta && (
-					<Button
-						className="btn-outline"
-						link={clockCta.link}
-						isNewTab={clockCta.isNewTab}
-						caret="right"
-					>
-						{clockCta.label}
-					</Button>
-				)}
-			</div>
-		</motion.div>
-	);
-};
-
-const MasksBlock = ({ data, index }) => {
+const MasksBlock = ({ data, index, color }) => {
 	const { masksHeading, masksParagraph, masksCta, masksImages } = data;
 	const ref = useRef(null);
 	const springScale = useScrollAnimation({ ref, index });
@@ -192,9 +106,9 @@ const MasksBlock = ({ data, index }) => {
 
 	return (
 		<motion.div
-			className="p-home__why-block"
 			ref={ref}
-			style={{ scale: springScale }}
+			className="p-home__why-block"
+			style={{ scale: springScale, '--cr-primary': `var(--cr-${color}-d)` }}
 		>
 			<div className="p-home__why-block__media">
 				<div className="p-home__masks">
@@ -204,11 +118,11 @@ const MasksBlock = ({ data, index }) => {
 				</div>
 			</div>
 			<div className="p-home__why-block__text wysiwyg">
-				<h2 className="t-b-1">{masksHeading}</h2>
+				<h2 className="p-home__why-block__heading t-b-1">{masksHeading}</h2>
 				<p className="t-h-2">{masksParagraph}</p>
 				{masksCta && (
 					<Button
-						className="btn-outline"
+						className={clsx('btn-outline', `cr-${color}-d`)}
 						link={masksCta.link}
 						isNewTab={masksCta.isNewTab}
 						caret="right"
@@ -221,7 +135,88 @@ const MasksBlock = ({ data, index }) => {
 	);
 };
 
-const ToggleBlock = ({ data, index }) => {
+const ClockBlock = ({ data, index, color }) => {
+	const { clockHeading, clockParagraph, clockCta, clockText } = data;
+	const [state, setState] = useState({
+		rotatingText: clockText[0].text || '',
+		rotation: 0,
+		color: colorArray()[0].toLowerCase(),
+		textIndex: 0,
+	});
+
+	const ref = useRef(null);
+	const springScale = useScrollAnimation({ ref, index });
+
+	useEffect(() => {
+		if (!clockText?.length) return;
+
+		const interval = setInterval(() => {
+			setState((prev) => ({
+				textIndex: (prev.textIndex + 1) % clockText.length,
+				rotatingText: clockText[prev.textIndex].text,
+				rotation: (prev.rotation + ANIMATION_CONFIG.ROTATION_STEP) % 360,
+				color:
+					colorArray()[
+						Math.floor(Math.random() * colorArray.length)
+					].toLowerCase(),
+			}));
+		}, ANIMATION_CONFIG.ROTATION_INTERVAL);
+
+		return () => clearInterval(interval);
+	}, [clockText]);
+
+	return (
+		<motion.div
+			ref={ref}
+			className="p-home__why-block"
+			style={{ scale: springScale, '--cr-primary': `var(--cr-${color}-d)` }}
+		>
+			<div className="p-home__why-block__media">
+				{clockText.map((item, index) => {
+					return (
+						<div
+							key={`clock-image-${index}`}
+							className={clsx('p-home__clock__img', {
+								'is-active': state.textIndex == index,
+							})}
+						>
+							<div className="object-fit">
+								{item.image && <Img image={item.image} />}
+							</div>
+						</div>
+					);
+				})}
+				<div
+					className="p-home__clock"
+					style={{ '--cr-primary': `var(--cr-${state.color}-l)` }}
+				>
+					<div
+						className="p-home__clock__center"
+						style={{ transform: `rotate(${state.rotation}deg)` }}
+					>
+						<div className="p-home__clock__label">{state.rotatingText}</div>
+					</div>
+				</div>
+			</div>
+			<div className="p-home__why-block__text wysiwyg">
+				<h2 className="p-home__why-block__heading t-b-1">{clockHeading}</h2>
+				<p className="t-h-2">{clockParagraph}</p>
+				{clockCta && (
+					<Button
+						className={clsx('btn-outline', `cr-${color}-d`)}
+						link={clockCta.link}
+						isNewTab={clockCta.isNewTab}
+						caret="right"
+					>
+						{clockCta.label}
+					</Button>
+				)}
+			</div>
+		</motion.div>
+	);
+};
+
+const ToggleBlock = ({ data, index, color }) => {
 	const { toggleHeading, toggleParagraph, toggleCta } = data;
 	const [toggle, setToggle] = useState(0);
 	const [intervalId, setIntervalId] = useState(null);
@@ -258,9 +253,9 @@ const ToggleBlock = ({ data, index }) => {
 
 	return (
 		<motion.div
-			className="p-home__why-block"
 			ref={ref}
-			style={{ scale: springScale }}
+			className="p-home__why-block"
+			style={{ scale: springScale, '--cr-primary': `var(--cr-${color}-d)` }}
 		>
 			<div className="p-home__why-block__media">
 				<button
@@ -290,11 +285,11 @@ const ToggleBlock = ({ data, index }) => {
 				</button>
 			</div>
 			<div className="p-home__why-block__text wysiwyg">
-				<h2 className="t-b-1">{toggleHeading}</h2>
+				<h2 className="p-home__why-block__heading t-b-1">{toggleHeading}</h2>
 				<p className="t-h-2">{toggleParagraph}</p>
 				{toggleCta && (
 					<Button
-						className="btn-outline"
+						className={clsx('btn-outline', `cr-${color}-d`)}
 						link={toggleCta.link}
 						isNewTab={toggleCta.isNewTab}
 						caret="right"
@@ -307,12 +302,12 @@ const ToggleBlock = ({ data, index }) => {
 	);
 };
 
-export default function WhySection({ data }) {
+export default function WhySection({ data, primaryColor }) {
 	return (
 		<div className="p-home__why">
-			<MasksBlock data={data} index={0} />
-			<ClockBlock data={data} index={1} />
-			<ToggleBlock data={data} index={2} />
+			<MasksBlock data={data} index={0} color={primaryColor} />
+			<ClockBlock data={data} index={1} color={'blue'} />
+			<ToggleBlock data={data} index={2} color={'orange'} />
 		</div>
 	);
 }
