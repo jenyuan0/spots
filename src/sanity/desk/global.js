@@ -34,6 +34,15 @@ export const globalMenu = (S) => {
 								.documentId('gFooter')
 						)
 						.icon(ComponentIcon),
+					S.listItem()
+						.title('Plan Form')
+						.child(
+							S.editor()
+								.id('gPlanForm')
+								.schemaType('gPlanForm')
+								.documentId('gPlanForm')
+						)
+						.icon(ComponentIcon),
 				])
 		)
 		.icon(ComponentIcon);

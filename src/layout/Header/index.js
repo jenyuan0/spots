@@ -157,7 +157,11 @@ export default function Header({ data, isActive }) {
 							<NavLink nav={rightNav} />
 						</div>
 					</div>
-					<Button className="g-header__cta btn" caret="right" href={'/contact'}>
+					<Button
+						className="g-header__cta btn cr-green-d"
+						caret="right"
+						href={'/contact'}
+					>
 						Contact
 					</Button>
 				</div>

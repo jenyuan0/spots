@@ -302,12 +302,12 @@ const ToggleBlock = ({ data, index, color }) => {
 	);
 };
 
-export default function WhySection({ data, primaryColor }) {
+export default function WhySection({ data }) {
 	return (
 		<div className="p-home__why">
-			<MasksBlock data={data} index={0} color={primaryColor} />
+			<MasksBlock data={data} index={0} color={'red'} />
 			<ClockBlock data={data} index={1} color={'blue'} />
-			<ToggleBlock data={data} index={2} color={'orange'} />
+			<ToggleBlock data={data} index={2} color={'purple'} />
 		</div>
 	);
 }

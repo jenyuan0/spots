@@ -101,15 +101,15 @@ html {
 
 @media (hover: hover) {
 	* {
-		outline-offset: 3px;
-		outline-style: dashed;
+		outline-offset: 1px;
+		outline-style: solid;
 		outline-color: transparent;
 	}
 
 	*:focus-visible {
 		// repeat properties to override unsets
-		outline-offset: 3px !important;
-		outline-style: dashed !important;
+		outline-offset: 1px !important;
+		outline-style: solid !important;
 		outline-color: var(--cr-primary, var(--cr-accent)) !important;
 	}
 }
@@ -283,7 +283,7 @@ textarea {
 	@mixin size {
 		height: var(--height);
 		padding: calc((var(--height) - var(--line-height)) / 2) var(--padding-h);
-		font: var(--t-b-2);
+		font: var(--t-b-1);
 		line-height: var(--line-height);
 
 		@include mobileDown {
@@ -300,8 +300,8 @@ textarea {
 		text-overflow: ellipsis;
 		overflow: hidden;
 		border: unset;
-		outline-offset: 3px;
-		outline-style: dashed;
+		outline-offset: 1px;
+		outline-style: solid;
 		outline-color: transparent;
 		color: inherit;
 		border: 1px solid;

@@ -109,7 +109,7 @@ function HeroSpot({ index, data, boundary, isLastChild, scrollYProgress }) {
 
 export default function HeroSection({ data, setPrimaryColor }) {
 	const { heroHeading, heroImage, heroSpots } = data || {};
-	const heroRef = useRef(null);
+	const ref = useRef(null);
 	const [boundary, setBoundary] = useState({
 		width: 0,
 		height: 0,
@@ -117,7 +117,7 @@ export default function HeroSection({ data, setPrimaryColor }) {
 	const [spots, setSpots] = useState([]);
 	const [isNudgeActive, setIsNudgeActive] = useState(true);
 	const { scrollYProgress } = useScroll({
-		target: heroRef,
+		target: ref,
 		offset: ['start start', 'end start'],
 	});
 
@@ -131,10 +131,10 @@ export default function HeroSection({ data, setPrimaryColor }) {
 
 	useEffect(() => {
 		setBoundary({
-			width: heroRef.current.getBoundingClientRect().width,
-			height: heroRef.current.getBoundingClientRect().height,
+			width: ref.current.getBoundingClientRect().width,
+			height: ref.current.getBoundingClientRect().height,
 		});
-	}, [heroRef]);
+	}, [ref]);
 
 	// Function to check for overlaps
 	const checkOverlap = (x, y, existingPositions) => {
@@ -214,7 +214,7 @@ export default function HeroSection({ data, setPrimaryColor }) {
 	const springScale = useSpring(motionScale, springConfig);
 
 	return (
-		<section ref={heroRef} className="p-home__hero">
+		<section ref={ref} className="p-home__hero">
 			<motion.div
 				className={'p-home__hero__image p-fill'}
 				style={{

@@ -1,0 +1,23 @@
+.c-form {
+	display: flex;
+	flex-direction: column;
+	gap: var(--s-4-v);
+	color: var(--cr-green-d);
+
+	&__header {
+		text-align: center;
+		color: var(--cr-green-d);
+	}
+
+	&__cta {
+		width: 100%;
+		margin-top: var(--s-4-v);
+	}
+
+	--cr-primary: var(--cr-green-d);
+
+	@include selection {
+		color: var(--cr-cream);
+		background-color: var(--cr-green-d);
+	}
+}

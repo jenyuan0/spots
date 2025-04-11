@@ -23,6 +23,7 @@ import colorSelect from './schemas/objects/color-select';
 import gAnnouncement from './schemas/documents/g-announcement';
 import gHeader from './schemas/documents/g-header';
 import gFooter from './schemas/documents/g-footer';
+import gPlanForm from './schemas/documents/g-plan-form';
 import gLocations from './schemas/documents/g-locations';
 import gItinerariesDay from './schemas/documents/g-itineraries-day';
 import gItineraries from './schemas/documents/g-itineraries';
@@ -69,6 +70,7 @@ const schemas = [
 	gAnnouncement,
 	gHeader,
 	gFooter,
+	gPlanForm,
 	gLocations,
 	gItinerariesDay,
 	gItineraries,

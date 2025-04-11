@@ -90,8 +90,9 @@ const FormItem = ({ item, control }) => {
 	);
 };
 
-export default function CustomForm({ data }) {
-	const { formTitle, formFields, formFailureNotificationEmail } = data || {};
+export default function CustomForm({ data, isH1 = false }) {
+	const { formTitle, formHeading, formFields, formFailureNotificationEmail } =
+		data || {};
 	const [formState, setFormState] = useState(FORM_STATES.IDLE);
 	const dispatch = useAppDispatch();
 
@@ -157,7 +158,19 @@ export default function CustomForm({ data }) {
 
 	return (
 		<div className="c-form">
-			<h2>{formTitle}</h2>
+			<div className="c-form__header wysiwyg">
+				{isH1 ? (
+					<>
+						<h1 className="t-b-1">{formTitle}</h1>
+						<h2 className="t-h-1">{formHeading}</h2>
+					</>
+				) : (
+					<>
+						<h2 className="t-b-1">{formTitle}</h2>
+						<h3 className="t-h-1">{formHeading}</h3>
+					</>
+				)}
+			</div>
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onHandleSubmit)}>
 					{formFieldsData.map((item) => {
@@ -168,10 +181,11 @@ export default function CustomForm({ data }) {
 					<Button
 						type="submit"
 						disabled={formState === FORM_STATES.SUBMITTING}
-						className="btn cr-green-d"
-						caret={'right'}
+						className="c-form__cta btn cr-green-d"
 					>
-						{formState === FORM_STATES.SUBMITTING ? 'Submitting...' : 'Submit'}
+						{formState === FORM_STATES.SUBMITTING
+							? 'Sending...'
+							: 'Send Message'}
 					</Button>
 				</form>
 			</Form>

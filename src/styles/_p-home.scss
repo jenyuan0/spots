@@ -16,7 +16,6 @@
 		border-radius: var(--br-3);
 		overflow: hidden;
 		background-color: var(--cr-subtle);
-		border: 1px solid;
 	}
 
 	&__heading {
@@ -28,7 +27,7 @@
 	}
 
 	&__spot {
-		--size: Min(5vw, 60px);
+		--size: Min(5vw, 80px);
 		position: absolute;
 		width: fit-content;
 		height: fit-content;
@@ -131,16 +130,14 @@
 .p-home__clock {
 	position: relative;
 	width: Min(100%, 600px);
+	aspect-ratio: 1;
 	margin: auto;
 	border-radius: 100%;
+	border: 1px solid var(--cr-blue-l);
 
 	&__img {
 		position: absolute;
-		width: Min(100%, 600px);
-		aspect-ratio: 1;
-		top: 50%;
-		left: 50%;
-		transform: translate3d(-50%, -50%, 0);
+		inset: 0;
 		overflow: hidden;
 		border-radius: 100%;
 
@@ -363,7 +360,7 @@
 	width: Min(100%, 600px);
 	margin: auto;
 	border-radius: 300px;
-	border: 1px solid var(--cr-orange-l);
+	border: 1px solid var(--cr-purple-l);
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
@@ -487,5 +484,38 @@
 		transform: translate3d(-50%, -50%, 0) rotate(calc(var(--index) * 45deg))
 			translate(var(--dec-translate));
 		transition-delay: calc(var(--index) * 0.05s);
+	}
+}
+
+.p-home__contact {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: Min(
+		calc(var(--s-vp-height) - var(--s-header) - var(--s-3-v)),
+		1280px
+	);
+	width: var(--width-max);
+	margin: var(--s-section) auto;
+	color: var(--cr-green-d);
+
+	&__image {
+		align-self: stretch;
+		border-radius: var(--br-3);
+		overflow: hidden;
+		background-color: var(--cr-subtle);
+	}
+
+	&__form {
+		position: relative;
+		width: Min(90%, 600px);
+		padding: var(--s-4-v) var(--s-4-h);
+		border-radius: var(--br-3);
+		background-color: var(--cr-white);
+		z-index: 1;
+		box-shadow: var(--shadow-1);
+		border: 1px solid;
 	}
 }

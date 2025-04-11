@@ -457,7 +457,16 @@ export const pageHomeQuery = `
 		},
 		toggleHeading,
 		toggleParagraph,
-		toggleCta
+		toggleCta,
+		contactImage,
+		"planForm": *[_type == "gPlanForm"][0]{
+			formTitle,
+			formHeading,
+			${customForm},
+			successMessage,
+			errorMessage,
+			formFailureNotificationEmail
+		},
 	}
 `;
 
@@ -484,14 +493,7 @@ export const pagesBySlugQuery = groq`
 export const pageContactQuery = groq`
 	*[_type == "pContact"][0]{
 		title,
-		"slug": slug.current,
-		contactForm {
-			formTitle,
-			${customForm},
-			successMessage,
-			errorMessage,
-			formFailureNotificationEmail
-		}
+		"slug": slug.current
 	}
 `;
 

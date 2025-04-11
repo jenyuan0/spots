@@ -91,6 +91,7 @@ export default defineType({
 			rows: 4,
 		},
 		callToAction({ name: 'toggleCta' }),
+		customImage({ name: 'contactImage' }),
 		sharing(),
 	],
 	preview: {
