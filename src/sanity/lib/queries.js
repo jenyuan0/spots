@@ -458,6 +458,15 @@ export const pageHomeQuery = `
 		toggleHeading,
 		toggleParagraph,
 		toggleCta,
+
+		itinerariesTitle,
+		itinerariesExcerpt[]{
+			${portableTextContent}
+		},
+		"itinerariesItems": itinerariesItems[]->{
+			${getItineraryData('card')}
+		},
+
 		contactImage,
 		"planForm": *[_type == "gPlanForm"][0]{
 			formTitle,
@@ -465,7 +474,17 @@ export const pageHomeQuery = `
 			${customForm},
 			successMessage,
 			errorMessage,
-			formFailureNotificationEmail
+			formFailureNotificationEmail,
+			email,
+			whatsapp,
+			line,
+			faq[]{
+				_key,
+				title,
+				answer[]{
+					${portableTextContent}
+				}
+			}
 		},
 	}
 `;

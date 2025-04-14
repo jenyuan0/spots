@@ -6,7 +6,7 @@ import Carousel from '@/components/Carousel';
 import CustomPortableText from '@/components/CustomPortableText';
 import { motion } from 'framer-motion';
 
-export default function ItinerariesSection({ data }) {
+export default function ItineraryList({ data }) {
 	const { itinerariesTitle, itinerariesExcerpt, itinerariesItems } = data;
 	const [activeIndex, setActiveIndex] = useState(0);
 	const [dotColor, setDotColor] = useState();
@@ -45,15 +45,10 @@ export default function ItinerariesSection({ data }) {
 	if (!itinerariesItems?.length) return null;
 
 	return (
-		<section
-			className="p-paris__itineraries"
-			style={{ '--cr-primary': dotColor }}
-		>
-			<div className="p-paris__itineraries__header wysiwyg-b-1">
+		<section className="c-itinerary-list" style={{ '--cr-primary': dotColor }}>
+			<div className="c-itinerary-list__header wysiwyg-b-1">
 				{itinerariesTitle && (
-					<h2 className="p-paris__itineraries__title t-h-2">
-						{itinerariesTitle}
-					</h2>
+					<h2 className="c-itinerary-list__title t-h-2">{itinerariesTitle}</h2>
 				)}
 				{itinerariesExcerpt && (
 					<CustomPortableText blocks={itinerariesExcerpt} />
@@ -76,7 +71,7 @@ export default function ItinerariesSection({ data }) {
 					return (
 						<div
 							key={`itineraries-${item._id}-${index}`}
-							className="p-paris__itineraries__item"
+							className="c-itinerary-list__item"
 						>
 							<motion.div
 								style={{

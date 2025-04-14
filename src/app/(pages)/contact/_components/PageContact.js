@@ -7,10 +7,8 @@ export default function PageContact({ data }) {
 
 	return (
 		<section className="p-contact">
-			<div className="c">
-				<h1>{title}</h1>
-				{contactForm && <CustomForm data={contactForm} />}
-			</div>
+			<h1>{title}</h1>
+			{contactForm && <CustomForm data={contactForm} />}
 		</section>
 	);
 }

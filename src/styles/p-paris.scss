@@ -59,42 +59,6 @@
 	}
 }
 
-.p-paris__itineraries {
-	position: relative;
-	padding: var(--s-5-v) 0;
-	color: var(--cr-primary);
-	background-color: var(--cr-white);
-	border-top: 1px solid;
-	border-bottom: 1px solid;
-	transition: color var(--t-2);
-
-	&__header {
-		text-align: center;
-		width: var(--width-sml);
-		margin: 0 auto calc(-1 * var(--s-4-v));
-	}
-
-	&__item {
-		transform-style: preserve-3d;
-		perspective: 1000px;
-	}
-
-	.c-carousel {
-		&__container {
-			align-items: stretch;
-			padding: var(--s-5-v) 0;
-		}
-
-		&__dots {
-			margin-top: calc(-1 * var(--s-4-v));
-		}
-
-		&__dot.is-selected {
-			background-color: var(--cr-primary, var(--cr-black));
-		}
-	}
-}
-
 .p-paris__content-list {
 	// TODO
 	// Make item gap consistent (use global variable?) paris__location-list, paris__content-list, etc.

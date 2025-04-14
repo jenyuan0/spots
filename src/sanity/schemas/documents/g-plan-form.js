@@ -31,6 +31,39 @@ export default defineType({
 				'A failure notification is sent when the form fails to submit. The notification includes all information that users have submitted. Use commas to separate emails.',
 			type: 'string',
 		},
+		{
+			name: 'whatsapp',
+			type: 'string',
+		},
+		{
+			name: 'line',
+			type: 'string',
+		},
+		{
+			name: 'email',
+			type: 'string',
+		},
+		{
+			name: 'faq',
+			type: 'array',
+			of: [
+				{
+					name: 'item',
+					type: 'object',
+					fields: [
+						{
+							name: 'title',
+							type: 'string',
+						},
+						{
+							title: 'Answer',
+							name: 'answer',
+							type: 'portableTextSimple',
+						},
+					],
+				},
+			],
+		},
 	],
 	preview: {
 		prepare() {

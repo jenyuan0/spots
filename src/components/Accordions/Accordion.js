@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const accordionAnim = {
 	collapsed: {
@@ -50,7 +50,7 @@ export default function Accordion({
 				className="c-accordion__toggle f-h f-a-c user-select-disable"
 				onClick={handleToggle}
 			>
-				<div className="c-accordion__subtitle">{subtitle}</div>
+				{subtitle && <div className="c-accordion__subtitle">{subtitle}</div>}
 				<div className="c-accordion__title">{title}</div>
 				<div className="c-accordion__icon">
 					<div className="icon-caret-down" />

@@ -91,6 +91,27 @@ export default defineType({
 			rows: 4,
 		},
 		callToAction({ name: 'toggleCta' }),
+
+		{
+			name: 'itinerariesTitle',
+			type: 'string',
+		},
+		{
+			name: 'itinerariesExcerpt',
+			type: 'portableTextSimple',
+		},
+		{
+			name: 'itinerariesItems',
+			type: 'array',
+			of: [
+				{
+					name: 'itinerary',
+					type: 'reference',
+					to: [{ type: 'gItineraries' }],
+				},
+			],
+		},
+
 		customImage({ name: 'contactImage' }),
 		sharing(),
 	],

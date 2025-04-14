@@ -501,6 +501,13 @@
 	margin: var(--s-section) auto;
 	color: var(--cr-green-d);
 
+	--cr-primary: var(--cr-green-d);
+
+	@include selection {
+		color: var(--cr-cream);
+		background-color: var(--cr-green-d);
+	}
+
 	&__image {
 		align-self: stretch;
 		border-radius: var(--br-3);
@@ -508,14 +515,64 @@
 		background-color: var(--cr-subtle);
 	}
 
-	&__form {
+	&__container {
 		position: relative;
-		width: Min(90%, 600px);
-		padding: var(--s-4-v) var(--s-4-h);
+		display: flex;
+		width: var(--width-lge);
 		border-radius: var(--br-3);
 		background-color: var(--cr-white);
-		z-index: 1;
 		box-shadow: var(--shadow-1);
+		overflow: hidden;
 		border: 1px solid;
+	}
+
+	&__form {
+		position: relative;
+		flex: 1;
+		padding: var(--s-5-v) var(--s-5-h);
+	}
+
+	&__faq {
+		flex: 1;
+		padding: var(--s-4-v) var(--s-4-h);
+		background-color: var(--cr-cream);
+		border-left: 1px solid var(--cr-subtle-2);
+
+		.c-accordion__title {
+			font-weight: 500;
+		}
+
+		.c-accordion__inner {
+			max-width: 600px;
+			padding-bottom: var(--s-4-v);
+		}
+	}
+
+	&__title {
+		margin-bottom: var(--s-4-v);
+	}
+
+	&__connect {
+		margin-top: var(--s-4-v);
+		text-align: center;
+
+		ul {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 2em;
+			justify-content: center;
+		}
+
+		li a {
+			display: flex;
+			align-items: center;
+			white-space: nowrap;
+			gap: 0.5em;
+		}
+
+		svg {
+			width: 1.5em;
+			aspect-ratio: 1;
+		}
 	}
 }
