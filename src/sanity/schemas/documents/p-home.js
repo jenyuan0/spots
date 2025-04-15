@@ -111,8 +111,6 @@ export default defineType({
 				},
 			],
 		},
-
-		customImage({ name: 'contactImage' }),
 		sharing(),
 	],
 	preview: {

@@ -1,11 +1,13 @@
 import { defineType } from 'sanity';
 import formBuilder from '@/sanity/schemas/objects/form-builder';
+import customImage from '@/sanity/schemas/objects/custom-image';
 
 export default defineType({
 	title: 'Plan Form',
 	name: 'gPlanForm',
 	type: 'document',
 	fields: [
+		customImage(),
 		{
 			name: 'formTitle',
 			type: 'string',

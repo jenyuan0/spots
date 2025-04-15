@@ -1,14 +1,37 @@
 .p-itinerary {
 	&__header {
-		width: var(--width-med);
+		width: var(--width-max);
 		margin: var(--s-section) auto;
 		text-align: center;
 	}
 
+	&__body {
+		display: flex;
+		width: var(--width-max);
+		margin: auto;
+		gap: var(--s-4-h);
+	}
+
+	&__tabs {
+		flex: 1;
+	}
+
+	&__sidebar {
+		display: flex;
+		flex-direction: column;
+		width: Min(100%, 450px);
+
+		&-flex {
+			flex: 1;
+		}
+
+		&-sticky {
+			position: sticky;
+			bottom: var(--s-4-v);
+		}
+	}
+
 	&__plan {
-		width: var(--width-med);
-		margin-inline: auto;
-		margin-block: var(--s-4-v);
 		padding: var(--s-4-v) var(--s-4-h);
 		gap: var(--s-4-v);
 		border-radius: var(--br-3);

@@ -11,6 +11,7 @@ import LocationCard from '@/components/LocationCard';
 import GuideCard from '@/components/GuideCard';
 import Plan from './Plan';
 import Reservations from './Reservations';
+import { PlanForm } from '@/components/ContactSection';
 
 // TODO:
 // 1. custom background image for each day
@@ -39,6 +40,7 @@ export default function PageItinerarySingle({ data }) {
 		emergencyContact,
 		accommodation,
 		reservations,
+		planForm,
 	} = data || {};
 	const colors = colorArray(startingColor || 'green');
 	const [activeDay, setActiveDay] = useState(0);
@@ -72,25 +74,38 @@ export default function PageItinerarySingle({ data }) {
 				<h1 className="t-h-1">{title}</h1>
 			</div>
 
-			<div
-				className="p-itinerary__tab"
-				datatabactive={activeTab == 'plan' ? 'true' : 'false'}
-			>
-				{plan?.map((plan, i) => {
-					const date = startDateObj ? add(startDateObj, { days: i }) : false;
-					const color = colors[i % colors.length];
+			<div className="p-itinerary__body">
+				<div className="p-itinerary__tabs">
+					<div
+						className="p-itinerary__tab"
+						datatabactive={activeTab == 'plan' ? 'true' : 'false'}
+					>
+						{plan?.map((plan, i) => {
+							const date = startDateObj
+								? add(startDateObj, { days: i })
+								: false;
+							const color = colors[i % colors.length];
 
-					return (
-						<Plan
-							key={`plan-${i}`}
-							index={i}
-							plan={plan}
-							reservations={reservations}
-							date={date}
-							color={color}
-						/>
-					);
-				})}
+							return (
+								<Plan
+									key={`plan-${i}`}
+									index={i}
+									plan={plan}
+									reservations={reservations}
+									date={date}
+									color={color}
+								/>
+							);
+						})}
+					</div>
+				</div>
+
+				<div className="p-itinerary__sidebar">
+					<div className="p-itinerary__sidebar-flex" />
+					<div className="p-itinerary__sidebar-sticky">
+						<PlanForm data={planForm} title={''} />
+					</div>
+				</div>
 			</div>
 
 			{/* <div

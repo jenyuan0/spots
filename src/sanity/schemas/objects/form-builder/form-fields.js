@@ -37,6 +37,21 @@ export default defineType({
 			validation: (Rule) => Rule.required(),
 		}),
 		defineField({
+			name: 'size',
+			type: 'string',
+			initialValue: 'full',
+			options: {
+				list: [
+					{ title: 'Full', value: 'full' },
+					{ title: '1/2', value: '1/2' },
+					{ title: '1/3', value: '1/3' },
+				],
+				layout: 'radio',
+				direction: 'horizontal',
+			},
+			validation: (Rule) => Rule.required(),
+		}),
+		defineField({
 			name: 'selectOptions',
 			title: 'Options',
 			type: 'array',

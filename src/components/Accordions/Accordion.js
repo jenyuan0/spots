@@ -1,6 +1,6 @@
-import clsx from 'clsx';
-import { motion, AnimatePresence } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
+import clsx from 'clsx';
+import { motion } from 'framer-motion';
 
 const accordionAnim = {
 	collapsed: {
@@ -56,21 +56,16 @@ export default function Accordion({
 					<div className="icon-caret-down" />
 				</div>
 			</button>
-			<AnimatePresence>
-				{isExpanded && (
-					<motion.div
-						className="c-accordion__content"
-						initial="collapsed"
-						animate="expanded"
-						exit="collapsed"
-						transition={{ duration: 0.25, ease: [0, 0.55, 0.45, 1] }}
-						variants={accordionAnim}
-						aria-hidden={!isExpanded}
-					>
-						<div className="c-accordion__inner">{children}</div>
-					</motion.div>
-				)}
-			</AnimatePresence>
+			<motion.div
+				className="c-accordion__content"
+				initial={isExpanded ? 'collapsed' : 'expanded'}
+				animate={isExpanded ? 'expanded' : 'collapsed'}
+				transition={{ duration: 0.3, ease: [0, 0.55, 0.45, 1] }}
+				variants={accordionAnim}
+				aria-hidden={!isExpanded}
+			>
+				<div className="c-accordion__inner">{children}</div>
+			</motion.div>
 		</div>
 	);
 }

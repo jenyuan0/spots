@@ -58,8 +58,15 @@ const getFieldRules = ({ required, inputType, minLength }) => {
 };
 
 const FormItem = ({ item, control }) => {
-	const { inputType, fieldLabel, placeholder, selectOptions, name, rules } =
-		item;
+	const {
+		inputType,
+		fieldLabel,
+		size,
+		placeholder,
+		selectOptions,
+		name,
+		rules,
+	} = item;
 
 	const renderFormComponent = (field) => {
 		switch (inputType) {
@@ -79,10 +86,11 @@ const FormItem = ({ item, control }) => {
 			rules={rules}
 			render={({ field }) => {
 				return (
-					<FormField>
-						<FormLabel>{fieldLabel}</FormLabel>
+					<FormField size={size}>
+						<FormLabel>
+							{fieldLabel} <FormMessage />
+						</FormLabel>
 						<FormControl>{renderFormComponent(field)}</FormControl>
-						<FormMessage />
 					</FormField>
 				);
 			}}
@@ -90,7 +98,7 @@ const FormItem = ({ item, control }) => {
 	);
 };
 
-export default function CustomForm({ data, isH1 = false }) {
+export default function CustomForm({ data }) {
 	const { formTitle, formHeading, formFields, formFailureNotificationEmail } =
 		data || {};
 	const [formState, setFormState] = useState(FORM_STATES.IDLE);
@@ -158,21 +166,11 @@ export default function CustomForm({ data, isH1 = false }) {
 
 	return (
 		<div className="c-form">
-			<div className="c-form__header wysiwyg">
-				{isH1 ? (
-					<>
-						<h1 className="t-b-1">{formTitle}</h1>
-						<h2 className="t-h-1">{formHeading}</h2>
-					</>
-				) : (
-					<>
-						<h2 className="t-b-1">{formTitle}</h2>
-						<h3 className="t-h-1">{formHeading}</h3>
-					</>
-				)}
-			</div>
 			<Form {...form}>
-				<form onSubmit={form.handleSubmit(onHandleSubmit)}>
+				<form
+					className="c-form__form"
+					onSubmit={form.handleSubmit(onHandleSubmit)}
+				>
 					{formFieldsData.map((item) => {
 						return (
 							<FormItem key={item._key} item={item} control={form.control} />

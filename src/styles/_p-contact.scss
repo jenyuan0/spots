@@ -1,4 +1,4 @@
 .p-contact {
-	width: var(--width-lge);
-	margin: var(--s-section) auto;
+	margin: var(--s-3-v) auto;
+	margin-top: calc((39px + var(--s-3-v)) * -1);
 }

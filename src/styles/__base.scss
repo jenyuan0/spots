@@ -3,7 +3,7 @@
 // ***SETTINGS***
 
 :root {
-	--cr-accent: var(--cr-blue-d);
+	--cr-accent: var(--cr-green-d);
 	--cr-black: #292929;
 	--cr-white: #ffffff;
 	--cr-brown: #403232;
@@ -250,14 +250,12 @@ input[type='checkbox'] {
 
 .field,
 .field-cols {
-	--field-gap: 15px;
 	--height: 45px;
 	--line-height: 20px;
 	--padding-h: 16px;
 	--floating-label-focus-offset: 5px;
 
 	@media screen and (max-width: 600px) {
-		--field-gap: 10px;
 		--padding-h: 14px;
 	}
 }
@@ -347,18 +345,20 @@ textarea {
 	position: relative;
 	line-height: 1;
 
-	&:not(:last-of-type) {
-		margin-bottom: var(--field-gap);
-	}
-
 	label {
-		display: block;
+		display: flex;
+		gap: 7px;
+		justify-content: space-between;
 		font: var(--t-b-2);
 		line-height: 1;
 
 		&:not(:last-child) {
-			margin-bottom: 5px;
+			margin-bottom: 7px;
 		}
+	}
+
+	.error-message {
+		color: var(--cr-red-d);
 	}
 
 	select {
@@ -378,28 +378,6 @@ textarea {
 		height: 200px;
 		scroll-padding-block: 6px;
 		resize: vertical;
-	}
-}
-
-.field-cols {
-	display: flex;
-	flex-wrap: wrap;
-	gap: var(--field-gap);
-
-	.field {
-		flex: 1;
-		margin-bottom: 0;
-	}
-
-	&:not(:last-of-type) {
-		margin-bottom: var(--field-gap);
-	}
-
-	@media screen and (max-width: 600px) {
-		.field {
-			width: 100%;
-			flex: unset;
-		}
 	}
 }
 

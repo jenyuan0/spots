@@ -1,14 +1,11 @@
 'use client';
 import React from 'react';
-import CustomForm from '@/components/CustomForm';
+import { ContactSection } from '@/components/ContactSection';
 
 export default function PageContact({ data }) {
-	const { title, contactForm } = data || {};
-
 	return (
 		<section className="p-contact">
-			<h1>{title}</h1>
-			{contactForm && <CustomForm data={contactForm} />}
+			<ContactSection data={data?.planForm} isH1={true} isH1Style={true} />
 		</section>
 	);
 }

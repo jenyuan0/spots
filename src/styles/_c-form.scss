@@ -3,14 +3,27 @@
 	flex-direction: column;
 	gap: var(--s-4-v);
 
-	&__header {
-		text-align: center;
-		max-width: 500px;
-		margin: auto;
+	&__form {
+		display: grid;
+		grid-template-columns: repeat(6, 1fr);
+		gap: 20px;
+	}
+
+	.field[data-size='full'] {
+		grid-column: span 6;
+	}
+
+	.field[data-size='1/2'] {
+		grid-column: span 3;
+	}
+
+	.field[data-size='1/3'] {
+		grid-column: span 3;
 	}
 
 	&__cta {
 		width: 100%;
 		margin-top: var(--s-4-v);
+		grid-column: span 6;
 	}
 }

@@ -34,11 +34,6 @@
 
 	&__content {
 		overflow: hidden;
-		pointer-events: none;
-
-		&__inner {
-			padding-bottom: var(--s-3-v);
-		}
 	}
 
 	&.is-active {
@@ -52,10 +47,6 @@
 			.icon-caret-down {
 				transform: scaleY(-1);
 			}
-		}
-
-		.c-accordion__content {
-			pointer-events: auto;
 		}
 	}
 }

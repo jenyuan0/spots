@@ -379,12 +379,34 @@ const customForm = groq`
 		required,
 		fieldLabel,
 		inputType,
+		size,
 		selectOptions[] {
 			_key,
 			"title": option,
 			"value": option
 		}
 	}`;
+
+export const planFormData = groq`
+	"planForm": *[_type == "gPlanForm"][0]{
+		image,
+		formTitle,
+		formHeading,
+		${customForm},
+		successMessage,
+		errorMessage,
+		formFailureNotificationEmail,
+		email,
+		whatsapp,
+		line,
+		faq[]{
+			_key,
+			title,
+			answer[]{
+				${portableTextContent}
+			}
+		}
+	},`;
 
 // Construct our "site" GROQ
 export const site = groq`
@@ -458,7 +480,6 @@ export const pageHomeQuery = `
 		toggleHeading,
 		toggleParagraph,
 		toggleCta,
-
 		itinerariesTitle,
 		itinerariesExcerpt[]{
 			${portableTextContent}
@@ -466,26 +487,7 @@ export const pageHomeQuery = `
 		"itinerariesItems": itinerariesItems[]->{
 			${getItineraryData('card')}
 		},
-
-		contactImage,
-		"planForm": *[_type == "gPlanForm"][0]{
-			formTitle,
-			formHeading,
-			${customForm},
-			successMessage,
-			errorMessage,
-			formFailureNotificationEmail,
-			email,
-			whatsapp,
-			line,
-			faq[]{
-				_key,
-				title,
-				answer[]{
-					${portableTextContent}
-				}
-			}
-		},
+		${planFormData}
 	}
 `;
 
@@ -512,7 +514,8 @@ export const pagesBySlugQuery = groq`
 export const pageContactQuery = groq`
 	*[_type == "pContact"][0]{
 		title,
-		"slug": slug.current
+		"slug": slug.current,
+		${planFormData}
 	}
 `;
 
@@ -773,4 +776,5 @@ export const pageLocationsSingleQuery = groq`
 export const pageItinerariesSingleQuery = groq`
 	*[_type == "gItineraries" && slug.current == $slug][0]{
 		${getItineraryData()}
+		${planFormData}
 	}`;

@@ -10,14 +10,14 @@ const FieldTypes = {
 	CHECKBOX: 'checkbox',
 };
 
-const Label = ({ isHideLabel, id, label, name }) => (
+const Label = ({ isHideLabel, id, children }) => (
 	<label
 		className={clsx({
 			'screen-reader-only': isHideLabel,
 		})}
 		htmlFor={id}
 	>
-		{label || name}
+		{children}
 	</label>
 );
 
@@ -108,26 +108,27 @@ export default function Field({
 			})}
 		>
 			{isLabelAtTop && (
-				<Label isHideLabel={isHideLabel} id={id} label={label} name={name} />
+				<Label isHideLabel={isHideLabel} id={id} name={name}>
+					{label}
+					<AnimatePresence>
+						{errors?.[name] && (
+							<motion.p
+								initial="hide"
+								animate="show"
+								exit="hide"
+								variants={fadeAnim}
+								className="error-message"
+							>
+								{errors[name].message || 'Required field'}
+							</motion.p>
+						)}
+					</AnimatePresence>
+				</Label>
 			)}
 			{renderField()}
 			{!isLabelAtTop && (
 				<Label isHideLabel={isHideLabel} id={id} label={label} name={name} />
 			)}
-
-			<AnimatePresence>
-				{errors?.[name] && (
-					<motion.p
-						initial="hide"
-						animate="show"
-						exit="hide"
-						variants={fadeAnim}
-						className="error-message"
-					>
-						{errors[name].message || 'Required field'}
-					</motion.p>
-				)}
-			</AnimatePresence>
 		</div>
 	);
 }

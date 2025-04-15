@@ -39,7 +39,7 @@ const useFormField = () => {
 	};
 };
 
-const FormField = forwardRef(({ className, ...props }, ref) => {
+const FormField = forwardRef(({ className, size, ...props }, ref) => {
 	const id = useId();
 	const { error } = useFormField();
 	return (
@@ -49,6 +49,7 @@ const FormField = forwardRef(({ className, ...props }, ref) => {
 				className={clsx('field', className, {
 					'is-error': error,
 				})}
+				data-size={size}
 				{...props}
 			/>
 		</FormFieldContext.Provider>
@@ -107,7 +108,7 @@ const FormMessage = forwardRef(
 
 		const body =
 			error?.type === 'required'
-				? `this is required`
+				? `Required field`
 				: error?.message
 					? String(error?.message)
 					: children;
