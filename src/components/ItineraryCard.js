@@ -40,7 +40,7 @@ export default function ItineraryCard({ data }) {
 					className="c-itinerary-card__cta btn-outline cr-white"
 					href={url}
 				>
-					View Itinerary
+					View Travel Plan
 				</Button>
 			</div>
 			<Link href={url} ariaLabel="Open Itinerary" className="p-fill" />

@@ -173,10 +173,11 @@ export default function LocationCard({
 					)}
 				</div>
 			</div>
-			<Link
-				className="c-card__url p-fill"
+			<Button
+				className={`c-card__url p-fill`}
 				href={url}
-				aria-label={`Open location details for ${title}`}
+				onClick={handleDetailsClick}
+				aria-label={`View more details for ${title}`}
 			/>
 		</div>
 	);

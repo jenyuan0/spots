@@ -26,12 +26,12 @@ export default function ItineraryList({ data }) {
 
 	const getRotation = useCallback((distance) => {
 		const rotationMap = {
-			1: -10,
-			2: -20,
-			3: -30,
-			[-1]: 10,
-			[-2]: 20,
-			[-3]: 30,
+			1: -5,
+			2: -10,
+			3: -15,
+			[-1]: 5,
+			[-2]: 10,
+			[-3]: 15,
 		};
 		return rotationMap[distance] || 0;
 	}, []);
@@ -55,8 +55,8 @@ export default function ItineraryList({ data }) {
 				)}
 			</div>
 			<Carousel
-				itemWidth="Min(650px, 60vw)"
-				gap="5px"
+				itemWidth="Min(600px, 50vw)"
+				gap="Min(20px, 2vw)"
 				isShowDots
 				isAutoHeight={false}
 				setActiveIndex={setActiveIndex}
