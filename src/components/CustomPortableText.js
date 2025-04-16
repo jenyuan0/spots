@@ -42,10 +42,14 @@ export default function CustomPortableText({ blocks, hasPTag = true }) {
 					);
 
 				return (
-					<div className="c-portable-image">
+					<figure className="c-portable-image">
 						{image}
-						{caption && <p className="c-portable-image__caption">{caption}</p>}
-					</div>
+						{caption && (
+							<figcaption className="c-portable-image__caption">
+								{caption}
+							</figcaption>
+						)}
+					</figure>
 				);
 			},
 			iframe: ({ value }) => {

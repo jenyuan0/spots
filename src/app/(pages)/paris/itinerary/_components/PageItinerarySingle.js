@@ -11,7 +11,7 @@ import LocationCard from '@/components/LocationCard';
 import GuideCard from '@/components/GuideCard';
 import Plan from './Plan';
 import Reservations from './Reservations';
-import { PlanForm } from '@/components/ContactSection';
+import PlanForm from '@/components/PlanForm';
 
 // TODO:
 // 1. custom background image for each day

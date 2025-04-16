@@ -5,7 +5,7 @@ import HeroSection from './HeroSection';
 import IntroSection from './IntroSection';
 import WhySection from './WhySection';
 import ItineraryList from '@/components/ItineraryList';
-import { ContactSection } from '@/components/ContactSection';
+import PlanSection from '@/components/PlanSection';
 
 export default function PageHome({ data }) {
 	const [primaryColor, setPrimaryColor] = useState();
@@ -17,7 +17,7 @@ export default function PageHome({ data }) {
 			<WhySection data={data} />
 			<ItineraryList data={data} />
 			<section className="p-home__contact">
-				<ContactSection data={data?.planForm} isH1Style={true} />
+				<PlanSection data={data?.planForm} isH1Style={true} />
 			</section>
 		</>
 	);
