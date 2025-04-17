@@ -107,14 +107,27 @@ export default function Header({ data, isActive }) {
 	const [isScrolled, setIsScrolled] = useState(false);
 
 	useEffect(() => {
-		document.documentElement.style.setProperty(
-			'--s-header',
-			`${ref?.current?.offsetHeight || 0}px`
-		);
-		document.documentElement.style.setProperty(
-			'--s-header-space',
-			`calc(${ref?.current?.offsetHeight || 0}px + var(--s-3-v) * 2)`
-		);
+		if (!ref?.current) return;
+
+		const updateHeaderProperties = () => {
+			const height = ref.current.offsetHeight;
+			document.documentElement.style.setProperty('--s-header', `${height}px`);
+			document.documentElement.style.setProperty(
+				'--s-header-space',
+				`calc(${height}px + var(--s-3-v) * 2)`
+			);
+		};
+
+		// Initial update
+		updateHeaderProperties();
+
+		// Create observer to handle dynamic height changes
+		const resizeObserver = new ResizeObserver(updateHeaderProperties);
+		resizeObserver.observe(ref.current);
+
+		return () => {
+			resizeObserver.disconnect();
+		};
 	}, []);
 
 	useEffect(() => {

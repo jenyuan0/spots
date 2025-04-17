@@ -59,6 +59,12 @@ export default function PlanForm({
 						<span>Start your journey feeling like a local from day one.</span>
 					</li> */}
 					<li>
+						<span>Smart route planning, train & chauffeur options</span>
+					</li>
+					<li>
+						<span>24/7 travel support & assistance during your trip</span>
+					</li>
+					<li>
 						<span>All-inclusive: Hotels, dining, and activities</span>
 					</li>
 					<li>

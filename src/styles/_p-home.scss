@@ -360,12 +360,12 @@
 	width: Min(100%, 600px);
 	margin: auto;
 	border-radius: 300px;
-	border: 1px solid var(--cr-purple-l);
+	border: 1px solid var(--cr-subtle);
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
-	transition: var(--t-1);
+	transition: var(--t-2);
 
 	@media (hover: hover) {
 		&:hover {

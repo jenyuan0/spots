@@ -90,7 +90,6 @@ export default function PageItinerarySingle({ data }) {
 				}}
 			>
 				<div className="p-itinerary__sections">
-					{console.log(introduction)}
 					{introduction && (
 						<div className="p-itinerary__accomodations p-itinerary__section">
 							<h2 className="t-l-1">Trip Overview</h2>
@@ -123,7 +122,13 @@ export default function PageItinerarySingle({ data }) {
 							className="p-itinerary__days p-itinerary__section"
 							datatabactive={activeTab == 'plan' ? 'true' : 'false'}
 						>
-							<h3 className="p-itinerary__section__title t-h-2">Itinerary</h3>
+							<h3 className="p-itinerary__section__title t-h-2">
+								Trip Itinerary
+								<span className="t-l-1">
+									{plan.length} day
+									{plan.length > 1 && 's'}
+								</span>
+							</h3>
 							{plan?.map((plan, i) => {
 								const date = startDateObj
 									? add(startDateObj, { days: i })
@@ -141,7 +146,6 @@ export default function PageItinerarySingle({ data }) {
 						</div>
 					)}
 				</div>
-
 				<div className="p-itinerary__sidebar">
 					<div className="p-itinerary__sidebar-flex" />
 					<div className="p-itinerary__sidebar-sticky">
