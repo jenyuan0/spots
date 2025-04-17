@@ -6,13 +6,12 @@ import { format, isSameDay } from 'date-fns';
 import clsx from 'clsx';
 import useKey from '@/hooks/useKey';
 import CustomPortableText from '@/components/CustomPortableText';
-import LocationList from '@/components/LocationList';
-import Img from '@/components/Image';
+import LocationCard from '@/components/LocationCard';
 import Button from '@/components/Button';
-import Carousel from '@/components/Carousel';
 import Accordion from '@/components/Accordions/Accordion';
 import Map from '@/components/Map';
 import { IconMaximize, IconMinimize } from '@/components/SvgIcons';
+import ResponsiveGrid from '@/components/ResponsiveGrid';
 
 // Helper functions
 const getActivitiesPlusRes = (activities, reservations, date) =>
@@ -48,19 +47,13 @@ const getLocationsPlusActivity = (activitiesPlusRes) =>
 		)
 		.filter((location) => location !== '');
 
-const getColorStyles = (color) => ({
-	'--cr-primary': `var(--cr-${color}-d)`,
-	'--cr-secondary': `var(--cr-${color}-l)`,
-});
-
-export default function Plan({ index, plan, reservations, color, date }) {
+export default function ItineraryDay({ index, plan, reservations, date }) {
 	const baseId = useId();
 	const activities = plan?.day?.activities || [];
 	const activitiesPlusRes = getActivitiesPlusRes(
 		activities,
 		reservations,
-		date,
-		color
+		date
 	);
 
 	// State management
@@ -110,38 +103,31 @@ export default function Plan({ index, plan, reservations, color, date }) {
 	});
 
 	return (
-		<div className="p-itinerary__plan f-v f-a-s" style={getColorStyles(color)}>
-			<div className="p-itinerary__plan__header wysiwyg">
-				{!plan.title && !date ? (
-					<h2 className="t-h-1">Day {index + 1}</h2>
-				) : (
-					<>
-						<div className="t-l-1">Day {index + 1}</div>
-						<h2 className="t-h-2">{plan.title || format(date, 'MMMM do')}</h2>
-					</>
-				)}
-			</div>
-			{plan.day?.images && (
-				<div className="p-itinerary__plan__images">
-					<Carousel isShowDots={true} isAutoplay={true} autoplayInterval={6000}>
-						{plan?.day?.images?.map((image, i) => (
-							<Img key={`image-${i}-${image.id}`} image={image} />
-						))}
-					</Carousel>
-				</div>
-			)}
+		<div className="p-itinerary__day">
 			{(plan.content || plan?.day?.content) && (
-				<div className="p-itinerary__plan__highlight wysiwyg-b-1">
-					<h3 className="t-l-1">Day Highlight</h3>
-					<CustomPortableText blocks={plan.content || plan.day.content} />
+				<div className="p-itinerary__day__header">
+					<h3 className="p-itinerary__day__badge">
+						<div className="t-l-2">Day</div>
+						<div className="t-h-2">{index + 1}</div>
+					</h3>
+					<p className="t-h-4">
+						<CustomPortableText
+							blocks={plan.content || plan.day.content}
+							hasPTag={false}
+						/>
+					</p>
 				</div>
 			)}
-			<div className="p-itinerary__plan__activities">
-				<h2 className="p-itinerary__plan__activities__title t-l-1">
-					Activities
-				</h2>
+			<div className="p-itinerary__day__activities">
 				{activitiesPlusRes?.map((activity, i) => {
-					const { title, startTime } = activity;
+					const {
+						title,
+						startTime,
+						locations,
+						content,
+						fallbackRains,
+						fallbackLongWait,
+					} = activity;
 
 					return (
 						<Accordion
@@ -149,14 +135,47 @@ export default function Plan({ index, plan, reservations, color, date }) {
 							title={title}
 							subtitle={startTime ? formatTimeToAMPM(startTime) : 'Optional'}
 						>
-							<LocationList data={activity} color={color} isItinerary={true} />
+							{content && (
+								<div className="p-itinerary__day__activities__content wysiwyg-b-1">
+									<CustomPortableText blocks={content} />
+								</div>
+							)}
+							<ResponsiveGrid
+								className={'p-itinerary__day__activities__locations'}
+							>
+								{locations.map((item, index) => (
+									<LocationCard
+										key={`item-${index}`}
+										data={item}
+										layout={`horizontal-${locations.length == 1 ? '2' : '1'}`}
+										hasDirection={true}
+									/>
+								))}
+							</ResponsiveGrid>
+							{/* // TODO // fallback locations */}
+							{/* {<div className="locations">
+											<h3>Fallback (rain):</h3>
+											{fallbackRains
+												? fallbackRains?.map((item, index) => (
+														<LocationCard key={`item-${index}`} data={item} />
+													))
+												: 'NONE'}
+										</div>
+										<div className="locations">
+											<h3>Fallback (long wait):</h3>
+											{fallbackLongWait
+												? fallbackLongWait?.map((item, index) => (
+														<LocationCard key={`item-${index}`} data={item} />
+													))
+												: 'NONE'}
+										</div>} */}
 						</Accordion>
 					);
 				})}
 			</div>
-			<div className="p-itinerary__plan__footer f-v f-a-c">
+			<div className="p-itinerary__day__footer f-v f-a-c">
 				<Button
-					className={clsx('btn', `cr-${color}-d`)}
+					className={'btn'}
 					icon={<IconMaximize />}
 					onClick={() => {
 						setIsMapActive(true);
@@ -167,28 +186,19 @@ export default function Plan({ index, plan, reservations, color, date }) {
 				</Button>
 			</div>
 			<div
-				className={clsx('p-itinerary__plan__map', {
+				className={clsx('p-itinerary__day__map', {
 					'is-active': isMapActive,
 				})}
 			>
-				<Map
-					id={baseId}
-					locations={filterLocationsByActivities()}
-					color={color}
-				/>
+				<Map id={baseId} locations={filterLocationsByActivities()} />
 				<Button
-					className={clsx(
-						'p-itinerary__plan__map__close',
-						'btn',
-						`cr-${color}-d`
-					)}
+					className={'p-itinerary__day__map__close btn'}
 					icon={<IconMinimize />}
 					onClick={handleMapClose}
 				>
 					Close Map
 				</Button>
-
-				<div className="p-itinerary__plan__map__filters">
+				<div className="p-itinerary__day__map__filters">
 					<h2 className="t-h-3">{plan.title || format(date, 'MMMM do')}</h2>
 					<ul>
 						{activities?.map((activity, i) => {
@@ -212,7 +222,7 @@ export default function Plan({ index, plan, reservations, color, date }) {
 							);
 						})}
 
-						<li className="p-itinerary__plan__map__filters__batch-action t-l-2">
+						<li className="p-itinerary__day__map__filters__batch-action t-l-2">
 							<button
 								onClick={() => {
 									handleActivityToggle(

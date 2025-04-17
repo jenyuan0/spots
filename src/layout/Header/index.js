@@ -111,6 +111,10 @@ export default function Header({ data, isActive }) {
 			'--s-header',
 			`${ref?.current?.offsetHeight || 0}px`
 		);
+		document.documentElement.style.setProperty(
+			'--s-header-space',
+			`calc(${ref?.current?.offsetHeight || 0}px + var(--s-3-v) * 2)`
+		);
 	}, []);
 
 	useEffect(() => {

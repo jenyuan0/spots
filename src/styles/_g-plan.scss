@@ -55,6 +55,31 @@
 		padding: var(--s-5-v) var(--s-5-h);
 	}
 
+	&__offering {
+		li {
+			display: flex;
+			align-items: center;
+			gap: 0.5em;
+			padding: var(--s-2-v) 0;
+			border-top: 1px solid var(--cr-subtle);
+
+			&:before {
+				content: '✓';
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: 1.5em;
+				aspect-ratio: 1;
+				background-color: var(--cr-subtle);
+				border-radius: 100%;
+			}
+
+			span {
+				flex: 1;
+			}
+		}
+	}
+
 	&__support {
 		display: flex;
 		flex-wrap: wrap;

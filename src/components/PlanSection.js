@@ -10,7 +10,7 @@ import { springConfig } from '@/lib/helpers';
 
 const SCROLL_ANIMATION_CONFIG = {
 	start: ['start end', 'start start'],
-	scale: [0.9, 1],
+	scale: [0.95, 1],
 };
 
 export function Faq({ faq }) {
@@ -65,7 +65,12 @@ export default function PlanSection({ data, isH1, isH1Style }) {
 			)}
 
 			<div className="g-plan__container">
-				<PlanForm data={data} isH1={isH1} isH1Style={isH1Style} />
+				<PlanForm
+					data={data}
+					isH1={isH1}
+					isH1Style={isH1Style}
+					showSupport={true}
+				/>
 				<div className="g-plan__faq">
 					<h2 className="t-h-2">Frequently asked questions.</h2>
 					<Faq faq={faq} />

@@ -10,7 +10,7 @@
 	}
 
 	&__grid {
+		width: var(--width-max);
 		margin: var(--s-section) auto;
-		padding: 0 var(--padding-lge);
 	}
 }

@@ -1,19 +1,58 @@
 .p-itinerary {
 	&__header {
-		width: var(--width-max);
-		margin: var(--s-section) auto;
-		text-align: center;
+		position: relative;
+		display: flex;
+		justify-content: space-between;
+		margin: calc(var(--s-header-space) * -1) 0 var(--s-section);
+		padding: calc(var(--s-header-space) + var(--s-section)) var(--padding-max)
+			var(--s-4-v);
+		color: var(--cr-cream);
+		background-color: var(--cr-primary);
+
+		&__text {
+			position: relative;
+			text-align: left;
+		}
+
+		&__stats {
+			display: flex;
+			gap: 10px;
+
+			li {
+				min-width: 90px;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				gap: 5px;
+				padding: 10px 10px 5px;
+				border-radius: var(--br-1);
+				border: 1px solid;
+			}
+		}
+
+		@include selection {
+			color: var(--cr-primary);
+			background-color: var(--cr-secondary);
+		}
 	}
 
 	&__body {
 		display: flex;
 		width: var(--width-max);
-		margin: auto;
-		gap: var(--s-4-h);
-	}
+		margin: var(--s-section) auto;
+		gap: var(--s-5-h);
 
-	&__tabs {
-		flex: 1;
+		@include selection {
+			color: var(--cr-secondary);
+			background-color: var(--cr-primary);
+		}
+
+		@media (hover: hover) {
+			*:focus-visible {
+				outline-color: var(--cr-primary) !important;
+			}
+		}
 	}
 
 	&__sidebar {
@@ -28,182 +67,194 @@
 		&-sticky {
 			position: sticky;
 			bottom: var(--s-4-v);
+			padding: var(--s-4-v) var(--s-4-h);
+			border-radius: var(--br-3);
+			border: 1px solid var(--cr-subtle);
+			color: var(--cr-green-d);
+			background-color: var(--cr-white);
+			box-shadow: var(--shadow-3);
+		}
+
+		.field textarea {
+			height: 150px;
 		}
 	}
 
-	&__plan {
-		padding: var(--s-4-v) var(--s-4-h);
+	&__sections {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		gap: var(--s-5-v);
+	}
+
+	&__section {
+		display: flex;
+		flex-direction: column;
 		gap: var(--s-4-v);
-		border-radius: var(--br-3);
-		box-shadow: var(--shadow-1);
+		border-top: 1px solid;
+		padding-top: var(--s-3-v);
+
+		&__title {
+			display: flex;
+			justify-content: space-between;
+			grid-column: span 2;
+		}
+	}
+
+	&__days {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	&__contact {
+		margin: var(--s-section) auto;
+	}
+}
+
+.p-itinerary__day {
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+	padding: var(--s-4-v) var(--s-4-h);
+	gap: var(--s-4-v);
+	border-radius: var(--br-3);
+	border: 1px solid var(--cr-subtle-2);
+
+	@media screen and (max-width: 2000px) {
+		grid-column: span 2;
+	}
+
+	&__header {
+		display: flex;
+		flex-direction: row;
+		align-items: start;
+		max-width: 1000px;
+		text-wrap: balance;
+		gap: 20px;
+		color: var(--cr-primary);
+	}
+
+	&__badge {
+		min-width: 80px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 5px;
+		padding: 10px 10px 5px;
+		border-radius: var(--br-1);
 		color: var(--cr-primary);
 		background-color: var(--cr-secondary);
+	}
 
-		@include selection {
-			text-shadow: none;
+	&__activities {
+		&__content,
+		&__locations {
+			padding-left: calc(80px + 20px);
+			padding-right: calc(30px + 20px);
+			padding-block: 20px;
+		}
+
+		&__content p {
+			text-wrap: balance;
+		}
+
+		.c-accordion:first-of-type {
+			border-top: 1px solid var(--cr-subtle);
+		}
+
+		.c-accordion__subtitle {
+			width: 80px;
+			white-space: nowrap;
+			font: var(--t-l-1);
+		}
+
+		.c-accordion__title {
+			font: var(--t-h-3);
+			text-transform: capitalize;
+		}
+
+		.c-accordion__icon {
 			color: var(--cr-secondary);
 			background-color: var(--cr-primary);
 		}
-
-		@media (hover: hover) {
-			*:focus-visible {
-				outline-color: var(--cr-primary) !important;
-			}
-		}
-
-		&__header {
-			text-align: center;
-		}
-
-		&__images {
-			width: calc(100% + var(--s-4-h) * 2);
-			margin-inline: calc(-1 * var(--s-4-h));
-
-			.c-carousel__viewport {
-				background-color: var(--cr-primary);
-			}
-
-			.c-carousel__dot.is-selected {
-				background-color: var(--cr-primary);
-			}
-		}
-
-		&__highlight {
-			max-width: 500px;
-			margin-inline: auto;
-			text-align: center;
-		}
-
-		&__activities {
-			&__title {
-				margin-bottom: 20px;
-				text-align: center;
-			}
-
-			.c-accordion:first-of-type {
-				border-top: 1px solid var(--cr-subtle);
-			}
-
-			.c-accordion__subtitle {
-				width: 80px;
-				white-space: nowrap;
-				font: var(--t-l-1);
-			}
-
-			.c-accordion__title {
-				font: var(--t-h-3);
-				text-transform: capitalize;
-			}
-
-			.c-accordion__icon {
-				color: var(--cr-secondary);
-				background-color: var(--cr-primary);
-			}
-
-			.c-location-list {
-				padding-left: calc(80px + 10px);
-				padding-right: calc(30px + 10px);
-				padding-block: 20px;
-			}
-
-			.c-location-card__reservation {
-				background-color: var(--cr-secondary);
-			}
-		}
-
-		&__map {
-			position: fixed;
-			inset: 0;
-			display: flex;
-			flex-direction: column;
-			padding: var(--s-3-v) var(--s-3-h);
-			gap: var(--s-3-v);
-			background-color: var(--cr-white);
-			transition:
-				opacity var(--t-2),
-				transform var(--t-2);
-			z-index: 100;
-
-			&:not(.is-active) {
-				opacity: 0;
-				pointer-events: none;
-				transform: scale(0.95);
-
-				* {
-					pointer-events: none !important;
-				}
-			}
-
-			.c-map {
-				flex: 1;
-				filter: url(#filter-round);
-
-				& > div {
-					clip-path: polygon(
-						0 0,
-						calc(100% - 165px) 0,
-						calc(100% - 165px) 65px,
-						100% 65px,
-						100% 100%,
-						0 100%
-					);
-				}
-			}
-
-			&__close {
-				position: absolute;
-				top: calc(var(--s-3-v) + 8px);
-				right: calc(var(--s-3-h) + 8px);
-			}
-
-			&__filters {
-				position: absolute;
-				display: flex;
-				flex-direction: column;
-				gap: 20px;
-				top: calc(var(--s-3-v) + 8px);
-				left: calc(var(--s-3-h) + 8px);
-				background-color: var(--cr-white);
-				border-radius: var(--br-2);
-				box-shadow: var(--shadow-1);
-				padding: 20px;
-
-				&__batch-action {
-					margin-top: 10px;
-				}
-
-				ul {
-					display: flex;
-					flex-direction: column;
-				}
-
-				li {
-					display: flex;
-					flex-direction: row;
-					align-items: center;
-				}
-
-				label {
-					padding-block: 4px;
-				}
-			}
-		}
 	}
 
-	&__reservations {
-		width: var(--width-med);
-		margin-inline: auto;
+	&__map {
+		position: fixed;
+		inset: 0;
+		display: flex;
+		flex-direction: column;
+		padding: var(--s-3-v) var(--s-3-h);
+		gap: var(--s-3-v);
+		background-color: var(--cr-white);
+		transition:
+			opacity var(--t-2),
+			transform var(--t-2);
+		z-index: 100;
 
-		&__header {
-			text-align: center;
+		&:not(.is-active) {
+			opacity: 0;
+			pointer-events: none;
+			transform: scale(0.95);
+
+			* {
+				pointer-events: none !important;
+			}
 		}
 
-		&__list {
-			margin-block: var(--s-4-v);
-			border-radius: var(--br-3);
+		.c-map {
+			flex: 1;
+			filter: url(#filter-round);
+
+			& > div {
+				clip-path: polygon(
+					0 0,
+					calc(100% - 165px) 0,
+					calc(100% - 165px) 65px,
+					100% 65px,
+					100% 100%,
+					0 100%
+				);
+			}
+		}
+
+		&__close {
+			position: absolute;
+			top: calc(var(--s-3-v) + 8px);
+			right: calc(var(--s-3-h) + 8px);
+		}
+
+		&__filters {
+			position: absolute;
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
+			top: calc(var(--s-3-v) + 8px);
+			left: calc(var(--s-3-h) + 8px);
+			background-color: var(--cr-white);
+			border-radius: var(--br-2);
 			box-shadow: var(--shadow-1);
-			color: var(--cr-primary);
-			// background-color: var(--cr-secondary);
+			padding: 20px;
+
+			&__batch-action {
+				margin-top: 10px;
+			}
+
+			ul {
+				display: flex;
+				flex-direction: column;
+			}
+
+			li {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+			}
+
+			label {
+				padding-block: 4px;
+			}
 		}
 	}
 }

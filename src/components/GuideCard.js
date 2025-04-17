@@ -23,8 +23,8 @@ export default function GuideCard({ data, layout = 'vertical-1', color }) {
 			data-layout={layout}
 			style={
 				color && {
-					'--cr-primary': `var(--cr-${color}-d)`,
-					'--cr-secondary': `var(--cr-cream)`,
+					'--cr-card-text': `var(--cr-cream)`,
+					'--cr-card-bg': `var(--cr-${color}-d)`,
 				}
 			}
 		>

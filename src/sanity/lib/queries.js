@@ -241,7 +241,10 @@ export const getItineraryData = (type) => {
 		defaultData += groq`excerpt`;
 	} else {
 		defaultData += groq`
-		startingColor,
+		introduction,
+		accomodations[]->{
+			${getLocationsData('card')}
+		},
 	  plan[]{
 			"day": itineraryDay->{
 				title,
@@ -259,7 +262,7 @@ export const getItineraryData = (type) => {
 			title,
 			content
 		},
-		"guides": guides[]->{
+		guides[]->{
 			${getGuidesData('card')}
 		},
 		type,
@@ -269,9 +272,7 @@ export const getItineraryData = (type) => {
 				"low": budget.budgetLow,
 				"high": budget.budgetHigh
 			},
-			"accommodations": accomodations[]->{
-				${getLocationsData('card')}
-			}
+			${planFormData}
 		}),
 		...select(type == "custom" => {
 			passcode,

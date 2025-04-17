@@ -122,17 +122,15 @@ export default function PageGuidesSingle({ data }) {
 					<h2 className="p-guides-single__related__title t-h-2">
 						Continue Reading
 					</h2>
-					<div className="p-guides-single__related__list">
-						<ResponsiveGrid>
-							{[...Array(4)].map((_, index) => {
-								const relatedItems = related || [];
-								const defaultItems = defaultRelated || [];
-								const allItems = [...relatedItems, ...defaultItems];
-								const item = allItems[index];
-								return item && <GuideCard key={item._id} data={item} />;
-							})}
-						</ResponsiveGrid>
-					</div>
+					<ResponsiveGrid className={'p-guides-single__related__list'}>
+						{[...Array(4)].map((_, index) => {
+							const relatedItems = related || [];
+							const defaultItems = defaultRelated || [];
+							const allItems = [...relatedItems, ...defaultItems];
+							const item = allItems[index];
+							return item && <GuideCard key={item._id} data={item} />;
+						})}
+					</ResponsiveGrid>
 				</section>
 			)}
 		</>

@@ -4,8 +4,8 @@
 	min-width: 0;
 	overflow: hidden;
 	padding: 2px;
-	color: var(--cr-secondary, var(--cr-brown));
-	background-color: var(--cr-primary, var(--cr-white));
+	color: var(--cr-card-text, var(--cr-brown));
+	background-color: var(--cr-card-bg, var(--cr-white));
 	border: 1px solid var(--cr-subtle);
 	box-shadow: var(--shadow-3-transparent);
 	border-radius: var(--br-2);
@@ -15,7 +15,7 @@
 	@media (hover: hover) {
 		&:hover {
 			box-shadow: var(--shadow-3);
-			border-color: var(--cr-primary);
+			border-color: var(--cr-card-bg);
 			z-index: 10;
 		}
 	}
@@ -84,7 +84,7 @@
 
 	&__content {
 		display: -webkit-box;
-		-webkit-line-clamp: 5;
+		-webkit-line-clamp: 6;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}

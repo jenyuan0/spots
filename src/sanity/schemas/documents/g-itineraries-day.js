@@ -17,14 +17,6 @@ export default defineType({
 			type: 'portableTextSimple',
 		},
 		{
-			name: 'images',
-			type: 'array',
-			of: [customImage({ hasCropOptions: true })],
-			options: {
-				layout: 'grid',
-			},
-		},
-		{
 			name: 'activities',
 			type: 'array',
 			of: [
@@ -51,13 +43,11 @@ export default defineType({
 		select: {
 			title: 'title',
 			activities: 'activities',
-			images: 'images',
 		},
-		prepare({ title, activities, images }) {
+		prepare({ title, activities }) {
 			return {
 				title: title || 'Untitled',
 				subtitle: getActivitiesPreview(activities),
-				media: images?.[0] || false,
 			};
 		},
 	},

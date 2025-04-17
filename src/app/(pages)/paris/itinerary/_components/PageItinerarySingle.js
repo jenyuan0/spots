@@ -1,17 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { colorArray } from '@/lib/helpers';
 import { format, add, isSameDay, isSameMonth } from 'date-fns';
-import HeaderItinerary from '@/layout/HeaderItinerary';
-import CustomPortableText from '@/components/CustomPortableText';
-import Img from '@/components/Image';
-import Button from '@/components/Button';
 import LocationCard from '@/components/LocationCard';
-import GuideCard from '@/components/GuideCard';
-import Plan from './Plan';
-import Reservations from './Reservations';
+import ResponsiveGrid from '@/components/ResponsiveGrid';
+import ItineraryDay from './ItineraryDay';
 import PlanForm from '@/components/PlanForm';
+import PlanSection from '@/components/PlanSection';
 
 // TODO:
 // 1. custom background image for each day
@@ -21,8 +16,14 @@ import PlanForm from '@/components/PlanForm';
 export default function PageItinerarySingle({ data }) {
 	const {
 		title,
+		subtitle,
 		images,
-		startingColor,
+		color,
+		totalDays,
+		totalActivities,
+
+		introduction,
+		accomodations,
 		plan,
 		guides,
 		type,
@@ -30,7 +31,6 @@ export default function PageItinerarySingle({ data }) {
 		NumOfDays,
 		NumOfTravelers,
 		budget,
-		accomodations,
 
 		passcode,
 		name,
@@ -42,7 +42,6 @@ export default function PageItinerarySingle({ data }) {
 		reservations,
 		planForm,
 	} = data || {};
-	const colors = colorArray(startingColor || 'green');
 	const [activeDay, setActiveDay] = useState(0);
 	const [activeTab, setActiveTab] = useState('plan');
 	const startDateObj = startDate ? new Date(startDate) : false;
@@ -52,160 +51,202 @@ export default function PageItinerarySingle({ data }) {
 
 	return (
 		<>
-			{type == 'custom' && (
-				<HeaderItinerary
-					data={data}
-					colors={colors}
-					activeDay={activeDay}
-					setActiveDay={setActiveDay}
-					activeTab={activeTab}
-					setActiveTab={setActiveTab}
-				/>
-			)}
-			<div className="p-itinerary__header wysiwyg">
-				{startDateObj && (
-					<div className="t-l-1">
-						{format(startDateObj, 'MMMM do')}—
-						{isSameMonth(startDateObj, endDateObj)
-							? format(endDateObj, 'do')
-							: format(endDateObj, 'MMMM do')}
-					</div>
-				)}
-				<h1 className="t-h-1">{title}</h1>
+			<div
+				className="p-itinerary__header"
+				style={{
+					'--cr-primary': color?.colorD,
+					'--cr-secondary': color?.colorL,
+				}}
+			>
+				<div className="p-itinerary__header__text wysiwyg">
+					{startDateObj && (
+						<div className="t-l-1">
+							{format(startDateObj, 'MMMM do')}—
+							{isSameMonth(startDateObj, endDateObj)
+								? format(endDateObj, 'do')
+								: format(endDateObj, 'MMMM do')}
+						</div>
+					)}
+					<h1 className="t-l-2">{title}</h1>
+					<h2 className="t-h-1">{subtitle}</h2>
+				</div>
+				<ul className="p-itinerary__header__stats">
+					<li>
+						<div className="t-l-2">Day{totalDays > 1 && 's'}</div>
+						<div className="t-h-2">{totalDays}</div>
+					</li>
+					<li>
+						<div className="t-l-2">Spot{totalActivities > 1 && 's'}</div>
+						<div className="t-h-2">{totalActivities}</div>
+					</li>
+				</ul>
 			</div>
 
-			<div className="p-itinerary__body">
-				<div className="p-itinerary__tabs">
-					<div
-						className="p-itinerary__tab"
-						datatabactive={activeTab == 'plan' ? 'true' : 'false'}
-					>
-						{plan?.map((plan, i) => {
-							const date = startDateObj
-								? add(startDateObj, { days: i })
-								: false;
-							const color = colors[i % colors.length];
-
-							return (
-								<Plan
-									key={`plan-${i}`}
-									index={i}
-									plan={plan}
-									reservations={reservations}
-									date={date}
-									color={color}
-								/>
-							);
-						})}
-					</div>
+			<div
+				className="p-itinerary__body"
+				style={{
+					'--cr-primary': color?.colorD,
+					'--cr-secondary': color?.colorL,
+				}}
+			>
+				<div className="p-itinerary__sections">
+					{console.log(introduction)}
+					{introduction && (
+						<div className="p-itinerary__accomodations p-itinerary__section">
+							<h2 className="t-l-1">Trip Overview</h2>
+							<p className="t-h-3">{introduction}</p>
+						</div>
+					)}
+					{accomodations && (
+						<div className="p-itinerary__accomodations p-itinerary__section">
+							<h3 className="p-itinerary__section__title t-h-2">
+								Accomodation
+								<span className="t-l-1">
+									{accomodations.length} option
+									{accomodations.length > 1 && 's'}
+								</span>
+							</h3>
+							<ResponsiveGrid className="p-itinerary__accomodations__grid">
+								{accomodations.map((item, index) => (
+									<LocationCard
+										key={`item-${index}`}
+										data={item}
+										layout={'vertical-2'}
+										hasDirection={true}
+									/>
+								))}
+							</ResponsiveGrid>
+						</div>
+					)}
+					{plan && (
+						<div
+							className="p-itinerary__days p-itinerary__section"
+							datatabactive={activeTab == 'plan' ? 'true' : 'false'}
+						>
+							<h3 className="p-itinerary__section__title t-h-2">Itinerary</h3>
+							{plan?.map((plan, i) => {
+								const date = startDateObj
+									? add(startDateObj, { days: i })
+									: false;
+								return (
+									<ItineraryDay
+										key={`plan-${i}`}
+										index={i}
+										plan={plan}
+										reservations={reservations}
+										date={date}
+									/>
+								);
+							})}
+						</div>
+					)}
 				</div>
 
 				<div className="p-itinerary__sidebar">
 					<div className="p-itinerary__sidebar-flex" />
 					<div className="p-itinerary__sidebar-sticky">
-						<PlanForm data={planForm} title={''} />
+						<PlanForm
+							data={planForm}
+							title={false}
+							budget={budget}
+							offering={true}
+						/>
 					</div>
 				</div>
 			</div>
 
-			{/* <div
-				className="p-itinerary__tab"
-				datatabactive={activeTab == 'plan' ? 'true' : 'false'}
-			></div> */}
+			<div className="p-itinerary__contact">
+				<PlanSection data={data?.planForm} isH1={true} isH1Style={true} />
+			</div>
 
-			<section className="p-itinerary">
-				<div className="p-itinerary-single__content">
-					<br />
-					<br />
+			{/* <section className="p-itinerary">
+				<br />
+				<br />
 
-					{guides && (
+				{guides && (
+					<>
+						<h1>Guides:</h1>
+						<div className="data-block">
+							{guides?.map((item, index) => {
+								return <GuideCard key={`item-${index}`} data={item} />;
+							})}
+						</div>
+					</>
+				)}
+
+				<br />
+				<br />
+				<h1>TYPE: {type}</h1>
+				<div className="data-block">
+					{type == 'premade' ? (
 						<>
-							<h1>Guides:</h1>
-							<div className="data-block">
-								{guides?.map((item, index) => {
-									return <GuideCard key={`item-${index}`} data={item} />;
-								})}
-							</div>
+							NumOfDays: {NumOfDays}
+							<br />
+							NumOfTravelers: {NumOfTravelers}
+							<br />
+							Budget: {budget?.low}—{budget?.high}
+							<br />
+							Accomodations:
+							{accomodations &&
+								accomodations?.map((item, index) => (
+									<LocationCard key={`item-${index}`} data={item} />
+								))}
+						</>
+					) : (
+						<>
+							Passcode: {passcode || 'NONE'}
+							<br />
+							Name: {name || 'NONE'}
+							<br />
+							Start Date: {startDate || 'NONE'}
+							<br />
+							Intro Message:{' '}
+							{introMessage ? (
+								<CustomPortableText blocks={introMessage} />
+							) : (
+								'NONE'
+							)}
+							<br />
+							CustomPortableText Ending Message:{' '}
+							{endingMessage ? (
+								<CustomPortableText blocks={endingMessage} />
+							) : (
+								'NONE'
+							)}
+							<br />
+							Emergency Contact:{' '}
+							{emergencyContact ? (
+								<CustomPortableText blocks={emergencyContact} />
+							) : (
+								'NONE'
+							)}
+							<br />
+							<h3>Accomodation</h3>
+							{accommodation ? (
+								<>
+									{accommodation.location && (
+										<LocationCard data={accommodation.location} />
+									)}
+									<br />
+									Accomodations check-in: {accommodation.checkInTime || 'NONE'}
+									<br />
+									Accomodations check-out:{' '}
+									{accommodation.checkOutTime || 'NONE'}
+									<br />
+									Accomodations notes: {accommodation.notes || 'NONE'}
+									<br />
+									Accomodations attachments:{' '}
+									{accommodation.attachments || 'NONE'}
+								</>
+							) : (
+								'NO ACCOMMODATION'
+							)}
 						</>
 					)}
-
-					<br />
-					<br />
-					<h1>TYPE: {type}</h1>
-					<div className="data-block">
-						{type == 'premade' ? (
-							<>
-								NumOfDays: {NumOfDays}
-								<br />
-								NumOfTravelers: {NumOfTravelers}
-								<br />
-								Budget: {budget?.low}—{budget?.high}
-								<br />
-								Accomodations:
-								{accomodations &&
-									accomodations?.map((item, index) => (
-										<LocationCard key={`item-${index}`} data={item} />
-									))}
-							</>
-						) : (
-							<>
-								Passcode: {passcode || 'NONE'}
-								<br />
-								Name: {name || 'NONE'}
-								<br />
-								Start Date: {startDate || 'NONE'}
-								<br />
-								Intro Message:{' '}
-								{introMessage ? (
-									<CustomPortableText blocks={introMessage} />
-								) : (
-									'NONE'
-								)}
-								<br />
-								CustomPortableText Ending Message:{' '}
-								{endingMessage ? (
-									<CustomPortableText blocks={endingMessage} />
-								) : (
-									'NONE'
-								)}
-								<br />
-								Emergency Contact:{' '}
-								{emergencyContact ? (
-									<CustomPortableText blocks={emergencyContact} />
-								) : (
-									'NONE'
-								)}
-								<br />
-								<h3>Accomodation</h3>
-								{accommodation ? (
-									<>
-										{accommodation.location && (
-											<LocationCard data={accommodation.location} />
-										)}
-										<br />
-										Accomodations check-in:{' '}
-										{accommodation.checkInTime || 'NONE'}
-										<br />
-										Accomodations check-out:{' '}
-										{accommodation.checkOutTime || 'NONE'}
-										<br />
-										Accomodations notes: {accommodation.notes || 'NONE'}
-										<br />
-										Accomodations attachments:{' '}
-										{accommodation.attachments || 'NONE'}
-									</>
-								) : (
-									'NO ACCOMMODATION'
-								)}
-							</>
-						)}
-					</div>
-					<br />
-					<br />
 				</div>
 			</section>
 
-			{reservations && <Reservations reservations={reservations} />}
+			{reservations && <Reservations reservations={reservations} />} */}
 		</>
 	);
 }

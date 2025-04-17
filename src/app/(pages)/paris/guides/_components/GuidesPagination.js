@@ -59,13 +59,11 @@ const ListWithClientQuery = ({ data, currentPageNumber }) => {
 			) : isError ? (
 				<div>Error: {error.message}</div>
 			) : (
-				<div className="p-guides-articles__list">
-					<ResponsiveGrid>
-						{articlesData.map((item, index) => (
-							<GuideCard key={item._id} data={item} />
-						))}
-					</ResponsiveGrid>
-				</div>
+				<ResponsiveGrid className="p-guides-articles__list">
+					{articlesData.map((item, index) => (
+						<GuideCard key={item._id} data={item} />
+					))}
+				</ResponsiveGrid>
 			)}
 		</div>
 	);
@@ -88,22 +86,20 @@ const ListWithSSG = ({ data, currentPageNumber }) => {
 			{listState === 'isLoading' ? (
 				<p>Loading...</p>
 			) : (
-				<div className="p-guides-articles__list">
-					<ResponsiveGrid>
-						{listData.map((item, index) => {
-							const isHorizontal = index % 3 == 0;
+				<ResponsiveGrid className="p-guides-articles__list">
+					{listData.map((item, index) => {
+						const isHorizontal = index % 3 == 0;
 
-							return (
-								<GuideCard
-									key={item._id}
-									data={item}
-									color={item.color}
-									layout={isHorizontal ? 'horizontal-2' : 'vertical-1'}
-								/>
-							);
-						})}
-					</ResponsiveGrid>
-				</div>
+						return (
+							<GuideCard
+								key={item._id}
+								data={item}
+								color={item.color}
+								layout={isHorizontal ? 'horizontal-2' : 'vertical-1'}
+							/>
+						);
+					})}
+				</ResponsiveGrid>
 			)}
 		</>
 	);

@@ -37,20 +37,22 @@ export default defineType({
 			to: [{ type: 'settingsBrandColors' }],
 		},
 		{
-			name: 'startingColor',
-			type: 'string',
-			options: {
-				list: [
-					{ title: 'Green', value: 'green' },
-					{ title: 'Blue', value: 'blue' },
-					{ title: 'Red', value: 'red' },
-					{ title: 'Orange', value: 'orange' },
-					{ title: 'Purple', value: 'purple' },
-				],
-				layout: 'radio',
-				direction: 'horizontal',
-			},
-			initialValue: 'green',
+			name: 'introduction',
+			type: 'text',
+			rows: 4,
+		},
+		{
+			name: 'accomodations',
+			type: 'array',
+			of: [
+				{
+					type: 'reference',
+					to: [{ type: 'gLocations' }],
+					options: {
+						filter: `_type == "gLocations" && references(*[_type == "gCategories" && slug.current == "hotels"]._id)`,
+					},
+				},
+			],
 		},
 		{
 			title: 'Plan (by day)',
@@ -70,7 +72,6 @@ export default defineType({
 							description: 'Defaults to date',
 							type: 'string',
 						},
-
 						{
 							title: 'Content (Highlight)',
 							name: 'content',
@@ -84,7 +85,6 @@ export default defineType({
 							title: 'title',
 							dayTitle: 'itineraryDay.title',
 							activities: 'itineraryDay.activities',
-							images: 'itineraryDay.images',
 						},
 						prepare({ title, dayTitle, activities, images }) {
 							return {
@@ -92,7 +92,6 @@ export default defineType({
 									? `${title} (${dayTitle})`
 									: dayTitle || 'Untitled',
 								subtitle: getActivitiesPreview(activities),
-								media: images?.[0] || false,
 							};
 						},
 					},
@@ -130,7 +129,7 @@ export default defineType({
 			hidden: ({ parent }) => parent.type !== 'premade',
 		},
 		{
-			title: 'Budget (USD)',
+			title: 'Budget (USD) / per person',
 			name: 'budget',
 			type: 'object',
 			hidden: ({ parent }) => parent.type !== 'premade',
@@ -155,20 +154,6 @@ export default defineType({
 					},
 				},
 			],
-		},
-		{
-			name: 'accomodations',
-			type: 'array',
-			of: [
-				{
-					type: 'reference',
-					to: [{ type: 'gLocations' }],
-					options: {
-						filter: `_type == "gLocations" && references(*[_type == "gCategories" && slug.current == "hotels"]._id)`,
-					},
-				},
-			],
-			hidden: ({ parent }) => parent.type !== 'premade',
 		},
 
 		// CUSTOM ITINERARIES
@@ -371,11 +356,13 @@ export default defineType({
 		select: {
 			title: 'title',
 			slug: 'slug',
+			images: 'images',
 		},
-		prepare({ title = 'Untitled', slug = {} }) {
+		prepare({ title = 'Untitled', slug = {}, images }) {
 			return {
 				title,
 				subtitle: slug.current ? `/${slug.current}` : 'Missing page slug',
+				media: images?.[0] || false,
 			};
 		},
 	},
