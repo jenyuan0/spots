@@ -32,8 +32,24 @@ export default function Layout({ children, siteData }) {
 
 	useEffect(() => {
 		if (siteData?.integrations?.gaID) {
-			gtag.pageview(pathname, siteData?.integrations?.gaID);
+			gtag.pageview(pathname, siteData.integrations.gaID);
 		}
+
+		// Optimize color mapping with early return
+		if (!siteData.colors?.length) return;
+
+		// Batch DOM updates
+		const colorUpdates = siteData.colors.reduce((updates, item) => {
+			const title = item.title.toLowerCase();
+			updates[`--cr-${title}-d`] = item.colorD;
+			updates[`--cr-${title}-l`] = item.colorL;
+			return updates;
+		}, {});
+
+		// Apply all styles at once
+		Object.entries(colorUpdates).forEach(([property, value]) => {
+			document.documentElement.style.setProperty(property, value);
+		});
 	}, [siteData, pathname]);
 
 	const fetchIsCustomItinerary = async (pathname) => {

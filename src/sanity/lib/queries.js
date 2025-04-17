@@ -446,6 +446,9 @@ export const site = groq`
 			gaID,
 			KlaviyoApiKey,
 		},
+		"colors": *[_type == "settingsBrandColors"][]{
+			${colorMeta}
+		}
 	}
 `;
 
