@@ -73,6 +73,8 @@ export default function LocationCard({
 	const addressString =
 		address && Object.values(address).filter(Boolean).join(', ');
 	const resStart = res?.startTime && new Date(res?.startTime);
+	const showContent =
+		['horizontal-2', 'embed'].includes(layout) && (content || contentReplace);
 
 	// Hooks
 	const setMag = useMagnify((state) => state.setMag);
@@ -97,17 +99,7 @@ export default function LocationCard({
 	};
 
 	return (
-		<div
-			className={'c-card'}
-			data-layout={layout}
-			role="article"
-			style={
-				color && {
-					'--cr-primary': `var(--cr-${color}-d)`,
-					'--cr-secondary': `var(--cr-${color}-l)`,
-				}
-			}
-		>
+		<div className={'c-card'} data-layout={layout} role="article">
 			<ImageGallery
 				images={images}
 				layout={layout}
@@ -131,7 +123,7 @@ export default function LocationCard({
 							't-h-4': layout === 'vertical',
 							't-h-3': layout === 'vertical-2',
 							't-h-5': layout === 'horizontal-1',
-							't-h-2': layout === 'horizontal-2',
+							't-h-3': layout === 'horizontal-2',
 						})}
 					>
 						{title}
@@ -142,8 +134,13 @@ export default function LocationCard({
 						Reservation: {formatTime(resStart)}
 					</div>
 				)}
-				{layout == 'embed' && (content || contentReplace) && (
-					<div className={`c-card__content wysiwyg-b-1`}>
+				{showContent && (
+					<div
+						className={clsx('c-card__content', {
+							'wysiwyg-b-1': layout === 'embed',
+							'wysiwyg-b-2': layout === 'horizontal-2',
+						})}
+					>
 						<CustomPortableText blocks={contentReplace || content} />
 					</div>
 				)}
@@ -156,7 +153,7 @@ export default function LocationCard({
 						onClick={handleDetailsClick}
 						aria-label={`View more details for ${title}`}
 					>
-						Details
+						{showContent ? 'Read More' : 'Details'}
 					</Button>
 					{hasDirection && addressString && (
 						<Button

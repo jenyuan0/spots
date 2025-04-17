@@ -21,13 +21,16 @@ export function getUrlBaseAndPath(url) {
 }
 
 export function hasArrayValue(arr) {
+	if (!arr) return null;
 	return Array.isArray(arr) && arr.length > 0 && arr.some((item) => item != '');
 }
 
 // ***UTILITIES / FORMAT***
 
-export function formatNumberSuffix(value, suffixOnly) {
-	let int = parseInt(value);
+export function formatNumberSuffix(val, suffixOnly) {
+	if (!string) return null;
+
+	let int = parseInt(val);
 	let integer = suffixOnly ? '' : int;
 
 	if (int > 3 && int < 21) return `${integer}th`;
@@ -45,6 +48,7 @@ export function formatNumberSuffix(value, suffixOnly) {
 }
 
 export function formatHandleize(string) {
+	if (!string) return null;
 	return String(string)
 		.normalize('NFKD') // split accented characters into their base characters and diacritical marks
 		.replace(/[\u0300-\u036f]/g, '') // remove all the accents, which happen to be all in the \u03xx UNICODE block.
@@ -56,17 +60,20 @@ export function formatHandleize(string) {
 }
 
 export function formatPad(val, length = 2, char = 0) {
+	if (!val) return null;
 	// example, leading zero: 8 = "08",
 	// example, password: 000088885581 = "********5581"
 	return val.toString().padStart(length, char);
 }
 
-export function formatClamp(value, min = 0, max = 1) {
+export function formatClamp(val, min = 0, max = 1) {
+	if (!val) return null;
 	// example, formatClamp(999, 0, 300) = 300
 	return value < min ? min : value > max ? max : value;
 }
 
 export function formatNumberWithCommas(string) {
+	if (!string) return null;
 	// example, formatNumberWithCommas(3000.12) = 3,000.12
 	const parts = string.toString().split('.');
 	parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');

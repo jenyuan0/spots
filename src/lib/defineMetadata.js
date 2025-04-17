@@ -26,7 +26,7 @@ export default function defineMetadata({ data }) {
 		site?.sharing?.shareGraphic?.asset ||
 		'';
 	const shareGraphicUrl = shareGraphic
-		? imageBuilder.image(shareGraphic).url()
+		? imageBuilder.image(shareGraphic).width(1200).url()
 		: false;
 
 	const disableIndex = page?.sharing?.disableIndex;

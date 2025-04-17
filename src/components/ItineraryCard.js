@@ -30,7 +30,7 @@ export default function ItineraryCard({ data }) {
 				{images && <Img image={images[0]} className={'child-fit'} />}
 			</div>
 			<div className="c-itinerary-card__footer wysiwyg">
-				<h3 className="c-itinerary-card__desc t-h-3">
+				<h3 className="c-itinerary-card__desc t-h-4">
 					<span className="t-b-1">{totalDays}</span> Day{totalDays > 1 && 's'}
 					{' & '}
 					<span className="t-b-1">{totalActivities}</span> Spot

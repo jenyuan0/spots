@@ -147,25 +147,23 @@ export default function PageLocationsSingle({ data }) {
 					{/* TODO
 					// prioritize subcategories and other attributes such as editors pick, trending, etc.
 					 */}
-					<div className="p-locations-single__related__list">
-						<ResponsiveGrid>
-							{[...Array(12)].map((_, index) => {
-								const relatedItems = relatedLocations || [];
-								const defaultItems = defaultRelatedLocations || [];
-								const allItems = [...relatedItems, ...defaultItems];
-								const item = allItems[index];
-								return (
-									item && (
-										<LocationCard
-											key={`${item._id}-${index}`}
-											data={item}
-											layout="vertical-2"
-										/>
-									)
-								);
-							})}
-						</ResponsiveGrid>
-					</div>
+					<ResponsiveGrid className="p-locations-single__related__list">
+						{[...Array(12)].map((_, index) => {
+							const relatedItems = relatedLocations || [];
+							const defaultItems = defaultRelatedLocations || [];
+							const allItems = [...relatedItems, ...defaultItems];
+							const item = allItems[index];
+							return (
+								item && (
+									<LocationCard
+										key={`${item._id}-${index}`}
+										data={item}
+										layout="vertical-2"
+									/>
+								)
+							);
+						})}
+					</ResponsiveGrid>
 				</section>
 			)}
 

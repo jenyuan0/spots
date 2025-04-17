@@ -50,13 +50,11 @@ const ListWithClientQuery = ({ data, currentPageNumber }) => {
 			) : isError ? (
 				<div>Error: {error.message}</div>
 			) : (
-				<div className="p-locations__list">
-					<ResponsiveGrid>
-						{articlesData.map((item, index) => (
-							<LocationCard key={item._id} data={item} />
-						))}
-					</ResponsiveGrid>
-				</div>
+				<ResponsiveGrid className={'p-locations__list'}>
+					{articlesData.map((item, index) => (
+						<LocationCard key={item._id} data={item} />
+					))}
+				</ResponsiveGrid>
 			)}
 		</div>
 	);
