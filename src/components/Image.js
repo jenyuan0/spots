@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
-import Image from 'next/image'; /* https://nextjs.org/docs/api-reference/next/image */
+import Image from 'next/image';
 import { buildImageSrc } from '@/lib/helpers';
 import { useInView } from 'react-intersection-observer';
 
@@ -11,24 +11,18 @@ export default function Img({
 	responsiveImage,
 	breakpoint = 600,
 	quality = 80,
-	isAutoFormat, // Use JPG by default (assuming most files are photos rather than graphics)
+	isAutoFormat,
 }) {
-	const { ref, inView } = useInView({
-		triggerOnce: true,
-	});
+	const { ref, inView } = useInView({ triggerOnce: true });
 	const [isLoaded, setIsLoaded] = useState(false);
-	const imageId = getSanityRefId(image) || false;
-
-	// get image dimension and src
+	const imageId = getSanityRefId(image);
 	const imageDimension = getImageDimensions(imageId);
 	const aspectRatio = image?.customRatio || imageDimension?.aspectRatio;
 	const imageWidth = imageDimension?.width;
 	const imageHeight = Math.round(imageWidth / aspectRatio);
 	const src = buildImageSrc(image, {
-		...{ width: inView ? imageWidth : 100 },
-		...{
-			height: inView ? imageHeight : Math.round(100 / aspectRatio),
-		},
+		width: inView ? imageWidth : 100,
+		height: inView ? imageHeight : Math.round(100 / aspectRatio),
 		...(!isAutoFormat && { format: 'jpg' }),
 		quality,
 	});
@@ -36,8 +30,6 @@ export default function Img({
 		...(!isAutoFormat && { format: 'jpg' }),
 		quality,
 	});
-
-	// get rendered dimension, to set size=""
 	const pictureRef = useRef();
 	const [renderedDimensions, setRenderedDimensions] = useState({
 		width: 0,
@@ -46,16 +38,12 @@ export default function Img({
 
 	useEffect(() => {
 		if (inView && pictureRef.current) {
-			setRenderedDimensions({
-				width: pictureRef.current.offsetWidth,
-				height: pictureRef.current.offsetHeight,
-			});
+			const { offsetWidth, offsetHeight } = pictureRef.current;
+			setRenderedDimensions({ width: offsetWidth, height: offsetHeight });
 		}
 	}, [inView]);
 
-	if (!image || !imageId) {
-		return false;
-	}
+	if (!image || !imageId) return null;
 
 	return (
 		<picture ref={pictureRef} className={className}>
@@ -67,7 +55,6 @@ export default function Img({
 						height={imageHeight}
 						srcSet={src}
 					/>
-
 					<source
 						media={`(max-width: ${breakpoint}px)`}
 						width={imageWidth}
@@ -84,9 +71,9 @@ export default function Img({
 				src={src}
 				quality={quality}
 				alt={alt || image.alt || 'image'}
-				onLoad={() => setIsLoaded(true)}
+				onLoad={() => renderedDimensions.width > 0 && setIsLoaded(true)}
 				className={clsx({
-					lazyload: !inView,
+					lazyload: !isLoaded,
 					lazyloaded: isLoaded && inView,
 				})}
 			/>
@@ -94,22 +81,16 @@ export default function Img({
 	);
 }
 
-function getSanityRefId(image) {
+const getSanityRefId = (image) => {
 	if (!image) return null;
-
 	if (typeof image === 'string') return image;
+	if (image?.asset) return image.asset._ref || image.asset._id;
+	return image._ref || image._id || null;
+};
 
-	if (image?.asset) return image?.asset?._ref || image?.asset?._id;
-
-	return image?._ref || image?._id || null;
-}
-
-function getImageDimensions(id) {
+const getImageDimensions = (id) => {
 	if (!id) return null;
-
 	const dimensions = id.split('-')[2];
 	const [width, height] = dimensions.split('x').map((num) => parseInt(num, 10));
-	const aspectRatio = width / height;
-
-	return { width, height, aspectRatio };
-}
+	return { width, height, aspectRatio: width / height };
+};
