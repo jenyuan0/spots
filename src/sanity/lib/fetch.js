@@ -55,7 +55,7 @@ export async function getPageHomeData({ isPreviewMode }) {
 
 	return sanityFetch({
 		query,
-		tags: ['pHome'],
+		tags: ['pHome', 'gLocations', 'gItineraries'],
 		isPreviewMode,
 	});
 }
@@ -123,7 +123,7 @@ export function getTripReadyPage({ queryParams, isPreviewMode }) {
 	return sanityFetch({
 		query,
 		params: queryParams,
-		tags: ['pTripReady'],
+		tags: ['pTripReady', 'gItineraries'],
 		isPreviewMode,
 	});
 }
@@ -147,7 +147,7 @@ export function getParisPage({ queryParams, isPreviewMode }) {
 	return sanityFetch({
 		query,
 		params: queryParams,
-		tags: ['pParis'],
+		tags: ['pParis', 'gLocations', 'gItineraries', 'gGuides'],
 		isPreviewMode,
 	});
 }
@@ -169,7 +169,7 @@ export function getGuidesIndexPage({ isPreviewMode, isArticleDataSSG }) {
 
 	return sanityFetch({
 		query,
-		tags: ['pGuides'],
+		tags: ['pGuides', 'gGuides'],
 		isPreviewMode,
 	});
 }
@@ -182,7 +182,7 @@ export function getGuidesCategoryPage({ queryParams, isPreviewMode }) {
 	return sanityFetch({
 		query,
 		params: queryParams,
-		tags: [`gGuides:${queryParams.slug}`],
+		tags: ['gGuides'],
 		isPreviewMode,
 	});
 }
@@ -215,7 +215,7 @@ export function getLocationsIndexPage({ isPreviewMode, isArticleDataSSG }) {
 
 	return sanityFetch({
 		query,
-		tags: ['pLocations'],
+		tags: ['pLocations', 'gLocations'],
 		isPreviewMode,
 	});
 }
@@ -228,7 +228,7 @@ export function getLocationsCategoryPage({ queryParams, isPreviewMode }) {
 	return sanityFetch({
 		query,
 		params: queryParams,
-		tags: [`gLocations:${queryParams.slug}`],
+		tags: ['gLocations'],
 		isPreviewMode,
 	});
 }
