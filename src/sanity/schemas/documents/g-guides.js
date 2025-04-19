@@ -65,6 +65,17 @@ export default defineType({
 			type: 'portableText',
 		},
 		{
+			name: 'itineraries',
+			type: 'array',
+			of: [
+				{
+					name: 'itinerary',
+					type: 'reference',
+					to: [{ type: 'gItineraries' }],
+				},
+			],
+		},
+		{
 			name: 'related',
 			type: 'array',
 			of: [

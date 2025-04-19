@@ -137,7 +137,10 @@ export const getGuidesData = (type) => {
 		content[]{
 			${portableTextObj}
 		},
-		"related": related[]->{
+		itineraries[]->{
+			${getItineraryData('card')}
+		},
+		related[]->{
 			${getGuidesData('card')}
 		}`;
 	}
@@ -181,10 +184,10 @@ export const getLocationsData = (type) => {
 			contentItinerary[]{
 				${portableTextContent}
 			},
-			"relatedLocations": relatedLocations[]->{
+			relatedLocations[]->{
 				${getLocationsData('card')}
 			},
-			"relatedGuides": relatedGuides[]->{
+			relatedGuides[]->{
 				${getGuidesData('card')}
 			}
 		`;

@@ -13,11 +13,14 @@
 	color: var(--cr-cream);
 	background-color: var(--cr-primary);
 
+	&:has(&__image) {
+		margin-bottom: calc(Min(600px, 90vw) / 2 + var(--s-5-v));
+	}
+
 	&__image {
 		position: relative;
-		width: 100%;
-		max-width: 600px;
-		margin-bottom: calc((var(--s-5-v) + var(--s-section) / 2) * -1);
+		width: Min(600px, 90vw);
+		margin-bottom: calc((Min(600px, 90vw) / 2 + var(--s-5-v)) * -1);
 		aspect-ratio: 1;
 		overflow: hidden;
 		border-radius: 100%;
@@ -59,9 +62,17 @@
 		background-color: var(--cr-primary);
 	}
 
-	&__sidebar {
+	&__sidebar,
+	&__sidebar-right {
+		display: flex;
+		flex-direction: column;
+		gap: 3px;
 		flex: 1;
 		color: var(--cr-primary);
+	}
+
+	&__sidebar-right {
+		align-items: flex-end;
 	}
 
 	&__content {
@@ -97,12 +108,18 @@
 		margin: var(--s-4-v) auto;
 	}
 
+	& > .c-portable-image {
+		max-width: unset;
+		width: var(--width-med);
+		margin-inline: calc((var(--width-med) - var(--width-sml)) / 2 * -1);
+	}
+
 	.c-card[data-layout='embed'] {
 		margin: var(--s-5-v) auto;
 
 		.c-card__gallery {
-			width: var(--width-lge);
-			margin-inline: calc((var(--width-lge) - var(--width-sml)) / 2 * -1);
+			width: var(--width-med);
+			margin-inline: calc((var(--width-med) - var(--width-sml)) / 2 * -1);
 		}
 
 		&:first-child {
@@ -111,23 +128,14 @@
 	}
 }
 
-.p-guide__footer {
-	margin: var(--s-section) auto;
-	padding: var(--s-3-v) 0;
-	border-top: 1px solid;
-	border-bottom: 1px solid;
+.p-guide__itineraries {
+	position: fixed;
+	display: flex;
+	gap: 5px;
+	bottom: 0;
+	right: var(--s-contain);
 
-	.c-category-pill-list {
-		justify-content: center;
-	}
-}
-
-.p-guide__related {
-	width: var(--width-lge);
-	margin: var(--s-section) auto;
-
-	&__title {
-		margin-bottom: var(--s-4-v);
-		text-align: center;
+	.c-itinerary-card {
+		width: 240px;
 	}
 }

@@ -55,7 +55,11 @@ export default function Carousel({
 		...(isAutoplay ? [Autoplay(autoplayOptions)] : []),
 		...(isAutoHeight ? [AutoHeight()] : []),
 	];
-
+	const cssAlign = {
+		left: 'start',
+		center: 'center',
+		right: 'end',
+	};
 	const [emblaRef, emblaApi] = useEmblaCarousel(options, plugins);
 	const {
 		prevBtnDisabled,
@@ -112,6 +116,7 @@ export default function Carousel({
 				'--item-width': itemWidth,
 				'--item-min-width': `${itemMinWidth}px`,
 				'--item-gap': gap,
+				'--css-align': cssAlign[align],
 			}}
 		>
 			<div

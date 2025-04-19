@@ -262,6 +262,10 @@
 		color: var(--cr-primary);
 	}
 
+	.c-card__content {
+		-webkit-line-clamp: unset;
+	}
+
 	.c-card__actions {
 		margin-top: 20px;
 	}

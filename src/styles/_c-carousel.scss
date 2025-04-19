@@ -19,6 +19,7 @@
 	&__container {
 		display: flex;
 		align-items: flex-start;
+		justify-content: var(--css-align);
 		-webkit-tap-highlight-color: transparent;
 		backface-visibility: hidden;
 		touch-action: pan-y pinch-zoom;
