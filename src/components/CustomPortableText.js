@@ -5,6 +5,50 @@ import PortableTable from './PortableTable';
 import Img from '@/components/Image';
 import LocationList from '@/components/LocationList';
 import LocationCard from '@/components/LocationCard';
+import Carousel from '@/components/Carousel';
+
+export function Image({ data }) {
+	if (!data?.asset) return;
+
+	const { link, caption } = data || {};
+	const image =
+		link && link?.route ? (
+			<Link href={link.route} isNewTab={link.isNewTab}>
+				<Img image={data} />
+			</Link>
+		) : (
+			<Img image={data} />
+		);
+
+	return (
+		<figure className="c-portable-image">
+			{image}
+			{caption && (
+				<figcaption className="c-portable-image__caption">{caption}</figcaption>
+			)}
+		</figure>
+	);
+}
+
+export function Iframe({ data }) {
+	const { embedSnippet } = data;
+	if (!embedSnippet) {
+		return null;
+	}
+	const widthMatch = embedSnippet.match(/width="\s*(\d+)"/);
+	const heightMatch = embedSnippet.match(/height="\s*(\d+)"/);
+	const width = widthMatch?.[1];
+	const height = heightMatch?.[1];
+	const aspectRatio = width && height ? width / height : null;
+
+	return (
+		<div
+			className="c-iframe"
+			style={aspectRatio && { '--aspect-ratio': aspectRatio }}
+			dangerouslySetInnerHTML={{ __html: embedSnippet }}
+		/>
+	);
+}
 
 export default function CustomPortableText({ blocks, hasPTag = true }) {
 	if (!blocks) return null;
@@ -27,56 +71,36 @@ export default function CustomPortableText({ blocks, hasPTag = true }) {
 			number: ({ children }) => <ol>{children}</ol>,
 		},
 		types: {
-			image: (data) => {
+			image: (data) => <Image data={data?.value} />,
+			iframe: (data) => <Iframe data={data} />,
+			portableTable: (data) => {
 				const { value } = data;
-				if (!value?.asset) return;
-
-				const { link, caption } = value || {};
-				const image =
-					link && link?.route ? (
-						<Link href={link.route} isNewTab={link.isNewTab}>
-							<Img image={value} />
-						</Link>
-					) : (
-						<Img image={value} />
-					);
-
-				return (
-					<figure className="c-portable-image">
-						{image}
-						{caption && (
-							<figcaption className="c-portable-image__caption">
-								{caption}
-							</figcaption>
-						)}
-					</figure>
-				);
-			},
-			iframe: ({ value }) => {
-				const { embedSnippet } = value;
-				if (!embedSnippet) {
-					return null;
-				}
-				const widthMatch = embedSnippet.match(/width="\s*(\d+)"/);
-				const heightMatch = embedSnippet.match(/height="\s*(\d+)"/);
-				const width = widthMatch?.[1];
-				const height = heightMatch?.[1];
-				const aspectRatio = width && height ? width / height : null;
-
-				return (
-					<div
-						className="c-iframe"
-						style={aspectRatio && { '--aspect-ratio': aspectRatio }}
-						dangerouslySetInnerHTML={{ __html: embedSnippet }}
-					/>
-				);
-			},
-			portableTable: (props) => {
-				const { value } = props;
 				return <PortableTable blocks={value} />;
 			},
-			locationSingle: (props) => {
-				const { value } = props;
+			carousel: (data) => {
+				const { value } = data;
+
+				if (!value?.items) return null;
+
+				return (
+					<Carousel gap={'10px'}>
+						{value.items.map((item, i) => (
+							<div key={`image-${i}`} className="c-carousel-item">
+								{item._type == 'image' ? (
+									<>
+										<Image data={item} />
+										{console.log(item)}
+									</>
+								) : (
+									<Iframe data={item} />
+								)}
+							</div>
+						))}
+					</Carousel>
+				);
+			},
+			locationSingle: (data) => {
+				const { value } = data;
 
 				if (!value?.location) return null;
 

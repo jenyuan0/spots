@@ -60,7 +60,6 @@ export default defineType({
 			type: 'boolean',
 			initialValue: false,
 		},
-		customImage({ name: 'heroImage' }),
 		{
 			name: 'content',
 			type: 'portableText',

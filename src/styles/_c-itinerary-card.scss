@@ -1,16 +1,15 @@
 .c-itinerary-card {
+	// TODO
+	// cqi unit fallback
+	--space: clamp(10px, 1.8cqi, 40px);
 	position: relative;
 	container-type: inline-size;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
-
-	// TODO
-	// cqi unit fallback
-
-	gap: clamp(20px, 2cqi, 40px);
-	padding: clamp(20px, 2.5cqi, 40px);
+	gap: var(--space);
+	padding: var(--space);
 	border-radius: var(--br-2);
 	text-align: center;
 	color: var(--cr-cream);
@@ -26,18 +25,29 @@
 		}
 	}
 
+	&__header {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		margin-top: calc(var(--space) * -1);
+		margin-left: calc(var(--space) * -1);
+		text-align: left;
+		gap: 3px;
+	}
+
+	&__title {
+		color: var(--cr-secondary);
+	}
+
 	&__subtitle {
 		height: 18cqi;
 		font-size: Max(24px, 8cqi);
 	}
 
-	&__desc {
-		font-size: Max(20px, 5cqi);
-	}
-
 	&__thumb {
 		display: block;
-		width: 80%;
+		width: 100%;
+		max-width: 450px;
 		filter: contrast(1.2) grayscale(1);
 		border-radius: 100%;
 		overflow: hidden;

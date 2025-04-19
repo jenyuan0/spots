@@ -89,7 +89,7 @@
 
 	&-block {
 		position: sticky;
-		top: calc(var(--s-header) + var(--s-3-v) * 2);
+		top: var(--s-header-space);
 		display: flex;
 		flex-direction: row;
 		align-items: center;

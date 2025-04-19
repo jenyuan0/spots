@@ -4,6 +4,7 @@ import customIframe from '@/sanity/schemas/objects/custom-iframe';
 import customImage from '@/sanity/schemas/objects/custom-image';
 import locationList from '@/sanity/schemas/objects/location-list';
 import locationSingle from '@/sanity/schemas/objects/location-single';
+import carousel from '@/sanity/schemas/objects/carousel';
 
 export default defineType({
 	name: 'portableText',
@@ -78,6 +79,7 @@ export default defineType({
 		},
 		customImage({ hasLinkOptions: true, hasCaptionOptions: true }),
 		customIframe(),
+		carousel(),
 		locationSingle(),
 		locationList(),
 		{ title: 'Table', type: 'portableTable' },

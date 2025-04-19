@@ -1,18 +1,15 @@
 .c-location-list {
-	&__title:not(:last-child),
+	&__title {
+		padding-block: 20px;
+		border-top: 1px solid;
+	}
+
 	&__content:not(:last-child),
 	&__item-content:not(:last-child) {
-		margin-bottom: 40px;
+		margin-bottom: var(--s-4-v);
 	}
 
 	&__item-content {
-		margin-top: 20px;
-	}
-
-	&__cards {
-		display: flex;
-		flex-direction: column;
-		justify-content: stretch;
-		gap: 10px;
+		margin-top: var(--s-3-v);
 	}
 }

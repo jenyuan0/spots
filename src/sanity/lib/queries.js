@@ -133,9 +133,6 @@ export const getGuidesData = (type) => {
 		defaultData += groq`excerpt`;
 	} else {
 		defaultData += groq`
-		heroImage{
-			${imageMeta}
-		},
 		showMap,
 		content[]{
 			${portableTextObj}

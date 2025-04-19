@@ -11,7 +11,7 @@
 	--cr-brown-d: var(--cr-brown);
 	--cr-brown-l: #e9e6d1;
 
-	--t-h-1: 64px/1 var(--font-kalice), 'Times', serif;
+	--t-h-1: 68px/1 var(--font-kalice), 'Times', serif;
 	--t-h-2: 42px/1.15 var(--font-kalice), 'Times', serif;
 	--t-h-3: 30px/1.15 var(--font-kalice), 'Times', serif;
 	--t-h-4: 500 24px/1.22 var(--font-kalice), 'Times', serif;
@@ -30,10 +30,14 @@
 		var(--s-vp-height) - var(--s-announcement, 0px) - var(--s-footer, 0px)
 	); // Set minimum container height to fill screen, keeping footer at bottom.
 
-	--width-sml: Min(100vw - calc(var(--s-contain) * 2), 800px);
-	--width-med: Min(100vw - calc(var(--s-contain) * 2), 1200px);
-	--width-lge: Min(100vw - calc(var(--s-contain) * 2), 1800px);
-	--width-max: Min(100vw - calc(var(--s-contain) * 2), 2480px);
+	--s-sml: 900px;
+	--s-med: 1200px;
+	--s-lge: 1800px;
+	--s-max: 2480px;
+	--width-sml: Min(100vw - calc(var(--s-contain) * 2), var(--s-sml));
+	--width-med: Min(100vw - calc(var(--s-contain) * 2), var(--s-med));
+	--width-lge: Min(100vw - calc(var(--s-contain) * 2), var(--s-lge));
+	--width-max: Min(100vw - calc(var(--s-contain) * 2), var(--s-max));
 	--padding-sml: calc((100vw - var(--width-sml)) / 2);
 	--padding-med: calc((100vw - var(--width-med)) / 2);
 	--padding-lge: calc((100vw - var(--width-lge)) / 2);
@@ -49,7 +53,7 @@
 	--s-4-h: 40px;
 	--s-5-v: 80px;
 	--s-5-h: 80px;
-	--s-section: 160px;
+	--s-section: 125px;
 
 	--br-1: 4px;
 	--br-2: 8px;

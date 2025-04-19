@@ -14,13 +14,13 @@ import { IconMaximize } from '@/components/SvgIcons';
 const ImageGallery = ({ images, layout, onLightbox }) => {
 	if (layout === 'embed') {
 		if (!images) return null;
-
+		console.log(images[0]?.aspectRatio > 1);
 		return (
 			<div className="c-card__gallery">
-				{images && images[0] && (
+				{images[0] && (
 					<Img image={images[0]} loading="lazy" alt={images[0]?.alt || ''} />
 				)}
-				{images && images[1] && (
+				{images[0]?.aspectRatio < 1 && images[1] && (
 					<Img image={images[1]} loading="lazy" alt={images[1]?.alt || ''} />
 				)}
 			</div>
@@ -155,7 +155,7 @@ export default function LocationCard({
 						onClick={handleDetailsClick}
 						aria-label={`View more details for ${title}`}
 					>
-						{showContent ? 'Read More' : 'Details'}
+						{showContent && layout !== 'embed' ? 'Read More' : 'Details'}
 					</Button>
 					{hasDirection && addressString && (
 						<Button

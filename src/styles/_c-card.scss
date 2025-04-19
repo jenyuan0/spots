@@ -29,18 +29,13 @@
 
 	&__gallery {
 		display: flex;
-		gap: var(--s-3-h);
+		gap: var(--s-2-h);
 		align-items: center;
 
 		picture {
 			flex: 1;
 			background-color: var(--cr-subtle);
 		}
-	}
-
-	&:nth-child(odd) &__gallery picture:nth-child(1),
-	&:nth-child(even) &__gallery picture:nth-child(2) {
-		max-width: 500px;
 	}
 
 	&__lightbox {
@@ -241,13 +236,13 @@
 
 // location embed in guide singles
 .c-card[data-layout='embed'] {
+	overflow: visible;
 	padding: 0 !important;
 	border: unset !important;
 	border-radius: 0 !important;
 	box-shadow: unset !important;
 	color: inherit !important;
 	background-color: transparent !important;
-
 	flex-direction: column;
 	gap: var(--s-4-v);
 

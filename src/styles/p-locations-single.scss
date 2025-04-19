@@ -9,12 +9,8 @@
 	&__text {
 		position: sticky;
 		bottom: var(--s-4-v);
-		min-height: calc(
-			100vh - (var(--s-header) + var(--s-3-v) * 2 + var(--s-section))
-		);
-		min-height: calc(
-			100svh - (var(--s-header) + var(--s-3-v) * 2 + var(--s-section))
-		);
+		min-height: calc(100vh - (var(--s-header-space) + var(--s-section)));
+		min-height: calc(100svh - (var(--s-header-space) + var(--s-section)));
 
 		&-container {
 			display: flex;

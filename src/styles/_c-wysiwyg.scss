@@ -79,10 +79,10 @@
 	> .t-h-1,
 	> .t-h-2 {
 		&:not(:last-child) {
-			margin-bottom: 25px;
+			margin-bottom: 20px;
 		}
 		&:not(:first-child) {
-			margin-top: 80px;
+			margin-top: var(--s-5-v);
 		}
 	}
 
@@ -118,10 +118,6 @@
 		strong {
 			font-weight: 600;
 		}
-	}
-
-	.large-paragraph {
-		font: var(--t-h-3);
 	}
 
 	> ul,
@@ -200,6 +196,11 @@
 
 		p {
 			font: inherit;
+		}
+
+		.large-paragraph {
+			margin-bottom: var(--s-4-v);
+			font: var(--t-h-3);
 		}
 	}
 }
