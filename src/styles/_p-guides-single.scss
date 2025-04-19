@@ -132,7 +132,7 @@
 	position: fixed;
 	display: flex;
 	gap: 5px;
-	right: 5px;
+	right: var(--s-contain);
 	bottom: 0;
 	pointer-events: none;
 

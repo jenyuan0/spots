@@ -2,6 +2,7 @@
 // min to read in &__header__subtitle
 // add author with portrait in &__header
 // ad block
+// add social
 'use client';
 
 import React, { useEffect, useRef } from 'react';

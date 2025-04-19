@@ -111,7 +111,7 @@ export default function Carousel({
 				'--item-width': itemWidth,
 				'--item-min-width': `${itemMinWidth}px`,
 				'--item-gap': gap,
-				'--css-align': align,
+				'--align': align,
 			}}
 		>
 			<div

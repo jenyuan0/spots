@@ -125,7 +125,7 @@ export default function LocationCard({
 							't-h-4': layout === 'vertical',
 							't-h-3': layout === 'vertical-2',
 							't-h-5': layout === 'horizontal-1',
-							't-h-3': layout === 'horizontal-2',
+							't-h-4': layout === 'horizontal-2',
 						})}
 					>
 						{title}

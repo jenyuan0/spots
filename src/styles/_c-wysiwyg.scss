@@ -66,6 +66,7 @@
 
 		a {
 			text-decoration: underline;
+			text-decoration-color: var(--cr-primary, inherit);
 		}
 
 		b,
@@ -111,7 +112,10 @@
 		font: var(--t-b-1);
 
 		a {
+			color: var(--cr-primary, inherit);
 			text-decoration: underline;
+			font-weight: 600;
+			text-decoration-thickness: 2px;
 		}
 
 		b,

@@ -19,7 +19,6 @@
 	&__container {
 		display: flex;
 		align-items: flex-start;
-		justify-content: var(--css-align);
 		-webkit-tap-highlight-color: transparent;
 		backface-visibility: hidden;
 		touch-action: pan-y pinch-zoom;
@@ -31,6 +30,10 @@
 			flex: 0 0 var(--item-width);
 			margin-right: var(--item-gap);
 		}
+	}
+
+	&__viewport.disable-draggable &__container {
+		justify-content: var(--align);
 	}
 
 	&__controls {
