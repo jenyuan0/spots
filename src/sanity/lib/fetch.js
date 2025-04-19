@@ -193,7 +193,7 @@ export function getGuidesSinglePage({ queryParams, isPreviewMode }) {
 	return sanityFetch({
 		query,
 		params: queryParams,
-		tags: [`gGuides:${queryParams.slug}`],
+		tags: [`gGuides:${queryParams.slug}`, 'gLocations'],
 		isPreviewMode,
 	});
 }

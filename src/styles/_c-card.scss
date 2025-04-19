@@ -34,6 +34,7 @@
 
 		picture {
 			flex: 1;
+			background-color: var(--cr-subtle);
 		}
 	}
 
@@ -226,7 +227,7 @@
 	}
 
 	.c-card__info {
-		padding: var(--s-4-v) var(--s-3-h) var(--s-3-v);
+		padding: var(--s-3-v) var(--s-3-h);
 	}
 
 	.c-card__title {

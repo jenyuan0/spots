@@ -54,9 +54,9 @@ const ImageGallery = ({ images, layout, onLightbox }) => {
 export default function LocationCard({
 	data,
 	layout = 'vertical-1',
-	color,
 	hasDirection = false,
 	contentReplace,
+	isLinkout,
 }) {
 	const {
 		images,
@@ -88,7 +88,7 @@ export default function LocationCard({
 	};
 
 	const handleDetailsClick = (e) => {
-		if (!hasPressedKeys) {
+		if (!hasPressedKeys && !isLinkout) {
 			e.preventDefault();
 			setMag({
 				slug,
@@ -106,13 +106,15 @@ export default function LocationCard({
 				onLightbox={handleLightbox}
 			/>
 			<div className="c-card__info">
-				{!['horizontal-2', 'embed'].includes(layout) &&
+				{layout !== 'embed' &&
 					(hasArrayValue(categories) || hasArrayValue(subcategories)) && (
 						<div className="c-card__categories">
 							<CategoryPillList
 								categories={categories}
 								subcategories={subcategories}
-								limit={layout == 'horizontal-1' ? 1 : 3}
+								limit={
+									['horizontal-1', 'horizontal-2'].includes(layout) ? 1 : 2
+								}
 							/>
 						</div>
 					)}

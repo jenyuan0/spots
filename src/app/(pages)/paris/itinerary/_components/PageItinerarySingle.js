@@ -7,11 +7,21 @@ import ResponsiveGrid from '@/components/ResponsiveGrid';
 import ItineraryDay from './ItineraryDay';
 import PlanForm from '@/components/PlanForm';
 import PlanSection from '@/components/PlanSection';
+import Carousel from '@/components/Carousel';
+import Img from '@/components/Image';
 
 // TODO:
 // 1. custom background image for each day
 // 2. weather dependent icon next to each day's title
 // 3. more fun - weather dependent scenary based on section or active accordion, e.g. cloud emerging, sun coming up then going down, etc.
+
+// INSPO:
+// https://kaer.co/destination/es-raco-darta
+// https://travel.priorworld.com/itineraries/four-days-in-rome-2
+// https://www.abercrombiekent.com/journeys/private-ready-to-book/villa-castiglioni
+// https://www.elsewhere.io/
+// https://casaportufornia.com/
+// https://www.airbnb.com/rooms/32011367
 
 export default function PageItinerarySingle({ data }) {
 	const {
@@ -90,9 +100,22 @@ export default function PageItinerarySingle({ data }) {
 				}}
 			>
 				<div className="p-itinerary__sections">
+					{images && (
+						<Carousel
+							className="p-itinerary__gallery"
+							gap={'10px'}
+							isShowNav={true}
+						>
+							{images.map((image, i) => (
+								<Img key={`image-${i}`} image={image} />
+							))}
+						</Carousel>
+					)}
 					{introduction && (
-						<div className="p-itinerary__accomodations p-itinerary__section">
-							<h2 className="t-l-1">Trip Overview</h2>
+						<div className="p-itinerary__introduction p-itinerary__section">
+							<h2 className="p-itinerary__section__title t-l-1">
+								Trip Overview
+							</h2>
 							<p className="t-h-3">{introduction}</p>
 						</div>
 					)}
@@ -101,7 +124,7 @@ export default function PageItinerarySingle({ data }) {
 							<h3 className="p-itinerary__section__title t-h-2">
 								Accomodation
 								<span className="t-l-1">
-									{accomodations.length} option
+									{accomodations.length} Option
 									{accomodations.length > 1 && 's'}
 								</span>
 							</h3>
@@ -125,7 +148,7 @@ export default function PageItinerarySingle({ data }) {
 							<h3 className="p-itinerary__section__title t-h-2">
 								Trip Itinerary
 								<span className="t-l-1">
-									{plan.length} day
+									{plan.length} Day
 									{plan.length > 1 && 's'}
 								</span>
 							</h3>

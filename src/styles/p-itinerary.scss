@@ -101,6 +101,13 @@
 		}
 	}
 
+	&__gallery {
+		img {
+			height: clamp(350px, 80vh, 600px) !important;
+			height: clamp(350px, 80svh, 600px) !important;
+		}
+	}
+
 	&__days {
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);

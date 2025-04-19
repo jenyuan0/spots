@@ -1,4 +1,8 @@
 .c-portable-image {
+	picture {
+		background-color: var(--cr-subtle);
+	}
+
 	&__caption {
 		margin-top: 10px;
 		font: var(--t-b-2) !important;

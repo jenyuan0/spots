@@ -159,6 +159,7 @@ export default function PageLocationsSingle({ data }) {
 										key={`${item._id}-${index}`}
 										data={item}
 										layout="vertical-2"
+										isLinkout={true}
 									/>
 								)
 							);
