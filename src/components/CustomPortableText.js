@@ -32,6 +32,7 @@ export function Image({ data }) {
 
 export function Iframe({ data }) {
 	const { embedSnippet } = data;
+
 	if (!embedSnippet) {
 		return null;
 	}
@@ -72,10 +73,9 @@ export default function CustomPortableText({ blocks, hasPTag = true }) {
 		},
 		types: {
 			image: (data) => <Image data={data?.value} />,
-			iframe: (data) => <Iframe data={data} />,
+			iframe: (data) => <Iframe data={data?.value} />,
 			portableTable: (data) => {
-				const { value } = data;
-				return <PortableTable blocks={value} />;
+				return <PortableTable blocks={data?.value} />;
 			},
 			carousel: (data) => {
 				const { value } = data;
@@ -107,7 +107,7 @@ export default function CustomPortableText({ blocks, hasPTag = true }) {
 				return (
 					<LocationCard
 						data={value.location}
-						contentReplace={value.location.contentReplace}
+						contentReplace={value.contentReplace}
 						color={value?.location?.color}
 						layout="embed"
 						hasDirection={true}

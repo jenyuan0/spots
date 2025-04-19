@@ -104,20 +104,21 @@ export default function ItineraryDay({ index, plan, reservations, date }) {
 
 	return (
 		<div className="p-itinerary__day">
-			{(plan.content || plan?.day?.content) && (
-				<div className="p-itinerary__day__header">
-					<h3 className="p-itinerary__day__badge">
-						<div className="t-l-2">Day</div>
-						<div className="t-h-2">{index + 1}</div>
-					</h3>
+			<div className="p-itinerary__day__header">
+				<h3 className="p-itinerary__day__badge">
+					<div className="t-l-2">Day</div>
+					<div className="t-h-2">{index + 1}</div>
+				</h3>
+				{(plan.content || plan?.day?.content) && (
 					<p className="t-h-4">
 						<CustomPortableText
 							blocks={plan.content || plan.day.content}
 							hasPTag={false}
 						/>
 					</p>
-				</div>
-			)}
+				)}
+			</div>
+
 			<div className="p-itinerary__day__activities">
 				{activitiesPlusRes?.map((activity, i) => {
 					const {

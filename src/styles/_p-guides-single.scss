@@ -132,10 +132,20 @@
 	position: fixed;
 	display: flex;
 	gap: 5px;
+	right: 5px;
 	bottom: 0;
-	right: var(--s-contain);
+	pointer-events: none;
 
 	.c-itinerary-card {
-		width: 240px;
+		width: 400px;
+		transform: translateY(calc(100% - 4rem));
+		transition: var(--t-2);
+		pointer-events: auto;
+
+		@media (hover: hover) {
+			&:hover {
+				transform: translateY(-5px);
+			}
+		}
 	}
 }

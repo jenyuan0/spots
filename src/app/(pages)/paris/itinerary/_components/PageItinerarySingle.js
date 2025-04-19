@@ -103,6 +103,7 @@ export default function PageItinerarySingle({ data }) {
 					{images && (
 						<Carousel
 							className="p-itinerary__gallery"
+							align="start"
 							gap={'10px'}
 							isShowNav={true}
 						>
