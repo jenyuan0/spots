@@ -5,10 +5,7 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	height: Min(
-		calc(var(--s-vp-height) - var(--s-header-space) - var(--s-contain)),
-		1780px
-	);
+	height: calc(var(--s-vp-height) - var(--s-header-space) - var(--s-contain));
 	width: var(--width-max);
 	margin: auto;
 	padding: var(--s-5-v) var(--s-5-h);

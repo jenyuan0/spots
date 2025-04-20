@@ -216,7 +216,7 @@ export default function Header({ data, isActive }) {
 				<div className="g-header__block">
 					<div className="g-header__block__translate">
 						<motion.div className="g-header__tagline t-h-5">
-							& Design Conscious Travel Planning
+							Design Conscious Travel Planning
 							<DesignDots />
 						</motion.div>
 						<NavLink nav={rightNav} pathname={pathname} />

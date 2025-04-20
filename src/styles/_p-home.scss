@@ -3,7 +3,7 @@
 	position: relative;
 	display: flex;
 	flex-direction: column;
-	height: Min(calc(var(--s-vp-height) - var(--s-top) * 2), 1280px);
+	height: calc(var(--s-vp-height) - var(--s-top) - var(--s-contain));
 	width: var(--width-max);
 	margin: var(--s-top) auto;
 	color: var(--cr-white);

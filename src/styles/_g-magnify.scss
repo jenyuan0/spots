@@ -22,7 +22,7 @@
 		width: Min(800px, calc(100vw - var(--s-contain) * 2));
 		color: var(--cr-primary);
 		background-color: var(--cr-cream);
-		border-left: 1px solid;
+		border-left: 1px solid var(--cr-brown);
 		box-shadow: var(--shadow-1);
 		gap: 30px;
 		z-index: 200;
