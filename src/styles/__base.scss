@@ -19,11 +19,11 @@
 	--t-b-1: 17px/1.45 'Helvetica Neue', Helvetica, sans-serif;
 	--t-b-2: 14px/1.5 'Helvetica Neue', Helvetica, sans-serif;
 	--t-b-3: 12px/1.5 'Helvetica Neue', Helvetica, sans-serif;
-	--t-l-1: 700 14px/1 'Helvetica Neue', Helvetica, sans-serif;
-	--t-l-2: 12px/1 'Helvetica Neue', Helvetica, sans-serif;
+	--t-l-1: 600 14px/1 'Helvetica Neue', Helvetica, sans-serif;
+	--t-l-2: 500 12px/1 'Helvetica Neue', Helvetica, sans-serif;
 
 	--s-sidebar: Min(240px, 100%);
-	--s-contain: Min(3vw, 40px);
+	--s-contain: Min(2vw, 20px);
 	--s-vp-height: 100vh;
 	--s-vp-height: 100svh;
 	--s-main-min-height: calc(
@@ -33,7 +33,7 @@
 	--s-sml: 900px;
 	--s-med: 1200px;
 	--s-lge: 1800px;
-	--s-max: 2480px;
+	--s-max: 2800px;
 	--width-sml: Min(100vw - calc(var(--s-contain) * 2), var(--s-sml));
 	--width-med: Min(100vw - calc(var(--s-contain) * 2), var(--s-med));
 	--width-lge: Min(100vw - calc(var(--s-contain) * 2), var(--s-lge));

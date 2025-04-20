@@ -13,8 +13,8 @@ export function Magnify() {
 	const [isActive, setIsActive] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [content, setContent] = useState({});
-	const [pageSlug, setPageSlug] = useState(null);
 	const [color, setColor] = useState('brown');
+	const [pageSlug, setPageSlug] = useState(null);
 	const { mag, clearMag } = useMagnify();
 	const { lightboxActive } = useLightbox();
 	const searchParams = useSearchParams();
@@ -48,6 +48,7 @@ export function Magnify() {
 				content: content,
 				reservations: reservations,
 			});
+			setColor(mag?.color || content.color || 'brown');
 			setIsActive(true);
 		} catch (error) {
 			console.error('Error fetching data:', error);
@@ -88,10 +89,6 @@ export function Magnify() {
 			const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}${separator}m=${mValue}`;
 
 			window.history.pushState({}, '', newUrl);
-		}
-
-		if (mag?.color) {
-			setColor(mag?.color);
 		}
 	}, [mag]);
 
@@ -173,9 +170,7 @@ export function Magnify() {
 					</div>
 				</button>
 				<div className="g-magnify__body">
-					{content && !isLoading && (
-						<MagnifyLocation data={content} color={color} />
-					)}
+					{content && !isLoading && <MagnifyLocation data={content} />}
 				</div>
 			</div>
 		</div>

@@ -5,9 +5,8 @@
 	align-items: center;
 	justify-content: space-between;
 	padding-inline: var(--padding-med);
-	padding-top: calc(var(--s-header-space) + var(--s-3-v));
+	padding-top: calc(var(--s-header) + var(--s-5-v));
 	padding-bottom: var(--s-5-v);
-	margin-top: calc((var(--s-header-space) * -1));
 	gap: var(--s-4-v);
 	text-align: center;
 	color: var(--cr-cream);

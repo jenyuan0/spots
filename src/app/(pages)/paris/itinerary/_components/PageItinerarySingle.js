@@ -165,6 +165,7 @@ export default function PageItinerarySingle({ data }) {
 										plan={plan}
 										reservations={reservations}
 										date={date}
+										color={color}
 									/>
 								);
 							})}

@@ -1,5 +1,4 @@
 import React from 'react';
-import clsx from 'clsx';
 import { format } from 'date-fns';
 import { hasArrayValue, formatAddress } from '@/lib/helpers';
 import Link from '@/components/CustomLink';
@@ -9,7 +8,7 @@ import Carousel from '@/components/Carousel';
 import CategoryPillList from '@/components/CategoryPillList';
 import useLightbox from '@/hooks/useLightbox';
 
-export default function MagnifyLocation({ data, color = 'green' }) {
+export default function MagnifyLocation({ data }) {
 	const {
 		_id,
 		title,
@@ -111,12 +110,12 @@ export default function MagnifyLocation({ data, color = 'green' }) {
 				</div>
 			)}
 			{content && (
-				<div className="g-magnify-locations__content wysiwyg-b-1">
+				<div className="g-magnify-locations__content wysiwyg-page">
 					<CustomPortableText blocks={content} />
 				</div>
 			)}
 			{contentItinerary && (
-				<div className="g-magnify-locations__content wysiwyg-b-1">
+				<div className="g-magnify-locations__content wysiwyg-page">
 					<CustomPortableText blocks={contentItinerary} />
 				</div>
 			)}

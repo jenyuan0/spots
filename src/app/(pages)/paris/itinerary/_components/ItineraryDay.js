@@ -47,7 +47,13 @@ const getLocationsPlusActivity = (activitiesPlusRes) =>
 		)
 		.filter((location) => location !== '');
 
-export default function ItineraryDay({ index, plan, reservations, date }) {
+export default function ItineraryDay({
+	index,
+	plan,
+	reservations,
+	date,
+	color,
+}) {
 	const baseId = useId();
 	const activities = plan?.day?.activities || [];
 	const activitiesPlusRes = getActivitiesPlusRes(
@@ -176,7 +182,10 @@ export default function ItineraryDay({ index, plan, reservations, date }) {
 			</div>
 			<div className="p-itinerary__day__footer f-v f-a-c">
 				<Button
-					className={'btn'}
+					className={clsx(
+						'btn',
+						color && `cr-${color?.title?.toLowerCase()}-d`
+					)}
 					icon={<IconMaximize />}
 					onClick={() => {
 						setIsMapActive(true);
@@ -193,7 +202,10 @@ export default function ItineraryDay({ index, plan, reservations, date }) {
 			>
 				<Map id={baseId} locations={filterLocationsByActivities()} />
 				<Button
-					className={'p-itinerary__day__map__close btn'}
+					className={clsx(
+						'p-itinerary__day__map__close btn',
+						color && `cr-${color?.title?.toLowerCase()}-d`
+					)}
 					icon={<IconMinimize />}
 					onClick={handleMapClose}
 				>

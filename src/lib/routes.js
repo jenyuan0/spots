@@ -1,11 +1,3 @@
-export const checkIfActive = ({ pathName, url, isChild }) => {
-	if (isChild) {
-		return pathName.split('/')[1] == url.split('/')[1];
-	} else {
-		return pathName == url;
-	}
-};
-
 export const getRoute = ({ documentType, slug }) => {
 	if (!documentType) return undefined;
 

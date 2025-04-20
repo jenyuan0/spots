@@ -3,7 +3,8 @@
 		position: relative;
 		display: flex;
 		justify-content: space-between;
-		margin: calc(var(--s-header-space) * -1) 0 var(--s-section);
+		align-items: flex-end;
+		margin-bottom: var(--s-section);
 		padding: calc(var(--s-header-space) + var(--s-section)) var(--padding-max)
 			var(--s-4-v);
 		color: var(--cr-cream);
@@ -11,6 +12,7 @@
 
 		&__text {
 			position: relative;
+			max-width: 1000px;
 			text-align: left;
 		}
 
@@ -42,6 +44,7 @@
 		width: var(--width-max);
 		margin: var(--s-section) auto;
 		gap: var(--s-5-h);
+		color: var(--cr-primary);
 
 		@include selection {
 			color: var(--cr-secondary);

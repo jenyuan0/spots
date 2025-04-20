@@ -186,9 +186,8 @@
 
 	font: var(--t-l-1);
 	line-height: 1;
-	padding-bottom: 0.2em;
-
-	color: var(--cr-primary);
+	color: inherit;
+	// color: var(--cr-primary);
 
 	&:before,
 	&:after {
@@ -196,7 +195,7 @@
 		position: absolute;
 		display: block;
 		width: 100%;
-		top: 100%;
+		top: 110%;
 		left: 0;
 		border-top: var(--outline) solid;
 		transform-origin: right;

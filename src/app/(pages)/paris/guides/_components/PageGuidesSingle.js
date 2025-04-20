@@ -44,7 +44,7 @@ const PageGuidesSingle = ({ data = {} }) => {
 	});
 
 	const springScale = useSpring(
-		useTransform(scrollYProgress, [0, 1], [1, 0.5]),
+		useTransform(scrollYProgress, [0, 1], [1, 0.3]),
 		springConfig
 	);
 

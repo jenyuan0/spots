@@ -1,13 +1,11 @@
 .p-home__hero {
+	--s-top: calc(var(--s-header) + var(--s-contain));
 	position: relative;
 	display: flex;
 	flex-direction: column;
-	height: Min(
-		calc(var(--s-vp-height) - var(--s-header) - var(--s-3-v)),
-		1280px
-	);
+	height: Min(calc(var(--s-vp-height) - var(--s-top) * 2), 1280px);
 	width: var(--width-max);
-	margin: calc((39px + var(--s-3-v)) * -1) auto var(--s-section);
+	margin: var(--s-top) auto;
 	color: var(--cr-white);
 	z-index: 1;
 

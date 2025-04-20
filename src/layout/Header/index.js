@@ -2,11 +2,13 @@ import React, { useEffect, useState, useRef } from 'react';
 import clsx from 'clsx';
 import { usePathname } from 'next/navigation';
 import { scrollEnable, scrollDisable } from '@/lib/helpers';
-import { checkIfActive } from '@/lib/routes';
 import Link from '@/components/CustomLink';
 import MobileMenuTrigger from './mobile-menu-trigger';
 import Button from '@/components/Button';
 import { motion } from 'framer-motion';
+
+// TODO
+// Megamenu
 
 const leftNav = [
 	{
@@ -27,8 +29,8 @@ const leftNav = [
 
 const rightNav = [
 	{
-		title: 'Book a Hotel',
-		url: '/book-a-hotel',
+		title: 'Service Overview',
+		url: '/',
 	},
 	{
 		title: 'Ready-to-book Trips',
@@ -36,22 +38,28 @@ const rightNav = [
 	},
 ];
 
-function NavLink({ nav }) {
-	const pathname = usePathname();
+export const checkIfActive = ({ pathname, url }) => {
+	if (!pathname) return null;
 
+	if (pathname.includes('/paris/guides') && url == '/paris/guides') {
+		return true;
+	} else if (
+		pathname.includes('/paris/locations' && url == '/paris/locations')
+	) {
+		return true;
+	} else {
+		return pathname == url;
+	}
+};
+
+function NavLink({ nav, pathname }) {
 	return (
-		<ul className="g-header__nav__links user-select-disable">
+		<ul className="g-header__links t-l-2">
 			{nav.map((item, index) => {
-				// TODO
-				// Active state
-				// Megamenu
-				const isActive = false;
-				// const isActive = checkIfActive({
-				// 	pathname,
-				// 	url: item.url,
-				// });
-
-				// console.log(pathname, item.url);
+				const isActive = checkIfActive({
+					pathname: pathname,
+					url: item.url,
+				});
 
 				return (
 					<li
@@ -73,10 +81,11 @@ function NavLink({ nav }) {
 		</ul>
 	);
 }
-const FrenchFlag = () => {
+
+const FrenchDots = () => {
 	const dotVariants = {
-		hover: (i) => ({
-			y: [0, -8, 0],
+		animate: (i) => ({
+			y: [0, -4, 0],
 			transition: {
 				duration: 1.2,
 				repeat: Infinity,
@@ -94,6 +103,35 @@ const FrenchFlag = () => {
 					className="g-header__flag-dot"
 					custom={i}
 					variants={dotVariants}
+					animate="animate"
+				/>
+			))}
+		</div>
+	);
+};
+
+const DesignDots = () => {
+	const dotVariants = {
+		animate: (i) => ({
+			scale: [1, 0.5, 1],
+			transition: {
+				duration: 1.2,
+				repeat: Infinity,
+				ease: 'easeInOut',
+				delay: i * 0.2,
+			},
+		}),
+	};
+
+	return (
+		<div className="g-header__design">
+			{[0, 1, 2].map((i) => (
+				<motion.div
+					key={i}
+					className="g-header__design-dot"
+					custom={i}
+					variants={dotVariants}
+					animate="animate"
 				/>
 			))}
 		</div>
@@ -105,6 +143,7 @@ export default function Header({ data, isActive }) {
 	const ref = useRef();
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 	const [isScrolled, setIsScrolled] = useState(false);
+	const [isTransparent, setIsTransparent] = useState(false);
 
 	useEffect(() => {
 		if (!ref?.current) return;
@@ -114,7 +153,7 @@ export default function Header({ data, isActive }) {
 			document.documentElement.style.setProperty('--s-header', `${height}px`);
 			document.documentElement.style.setProperty(
 				'--s-header-space',
-				`calc(${height}px + var(--s-3-v) * 2)`
+				`calc(${height}px + var(--s-contain))`
 			);
 		};
 
@@ -146,6 +185,10 @@ export default function Header({ data, isActive }) {
 
 	useEffect(() => {
 		setIsMobileMenuOpen(false);
+		setIsTransparent(
+			pathname.includes('/paris/itinerary/') ||
+				pathname.includes('/paris/guides/')
+		);
 	}, [pathname]);
 
 	return (
@@ -154,37 +197,35 @@ export default function Header({ data, isActive }) {
 				ref={ref}
 				className={clsx('g-header', 'use-select-disable', {
 					'is-scrolled': isScrolled,
+					'is-transparent': isTransparent,
 					'is-active': isActive,
 				})}
 			>
-				<div className="g-header__primary">
-					<Link href={'/'} className="g-header__logo t-h-3">
-						SPOTS
-					</Link>
-					<div className="g-header__primary__center">
-						<motion.div className="g-header__tagline t-h-5" whileHover="hover">
-							<FrenchFlag />
-							An ever-growing collection of Parisian treasures refreshed weekly
+				<Link href={'/'} className="g-header__logo t-h-3 user-select-disable">
+					SPOTS
+				</Link>
+				<div className="g-header__block">
+					<div className="g-header__block__translate">
+						<motion.div className="g-header__tagline t-h-5">
+							Parisian Treasures Refreshed Weekly
+							<FrenchDots />
 						</motion.div>
-						<div
-							className="g-header__primary__nav t-l-1"
-							aria-hidden={isScrolled}
-						>
-							<NavLink nav={leftNav} />
-							<NavLink nav={rightNav} />
-						</div>
+						<NavLink nav={leftNav} pathname={pathname} />
 					</div>
-					<Button
-						className="g-header__cta btn cr-green-d"
-						caret="right"
-						href={'/contact'}
-					>
-						Contact
-					</Button>
 				</div>
-				<div className="g-header__nav t-l-1" aria-hidden={!isScrolled}>
-					<NavLink nav={leftNav} />
-					<NavLink nav={rightNav} />
+				<div className="g-header__block">
+					<div className="g-header__block__translate">
+						<motion.div className="g-header__tagline t-h-5">
+							& Design Conscious Travel Planning
+							<DesignDots />
+						</motion.div>
+						<NavLink nav={rightNav} pathname={pathname} />
+					</div>
+				</div>
+				<div className="g-header__cta">
+					<Button className="btn-underline" href={'/contact'}>
+						Contact & FAQ
+					</Button>
 				</div>
 			</header>
 

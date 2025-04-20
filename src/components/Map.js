@@ -93,8 +93,6 @@ export default function TheMap({ id, locations, color }) {
 										setMag({
 											slug: location.slug,
 											type: 'location',
-											color: color,
-											// url: `/locations/${location.slug}&c=${color}`,
 										});
 										setSelectedMarker(location.title);
 									}}

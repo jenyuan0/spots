@@ -1,8 +1,7 @@
 import clsx from 'clsx';
-import { hasArrayValue, formatTime, formatAddress } from '@/lib/helpers';
+import { hasArrayValue, formatTime } from '@/lib/helpers';
 import Img from '@/components/Image';
 import Button from '@/components/Button';
-import Link from '@/components/CustomLink';
 import CategoryPillList from '@/components/CategoryPillList';
 import CustomPortableText from '@/components/CustomPortableText';
 import useMagnify from '@/hooks/useMagnify';
@@ -93,7 +92,6 @@ export default function LocationCard({
 			setMag({
 				slug,
 				type: 'location',
-				color: data.color,
 			});
 		}
 	};

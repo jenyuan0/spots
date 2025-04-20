@@ -67,7 +67,7 @@ img[loading='lazy'] {
 	opacity: 0;
 
 	&.lazyloaded {
-		animation: fadeIn 1s both;
+		animation: fadeIn 0.4s both;
 	}
 }
 
