@@ -58,7 +58,7 @@ export default defineType({
 			of: [
 				{
 					type: 'object',
-					fields: [{ title: 'option', name: 'option', type: 'string' }],
+					fields: [{ name: 'option', type: 'string' }],
 				},
 			],
 			hidden: ({ parent }) => parent.inputType !== 'select',

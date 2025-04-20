@@ -116,7 +116,7 @@ export default function ItineraryDay({
 					<div className="t-h-2">{index + 1}</div>
 				</h3>
 				{(plan.content || plan?.day?.content) && (
-					<p className="t-h-4">
+					<p className="t-b-1">
 						<CustomPortableText
 							blocks={plan.content || plan.day.content}
 							hasPTag={false}

@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Link from '@/components/CustomLink';
 import CustomForm from '@/components/CustomForm';
 import { formatNumberWithCommas } from '@/lib/helpers';
 
@@ -15,9 +14,7 @@ export default function PlanForm({
 	errorMessage,
 	budget,
 	offering,
-	showSupport,
 }) {
-	const { email, whatsapp, line } = data;
 	const formTitle = title === false ? false : title || data.formTitle;
 	const formHeading = heading === false ? false : heading || data.formHeading;
 	const formData = {
@@ -52,9 +49,9 @@ export default function PlanForm({
 			</div>
 			{offering && (
 				<ul className="g-plan__offering t-b-2">
-					<li>
+					{/* <li>
 						<span>Get started in 5 minutes</span>
-					</li>
+					</li> */}
 					{/* <li>
 						<span>Start your journey feeling like a local from day one.</span>
 					</li> */}
@@ -70,9 +67,9 @@ export default function PlanForm({
 					<li>
 						<span>Customize and tailor every detail to your preference</span>
 					</li>
-					<li>
+					{/* <li>
 						<span>All reservations confirmed before you arrive</span>
-					</li>
+					</li> */}
 					{/* <li>Digital and offline itinerary: Access your anytime anywhere</li> */}
 					{/* <li>
 						Need more help? <u>Ask us anything</u>
@@ -81,36 +78,6 @@ export default function PlanForm({
 				</ul>
 			)}
 			<CustomForm data={formData} />
-			{showSupport && (
-				<div className="g-plan__support">
-					{email && (
-						<Link className="g-plan__support-item" href={`mailto:${email}`}>
-							<span className="t-l-1">Email</span>
-							<span className="t-h-5">{email}</span>
-						</Link>
-					)}
-					{whatsapp && (
-						<Link
-							className="g-plan__support-item t-l-1"
-							href={`https://wa.me/${encodeURIComponent(whatsapp)}`}
-							isNewTab={true}
-						>
-							<span className="t-l-1">WhatsApp</span>
-							<span className="t-h-5">{whatsapp}</span>
-						</Link>
-					)}
-					{line && (
-						<Link
-							className="g-plan__support-item t-l-1"
-							href={`https://line.me/R/${encodeURIComponent(line)}`}
-							isNewTab={true}
-						>
-							<span className="t-l-1">LINE</span>
-							<span className="t-h-5">{line}</span>
-						</Link>
-					)}
-				</div>
-			)}
 		</div>
 	);
 }

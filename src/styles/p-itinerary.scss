@@ -12,7 +12,7 @@
 
 		&__text {
 			position: relative;
-			max-width: 1000px;
+			max-width: 960px;
 			text-align: left;
 		}
 
@@ -80,6 +80,11 @@
 
 		.field textarea {
 			height: 150px;
+		}
+
+		&__form-message {
+			margin-top: var(--s-2-v);
+			text-align: center;
 		}
 	}
 
