@@ -176,8 +176,8 @@
 			padding-block: 20px;
 		}
 
-		&__content p {
-			text-wrap: balance;
+		&__content {
+			max-width: 800px;
 		}
 
 		.c-accordion:first-of-type {
@@ -197,6 +197,10 @@
 		.c-accordion__icon {
 			color: var(--cr-secondary);
 			background-color: var(--cr-primary);
+		}
+
+		.c-accordion__inner {
+			padding-bottom: var(--s-4-v);
 		}
 	}
 

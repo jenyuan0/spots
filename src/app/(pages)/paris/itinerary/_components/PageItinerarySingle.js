@@ -96,8 +96,8 @@ export default function PageItinerarySingle({ data }) {
 			<div
 				className="p-itinerary__body"
 				style={{
-					'--cr-primary': `var(cr-${color?.title || 'brown'}-d)`,
-					'--cr-secondary': `var(cr-${color?.title || 'brown'}-l)`,
+					'--cr-primary': `var(--cr-${color?.title || 'brown'}-d)`,
+					'--cr-secondary': `var(--cr-${color?.title || 'brown'}-l)`,
 				}}
 			>
 				<div className="p-itinerary__sections">
