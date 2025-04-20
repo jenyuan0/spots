@@ -92,7 +92,6 @@ export default function Carousel({
 		setIsSingleSlide(emblaApi.scrollSnapList().length <= 1);
 		updateDraggable(emblaApi);
 		emblaApi.on('resize', updateDraggable);
-
 		emblaApi.on('select', onSelect);
 		onSelect();
 

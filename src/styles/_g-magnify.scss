@@ -103,12 +103,13 @@
 
 	&__images {
 		margin-bottom: var(--s-3-v);
-	}
 
-	&__image {
-		overflow: hidden;
+		picture {
+			background-color: var(--cr-subtle);
+		}
 
 		img {
+			width: auto;
 			height: 360px;
 		}
 	}

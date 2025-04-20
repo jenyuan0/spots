@@ -77,7 +77,7 @@ export default function PageLocationsSingle({ data }) {
 									className={clsx('btn-underline', color && `cr-${color}-d`)}
 									// href={`https://www.google.com/maps/dir//${encodeURIComponent(addressString)}`}
 									href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(title)}+${encodeURIComponent(addressString)}`}
-									target="_blank"
+									isNewTab={true}
 								>
 									Get Direction
 								</Link>

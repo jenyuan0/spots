@@ -85,14 +85,15 @@
 		margin-block: var(--s-5-v);
 		margin-inline: calc((100vw - var(--s-sml)) / 2 * -1);
 
-		img,
-		.c-iframe {
-			height: clamp(400px, 80vh, 800px) !important;
-			height: clamp(400px, 80svh, 800px) !important;
-		}
-
 		&__item {
 			background-color: var(--cr-subtle);
+		}
+
+		img,
+		.c-iframe {
+			width: auto;
+			height: clamp(400px, 80vh, 800px);
+			height: clamp(400px, 80svh, 800px);
 		}
 
 		.c-portable-image__caption {

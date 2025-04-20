@@ -101,10 +101,15 @@
 		}
 	}
 
-	&__gallery {
+	&__images {
+		picture {
+			background-color: var(--cr-subtle);
+		}
+
 		img {
-			height: clamp(350px, 80vh, 600px) !important;
-			height: clamp(350px, 80svh, 600px) !important;
+			width: auto;
+			height: clamp(350px, 80vh, 600px);
+			height: clamp(350px, 80svh, 600px);
 		}
 	}
 

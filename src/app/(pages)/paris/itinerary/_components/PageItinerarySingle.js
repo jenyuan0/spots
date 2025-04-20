@@ -14,6 +14,7 @@ import Img from '@/components/Image';
 // 1. custom background image for each day
 // 2. weather dependent icon next to each day's title
 // 3. more fun - weather dependent scenary based on section or active accordion, e.g. cloud emerging, sun coming up then going down, etc.
+// add "passion points" or "highlights": https://indagare.com/journeys/slovenia-and-croatia-september-2025
 
 // INSPO:
 // https://kaer.co/destination/es-raco-darta
@@ -102,7 +103,7 @@ export default function PageItinerarySingle({ data }) {
 				<div className="p-itinerary__sections">
 					{images && (
 						<Carousel
-							className="p-itinerary__gallery"
+							className="p-itinerary__images"
 							align="start"
 							gap={'10px'}
 							isShowNav={true}
@@ -115,7 +116,7 @@ export default function PageItinerarySingle({ data }) {
 					{introduction && (
 						<div className="p-itinerary__introduction p-itinerary__section">
 							<h2 className="p-itinerary__section__title t-l-1">
-								Trip Overview
+								Trip Highlights
 							</h2>
 							<p className="t-h-3">{introduction}</p>
 						</div>

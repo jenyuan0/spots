@@ -89,7 +89,6 @@ export default function CustomPortableText({ blocks, hasPTag = true }) {
 								{item._type == 'image' ? (
 									<>
 										<Image data={item} />
-										{console.log(item)}
 									</>
 								) : (
 									<Iframe data={item} />

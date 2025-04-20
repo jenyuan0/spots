@@ -11,7 +11,6 @@ export default function Button({
 	caret,
 }) {
 	const isButton = !href;
-
 	const content = (
 		<>
 			{caret && (

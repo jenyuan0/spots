@@ -29,7 +29,7 @@ export default function PlanForm({
 	return (
 		<div className="g-plan__form">
 			<div className="g-plan__form__header wysiwyg">
-				{budget && (
+				{(budget?.low || budget?.high) && (
 					<p>
 						<span className="t-h-5">
 							${formatNumberWithCommas(budget.low)}
@@ -93,7 +93,7 @@ export default function PlanForm({
 						<Link
 							className="g-plan__support-item t-l-1"
 							href={`https://wa.me/${encodeURIComponent(whatsapp)}`}
-							target="_blank"
+							isNewTab={true}
 						>
 							<span className="t-l-1">WhatsApp</span>
 							<span className="t-h-5">{whatsapp}</span>
@@ -103,7 +103,7 @@ export default function PlanForm({
 						<Link
 							className="g-plan__support-item t-l-1"
 							href={`https://line.me/R/${encodeURIComponent(line)}`}
-							target="_blank"
+							isNewTab={true}
 						>
 							<span className="t-l-1">LINE</span>
 							<span className="t-h-5">{line}</span>

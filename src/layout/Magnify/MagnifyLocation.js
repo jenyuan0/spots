@@ -63,38 +63,40 @@ export default function MagnifyLocation({ data, color = 'green' }) {
 				</div>
 			)}
 			{images && (
-				<div className="g-magnify-locations__images">
-					<Carousel isShowDots={true} gap={'5px'}>
-						{images.map((image, i) => (
-							<button
-								key={`image-${i}`}
-								className="g-magnify-locations__image bg-subtle"
-								onClick={() => {
-									setLightboxImages(images, i);
-									setLightboxActive(true);
-								}}
-							>
-								<Img key={`image-${i}`} image={image} />
-							</button>
-						))}
-					</Carousel>
-				</div>
+				<Carousel
+					className="g-magnify-locations__images"
+					isShowDots={true}
+					gap={'5px'}
+				>
+					{images.map((image, i) => (
+						<button
+							key={`image-${i}`}
+							onClick={() => {
+								setLightboxImages(images, i);
+								setLightboxActive(true);
+							}}
+						>
+							<Img key={`image-${i}`} image={image} />
+						</button>
+					))}
+				</Carousel>
 			)}
 			{address && (
 				<div className="g-magnify-locations__address wysiwyg-b-1">
 					<h3 className="t-l-1">Address</h3>
-					<p className="t-h-3">{formatAddress(address)}</p>
-					<Link
-						className={clsx('btn-underline', color && `cr-${color}-d`)}
-						href={`https://www.google.com/maps/dir//${encodeURIComponent(addressString)}`}
-						target="_blank"
-					>
-						Get Direction
-					</Link>
+					<p>
+						<Link
+							href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(title)}+${encodeURIComponent(addressString)}`}
+							isNewTab={true}
+						>
+							{formatAddress(address)}
+						</Link>
+					</p>
 				</div>
 			)}
 			{hasArrayValue(urls) && (
 				<div className="g-magnify-locations__urls wysiwyg-b-1">
+					<h3 className="t-l-1">Website</h3>
 					<ul>
 						{urls.map((url, i) => (
 							<li key={`url-${i}`}>
