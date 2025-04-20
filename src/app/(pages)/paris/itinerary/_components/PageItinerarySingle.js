@@ -65,8 +65,8 @@ export default function PageItinerarySingle({ data }) {
 			<div
 				className="p-itinerary__header"
 				style={{
-					'--cr-primary': color?.colorD,
-					'--cr-secondary': color?.colorL,
+					'--cr-primary': `var(--cr-${color?.title || 'brown'}-d)`,
+					'--cr-secondary': `var(--cr-${color?.title || 'brown'}-l)`,
 				}}
 			>
 				<div className="p-itinerary__header__text wysiwyg">
@@ -96,8 +96,8 @@ export default function PageItinerarySingle({ data }) {
 			<div
 				className="p-itinerary__body"
 				style={{
-					'--cr-primary': color?.colorD,
-					'--cr-secondary': color?.colorL,
+					'--cr-primary': `var(cr-${color?.title || 'brown'}-d)`,
+					'--cr-secondary': `var(cr-${color?.title || 'brown'}-l)`,
 				}}
 			>
 				<div className="p-itinerary__sections">

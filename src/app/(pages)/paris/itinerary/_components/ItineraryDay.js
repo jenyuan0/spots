@@ -182,10 +182,7 @@ export default function ItineraryDay({
 			</div>
 			<div className="p-itinerary__day__footer f-v f-a-c">
 				<Button
-					className={clsx(
-						'btn',
-						color && `cr-${color?.title?.toLowerCase()}-d`
-					)}
+					className={clsx('btn', color && `cr-${color?.title}-d`)}
 					icon={<IconMaximize />}
 					onClick={() => {
 						setIsMapActive(true);
@@ -204,7 +201,7 @@ export default function ItineraryDay({
 				<Button
 					className={clsx(
 						'p-itinerary__day__map__close btn',
-						color && `cr-${color?.title?.toLowerCase()}-d`
+						color && `cr-${color?.title}-d`
 					)}
 					icon={<IconMinimize />}
 					onClick={handleMapClose}

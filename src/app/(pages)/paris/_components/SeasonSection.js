@@ -12,11 +12,12 @@ export default function SeasonSection({ data }) {
 				<h2 className="p-paris__season__heading t-h-2">{seasonsTitle}</h2>
 				{seasons.map((season, index) => {
 					const { name, description, months, guide } = season;
-					const headerContent = (
+					const headerContent = (hasCaret) => (
 						<>
 							{name && (
 								<h3 className="t-h-5">
-									{name} <span className="icon-caret-right" />
+									{name}
+									{hasCaret && <span className="icon-caret-right" />}
 								</h3>
 							)}
 							{description && <p className="t-b-2">{description}</p>}
@@ -28,18 +29,20 @@ export default function SeasonSection({ data }) {
 							key={`${name}-${index}`}
 							className="p-paris__season__table__section"
 						>
-							{guide ? (
-								<Link
-									href={`/paris/guides/${guide.slug}`}
-									className="p-paris__season__table__header"
-								>
-									{headerContent}
-								</Link>
-							) : (
-								<div className="p-paris__season__table__header">
-									{headerContent}
-								</div>
-							)}
+							<div className="p-paris__season__table__header">
+								{guide ? (
+									<Link
+										href={`/paris/guides/${guide.slug}`}
+										className="p-paris__season__table__header-link"
+									>
+										{headerContent(true)}
+									</Link>
+								) : (
+									<div className="p-paris__season__table__header-content">
+										{headerContent(false)}
+									</div>
+								)}
+							</div>
 							<ul className="p-paris__season__table__body">
 								{months?.map((month) => (
 									<li key={month.name}>

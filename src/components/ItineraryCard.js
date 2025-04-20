@@ -20,7 +20,10 @@ export default function ItineraryCard({ data }) {
 	return (
 		<div
 			className={'c-itinerary-card'}
-			style={{ '--cr-primary': color?.colorD, '--cr-secondary': color?.colorL }}
+			style={{
+				'--cr-primary': `var(--cr-${color?.title || 'brown'}-d)`,
+				'--cr-secondary': `var(--cr-${color?.title || 'brown'}-l)`,
+			}}
 		>
 			<div className="c-itinerary-card__header">
 				<h3 className="t-l-1">{totalDays} Day Itinerary</h3>

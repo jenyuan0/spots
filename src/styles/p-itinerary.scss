@@ -98,7 +98,7 @@
 	&__section {
 		display: flex;
 		flex-direction: column;
-		gap: var(--s-4-v);
+		gap: var(--s-3-v) var(--s-3-h);
 		border-top: 1px solid;
 		padding-top: var(--s-3-v);
 
@@ -127,7 +127,7 @@
 	}
 
 	&__contact {
-		margin: var(--s-section) auto;
+		margin: var(--s-contain);
 	}
 }
 

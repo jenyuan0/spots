@@ -64,7 +64,7 @@
 	// Make item gap consistent (use global variable?) paris__location-list, paris__content-list, etc.
 	display: flex;
 	width: var(--width-lge);
-	margin: var(--s-5-v) auto;
+	margin: var(--s-section) auto;
 	gap: var(--s-5-h);
 
 	&__column {
@@ -86,8 +86,9 @@
 }
 
 .p-paris__season {
-	padding: var(--s-5-v) var(--padding-lge);
-	background-color: var(--cr-white);
+	width: var(--width-lge);
+	margin: auto;
+	padding: var(--s-section) 0;
 	border-top: 1px solid;
 
 	&__heading {

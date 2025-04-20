@@ -62,7 +62,7 @@ export const callToAction = groq`
 `;
 
 export const colorMeta = groq`
-	"title": title,
+	"title": lower(title),
 	"colorD": colorD.hex,
 	"colorL": colorL.hex,
 `;

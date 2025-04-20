@@ -99,6 +99,11 @@
 		background-color: var(--cr-white);
 		border: 1px solid var(--cr-primary);
 
+		@include selection {
+			color: var(--cr-cream);
+			background-color: var(--cr-primary);
+		}
+
 		&__media {
 			position: relative;
 			display: flex;
