@@ -72,19 +72,19 @@ export default function PageLocationsSingle({ data }) {
 						{address && (
 							<div className="p-locations-single__address wysiwyg-b-1">
 								<h3 className="t-l-1">Address</h3>
-								<p className="t-h-3">{formatAddress(address)}</p>
-								<Link
-									className={clsx('btn-underline', color && `cr-${color}-d`)}
-									// href={`https://www.google.com/maps/dir//${encodeURIComponent(addressString)}`}
-									href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(title)}+${encodeURIComponent(addressString)}`}
-									isNewTab={true}
-								>
-									Get Direction
-								</Link>
+								<p>
+									<Link
+										href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(title)}+${encodeURIComponent(addressString)}`}
+										isNewTab={true}
+									>
+										{formatAddress(address)}
+									</Link>
+								</p>
 							</div>
 						)}
 						{hasArrayValue(urls) && (
 							<div className="p-locations-single__urls wysiwyg-b-1">
+								<h3 className="t-l-1">Website</h3>
 								<ul>
 									{urls.map((url, i) => (
 										<li key={`url-${i}`}>
@@ -99,8 +99,14 @@ export default function PageLocationsSingle({ data }) {
 							</div>
 						)}
 						{content && (
-							<div className="p-locations-single__content wysiwyg-b-1">
+							<div className="p-locations-single__content wysiwyg-page">
 								<CustomPortableText blocks={content} />
+							</div>
+						)}
+						{hasArrayValue(fees) && (
+							<div className="p-locations-single__fees wysiwyg-b-1">
+								<h3 className="t-l-1">Fees</h3>
+								<p>{fees.map((fee) => fee).join(' • ')}</p>
 							</div>
 						)}
 						{(hasArrayValue(categories) || hasArrayValue(subcategories)) && (
@@ -110,12 +116,6 @@ export default function PageLocationsSingle({ data }) {
 									subcategories={subcategories}
 									isLink={true}
 								/>
-							</div>
-						)}
-						{hasArrayValue(fees) && (
-							<div className="p-locations-single__fees wysiwyg-b-1">
-								<h3 className="t-l-1">Fees</h3>
-								<p>{fees.map((fee) => fee).join(' • ')}</p>
 							</div>
 						)}
 					</div>
