@@ -119,6 +119,12 @@ export default function MagnifyLocation({ data }) {
 					<CustomPortableText blocks={contentItinerary} />
 				</div>
 			)}
+			{hasArrayValue(fees) && (
+				<div className="g-magnify-locations__fees wysiwyg-b-1">
+					<h3 className="t-l-1">Fees</h3>
+					<p>{fees.map((fee) => fee).join(' • ')}</p>
+				</div>
+			)}
 			{(hasArrayValue(categories) || hasArrayValue(subcategories)) && (
 				<div className="g-magnify-locations__categories">
 					<CategoryPillList
@@ -126,12 +132,6 @@ export default function MagnifyLocation({ data }) {
 						subcategories={subcategories}
 						isLink={true}
 					/>
-				</div>
-			)}
-			{hasArrayValue(fees) && (
-				<div className="g-magnify-locations__fees wysiwyg-b-1">
-					<h3 className="t-l-1">Fees</h3>
-					<p>{fees.map((fee) => fee).join(' • ')}</p>
 				</div>
 			)}
 		</div>
