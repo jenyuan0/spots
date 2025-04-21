@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { buildImageSrc } from '@/lib/helpers';
@@ -50,29 +50,27 @@ function Img({
 	const src = renderedWidth
 		? buildImageSrc(image, imageOptions)
 		: placeholderSrc;
-	const responsiveImageData = responsiveImage
-		? useMemo(() => {
-				const id = getImageId(responsiveImage);
-				const dimensions = getImageDimensions(id);
-				const ratio =
-					responsiveImage?.customRatio ||
-					dimensions?.aspectRatio ||
-					aspectRatio;
-				const width = dimensions?.width || imageWidth;
-				const height = Math.round(width / ratio);
+	const responsiveImageData = useMemo(() => {
+		if (!responsiveImage) return null;
 
-				return {
-					src: buildImageSrc(responsiveImage, {
-						width,
-						height,
-						format,
-						quality,
-					}),
-					width,
-					height,
-				};
-			}, [responsiveImage, format, quality, aspectRatio, imageWidth])
-		: false;
+		const id = getImageId(responsiveImage);
+		const dimensions = getImageDimensions(id);
+		const ratio =
+			responsiveImage?.customRatio || dimensions?.aspectRatio || aspectRatio;
+		const width = dimensions?.width || imageWidth;
+		const height = Math.round(width / ratio);
+
+		return {
+			src: buildImageSrc(responsiveImage, {
+				width,
+				height,
+				format,
+				quality,
+			}),
+			width,
+			height,
+		};
+	}, [responsiveImage, format, quality, aspectRatio, imageWidth]);
 
 	useEffect(() => {
 		if (inView && pictureRef.current) {
@@ -90,7 +88,7 @@ function Img({
 
 	return (
 		<picture ref={pictureRef} className={className}>
-			{responsiveImageData && (
+			{responsiveImage && responsiveImageData && (
 				<>
 					<source
 						media={`(min-width: ${breakpoint + 1}px)`}
