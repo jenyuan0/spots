@@ -1,8 +1,7 @@
 import React, { useEffect, useRef } from 'react';
-import clsx from 'clsx';
+import Link from '@/components/CustomLink';
 import { motion } from 'framer-motion';
 import { pageTransitionFade } from '@/lib/animate';
-import Menu from '@/components/Menu';
 
 export default function Footer({ siteData, data, isActive }) {
 	const footerRef = useRef();
@@ -14,6 +13,33 @@ export default function Footer({ siteData, data, isActive }) {
 		);
 	}, []);
 
+	const nav = [
+		{
+			title: 'Explore Paris',
+			url: '/paris',
+		},
+		{
+			title: 'Guides',
+			url: '/paris/guides',
+		},
+		{
+			title: 'Locations',
+			url: '/paris/locations',
+		},
+		{
+			title: 'Service Overview',
+			url: '/',
+		},
+		{
+			title: 'Ready-to-book Trips',
+			url: '/paris/ready-to-book-trips',
+		},
+		{
+			title: 'Contact & FAQ',
+			url: '/contact',
+		},
+	];
+
 	return (
 		<>
 			<motion.footer
@@ -21,31 +47,29 @@ export default function Footer({ siteData, data, isActive }) {
 				initial="initial"
 				animate="animate"
 				variants={pageTransitionFade}
-				className={clsx('g-footer cr-white bg-black', {
-					'is-active': isActive,
-				})}
+				className={'g-footer'}
 			>
-				<div className="g-footer__main">
-					{data?.menu?.items && (
-						<Menu
-							items={data.menu.items}
-							className="g-footer__links"
-							ulClassName="f-h f-a-c f-j-s t-b-2 user-select-disable"
-						/>
-					)}
+				<div className="g-footer__copyright t-h-5">
+					© {new Date().getFullYear()} {siteData?.title}
 				</div>
-				<div className="g-footer__sub f-h f-a-c">
-					<div className="g-footer__copyright">
-						© {new Date().getFullYear()} {siteData?.title}
-					</div>
-
-					{data?.menuLegal?.items && (
-						<Menu
-							items={data.menuLegal.items}
-							className="g-footer__legal"
-							ulClassName="f-h f-a-c t-b-2 user-select-disable"
-						/>
-					)}
+				<div className="g-footer__nav">
+					<ul className="g-footer__links t-l-2">
+						{nav.map((item, index) => {
+							return (
+								<li key={`${item.title}-${index}`}>
+									<Link href={item?.url} className={'increase-target-size'}>
+										{item?.title}
+										{item.hasCaret && (
+											<>
+												{' '}
+												<span className="icon-caret-down" />
+											</>
+										)}
+									</Link>
+								</li>
+							);
+						})}
+					</ul>
 				</div>
 			</motion.footer>
 		</>
