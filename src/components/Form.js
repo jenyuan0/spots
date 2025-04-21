@@ -46,7 +46,7 @@ const FormField = forwardRef(({ className, size, ...props }, ref) => {
 		<FormFieldContext.Provider value={{ id }}>
 			<div
 				ref={ref}
-				className={clsx('field', className, {
+				className={clsx('c-field', className, {
 					'is-error': error,
 				})}
 				data-size={size}

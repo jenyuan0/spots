@@ -65,15 +65,21 @@ const FormItem = ({ item, control }) => {
 		placeholder,
 		selectOptions,
 		name,
+		value,
 		rules,
 	} = item;
-
 	const renderFormComponent = (field) => {
 		switch (inputType) {
 			case 'textarea':
 				return <Textarea {...field} placeholder={placeholder} />;
 			case 'select':
-				return <Select {...field} options={selectOptions} />;
+				return (
+					<Select
+						{...field}
+						options={selectOptions}
+						placeholder={placeholder}
+					/>
+				);
 			default:
 				return <Input {...field} type={inputType} placeholder={placeholder} />;
 		}
@@ -84,23 +90,24 @@ const FormItem = ({ item, control }) => {
 			control={control}
 			name={name}
 			rules={rules}
-			render={({ field }) => {
-				return (
-					<FormField size={size}>
-						<FormLabel>
-							{fieldLabel} <FormMessage />
-						</FormLabel>
-						<FormControl>{renderFormComponent(field)}</FormControl>
-					</FormField>
-				);
-			}}
+			defaultValue={value}
+			render={({ field }) => (
+				<FormField
+					size={size}
+					style={inputType === 'hidden' ? { display: 'none' } : undefined}
+				>
+					<FormLabel>
+						{fieldLabel} <FormMessage />
+					</FormLabel>
+					<FormControl>{renderFormComponent(field)}</FormControl>
+				</FormField>
+			)}
 		/>
 	);
 };
 
-export default function CustomForm({ data }) {
-	const { formTitle, formHeading, formFields, formFailureNotificationEmail } =
-		data || {};
+export default function CustomForm({ data, hiddenFields }) {
+	const { formFields, formFailureNotificationEmail } = data || {};
 	const [formState, setFormState] = useState(FORM_STATES.IDLE);
 	const dispatch = useAppDispatch();
 
@@ -125,7 +132,7 @@ export default function CustomForm({ data }) {
 	const onHandleSubmit = async (formData) => {
 		dispatch(setProgressStatus('start'));
 		setFormState(FORM_STATES.SUBMITTING);
-
+		console.log(formData);
 		try {
 			const response = await fetch('/api/submit-form', {
 				method: 'POST',
@@ -168,14 +175,19 @@ export default function CustomForm({ data }) {
 		<div className="c-form">
 			<Form {...form}>
 				<form
-					className="c-form__form"
+					className="c-form__fields"
 					onSubmit={form.handleSubmit(onHandleSubmit)}
 				>
-					{formFieldsData.map((item) => {
-						return (
-							<FormItem key={item._key} item={item} control={form.control} />
-						);
-					})}
+					{hiddenFields?.map((item, index) => (
+						<FormItem
+							key={`hidden-field-${index}`}
+							item={item}
+							control={form.control}
+						/>
+					))}
+					{formFieldsData.map((item) => (
+						<FormItem key={item._key} item={item} control={form.control} />
+					))}
 					<Button
 						type="submit"
 						disabled={formState === FORM_STATES.SUBMITTING}
@@ -188,10 +200,12 @@ export default function CustomForm({ data }) {
 				</form>
 			</Form>
 			{formState === FORM_STATES.SUCCESS && (
-				<p>{data.successMessage || 'Success. Your message has been sent.'}</p>
+				<p className="c-form__message t-b-2">
+					{data.successMessage || 'Success. Your message has been sent.'}
+				</p>
 			)}
 			{formState === FORM_STATES.ERROR && (
-				<p>
+				<p className="c-form__message t-b-2">
 					{data.errorMessage ||
 						'Error. There was an issue submitting your message. Please try again later.'}
 				</p>

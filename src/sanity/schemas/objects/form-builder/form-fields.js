@@ -52,6 +52,12 @@ export default defineType({
 			validation: (Rule) => Rule.required(),
 		}),
 		defineField({
+			name: 'placeholder',
+			type: 'string',
+			hidden: ({ parent }) =>
+				parent.inputType === 'checkbox' || parent.inputType === 'file',
+		}),
+		defineField({
 			name: 'selectOptions',
 			title: 'Options',
 			type: 'array',
@@ -62,15 +68,6 @@ export default defineType({
 				},
 			],
 			hidden: ({ parent }) => parent.inputType !== 'select',
-		}),
-		defineField({
-			name: 'placeholder',
-			title: 'Placeholder',
-			type: 'string',
-			hidden: ({ parent }) =>
-				parent.inputType === 'checkbox' ||
-				parent.inputType === 'select' ||
-				parent.inputType === 'file',
 		}),
 	],
 	preview: {

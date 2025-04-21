@@ -2,7 +2,7 @@ import * as React from 'react';
 import clsx from 'clsx';
 
 const Input = React.forwardRef(
-	({ className, type = 'text', ...props }, ref) => {
+	({ className, type = 'text', value, ...props }, ref) => {
 		return (
 			<input type={type} className={clsx(className)} ref={ref} {...props} />
 		);

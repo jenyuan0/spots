@@ -193,7 +193,7 @@ ul {
 	text-wrap: pretty;
 }
 
-// ***FORMS***
+// ***INPUTS***
 
 input,
 select,
@@ -206,11 +206,10 @@ input[type='radio'],
 input[type='checkbox'] {
 	display: inline-block;
 	width: 16px;
-	height: 16px;
+	aspect-ratio: 1;
 	vertical-align: middle;
 	border: 1px solid;
 	cursor: pointer;
-	transition: background 0.2s;
 
 	~ label {
 		display: inline-block;
@@ -232,168 +231,23 @@ input[type='checkbox'] {
 
 	&[type='checkbox'] {
 		background: center/80% no-repeat;
-		border-radius: 4px;
 
 		&:checked {
-			background-color: var(--cr-primary, var(--cr-accent));
 			background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800.01 586.81'%3E%3Cpath fill='white' d='M796.74 87.51 300.72 583.53c-4.37 4.37-11.44 4.37-15.8 0L3.27 301.88c-4.36-4.35-4.36-11.42 0-15.79l68.44-68.44c4.37-4.36 11.44-4.36 15.8 0l205.32 205.31L712.51 3.27c4.38-4.36 11.43-4.36 15.8 0l68.43 68.44c4.37 4.36 4.37 11.42 0 15.8Z'/%3E%3C/svg%3E");
 		}
 	}
 }
 
-.field,
-.field-cols {
-	--height: 45px;
-	--line-height: 20px;
-	--padding-h: 16px;
-	--floating-label-focus-offset: 5px;
-
-	@media screen and (max-width: 600px) {
-		--padding-h: 14px;
-	}
+textarea {
+	white-space: normal;
+	min-height: var(--height);
+	height: 200px;
+	scroll-padding-block: 6px;
+	resize: vertical;
 }
 
-input[type='text'],
-input[type='email'],
-input[type='tel'],
-input[type='url'],
-input[type='password'],
-input[type='number'],
-input[type='date'],
-input[type='datetime-local'],
-input[type='month'],
-input[type='week'],
-input[type='time'],
-input[type='search'],
-select,
-textarea {
+@include inputs {
 	@include placeholder {
 		color: var(--cr-subtle-5);
-	}
-
-	@mixin size {
-		height: var(--height);
-		padding: calc((var(--height) - var(--line-height)) / 2) var(--padding-h);
-		font: var(--t-b-1);
-		line-height: var(--line-height);
-
-		@include mobileDown {
-			font-size: 16px;
-		}
-	}
-
-	.field & {
-		@include size;
-		position: relative;
-		display: block;
-		width: 100%;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		overflow: hidden;
-		border: unset;
-		outline-offset: 1px;
-		outline-style: solid;
-		outline-color: transparent;
-		color: inherit;
-		border: 1px solid var(--cr-subtle-3);
-		border-radius: var(--br-1);
-		transition: 0.2s;
-	}
-
-	.field.is-floating-label & {
-		~ label {
-			@include size;
-			position: absolute;
-			top: 0;
-			left: 0;
-			pointer-events: none;
-			transition: 0.2s;
-		}
-
-		&:not(select):focus,
-		&:placeholder-shown,
-		&.is-contain-value {
-			padding-top: calc(
-				(var(--height) - var(--line-height)) / 2 +
-					var(--floating-label-focus-offset)
-			);
-			padding-bottom: calc(
-				(var(--height) - var(--line-height)) /
-					2 - var(--floating-label-focus-offset)
-			);
-
-			~ label {
-				top: var(--floating-label-focus-offset);
-				padding-top: 0;
-				padding-bottom: 0;
-				line-height: 1;
-				font-size: 11px;
-				color: var(--cr-subtle-5);
-			}
-		}
-	}
-}
-
-.field {
-	position: relative;
-	line-height: 1;
-
-	label {
-		display: flex;
-		gap: 7px;
-		justify-content: space-between;
-		font: var(--t-b-2);
-		line-height: 1;
-
-		&:not(:last-child) {
-			margin-bottom: 9px;
-		}
-	}
-
-	.error-message {
-		color: var(--cr-red-d);
-	}
-
-	select {
-		padding-right: calc(var(--padding-h) + 8px + var(--padding-h));
-		background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 5'%3E%3Cpath fill-rule='evenodd' d='m3,5L6,0H0l3,5'/%3E%3C/svg%3E")
-			right var(--padding-h) center/8px no-repeat;
-		cursor: pointer;
-		-webkit-user-select: none;
-		-moz-user-select: none;
-		-o-user-select: none;
-		user-select: none;
-	}
-
-	textarea {
-		white-space: normal;
-		min-height: var(--height);
-		height: 200px;
-		scroll-padding-block: 6px;
-		resize: vertical;
-	}
-}
-
-// ***LOADER***
-.c-loader {
-	position: absolute;
-	width: 100%;
-	height: 3px;
-	top: 0;
-	left: 0;
-	transform: scaleX(0);
-	transform-origin: left center;
-	transition: transform 0.4s var(--e-inOut-circ);
-	background-color: var(--cr-accent);
-	z-index: 500;
-
-	&[data-progress='101'] {
-		transform-origin: right center;
-		transform: scaleX(0) !important;
-		transition-duration: 0.8s;
-	}
-
-	&:where(html) > .c-loader {
-		position: fixed;
 	}
 }

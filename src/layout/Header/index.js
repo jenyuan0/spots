@@ -182,13 +182,13 @@ export default function Header({ data, isActive }) {
 		<>
 			<header
 				ref={ref}
-				className={clsx('g-header', 'use-select-disable', {
+				className={clsx('g-header', 'user-select-disable', {
 					'is-scrolled': isScrolled,
 					'is-transparent': isTransparent,
 					'is-active': isActive,
 				})}
 			>
-				<Link href={'/'} className="g-header__logo t-h-3 user-select-disable">
+				<Link href={'/'} className="g-header__logo t-h-3">
 					SPOTS
 				</Link>
 				<div className="g-header__block">

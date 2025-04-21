@@ -10,8 +10,7 @@ export default function PlanForm({
 	isH1Style,
 	title,
 	heading,
-	successMessage,
-	errorMessage,
+	hiddenFields,
 	budget,
 	offering,
 }) {
@@ -19,8 +18,6 @@ export default function PlanForm({
 	const formHeading = heading === false ? false : heading || data.formHeading;
 	const formData = {
 		...data,
-		...(successMessage ? { successMessage: successMessage } : {}),
-		...(errorMessage ? { errorMessage: errorMessage } : {}),
 	};
 
 	return (
@@ -77,7 +74,7 @@ export default function PlanForm({
 					{/* <li>Get started in 10 minutes</li> */}
 				</ul>
 			)}
-			<CustomForm data={formData} />
+			<CustomForm data={formData} hiddenFields={hiddenFields} />
 		</div>
 	);
 }

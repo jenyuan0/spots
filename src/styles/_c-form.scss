@@ -5,33 +5,40 @@
 	container-type: inline-size;
 	container-name: form;
 
-	&__form {
+	&__fields {
+		--gap: 15px;
 		display: grid;
 		grid-template-columns: repeat(6, 1fr);
-		gap: 20px;
-	}
+		gap: var(--gap) calc(var(--gap) / 1.5);
 
-	.field[data-size='full'] {
-		grid-column: span 6;
-	}
-
-	.field[data-size='1/2'] {
-		grid-column: span 3;
-	}
-
-	.field[data-size='1/3'] {
-		grid-column: span 2;
-	}
-
-	@container form (max-width: 764px) {
-		.field[data-size='1/3'] {
-			grid-column: span 6;
+		@container form (max-width: 768px) {
+			gap: 10px;
 		}
 	}
 
-	@container form (max-width: 400px) {
-		.field[data-size='1/2'] {
-			grid-column: span 6;
+	.c-field {
+		&[data-size='full'] {
+			grid-column: 1 / -1;
+		}
+
+		&[data-size='1/2'] {
+			grid-column: span 3;
+		}
+
+		&[data-size='1/3'] {
+			grid-column: span 2;
+		}
+
+		@container form (max-width: 768px) {
+			&[data-size='1/3'] {
+				grid-column: 1 / -1;
+			}
+		}
+
+		@container form (max-width: 400px) {
+			&[data-size='1/2'] {
+				grid-column: 1 / -1;
+			}
 		}
 	}
 
@@ -39,5 +46,9 @@
 		width: 100%;
 		margin-top: var(--s-4-v);
 		grid-column: span 6;
+	}
+
+	&__message {
+		text-align: center;
 	}
 }

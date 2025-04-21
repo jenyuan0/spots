@@ -38,7 +38,7 @@ export function Faq({ faq }) {
 	);
 }
 
-export default function PlanSection({ data, isH1, isH1Style }) {
+export default function PlanSection({ data, isH1, isH1Style, hiddenFields }) {
 	const { image, faq, email, whatsapp, line } = data;
 	const containerRef = React.useRef(null);
 	const { scrollYProgress } = useScroll({
@@ -66,7 +66,12 @@ export default function PlanSection({ data, isH1, isH1Style }) {
 			)}
 
 			<div className="g-plan__container">
-				<PlanForm data={data} isH1={isH1} isH1Style={isH1Style} />
+				<PlanForm
+					data={data}
+					isH1={isH1}
+					isH1Style={isH1Style}
+					hiddenFields={hiddenFields}
+				/>
 				<div className="g-plan__support">
 					<div className="g-plan__contact">
 						<h3 className="g-plan__contact__title t-h-4">Contact us</h3>

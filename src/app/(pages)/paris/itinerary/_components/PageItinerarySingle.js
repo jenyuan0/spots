@@ -32,16 +32,15 @@ export default function PageItinerarySingle({ data }) {
 		color,
 		totalDays,
 		totalActivities,
-
 		introduction,
 		accomodations,
 		plan,
 		guides,
-		type,
+		budget,
 
+		type,
 		NumOfDays,
 		NumOfTravelers,
-		budget,
 
 		passcode,
 		name,
@@ -53,12 +52,17 @@ export default function PageItinerarySingle({ data }) {
 		reservations,
 		planForm,
 	} = data || {};
-	const [activeDay, setActiveDay] = useState(0);
-	const [activeTab, setActiveTab] = useState('plan');
 	const startDateObj = startDate ? new Date(startDate) : false;
 	const endDateObj = startDateObj
 		? add(startDateObj, { days: plan.length })
 		: false;
+	const planHiddenFields = [
+		{
+			inputType: 'hidden',
+			name: 'Trip',
+			value: `${title}: ${subtitle}`,
+		},
+	];
 
 	return (
 		<>
@@ -143,10 +147,7 @@ export default function PageItinerarySingle({ data }) {
 						</div>
 					)}
 					{plan && (
-						<div
-							className="p-itinerary__days p-itinerary__section"
-							datatabactive={activeTab == 'plan' ? 'true' : 'false'}
-						>
+						<div className="p-itinerary__days p-itinerary__section">
 							<h3 className="p-itinerary__section__title t-h-2">
 								Trip Itinerary
 								<span className="t-l-1">
@@ -180,6 +181,7 @@ export default function PageItinerarySingle({ data }) {
 							title={false}
 							budget={budget}
 							offering={true}
+							hiddenFields={planHiddenFields}
 						/>
 						<div className="p-itinerary__sidebar__form-message t-b-2">
 							{'Average response time < 16hr'}
@@ -189,7 +191,12 @@ export default function PageItinerarySingle({ data }) {
 			</div>
 
 			<div className="p-itinerary__contact">
-				<PlanSection data={data?.planForm} isH1={true} isH1Style={true} />
+				<PlanSection
+					data={data?.planForm}
+					isH1={true}
+					isH1Style={true}
+					hiddenFields={planHiddenFields}
+				/>
 			</div>
 
 			{/* <section className="p-itinerary">
