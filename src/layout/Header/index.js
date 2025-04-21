@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import clsx from 'clsx';
-import { usePathname } from 'next/navigation';
 import { scrollEnable, scrollDisable } from '@/lib/helpers';
 import Link from '@/components/CustomLink';
 import MobileMenuTrigger from './mobile-menu-trigger';
 import Button from '@/components/Button';
 import { motion } from 'framer-motion';
+import { usePathname } from 'next/navigation';
+import { checkIfActive } from '@/lib/routes';
 
 // TODO
 // Megamenu
@@ -37,20 +38,6 @@ const rightNav = [
 		url: '/paris/ready-to-book-trips',
 	},
 ];
-
-export const checkIfActive = ({ pathname, url }) => {
-	if (!pathname) return null;
-
-	if (pathname.includes('/paris/guides') && url == '/paris/guides') {
-		return true;
-	} else if (
-		pathname.includes('/paris/locations' && url == '/paris/locations')
-	) {
-		return true;
-	} else {
-		return pathname == url;
-	}
-};
 
 function NavLink({ nav, pathname }) {
 	return (

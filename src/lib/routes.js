@@ -1,3 +1,17 @@
+export const checkIfActive = ({ pathname, url }) => {
+	if (!pathname) return null;
+
+	if (pathname.includes('/paris/guides') && url == '/paris/guides') {
+		return true;
+	} else if (
+		pathname.includes('/paris/locations' && url == '/paris/locations')
+	) {
+		return true;
+	} else {
+		return pathname == url;
+	}
+};
+
 export const getRoute = ({ documentType, slug }) => {
 	if (!documentType) return undefined;
 
