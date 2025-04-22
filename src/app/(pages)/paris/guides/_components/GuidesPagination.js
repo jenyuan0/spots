@@ -26,6 +26,16 @@ const getGuidesQueryGROQ = ({ pageNumber, pageSize }) => {
 	}`;
 };
 
+const ArticleGrid = ({ articles }) => {
+	return (
+		<ResponsiveGrid className="p-guides-articles__list">
+			{articles.map((item, index) => {
+				return <GuideCard key={item._id} data={item} color={item.color} />;
+			})}
+		</ResponsiveGrid>
+	);
+};
+
 const ListWithClientQuery = ({ data, currentPageNumber }) => {
 	const { itemsPerPage, itemsTotalCount } = data || {};
 	const pageNumber = Number(currentPageNumber);
@@ -59,11 +69,7 @@ const ListWithClientQuery = ({ data, currentPageNumber }) => {
 			) : isError ? (
 				<div>Error: {error.message}</div>
 			) : (
-				<ResponsiveGrid className="p-guides-articles__list">
-					{articlesData.map((item, index) => (
-						<GuideCard key={item._id} data={item} />
-					))}
-				</ResponsiveGrid>
+				<ArticleGrid articles={articlesData} />
 			)}
 		</div>
 	);
@@ -86,20 +92,7 @@ const ListWithSSG = ({ data, currentPageNumber }) => {
 			{listState === 'isLoading' ? (
 				<p>Loading...</p>
 			) : (
-				<ResponsiveGrid className="p-guides-articles__list">
-					{listData.map((item, index) => {
-						const isHorizontal = index % 3 == 0;
-
-						return (
-							<GuideCard
-								key={item._id}
-								data={item}
-								color={item.color}
-								layout={isHorizontal ? 'horizontal-2' : 'vertical-1'}
-							/>
-						);
-					})}
-				</ResponsiveGrid>
+				<ArticleGrid articles={listData} />
 			)}
 		</>
 	);

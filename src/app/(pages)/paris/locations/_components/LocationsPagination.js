@@ -17,6 +17,16 @@ const getLocationsQueryGROQ = ({ pageNumber, pageSize }) => {
 	}`;
 };
 
+const LocationGrid = ({ locations }) => {
+	return (
+		<ResponsiveGrid className={'p-locations__list'}>
+			{locations?.map((item, index) => (
+				<LocationCard key={item._id} data={item} layout="vertical-2" />
+			))}
+		</ResponsiveGrid>
+	);
+};
+
 const ListWithClientQuery = ({ data, currentPageNumber }) => {
 	const { itemsPerPage } = data || {};
 	const pageNumber = Number(currentPageNumber);
@@ -50,11 +60,7 @@ const ListWithClientQuery = ({ data, currentPageNumber }) => {
 			) : isError ? (
 				<div>Error: {error.message}</div>
 			) : (
-				<ResponsiveGrid className={'p-locations__list'}>
-					{articlesData.map((item, index) => (
-						<LocationCard key={item._id} data={item} />
-					))}
-				</ResponsiveGrid>
+				<LocationGrid locations={articlesData} />
 			)}
 		</div>
 	);
@@ -87,13 +93,7 @@ const ListWithSSG = ({ data, currentPageNumber }) => {
 			{listState === 'isLoading' ? (
 				<p>Loading...</p>
 			) : (
-				<div className="p-locations__list">
-					<ResponsiveGrid>
-						{listData?.map((item, index) => (
-							<LocationCard key={item._id} data={item} layout="vertical-2" />
-						))}
-					</ResponsiveGrid>
-				</div>
+				<LocationGrid locations={listData} />
 			)}
 		</>
 	);
