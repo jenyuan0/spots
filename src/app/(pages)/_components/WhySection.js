@@ -204,7 +204,7 @@ const ClockBlock = ({ data, index, color }) => {
 					className="p-home__clock"
 					style={{ '--cr-primary': `var(--cr-${state.color}-l)` }}
 				>
-					{clockText.map((item, index) => {
+					{clockText?.map((item, index) => {
 						return (
 							<div
 								key={`clock-image-${index}`}
