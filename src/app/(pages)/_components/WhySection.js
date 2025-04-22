@@ -30,11 +30,45 @@ const useScrollAnimation = ({ ref, index = 0 }) => {
 	return useSpring(motionScale, springConfig);
 };
 
+const WhyText = ({ data, color }) => {
+	const { heading, paragraph, offers, cta } = data;
+
+	return (
+		<div className="p-home__why-block__text wysiwyg">
+			<h2 className="p-home__why-block__heading t-b-1">{heading}</h2>
+			<p className="t-h-2">{paragraph}</p>
+			{offers && (
+				<ul className="p-home__why-block__offers t-b-1">
+					{offers?.map((item) => (
+						<li>{item}</li>
+					))}
+				</ul>
+			)}
+			{cta && (
+				<Button
+					className={clsx('btn-outline', `cr-${color}-d`)}
+					link={cta.link}
+					isNewTab={cta.isNewTab}
+					caret="right"
+				>
+					{cta.label}
+				</Button>
+			)}
+		</div>
+	);
+};
+
 const MasksBlock = ({ data, index, color }) => {
-	const { masksHeading, masksParagraph, masksCta, masksImages } = data;
+	const { masksHeading, masksParagraph, masksOffers, masksCta, masksImages } =
+		data;
+	const textData = {
+		heading: masksHeading,
+		paragraph: masksParagraph,
+		offers: masksOffers,
+		cta: masksCta,
+	};
 	const ref = useRef(null);
 	const springScale = useScrollAnimation({ ref, index });
-
 	const [activeIndices, setActiveIndices] = useState(Array(9).fill(0));
 
 	useEffect(() => {
@@ -117,26 +151,18 @@ const MasksBlock = ({ data, index, color }) => {
 					)}
 				</div>
 			</div>
-			<div className="p-home__why-block__text wysiwyg">
-				<h2 className="p-home__why-block__heading t-b-1">{masksHeading}</h2>
-				<p className="t-h-2">{masksParagraph}</p>
-				{masksCta && (
-					<Button
-						className={clsx('btn-outline', `cr-${color}-d`)}
-						link={masksCta.link}
-						isNewTab={masksCta.isNewTab}
-						caret="right"
-					>
-						{masksCta.label}
-					</Button>
-				)}
-			</div>
+			<WhyText data={textData} color={color} />
 		</motion.div>
 	);
 };
 
 const ClockBlock = ({ data, index, color }) => {
 	const { clockHeading, clockParagraph, clockCta, clockText } = data;
+	const textData = {
+		heading: clockHeading,
+		paragraph: clockParagraph,
+		cta: clockCta,
+	};
 	const [state, setState] = useState({
 		rotatingText: clockText[0].text || '',
 		rotation: 0,
@@ -198,26 +224,18 @@ const ClockBlock = ({ data, index, color }) => {
 					</div>
 				</div>
 			</div>
-			<div className="p-home__why-block__text wysiwyg">
-				<h2 className="p-home__why-block__heading t-b-1">{clockHeading}</h2>
-				<p className="t-h-2">{clockParagraph}</p>
-				{clockCta && (
-					<Button
-						className={clsx('btn-outline', `cr-${color}-d`)}
-						link={clockCta.link}
-						isNewTab={clockCta.isNewTab}
-						caret="right"
-					>
-						{clockCta.label}
-					</Button>
-				)}
-			</div>
+			<WhyText data={textData} color={color} />
 		</motion.div>
 	);
 };
 
 const ToggleBlock = ({ data, index, color }) => {
 	const { toggleHeading, toggleParagraph, toggleCta } = data;
+	const textData = {
+		heading: toggleHeading,
+		paragraph: toggleParagraph,
+		cta: toggleCta,
+	};
 	const [toggle, setToggle] = useState(0);
 	const [intervalId, setIntervalId] = useState(null);
 	const ref = useRef(null);
@@ -284,20 +302,7 @@ const ToggleBlock = ({ data, index, color }) => {
 					</div>
 				</button>
 			</div>
-			<div className="p-home__why-block__text wysiwyg">
-				<h2 className="p-home__why-block__heading t-b-1">{toggleHeading}</h2>
-				<p className="t-h-2">{toggleParagraph}</p>
-				{toggleCta && (
-					<Button
-						className={clsx('btn-outline', `cr-${color}-d`)}
-						link={toggleCta.link}
-						isNewTab={toggleCta.isNewTab}
-						caret="right"
-					>
-						{toggleCta.label}
-					</Button>
-				)}
-			</div>
+			<WhyText data={textData} color={color} />
 		</motion.div>
 	);
 };

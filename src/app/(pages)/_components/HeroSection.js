@@ -108,7 +108,7 @@ function HeroSpot({ index, data, boundary, isLastChild, scrollYProgress }) {
 }
 
 export default function HeroSection({ data, setPrimaryColor }) {
-	const { heroHeading, heroImage, heroSpots } = data || {};
+	const { heroHeading, heroSubheading, heroImage, heroSpots } = data || {};
 	const ref = useRef(null);
 	const [boundary, setBoundary] = useState({
 		width: 0,
@@ -140,7 +140,7 @@ export default function HeroSection({ data, setPrimaryColor }) {
 	const checkOverlap = (x, y, existingPositions) => {
 		const minDistance = boundary.width * 0.05;
 		const centerY = boundary.height / 2;
-		const isCenterArea = y > centerY - 100 && y < centerY + 100;
+		const isCenterArea = y > centerY - 150 && y < centerY + 150;
 		const hasOverlap = existingPositions.some((pos) => {
 			const dx = pos.x - x;
 			const dy = pos.y - y;
@@ -226,11 +226,16 @@ export default function HeroSection({ data, setPrimaryColor }) {
 				</div>
 			</motion.div>
 			{spotElements}
-			{heroHeading && (
-				<h1 className="p-home__hero__heading t-h-1">
-					<CustomPortableText blocks={heroHeading} hasPTag={false} />
-				</h1>
-			)}
+			<div className="p-home__hero__text wysiwyg">
+				{heroHeading && (
+					<h1 className="p-home__hero__heading t-h-1">
+						<CustomPortableText blocks={heroHeading} hasPTag={false} />
+					</h1>
+				)}
+				{heroSubheading && (
+					<h2 className="p-home__hero__subheading t-h-3">{heroSubheading}</h2>
+				)}
+			</div>
 			<div
 				className={clsx('p-home__hero__nudge', { 'is-active': isNudgeActive })}
 			>

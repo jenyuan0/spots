@@ -183,9 +183,6 @@ export default function PageItinerarySingle({ data }) {
 							offering={true}
 							hiddenFields={planHiddenFields}
 						/>
-						<div className="p-itinerary__sidebar__form-message t-b-2">
-							{'Average response time < 16hr'}
-						</div>
 					</div>
 				</div>
 			</div>

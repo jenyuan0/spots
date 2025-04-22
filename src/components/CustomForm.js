@@ -198,18 +198,24 @@ export default function CustomForm({ data, hiddenFields }) {
 							: 'Send Message'}
 					</Button>
 				</form>
+				{(formState === FORM_STATES.IDLE ||
+					formState === FORM_STATES.SUBMITTING) && (
+					<div className="c-form__message t-b-2 cr-subtle-5">
+						{'Average response time < 16hr'}
+					</div>
+				)}
+				{formState === FORM_STATES.SUCCESS && (
+					<p className="c-form__message t-b-2">
+						{data.successMessage || 'Success. Your message has been sent.'}
+					</p>
+				)}
+				{formState === FORM_STATES.ERROR && (
+					<p className="c-form__message t-b-2">
+						{data.errorMessage ||
+							'Error. There was an issue submitting your message. Please try again later.'}
+					</p>
+				)}
 			</Form>
-			{formState === FORM_STATES.SUCCESS && (
-				<p className="c-form__message t-b-2">
-					{data.successMessage || 'Success. Your message has been sent.'}
-				</p>
-			)}
-			{formState === FORM_STATES.ERROR && (
-				<p className="c-form__message t-b-2">
-					{data.errorMessage ||
-						'Error. There was an issue submitting your message. Please try again later.'}
-				</p>
-			)}
 		</div>
 	);
 }

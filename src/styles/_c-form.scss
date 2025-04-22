@@ -1,7 +1,7 @@
 .c-form {
 	display: flex;
 	flex-direction: column;
-	gap: var(--s-4-v);
+	gap: var(--s-3-v);
 	container-type: inline-size;
 	container-name: form;
 
@@ -11,7 +11,7 @@
 		grid-template-columns: repeat(6, 1fr);
 		gap: var(--gap) calc(var(--gap) / 1.5);
 
-		@container form (max-width: 768px) {
+		@container form (max-width: 600px) {
 			gap: 10px;
 		}
 	}
@@ -41,12 +41,12 @@
 	}
 
 	&__cta {
-		width: 100%;
-		margin-top: var(--s-4-v);
-		grid-column: span 6;
+		grid-column: 1 / -1;
+		margin-top: var(--s-3-v);
 	}
 
 	&__message {
+		grid-column: 1 / -1;
 		text-align: center;
 	}
 }

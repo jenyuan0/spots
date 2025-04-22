@@ -45,7 +45,7 @@ export default function PlanForm({
 				)}
 			</div>
 			{offering && (
-				<ul className="g-plan__offering t-b-2">
+				<ul className="g-plan__offers t-b-2">
 					{/* <li>
 						<span>Get started in 5 minutes</span>
 					</li> */}

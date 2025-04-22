@@ -18,6 +18,10 @@ export default defineType({
 			type: 'portableTextSimple',
 		},
 		{
+			name: 'heroSubheading',
+			type: 'string',
+		},
+		{
 			name: 'heroSpots',
 			type: 'array',
 			of: [
@@ -44,6 +48,16 @@ export default defineType({
 			name: 'clockParagraph',
 			type: 'text',
 			rows: 4,
+		},
+		{
+			name: 'clockOffers',
+			type: 'array',
+			of: [
+				{
+					name: 'offer',
+					type: 'string',
+				},
+			],
 		},
 		callToAction({ name: 'clockCta' }),
 		{
@@ -73,6 +87,16 @@ export default defineType({
 			rows: 4,
 		},
 		{
+			name: 'masksOffers',
+			type: 'array',
+			of: [
+				{
+					name: 'offer',
+					type: 'string',
+				},
+			],
+		},
+		{
 			name: 'masksImages',
 			type: 'array',
 			of: [customImage()],
@@ -89,6 +113,16 @@ export default defineType({
 			name: 'toggleParagraph',
 			type: 'text',
 			rows: 4,
+		},
+		{
+			name: 'toggleOffers',
+			type: 'array',
+			of: [
+				{
+					name: 'offer',
+					type: 'string',
+				},
+			],
 		},
 		callToAction({ name: 'toggleCta' }),
 

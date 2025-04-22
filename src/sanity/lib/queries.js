@@ -461,6 +461,7 @@ export const pageHomeQuery = `
 		heroHeading[]{
 			${portableTextContent}
 		},
+		heroSubheading,
 		heroImage,
 		heroSpots[]->{
 			title,
@@ -473,16 +474,19 @@ export const pageHomeQuery = `
 		introCta,
 		clockHeading,
 		clockParagraph,
+		clockOffers,
 		clockText,
 		clockCta,
 		masksHeading,
 		masksParagraph,
+		masksOffers,
 		masksCta,
 		masksImages[]{
 			${imageMeta}
 		},
 		toggleHeading,
 		toggleParagraph,
+		togglsOffers,
 		toggleCta,
 		itinerariesTitle,
 		itinerariesExcerpt[]{

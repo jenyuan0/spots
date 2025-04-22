@@ -18,12 +18,16 @@
 		background-color: var(--cr-subtle);
 	}
 
-	&__heading {
+	&__text {
 		position: relative;
 		margin: auto;
 		width: var(--width-med);
 		text-align: center;
-		pointer-events: none;
+
+		@include selection {
+			color: var(--cr-brown);
+			background-color: var(--cr-cream);
+		}
 	}
 
 	&__spot {
@@ -120,6 +124,33 @@
 			flex: 1;
 			min-width: 0;
 			padding: var(--s-5-v) var(--s-5-h);
+		}
+
+		&__offers {
+			margin-top: 40px;
+
+			li {
+				display: flex;
+				align-items: center;
+				gap: 0.5em;
+				padding: var(--s-2-v) 0;
+				border-top: 1px solid var(--cr-subtle);
+
+				&:before {
+					content: '✓';
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					width: 1.5em;
+					aspect-ratio: 1;
+					background-color: var(--cr-subtle);
+					border-radius: 100%;
+				}
+
+				span {
+					flex: 1;
+				}
+			}
 		}
 
 		&__heading {

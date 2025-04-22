@@ -10,6 +10,7 @@
 	&__header {
 		text-align: center;
 		width: var(--width-sml);
+		max-width: 600px;
 		margin: 0 auto calc(-1 * var(--s-4-v));
 
 		p {

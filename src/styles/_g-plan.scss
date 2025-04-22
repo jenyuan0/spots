@@ -39,6 +39,7 @@
 	&__form {
 		display: flex;
 		flex-direction: column;
+		justify-content: space-between;
 		gap: var(--s-4-v);
 
 		&__header {
@@ -53,7 +54,7 @@
 		padding: var(--s-5-v) var(--s-5-h);
 	}
 
-	&__offering {
+	&__offers {
 		li {
 			display: flex;
 			align-items: center;
