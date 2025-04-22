@@ -39,8 +39,8 @@ const WhyText = ({ data, color }) => {
 			<p className="t-h-2">{paragraph}</p>
 			{offers && (
 				<ul className="p-home__why-block__offers t-b-1">
-					{offers?.map((item) => (
-						<li>{item}</li>
+					{offers?.map((item, index) => (
+						<li key={`offer-${index}`}>{item}</li>
 					))}
 				</ul>
 			)}
