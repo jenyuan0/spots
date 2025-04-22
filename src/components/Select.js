@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { hasArrayValue } from '@/lib/helpers';
 
 const Select = React.forwardRef(
-	({ options, placeholder, className, ...props }, ref) => {
+	({ options, className, placeholder, ...props }, ref) => {
 		if (!hasArrayValue(options)) return null;
 
 		return (
