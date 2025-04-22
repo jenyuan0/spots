@@ -77,26 +77,6 @@ export const globalGuides = (S) => {
 		.icon(BookIcon);
 };
 
-export const globalFAQ = (S) => {
-	return S.listItem()
-		.title('FAQ')
-		.schemaType('gFAQ')
-		.icon(CommentIcon)
-		.child(
-			S.documentTypeList('gFAQ')
-				.title('FAQ')
-				.filter(`_type == "gFAQ"`)
-				.apiVersion(apiVersion)
-				.child((documentId) =>
-					S.document().documentId(documentId).schemaType('gFAQ')
-				)
-				.canHandleIntent(
-					(intent, { type }) =>
-						['create', 'edit'].includes(intent) && type === 'gFAQ'
-				)
-		);
-};
-
 export const globalAds = (S) => {
 	return S.listItem()
 		.title('Ads')

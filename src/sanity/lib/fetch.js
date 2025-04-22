@@ -84,8 +84,6 @@ export function getPagesPaths({ pageType }) {
 				return groq`*[_type == "gCategories"].slug.current`;
 			case 'gSubcategories':
 				return groq`*[_type == "gSubcategories"].slug.current`;
-			case 'gFAQ':
-				return groq`*[_type == "gFAQ" ].slug.current`;
 			default:
 				console.warn('Invalid Page Type:', pageType);
 				return groq`*[_type == "pGeneral" ].slug.current`;
