@@ -1,24 +1,29 @@
 'use client';
 
-import Link from '@/components/CustomLink';
+import Button from '@/components/Button';
 import CustomPortableText from '@/components/CustomPortableText';
 
 export default function Page404({ data }) {
 	const { heading, paragraph, callToAction } = data || {};
 
 	return (
-		<div className="p-404 f-v f-j-c">
-			<div className="c-narrow wysiwyg">
-				<h1>{heading || 'Page not found'}</h1>
-
-				{paragraph && <CustomPortableText blocks={paragraph} />}
-
-				{callToAction && (
-					<Link link={callToAction?.link} isNewTab={callToAction?.isNewTab}>
-						{callToAction.label}
-					</Link>
-				)}
-			</div>
+		<div className="p-404 f-v f-j-c wysiwyg">
+			<h1 className="t-h-1">{heading || 'Page not found'}</h1>
+			{paragraph && (
+				<p class="t-h-3">
+					<CustomPortableText blocks={paragraph} hasPTag={false} />
+				</p>
+			)}
+			{callToAction && (
+				<Button
+					className={'btn cr-green-d'}
+					link={callToAction.link}
+					isNewTab={callToAction.isNewTab}
+					// caret="right"
+				>
+					{callToAction.label}
+				</Button>
+			)}
 		</div>
 	);
 }

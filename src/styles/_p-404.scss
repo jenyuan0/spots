@@ -1,5 +1,8 @@
 .p-404 {
 	min-height: var(--s-main-min-height);
+	width: var(--width-med);
+	margin: auto;
 	padding: var(--s-section) 0;
+	align-items: center;
 	text-align: center;
 }

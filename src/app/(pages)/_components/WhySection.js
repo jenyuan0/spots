@@ -157,10 +157,12 @@ const MasksBlock = ({ data, index, color }) => {
 };
 
 const ClockBlock = ({ data, index, color }) => {
-	const { clockHeading, clockParagraph, clockCta, clockText } = data;
+	const { clockHeading, clockParagraph, clockOffers, clockCta, clockText } =
+		data;
 	const textData = {
 		heading: clockHeading,
 		paragraph: clockParagraph,
+		offers: clockOffers,
 		cta: clockCta,
 	};
 	const [state, setState] = useState({
