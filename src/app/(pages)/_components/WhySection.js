@@ -198,24 +198,24 @@ const ClockBlock = ({ data, index, color }) => {
 			style={{ scale: springScale, '--cr-primary': `var(--cr-${color}-d)` }}
 		>
 			<div className="p-home__why-block__media">
-				{clockText.map((item, index) => {
-					return (
-						<div
-							key={`clock-image-${index}`}
-							className={clsx('p-home__clock__img', {
-								'is-active': state.textIndex == index,
-							})}
-						>
-							<div className="object-fit">
-								{item.image && <Img image={item.image} />}
-							</div>
-						</div>
-					);
-				})}
 				<div
 					className="p-home__clock"
 					style={{ '--cr-primary': `var(--cr-${state.color}-l)` }}
 				>
+					{clockText.map((item, index) => {
+						return (
+							<div
+								key={`clock-image-${index}`}
+								className={clsx('p-home__clock__img', {
+									'is-active': state.textIndex == index,
+								})}
+							>
+								<div className="object-fit">
+									{item.image && <Img image={item.image} />}
+								</div>
+							</div>
+						);
+					})}
 					<div
 						className="p-home__clock__center"
 						style={{ transform: `rotate(${state.rotation}deg)` }}
@@ -230,10 +230,11 @@ const ClockBlock = ({ data, index, color }) => {
 };
 
 const ToggleBlock = ({ data, index, color }) => {
-	const { toggleHeading, toggleParagraph, toggleCta } = data;
+	const { toggleHeading, toggleParagraph, toggleOffers, toggleCta } = data;
 	const textData = {
 		heading: toggleHeading,
 		paragraph: toggleParagraph,
+		offers: toggleOffers,
 		cta: toggleCta,
 	};
 	const [toggle, setToggle] = useState(0);
@@ -310,8 +311,8 @@ const ToggleBlock = ({ data, index, color }) => {
 export default function WhySection({ data }) {
 	return (
 		<div className="p-home__why">
-			<MasksBlock data={data} index={0} color={'red'} />
-			<ClockBlock data={data} index={1} color={'blue'} />
+			<ClockBlock data={data} index={0} color={'red'} />
+			<MasksBlock data={data} index={1} color={'blue'} />
 			<ToggleBlock data={data} index={2} color={'purple'} />
 		</div>
 	);

@@ -486,7 +486,7 @@ export const pageHomeQuery = `
 		},
 		toggleHeading,
 		toggleParagraph,
-		togglsOffers,
+		toggleOffers,
 		toggleCta,
 		itinerariesTitle,
 		itinerariesExcerpt[]{
