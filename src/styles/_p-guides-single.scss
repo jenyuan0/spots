@@ -1,3 +1,5 @@
+@use '_mixin' as *;
+
 .p-guide__hero {
 	position: relative;
 	display: flex;

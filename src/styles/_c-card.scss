@@ -1,3 +1,5 @@
+@use '_mixin' as *;
+
 .c-card {
 	position: relative;
 	display: flex;

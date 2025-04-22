@@ -1,3 +1,5 @@
+@use '_mixin' as *;
+
 .p-itinerary {
 	&__header {
 		position: relative;

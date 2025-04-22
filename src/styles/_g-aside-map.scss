@@ -1,3 +1,5 @@
+@use '_mixin' as *;
+
 @mixin sidebar {
 	position: fixed;
 	display: flex;
@@ -35,31 +37,6 @@
 	@include sidebar;
 	right: var(--s-contain);
 	transform: translate3d(100%, -50%, 0);
-}
-
-@mixin asideToggle {
-	position: absolute;
-	top: 50%;
-	left: 0;
-	transform: translate3d(-50%, -50%, 0);
-
-	&__label {
-		position: absolute;
-		white-space: nowrap;
-		top: 50%;
-		left: -5px;
-		transform: translate3d(-90%, -50%, 0);
-		opacity: 0;
-		pointer-events: none;
-		transition: var(--t-1);
-	}
-
-	@media (hover: hover) {
-		&:hover &__label {
-			transform: translate3d(-100%, -50%, 0);
-			opacity: 1;
-		}
-	}
 }
 
 .g-aside-map {

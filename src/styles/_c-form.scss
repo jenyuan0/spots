@@ -17,9 +17,7 @@
 	}
 
 	.c-field {
-		&[data-size='full'] {
-			grid-column: 1 / -1;
-		}
+		grid-column: 1 / -1;
 
 		&[data-size='1/2'] {
 			grid-column: span 3;

@@ -1,3 +1,5 @@
+@use '_mixin' as *;
+
 .p-home__hero {
 	--s-top: calc(var(--s-header) + var(--s-contain));
 	position: relative;

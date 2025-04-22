@@ -1,3 +1,5 @@
+@use '_mixin' as *;
+
 .g-plan {
 	--cr-primary: var(--cr-green-d);
 	position: relative;

@@ -1,3 +1,5 @@
+@use '_mixin' as *;
+
 .c-field {
 	--height: 45px;
 	--line-height: 20px;
@@ -90,6 +92,7 @@
 
 		&:has(option[disabled][value]) {
 			color: var(--cr-subtle-5);
+			border-color: inherit;
 			background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 5'%3E%3Cpath fill='%23999999' fill-rule='evenodd' d='m3,5L6,0H0l3,5'/%3E%3C/svg%3E");
 		}
 	}

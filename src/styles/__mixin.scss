@@ -115,3 +115,82 @@
 		border-radius: 10px;
 	}
 }
+
+// ***Buttons***
+@mixin triggerProperties {
+	--size: 40px;
+	--outline: 1.5px;
+	--cr-primary: var(--cr-white);
+	--cr-secondary: inherit;
+	@include buttonProperties;
+
+	width: var(--size);
+	height: var(--size);
+	gap: 5px;
+	border-radius: 100%;
+	font: var(--t-l-1);
+	line-height: 1;
+	transition: var(--t-1);
+
+	&:before {
+		content: '';
+		display: block;
+		position: absolute;
+		inset: var(--outline);
+		border-radius: 100%;
+		transform: scale(0.8);
+		opacity: 0;
+		background-color: var(--cr-subtle-1);
+		transition: var(--t-1);
+	}
+
+	svg {
+		width: calc(var(--size) * 0.35);
+		height: calc(var(--size) * 0.35);
+	}
+
+	@media (hover: hover) {
+		&:hover:before {
+			opacity: 1;
+			transform: scale(1);
+		}
+	}
+}
+
+@mixin buttonProperties {
+	position: relative;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	white-space: nowrap;
+	text-align: center;
+	box-shadow: unset;
+	border: unset;
+	outline: unset;
+	user-select: none;
+}
+
+@mixin asideToggle {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	transform: translate3d(-50%, -50%, 0);
+
+	&__label {
+		position: absolute;
+		white-space: nowrap;
+		top: 50%;
+		left: -5px;
+		transform: translate3d(-90%, -50%, 0);
+		opacity: 0;
+		pointer-events: none;
+		transition: var(--t-1);
+	}
+
+	@media (hover: hover) {
+		&:hover &__label {
+			transform: translate3d(-100%, -50%, 0);
+			opacity: 1;
+		}
+	}
+}

@@ -44,7 +44,6 @@ const nextConfig = {
 	},
 	sassOptions: {
 		includePaths: [path.join(__dirname, 'styles')],
-		prependData: `@import "/src/styles/_mixin";`,
 	},
 	images: {
 		dangerouslyAllowSVG: true,

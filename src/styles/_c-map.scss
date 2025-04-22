@@ -1,3 +1,5 @@
+@use '_mixin' as *;
+
 .c-map {
 	&__close {
 		position: absolute;

@@ -1,15 +1,4 @@
-@mixin buttonProperties {
-	position: relative;
-	display: inline-flex;
-	justify-content: center;
-	align-items: center;
-	white-space: nowrap;
-	text-align: center;
-	box-shadow: unset;
-	border: unset;
-	outline: unset;
-	user-select: none;
-}
+@use '_mixin' as *;
 
 .btn,
 .btn-outline,
@@ -274,46 +263,6 @@ input[disabled] {
 
 		&:hover &__caret-hover ~ &__text {
 			transform: translate3d(calc(var(--height) / 1.5), 0, 0);
-		}
-	}
-}
-
-@mixin triggerProperties {
-	--size: 40px;
-	--outline: 1.5px;
-	--cr-primary: var(--cr-white);
-	--cr-secondary: inherit;
-	@include buttonProperties;
-
-	width: var(--size);
-	height: var(--size);
-	gap: 5px;
-	border-radius: 100%;
-	font: var(--t-l-1);
-	line-height: 1;
-	transition: var(--t-1);
-
-	&:before {
-		content: '';
-		display: block;
-		position: absolute;
-		inset: var(--outline);
-		border-radius: 100%;
-		transform: scale(0.8);
-		opacity: 0;
-		background-color: var(--cr-subtle-1);
-		transition: var(--t-1);
-	}
-
-	svg {
-		width: calc(var(--size) * 0.35);
-		height: calc(var(--size) * 0.35);
-	}
-
-	@media (hover: hover) {
-		&:hover:before {
-			opacity: 1;
-			transform: scale(1);
 		}
 	}
 }

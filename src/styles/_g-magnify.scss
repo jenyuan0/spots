@@ -1,3 +1,5 @@
+@use '_mixin' as *;
+
 .g-magnify {
 	--cr-primary: var(--cr-brown-d);
 	--cr-secondary: var(--cr-brown-l);

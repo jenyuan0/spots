@@ -1,3 +1,5 @@
+@use '_mixin' as *;
+
 .c-carousel {
 	--dot-size: 10px;
 	--dot-gap: 8px;
