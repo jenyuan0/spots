@@ -1,17 +1,12 @@
-@mixin headerBlock {
-	display: flex;
-	align-items: center;
-	height: 50px;
-	padding: var(--block-padding);
-	border-left: 1px solid;
-}
+@use '_mixin' as *;
 
 .g-header {
+	--header-size: 50px;
 	--logo-cta-width: 140px;
 	--block-padding: 8.5px 20px;
 	position: fixed;
 	width: 100%;
-	height: 50px;
+	height: var(--header-size);
 	top: 0;
 	display: flex;
 	background-color: var(--cr-cream);
@@ -30,10 +25,20 @@
 		border-left: none;
 	}
 
-	&__block {
-		position: relative;
-		overflow: hidden;
+	&__cta {
+		@include headerBlock;
+		width: var(--logo-cta-width);
+	}
+
+	&__menu {
+		display: flex;
 		flex: 1;
+
+		&__block {
+			position: relative;
+			overflow: hidden;
+			flex: 1;
+		}
 
 		&__translate {
 			display: flex;
@@ -47,14 +52,11 @@
 			gap: 20px;
 		}
 
-		&:hover &__translate {
-			transform: translate3d(0, calc(var(--s-header) * -1), 0);
+		@include tabletUp {
+			&__block:hover &__translate {
+				transform: translate3d(0, calc(var(--s-header) * -1), 0);
+			}
 		}
-	}
-
-	&__cta {
-		@include headerBlock;
-		width: var(--logo-cta-width);
 	}
 
 	&__links {
@@ -71,10 +73,18 @@
 			transition: transform var(--t-2);
 		}
 
-		a:hover:after,
 		.is-active a:after {
 			transform: scaleX(1);
 			transform-origin: left;
+		}
+
+		@include tabletUp {
+			@media (hover: hover) {
+				a:hover:after {
+					transform: scaleX(1);
+					transform-origin: left;
+				}
+			}
 		}
 	}
 

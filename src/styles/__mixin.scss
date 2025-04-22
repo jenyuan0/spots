@@ -11,12 +11,12 @@
     }
 */
 @mixin tabletUp {
-	@media screen and (min-width: 1025px) {
+	@media screen and (min-width: 1081px) {
 		@content;
 	}
 }
 @mixin tabletDown {
-	@media screen and (max-width: 1024px) {
+	@media screen and (max-width: 1080px) {
 		@content;
 	}
 }
@@ -193,4 +193,13 @@
 			opacity: 1;
 		}
 	}
+}
+
+@mixin headerBlock {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: var(--header-size);
+	padding: var(--block-padding);
+	border-left: 1px solid;
 }

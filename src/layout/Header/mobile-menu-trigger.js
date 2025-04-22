@@ -5,14 +5,17 @@ export default function MobileMenuTrigger({ isMobileMenuOpen, onHandleClick }) {
 	return (
 		<button
 			aria-label="Toggle Menu"
-			className={clsx('g-mobile-menu-trigger mobile-down-only', {
-				'is-open': isMobileMenuOpen,
+			className={clsx('g-mobile-menu-trigger', {
+				'is-mobile-open': isMobileMenuOpen,
 			})}
 			onClick={onHandleClick}
 		>
-			<div className="line" />
-			<div className="line" />
-			<div className="line" />
+			<div className="g-mobile-menu-trigger__lines">
+				<div className="g-mobile-menu-trigger__line" />
+				<div className="g-mobile-menu-trigger__line" />
+				<div className="g-mobile-menu-trigger__line" />
+			</div>
+			<span className="t-l-2">Menu</span>
 		</button>
 	);
 }

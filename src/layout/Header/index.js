@@ -186,46 +186,42 @@ export default function Header({ data, isActive }) {
 					'is-scrolled': isScrolled,
 					'is-transparent': isTransparent,
 					'is-active': isActive,
+					'is-mobile-open': isMobileMenuOpen,
 				})}
 			>
 				<Link href={'/'} className="g-header__logo t-h-3">
 					SPOTS
 				</Link>
-				<div className="g-header__block">
-					<div className="g-header__block__translate">
-						<motion.div className="g-header__tagline t-h-5">
-							Parisian Treasures Refreshed Weekly
-							<FrenchDots />
-						</motion.div>
-						<NavLink nav={leftNav} pathname={pathname} />
+				<div className="g-header__menu">
+					<div className="g-header__menu__block">
+						<div className="g-header__menu__translate">
+							<motion.div className="g-header__tagline t-h-5">
+								Parisian Treasures Refreshed Weekly
+								<FrenchDots />
+							</motion.div>
+							<NavLink nav={leftNav} pathname={pathname} />
+						</div>
+					</div>
+					<div className="g-header__menu__block">
+						<div className="g-header__menu__translate">
+							<motion.div className="g-header__tagline t-h-5">
+								Design Conscious Travel Planning
+								<DesignDots />
+							</motion.div>
+							<NavLink nav={rightNav} pathname={pathname} />
+						</div>
 					</div>
 				</div>
-				<div className="g-header__block">
-					<div className="g-header__block__translate">
-						<motion.div className="g-header__tagline t-h-5">
-							Design Conscious Travel Planning
-							<DesignDots />
-						</motion.div>
-						<NavLink nav={rightNav} pathname={pathname} />
-					</div>
-				</div>
+				<MobileMenuTrigger
+					isMobileMenuOpen={isMobileMenuOpen}
+					onHandleClick={onToggleMenu}
+				/>
 				<div className="g-header__cta">
 					<Button className="btn-underline" href={'/contact'}>
 						Contact & FAQ
 					</Button>
 				</div>
 			</header>
-
-			<div
-				className={clsx('g-mobile-menu p-fill bg-white', {
-					'is-open': isMobileMenuOpen,
-				})}
-			>
-				<MobileMenuTrigger
-					isMobileMenuOpen={isMobileMenuOpen}
-					onHandleClick={onToggleMenu}
-				/>
-			</div>
 		</>
 	);
 }
