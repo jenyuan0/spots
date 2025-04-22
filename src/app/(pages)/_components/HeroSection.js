@@ -211,14 +211,14 @@ export default function HeroSection({ data, setPrimaryColor }) {
 	}, [heroSpots, spots, scrollYProgress]);
 
 	const motionScale = useTransform(scrollYProgress, [0, 1], [1, 0.85]);
-	const springScale = useSpring(motionScale, springConfig);
+	// const springScale = useSpring(motionScale, springConfig);
 
 	return (
 		<section ref={ref} className="p-home__hero">
 			<motion.div
 				className={'p-home__hero__image p-fill'}
 				style={{
-					scale: springScale,
+					scale: motionScale,
 				}}
 			>
 				<div className="object-fit">
