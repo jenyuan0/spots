@@ -4,7 +4,6 @@
 	@include headerBlock;
 	position: relative;
 	height: var(--header-size);
-	margin-left: auto;
 	gap: 0.4em;
 	z-index: 110;
 
@@ -49,113 +48,5 @@
 
 	@include tabletUp {
 		display: none;
-	}
-}
-
-@include tabletDown {
-	.g-header {
-		--header-size: 40px;
-		--logo-cta-width: unset;
-		--block-padding: 8px 12px;
-
-		&__logo {
-			padding: 0 5px;
-		}
-
-		&__cta .btn-underline {
-			text-transform: uppercase;
-			letter-spacing: 0.04em;
-			font: var(--t-l-2);
-
-			&:before,
-			&:after {
-				display: none;
-			}
-		}
-
-		&__menu {
-			position: fixed;
-			width: 100%;
-			top: var(--header-size);
-			height: calc(100svh - var(--header-size));
-			height: calc(100vh - var(--header-size));
-			flex-direction: column;
-			justify-content: space-around;
-			background-color: var(--cr-cream);
-			transition: opacity var(--t-1);
-			opacity: 0;
-			pointer-events: none;
-
-			.is-mobile-open & {
-				opacity: 1;
-				pointer-events: auto;
-			}
-
-			&__block {
-				flex: unset;
-				margin: auto;
-				width: 90%;
-				max-width: 600px;
-			}
-
-			&__translate {
-				gap: 20px;
-			}
-
-			&__translate > * {
-				height: unset;
-				border-left: 0;
-			}
-		}
-
-		&__tagline {
-			flex-direction: column-reverse;
-			gap: 10px;
-		}
-
-		&__links {
-			flex-direction: column;
-			gap: 0;
-			padding: 0;
-			align-items: stretch;
-			text-transform: unset;
-			letter-spacing: 0;
-			font: var(--t-h-2);
-			border-left: 1px solid;
-			border-right: 1px solid;
-			border-bottom: 1px solid;
-
-			a {
-				display: block;
-				padding: 0.6em 0;
-				text-align: center;
-				border-top: 1px solid;
-			}
-
-			a:after {
-				width: 10px;
-				height: 10px;
-				top: 50%;
-				left: unset;
-				right: Max(0.3em, 20px);
-				border: 1px solid;
-				border-radius: 100%;
-				transform: translate3d(0%, -50%, 0) !important;
-				opacity: 0;
-				transition: opacity var(--t-2);
-			}
-
-			.is-active a:after {
-				opacity: 1;
-			}
-		}
-	}
-}
-
-@include mobileDown {
-	.g-header {
-		&__logo {
-			font-size: 30px;
-		}
 	}
 }

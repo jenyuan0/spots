@@ -30,7 +30,7 @@ const leftNav = [
 
 const rightNav = [
 	{
-		title: 'Service Overview',
+		title: 'Our Service',
 		url: '/',
 	},
 	{
@@ -212,15 +212,15 @@ export default function Header({ data, isActive }) {
 						</div>
 					</div>
 				</div>
-				<MobileMenuTrigger
-					isMobileMenuOpen={isMobileMenuOpen}
-					onHandleClick={onToggleMenu}
-				/>
 				<div className="g-header__cta">
 					<Button className="btn-underline" href={'/contact'}>
 						Contact & FAQ
 					</Button>
 				</div>
+				<MobileMenuTrigger
+					isMobileMenuOpen={isMobileMenuOpen}
+					onHandleClick={onToggleMenu}
+				/>
 			</header>
 		</>
 	);

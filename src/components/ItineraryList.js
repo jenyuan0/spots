@@ -55,7 +55,6 @@ export default function ItineraryList({ data }) {
 				)}
 			</div>
 			<Carousel
-				itemWidth="Min(600px, 50vw)"
 				gap="Min(20px, 2vw)"
 				isShowDots
 				isAutoHeight={false}

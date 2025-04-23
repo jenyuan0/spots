@@ -31,7 +31,7 @@
 	}
 
 	&__spot {
-		--size: Min(5vw, 80px);
+		--size: clamp(35px, 5vw, 80px);
 		position: absolute;
 		width: fit-content;
 		height: fit-content;
@@ -75,6 +75,10 @@
 			animation: 3s calc(0.2s * var(--index)) fadeInOut infinite;
 		}
 	}
+
+	@include mobileDown {
+		max-height: 150svh;
+	}
 }
 
 .p-home__intro {
@@ -96,14 +100,18 @@
 		top: var(--s-header-space);
 		display: flex;
 		flex-direction: row;
-		align-items: center;
-		width: var(--width-lge);
+		align-items: stretch;
+		// width: var(--width-lge);
 		margin: var(--s-section) auto;
 		border-radius: var(--br-3);
 		overflow: hidden;
 		transform-origin: center top;
 		background-color: var(--cr-white);
 		border: 1px solid var(--cr-primary);
+
+		&:nth-child(even) {
+			flex-direction: row-reverse;
+		}
 
 		@include selection {
 			color: var(--cr-cream);
@@ -123,6 +131,7 @@
 		&__text {
 			flex: 1;
 			min-width: 0;
+			align-self: center;
 			padding: var(--s-5-v) var(--s-5-h);
 		}
 
@@ -157,8 +166,16 @@
 			color: var(--cr-primary);
 		}
 
-		&:nth-child(even) &__media {
-			order: 2;
+		@include mobileDown {
+			&,
+			&:nth-child(even) {
+				flex-direction: column;
+			}
+
+			&__media,
+			&__text {
+				padding: var(--s-4-v) var(--s-3-h);
+			}
 		}
 	}
 }
@@ -525,4 +542,8 @@
 
 .p-home__contact {
 	margin: var(--s-3-v) auto;
+
+	@include mobileDown {
+		margin: auto;
+	}
 }

@@ -131,7 +131,7 @@
 .p-itinerary__day {
 	display: flex;
 	flex-direction: column;
-	justify-content: start;
+	justify-content: flex-start;
 	padding: var(--s-4-v) var(--s-4-h);
 	gap: var(--s-4-v);
 	border-radius: var(--br-3);
@@ -145,7 +145,7 @@
 	&__header {
 		display: flex;
 		flex-direction: row;
-		align-items: start;
+		align-items: flex-start;
 		max-width: 1000px;
 		text-wrap: balance;
 		gap: 20px;

@@ -1,4 +1,10 @@
+@use '_mixin' as *;
+
 .p-contact {
 	margin: var(--s-3-v) auto;
 	margin-top: var(--s-header-space);
+
+	@include mobileDown {
+		margin-top: var(--s-header);
+	}
 }

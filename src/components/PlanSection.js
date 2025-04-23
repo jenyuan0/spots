@@ -1,63 +1,136 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
+import clsx from 'clsx';
 import Link from '@/components/CustomLink';
 import Img from '@/components/Image';
 import Accordion from '@/components/Accordions/Accordion';
 import CustomPortableText from '@/components/CustomPortableText';
 import PlanForm from '@/components/PlanForm';
+import Button from '@/components/Button';
+import { IconEmail, IconWhatsApp, IconLine } from './SvgIcons';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { springConfig } from '@/lib/helpers';
+import useWindowDimensions from '@/hooks/useWindowDimensions';
+import { useInView } from 'react-intersection-observer';
 
-const SCROLL_ANIMATION_CONFIG = {
-	start: ['start end', 'start start'],
-	scale: [0.95, 1],
+const useScaleAnimation = (ref) => {
+	const { scrollYProgress } = useScroll({
+		target: ref,
+		offset: ['start end', 'start start'],
+	});
+
+	return useSpring(
+		useTransform(scrollYProgress, [0, 1], [0.95, 1]),
+		springConfig
+	);
 };
 
-export function Faq({ faq }) {
+const ContactLink = ({ type, value }) => {
+	const linkProps = {
+		email: {
+			href: `mailto:${value}`,
+			icon: <IconEmail />,
+			className: 'g-plan__contact-item',
+		},
+		whatsapp: {
+			href: `https://wa.me/${encodeURIComponent(value)}`,
+			icon: <IconWhatsApp />,
+			className: 'g-plan__contact-item t-l-1',
+		},
+		line: {
+			href: `https://line.me/R/${encodeURIComponent(value)}`,
+			icon: <IconLine />,
+			className: 'g-plan__contact-item t-l-1',
+		},
+	}[type];
+
+	return (
+		<Link
+			className={linkProps.className}
+			href={linkProps.href}
+			isNewTab={type !== 'email'}
+		>
+			<span className="t-l-2">{type}</span>
+			<span className="g-plan__contact-inline t-h-5">{value}</span>
+			{linkProps.icon}
+		</Link>
+	);
+};
+
+const ContactItems = ({ email, whatsapp, line }) => (
+	<div className="g-plan__contact-items">
+		{email && <ContactLink type="email" value={email} />}
+		{whatsapp && <ContactLink type="whatsapp" value={whatsapp} />}
+		{line && <ContactLink type="line" value={line} />}
+	</div>
+);
+
+function Faq({ faq, isInView }) {
 	const [activeAccordion, setActiveAccordion] = useState(null);
+	const [isOpen, setIsOpen] = useState(false);
+
 	const handleAccordionToggle = (index) => {
 		setActiveAccordion(activeAccordion === index ? null : index);
 	};
 
 	return (
-		<div className="g-plan__faq__content">
-			{faq?.map((item, index) => (
-				<Accordion
-					key={`faq-${index}`}
-					title={item.title}
-					isActive={activeAccordion === index}
-					onHandleToggle={() => handleAccordionToggle(index)}
-				>
-					<div className="wysiwyg-b-1">
-						<CustomPortableText blocks={item.answer} />
-					</div>
-				</Accordion>
-			))}
+		<div
+			className={clsx('g-plan__faq', {
+				'is-open': isOpen,
+				'is-in-view': isInView,
+			})}
+		>
+			<Button
+				className="g-plan__faq__toggle btn-underline cr-green-d"
+				onClick={() => setIsOpen(!isOpen)}
+			>
+				{isOpen && <span className="icon-close" />}
+				{!isOpen ? 'More questions? See our FAQ' : 'Close FAQ'}
+			</Button>
+			<h3 className="g-plan__faq__title t-h-4">Frequently asked questions</h3>
+			<div className="g-plan__faq__content">
+				{faq?.map((item, index) => (
+					<Accordion
+						key={`faq-${index}`}
+						title={item.title}
+						isActive={activeAccordion === index}
+						onHandleToggle={() => handleAccordionToggle(index)}
+					>
+						<div className="wysiwyg-page">
+							<CustomPortableText blocks={item.answer} />
+						</div>
+					</Accordion>
+				))}
+			</div>
 		</div>
 	);
 }
 
 export default function PlanSection({ data, isH1, isH1Style, hiddenFields }) {
 	const { image, faq, email, whatsapp, line } = data;
-	const containerRef = React.useRef(null);
-	const { scrollYProgress } = useScroll({
-		target: containerRef,
-		offset: SCROLL_ANIMATION_CONFIG.start,
+	const containerRef = useRef(null);
+	const [inViewRef, inView] = useInView({
+		rootMargin: '-100% 0% 0% 0%',
 	});
-	const scaleProgress = useTransform(
-		scrollYProgress,
-		[0, 1],
-		SCROLL_ANIMATION_CONFIG.scale
+
+	const springAnimation = useScaleAnimation(containerRef);
+	const { isMobileScreen } = useWindowDimensions();
+
+	const setRefs = useCallback(
+		(node) => {
+			containerRef.current = node;
+			inViewRef(node);
+		},
+		[inViewRef]
 	);
-	const springAnimation = useSpring(scaleProgress, springConfig);
 
 	return (
-		<section ref={containerRef} className="g-plan">
+		<section ref={setRefs} className="g-plan">
 			{image && (
 				<motion.div
 					className="g-plan__image p-fill"
-					style={{ scale: springAnimation }}
+					style={{ scale: !isMobileScreen ? springAnimation : undefined }}
 				>
 					<div className="object-fit">
 						<Img image={image} />
@@ -75,41 +148,9 @@ export default function PlanSection({ data, isH1, isH1Style, hiddenFields }) {
 				<div className="g-plan__support">
 					<div className="g-plan__contact">
 						<h3 className="g-plan__contact__title t-h-4">Contact us</h3>
-						<div className="g-plan__contact-items">
-							{email && (
-								<Link className="g-plan__contact-item" href={`mailto:${email}`}>
-									<span className="t-l-2">Email</span>
-									<span className="t-h-5">{email}</span>
-								</Link>
-							)}
-							{whatsapp && (
-								<Link
-									className="g-plan__contact-item t-l-1"
-									href={`https://wa.me/${encodeURIComponent(whatsapp)}`}
-									isNewTab={true}
-								>
-									<span className="t-l-2">WhatsApp</span>
-									<span className="t-h-5">{whatsapp}</span>
-								</Link>
-							)}
-							{line && (
-								<Link
-									className="g-plan__contact-item t-l-1"
-									href={`https://line.me/R/${encodeURIComponent(line)}`}
-									isNewTab={true}
-								>
-									<span className="t-l-2">LINE</span>
-									<span className="t-h-5">{line}</span>
-								</Link>
-							)}
-						</div>
+						<ContactItems email={email} whatsapp={whatsapp} line={line} />
 					</div>
-					<div className="g-plan__faq">
-						<h3 className="g-plan__faq__title t-h-4">
-							Frequently asked questions.
-						</h3>
-						<Faq faq={faq} />
-					</div>
+					<Faq faq={faq} isInView={inView} />
 				</div>
 			</div>
 		</section>

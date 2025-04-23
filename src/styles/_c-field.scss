@@ -100,4 +100,12 @@
 	textarea {
 		height: calc(var(--height) * 4);
 	}
+
+	@include tabletDown {
+		--padding-h: 14px;
+
+		textarea {
+			height: calc(var(--height) * 3);
+		}
+	}
 }

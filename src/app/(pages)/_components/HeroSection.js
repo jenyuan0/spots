@@ -2,19 +2,25 @@
 
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import clsx from 'clsx';
-import { getRandomInt, springConfig } from '@/lib/helpers';
 import Img from '@/components/Image';
 import CustomPortableText from '@/components/CustomPortableText';
 import LocationDot from '@/components/LocationDot';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { getRandomInt, springConfig } from '@/lib/helpers';
+import useWindowDimensions from '@/hooks/useWindowDimensions';
 
 // Spot component for individual animated spots
 function HeroSpot({ index, data, boundary, isLastChild, scrollYProgress }) {
 	const [spot, setSpot] = useState({
-		x: 1000,
-		y: 1000,
+		x: 0,
+		y: 0,
 	});
 	const [screen, setScreen] = useState({ x: 0, y: 0 });
+	const { isMobileScreen } = useWindowDimensions();
+	const config = {
+		yLast: !isMobileScreen ? 70 : 20,
+		scaleMin: !isMobileScreen ? 0.2 : 0.5,
+	};
 
 	useEffect(() => {
 		setSpot({
@@ -49,7 +55,7 @@ function HeroSpot({ index, data, boundary, isLastChild, scrollYProgress }) {
 			screen.x,
 			screen.x,
 			screen.x,
-			screen.x + (index % 2 === 0 ? 1 : -1) * getRandomInt(200, 400),
+			screen.x + getRandomInt(screen.x / -1.2, screen.x / 1.2),
 		]
 	);
 	const motionY = useTransform(
@@ -70,9 +76,9 @@ function HeroSpot({ index, data, boundary, isLastChild, scrollYProgress }) {
 			spot.y - getRandomInt(5, 25),
 			spot.y + getRandomInt(5, 25),
 			screen.height - getRandomInt(20, screen.height / 2),
-			screen.height + 70,
-			screen.height + 70,
-			screen.height + (Math.random() * 800 - 200),
+			screen.height + config.yLast,
+			screen.height + config.yLast,
+			screen.height + getRandomInt(screen.height / -4, screen.height / 4),
 		]
 	);
 	const motionOpacity = useTransform(
@@ -83,9 +89,13 @@ function HeroSpot({ index, data, boundary, isLastChild, scrollYProgress }) {
 	const motionScale = useTransform(
 		scrollYProgress,
 		[0, 0.15, 0.8, 1],
-		[1, 0.2, isLastChild ? 0.24 : 0.2, 0.2]
+		[
+			1,
+			config.scaleMin,
+			isLastChild ? config.scaleMin * 1.1 : config.scaleMin,
+			config.scaleMin,
+		]
 	);
-
 	const springX = useSpring(motionX, springConfig);
 	const springY = useSpring(motionY, springConfig);
 	const springScale = useSpring(motionScale, springConfig);
@@ -99,7 +109,7 @@ function HeroSpot({ index, data, boundary, isLastChild, scrollYProgress }) {
 				x: springX,
 				y: springY,
 				scale: springScale,
-				opacity: motionOpacity,
+				opacity: spot.x > 0 ? motionOpacity : 0,
 			}}
 		>
 			<LocationDot data={data} initialLightOrDark={isLastChild && 'd'} />
@@ -120,6 +130,7 @@ export default function HeroSection({ data, setPrimaryColor }) {
 		target: ref,
 		offset: ['start start', 'end start'],
 	});
+	const { isMobileScreen } = useWindowDimensions();
 
 	useEffect(() => {
 		const scroll = scrollYProgress.onChange((value) => {
@@ -138,7 +149,7 @@ export default function HeroSection({ data, setPrimaryColor }) {
 
 	// Function to check for overlaps
 	const checkOverlap = (x, y, existingPositions) => {
-		const minDistance = boundary.width * 0.05;
+		const minDistance = !isMobileScreen ? 100 : 50;
 		const centerY = boundary.height / 2;
 		const isCenterArea = y > centerY - 150 && y < centerY + 150;
 		const hasOverlap = existingPositions.some((pos) => {
@@ -153,8 +164,8 @@ export default function HeroSection({ data, setPrimaryColor }) {
 	// Generate all spots first
 	useEffect(() => {
 		const generateSpots = () => {
-			const paddingX = Math.min(boundary.width * 0.1, 150);
-			const paddingY = Math.max(boundary.height * 0.1, 150);
+			const paddingX = boundary.width * 0.1;
+			const paddingY = boundary.height * 0.1;
 			const newPositions = [];
 
 			heroSpots?.forEach(() => {

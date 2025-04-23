@@ -1,6 +1,6 @@
+@use '_mixin' as *;
+
 .c-itinerary-card {
-	// TODO
-	// cqi unit fallback
 	--space: clamp(10px, 1rem, 20px);
 	position: relative;
 	container-type: inline-size;
@@ -49,6 +49,7 @@
 		display: block;
 		width: 85%;
 		max-width: 450px;
+		width: Min(85%, 450px);
 		filter: contrast(1.5) grayscale(1);
 		border-radius: 100%;
 		overflow: hidden;
@@ -62,5 +63,14 @@
 		position: relative;
 		width: 160px;
 		z-index: 10;
+	}
+
+	@include mobileDown {
+		gap: calc(var(--space) * 1.5);
+		padding-bottom: calc(var(--space) * 2);
+
+		&__thumb {
+			width: Min(90%, 450px);
+		}
 	}
 }

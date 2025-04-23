@@ -1,3 +1,5 @@
+@use '_mixin' as *;
+
 .c-itinerary-list {
 	position: relative;
 	padding: var(--s-5-v) 0;
@@ -24,6 +26,8 @@
 	}
 
 	.c-carousel {
+		--item-width: Min(600px, 50vw) !important;
+
 		&__container {
 			align-items: stretch;
 			padding: var(--s-5-v) 0;
@@ -35,6 +39,16 @@
 
 		&__dot.is-selected {
 			background-color: var(--cr-primary, var(--cr-black));
+		}
+	}
+
+	@include mobileDown {
+		&__header .t-h-2 {
+			font: var(--t-h-1);
+		}
+
+		.c-carousel {
+			--item-width: Min(450px, 85vw) !important;
 		}
 	}
 }
