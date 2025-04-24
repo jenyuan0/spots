@@ -86,6 +86,7 @@
 	}
 
 	&__support {
+		justify-content: space-between;
 		align-self: stretch;
 		gap: var(--s-5-v);
 		padding: var(--g-spacing-lg);
@@ -235,6 +236,10 @@
 			@include mobileUp {
 				display: none;
 			}
+		}
+
+		.c-accordion__toggle {
+			padding-block: 15px;
 		}
 
 		.c-accordion__title {

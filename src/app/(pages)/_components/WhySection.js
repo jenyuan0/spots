@@ -27,33 +27,36 @@ const useScrollAnimation = ({ ref, index = 0 }) => {
 		[1, 0.9 + 0.01 * index]
 	);
 
-	return useSpring(motionScale, springConfig);
+	return 1;
+	// return useSpring(motionScale, springConfig);
 };
 
 const WhyText = ({ data, color }) => {
 	const { heading, paragraph, offers, cta } = data;
 
 	return (
-		<div className="p-home__why-block__text wysiwyg">
-			<h2 className="p-home__why-block__heading t-b-1">{heading}</h2>
-			<p className="t-h-2">{paragraph}</p>
-			{offers && (
-				<ul className="p-home__why-block__offers t-b-1">
-					{offers?.map((item, index) => (
-						<li key={`offer-${index}`}>{item}</li>
-					))}
-				</ul>
-			)}
-			{cta && (
-				<Button
-					className={clsx('btn-outline', `cr-${color}-d`)}
-					link={cta.link}
-					isNewTab={cta.isNewTab}
-					caret="right"
-				>
-					{cta.label}
-				</Button>
-			)}
+		<div className="p-home__why-block__text">
+			<div className="p-home__why-block__text-container wysiwyg">
+				<h2 className="p-home__why-block__heading t-b-1">{heading}</h2>
+				<p className="t-h-2">{paragraph}</p>
+				{offers && (
+					<ul className="p-home__why-block__offers t-b-1">
+						{offers?.map((item, index) => (
+							<li key={`offer-${index}`}>{item}</li>
+						))}
+					</ul>
+				)}
+				{cta && (
+					<Button
+						className={clsx('btn-outline', `cr-${color}-d`)}
+						link={cta.link}
+						isNewTab={cta.isNewTab}
+						caret="right"
+					>
+						{cta.label}
+					</Button>
+				)}
+			</div>
 		</div>
 	);
 };
@@ -194,10 +197,13 @@ const ClockBlock = ({ data, index, color }) => {
 	}, [clockText]);
 
 	return (
-		<motion.div
+		<div
 			ref={ref}
 			className="p-home__why-block"
-			style={{ scale: springScale, '--cr-primary': `var(--cr-${color}-d)` }}
+			style={{
+				scale: springScale,
+				'--cr-primary': `var(--cr-${color}-d)`,
+			}}
 		>
 			<div className="p-home__why-block__media">
 				<div
@@ -227,7 +233,7 @@ const ClockBlock = ({ data, index, color }) => {
 				</div>
 			</div>
 			<WhyText data={textData} color={color} />
-		</motion.div>
+		</div>
 	);
 };
 
