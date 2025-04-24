@@ -52,8 +52,6 @@ export function Iframe({ data }) {
 }
 
 export default function CustomPortableText({ blocks, hasPTag = true }) {
-	if (!blocks) return null;
-
 	// Memoize components to prevent unnecessary rerenders
 	const portableTextComponents = useMemo(
 		() => ({
@@ -143,5 +141,6 @@ export default function CustomPortableText({ blocks, hasPTag = true }) {
 		[hasPTag]
 	); // Only recompute when hasPTag changes
 
+	if (!blocks) return null;
 	return <PortableText value={blocks} components={portableTextComponents} />;
 }
