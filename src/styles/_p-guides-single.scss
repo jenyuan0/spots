@@ -193,6 +193,10 @@
 
 	@include mobileDown {
 		margin-bottom: var(--s-4-v);
+
+		.c-carousel {
+			--item-gap: 5px !important;
+		}
 	}
 }
 

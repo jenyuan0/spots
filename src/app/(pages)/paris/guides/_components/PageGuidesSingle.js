@@ -134,7 +134,6 @@ const PageGuidesSingle = ({ data = {} }) => {
 				]
 			: []),
 	];
-	const { setAsideMapActive, setAsideMapLocations } = useAsideMap();
 	const heroRef = useRef(null);
 	const [bodyRef, inView] = useInView({
 		rootMargin: '-100% 0% 0% 0%',
@@ -149,6 +148,7 @@ const PageGuidesSingle = ({ data = {} }) => {
 	);
 	const { isTabletScreen } = useWindowDimensions();
 
+	// const { setAsideMapActive, setAsideMapLocations } = useAsideMap();
 	// useEffect(() => {
 	// 	const getLocations = () => {
 	// 		const locationLists =

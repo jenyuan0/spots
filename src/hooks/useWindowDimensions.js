@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 export const breakpoints = {
 	mobile: 600,
 	tablet: 1024,
+	midScreen: 1280,
 	widescreen: 1920,
 };
 
@@ -30,6 +31,7 @@ const getDeviceFlags = (width) => {
 	const isMobileScreen = width <= breakpoints.mobile;
 	const isTabletScreen = width <= breakpoints.tablet;
 	const isDesktopScreen = width > breakpoints.tablet;
+	const isMidScreen = width <= breakpoints.midScreen;
 	const isWideScreen = width >= breakpoints.widescreen;
 
 	return {
@@ -37,6 +39,7 @@ const getDeviceFlags = (width) => {
 		isMobileScreen,
 		isTabletScreen,
 		isDesktopScreen,
+		isMidScreen,
 		isWideScreen,
 	};
 };

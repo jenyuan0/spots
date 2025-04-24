@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { format, add, isSameDay, isSameMonth } from 'date-fns';
+import clsx from 'clsx';
 import LocationCard from '@/components/LocationCard';
 import ResponsiveGrid from '@/components/ResponsiveGrid';
 import ItineraryDay from './ItineraryDay';
@@ -9,6 +10,9 @@ import PlanForm from '@/components/PlanForm';
 import PlanSection from '@/components/PlanSection';
 import Carousel from '@/components/Carousel';
 import Img from '@/components/Image';
+import Button from '@/components/Button';
+import { useInView } from 'react-intersection-observer';
+import useWindowDimensions from '@/hooks/useWindowDimensions';
 
 // TODO:
 // 1. custom background image for each day
@@ -63,9 +67,21 @@ export default function PageItinerarySingle({ data }) {
 			value: `${title}: ${subtitle}`,
 		},
 	];
+	const [bodyRef, inView] = useInView({
+		rootMargin: '-100% 0% 0% 0%',
+	});
+	const { isTabletScreen, isMidScreen } = useWindowDimensions();
 
 	return (
 		<>
+			<Button
+				href={'#plan'}
+				className={clsx('p-itinerary__cta btn', `cr-${color?.title}-d`, {
+					'is-in-view': inView,
+				})}
+			>
+				Plan Your Trip Today
+			</Button>
 			<div
 				className="p-itinerary__header"
 				style={{
@@ -98,6 +114,7 @@ export default function PageItinerarySingle({ data }) {
 			</div>
 
 			<div
+				ref={bodyRef}
 				className="p-itinerary__body"
 				style={{
 					'--cr-primary': `var(--cr-${color?.title || 'brown'}-d)`,
@@ -108,7 +125,7 @@ export default function PageItinerarySingle({ data }) {
 					{images && (
 						<Carousel
 							className="p-itinerary__images"
-							align="start"
+							align={!isTabletScreen ? 'start' : 'center'}
 							gap={'10px'}
 							isShowNav={true}
 						>
@@ -179,6 +196,7 @@ export default function PageItinerarySingle({ data }) {
 						<PlanForm
 							data={planForm}
 							title={false}
+							{...(isMidScreen ? { heading: "What's Included" } : {})}
 							budget={budget}
 							offering={true}
 							hiddenFields={planHiddenFields}
@@ -187,7 +205,7 @@ export default function PageItinerarySingle({ data }) {
 				</div>
 			</div>
 
-			<div className="p-itinerary__contact">
+			<div id="plan" className="p-itinerary__contact">
 				<PlanSection
 					data={data?.planForm}
 					isH1={true}

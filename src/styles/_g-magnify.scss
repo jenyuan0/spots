@@ -74,11 +74,6 @@
 			left: unset;
 			right: var(--s-contain);
 			transform: unset;
-
-			&__label {
-				opacity: 1;
-				transform: translate3d(-100%, -50%, 0);
-			}
 		}
 
 		&__body {
@@ -131,7 +126,8 @@
 
 		img {
 			width: auto;
-			height: 360px;
+			height: clamp(350px, 100vw, 600px);
+			height: clamp(350px, 100vw, 600px);
 		}
 	}
 }

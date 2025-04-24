@@ -103,6 +103,10 @@
 		&__title {
 			padding-top: var(--s-2-v);
 			border-top: 1px solid;
+
+			@include tabletDown {
+				border-color: var(--cr-subtle);
+			}
 		}
 	}
 
@@ -157,7 +161,7 @@
 		}
 	}
 
-	@media screen and (max-width: 1280px) {
+	@include midScreenDown {
 		padding: var(--g-spacing-md);
 
 		&__container {

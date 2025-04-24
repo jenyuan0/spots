@@ -142,7 +142,7 @@
 		}
 	}
 
-	&.is-transparent:not(.is-scrolled) {
+	&.is-transparent:not(.is-scrolled):not(.is-mobile-open) {
 		color: var(--cr-white);
 		background-color: transparent;
 
@@ -162,7 +162,7 @@
 	}
 
 	@include tabletDown {
-		--header-size: 40px;
+		--header-size: 45px;
 		--logo-cta-width: unset;
 		--block-padding: 8px 13px;
 
@@ -263,7 +263,7 @@
 
 	@include mobileDown {
 		&__logo {
-			font-size: 30px;
+			font-size: 36px;
 		}
 	}
 }

@@ -9,6 +9,7 @@
 		margin-bottom: var(--s-section);
 		padding: calc(var(--s-header-space) + var(--s-section)) var(--padding-max)
 			var(--s-4-v);
+		gap: var(--s-4-h);
 		color: var(--cr-cream);
 		background-color: var(--cr-primary);
 
@@ -39,13 +40,22 @@
 			color: var(--cr-primary);
 			background-color: var(--cr-secondary);
 		}
+
+		@include midScreenDown {
+			margin-bottom: 0;
+		}
+
+		@include mobileDown {
+			flex-direction: column;
+			align-items: flex-start;
+		}
 	}
 
 	&__body {
 		display: flex;
 		width: var(--width-max);
 		margin: var(--s-section) auto;
-		gap: var(--s-5-h);
+		gap: var(--s-section) var(--s-5-h);
 		color: var(--cr-primary);
 
 		@include selection {
@@ -56,6 +66,56 @@
 		@media (hover: hover) {
 			*:focus-visible {
 				outline-color: var(--cr-primary) !important;
+			}
+		}
+
+		@include midScreenDown {
+			margin-top: 10px;
+			flex-direction: column;
+
+			.p-itinerary__images {
+				width: 100vw;
+				margin-inline: calc(var(--s-contain) * -1);
+			}
+
+			.c-carousel__button--prev {
+				left: var(--s-contain);
+				transform: translate3d(0, -50%, 0);
+			}
+
+			.c-carousel__button--next {
+				right: var(--s-contain);
+				transform: translate3d(0, -50%, 0);
+			}
+
+			.p-itinerary__accomodations__grid .c-responsive-grid__grid {
+				display: flex;
+				flex-direction: column;
+				width: 100vw;
+				padding-bottom: var(--s-3-v);
+				padding-inline: var(--s-contain);
+				margin-inline: calc(var(--s-contain) * -1);
+				overflow-y: auto;
+				scroll-padding: var(--s-contain);
+				scroll-snap-type: x mandatory;
+				flex-direction: row;
+
+				@include customScrollbarHorizontal;
+
+				.c-card {
+					min-width: Min(420px, 85vw);
+					scroll-snap-align: start;
+				}
+			}
+		}
+
+		@include mobileDown {
+			margin-top: 5px;
+			margin-bottom: var(--s-3-v);
+			gap: var(--s-3-v);
+
+			.c-carousel {
+				--item-gap: 5px !important;
 			}
 		}
 	}
@@ -83,6 +143,28 @@
 		.field textarea {
 			height: 150px;
 		}
+
+		@include midScreenDown {
+			margin: auto;
+
+			.g-plan__form {
+				gap: var(--s-3-v);
+			}
+
+			.c-form {
+				display: none;
+			}
+		}
+
+		@include mobileDown {
+			.g-plan__form {
+				padding-top: 0;
+			}
+
+			&-sticky {
+				padding: var(--s-4-v) var(--s-3-h);
+			}
+		}
 	}
 
 	&__sections {
@@ -90,6 +172,10 @@
 		display: flex;
 		flex-direction: column;
 		gap: var(--s-5-v);
+
+		@include mobileDown {
+			gap: 60px;
+		}
 	}
 
 	&__section {
@@ -113,8 +199,8 @@
 
 		img {
 			width: auto;
-			height: clamp(350px, 100vw, 65vh);
-			height: clamp(350px, 100vw, 65svh);
+			height: clamp(350px, 100vw, 500px);
+			height: clamp(350px, 100vw, 500px);
 		}
 	}
 
@@ -126,6 +212,30 @@
 	&__contact {
 		margin: var(--s-contain);
 	}
+
+	@include mobileDown {
+		&__contact {
+			margin-inline: 0;
+		}
+	}
+
+	&__cta {
+		position: fixed;
+		width: Min(calc(100% - var(--s-contain) * 2), 450px);
+		left: 50%;
+		bottom: var(--s-contain);
+		transform: translate3d(-50%, 0, 0);
+		z-index: 200;
+		transition: transform var(--t-2);
+
+		&:not(.is-in-view) {
+			transform: translate3d(-50%, calc(100% + var(--s-contain)), 0);
+		}
+
+		@include tabletUp {
+			display: none;
+		}
+	}
 }
 
 .p-itinerary__day {
@@ -133,6 +243,7 @@
 	flex-direction: column;
 	justify-content: flex-start;
 	padding: var(--s-4-v) var(--s-4-h);
+	overflow: clip;
 	gap: var(--s-4-v);
 	border-radius: var(--br-3);
 	background-color: var(--cr-white);
@@ -186,7 +297,8 @@
 		}
 
 		.c-accordion.is-active {
-			background-color: var(--cr-cream);
+			// background-color: var(--cr-subtle);
+			// box-shadow: inset 0px 12px 40px rgba(0, 0, 0, 0.15);
 		}
 
 		.c-accordion__subtitle {
@@ -206,6 +318,81 @@
 
 		.c-accordion__inner {
 			padding-bottom: var(--s-4-v);
+		}
+	}
+
+	@include mobileDown {
+		&__header {
+			flex-direction: column;
+		}
+	}
+
+	@include tabletDown {
+		width: 100vw;
+		margin-inline: calc(var(--s-contain) * -1);
+		border-radius: 0;
+		padding: var(--s-3-v) var(--s-3-h);
+
+		&__activities {
+			width: 100vw;
+			margin-inline: calc(var(--s-3-h) * -1);
+
+			.c-accordion__toggle {
+				padding-inline: var(--s-3-h);
+			}
+
+			&__content {
+				padding-left: var(--s-3-h);
+				padding-right: var(--s-3-h);
+			}
+
+			&__locations {
+				padding-right: 0;
+				padding-left: 0;
+			}
+
+			&__locations .c-responsive-grid__grid {
+				display: flex;
+				flex-direction: column;
+				width: 100vw;
+				padding-inline: var(--s-3-h);
+				overflow-y: auto;
+				scroll-padding: var(--s-3-h);
+				scroll-snap-type: x mandatory;
+				flex-direction: row;
+
+				.c-card {
+					min-width: Min(420px, 85vw);
+					scroll-snap-align: start;
+				}
+			}
+		}
+	}
+
+	@include mobileDown {
+		gap: var(--s-3-v);
+
+		.c-accordion__toggle {
+			display: grid;
+			grid-template-columns: 1fr 30px;
+			grid-template-rows: auto auto;
+			gap: 5px 10px;
+			padding: 15px 10px;
+		}
+
+		.c-accordion__subtitle {
+			grid-column: 1;
+			grid-row: 1;
+		}
+
+		.c-accordion__title {
+			grid-column: 1;
+			grid-row: 2;
+		}
+
+		.c-accordion__icon {
+			grid-column: 2;
+			grid-row: 1 / span 2; /* Spans both rows */
 		}
 	}
 

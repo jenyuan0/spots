@@ -12,6 +12,7 @@ import Accordion from '@/components/Accordions/Accordion';
 import Map from '@/components/Map';
 import { IconMaximize, IconMinimize } from '@/components/SvgIcons';
 import ResponsiveGrid from '@/components/ResponsiveGrid';
+import useWindowDimensions from '@/hooks/useWindowDimensions';
 
 // Helper functions
 const getActivitiesPlusRes = (activities, reservations, date) =>
@@ -61,6 +62,7 @@ export default function ItineraryDay({
 		reservations,
 		date
 	);
+	const { isMobileScreen, isTabletScreen } = useWindowDimensions();
 
 	// State management
 	const [isMapActive, setIsMapActive] = useState(false);
@@ -154,7 +156,12 @@ export default function ItineraryDay({
 									<LocationCard
 										key={`item-${index}`}
 										data={item}
-										layout={`horizontal-${locations.length == 1 ? '2' : '1'}`}
+										// layout={`horizontal-${locations.length == 1 ? '2' : '1'}`}
+										layout={
+											!isTabletScreen
+												? `horizontal-${locations.length == 1 ? '2' : '1'}`
+												: 'vertical-2'
+										}
 										hasDirection={true}
 									/>
 								))}
