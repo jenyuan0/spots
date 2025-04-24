@@ -1,16 +1,15 @@
-.p-trip-ready {
+.p-trip-ready__header {
+	width: var(--width-med);
+	margin: var(--s-section) auto;
+	margin-top: calc(var(--s-header) + var(--s-section));
+	text-align: center;
+
 	.c-breadcrumb {
 		justify-content: center;
 	}
+}
 
-	&__header {
-		margin: var(--s-section) auto;
-		padding: 0 var(--padding-lge);
-		text-align: center;
-	}
-
-	&__grid {
-		width: var(--width-max);
-		margin: var(--s-section) auto;
-	}
+.p-trip-ready__body {
+	width: var(--width-max);
+	margin: var(--s-section) auto;
 }

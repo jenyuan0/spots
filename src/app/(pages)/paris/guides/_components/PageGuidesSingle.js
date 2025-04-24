@@ -5,11 +5,12 @@
 // add social
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { hasArrayValue, springConfig } from '@/lib/helpers';
 import { format } from 'date-fns';
 import Img from '@/components/Image';
+import Button from '@/components/Button';
 import CustomPortableText from '@/components/CustomPortableText';
 import useAsideMap from '@/hooks/useAsideMap';
 import Breadcrumb from '@/components/Breadcrumb';
@@ -18,6 +19,97 @@ import ItineraryCard from '@/components/ItineraryCard';
 import CategoryPillList from '@/components/CategoryPillList';
 import ResponsiveGrid from '@/components/ResponsiveGrid';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import useWindowDimensions from '@/hooks/useWindowDimensions';
+
+function Excerpt({ data }) {
+	const { excerpt } = data;
+
+	return (
+		excerpt && (
+			<div className="p-guide__content">
+				<div className="p-guide__content__sidebar">
+					<div className="t-l-1">Intro</div>
+				</div>
+				<div className="p-guide__content__content">
+					<p
+						className={clsx('p-guide__excerpt', {
+							't-h-2': excerpt.split(' ').length <= 50,
+							't-h-3': excerpt.split(' ').length > 50,
+						})}
+					>
+						{excerpt}
+					</p>
+				</div>
+				<div className="p-guide__content__sidebar" />
+			</div>
+		)
+	);
+}
+
+function Itineraries({ data, isInView }) {
+	const { itineraries } = data;
+	const [isOpen, setIsOpen] = useState(false);
+	return (
+		itineraries?.length > 0 && (
+			<section
+				className={clsx('p-guide__itineraries', {
+					'is-open': isOpen,
+					'is-in-view': isInView,
+				})}
+			>
+				<Button
+					className="p-guide__itineraries__toggle"
+					onClick={() => setIsOpen(!isOpen)}
+				>
+					<div className="btn-underline cr-green-d">
+						{/* {isOpen && <span className="icon-close" />} */}
+						{!isOpen ? 'View recommended itineraries' : 'Close Itineraries'}
+					</div>
+				</Button>
+				{itineraries.map((itinerary) => (
+					<ItineraryCard key={itinerary._id} data={itinerary} />
+				))}
+			</section>
+		)
+	);
+}
+
+function Related({ data }) {
+	const { related, defaultRelated, colorHex } = data;
+	const allItems = [...(related || []), ...(defaultRelated || [])];
+	return (
+		allItems.length > 0 && (
+			<section
+				className="p-guide__related"
+				style={{ '--cr-primary': colorHex }}
+			>
+				<div className="p-guide__content">
+					<div className="p-guide__content__sidebar">
+						<h2 className="t-l-1">Continue Reading</h2>
+					</div>
+					<div className="p-guide__content__content wysiwyg-page">
+						<ResponsiveGrid className="p-guide__related__list">
+							{[...Array(4)].map((_, index) => {
+								const item = allItems[index];
+								return (
+									item && (
+										<GuideCard
+											key={item._id}
+											data={item}
+											layout="horizontal-1"
+										/>
+									)
+								);
+							})}
+						</ResponsiveGrid>
+					</div>
+					<div className="p-guide__content__sidebar" />
+				</div>
+			</section>
+		)
+	);
+}
 
 const PageGuidesSingle = ({ data = {} }) => {
 	const {
@@ -28,26 +120,8 @@ const PageGuidesSingle = ({ data = {} }) => {
 		categories = [],
 		subcategories,
 		showMap,
-		excerpt,
 		content,
-		itineraries,
-		related = [],
-		defaultRelated = [],
 	} = data;
-
-	const { setAsideMapActive, setAsideMapLocations } = useAsideMap();
-
-	const ref = useRef(null);
-	const { scrollYProgress } = useScroll({
-		target: ref,
-		offset: ['start start', 'end start'],
-	});
-
-	const springScale = useSpring(
-		useTransform(scrollYProgress, [0, 1], [1, 0.3]),
-		springConfig
-	);
-
 	const breadcrumb = [
 		{ title: 'Paris', url: '/paris' },
 		{ title: 'Guides', url: '/paris/guides' },
@@ -60,112 +134,59 @@ const PageGuidesSingle = ({ data = {} }) => {
 				]
 			: []),
 	];
+	const { setAsideMapActive, setAsideMapLocations } = useAsideMap();
+	const heroRef = useRef(null);
+	const [bodyRef, inView] = useInView({
+		rootMargin: '-100% 0% 0% 0%',
+	});
+	const { scrollYProgress } = useScroll({
+		target: heroRef,
+		offset: ['start start', 'end start'],
+	});
+	const springScale = useSpring(
+		useTransform(scrollYProgress, [0, 1], [1, 0.3]),
+		springConfig
+	);
+	const { isTabletScreen } = useWindowDimensions();
 
-	useEffect(() => {
-		const getLocations = () => {
-			const locationLists =
-				content
-					?.filter((item) => item._type === 'locationList')
-					?.reduce(
-						(acc, curr) =>
-							curr?.locations ? [...acc, ...curr.locations] : acc,
-						[]
-					) || [];
+	// useEffect(() => {
+	// 	const getLocations = () => {
+	// 		const locationLists =
+	// 			content
+	// 				?.filter((item) => item._type === 'locationList')
+	// 				?.reduce(
+	// 					(acc, curr) =>
+	// 						curr?.locations ? [...acc, ...curr.locations] : acc,
+	// 					[]
+	// 				) || [];
 
-			const singleLocations =
-				content
-					?.filter((item) => item._type === 'locationSingle')
-					?.map((item) => item.location)
-					?.filter(Boolean) || [];
+	// 		const singleLocations =
+	// 			content
+	// 				?.filter((item) => item._type === 'locationSingle')
+	// 				?.map((item) => item.location)
+	// 				?.filter(Boolean) || [];
 
-			return [...locationLists, ...singleLocations].filter(
-				(location, index, self) =>
-					self.findIndex(
-						(l) => JSON.stringify(l) === JSON.stringify(location)
-					) === index
-			);
-		};
+	// 		return [...locationLists, ...singleLocations].filter(
+	// 			(location, index, self) =>
+	// 				self.findIndex(
+	// 					(l) => JSON.stringify(l) === JSON.stringify(location)
+	// 				) === index
+	// 		);
+	// 	};
 
-		const locations = getLocations();
+	// 	const locations = getLocations();
 
-		// Small timeout to ensure DOM is ready
-		requestAnimationFrame(() => {
-			setAsideMapLocations(locations);
-			setAsideMapActive(locations.length && showMap);
-		});
-	}, [content, showMap, setAsideMapActive, setAsideMapLocations]);
-
-	const renderExcerpt = () =>
-		excerpt && (
-			<div className="p-guide__content">
-				<div className="p-guide__content__sidebar">
-					<div className="t-l-1">Intro</div>
-				</div>
-				<div className="p-guide__content__content wysiwyg-page">
-					<p
-						className={clsx('p-guide__excerpt', {
-							't-h-2': excerpt.split(' ').length <= 65,
-							't-h-3': excerpt.split(' ').length > 65,
-						})}
-					>
-						{excerpt}
-					</p>
-				</div>
-				<div className="p-guide__content__sidebar" />
-			</div>
-		);
-
-	const renderItineraries = () => {
-		return (
-			itineraries?.length > 0 && (
-				<section className="p-guide__itineraries">
-					{itineraries.map((itinerary) => (
-						<ItineraryCard key={itinerary._id} data={itinerary} />
-					))}
-				</section>
-			)
-		);
-	};
-
-	const renderRelated = () => {
-		const allItems = [...(related || []), ...(defaultRelated || [])];
-		return (
-			allItems.length > 0 && (
-				<section
-					className="p-guide__related"
-					style={{ '--cr-primary': colorHex }}
-				>
-					<div className="p-guide__content">
-						<div className="p-guide__content__sidebar">
-							<h2 className="t-l-1">Continue Reading</h2>
-						</div>
-						<div className="p-guide__content__content wysiwyg-page">
-							<ResponsiveGrid className="p-guide__related__list">
-								{[...Array(4)].map((_, index) => {
-									const item = allItems[index];
-									return (
-										item && (
-											<GuideCard
-												key={item._id}
-												data={item}
-												layout="horizontal-1"
-											/>
-										)
-									);
-								})}
-							</ResponsiveGrid>
-						</div>
-						<div className="p-guide__content__sidebar" />
-					</div>
-				</section>
-			)
-		);
-	};
+	// 	// Small timeout to ensure DOM is ready
+	// 	requestAnimationFrame(() => {
+	// 		setAsideMapLocations(locations);
+	// 		setAsideMapActive(locations.length && showMap);
+	// 	});
+	// }, [content, showMap, setAsideMapActive, setAsideMapLocations]);
 
 	return (
 		<>
 			<section
-				ref={ref}
+				ref={heroRef}
 				className="p-guide__hero"
 				style={{ '--cr-primary': colorHex }}
 			>
@@ -176,7 +197,7 @@ const PageGuidesSingle = ({ data = {} }) => {
 				{thumb && (
 					<motion.div
 						className="p-guide__hero__image"
-						style={{ scale: springScale }}
+						style={{ scale: !isTabletScreen ? springScale : undefined }}
 					>
 						<span className="object-fit">
 							<Img image={thumb} />
@@ -184,9 +205,12 @@ const PageGuidesSingle = ({ data = {} }) => {
 					</motion.div>
 				)}
 			</section>
-
-			<section className="p-guide__body" style={{ '--cr-primary': colorHex }}>
-				{renderExcerpt()}
+			<section
+				ref={bodyRef}
+				className="p-guide__body"
+				style={{ '--cr-primary': colorHex }}
+			>
+				<Excerpt data={data} />
 				<div className="p-guide__content">
 					<div className="p-guide__content__sidebar">
 						<div className="t-l-1">Published by SPOTS Staff</div>
@@ -206,9 +230,8 @@ const PageGuidesSingle = ({ data = {} }) => {
 					</div>
 				</div>
 			</section>
-
-			{renderItineraries()}
-			{renderRelated()}
+			<Itineraries data={data} isInView={inView} />
+			<Related data={data} />
 		</>
 	);
 };

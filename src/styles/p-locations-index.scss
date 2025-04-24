@@ -1,6 +1,7 @@
 .p-locations__header {
 	width: var(--width-med);
 	margin: var(--s-section) auto;
+	margin-top: calc(var(--s-header) + var(--s-section));
 	text-align: center;
 
 	.c-breadcrumb {
@@ -13,15 +14,14 @@
 	margin: var(--s-section) auto;
 }
 
-.p-locations__categories {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 10px;
-	margin-bottom: var(--s-4-v);
+.p-locations__filters {
+	.c-category-pill-list {
+		justify-content: center;
+		margin-bottom: var(--s-4-v);
 
-	.pill:not(.is-active):not(:hover) {
-		--cr-primary: var(--cr-subtle) !important;
-		--cr-secondary: var(--cr-brown) !important;
+		.pill:not(.is-active):not(:hover) {
+			--cr-primary: var(--cr-subtle) !important;
+			--cr-secondary: var(--cr-brown) !important;
+		}
 	}
 }

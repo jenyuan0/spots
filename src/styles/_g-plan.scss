@@ -229,11 +229,8 @@
 			margin-bottom: var(--s-4-v);
 		}
 
-		&__toggle {
-			align-self: center;
-			margin-bottom: var(--s-4-v);
-
-			@include mobileUp {
+		@include mobileUp {
+			&__toggle {
 				display: none;
 			}
 		}
@@ -259,18 +256,29 @@
 			overflow-y: auto;
 			bottom: 0px;
 			left: 0;
-			padding: var(--g-spacing-sm);
+			padding: 0 var(--s-3-h) var(--s-3-v);
 			border-top: 1px solid;
 			background-color: var(--cr-cream);
-			z-index: 200;
+			z-index: 150;
 
 			&:not(.is-open) {
-				transform: translate3d(0, calc(100% - 13px - var(--s-3-v) * 2), 0);
+				transform: translate3d(0, calc(100% - 45px), 0);
 				background-color: var(--cr-white);
 			}
 
 			&:not(.is-open):not(.is-in-view) {
 				transform: translate3d(0, 100%, 0);
+			}
+
+			&__toggle {
+				position: sticky;
+				width: 100vw;
+				margin-inline: calc(var(--s-3-h) * -1);
+				margin-bottom: var(--s-4-v);
+				min-height: 45px;
+				top: 0;
+				background-color: var(--cr-cream);
+				z-index: 155;
 			}
 		}
 	}

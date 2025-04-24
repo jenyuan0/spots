@@ -21,23 +21,25 @@ export default function PageReadyToBook({ data }) {
 	// or 'most popular filters'
 
 	return (
-		<section className="p-trip-ready">
-			<div className="p-trip-ready__header wysiwyg">
+		<>
+			<section className="p-trip-ready__header wysiwyg">
 				<Breadcrumb data={breadcrumb} />
 				<h1 className="t-h-1">{title}</h1>
-			</div>
-			<ResponsiveGrid className="p-trip-ready__grid" size="lge">
-				{itineraries?.map((item, index) => {
-					return (
-						<div
-							key={`itineraries-${item._id}-${index}`}
-							className="p-paris__itineraries__item"
-						>
-							<ItineraryCard data={item} />
-						</div>
-					);
-				})}
-			</ResponsiveGrid>
-		</section>
+			</section>
+			<section className="p-trip-ready__body">
+				<ResponsiveGrid size="lge">
+					{itineraries?.map((item, index) => {
+						return (
+							<div
+								key={`itineraries-${item._id}-${index}`}
+								className="p-paris__itineraries__item"
+							>
+								<ItineraryCard data={item} />
+							</div>
+						);
+					})}
+				</ResponsiveGrid>
+			</section>
+		</>
 	);
 }

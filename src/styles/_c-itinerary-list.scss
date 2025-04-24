@@ -2,7 +2,8 @@
 
 .c-itinerary-list {
 	position: relative;
-	padding: var(--s-5-v) 0;
+	padding-top: var(--s-5-v);
+	padding-bottom: var(--s-4-v);
 	color: var(--cr-primary);
 	background-color: var(--cr-white);
 	border-top: 1px solid;
@@ -43,6 +44,9 @@
 	}
 
 	@include mobileDown {
+		padding-top: var(--s-section);
+		padding-bottom: var(--s-3-v);
+
 		&__header .t-h-2 {
 			font: var(--t-h-1);
 		}

@@ -1,5 +1,5 @@
 import { PortableText } from '@portabletext/react';
-import React from 'react';
+import React, { useMemo } from 'react';
 import Link from '@/components/CustomLink';
 import PortableTable from './PortableTable';
 import Img from '@/components/Image';
@@ -54,90 +54,94 @@ export function Iframe({ data }) {
 export default function CustomPortableText({ blocks, hasPTag = true }) {
 	if (!blocks) return null;
 
-	const portableTextComponents = {
-		block: {
-			...(!hasPTag && { normal: ({ children }) => <>{children}</> }),
-			h1: ({ children }) => <h1>{children}</h1>,
-			h2: ({ children }) => <h2>{children}</h2>,
-			h3: ({ children }) => <h3>{children}</h3>,
-			h4: ({ children }) => <h4>{children}</h4>,
-			h5: ({ children }) => <h5>{children}</h5>,
-			h6: ({ children }) => <h6>{children}</h6>,
-			'large-paragraph': ({ children }) => (
-				<p className="large-paragraph">{children}</p>
-			),
-		},
-		list: {
-			bullet: ({ children }) => <ul>{children}</ul>,
-			number: ({ children }) => <ol>{children}</ol>,
-		},
-		types: {
-			image: (data) => <Image data={data?.value} />,
-			iframe: (data) => <Iframe data={data?.value} />,
-			portableTable: (data) => {
-				return <PortableTable blocks={data?.value} />;
+	// Memoize components to prevent unnecessary rerenders
+	const portableTextComponents = useMemo(
+		() => ({
+			block: {
+				...(!hasPTag && { normal: ({ children }) => <>{children}</> }),
+				h1: ({ children }) => <h1>{children}</h1>,
+				h2: ({ children }) => <h2>{children}</h2>,
+				h3: ({ children }) => <h3>{children}</h3>,
+				h4: ({ children }) => <h4>{children}</h4>,
+				h5: ({ children }) => <h5>{children}</h5>,
+				h6: ({ children }) => <h6>{children}</h6>,
+				'large-paragraph': ({ children }) => (
+					<p className="large-paragraph">{children}</p>
+				),
 			},
-			carousel: (data) => {
-				const { value } = data;
-
-				if (!value?.items) return null;
-
-				return (
-					<Carousel gap={'10px'}>
-						{value.items.map((item, i) => (
-							<div key={`image-${i}`} className="c-carousel-item">
-								{item._type == 'image' ? (
-									<>
-										<Image data={item} />
-									</>
-								) : (
-									<Iframe data={item} />
-								)}
-							</div>
-						))}
-					</Carousel>
-				);
+			list: {
+				bullet: ({ children }) => <ul>{children}</ul>,
+				number: ({ children }) => <ol>{children}</ol>,
 			},
-			locationSingle: (data) => {
-				const { value } = data;
+			types: {
+				image: (data) => <Image data={data?.value} />,
+				iframe: (data) => <Iframe data={data?.value} />,
+				portableTable: (data) => {
+					return <PortableTable blocks={data?.value} />;
+				},
+				carousel: (data) => {
+					const { value } = data;
 
-				if (!value?.location) return null;
+					if (!value?.items) return null;
 
-				return (
-					<LocationCard
-						data={value.location}
-						contentReplace={value.contentReplace}
-						color={value?.location?.color}
-						layout="embed"
-						hasDirection={true}
-					/>
-				);
-			},
-			locationList: (props) => {
-				const { value } = props;
+					return (
+						<Carousel gap={'10px'}>
+							{value.items.map((item, i) => (
+								<div key={`image-${i}`} className="c-carousel-item">
+									{item._type == 'image' ? (
+										<>
+											<Image data={item} />
+										</>
+									) : (
+										<Iframe data={item} />
+									)}
+								</div>
+							))}
+						</Carousel>
+					);
+				},
+				locationSingle: (data) => {
+					const { value } = data;
 
-				if (!value?.locations) return null;
+					if (!value?.location) return null;
 
-				return <LocationList data={value} />;
+					return (
+						<LocationCard
+							data={value.location}
+							contentReplace={value.contentReplace}
+							color={value?.location?.color}
+							layout="embed"
+							hasDirection={true}
+						/>
+					);
+				},
+				locationList: (props) => {
+					const { value } = props;
+
+					if (!value?.locations) return null;
+
+					return <LocationList data={value} />;
+				},
 			},
-		},
-		marks: {
-			link: ({ value, children }) => {
-				return (
-					<Link href={value?.route} isNewTab={value?.isNewTab}>
-						{children}
-					</Link>
-				);
+			marks: {
+				link: ({ value, children }) => {
+					return (
+						<Link href={value?.route} isNewTab={value?.isNewTab}>
+							{children}
+						</Link>
+					);
+				},
+				callToAction: ({ value, children }) => {
+					return (
+						<Link href={value?.route} isNewTab={value?.isNewTab}>
+							{children}
+						</Link>
+					);
+				},
 			},
-			callToAction: ({ value, children }) => {
-				return (
-					<Link href={value?.route} isNewTab={value?.isNewTab}>
-						{children}
-					</Link>
-				);
-			},
-		},
-	};
+		}),
+		[hasPTag]
+	); // Only recompute when hasPTag changes
 
 	return <PortableText value={blocks} components={portableTextComponents} />;
 }

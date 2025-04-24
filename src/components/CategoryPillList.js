@@ -5,6 +5,7 @@ export default function CategoryPillList({
 	categories,
 	subcategories,
 	limit,
+	children,
 	isLink = false,
 }) {
 	const allCategories = [...(categories || []), ...(subcategories || [])];
@@ -12,6 +13,7 @@ export default function CategoryPillList({
 
 	return (
 		<ul className="c-category-pill-list">
+			{children}
 			{finalCategories.map((item) => (
 				<li key={`${item._id}`}>
 					<CategoryPill className="pill" data={item} isLink={isLink} />

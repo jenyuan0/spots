@@ -113,8 +113,8 @@
 
 		img {
 			width: auto;
-			height: clamp(350px, 80vh, 600px);
-			height: clamp(350px, 80svh, 600px);
+			height: clamp(350px, 100vw, 65vh);
+			height: clamp(350px, 100vw, 65svh);
 		}
 	}
 

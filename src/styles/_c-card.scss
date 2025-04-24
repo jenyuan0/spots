@@ -38,6 +38,10 @@
 			flex: 1;
 			background-color: var(--cr-subtle);
 		}
+
+		@include mobileDown {
+			gap: 4px;
+		}
 	}
 
 	&__lightbox {
@@ -114,6 +118,13 @@
 		z-index: 10;
 	}
 
+	&[style*='--cr-card-bg'] {
+		.pill {
+			--cr-primary: var(--cr-subtle) !important;
+			--cr-secondary: var(--cr-cream) !important;
+		}
+	}
+
 	@media (hover: hover) {
 		&:hover &__lightbox {
 			opacity: 1;
@@ -126,13 +137,6 @@
 		background-color: var(--cr-primary);
 	}
 }
-
-// .c-card[style*='--cr-primary'] {
-// 	.c-card__categories .pill {
-// 		color: var(--cr-primary);
-// 		background-color: var(--cr-cream);
-// 	}
-// }
 
 .c-card[data-layout*='vertical'] {
 	flex-direction: column;
@@ -270,5 +274,13 @@
 
 	.c-card__actions {
 		margin-top: 20px;
+	}
+
+	@include tabletDown {
+		gap: 30px;
+
+		.c-card__title {
+			font: var(--t-h-2);
+		}
 	}
 }

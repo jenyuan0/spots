@@ -5,6 +5,7 @@ import LocationsPagination from './LocationsPagination';
 import LocationsInfiniteScroll from './LocationsInfiniteScroll';
 import Breadcrumb from '@/components/Breadcrumb';
 import CategoryPill from '@/components/CategoryPill';
+import CategoryPillList from '@/components/CategoryPillList';
 import CustomPortableText from '@/components/CustomPortableText';
 
 export default function PageLocationsIndex({ data }) {
@@ -37,27 +38,20 @@ export default function PageLocationsIndex({ data }) {
 			</section>
 			<section className="p-locations__body">
 				{categories && (
-					<ul className="p-locations__categories">
-						<li className="t-l-2">Filter:</li>
-						<li>
-							<CategoryPill
-								className="pill"
-								data={categoryAll}
-								isLink={true}
-								isActive={!categorySlug}
-							/>
-						</li>
-						{categories.map((item) => (
-							<li key={`category-${item._id}`}>
+					<div className="p-guides__filters">
+						<CategoryPillList categories={categories} isLink={true}>
+							<li className="c-category-pill-list__title t-l-2">Filter:</li>
+							<li>
 								<CategoryPill
 									className="pill"
-									data={item}
+									data={categoryAll}
+									postType={'guides'}
 									isLink={true}
-									isActive={categorySlug == item.slug}
+									isActive={!categorySlug}
 								/>
 							</li>
-						))}
-					</ul>
+						</CategoryPillList>
+					</div>
 				)}
 				{paginationMethod === 'page-numbers' || !paginationMethod ? (
 					<Suspense>

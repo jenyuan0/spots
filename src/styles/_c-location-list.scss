@@ -1,6 +1,8 @@
+@use '_mixin' as *;
+
 .c-location-list {
 	&__title {
-		padding-block: 20px;
+		padding-block: var(--s-3-v);
 		border-top: 1px solid;
 	}
 
@@ -11,5 +13,12 @@
 
 	&__item-content {
 		margin-top: var(--s-3-v);
+	}
+
+	@include mobileDown {
+		&__title {
+			padding-block: 15px;
+			margin-bottom: 5px;
+		}
 	}
 }

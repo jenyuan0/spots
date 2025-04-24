@@ -1,11 +1,22 @@
+@use '_mixin' as *;
+
 .c-category-pill-list {
 	display: flex;
-	gap: 8px 5px;
+	gap: 8px;
 	min-width: 0px;
 	flex-wrap: wrap;
 	list-style: none;
+	align-items: center;
 
 	.pill {
 		text-decoration: unset;
+	}
+
+	@include mobileDown {
+		&__title {
+			width: 100%;
+			margin-bottom: 10px;
+			text-align: center;
+		}
 	}
 }

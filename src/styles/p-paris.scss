@@ -1,6 +1,10 @@
+@use '_mixin' as *;
+
 .p-paris__locations {
 	position: relative;
-	margin: var(--s-section) auto 0;
+	margin-inline: auto;
+	overflow: clip;
+	padding-top: var(--s-header-space);
 
 	&__text {
 		width: var(--width-sml);
@@ -12,8 +16,7 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			margin: var(--s-4-v) auto;
-			gap: 10px;
+			margin-block: var(--s-3-v);
 		}
 
 		.pill:not(.is-active):not(:hover) {
@@ -24,10 +27,11 @@
 
 	&__dots {
 		position: absolute;
-		width: var(--width-lge);
-		left: 50%;
 		top: 0;
-		transform: translate3d(-50%, -15%, 0);
+		left: 50%;
+		transform: translate3d(-50%, 0, 0);
+		width: 100%;
+		padding-inline: var(--padding-max);
 		aspect-ratio: 1;
 		display: flex;
 		align-items: flex-start;
@@ -57,6 +61,25 @@
 		left: 50%;
 		pointer-events: auto;
 	}
+
+	@include tabletDown {
+		&__dots {
+			width: 140%;
+		}
+	}
+
+	@include mobileDown {
+		&__text {
+			width: var(--width-sml);
+			text-align: center;
+			margin: auto;
+			padding-block: var(--s-5-v);
+
+			.c-category-pill-list {
+				margin-block: 0;
+			}
+		}
+	}
 }
 
 .p-paris__content-list {
@@ -65,7 +88,7 @@
 	display: flex;
 	width: var(--width-lge);
 	margin: var(--s-section) auto;
-	gap: var(--s-5-h);
+	gap: var(--s-section) var(--s-5-h);
 
 	&__column {
 		flex: 1;
@@ -82,6 +105,39 @@
 		display: flex;
 		flex-direction: column;
 		gap: 10px;
+	}
+
+	@media screen and (max-width: 1280px) {
+		flex-direction: column;
+
+		&__items {
+			width: 100vw;
+			padding-bottom: var(--s-3-v);
+			padding-inline: var(--s-contain);
+			margin-inline: calc(var(--s-contain) * -1);
+			overflow-y: auto;
+			scroll-padding: var(--s-contain);
+			scroll-snap-type: x mandatory;
+			flex-direction: row;
+
+			@include customScrollbarHorizontal;
+		}
+
+		.c-card {
+			min-width: Min(500px, 85vw);
+			scroll-snap-align: start;
+		}
+	}
+
+	@include tabletDown {
+		&__subtitle {
+			font: var(--t-h-2);
+		}
+
+		.c-card {
+			min-width: Min(360px, 75vw);
+			scroll-snap-align: start;
+		}
 	}
 }
 
@@ -100,7 +156,7 @@
 		display: grid;
 		grid-template-columns: repeat(4, 1fr);
 		grid-auto-flow: row;
-		gap: var(--s-5-v) var(--s-5-h);
+		gap: var(--s-5-v) var(--s-4-h);
 
 		@media screen and (max-width: 1400px) {
 			grid-template-columns: repeat(2, 1fr);
@@ -108,9 +164,8 @@
 
 		&__header {
 			display: block;
-			margin-bottom: var(--s-3-v);
 			padding-bottom: var(--s-3-v);
-			border-bottom: 1px solid;
+			border-bottom: 1px solid var(--cr-subtle);
 
 			h3 {
 				margin-bottom: 5px;
@@ -138,6 +193,28 @@
 			li:not(:has(a)) {
 				display: flex;
 				padding: var(--s-3-v) 0;
+			}
+		}
+	}
+
+	@include mobileDown {
+		padding-top: 0;
+		border-top: 0;
+
+		&__table {
+			grid-template-columns: repeat(1, 1fr);
+			gap: var(--s-3-v);
+
+			&__section {
+				padding: 24px;
+				background-color: var(--cr-white);
+			}
+
+			&__body {
+				li a,
+				li:not(:has(a)) {
+					padding: var(--s-2-v) 0;
+				}
 			}
 		}
 	}

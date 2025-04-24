@@ -82,11 +82,12 @@ function Faq({ faq, isInView }) {
 			})}
 		>
 			<Button
-				className="g-plan__faq__toggle btn-underline cr-green-d"
+				className="g-plan__faq__toggle"
 				onClick={() => setIsOpen(!isOpen)}
 			>
-				{isOpen && <span className="icon-close" />}
-				{!isOpen ? 'More questions? See our FAQ' : 'Close FAQ'}
+				<div className=" btn-underline cr-green-d">
+					{!isOpen ? 'Have questions? See our FAQ' : 'Close FAQ'}
+				</div>
 			</Button>
 			<h3 className="g-plan__faq__title t-h-4">Frequently asked questions</h3>
 			<div className="g-plan__faq__content">

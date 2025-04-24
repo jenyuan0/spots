@@ -81,6 +81,11 @@
 
 	&__toggle {
 		@include asideToggle;
+
+		.pill {
+			--cr-primary: var(--cr-brown-d);
+			--cr-secondary: var(--cr-brown-l);
+		}
 	}
 
 	.is-expand &__toggle {

@@ -116,6 +116,23 @@
 	}
 }
 
+@mixin customScrollbarHorizontal($color: var(--cr-brown-d)) {
+	&::-webkit-scrollbar {
+		height: 5px;
+	}
+
+	&::-webkit-scrollbar-track {
+		border-radius: 10px;
+		background-color: var(--cr-subtle-2);
+		margin-inline: var(--padding-sml);
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: $color;
+		border-radius: 10px;
+	}
+}
+
 // ***Buttons***
 @mixin triggerProperties {
 	--size: 40px;

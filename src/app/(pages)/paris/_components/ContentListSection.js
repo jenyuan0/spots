@@ -4,10 +4,12 @@ import React, { useId, useCallback, useMemo } from 'react';
 import CustomPortableText from '@/components/CustomPortableText';
 import GuideCard from '@/components/GuideCard';
 import LocationCard from '@/components/LocationCard';
+import useWindowDimensions from '@/hooks/useWindowDimensions';
 
 export default function ContentListSection({ data }) {
 	const { contentList } = data;
 	const id = useId();
+	const { isTabletScreen } = useWindowDimensions();
 
 	const processCardsPreserveDirectOrder = useCallback(
 		(itemArrays, maxItems = Infinity) => {
@@ -66,14 +68,14 @@ export default function ContentListSection({ data }) {
 				<GuideCard
 					key={key}
 					data={el}
-					layout="horizontal-1"
+					layout={!isTabletScreen ? 'horizontal-1' : 'vertical-1'}
 					aria-label={`Guide card ${index + 1}`}
 				/>
 			) : (
 				<LocationCard
 					key={key}
 					data={el}
-					layout="horizontal-1"
+					layout={!isTabletScreen ? 'horizontal-1' : 'vertical-2'}
 					aria-label={`Location card ${index + 1}`}
 				/>
 			);
@@ -84,7 +86,9 @@ export default function ContentListSection({ data }) {
 	// Process all cards upfront using useMemo
 	const processedCards = useMemo(
 		() =>
-			contentList.map((item) => processCardsPreserveDirectOrder(item.items, 4)),
+			contentList.map((item) =>
+				processCardsPreserveDirectOrder(item.items, !isTabletScreen ? 4 : 8)
+			),
 		[contentList, processCardsPreserveDirectOrder]
 	);
 

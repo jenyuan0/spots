@@ -298,19 +298,14 @@ input[disabled] {
 		width: 0.9em;
 	}
 
-	&.cr-brown-d {
-		--cr-primary: var(--cr-brown-d);
-		--cr-secondary: var(--cr-brown-l);
-	}
-
 	@include selection {
 		color: var(--cr-secondary);
 		background-color: var(--cr-primary);
 	}
 
 	&.is-active {
-		color: var(--cr-primary, var(--cr-subtle));
-		background-color: var(--cr-secondary, var(--cr-brown));
+		color: var(--cr-secondary, var(--cr-subtle));
+		background-color: var(--cr-primary, var(--cr-brown));
 	}
 
 	@media (hover: hover) {

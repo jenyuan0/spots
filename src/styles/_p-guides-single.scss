@@ -1,27 +1,28 @@
 @use '_mixin' as *;
 
 .p-guide__hero {
+	--s-bottom: var(--s-5-v);
 	position: relative;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-between;
 	padding-inline: var(--padding-med);
-	padding-top: calc(var(--s-header) + var(--s-5-v));
-	padding-bottom: var(--s-5-v);
+	padding-top: calc(var(--s-header) + var(--s-bottom));
+	padding-bottom: var(--s-bottom);
 	gap: var(--s-4-v);
 	text-align: center;
 	color: var(--cr-cream);
 	background-color: var(--cr-primary);
 
 	&:has(&__image) {
-		margin-bottom: calc(Min(600px, 90vw) / 2 + var(--s-5-v));
+		margin-bottom: calc(Min(600px, 90vw) / 2 + var(--s-bottom));
 	}
 
 	&__image {
 		position: relative;
 		width: Min(600px, 90vw);
-		margin-bottom: calc((Min(600px, 90vw) / 2 + var(--s-5-v)) * -1);
+		margin-bottom: calc((Min(600px, 90vw) / 2 + var(--s-bottom)) * -1);
 		aspect-ratio: 1;
 		overflow: hidden;
 		border-radius: 100%;
@@ -39,6 +40,20 @@
 	@include selection {
 		color: var(--cr-primary);
 		background-color: var(--cr-cream);
+	}
+
+	@include tabletDown {
+		--s-bottom: var(--s-4-v);
+	}
+
+	@include mobileDown {
+		&__text {
+			width: 80%;
+		}
+
+		.t-h-1 {
+			font: var(--t-h-2);
+		}
 	}
 }
 
@@ -67,13 +82,45 @@
 	&__sidebar-right {
 		display: flex;
 		flex-direction: column;
-		gap: 3px;
+		gap: 3px var(--s-3-h);
 		flex: 1;
 		color: var(--cr-primary);
 	}
 
 	&__sidebar-right {
 		align-items: flex-end;
+	}
+
+	@include tabletDown {
+		flex-direction: column;
+		padding-top: var(--s-3-v);
+		gap: var(--s-3-v);
+
+		&__sidebar,
+		&__sidebar-right {
+			flex-direction: row;
+
+			&:empty {
+				display: none;
+			}
+		}
+
+		&__sidebar-right {
+			order: 1;
+		}
+
+		&__sidebar {
+			order: 2;
+		}
+
+		&__content {
+			order: 3;
+			margin-top: var(--s-3-v);
+		}
+	}
+
+	@include mobileDown {
+		padding-top: 15px;
 	}
 
 	&__content {
@@ -84,7 +131,7 @@
 	.c-carousel {
 		width: 100vw;
 		margin-block: var(--s-5-v);
-		margin-inline: calc((100vw - var(--s-sml)) / 2 * -1);
+		margin-inline: calc((100vw - var(--width-sml)) / 2 * -1);
 
 		&__item {
 			background-color: var(--cr-subtle);
@@ -93,8 +140,8 @@
 		img,
 		.c-iframe {
 			width: auto;
-			height: clamp(400px, 80vh, 800px);
-			height: clamp(400px, 80svh, 800px);
+			height: clamp(350px, 100vw, 65vh);
+			height: clamp(350px, 100vw, 65svh);
 		}
 
 		.c-portable-image__caption {
@@ -128,6 +175,25 @@
 			margin-top: 0;
 		}
 	}
+
+	@include tabletDown {
+		.c-carousel {
+			margin-block: 60px;
+		}
+
+		.c-card[data-layout='embed'] {
+			margin-block: 60px;
+
+			.c-card__gallery {
+				width: 100vw;
+				margin-inline: calc((100vw - var(--width-sml)) / 2 * -1);
+			}
+		}
+	}
+
+	@include mobileDown {
+		margin-bottom: var(--s-4-v);
+	}
 }
 
 .p-guide__itineraries {
@@ -136,18 +202,68 @@
 	gap: 5px;
 	right: var(--s-contain);
 	bottom: 0;
+	transform: translateY(calc(100% - 4rem));
 	pointer-events: none;
 
 	.c-itinerary-card {
-		width: 400px;
-		transform: translateY(calc(100% - 4rem));
+		width: Min(350px, 33vw);
 		transition: var(--t-2);
 		pointer-events: auto;
 
 		@media (hover: hover) {
 			&:hover {
-				transform: translateY(-5px);
+				transform: translateY(calc(-100% + 4rem - 5px));
 			}
+		}
+	}
+
+	@include mobileUp {
+		&__toggle {
+			display: none;
+		}
+	}
+
+	@include tabletDown {
+		position: fixed;
+		height: calc(100% + 2px);
+		width: 100%;
+		bottom: 0px;
+		right: 0;
+		flex-direction: column;
+		gap: var(--s-3-v);
+		padding: 0 var(--s-3-h) var(--s-3-v);
+		transform: translate3d(0, 0, 0);
+		overflow-y: auto;
+		border-top: 1px solid;
+		background-color: var(--cr-cream);
+		pointer-events: auto;
+		z-index: 150;
+		transition:
+			transform var(--t-2),
+			background var(--t-2);
+
+		&:not(.is-open) {
+			transform: translate3d(0, calc(100% - 45px), 0);
+			background-color: var(--cr-white);
+		}
+
+		&:not(.is-open):not(.is-in-view) {
+			transform: translate3d(0, 100%, 0);
+		}
+
+		&__toggle {
+			position: sticky;
+			width: 100vw;
+			margin-inline: calc(var(--s-3-h) * -1);
+			margin-bottom: var(--s-4-v);
+			min-height: 45px;
+			top: 0;
+			background-color: var(--cr-cream);
+			z-index: 155;
+		}
+
+		.c-itinerary-card {
+			width: 100%;
 		}
 	}
 }

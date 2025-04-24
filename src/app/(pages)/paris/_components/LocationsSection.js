@@ -26,8 +26,8 @@ export default function LocationsSection({ data }) {
 
 	const dots = locationList.map((item, index) => {
 		const angle = (index / locationList.length) * Math.PI * 2;
-		const x = radius * Math.cos(angle);
-		const y = radius * Math.sin(angle);
+		const x = radius * Math.cos(angle) * 0.97;
+		const y = radius * Math.sin(angle) * 0.97;
 
 		return { x, y, item };
 	});
@@ -37,13 +37,13 @@ export default function LocationsSection({ data }) {
 			<div className="p-paris__locations__text wysiwyg">
 				<h1 className="t-l-2">Explore Paris</h1>
 				<h2 className="t-h-1">Where every circle leads to discovery</h2>
+				<CategoryPillList categories={locationCategories} isLink={true} />
 				<Button
 					href={'/paris/locations'}
 					className="p-paris__locations__cta btn-outline"
 				>
 					View All Spots (200+)
 				</Button>
-				<CategoryPillList categories={locationCategories} isLink={true} />
 			</div>
 			<div className="p-paris__locations__dots">
 				<div className="p-paris__locations__dots-container" ref={containerRef}>

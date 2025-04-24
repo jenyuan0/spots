@@ -38,8 +38,8 @@ export default function CategoryPill({
 					'is-active': isActive,
 				})}
 				style={{
-					'--cr-primary': colorL,
-					'--cr-secondary': colorD,
+					'--cr-primary': colorD,
+					'--cr-secondary': colorL,
 				}}
 				href={`/paris/${postType}${slug ? `/category/${slug}` : ''}`}
 			>
@@ -52,8 +52,8 @@ export default function CategoryPill({
 			<div
 				className="pill"
 				style={{
-					'--cr-primary': colorL,
-					'--cr-secondary': colorD,
+					'--cr-primary': colorD,
+					'--cr-secondary': colorL,
 				}}
 			>
 				{Icon && <Icon />}

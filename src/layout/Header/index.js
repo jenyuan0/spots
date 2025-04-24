@@ -171,11 +171,16 @@ export default function Header({ data, isActive }) {
 	};
 
 	useEffect(() => {
+		const pathnameArray = pathname.split('/').filter(Boolean);
+
 		setIsMobileMenuOpen(false);
-		setIsTransparent(
-			pathname.includes('/paris/itinerary/') ||
-				pathname.includes('/paris/guides/')
-		);
+
+		const isNonCategoryPage =
+			pathnameArray[2] !== 'category' &&
+			(pathname.includes('/paris/itinerary/') ||
+				pathname.includes('/paris/guides/'));
+
+		setIsTransparent(isNonCategoryPage);
 	}, [pathname]);
 
 	return (
