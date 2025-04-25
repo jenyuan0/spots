@@ -165,16 +165,18 @@
 		}
 	}
 
+	@media screen and (max-width: 1680px) {
+		&__form,
+		&__support {
+			padding: var(--g-spacing-md);
+		}
+	}
+
 	@include midScreenDown {
 		padding: var(--g-spacing-md);
 
 		&__container {
 			flex-direction: column;
-		}
-
-		&__form,
-		&__support {
-			padding: var(--g-spacing-md);
 		}
 
 		&__support {
