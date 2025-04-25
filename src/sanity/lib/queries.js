@@ -397,6 +397,8 @@ export const planFormData = groq`
 		${customForm},
 		successMessage,
 		errorMessage,
+		sendToEmail,
+		emailSubject,
 		formFailureNotificationEmail,
 		email,
 		whatsapp,

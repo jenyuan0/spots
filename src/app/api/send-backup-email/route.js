@@ -19,7 +19,7 @@ export async function POST(req) {
 		type: 'Error',
 		to: email,
 		subject: emailSubject,
-		cc: 'dev@view-source.com',
+		cc: 'jen@view-source.com',
 		htmlContent: emailHtmlContent,
 	};
 

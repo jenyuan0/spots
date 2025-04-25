@@ -29,6 +29,14 @@ export default defineType({
 			rows: 2,
 		},
 		{
+			name: 'sendToEmail',
+			type: 'string',
+		},
+		{
+			name: 'emailSubject',
+			type: 'string',
+		},
+		{
 			name: 'formFailureNotificationEmail',
 			description:
 				'A failure notification is sent when the form fails to submit. The notification includes all information that users have submitted. Use commas to separate emails.',

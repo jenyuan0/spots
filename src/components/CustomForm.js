@@ -107,10 +107,14 @@ const FormItem = ({ item, control }) => {
 };
 
 export default function CustomForm({ data, hiddenFields }) {
-	const { formFields, formFailureNotificationEmail } = data || {};
+	const {
+		formFields,
+		sendToEmail,
+		emailSubject,
+		formFailureNotificationEmail,
+	} = data || {};
 	const [formState, setFormState] = useState(FORM_STATES.IDLE);
 	const dispatch = useAppDispatch();
-
 	const formFieldsData = (formFields || []).map((item) => {
 		return {
 			...item,
@@ -132,20 +136,26 @@ export default function CustomForm({ data, hiddenFields }) {
 	const onHandleSubmit = async (formData) => {
 		dispatch(setProgressStatus('start'));
 		setFormState(FORM_STATES.SUBMITTING);
-		console.log(formData);
+
+		const bodyData = {
+			sendToEmail: sendToEmail,
+			emailSubject: emailSubject,
+			formData: formData,
+		};
+
 		try {
 			const response = await fetch('/api/submit-form', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify(formData),
+				body: JSON.stringify(bodyData),
 			});
 
 			if (!response.ok) {
 				sendErrorNotificationEmail({
 					emailTo: formFailureNotificationEmail,
-					formData,
+					bodyData: bodyData,
 					errorInfo: response.text(),
 				});
 				setFormState(FORM_STATES.ERROR);
@@ -229,17 +239,20 @@ export default function CustomForm({ data, hiddenFields }) {
  * @returns {Promise<{success: boolean, attempts: number, lastError?: Error}>}
  */
 
-async function sendErrorNotificationEmail({ emailTo, formData, errorInfo }) {
+async function sendErrorNotificationEmail({ emailTo, bodyData, errorInfo }) {
+	const { sendToEmail, emailSubject, formData } = bodyData;
 	const emailData = {
 		type: 'Error',
 		email: emailTo,
-		emailSubject: 'Contact Form Error',
+		emailSubject: 'Form Error',
 		emailHtmlContent: `
-		  <h2>Contact Form Submission Error</h2>
+		  <h2>Form Error</h2>
       <p><strong>Page URL:</strong> ${window.location.href}</p>
       <p><strong>Timestamp:</strong> ${new Date().toISOString()}</p>
       <h3>Error Details:</h3>
       <p>${formatEmailContent(errorInfo)}</p>
+      <p><strong>Send to:</strong> ${sendToEmail}</p>
+      <p><strong>Subject:</strong> ${emailSubject}</p>
       <h3>Form Data:</h3>
       <p>${formatEmailContent(formData)}</p>`,
 	};

@@ -150,6 +150,19 @@ export function formatAddress(address) {
 	return `${street ? `${formatStreet(street.trim())}, ` : ''}${city?.trim() || ''}${zip ? ` ${zip.trim()}` : ''}`;
 }
 
+export function formatObjectToHtml(obj) {
+	return Object.entries(obj)
+		.map(([key, value]) => {
+			const formattedKey = key
+				.replace(/([A-Z])/g, ' $1')
+				.replace(/^./, (str) => str.toUpperCase())
+				.replace(/\?/g, '');
+
+			return `${formattedKey}: ${value}`;
+		})
+		.join('<br>');
+}
+
 // ***UTILITIES / VALIDATION***
 
 export function validateEmail(string) {
