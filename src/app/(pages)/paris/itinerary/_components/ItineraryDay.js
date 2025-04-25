@@ -156,7 +156,6 @@ export default function ItineraryDay({
 									<LocationCard
 										key={`item-${index}`}
 										data={item}
-										// layout={`horizontal-${locations.length == 1 ? '2' : '1'}`}
 										layout={
 											!isTabletScreen
 												? `horizontal-${locations.length == 1 ? '2' : '1'}`
