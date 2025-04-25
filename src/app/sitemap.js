@@ -2,63 +2,70 @@ import { getPagesPaths } from '@/sanity/lib/fetch';
 import fs from 'fs';
 import path from 'path';
 
-export default async function sitemap() {
-	const baseUrl = process.env.SITE_URL;
+// Constants
+const PAGE_CONFIG = {
+	STATIC: {
+		changeFrequency: 'weekly',
+		priority: 1.0,
+	},
+	DYNAMIC: {
+		changeFrequency: 'monthly',
+		priority: 1.0,
+	},
+};
+
+const EXCLUDED_DIRS = ['_components', '[...not_found]', '[slug]'];
+
+const DYNAMIC_PAGE_TYPES = [
+	{ type: 'pGeneral', slug: '' },
+	{ type: 'pTripReady', slug: '' },
+	{ type: 'pHotelBooking', slug: '' },
+	{ type: 'gGuides', slug: 'paris/guides' },
+	{ type: 'gLocations', slug: 'paris/locations' },
+	{ type: 'gItineraries', slug: 'paris/itineraries' },
+	{ type: 'gCategories', slug: 'paris/guides/category' },
+	{ type: 'gCategories', slug: 'paris/locations/category' },
+];
+
+export default async function generateSitemap() {
+	const baseUrl = process.env.SITE_URL?.replace(/\/$/, '');
 	const baseDir = 'src/app/(pages)';
-	// Exclude non-static pages
-	const excludeDirs = ['_components', '[...not_found]', '[slug]'];
-	// Define dynamic page types as an array of objects
-	const dynamicPagesTypes = [
-		{ type: 'pGeneral', slug: '' },
-		{ type: 'gGuides', slug: 'paris/guides' },
-		{ type: 'gLocations', slug: 'paris/locations' },
-		{ type: 'gItineraries', slug: 'paris/itineraries' },
-		{ type: 'gCategories', slug: 'paris/guides/category' },
-		{ type: 'gCategories', slug: 'paris/locations/category' },
-	];
 
-	// Generate static routes from app router file system
-	function generateStaticRoutes() {
-		const fullPath = path.join(process.cwd(), baseDir);
-		const entries = fs.readdirSync(fullPath, { withFileTypes: true });
-		let staticRoutes = [];
-
-		entries.forEach((entry) => {
-			if (entry.isDirectory() && !excludeDirs.includes(entry.name)) {
-				staticRoutes.push(`/${entry.name}`);
-			}
-		});
-
-		return staticRoutes.map((route) => ({
-			url: `${baseUrl}${route}`,
-			lastModified: new Date(),
-			changeFrequency: 'weekly',
-			priority: 1.0,
-		}));
+	if (!baseUrl) {
+		throw new Error('SITE_URL environment variable is required');
 	}
 
-	// Generate dynamic routes
-	async function generateDynamicRoutes() {
-		const dynamicRoutes = await Promise.all(
-			dynamicPagesTypes.map(async (page) => {
-				const slugs = await getPagesPaths({ pageType: page.type });
-				const urlPrefix = page.slug ? `/${page.slug}` : '';
+	const getStaticRoutes = () => {
+		const fullPath = path.join(process.cwd(), baseDir);
+
+		return fs
+			.readdirSync(fullPath, { withFileTypes: true })
+			.filter(
+				(entry) => entry.isDirectory() && !EXCLUDED_DIRS.includes(entry.name)
+			)
+			.map((entry) => ({
+				url: `${baseUrl}/${entry.name}`,
+				lastModified: new Date(),
+				...PAGE_CONFIG.STATIC,
+			}));
+	};
+
+	const getDynamicRoutes = async () => {
+		const routes = await Promise.all(
+			DYNAMIC_PAGE_TYPES.map(async ({ type, slug }) => {
+				const slugs = await getPagesPaths({ pageType: type });
+				const urlPrefix = slug ? `/${slug}` : '';
 
 				return slugs.map((slug) => ({
-					url: `${baseUrl}${urlPrefix}/${slug}`,
+					url: `${baseUrl}${urlPrefix}${slug.startsWith('/') ? slug : `/${slug}`}`,
 					lastModified: new Date(),
-					changeFrequency: 'monthly',
-					priority: 1.0,
+					...PAGE_CONFIG.DYNAMIC,
 				}));
 			})
 		);
 
-		return dynamicRoutes.flat();
-	}
+		return routes.flat();
+	};
 
-	const staticPages = generateStaticRoutes();
-	const dynamicPages = await generateDynamicRoutes();
-	const sitemap = [...staticPages, ...dynamicPages];
-
-	return sitemap;
+	return [...(await getStaticRoutes()), ...(await getDynamicRoutes())];
 }
