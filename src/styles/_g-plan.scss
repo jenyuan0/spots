@@ -50,7 +50,7 @@
 
 	&__form {
 		justify-content: space-between;
-		gap: var(--s-5-v);
+		gap: var(--s-4-v);
 		padding: var(--g-spacing-lg);
 
 		&__header {
@@ -58,6 +58,10 @@
 			max-width: 500px;
 			margin: auto;
 		}
+	}
+
+	& &__form {
+		gap: var(--s-5-v);
 	}
 
 	&__offers {
@@ -200,6 +204,10 @@
 
 		&__form {
 			padding-top: var(--s-4-v);
+			gap: var(--s-4-v);
+		}
+
+		& &__form {
 			gap: var(--s-4-v);
 		}
 

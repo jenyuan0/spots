@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useCallback, useRef } from 'react';
+import { springConfig, scrollEnable, scrollDisable } from '@/lib/helpers';
 import clsx from 'clsx';
 import Link from '@/components/CustomLink';
 import Img from '@/components/Image';
@@ -10,7 +11,6 @@ import PlanForm from '@/components/PlanForm';
 import Button from '@/components/Button';
 import { IconEmail, IconWhatsApp, IconLine } from './SvgIcons';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
-import { springConfig } from '@/lib/helpers';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
 import { useInView } from 'react-intersection-observer';
 
@@ -83,7 +83,10 @@ function Faq({ faq, isInView }) {
 		>
 			<Button
 				className="g-plan__faq__toggle"
-				onClick={() => setIsOpen(!isOpen)}
+				onClick={() => {
+					setIsOpen(!isOpen);
+					isOpen ? scrollEnable() : scrollDisable();
+				}}
 			>
 				<div className=" btn-underline cr-green-d">
 					{!isOpen ? 'Have questions? See our FAQ' : 'Close FAQ'}
@@ -96,6 +99,7 @@ function Faq({ faq, isInView }) {
 						key={`faq-${index}`}
 						title={item.title}
 						isActive={activeAccordion === index}
+						isCaret={true}
 						onHandleToggle={() => handleAccordionToggle(index)}
 					>
 						<div className="wysiwyg-page">
@@ -108,8 +112,14 @@ function Faq({ faq, isInView }) {
 	);
 }
 
-export default function PlanSection({ data, isH1, isH1Style, hiddenFields }) {
-	const { image, faq, email, whatsapp, line } = data;
+export default function PlanSection({
+	data,
+	isH1,
+	isH1Style,
+	budget,
+	hiddenFields,
+}) {
+	const { image, mobileImage, faq, email, whatsapp, line } = data;
 	const containerRef = useRef(null);
 	const [inViewRef, inView] = useInView({
 		rootMargin: '-100% 0% 0% 0%',
@@ -134,7 +144,7 @@ export default function PlanSection({ data, isH1, isH1Style, hiddenFields }) {
 					style={{ scale: !isMobileScreen ? springAnimation : undefined }}
 				>
 					<div className="object-fit">
-						<Img image={image} />
+						<Img image={image} responsiveImage={mobileImage} />
 					</div>
 				</motion.div>
 			)}
@@ -144,6 +154,7 @@ export default function PlanSection({ data, isH1, isH1Style, hiddenFields }) {
 					data={data}
 					isH1={isH1}
 					isH1Style={isH1Style}
+					budget={budget}
 					hiddenFields={hiddenFields}
 				/>
 				<div className="g-plan__support">

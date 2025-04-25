@@ -216,7 +216,7 @@ export default function ItineraryDay({
 					Close Map
 				</Button>
 				<div className="p-itinerary__day__map__filters">
-					<h2 className="t-h-3">{plan.title || format(date, 'MMMM do')}</h2>
+					<h2 className="t-h-3">Filter Activities</h2>
 					<ul>
 						{activities?.map((activity, i) => {
 							const { title, startTime } = activity;

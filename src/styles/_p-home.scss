@@ -101,12 +101,10 @@
 		display: flex;
 		flex-direction: row;
 		align-items: stretch;
-		// margin: var(--s-section) auto;
 		overflow: hidden;
 		transform-origin: center top;
 		background-color: var(--cr-white);
 		border-top: 1px solid var(--cr-primary);
-		border-bottom: 1px solid var(--cr-primary);
 
 		&:nth-child(even) {
 			flex-direction: row-reverse;
@@ -147,7 +145,7 @@
 			li {
 				display: flex;
 				align-items: center;
-				gap: 0.5em;
+				gap: Max(0.5em, 10px);
 				padding: var(--s-2-v) 0;
 				border-top: 1px solid var(--cr-subtle);
 
@@ -178,9 +176,22 @@
 				flex-direction: column;
 			}
 
-			&__media,
-			&__text {
+			&__media {
 				padding: var(--s-4-v) var(--s-3-h);
+			}
+
+			&__text {
+				padding: var(--s-3-v) var(--s-3-h);
+				padding-bottom: var(--s-section);
+			}
+
+			&__paragraph {
+				font-size: 24px;
+			}
+
+			&__offers {
+				margin-top: 20px;
+				font: var(--t-b-2);
 			}
 		}
 	}
@@ -224,7 +235,10 @@
 		transform: translate3d(10px, -50%, 0);
 		white-space: nowrap;
 		font: var(--t-b-1);
-		font-size: 24px;
+
+		@include tabletUp {
+			font-size: 24px;
+		}
 	}
 }
 

@@ -15,6 +15,7 @@ const accordionAnim = {
 
 export default function Accordion({
 	isActive = false,
+	isCaret,
 	title,
 	subtitle,
 	className,
@@ -53,7 +54,11 @@ export default function Accordion({
 				{subtitle && <div className="c-accordion__subtitle">{subtitle}</div>}
 				<div className="c-accordion__title">{title}</div>
 				<div className="c-accordion__icon">
-					<div className="icon-caret-down" />
+					{isCaret ? (
+						<div className="icon-caret-down" />
+					) : (
+						<div className="icon-plus" />
+					)}
 				</div>
 			</button>
 			<motion.div

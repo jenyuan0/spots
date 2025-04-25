@@ -13,6 +13,8 @@ import LocationCard from '@/components/LocationCard';
 import GuideCard from '@/components/GuideCard';
 import useLightbox from '@/hooks/useLightbox';
 
+import Carousel from '@/components/Carousel';
+
 export default function PageLocationsSingle({ data }) {
 	const {
 		color,
@@ -63,77 +65,75 @@ export default function PageLocationsSingle({ data }) {
 
 	return (
 		<>
-			<section className="p-locations-single__body">
-				<div className="p-locations-single__text-container">
-					<div className="p-locations-single__text-flex" />
-					<div className="p-locations-single__text">
-						<Breadcrumb data={breadcrumb} />
-						<h1 className="p-locations-single__heading t-h-1">{title}</h1>
-						{address && (
-							<div className="p-locations-single__address wysiwyg-b-1">
-								<h3 className="t-l-1">Address</h3>
-								<p>
-									<Link
-										href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(title)}+${encodeURIComponent(addressString)}`}
-										isNewTab={true}
-									>
-										{formatAddress(address)}
-									</Link>
-								</p>
-							</div>
-						)}
-						{hasArrayValue(urls) && (
-							<div className="p-locations-single__urls wysiwyg-b-1">
-								<h3 className="t-l-1">Website</h3>
-								<ul>
-									{urls.map((url, i) => (
-										<li key={`url-${i}`}>
-											<Link href={url} isNewTab={true}>
-												{url
-													.replace(/^(https?:\/\/)?(www\.)?/, '')
-													.replace(/\/$/, '')}
-											</Link>
-										</li>
-									))}
-								</ul>
-							</div>
-						)}
-						{content && (
-							<div className="p-locations-single__content wysiwyg-page">
-								<CustomPortableText blocks={content} />
-							</div>
-						)}
-						{hasArrayValue(fees) && (
-							<div className="p-locations-single__fees wysiwyg-b-1">
-								<h3 className="t-l-1">Fees</h3>
-								<p>{fees.map((fee) => fee).join(' • ')}</p>
-							</div>
-						)}
-						{(hasArrayValue(categories) || hasArrayValue(subcategories)) && (
-							<div className="p-locations-single__categories">
-								<CategoryPillList
-									categories={categories}
-									subcategories={subcategories}
-									isLink={true}
-								/>
-							</div>
-						)}
-					</div>
-				</div>
-				{images && (
-					<div className="p-locations-single__images">
-						{images.map((image, i) => (
-							<button
-								key={`image-${i}`}
-								className="p-locations-single__image bg-subtle"
-								onClick={() => {
-									setLightboxImages(images, i);
-									setLightboxActive(true);
-								}}
+			{images && (
+				<Carousel
+					className="p-locations-single__images"
+					isShowDots={true}
+					gap={'5px'}
+				>
+					{images.map((image, i) => (
+						<button
+							key={`image-${i}`}
+							onClick={() => {
+								setLightboxImages(images, i);
+								setLightboxActive(true);
+							}}
+						>
+							<Img key={`image-${i}`} image={image} />
+						</button>
+					))}
+				</Carousel>
+			)}
+			<section className="p-locations-single__text">
+				<Breadcrumb data={breadcrumb} />
+				<h1 className="p-locations-single__heading t-h-1">{title}</h1>
+				{address && (
+					<div className="p-locations-single__address wysiwyg-b-1">
+						<h3 className="t-l-1">Address</h3>
+						<p>
+							<Link
+								href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(title)}+${encodeURIComponent(addressString)}`}
+								isNewTab={true}
 							>
-								<Img key={`image-${i}`} image={image} />
-							</button>
-						))}
+								{formatAddress(address)}
+							</Link>
+						</p>
+					</div>
+				)}
+				{hasArrayValue(urls) && (
+					<div className="p-locations-single__urls wysiwyg-b-1">
+						<h3 className="t-l-1">Website</h3>
+						<ul>
+							{urls.map((url, i) => (
+								<li key={`url-${i}`}>
+									<Link href={url} isNewTab={true}>
+										{url
+											.replace(/^(https?:\/\/)?(www\.)?/, '')
+											.replace(/\/$/, '')}
+									</Link>
+								</li>
+							))}
+						</ul>
+					</div>
+				)}
+				{content && (
+					<div className="p-locations-single__content wysiwyg-page">
+						<CustomPortableText blocks={content} />
+					</div>
+				)}
+				{hasArrayValue(fees) && (
+					<div className="p-locations-single__fees wysiwyg-b-1">
+						<h3 className="t-l-1">Fees</h3>
+						<p>{fees.map((fee) => fee).join(' • ')}</p>
+					</div>
+				)}
+				{(hasArrayValue(categories) || hasArrayValue(subcategories)) && (
+					<div className="p-locations-single__categories">
+						<CategoryPillList
+							categories={categories}
+							subcategories={subcategories}
+							isLink={true}
+						/>
 					</div>
 				)}
 			</section>

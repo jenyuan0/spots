@@ -2,6 +2,11 @@
 
 import React, { useState } from 'react';
 import { format, add, isSameDay, isSameMonth } from 'date-fns';
+import {
+	formatNumberWithCommas,
+	scrollEnable,
+	scrollDisable,
+} from '@/lib/helpers';
 import clsx from 'clsx';
 import LocationCard from '@/components/LocationCard';
 import ResponsiveGrid from '@/components/ResponsiveGrid';
@@ -11,6 +16,7 @@ import PlanSection from '@/components/PlanSection';
 import Carousel from '@/components/Carousel';
 import Img from '@/components/Image';
 import Button from '@/components/Button';
+import { IconMinimize } from '@/components/SvgIcons';
 import { useInView } from 'react-intersection-observer';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
 
@@ -70,18 +76,11 @@ export default function PageItinerarySingle({ data }) {
 	const [bodyRef, inView] = useInView({
 		rootMargin: '-100% 0% 0% 0%',
 	});
-	const { isTabletScreen, isMidScreen } = useWindowDimensions();
+	const { isTabletScreen } = useWindowDimensions();
+	const [isOpen, setIsOpen] = useState(false);
 
 	return (
 		<>
-			<Button
-				href={'#plan'}
-				className={clsx('p-itinerary__cta btn', `cr-${color?.title}-d`, {
-					'is-in-view': inView,
-				})}
-			>
-				Plan Your Trip Today
-			</Button>
 			<div
 				className="p-itinerary__header"
 				style={{
@@ -190,13 +189,42 @@ export default function PageItinerarySingle({ data }) {
 						</div>
 					)}
 				</div>
-				<div className="p-itinerary__sidebar">
+				<div
+					className={clsx('p-itinerary__sidebar', {
+						'is-open': isOpen,
+						'is-in-view': inView,
+					})}
+				>
+					<div
+						className="p-itinerary__sidebar__toggle"
+						onClick={() => {
+							setIsOpen(!isOpen);
+							isOpen ? scrollEnable() : scrollDisable();
+						}}
+					>
+						{(budget?.low || budget?.high) && (
+							<p>
+								<span className="t-h-5">
+									${formatNumberWithCommas(budget.low)}
+									{budget.high
+										? `—$${formatNumberWithCommas(budget.high)}`
+										: '+'}
+								</span>{' '}
+								<span className="t-b-2">/ person</span>
+							</p>
+						)}
+						<Button
+							className={clsx('btn', `cr-${color?.title || 'green'}-d`)}
+							icon={isOpen ? <span className="icon-close" /> : undefined}
+						>
+							{!isOpen ? 'Plan Your Trip Today' : 'Close'}
+						</Button>
+					</div>
 					<div className="p-itinerary__sidebar-flex" />
 					<div className="p-itinerary__sidebar-sticky">
 						<PlanForm
 							data={planForm}
 							title={false}
-							{...(isMidScreen ? { heading: "What's Included" } : {})}
 							budget={budget}
 							offering={true}
 							hiddenFields={planHiddenFields}
@@ -210,6 +238,7 @@ export default function PageItinerarySingle({ data }) {
 					data={data?.planForm}
 					isH1={true}
 					isH1Style={true}
+					budget={budget}
 					hiddenFields={planHiddenFields}
 				/>
 			</div>

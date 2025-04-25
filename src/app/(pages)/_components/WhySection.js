@@ -38,7 +38,7 @@ const WhyText = ({ data, color }) => {
 		<div className="p-home__why-block__text">
 			<div className="p-home__why-block__text-container wysiwyg">
 				<h2 className="p-home__why-block__heading t-b-1">{heading}</h2>
-				<p className="t-h-2">{paragraph}</p>
+				<p className="p-home__why-block__paragraph t-h-2">{paragraph}</p>
 				{offers && (
 					<ul className="p-home__why-block__offers t-b-1">
 						{offers?.map((item, index) => (

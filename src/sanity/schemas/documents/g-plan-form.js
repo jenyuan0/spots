@@ -8,6 +8,7 @@ export default defineType({
 	type: 'document',
 	fields: [
 		customImage(),
+		customImage({ name: 'mobileImage' }),
 		{
 			name: 'formTitle',
 			type: 'string',

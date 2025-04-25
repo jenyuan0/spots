@@ -391,6 +391,7 @@ const customForm = groq`
 export const planFormData = groq`
 	"planForm": *[_type == "gPlanForm"][0]{
 		image,
+		mobileImage,
 		formTitle,
 		formHeading,
 		${customForm},

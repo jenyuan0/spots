@@ -355,13 +355,13 @@ export default defineType({
 	preview: {
 		select: {
 			title: 'title',
-			slug: 'slug',
+			subtitle: 'subtitle',
 			images: 'images',
 		},
-		prepare({ title = 'Untitled', slug = {}, images }) {
+		prepare({ title = 'Untitled', subtitle, images }) {
 			return {
 				title,
-				subtitle: slug.current ? `/${slug.current}` : 'Missing page slug',
+				subtitle,
 				media: images?.[0] || false,
 			};
 		},

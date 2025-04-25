@@ -98,6 +98,10 @@
 		--cr-secondary: var(--cr-cream);
 		--cr-underline: var(--cr-purple-l);
 	}
+
+	@include mobileDown {
+		--height: 40px;
+	}
 }
 
 .btn,

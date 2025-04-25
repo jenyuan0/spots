@@ -7,7 +7,12 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
-import { hasArrayValue, springConfig } from '@/lib/helpers';
+import {
+	hasArrayValue,
+	springConfig,
+	scrollEnable,
+	scrollDisable,
+} from '@/lib/helpers';
 import { format } from 'date-fns';
 import Img from '@/components/Image';
 import Button from '@/components/Button';
@@ -60,10 +65,12 @@ function Itineraries({ data, isInView }) {
 			>
 				<Button
 					className="p-guide__itineraries__toggle"
-					onClick={() => setIsOpen(!isOpen)}
+					onClick={() => {
+						setIsOpen(!isOpen);
+						isOpen ? scrollEnable() : scrollDisable();
+					}}
 				>
 					<div className="btn-underline cr-green-d">
-						{/* {isOpen && <span className="icon-close" />} */}
 						{!isOpen ? 'View recommended itineraries' : 'Close Itineraries'}
 					</div>
 				</Button>

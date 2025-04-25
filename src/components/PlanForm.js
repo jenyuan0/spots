@@ -24,7 +24,7 @@ export default function PlanForm({
 		<div className="g-plan__form">
 			<div className="g-plan__form__header wysiwyg">
 				{(budget?.low || budget?.high) && (
-					<p>
+					<p className="g-plan__form__budget">
 						<span className="t-h-5">
 							${formatNumberWithCommas(budget.low)}
 							{budget.high ? `—$${formatNumberWithCommas(budget.high)}` : '+'}

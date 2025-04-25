@@ -182,6 +182,10 @@
 			transform: scale(1);
 		}
 	}
+
+	@include mobileDown {
+		--size: 35px;
+	}
 }
 
 @mixin buttonProperties {
