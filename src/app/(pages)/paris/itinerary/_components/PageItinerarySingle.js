@@ -144,7 +144,7 @@ export default function PageItinerarySingle({ data }) {
 					{accomodations && (
 						<div className="p-itinerary__accomodations p-itinerary__section">
 							<h3 className="p-itinerary__section__title t-h-2">
-								Accomodation
+								Suggested Accomodations
 								<span className="t-l-1">
 									{accomodations.length} Option
 									{accomodations.length > 1 && 's'}

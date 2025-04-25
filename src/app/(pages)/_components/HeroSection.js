@@ -11,12 +11,12 @@ import useWindowDimensions from '@/hooks/useWindowDimensions';
 
 // Spot component for individual animated spots
 function HeroSpot({ index, data, boundary, isLastChild, scrollYProgress }) {
+	const { isMobileScreen, width, height } = useWindowDimensions();
 	const [spot, setSpot] = useState({
-		x: 0,
-		y: 0,
+		x: width / 2,
+		y: height / 2,
 	});
 	const [screen, setScreen] = useState({ x: 0, y: 0 });
-	const { isMobileScreen } = useWindowDimensions();
 	const config = {
 		yLast: !isMobileScreen ? 70 : 20,
 		scaleMin: !isMobileScreen ? 0.2 : 0.5,
