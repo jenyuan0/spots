@@ -82,10 +82,10 @@ const ListWithSSG = ({ data, currentPageNumber }) => {
 		setListData(currentLocations);
 		setListState(null);
 
-		setTimeout(() => {
-			setAsideMapLocations(currentLocations);
-			setAsideMapActive(true);
-		}, 1);
+		// setTimeout(() => {
+		// 	setAsideMapLocations(currentLocations);
+		// 	setAsideMapActive(true);
+		// }, 1);
 	}, [locationList, itemsPerPage, currentPageNumber]);
 
 	return (
