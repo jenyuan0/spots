@@ -238,7 +238,6 @@ export default function ItineraryDay({
 								</li>
 							);
 						})}
-
 						<li className="p-itinerary__day__map__filters__batch-action t-l-2">
 							<button
 								onClick={() => {

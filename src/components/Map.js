@@ -109,7 +109,7 @@ export default function TheMap({ id, locations, color }) {
 									>
 										<div className="c-map__marker__thumb">
 											<span className="object-fit">
-												<Img image={location.thumb} />
+												{location.images && <Img image={location.images[0]} />}
 											</span>
 										</div>
 										<div
