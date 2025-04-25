@@ -373,7 +373,7 @@
 		.c-accordion__icon {
 			color: var(--cr-secondary);
 			background-color: var(--cr-primary);
-			border: 2px solid transparent;
+			border: 1px solid transparent;
 			transition: var(--t-1);
 		}
 
@@ -381,9 +381,10 @@
 			padding-bottom: var(--s-4-v);
 		}
 
+		.c-accordion:hover .c-accordion__icon,
 		.c-accordion.is-active .c-accordion__icon {
 			background-color: var(--cr-secondary);
-			border: 2px solid var(--cr-primary);
+			border: 1px solid var(--cr-primary);
 			color: var(--cr-primary);
 		}
 	}
