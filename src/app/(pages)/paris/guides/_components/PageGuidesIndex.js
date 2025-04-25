@@ -20,7 +20,7 @@ export default function PageGuidesIndex({ data }) {
 			url: '/paris/guides',
 		},
 	];
-	const categoryAll = {
+	const dataAllPill = {
 		title: 'All Guides',
 		slug: '',
 		parentCategory: null,
@@ -39,12 +39,17 @@ export default function PageGuidesIndex({ data }) {
 			<section className="p-locations__body">
 				{categories && (
 					<div className="p-guides__filters">
-						<CategoryPillList categories={categories} isLink={true}>
+						<CategoryPillList
+							categories={categories}
+							categorySlug={categorySlug}
+							postType={'guides'}
+							isLink={true}
+						>
 							<li className="c-category-pill-list__title t-l-2">Filter:</li>
 							<li>
 								<CategoryPill
 									className="pill"
-									data={categoryAll}
+									data={dataAllPill}
 									postType={'guides'}
 									isLink={true}
 									isActive={!categorySlug}

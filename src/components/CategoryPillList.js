@@ -4,6 +4,8 @@ import CategoryPill from '@/components/CategoryPill';
 export default function CategoryPillList({
 	categories,
 	subcategories,
+	categorySlug,
+	postType = 'locations',
 	limit,
 	children,
 	isLink = false,
@@ -14,9 +16,14 @@ export default function CategoryPillList({
 	return (
 		<ul className="c-category-pill-list">
 			{children}
-			{finalCategories.map((item) => (
+			{finalCategories?.map((item) => (
 				<li key={`${item._id}`}>
-					<CategoryPill className="pill" data={item} isLink={isLink} />
+					<CategoryPill
+						isActive={item.slug === categorySlug}
+						postType={postType}
+						data={item}
+						isLink={isLink}
+					/>
 				</li>
 			))}
 		</ul>
