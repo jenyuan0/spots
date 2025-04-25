@@ -8,7 +8,14 @@ export default async function sitemap() {
 	// Exclude non-static pages
 	const excludeDirs = ['_components', '[...not_found]', '[slug]'];
 	// Define dynamic page types as an array of objects
-	const dynamicPagesTypes = [{ type: 'pGeneral', slug: '' }];
+	const dynamicPagesTypes = [
+		{ type: 'pGeneral', slug: '' },
+		{ type: 'gGuides', slug: 'paris/guides' },
+		{ type: 'gLocations', slug: 'paris/locations' },
+		{ type: 'gItineraries', slug: 'paris/itineraries' },
+		{ type: 'gCategories', slug: 'paris/guides/category' },
+		{ type: 'gCategories', slug: 'paris/locations/category' },
+	];
 
 	// Generate static routes from app router file system
 	function generateStaticRoutes() {
