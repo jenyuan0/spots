@@ -8,13 +8,13 @@ const ROUTES = [
 	{
 		type: 'pGeneral',
 		slug: '',
-		changeFrequency: 'weekly',
-		priority: 1.0,
+		changeFrequency: 'monthly',
+		priority: 0.8,
 	},
 	{
 		type: 'gGuides',
 		slug: 'paris/guides',
-		changeFrequency: 'month',
+		changeFrequency: 'monthly',
 		priority: 0.8,
 	},
 	{
