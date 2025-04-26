@@ -201,7 +201,8 @@ export default function CustomForm({ data, hiddenFields }) {
 						<FormItem key={item._key} item={item} control={form.control} />
 					))}
 					{formState === FORM_STATES.SUCCESS ? (
-						<p className="c-form__message t-b-2">
+						<p className="c-form__message t-l-1">
+							<br />
 							{successMessage || 'Success. Your message has been sent.'}
 						</p>
 					) : (

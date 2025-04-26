@@ -10,7 +10,7 @@ export default function Page404({ data }) {
 		<div className="p-404 f-v f-j-c wysiwyg">
 			<h1 className="t-h-1">{heading || 'Page not found'}</h1>
 			{paragraph && (
-				<p class="t-h-3">
+				<p className="t-h-3">
 					<CustomPortableText blocks={paragraph} hasPTag={false} />
 				</p>
 			)}

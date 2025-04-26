@@ -56,7 +56,7 @@ export default function GuideCard({ data, layout = 'vertical-1', color }) {
 					</h3>
 				</div>
 				{excerpt && layout == 'horizontal-2' && (
-					<p class="c-card__excerpt t-b-1">{excerpt}</p>
+					<p className="c-card__excerpt t-b-1">{excerpt}</p>
 				)}
 				<div className="c-card__actions">
 					<Button
