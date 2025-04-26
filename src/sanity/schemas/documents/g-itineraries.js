@@ -349,8 +349,7 @@ export default defineType({
 			],
 			hidden: ({ parent }) => parent.type !== 'custom',
 		},
-
-		sharing({ disableIndex: true }),
+		sharing(),
 	],
 	preview: {
 		select: {

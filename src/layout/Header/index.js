@@ -161,6 +161,7 @@ export default function Header({ data, isActive }) {
 			setIsScrolled(window.scrollY > 20);
 		};
 
+		handleScroll();
 		window.addEventListener('scroll', handleScroll);
 		return () => window.removeEventListener('scroll', handleScroll);
 	}, []);

@@ -526,6 +526,7 @@ export const pageContactQuery = groq`
 	*[_type == "pContact"][0]{
 		title,
 		"slug": slug.current,
+		sharing,
 		${planFormData}
 	}
 `;
@@ -534,6 +535,7 @@ export const pageTripReadyQuery = groq`
 	*[_type == "pTripReady"][0]{
 		title,
 		"slug": slug.current,
+		sharing,
 		"itineraries": itineraries[]->{
 			${getItineraryData('card')}
 		},
@@ -553,6 +555,7 @@ export const pageParisQuery = groq`
 	*[_type == "pParis"][0]{
 		title,
 		"slug": slug.current,
+		sharing,
 		"locationCategories": locationCategories[]->{
 			${categoryMeta}
 		},
@@ -631,7 +634,6 @@ export const pageParisQuery = groq`
 				},
 			},
 		},
-		sharing,
 	}
 `;
 
@@ -698,6 +700,7 @@ export const pageGuidesPaginationMethodQuery = groq`
 export const pageGuidesSingleQuery = groq`
 	*[_type == "gGuides" && slug.current == $slug][0]{
 		${getGuidesData()},
+		sharing,
 		"defaultRelated": *[_type == "gGuides"
 			&& count(categories[@._ref in ^.^.categories[]._ref]) > 0
 			&& _id != ^._id
@@ -743,6 +746,7 @@ export const pageLocationsCategoryQuery = groq`{
 		${locationIndexQuery}
 	},
 	"categorySlug": *[_type == "gCategories" && slug.current == $slug][0].slug.current,
+	sharing,
 	"locationList": *[_type == "gLocations" && references(*[_type == "gCategories" && slug.current == $slug]._id)] {
 		${getLocationsData('card')}
 	},
@@ -788,4 +792,5 @@ export const pageItinerariesSingleQuery = groq`
 	*[_type == "gItineraries" && slug.current == $slug][0]{
 		${getItineraryData()}
 		${planFormData}
+		sharing,
 	}`;
