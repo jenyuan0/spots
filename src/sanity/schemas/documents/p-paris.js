@@ -54,7 +54,6 @@ export default defineType({
 		},
 		{
 			name: 'seasons',
-			title: 'Seasons',
 			type: 'array',
 			of: [
 				{
@@ -67,7 +66,6 @@ export default defineType({
 						},
 						{
 							name: 'description',
-							title: 'Description',
 							type: 'text',
 							rows: 2,
 						},
@@ -78,7 +76,6 @@ export default defineType({
 						},
 						{
 							name: 'months',
-							title: 'Months',
 							type: 'array',
 							of: [
 								{

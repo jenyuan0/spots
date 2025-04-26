@@ -204,6 +204,7 @@ export default function CustomForm({ data, hiddenFields }) {
 						<p className="c-form__message t-l-1">
 							<br />
 							{successMessage || 'Success. Your message has been sent.'}
+							<br />
 						</p>
 					) : (
 						<Button
