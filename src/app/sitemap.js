@@ -1,71 +1,191 @@
+import { groq } from 'next-sanity';
+import { client } from '@/sanity/lib/client';
 import { getPagesPaths } from '@/sanity/lib/fetch';
 import fs from 'fs';
 import path from 'path';
 
-// Constants
-const PAGE_CONFIG = {
-	STATIC: {
+const ROUTES = [
+	{
+		type: 'pGeneral',
+		slug: '',
 		changeFrequency: 'weekly',
 		priority: 1.0,
 	},
-	DYNAMIC: {
-		changeFrequency: 'monthly',
-		priority: 1.0,
+	{
+		type: 'gGuides',
+		slug: 'paris/guides',
+		changeFrequency: 'month',
+		priority: 0.8,
 	},
-};
-
-const EXCLUDED_DIRS = ['_components', '[...not_found]', '[slug]'];
-
-const DYNAMIC_PAGE_TYPES = [
-	{ type: 'pGeneral', slug: '' },
-	{ type: 'pTripReady', slug: '' },
-	{ type: 'pHotelBooking', slug: '' },
-	{ type: 'gGuides', slug: 'paris/guides' },
-	{ type: 'gLocations', slug: 'paris/locations' },
-	{ type: 'gItineraries', slug: 'paris/itineraries' },
-	{ type: 'gCategories', slug: 'paris/guides/category' },
-	{ type: 'gCategories', slug: 'paris/locations/category' },
+	{
+		type: 'gLocations',
+		slug: 'paris/locations',
+		changeFrequency: 'weekly',
+		priority: 0.8,
+	},
+	{
+		type: 'gItineraries',
+		slug: 'paris/itineraries',
+		changeFrequency: 'weekly',
+		priority: 0.8,
+	},
+	{
+		type: 'gCategories',
+		slug: 'paris/guides/category',
+		changeFrequency: 'monthly',
+		priority: 0.7,
+		skipParentPath: true,
+	},
+	{
+		type: 'gCategories',
+		slug: 'paris/locations/category',
+		changeFrequency: 'monthly',
+		priority: 0.7,
+		skipParentPath: true,
+	},
 ];
 
-export default async function generateSitemap() {
-	const baseUrl = process.env.SITE_URL?.replace(/\/$/, '');
-	const baseDir = 'src/app/(pages)';
+const EXCLUDED_DIRS = [
+	'_components',
+	'[...not_found]',
+	'[slug]',
+	'api',
+	'_tests',
+];
 
-	if (!baseUrl) {
-		throw new Error('SITE_URL environment variable is required');
+async function getDocumentData(type, slug) {
+	try {
+		const query = groq`*[${type ? `_type == "${type}" &&` : ''} slug.current == "${slug}"][0] {
+      _updatedAt,
+      "disableIndex": sharing.disableIndex
+    }`;
+		const doc = await client.fetch(query);
+		return {
+			lastModified: doc?._updatedAt || new Date().toISOString(),
+			disableIndex: doc?.disableIndex || false,
+		};
+	} catch (error) {
+		console.error(`Error fetching document data: ${error.message}`);
+		return { lastModified: new Date().toISOString(), disableIndex: false };
+	}
+}
+
+async function getStaticRoutes(baseUrl) {
+	const fullPath = path.join(process.cwd(), 'src/app/(pages)');
+	const routes = [];
+
+	// Add homepage
+	routes.push({
+		url: baseUrl,
+		lastModified: new Date().toISOString(),
+		changeFrequency: 'weekly',
+		priority: 1.0,
+	});
+
+	async function traverse(dir) {
+		const entries = fs.readdirSync(dir, { withFileTypes: true });
+
+		for (const entry of entries) {
+			if (entry.isDirectory() && !EXCLUDED_DIRS.includes(entry.name)) {
+				const fullEntryPath = path.join(dir, entry.name);
+				const relativePath = path.relative(fullPath, fullEntryPath);
+				const url = new URL(`${baseUrl}/${relativePath}`).toString();
+				const lastPath = relativePath.split('/').pop();
+
+				// Check if this path matches any routes with skipParentPath
+				const matchingRoute = ROUTES.find((route) => {
+					const routePath = route.slug.split('/').filter(Boolean);
+					const currentPath = relativePath.split('/').filter(Boolean);
+					return (
+						routePath.length === currentPath.length &&
+						routePath.every(
+							(segment, index) => segment === currentPath[index]
+						) &&
+						route.skipParentPath
+					);
+				});
+
+				// Skip if this is a parent path that should be skipped
+				if (matchingRoute) {
+					continue;
+				}
+
+				const { lastModified, disableIndex } = await getDocumentData(
+					null,
+					lastPath
+				);
+
+				if (!disableIndex) {
+					routes.push({
+						url,
+						lastModified,
+						changeFrequency: 'weekly',
+						priority: 1.0,
+					});
+				}
+
+				await traverse(fullEntryPath);
+			}
+		}
 	}
 
-	const getStaticRoutes = () => {
-		const fullPath = path.join(process.cwd(), baseDir);
+	await traverse(fullPath);
+	return routes;
+}
 
-		return fs
-			.readdirSync(fullPath, { withFileTypes: true })
-			.filter(
-				(entry) => entry.isDirectory() && !EXCLUDED_DIRS.includes(entry.name)
-			)
-			.map((entry) => ({
-				url: `${baseUrl}/${entry.name}`,
-				lastModified: new Date(),
-				...PAGE_CONFIG.STATIC,
-			}));
-	};
-
-	const getDynamicRoutes = async () => {
+async function getDynamicRoutes(baseUrl) {
+	try {
 		const routes = await Promise.all(
-			DYNAMIC_PAGE_TYPES.map(async ({ type, slug }) => {
-				const slugs = await getPagesPaths({ pageType: type });
-				const urlPrefix = slug ? `/${slug}` : '';
+			ROUTES.map(
+				async ({ type, slug, changeFrequency, priority, skipParentPath }) => {
+					const slugs = await getPagesPaths({ pageType: type });
+					const urlPrefix = slug ? `/${slug}` : '';
 
-				return slugs.map((slug) => ({
-					url: `${baseUrl}${urlPrefix}${slug.startsWith('/') ? slug : `/${slug}`}`,
-					lastModified: new Date(),
-					...PAGE_CONFIG.DYNAMIC,
-				}));
-			})
+					const pageRoutes = await Promise.all(
+						slugs.map(async (pageSlug) => {
+							// Skip if this is a parent path and skipParentPath is true
+							if (skipParentPath && !pageSlug) return null;
+
+							const url = new URL(
+								`${baseUrl}${urlPrefix}${pageSlug.startsWith('/') ? pageSlug : `/${pageSlug}`}`
+							).toString();
+
+							const { lastModified, disableIndex } = await getDocumentData(
+								type,
+								pageSlug
+							);
+
+							if (disableIndex) return null;
+
+							return {
+								url,
+								lastModified,
+								changeFrequency,
+								priority,
+							};
+						})
+					);
+
+					return pageRoutes.filter(Boolean);
+				}
+			)
 		);
 
 		return routes.flat();
-	};
+	} catch (error) {
+		console.error('Error generating dynamic routes:', error);
+		return [];
+	}
+}
 
-	return [...(await getStaticRoutes()), ...(await getDynamicRoutes())];
+export default async function generateSitemap() {
+	const baseUrl = process.env.SITE_URL?.replace(/\/$/, '');
+	if (!baseUrl) throw new Error('SITE_URL environment variable is required');
+
+	const [staticRoutes, dynamicRoutes] = await Promise.all([
+		getStaticRoutes(baseUrl),
+		getDynamicRoutes(baseUrl),
+	]);
+
+	return [...staticRoutes, ...dynamicRoutes];
 }
