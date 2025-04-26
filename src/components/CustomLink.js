@@ -13,8 +13,6 @@ export default function CustomLink({
 	link,
 	title,
 	children,
-	className,
-	ariaLabel,
 	isNewTab,
 	onClick,
 	...props
@@ -43,8 +41,6 @@ export default function CustomLink({
 			href={href || link.route}
 			target={isMailTo || isNewTab ? '_blank' : undefined}
 			rel={isNewTab ? 'noopener noreferrer' : undefined}
-			aria-label={ariaLabel}
-			className={className}
 			onClick={handleClick}
 			{...props}
 		>

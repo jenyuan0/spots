@@ -1,15 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 
-export default function Button({
-	onClick,
-	className = '',
-	href,
-	target,
-	children,
-	icon,
-	caret,
-}) {
+export default function Button({ children, icon, caret, ...props }) {
+	const { href } = props;
 	const isButton = !href;
 	const content = (
 		<>
@@ -29,16 +22,8 @@ export default function Button({
 	);
 
 	if (isButton) {
-		return (
-			<button onClick={onClick} className={className}>
-				{content}
-			</button>
-		);
+		return <button {...props}>{content}</button>;
 	}
 
-	return (
-		<Link href={href} target={target} className={className} onClick={onClick}>
-			{content}
-		</Link>
-	);
+	return <Link {...props}>{content}</Link>;
 }

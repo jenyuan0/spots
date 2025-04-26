@@ -174,7 +174,8 @@ export default function LocationCard({
 				className={`c-card__url p-fill`}
 				href={url}
 				onClick={handleDetailsClick}
-				aria-label={`View more details for ${title}`}
+				ariaLabel="Location Card"
+				tabIndex="-1"
 			/>
 		</div>
 	);
