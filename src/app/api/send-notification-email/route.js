@@ -3,50 +3,35 @@ import nodemailer from 'nodemailer';
 
 export async function POST(req) {
 	const body = await req.json();
-	const { type, email, emailSubject, emailHtmlContent } = body;
-
-	if (!type || !email || !emailSubject || !emailHtmlContent) {
-		return NextResponse.json(
-			{
-				message: 'Missing required fields: type, email, subject, or content.',
-			},
-			{ status: 500 }
-		);
-	}
+	const { email, emailSubject, emailHtmlContent } = body;
+	const authUser = process.env.EMAIL_SERVER_USER;
+	const authPassword = process.env.EMAIL_SERVER_PASSWORD;
+	const emailFrom = process.env.EMAIL_EMAIL_FROM;
 
 	try {
-		// create reusable transporter object using the default SMTP transport
 		const transporter = nodemailer.createTransport({
 			service: 'gmail',
-			host: process.env.EMAIL_SERVER_HOST,
-			port: process.env.EMAIL_SERVER_PORT,
+			host: process.env.EMAIL_SERVER_HOST || 'smtp.gmail.com',
+			port: process.env.EMAIL_SERVER_PORT || 465,
 			secure: true, // true for 465, false for other ports
 			auth: {
-				user: process.env.EMAIL_SERVER_USER,
-				pass: process.env.EMAIL_SERVER_PASSWORD,
+				user: authUser,
+				pass: authPassword,
 			},
 		});
-
-		const emailFrom = process.env.EMAIL_DISPLAY_NAME;
 		const mailOptions = {
-			from: `"${emailFrom}" <${process.env.EMAIL_SERVER_USER}>`,
+			from: `"${emailFrom}" <${authUser}>`,
 			to: email,
-			subject: `[${type} Notification] ${emailSubject}`,
-			html: `${emailHtmlContent}<br><br>Best regards, <br>${emailFrom} Team`,
+			subject: `[Error Notification] ${emailSubject}`,
+			html: `${emailHtmlContent}`,
 		};
 
-		try {
-			const info = await transporter.sendMail(mailOptions);
-			return NextResponse.json({ message: info.response }, { status: 200 });
-		} catch (error) {
-			return NextResponse.json(
-				{ error: error, message: 'email sending failed' },
-				{ status: 500 }
-			);
-		}
-	} catch (error) {
+		const info = await transporter.sendMail(mailOptions);
+		return Response.json(info);
+	} catch (err) {
+		console.error(err);
 		return NextResponse.json(
-			{ error: error, message: 'create transport failed' },
+			{ state: 'error', message: err.message },
 			{ status: 500 }
 		);
 	}

@@ -109,6 +109,8 @@ const FormItem = ({ item, control }) => {
 export default function CustomForm({ data, hiddenFields }) {
 	const {
 		formFields,
+		successMessage,
+		errorMessage,
 		sendToEmail,
 		emailSubject,
 		formFailureNotificationEmail,
@@ -174,7 +176,7 @@ export default function CustomForm({ data, hiddenFields }) {
 		} finally {
 			setTimeout(() => {
 				dispatch(setProgressStatus('complete'));
-				form.reset();
+				if (formState == FORM_STATES.SUCCESS) form.reset();
 			}, 1000);
 		}
 	};
@@ -198,30 +200,30 @@ export default function CustomForm({ data, hiddenFields }) {
 					{formFieldsData.map((item) => (
 						<FormItem key={item._key} item={item} control={form.control} />
 					))}
-					<Button
-						type="submit"
-						disabled={formState === FORM_STATES.SUBMITTING}
-						className="c-form__cta btn cr-green-d"
-					>
-						{formState === FORM_STATES.SUBMITTING
-							? 'Sending...'
-							: 'Send Message'}
-					</Button>
+					{formState === FORM_STATES.SUCCESS ? (
+						<p className="c-form__message t-b-2">
+							{successMessage || 'Success. Your message has been sent.'}
+						</p>
+					) : (
+						<Button
+							type="submit"
+							disabled={formState === FORM_STATES.SUBMITTING}
+							className="c-form__cta btn cr-green-d"
+						>
+							{formState === FORM_STATES.SUBMITTING
+								? 'Sending...'
+								: 'Send Message'}
+						</Button>
+					)}
 				</form>
-				{(formState === FORM_STATES.IDLE ||
-					formState === FORM_STATES.SUBMITTING) && (
+				{formState !== FORM_STATES.ERROR && (
 					<div className="c-form__message t-b-2 cr-subtle-5">
 						{'Average response time < 16hr'}
 					</div>
 				)}
-				{formState === FORM_STATES.SUCCESS && (
-					<p className="c-form__message t-b-2">
-						{data.successMessage || 'Success. Your message has been sent.'}
-					</p>
-				)}
 				{formState === FORM_STATES.ERROR && (
 					<p className="c-form__message t-b-2">
-						{data.errorMessage ||
+						{errorMessage ||
 							'Error. There was an issue submitting your message. Please try again later.'}
 					</p>
 				)}
@@ -242,19 +244,24 @@ export default function CustomForm({ data, hiddenFields }) {
 async function sendErrorNotificationEmail({ emailTo, bodyData, errorInfo }) {
 	const { sendToEmail, emailSubject, formData } = bodyData;
 	const emailData = {
-		type: 'Error',
 		email: emailTo,
-		emailSubject: 'Form Error',
+		emailSubject: emailSubject,
 		emailHtmlContent: `
-		  <h2>Form Error</h2>
-      <p><strong>Page URL:</strong> ${window.location.href}</p>
-      <p><strong>Timestamp:</strong> ${new Date().toISOString()}</p>
-      <h3>Error Details:</h3>
-      <p>${formatEmailContent(errorInfo)}</p>
-      <p><strong>Send to:</strong> ${sendToEmail}</p>
-      <p><strong>Subject:</strong> ${emailSubject}</p>
-      <h3>Form Data:</h3>
-      <p>${formatEmailContent(formData)}</p>`,
+			<p>
+				Your form failed to send. Please notify your website administrator. A backup is provided below.
+			</p>
+			<p>
+				<strong>Error Details: </strong><br>
+				Page URL: ${window.location.href}<br>
+				Timestamp: ${new Date().toISOString()}<br>
+				${formatObjectToHtml(errorInfo)}
+			</p>
+      <p>
+				<strong>Form Data: </strong><br>
+				Send to: ${sendToEmail}<br>
+				Subject: ${emailSubject}<br>
+				${formatObjectToHtml(formData)}
+			</p>`,
 	};
 
 	async function sendEmail({ apiUrl, emailData }) {
@@ -320,30 +327,4 @@ async function sendErrorNotificationEmail({ emailTo, bodyData, errorInfo }) {
 		attempts,
 		lastError,
 	};
-}
-
-function formatEmailContent(data, depth = 0) {
-	const indent = '&nbsp;'.repeat(depth);
-	let result = '';
-
-	if (Array.isArray(data)) {
-		result += indent + 'Array with ' + data.length + ' elements:<br>';
-		data.forEach((item, index) => {
-			result += indent + '  Index ' + index + ':<br>';
-			result += formatEmailContent(item, depth + 2);
-		});
-	} else if (typeof data === 'object' && data !== null) {
-		Object.entries(data).forEach(([key, value]) => {
-			if (typeof value === 'object' && value !== null) {
-				result += indent + `<strong>${key}</strong>` + ':<br>';
-				result += formatEmailContent(value, depth + 1);
-			} else {
-				result += indent + `<strong>${key}</strong>` + ': ' + value + '<br>';
-			}
-		});
-	} else {
-		result += indent + 'Value: ' + data + '<br>';
-	}
-
-	return result;
 }

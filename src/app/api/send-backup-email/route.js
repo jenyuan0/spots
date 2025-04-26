@@ -4,17 +4,7 @@ export async function POST(req) {
 	const { searchParams } = new URL(req.url);
 	const body = await req.json();
 	const useTransporter2 = searchParams.get('useTransporter2') || false;
-	const { type, email, emailSubject, emailHtmlContent } = body;
-
-	if (!type || !email || !emailSubject || !emailHtmlContent) {
-		return NextResponse.json(
-			{
-				message: 'Missing required fields: email, subject, or content.',
-			},
-			{ status: 500 }
-		);
-	}
-
+	const { email, emailSubject, emailHtmlContent } = body;
 	const emailData = {
 		type: 'Error',
 		to: email,
