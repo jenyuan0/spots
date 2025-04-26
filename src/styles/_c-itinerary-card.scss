@@ -50,12 +50,13 @@
 		width: 85%;
 		max-width: 450px;
 		width: Min(85%, 450px);
-		filter: contrast(1.5) grayscale(1);
 		border-radius: 100%;
 		overflow: hidden;
+		background-color: var(--cr-subtle);
 
 		picture {
 			aspect-ratio: 1;
+			filter: contrast(1.5) grayscale(1);
 		}
 	}
 

@@ -5,9 +5,7 @@
 	justify-content: space-between;
 	align-items: center;
 	width: var(--width-max);
-	margin-inline: auto;
-	padding-block: var(--s-2-v);
-	padding-bottom: var(--s-3-v);
+	margin: var(--s-3-v) auto;
 	border-top: 1px solid;
 
 	&__links {

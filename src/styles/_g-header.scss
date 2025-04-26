@@ -166,6 +166,10 @@
 		--logo-cta-width: unset;
 		--block-padding: 8px 13px;
 
+		&.is-mobile-open {
+			z-index: 200;
+		}
+
 		&__logo {
 			margin-right: auto;
 			padding: 0 8px;
@@ -189,12 +193,12 @@
 			height: calc(100svh - var(--header-size));
 			height: calc(100vh - var(--header-size));
 			flex-direction: column;
-			justify-content: space-around;
+			justify-content: center;
+			gap: var(--s-4-v);
 			background-color: var(--cr-cream);
 			transition: opacity var(--t-1);
 			opacity: 0;
 			pointer-events: none;
-			z-index: 200;
 
 			.is-mobile-open & {
 				opacity: 1;
@@ -203,7 +207,7 @@
 
 			&__block {
 				flex: unset;
-				margin: auto;
+				margin-inline: auto;
 				width: 90%;
 				max-width: 600px;
 			}

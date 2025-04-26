@@ -295,6 +295,10 @@
 				background-color: var(--cr-cream);
 				z-index: 155;
 			}
+
+			.c-accordion__toggle {
+				padding-block: 15px;
+			}
 		}
 	}
 }
