@@ -38,7 +38,7 @@ export default function ItineraryCard({ data }) {
 			</Button>
 			<Link
 				href={url}
-				ariaLabel="Open Itinerary"
+				aria-label="Open Itinerary"
 				className="p-fill"
 				tabIndex="-1"
 			/>

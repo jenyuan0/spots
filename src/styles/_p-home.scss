@@ -96,6 +96,7 @@
 	margin-bottom: -1px;
 
 	&-block {
+		--media-size: Min(100%, 600px);
 		position: sticky;
 		top: calc(var(--s-header) - 1px);
 		display: flex;
@@ -173,13 +174,15 @@
 		}
 
 		@include mobileDown {
+			--media-size: calc(100% - var(--s-2-h) * 2);
+
 			&,
 			&:nth-child(even) {
 				flex-direction: column;
 			}
 
 			&__media {
-				padding: var(--s-4-v) var(--s-3-h);
+				padding: var(--s-2-v) var(--s-2-h);
 			}
 
 			&__text {
@@ -201,7 +204,7 @@
 
 .p-home__clock {
 	position: relative;
-	width: Min(100%, 600px);
+	width: var(--media-size);
 	aspect-ratio: 1;
 	margin: auto;
 	border-radius: 100%;
@@ -247,7 +250,7 @@
 .p-home__masks {
 	--gap: 10px;
 	display: grid;
-	width: Min(100%, 600px);
+	width: var(--media-size);
 	aspect-ratio: 1;
 	margin: auto;
 	grid-template-columns: repeat(3, 1fr);
@@ -432,7 +435,7 @@
 
 .p-home__toggle {
 	position: relative;
-	width: Min(100%, 600px);
+	width: var(--media-size);
 	margin: auto;
 	border-radius: 300px;
 	border: 1px solid var(--cr-subtle);

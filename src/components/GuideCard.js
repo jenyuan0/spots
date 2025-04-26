@@ -71,7 +71,7 @@ export default function GuideCard({ data, layout = 'vertical-1', color }) {
 			</div>
 			<Link
 				href={url}
-				ariaLabel="Open Guide"
+				aria-label="Open Guide"
 				className="p-fill"
 				tabIndex="-1"
 			/>
