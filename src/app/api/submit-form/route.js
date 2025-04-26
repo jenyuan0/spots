@@ -9,14 +9,6 @@ export async function POST(req) {
 	const authPassword = process.env.EMAIL_SERVER_PASSWORD;
 	const emailFrom = process.env.EMAIL_DISPLAY_NAME;
 
-	// Log environment variables
-	console.log('Environment variables check:', {
-		host: process.env.EMAIL_SERVER_HOST,
-		port: process.env.EMAIL_SERVER_PORT,
-		user: process.env.EMAIL_SERVER_USER,
-		hasPassword: !!process.env.EMAIL_SERVER_PASSWORD,
-	});
-
 	try {
 		// Create transporter
 		const transporter = nodemailer.createTransport({
@@ -38,20 +30,11 @@ export async function POST(req) {
 			console.error('Transporter verification failed:', error);
 			throw error;
 		}
-
-		// Log email data before sending
-		console.log('Attempting to send email with:', {
-			to: sendToEmail,
-			from: emailFrom,
-			subject: emailSubject,
-			hasHtmlContent: !!formData,
-		});
-
 		const mailOptions = {
 			from: `"${emailFrom}" <${authUser}>`,
 			to: sendToEmail,
 			replyTo: formData?.email || sendToEmail,
-			subject: emailSubject,
+			subject: `${emailSubject}${formData?.name && ` [${formData.name}]`}`,
 			html: formatObjectToHtml(formData),
 		};
 
