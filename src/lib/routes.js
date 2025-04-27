@@ -20,6 +20,8 @@ export const getRoute = ({ documentType, slug }) => {
 			return '/';
 		case 'pGeneral':
 			return `/${slug}`;
+		case 'pContact':
+			return `/contact`;
 		case 'pGuides':
 			return '/paris/guides';
 		case 'gGuides':

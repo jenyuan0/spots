@@ -84,7 +84,6 @@ export const subcategoryMetaFields = groq`
   parentCategory->{${categoryMetaFields}}
 `;
 
-// Construct our "portable text content" GROQ
 export const portableTextContentFields = groq`
   ...,
   markDefs[]{
@@ -100,68 +99,6 @@ export const portableTextContentFields = groq`
     ${imageMetaFields}
   }
 `;
-
-export const freeformFields = groq`
-  ...,
-  _type,
-  _key,
-  content[]{
-    ${portableTextContentFields}
-  },
-  sectionAppearance
-`;
-
-export const portableTextObj = groq`
-  ...,
-  _type == 'carousel' => {
-    _type,
-    _key,
-    items,
-    autoplay,
-    autoplayInterval
-  },
-  _type == 'locationList' => {
-    ${locationListObj}
-  },
-  _type == 'locationSingle' => {
-    ${locationSingleObj}
-  },
-  _type == 'ad' =>  *[_type == 'gAds' && _id == ^._ref][0]
-`;
-
-export const getGuidesData = (type) => {
-	let defaultData = groq`
-    ${baseFields},
-    thumb{
-      ${imageMetaFields}
-    },
-    publishDate,
-    categories[]->{
-      ${categoryMetaFields}
-    },
-    subcategories[]->{
-      ${subcategoryMetaFields}
-    },
-    "color": lower(categories[0]->color->title),
-    "colorHex": lower(categories[0]->color->colorD.hex),
-    excerpt,`;
-	if (type === 'card') {
-		defaultData += groq`excerpt`;
-	} else {
-		defaultData += groq`
-    showMap,
-    content[]{
-      ${portableTextObj}
-    },
-    itineraries[]->{
-      ${getItineraryData('card')}
-    },
-    related[]->{
-      ${getGuidesData('card')}
-    }`;
-	}
-	return defaultData;
-};
 
 export const getLocationsData = (type) => {
 	let defaultData = groq`
@@ -231,6 +168,68 @@ export const locationSingleObj = groq`
   contentReplace[]{
     ${portableTextContentFields}
   }`;
+
+export const freeformFields = groq`
+  ...,
+  _type,
+  _key,
+  content[]{
+    ${portableTextContentFields}
+  },
+  sectionAppearance
+`;
+
+export const portableTextObj = groq`
+  ...,
+  _type == 'carousel' => {
+    _type,
+    _key,
+    items,
+    autoplay,
+    autoplayInterval
+  },
+  _type == 'locationList' => {
+    ${locationListObj}
+  },
+  _type == 'locationSingle' => {
+    ${locationSingleObj}
+  },
+  _type == 'ad' =>  *[_type == 'gAds' && _id == ^._ref][0]
+`;
+
+export const getGuidesData = (type) => {
+	let defaultData = groq`
+    ${baseFields},
+    thumb{
+      ${imageMetaFields}
+    },
+    publishDate,
+    categories[]->{
+      ${categoryMetaFields}
+    },
+    subcategories[]->{
+      ${subcategoryMetaFields}
+    },
+    "color": lower(categories[0]->color->title),
+    "colorHex": lower(categories[0]->color->colorD.hex),
+    excerpt,`;
+	if (type === 'card') {
+		defaultData += groq`excerpt`;
+	} else {
+		defaultData += groq`
+    showMap,
+    content[]{
+      ${portableTextObj}
+    },
+    itineraries[]->{
+      ${getItineraryData('card')}
+    },
+    related[]->{
+      ${getGuidesData('card')}
+    }`;
+	}
+	return defaultData;
+};
 
 export const getItineraryData = (type) => {
 	let defaultData = groq`

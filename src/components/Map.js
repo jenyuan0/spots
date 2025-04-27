@@ -65,7 +65,7 @@ export default function TheMap({ id, locations, color }) {
 		<div className="c-map">
 			<APIProvider
 				apiKey={process.env.NEXT_PUBLIC_SANITY_GOOGLE_MAP_API_KEY}
-				onError={console.error('API ERROR!')}
+				// onError={console.error('API ERROR!')}
 			>
 				<Map
 					defaultCenter={center}
