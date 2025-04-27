@@ -246,6 +246,10 @@
 			display: flex;
 			justify-content: space-between;
 			grid-column: span 2;
+
+			.t-l-1 {
+				white-space: nowrap;
+			}
 		}
 	}
 
@@ -546,6 +550,10 @@
 
 	@include tabletDown {
 		padding: var(--s-contain);
+
+		&:not(.is-active) {
+			display: none;
+		}
 
 		.c-map {
 			flex: 1;
