@@ -49,7 +49,7 @@ const WhyText = ({ data, color }) => {
 				{cta && (
 					<Button
 						className={clsx('btn-outline', `cr-${color}-d`)}
-						link={cta.link}
+						href={cta.link.route}
 						isNewTab={cta.isNewTab}
 						caret="right"
 					>

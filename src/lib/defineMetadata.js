@@ -30,6 +30,10 @@ export default function defineMetadata({ data }) {
 		: false;
 
 	const disableIndex = page?.sharing?.disableIndex;
+	const pageRoute = getRoute({
+		documentType: _type,
+		slug: slug,
+	});
 
 	return {
 		title: metaTitle,
@@ -67,13 +71,11 @@ export default function defineMetadata({ data }) {
 		},
 		metadataBase: new URL(process.env.SITE_URL),
 		alternates: {
-			canonical: `${process.env.SITE_URL}${getRoute({
-				documentType: _type,
-				slug: slug,
-			})}`,
-			languages: {
-				'en-US': '/en-US',
-			},
+			...(pageRoute && { canonical: `${process.env.SITE_URL}${pageRoute}` }),
+			// TODO: enable when site is multilingual
+			// languages: {
+			// 	'en-US': '/en-US',
+			// },
 		},
 		robots: {
 			index: disableIndex ? false : true,

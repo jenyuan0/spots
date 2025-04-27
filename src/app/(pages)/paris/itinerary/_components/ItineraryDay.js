@@ -62,7 +62,7 @@ export default function ItineraryDay({
 		reservations,
 		date
 	);
-	const { isMobileScreen, isTabletScreen } = useWindowDimensions();
+	const { isTabletScreen } = useWindowDimensions();
 
 	// State management
 	const [isMapActive, setIsMapActive] = useState(false);

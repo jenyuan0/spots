@@ -5,7 +5,7 @@ import useKey from '@/hooks/useKey';
 import { getRandomInt } from '@/lib/helpers';
 
 export default function LocationDot({ data, initialLightOrDark }) {
-	const { slug, color } = data;
+	const { slug, title, color } = data;
 	const [lightOrDark, setLightOrDark] = useState(initialLightOrDark);
 	const setMag = useMagnify((state) => state.setMag);
 	const { hasPressedKeys } = useKey();
@@ -21,6 +21,7 @@ export default function LocationDot({ data, initialLightOrDark }) {
 			className="c-location-dot"
 			style={{ '--cr-primary': `var(--cr-${color}-${lightOrDark})` }}
 			href={`/locations/${slug}`}
+			aria-label={`Link to ${title}`}
 			{...(!hasPressedKeys && {
 				onClick: (e) => {
 					e.preventDefault();

@@ -38,12 +38,13 @@ export const useDotButton = (emblaApi, onButtonClick) => {
 	};
 };
 
-export const DotButton = ({ isSelected, children, ...props }) => (
+export const DotButton = ({ index, isSelected, ...props }) => (
 	<button
 		type="button"
 		className={clsx('c-carousel__dot', {
 			'is-selected': isSelected,
 		})}
+		aria-label={`Move to slide ${index + 1}`}
 		{...props}
 	/>
 );

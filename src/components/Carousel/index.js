@@ -128,9 +128,10 @@ export default function Carousel({
 						<div className="c-carousel__dots">
 							{scrollSnaps.map((_, index) => (
 								<DotButton
-									key={index}
-									onClick={() => onDotButtonClick(index)}
+									key={`item-${index}`}
+									index={index}
 									isSelected={index === selectedIndex}
+									onClick={() => onDotButtonClick(index)}
 								/>
 							))}
 						</div>
