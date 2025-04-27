@@ -7,7 +7,7 @@ import useKey from '@/hooks/useKey';
 import useMagnify from '@/hooks/useMagnify';
 import useLightbox from '@/hooks/useLightbox';
 import MagnifyLocation from './MagnifyLocation';
-import { getLocationsData, fileMeta } from '@/sanity/lib/queries';
+import { getLocationsData, fileMetaFields } from '@/sanity/lib/queries';
 
 export function Magnify() {
 	const [isActive, setIsActive] = useState(false);
@@ -40,7 +40,7 @@ export function Magnify() {
 						startTime,
 						endTime,
 						notes,
-						attachments[]{${fileMeta}}
+						attachments[]{${fileMetaFields}}
 					}
 				`),
 			]);

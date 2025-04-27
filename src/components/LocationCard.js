@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import React, { useState, useEffect } from 'react';
 import { hasArrayValue, formatTime } from '@/lib/helpers';
 import Img from '@/components/Image';
 import Button from '@/components/Button';
@@ -72,8 +73,8 @@ export default function LocationCard({
 	const addressString =
 		address && Object.values(address).filter(Boolean).join(', ');
 	const resStart = res?.startTime && new Date(res?.startTime);
-	const showContent =
-		['horizontal-2', 'embed'].includes(layout) && (content || contentReplace);
+	const [isShowContent, setIsShowContent] = useState(false);
+	const [categoryPillLimit, setCategoryPillLimit] = useState(1);
 
 	// Hooks
 	const setMag = useMagnify((state) => state.setMag);
@@ -96,6 +97,15 @@ export default function LocationCard({
 		}
 	};
 
+	useEffect(() => {
+		setIsShowContent(
+			['horizontal-2', 'embed'].includes(layout) && (content || contentReplace)
+		);
+		setCategoryPillLimit(
+			['horizontal-1', 'horizontal-2'].includes(layout) ? 1 : 2
+		);
+	}, [layout, content, contentReplace]);
+
 	return (
 		<div className={'c-card'} data-layout={layout} role="article">
 			<ImageGallery
@@ -110,9 +120,7 @@ export default function LocationCard({
 							<CategoryPillList
 								categories={categories}
 								subcategories={subcategories}
-								limit={
-									['horizontal-1', 'horizontal-2'].includes(layout) ? 1 : 2
-								}
+								limit={categoryPillLimit}
 							/>
 						</div>
 					)}
@@ -134,7 +142,7 @@ export default function LocationCard({
 						Reservation: {formatTime(resStart)}
 					</div>
 				)}
-				{showContent && (
+				{isShowContent && (
 					<div
 						className={clsx('c-card__content', {
 							'wysiwyg-b-1': layout === 'embed',
@@ -151,9 +159,8 @@ export default function LocationCard({
 						})}
 						href={url}
 						onClick={handleDetailsClick}
-						aria-label={`View more details for ${title}`}
 					>
-						{showContent && layout !== 'embed' ? 'Read More' : 'Details'}
+						{isShowContent && layout !== 'embed' ? 'Read More' : 'Details'}
 					</Button>
 					{hasDirection && addressString && (
 						<Button
@@ -163,7 +170,6 @@ export default function LocationCard({
 							href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(title)}+${encodeURIComponent(addressString)}`}
 							target="_blank"
 							rel="noopener noreferrer"
-							aria-label={`Get directions to ${title}`}
 						>
 							Get Direction
 						</Button>
@@ -174,7 +180,7 @@ export default function LocationCard({
 				className={`c-card__url p-fill`}
 				href={url}
 				onClick={handleDetailsClick}
-				aria-label="Location Card"
+				aria-label="Read more"
 				tabIndex="-1"
 			/>
 		</div>

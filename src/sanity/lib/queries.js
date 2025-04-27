@@ -3,33 +3,39 @@ import { groq } from 'next-sanity';
 // Construct our "home" page GROQ
 export const homeID = groq`*[_type=="pHome"][0]._id`;
 
-// Construct our "link" GROQ
-const link = groq`
-	_type,
-	route,
-	isNewTab
+// Base queries for common fields
+const baseFields = groq`
+  _id,
+  _type,
+  title,
+  "slug": slug.current,
+  sharing
 `;
 
-// Construct our "menu" GROQ
-const menu = groq`
-	_key,
-	_type,
-	title,
-	items[]{
-		title,
-		link {
-			${link}
-		}
-	}
+const linkFields = groq`
+  _type,
+  route,
+  isNewTab
 `;
 
-// Construct our "image meta" GROQ
-export const imageMeta = groq`
-	asset,
+const menuFields = groq`
+  _key,
+  _type,
+  title,
+  items[]{
+    title,
+    link {
+      ${linkFields}
+    }
+  }
+`;
+
+export const imageMetaFields = groq`
+  asset,
   crop,
   customRatio,
   hotspot,
-  ...asset -> {
+  ...asset-> {
     "id": assetId,
     "alt": coalesce(^.alt, altText),
     "type": mimeType,
@@ -37,13 +43,12 @@ export const imageMeta = groq`
     "height": metadata.dimensions.height,
     "aspectRatio": metadata.dimensions.aspectRatio,
     "lqip": metadata.lqip
-   }
+  }
 `;
 
-// Construct our "image meta" GROQ
-export const fileMeta = groq`
+export const fileMetaFields = groq`
   asset,
-  ...asset -> {
+  ...asset-> {
     "id": assetId,
     "filename": originalFilename,
     "type": mimeType,
@@ -53,751 +58,679 @@ export const fileMeta = groq`
   }
 `;
 
-export const callToAction = groq`
-	label,
-	link {
-		${link}
-	},
-	"isButton": true
+export const callToActionFields = groq`
+  label,
+  link {
+    ${linkFields}
+  },
+  "isButton": true
 `;
 
-export const colorMeta = groq`
-	"title": lower(title),
-	"colorD": colorD.hex,
-	"colorL": colorL.hex
+export const colorMetaFields = groq`
+  "title": lower(title),
+  "colorD": colorD.hex,
+  "colorL": colorL.hex
 `;
 
-export const categoryMeta = groq`
-	_id,
-	title,
-	"slug": slug.current,
-	"colorTitle": color->title,
-	"colorD": color->colorD.hex,
-	"colorL": color->colorL.hex
+export const categoryMetaFields = groq`
+  ${baseFields},
+  "colorTitle": color->title,
+  "colorD": color->colorD.hex,
+  "colorL": color->colorL.hex
 `;
 
-export const subcategoryMeta = groq`
-	_id,
-	title,
-	"slug": slug.current,
-	parentCategory->{${categoryMeta}}
+export const subcategoryMetaFields = groq`
+  ${baseFields},
+  parentCategory->{${categoryMetaFields}}
 `;
 
 // Construct our "portable text content" GROQ
-export const portableTextContent = groq`
-	...,
-	markDefs[]{
-		...,
-		_type == "link" => {
-			${link}
-		},
-		_type == "callToAction" => {
-			${callToAction}
-		}
-	},
-	_type == "image" => {
-		${imageMeta}
-	}
+export const portableTextContentFields = groq`
+  ...,
+  markDefs[]{
+    ...,
+    _type == "link" => {
+      ${linkFields}
+    },
+    _type == "callToAction" => {
+      ${callToActionFields}
+    }
+  },
+  _type == "image" => {
+    ${imageMetaFields}
+  }
 `;
 
-export const freeformObj = groq`
-	...,
-	_type,
-	_key,
-	content[]{
-		${portableTextContent}
-	},
-	sectionAppearance
+export const freeformFields = groq`
+  ...,
+  _type,
+  _key,
+  content[]{
+    ${portableTextContentFields}
+  },
+  sectionAppearance
+`;
+
+export const portableTextObj = groq`
+  ...,
+  _type == 'carousel' => {
+    _type,
+    _key,
+    items,
+    autoplay,
+    autoplayInterval
+  },
+  _type == 'locationList' => {
+    ${locationListObj}
+  },
+  _type == 'locationSingle' => {
+    ${locationSingleObj}
+  },
+  _type == 'ad' =>  *[_type == 'gAds' && _id == ^._ref][0]
 `;
 
 export const getGuidesData = (type) => {
 	let defaultData = groq`
-		_id,
-		_type,
-		title,
-		"slug": slug.current,
-		thumb{
-			${imageMeta}
-		},
-		publishDate,
-		categories[]->{
-			${categoryMeta}
-		},
-		subcategories[]->{
-			${subcategoryMeta}
-		},
-		"color": lower(categories[0]->color->title),
-		"colorHex": lower(categories[0]->color->colorD.hex),
-		excerpt,`;
+    ${baseFields},
+    thumb{
+      ${imageMetaFields}
+    },
+    publishDate,
+    categories[]->{
+      ${categoryMetaFields}
+    },
+    subcategories[]->{
+      ${subcategoryMetaFields}
+    },
+    "color": lower(categories[0]->color->title),
+    "colorHex": lower(categories[0]->color->colorD.hex),
+    excerpt,`;
 	if (type === 'card') {
 		defaultData += groq`excerpt`;
 	} else {
 		defaultData += groq`
-		showMap,
-		content[]{
-			${portableTextObj}
-		},
-		itineraries[]->{
-			${getItineraryData('card')}
-		},
-		related[]->{
-			${getGuidesData('card')}
-		}`;
+    showMap,
+    content[]{
+      ${portableTextObj}
+    },
+    itineraries[]->{
+      ${getItineraryData('card')}
+    },
+    related[]->{
+      ${getGuidesData('card')}
+    }`;
 	}
 	return defaultData;
 };
 
 export const getLocationsData = (type) => {
 	let defaultData = groq`
-		_id,
-		_type,
-		title,
-		"slug": slug.current,
-		categories[]->{
-			${categoryMeta}
-		},
-		subcategories[]->{
-			${subcategoryMeta}
-		},
-		"color": lower(categories[0]->color->title),
-		images[]{
-			${imageMeta}
-		},
-		geo,
-		address{
-			street,
-			city,
-			zip
-		},
-		content[]{
-			${portableTextContent}
-		},`;
+    ${baseFields},
+    categories[]->{
+      ${categoryMetaFields}
+    },
+    subcategories[]->{
+      ${subcategoryMetaFields}
+    },
+    "color": lower(categories[0]->color->title),
+    images[]{
+      ${imageMetaFields}
+    },
+    geo,
+    address{
+      street,
+      city,
+      zip
+    },
+    content[]{
+      ${portableTextContentFields}
+    },`;
 	if (type === 'card') {
-		// defaultData += groq`
-		// 	"thumb": images[0]{
-		// 			${imageMeta}
-		// 	},
-		// `;
+		// Card-specific fields can be added here
 	} else {
 		defaultData += groq`
-			urls,
-			fees,
-			contentItinerary[]{
-				${portableTextContent}
-			},
-			relatedLocations[]->{
-				${getLocationsData('card')}
-			},
-			relatedGuides[]->{
-				${getGuidesData('card')}
-			}
-		`;
+      urls,
+      fees,
+      contentItinerary[]{
+        ${portableTextContentFields}
+      },
+      relatedLocations[]->{
+        ${getLocationsData('card')}
+      },
+      relatedGuides[]->{
+        ${getGuidesData('card')}
+      }
+    `;
 	}
 	return defaultData;
 };
 
 export const locationListObj = groq`
-	...,
-	_id,
-	_type,
-	title,
-	startTime,
-	content,
-	locations[]->{
-		${getLocationsData('card')}
-	},
-	fallbackRains[]->{
-		${getLocationsData('card')}
-	},
-	fallbackLongWait[]->{
-		${getLocationsData('card')}
-	}
+  ...,
+  _id,
+  _type,
+  title,
+  startTime,
+  content,
+  locations[]->{
+    ${getLocationsData('card')}
+  },
+  fallbackRains[]->{
+    ${getLocationsData('card')}
+  },
+  fallbackLongWait[]->{
+    ${getLocationsData('card')}
+  }
 `;
 
 export const locationSingleObj = groq`
-	...,
-	location->{
-		${getLocationsData('card')}
-	},
-	contentReplace[]{
-		${portableTextContent}
-	}`;
+  ...,
+  location->{
+    ${getLocationsData('card')}
+  },
+  contentReplace[]{
+    ${portableTextContentFields}
+  }`;
 
 export const getItineraryData = (type) => {
 	let defaultData = groq`
-		_id,
-		title,
-		subtitle,
-		"slug": slug.current,
-		images[]{
-			${imageMeta}
-		},
-		color->{
-			${colorMeta}
-		},
-		"totalDays": length(plan[]),
-		"totalActivities": count(plan[].itineraryDay->activities[]),
-		"totalLocations": count(plan[].itineraryDay->activities[].locations[]),`;
+    ${baseFields},
+    subtitle,
+    images[]{
+      ${imageMetaFields}
+    },
+    color->{
+      ${colorMetaFields}
+    },
+    "totalDays": length(plan[]),
+    "totalActivities": count(plan[].itineraryDay->activities[]),
+    "totalLocations": count(plan[].itineraryDay->activities[].locations[]),`;
 	if (type === 'card') {
 		defaultData += groq`excerpt`;
 	} else {
 		defaultData += groq`
-		introduction,
-		accomodations[]->{
-			${getLocationsData('card')}
-		},
-	  plan[]{
-			"day": itineraryDay->{
-				title,
-				content,
-				images[]{
-					${imageMeta}
-				},
-				activities[] {
-					${locationListObj}
-				},
-				relatedGuides[]->{
-					${getGuidesData('card')}
-				}
-			},
-			title,
-			content
-		},
-		guides[]->{
-			${getGuidesData('card')}
-		},
-		type,
-		...select(type == "premade" => {
-			NumOfTravelers,
-			"budget": {
-				"low": budget.budgetLow,
-				"high": budget.budgetHigh
-			},
-			${planFormData}
-		}),
-		...select(type == "custom" => {
-			passcode,
-			name,
-			startDate,
-			introMessage,
-			endingMessage,
-			emergencyContact,
-			"accommodation": {
-				"location": accomodation.accomodationLocation->{${getLocationsData('card')}},
-				"checkInTime": accomodation.accomodationCheckInTime,
-				"checkOutTime": accomodation.accomodationCheckOutTime,
-				"notes": accomodation.accomodationNotes,
-				"attachments": accomodation.accomodationAttachments
-			},
-			"reservations": reservations[]{
-				"location": location->{${getLocationsData('card')}},
-				"startTime": startTime,
-				"endTime": endTime,
-				"notes": notes,
-				"attachments": attachments[]{${fileMeta}}
-			}
-		})`;
+      introduction,
+      accomodations[]->{
+        ${getLocationsData('card')}
+      },
+      plan[]{
+        "day": itineraryDay->{
+          title,
+          content,
+          images[]{
+            ${imageMetaFields}
+          },
+          activities[] {
+            ${locationListObj}
+          },
+          relatedGuides[]->{
+            ${getGuidesData('card')}
+          }
+        },
+        title,
+        content
+      },
+      guides[]->{
+        ${getGuidesData('card')}
+      },
+      type,
+      ...select(type == "premade" => {
+        NumOfTravelers,
+        "budget": {
+          "low": budget.budgetLow,
+          "high": budget.budgetHigh
+        },
+        ${planFormData}
+      }),
+      ...select(type == "custom" => {
+        passcode,
+        name,
+        startDate,
+        introMessage,
+        endingMessage,
+        emergencyContact,
+        "accommodation": {
+          "location": accomodation.accomodationLocation->{${getLocationsData('card')}},
+          "checkInTime": accomodation.accomodationCheckInTime,
+          "checkOutTime": accomodation.accomodationCheckOutTime,
+          "notes": accomodation.accomodationNotes,
+          "attachments": accomodation.accomodationAttachments
+        },
+        "reservations": reservations[]{
+          "location": location->{${getLocationsData('card')}},
+          "startTime": startTime,
+          "endTime": endTime,
+          "notes": notes,
+          "attachments": attachments[]{${fileMetaFields}}
+        }
+      })`;
 	}
 	return defaultData;
 };
 
 // Construct our content "modules" GROQ
 export const pageModules = groq`
-	_type == 'freeform' => {
-		${freeformObj}
-	},
-	_type == 'carousel' => {
-		_type,
-		_key,
-		items,
-		autoplay,
-		autoplayInterval
-	},
-	_type == 'marquee' => {
-		_type,
-		_key,
-		items[]{
-			_type == 'simple' => {
-				_type,
-				text
-			},
-			_type == 'image' => {
-				_type,
-				"image": {
-					${imageMeta}
-				}
-			}
-		},
-		speed,
-		reverse,
-		pausable
-	},
-	_type == 'locationList' => {
-		${locationListObj}
-	},
-	_type == 'locationSingle' => {
-		${locationSingleObj}
-	},
-	_type == 'ad' =>  *[_type == 'gAds' && _id == ^._ref][0]
-`;
-
-export const portableTextObj = groq`
-	...,
-	_type == 'carousel' => {
-		_type,
-		_key,
-		items,
-		autoplay,
-		autoplayInterval
-	},
-	_type == 'locationList' => {
-		${locationListObj}
-	},
-	_type == 'locationSingle' => {
-		${locationSingleObj}
-	},
-	_type == 'ad' =>  *[_type == 'gAds' && _id == ^._ref][0]
+  _type == 'freeform' => {
+    ${freeformFields}
+  },
+  _type == 'carousel' => {
+    _type,
+    _key,
+    items,
+    autoplay,
+    autoplayInterval
+  },
+  _type == 'marquee' => {
+    _type,
+    _key,
+    items[]{
+      _type == 'simple' => {
+        _type,
+        text
+      },
+      _type == 'image' => {
+        _type,
+        "image": {
+          ${imageMetaFields}
+        }
+      }
+    },
+    speed,
+    reverse,
+    pausable
+  },
+  _type == 'locationList' => {
+    ${locationListObj}
+  },
+  _type == 'locationSingle' => {
+    ${locationSingleObj}
+  },
+  _type == 'ad' =>  *[_type == 'gAds' && _id == ^._ref][0]
 `;
 
 const customForm = groq`
-	formFields[] {
-		placeholder,
-		_key,
-		required,
-		fieldLabel,
-		inputType,
-		size,
-		selectOptions[] {
-			_key,
-			"title": option,
-			"value": option
-		}
-	}`;
+  formFields[] {
+    placeholder,
+    _key,
+    required,
+    fieldLabel,
+    inputType,
+    size,
+    selectOptions[] {
+      _key,
+      "title": option,
+      "value": option
+    }
+  }`;
 
 export const planFormData = groq`
-	"planForm": *[_type == "gPlanForm"][0]{
-		image,
-		mobileImage,
-		formTitle,
-		formHeading,
-		${customForm},
-		successMessage,
-		errorMessage,
-		sendToEmail,
-		emailSubject,
-		formFailureNotificationEmail,
-		email,
-		whatsapp,
-		line,
-		faq[]{
-			_key,
-			title,
-			answer[]{
-				${portableTextContent}
-			}
-		}
-	}`;
+  "planForm": *[_type == "gPlanForm"][0]{
+    image,
+    mobileImage,
+    formTitle,
+    formHeading,
+    ${customForm},
+    successMessage,
+    errorMessage,
+    sendToEmail,
+    emailSubject,
+    formFailureNotificationEmail,
+    email,
+    whatsapp,
+    line,
+    faq[]{
+      _key,
+      title,
+      answer[]{
+        ${portableTextContentFields}
+      }
+    }
+  }`;
 
 // Construct our "site" GROQ
 export const site = groq`
-	"site": {
-		"title": *[_type == "settingsGeneral"][0].siteTitle,
-		"announcement": *[_type == "gAnnouncement"][0]{
-			display,
-			messages,
-			autoplay,
-			autoplayInterval,
-			backgroundColor,
-			textColor,
-			emphasizeColor,
-			"link": ${link}
-		},
-		"header": *[_type == "gHeader"][0]{
-			menu[]{
-				${menu}
-			}
-		},
-		"footer": *[_type == "gFooter"][0]{
-			menu->{
-				${menu}
-			},
-			menuLegal->{
-				${menu}
-			}
-		},
-		"sharing": *[_type == "settingsGeneral"][0]{
-			shareGraphic,
-			favicon,
-			faviconLight
-		},
-		"integrations": *[_type == "settingsIntegration"][0]{
-			gtmID,
-			gaID,
-			KlaviyoApiKey
-		},
-		"colors": *[_type == "settingsBrandColors"][]{
-			${colorMeta}
-		}
-	}
+  "site": {
+    "title": *[_type == "settingsGeneral"][0].siteTitle,
+    "announcement": *[_type == "gAnnouncement"][0]{
+      display,
+      messages,
+      autoplay,
+      autoplayInterval,
+      backgroundColor,
+      textColor,
+      emphasizeColor,
+      "link": ${linkFields}
+    },
+    "header": *[_type == "gHeader"][0]{
+      menu[]{
+        ${menuFields}
+      }
+    },
+    "footer": *[_type == "gFooter"][0]{
+      menu->{
+        ${menuFields}
+      },
+      menuLegal->{
+        ${menuFields}
+      }
+    },
+    "sharing": *[_type == "settingsGeneral"][0]{
+      shareGraphic,
+      favicon,
+      faviconLight
+    },
+    "integrations": *[_type == "settingsIntegration"][0]{
+      gtmID,
+      gaID,
+      KlaviyoApiKey
+    },
+    "colors": *[_type == "settingsBrandColors"][]{
+      ${colorMetaFields}
+    }
+  }
 `;
 
 export const pageHomeQuery = groq`
-	*[_type == "pHome"][0]{
-		_id,
-		_type,
-		sharing,
-		title,
-		"slug": slug.current,
-		"isHomepage": true,
-		heroHeading[]{
-			${portableTextContent}
-		},
-		heroSubheading,
-		heroImage,
-		heroSpots[]->{
-			title,
-			_id,
-			"slug": slug.current,
-			"color": lower(categories[0]->color->title)
-		},
-		introTitle,
-		introHeading,
-		introCta,
-		clockHeading,
-		clockParagraph,
-		clockOffers,
-		clockText,
-		clockCta,
-		masksHeading,
-		masksParagraph,
-		masksOffers,
-		masksCta,
-		masksImages[]{
-			${imageMeta}
-		},
-		toggleHeading,
-		toggleParagraph,
-		toggleOffers,
-		toggleCta,
-		itinerariesTitle,
-		itinerariesExcerpt[]{
-			${portableTextContent}
-		},
-		"itinerariesItems": itinerariesItems[]->{
-			${getItineraryData('card')}
-		},
-		${planFormData}
-	}
+  *[_type == "pHome"][0]{
+    ${baseFields},
+    "isHomepage": true,
+    heroHeading[]{
+      ${portableTextContentFields}
+    },
+    heroSubheading,
+    heroImage,
+    heroSpots[]->{
+      title,
+      _id,
+      "slug": slug.current,
+      "color": lower(categories[0]->color->title)
+    },
+    introTitle,
+    introHeading,
+    introCta,
+    clockHeading,
+    clockParagraph,
+    clockOffers,
+    clockText,
+    clockCta,
+    masksHeading,
+    masksParagraph,
+    masksOffers,
+    masksCta,
+    masksImages[]{
+      ${imageMetaFields}
+    },
+    toggleHeading,
+    toggleParagraph,
+    toggleOffers,
+    toggleCta,
+    itinerariesTitle,
+    itinerariesExcerpt[]{
+      ${portableTextContentFields}
+    },
+    "itinerariesItems": itinerariesItems[]->{
+      ${getItineraryData('card')}
+    },
+    ${planFormData}
+  }
 `;
 
-export const page404Query = groq`*[_type == "p404" && _id == "p404"][0]{
-	_id,
-	_type,
-	heading,
-	paragraph[]{
-		${portableTextContent}
-	},
-	callToAction{
-		${callToAction}
-	}
-}`;
+export const page404Query = groq`
+  *[_type == "p404" && _id == "p404"][0]{
+    ${baseFields},
+    heading,
+    paragraph[]{
+      ${portableTextContentFields}
+    },
+    callToAction{
+      ${callToActionFields}
+    }
+  }`;
 
 export const pagesBySlugQuery = groq`
-	*[_type == "pGeneral" && slug.current == $slug][0]{
-		_id,
-		_type,
-		title,
-		"slug": slug.current,
-		sharing,
-		pageModules[]{
-			${pageModules}
-		}
-	}`;
+  *[_type == "pGeneral" && slug.current == $slug][0]{
+    ${baseFields},
+    pageModules[]{
+      ${pageModules}
+    }
+  }`;
 
 export const pageContactQuery = groq`
-	*[_type == "pContact"][0]{
-		_id,
-		_type,
-		title,
-		"slug": slug.current,
-		sharing,
-		${planFormData}
-	}
+  *[_type == "pContact"][0]{
+    ${baseFields},
+    ${planFormData}
+  }
 `;
 
 export const pageTripReadyQuery = groq`
-	*[_type == "pTripReady"][0]{
-		_id,
-		_type,
-		title,
-		"slug": slug.current,
-		sharing,
-		"itineraries": itineraries[]->{
-			${getItineraryData('card')}
-		}
-	}
+  *[_type == "pTripReady"][0]{
+    ${baseFields},
+    "itineraries": itineraries[]->{
+      ${getItineraryData('card')}
+    }
+  }
 `;
 
-// new pages below...
-// export const pageAboutQuery = groq`
-// 	*[_type == "pAbout"][0]{
-// 		title,
-// 		"slug": slug.current,
-// 		sharing
-// 	}`;
-
-// PARIS PAGE
 export const pageParisQuery = groq`
-	*[_type == "pParis"][0]{
-		_id,
-		_type,
-		title,
-		"slug": slug.current,
-		sharing,
-		"locationCategories": locationCategories[]->{
-			${categoryMeta}
-		},
-		"locationList": *[_type == "gLocations"] | order(_updatedAt desc)[0...30] {
-			${getLocationsData('card')}
-		},
-		itinerariesTitle,
-		itinerariesExcerpt[]{
-			${portableTextContent}
-		},
-		"itinerariesItems": itinerariesItems[]->{
-			${getItineraryData('card')}
-		},
-		contentList[]{
-			title,
-			subtitle,
-			excerpt[]{
-				${portableTextContent}
-			},
-			items[]{
-				_type == 'categoryGuides' => {
-					"category": @-> {
-						_id,
-						title,
-						"items": *[_type == "gGuides" && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
-							${getGuidesData('card')}
-						}
-					}
-				},
-				_type == 'subcategoryGuides' => {
-					"subcategory": @-> {
-						_id,
-						title,
-						"items": *[_type == "gSubcategories" && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
-							${getGuidesData('card')}
-						}
-					}
-				},
-				_type == 'guide' => @-> {
-					${getGuidesData('card')}
-				},
-				_type == 'categoryLocations' => {
-					"category": @-> {
-						_id,
-						title,
-						"items": *[_type == "gLocations" && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
-							${getLocationsData('card')}
-						}
-					}
-				},
-				_type == 'subcategoryLocations' => {
-					"subcategory": @-> {
-						_id,
-						title,
-						"items": *[_type == "gSubcategories" && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
-							${getLocationsData('card')}
-						}
-					}
-				},
-				_type == 'location' => @-> {
-					${getLocationsData('card')}
-				}
-			}
-		},
-		seasonsTitle,
-		seasons[]{
-			name,
-			description,
-			guide->{
-				"slug": slug.current
-			},
-			months[]{
-				name,
-				guide->{
-					"slug": slug.current
-				}
-			}
-		}
-	}
+  *[_type == "pParis"][0]{
+    ${baseFields},
+    "locationCategories": locationCategories[]->{
+      ${categoryMetaFields}
+    },
+    "locationList": *[_type == "gLocations"] | order(_updatedAt desc)[0...30] {
+      ${getLocationsData('card')}
+    },
+    itinerariesTitle,
+    itinerariesExcerpt[]{
+      ${portableTextContentFields}
+    },
+    "itinerariesItems": itinerariesItems[]->{
+      ${getItineraryData('card')}
+    },
+    contentList[]{
+      title,
+      subtitle,
+      excerpt[]{
+        ${portableTextContentFields}
+      },
+      items[]{
+        _type == 'categoryGuides' => {
+          "category": @-> {
+            _id,
+            title,
+            "items": *[_type == "gGuides" && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
+              ${getGuidesData('card')}
+            }
+          }
+        },
+        _type == 'subcategoryGuides' => {
+          "subcategory": @-> {
+            _id,
+            title,
+            "items": *[_type == "gSubcategories" && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
+              ${getGuidesData('card')}
+            }
+          }
+        },
+        _type == 'guide' => @-> {
+          ${getGuidesData('card')}
+        },
+        _type == 'categoryLocations' => {
+          "category": @-> {
+            _id,
+            title,
+            "items": *[_type == "gLocations" && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
+              ${getLocationsData('card')}
+            }
+          }
+        },
+        _type == 'subcategoryLocations' => {
+          "subcategory": @-> {
+            _id,
+            title,
+            "items": *[_type == "gSubcategories" && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
+              ${getLocationsData('card')}
+            }
+          }
+        },
+        _type == 'location' => @-> {
+          ${getLocationsData('card')}
+        }
+      }
+    },
+    seasonsTitle,
+    seasons[]{
+      name,
+      description,
+      guide->{
+        "slug": slug.current
+      },
+      months[]{
+        name,
+        guide->{
+          "slug": slug.current
+        }
+      }
+    }
+  }
 `;
 
-// GUIDES
 export const articleListAllQuery = groq`
-	"articleList": *[_type == "gGuides"] | order(_updatedAt desc) {
-		${getGuidesData('card')}
-	}
+  "articleList": *[_type == "gGuides"] | order(_updatedAt desc) {
+    ${getGuidesData('card')}
+  }
 `;
 
 export const guidesIndexQuery = groq`
-	_id,
-	_type,
-	title,
-	sharing,
-	heading[]{
-		${portableTextContent}
-	},
-	"categories": categories[]->{
-		${categoryMeta}
-	},
-	itemsPerPage,
-	paginationMethod,
-	loadMoreButtonLabel,
-	infiniteScrollCompleteLabel
+  ${baseFields},
+  heading[]{
+    ${portableTextContentFields}
+  },
+  "categories": categories[]->{
+    ${categoryMetaFields}
+  },
+  itemsPerPage,
+  paginationMethod,
+  loadMoreButtonLabel,
+  infiniteScrollCompleteLabel
 `;
 
-export const pageGuidesIndexDefaultQuery = groq`
-	_id,
-	_type,
-	title,
-	sharing,
-	${guidesIndexQuery}`;
-
 export const pageGuidesIndex = groq`
-	*[_type == "pGuides"][0]{
-		${pageGuidesIndexDefaultQuery}
-	}`;
+  *[_type == "pGuides"][0]{
+    ${guidesIndexQuery}
+  }`;
 
 export const pageGuidesCategoryQuery = groq`{
-	_id,
-	_type,
-	title,
-	sharing,
-	...*[_type == "pGuides"][0]{
-		${guidesIndexQuery}
-	},
-	"categorySlug": *[_type == "gCategories" && slug.current == $slug][0].slug.current,
-	"articleList": *[_type == "gGuides" && references(*[_type == "gCategories" && slug.current == $slug]._id)] {
-		${getGuidesData('card')}
-	},
-	"sharing": *[_type == "gCategories" && slug.current == $slug][0]{
-		"disableIndex": sharing.disableIndex,
-		"metaTitle": sharing.metaTitle,
-		"metaDesc": sharing.metaDesc,
-		"shareGraphic": sharing.shareGraphic
-	}
+  ...*[_type == "pGuides"][0]{
+    ${guidesIndexQuery}
+  },
+  "categorySlug": *[_type == "gCategories" && slug.current == $slug][0].slug.current,
+  "articleList": *[_type == "gGuides" && references(*[_type == "gCategories" && slug.current == $slug]._id)] {
+    ${getGuidesData('card')}
+  },
+  "sharing": *[_type == "gCategories" && slug.current == $slug][0]{
+    "disableIndex": sharing.disableIndex,
+    "metaTitle": sharing.metaTitle,
+    "metaDesc": sharing.metaDesc,
+    "shareGraphic": sharing.shareGraphic
+  }
 }`;
 
 export const pageGuidesIndexWithArticleDataSSGQuery = groq`
-	*[_type == "pGuides"][0]{
-		${pageGuidesIndexDefaultQuery},
-		${articleListAllQuery}
-	}`;
+  *[_type == "pGuides"][0]{
+    ${guidesIndexQuery},
+    ${articleListAllQuery}
+  }`;
 
 export const pageGuidesPaginationMethodQuery = groq`
-	{
-		"articleTotalNumber": count(*[_type == "gGuides"]),
-		"itemsPerPage": *[_type == "pGuides"][0].itemsPerPage
-	}`;
+  {
+    "articleTotalNumber": count(*[_type == "gGuides"]),
+    "itemsPerPage": *[_type == "pGuides"][0].itemsPerPage
+  }`;
 
 export const pageGuidesSingleQuery = groq`
-	*[_type == "gGuides" && slug.current == $slug][0]{
-		sharing,
-		${getGuidesData()},
-		"defaultRelated": *[_type == "gGuides"
-			&& count(categories[@._ref in ^.^.categories[]._ref]) > 0
-			&& _id != ^._id
-			] | order(publishedAt desc, _createdAt desc) [0..1] {
-				${getGuidesData('card')}
-			}
-	}`;
+  *[_type == "gGuides" && slug.current == $slug][0]{
+    ${getGuidesData()},
+    "defaultRelated": *[_type == "gGuides"
+      && count(categories[@._ref in ^.^.categories[]._ref]) > 0
+      && _id != ^._id
+      ] | order(publishedAt desc, _createdAt desc) [0..1] {
+        ${getGuidesData('card')}
+      }
+  }`;
 
-// LOCATIONS
 export const locationListAllQuery = groq`
-	"locationList": *[_type == "gLocations"] | order(_updatedAt desc) {
-		${getLocationsData('card')}
-	}
+  "locationList": *[_type == "gLocations"] | order(_updatedAt desc) {
+    ${getLocationsData('card')}
+  }
 `;
 
 export const locationIndexQuery = groq`
-	_id,
-	_type,
-	title,
-	sharing,
-	heading[]{
-		${portableTextContent}
-	},
-	"categories": categories[]->{
-		${categoryMeta}
-	},
-	itemsPerPage,
-	paginationMethod,
-	loadMoreButtonLabel,
-	infiniteScrollCompleteLabel
+  ${baseFields},
+  heading[]{
+    ${portableTextContentFields}
+  },
+  "categories": categories[]->{
+    ${categoryMetaFields}
+  },
+  itemsPerPage,
+  paginationMethod,
+  loadMoreButtonLabel,
+  infiniteScrollCompleteLabel
 `;
 
-export const pageLocationsIndexDefaultQuery = groq`
-	"slug": "locations",
-	${locationIndexQuery}`;
-
 export const pageLocationsIndex = groq`
-	*[_type == "pLocations"][0]{
-		${pageLocationsIndexDefaultQuery}
-	}`;
+  *[_type == "pLocations"][0]{
+    ${locationIndexQuery}
+  }`;
 
 export const pageLocationsCategoryQuery = groq`{
-	...*[_type == "pLocations"][0]{
-		${locationIndexQuery}
-	},
-	"categorySlug": *[_type == "gCategories" && slug.current == $slug][0].slug.current,
-	"locationList": *[_type == "gLocations" && references(*[_type == "gCategories" && slug.current == $slug]._id)] {
-		${getLocationsData('card')}
-	},
-	"sharing": *[_type == "gCategories" && slug.current == $slug][0]{
-		"disableIndex": sharing.disableIndex,
-		"metaTitle": sharing.metaTitle,
-		"metaDesc": sharing.metaDesc,
-		"shareGraphic": sharing.shareGraphic
-	}
+  ...*[_type == "pLocations"][0]{
+    ${locationIndexQuery}
+  },
+  "categorySlug": *[_type == "gCategories" && slug.current == $slug][0].slug.current,
+  "locationList": *[_type == "gLocations" && references(*[_type == "gCategories" && slug.current == $slug]._id)] {
+    ${getLocationsData('card')}
+  },
+  "sharing": *[_type == "gCategories" && slug.current == $slug][0]{
+    "disableIndex": sharing.disableIndex,
+    "metaTitle": sharing.metaTitle,
+    "metaDesc": sharing.metaDesc,
+    "shareGraphic": sharing.shareGraphic
+  }
 }`;
 
 export const pageLocationsIndexWithArticleDataSSGQuery = groq`
-	*[_type == "pLocations"][0]{
-		${pageLocationsIndexDefaultQuery},
-		${locationListAllQuery}
-	}`;
+  *[_type == "pLocations"][0]{
+    ${locationIndexQuery},
+    ${locationListAllQuery}
+  }`;
 
 export const pageLocationsPaginationMethodQuery = groq`
-	{
-		"articleTotalNumber": count(*[_type == "gLocations"]),
-		"itemsPerPage": *[_type == "pLocations"][0].itemsPerPage
-	}`;
+  {
+    "articleTotalNumber": count(*[_type == "gLocations"]),
+    "itemsPerPage": *[_type == "pLocations"][0].itemsPerPage
+  }`;
 
 export const pageLocationsSingleQuery = groq`
-	*[_type == "gLocations" && slug.current == $slug][0]{
-		sharing,
-		${getLocationsData()},
-		"defaultRelatedLocations": *[_type == "gLocations"
-			&& count(categories[@._ref in ^.^.categories[]._ref ]) > 0
-			&& _id != ^._id
-			] | order(publishedAt desc, _createdAt desc) [0..11] {
-				${getLocationsData('card')}
-			},
-		"defaultRelatedGuides": *[_type == "gGuides"
-			&& count(categories[@._ref in ^.^.categories[]._ref ]) > 0
-			&& _id != ^._id
-			] | order(publishedAt desc, _createdAt desc) [0..11] {
-				${getGuidesData('card')}
-			}
-	}`;
+  *[_type == "gLocations" && slug.current == $slug][0]{
+    ${getLocationsData()},
+    "defaultRelatedLocations": *[_type == "gLocations"
+      && count(categories[@._ref in ^.^.categories[]._ref ]) > 0
+      && _id != ^._id
+      ] | order(publishedAt desc, _createdAt desc) [0..11] {
+        ${getLocationsData('card')}
+      },
+    "defaultRelatedGuides": *[_type == "gGuides"
+      && count(categories[@._ref in ^.^.categories[]._ref ]) > 0
+      && _id != ^._id
+      ] | order(publishedAt desc, _createdAt desc) [0..11] {
+        ${getGuidesData('card')}
+      }
+  }`;
 
-// ITINERARIES
 export const pageItinerariesSingleQuery = groq`
-	*[_type == "gItineraries" && slug.current == $slug][0]{
-		sharing,
-		${getItineraryData()}
-		${planFormData}
-	}`;
+  *[_type == "gItineraries" && slug.current == $slug][0]{
+    ${getItineraryData()},
+    ${planFormData}
+  }`;
