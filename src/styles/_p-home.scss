@@ -182,6 +182,7 @@
 			}
 
 			&__media {
+				width: calc(100% - var(--s-contain) * 2);
 				padding: var(--s-2-v) var(--s-2-h);
 			}
 

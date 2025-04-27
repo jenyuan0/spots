@@ -7,7 +7,7 @@ import useMagnify from '@/hooks/useMagnify';
 
 // TODO:
 // 1. make route
-// 2. getbounds to set zoom level
+// 2. getbounds to set zoom level (defaultBounds)
 // 2.5 recenter location change
 // 3. customize map color scheme
 // 4. custom border radius via #filter-round is not working

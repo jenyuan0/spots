@@ -141,10 +141,16 @@ export default function HeroSection({ data, setPrimaryColor }) {
 	}, [scrollYProgress]);
 
 	useEffect(() => {
-		setBoundary({
-			width: ref.current.getBoundingClientRect().width,
-			height: ref.current.getBoundingClientRect().height,
-		});
+		const handleResize = () => {
+			setBoundary({
+				width: ref.current.getBoundingClientRect().width,
+				height: ref.current.getBoundingClientRect().height,
+			});
+		};
+
+		handleResize(); // Initial measurement
+		window.addEventListener('resize', handleResize);
+		return () => window.removeEventListener('resize', handleResize);
 	}, [ref]);
 
 	// Function to check for overlaps
@@ -190,7 +196,6 @@ export default function HeroSection({ data, setPrimaryColor }) {
 
 		generateSpots();
 		window.addEventListener('resize', generateSpots);
-
 		return () => window.removeEventListener('resize', generateSpots);
 	}, [heroSpots, boundary]);
 
