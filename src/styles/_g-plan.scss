@@ -269,6 +269,7 @@
 			position: fixed;
 			height: calc(100% + 2px);
 			overflow-y: auto;
+			overflow-x: clip;
 			bottom: 0px;
 			left: 0;
 			padding: 0 var(--s-3-h) var(--s-3-v);
