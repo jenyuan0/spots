@@ -37,7 +37,7 @@
 @supports (view-transition-name: none) {
 	::view-transition-old(root),
 	::view-transition-new(root) {
-		animation-duration: 0.6s;
+		animation-duration: 0.2s;
 	}
 }
 
