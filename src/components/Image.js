@@ -84,7 +84,7 @@ function Img({
 	};
 
 	if (!image || !imageId) return null;
-	if (error) console.error('Failed to load image');
+	if (error) console.error(`Failed to load image ${imageId}`);
 
 	return (
 		<picture ref={pictureRef} className={className}>
