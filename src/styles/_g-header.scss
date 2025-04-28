@@ -49,7 +49,6 @@
 		&__translate > * {
 			@include headerBlock;
 			justify-content: center;
-			gap: 20px;
 		}
 
 		@include tabletUp {
@@ -60,6 +59,8 @@
 	}
 
 	&__links {
+		gap: 20px;
+
 		a:after {
 			content: '';
 			position: absolute;
@@ -89,14 +90,18 @@
 	}
 
 	&__tagline {
+		gap: 10px;
 		padding: var(--block-padding);
 		font-size: 18px;
 		pointer-events: none;
+
+		.icon-plus {
+			font-size: 14px;
+		}
 	}
 
 	&__flag {
 		display: flex;
-		margin: 0 -0.2em;
 		gap: 2px;
 
 		&-dot {
@@ -224,7 +229,10 @@
 
 		&__tagline {
 			flex-direction: column-reverse;
-			gap: 10px;
+
+			.icon-plus {
+				display: none;
+			}
 		}
 
 		&__links {

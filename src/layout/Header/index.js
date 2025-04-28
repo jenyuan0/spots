@@ -202,6 +202,7 @@ export default function Header({ data, isActive }) {
 					<div className="g-header__menu__block">
 						<div className="g-header__menu__translate">
 							<motion.div className="g-header__tagline t-h-5">
+								<span className="icon-plus" />
 								Parisian Treasures Refreshed Weekly
 								<FrenchDots />
 							</motion.div>
@@ -211,6 +212,7 @@ export default function Header({ data, isActive }) {
 					<div className="g-header__menu__block">
 						<div className="g-header__menu__translate">
 							<motion.div className="g-header__tagline t-h-5">
+								<span className="icon-plus" />
 								Design Conscious Travel Planning
 								<DesignDots />
 							</motion.div>
