@@ -27,7 +27,7 @@
 	}
 
 	.c-carousel {
-		--item-width: Min(600px, 50vw) !important;
+		--item-width: Min(600px, 28vw) !important;
 
 		&__container {
 			align-items: stretch;
@@ -40,6 +40,12 @@
 
 		&__dot.is-selected {
 			background-color: var(--cr-primary, var(--cr-black));
+		}
+	}
+
+	@include tabletDown {
+		.c-carousel {
+			--item-width: Min(600px, 50vw) !important;
 		}
 	}
 
