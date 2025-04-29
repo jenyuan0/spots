@@ -19,7 +19,7 @@ const getLocationsQueryGROQ = ({ pageNumber, pageSize }) => {
 
 const LocationGrid = ({ locations }) => {
 	return (
-		<ResponsiveGrid className={'p-locations__list'}>
+		<ResponsiveGrid className={'p-locations__list'} size={'sml'}>
 			{locations?.map((item, index) => (
 				<LocationCard key={item._id} data={item} layout="vertical-2" />
 			))}
@@ -70,10 +70,10 @@ const ListWithSSG = ({ data, currentPageNumber }) => {
 	const { locationList, itemsPerPage } = data;
 	const [listState, setListState] = useState('isLoading');
 	const [listData, setListData] = useState([]);
-	const setAsideMapActive = useAsideMap((state) => state.setAsideMapActive);
-	const setAsideMapLocations = useAsideMap(
-		(state) => state.setAsideMapLocations
-	);
+	// const setAsideMapActive = useAsideMap((state) => state.setAsideMapActive);
+	// const setAsideMapLocations = useAsideMap(
+	// 	(state) => state.setAsideMapLocations
+	// );
 
 	useEffect(() => {
 		const pageSizeStart = (currentPageNumber - 1) * itemsPerPage;

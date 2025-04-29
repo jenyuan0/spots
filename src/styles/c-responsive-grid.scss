@@ -42,6 +42,22 @@
 		}
 	}
 
+	&[data-size='sml'] &__grid {
+		@container grid (max-width: 699px) {
+			grid-template-columns: repeat(2, 1fr);
+			gap: 5px;
+
+			.c-card[data-layout='vertical-2'] .c-card__title {
+				font: var(--t-h-5);
+			}
+
+			.c-card[data-layout='vertical-2'] .c-card__info {
+				gap: 8px;
+				padding: 15px 10px;
+			}
+		}
+	}
+
 	@media (hover: hover) {
 		.c-card:hover {
 			transform: rotate(2deg);
