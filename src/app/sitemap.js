@@ -53,6 +53,10 @@ const EXCLUDED_DIRS = [
 	'_tests',
 ];
 
+const removeDoubleSlashes = (str) => {
+	return str.replace(/\/\//g, '');
+};
+
 async function getDocumentData(type, slug) {
 	try {
 		const query = groq`*[${type ? `_type == "${type}" &&` : ''} slug.current == "${slug}"][0] {
@@ -117,7 +121,7 @@ async function getStaticRoutes(baseUrl) {
 
 				if (!disableIndex) {
 					routes.push({
-						url,
+						url: removeDoubleSlashes(url),
 						lastModified,
 						changeFrequency: 'weekly',
 						priority: 1.0,
@@ -158,7 +162,7 @@ async function getDynamicRoutes(baseUrl) {
 							if (disableIndex) return null;
 
 							return {
-								url,
+								url: removeDoubleSlashes(url),
 								lastModified,
 								changeFrequency,
 								priority,
