@@ -163,6 +163,12 @@ export function formatObjectToHtml(obj) {
 		.join('<br>');
 }
 
+export function formatUrl(url) {
+	const [protocol, rest] = url.split('://');
+	const normalizedRest = rest.replace(/\/+/g, '/');
+	return `${protocol}://${normalizedRest}`;
+}
+
 // ***UTILITIES / VALIDATION***
 
 export function validateEmail(string) {

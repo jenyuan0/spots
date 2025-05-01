@@ -1,6 +1,7 @@
 import { groq } from 'next-sanity';
 import { client } from '@/sanity/lib/client';
 import { getPagesPaths } from '@/sanity/lib/fetch';
+import { formatUrl } from '@/lib/helpers';
 import fs from 'fs';
 import path from 'path';
 
@@ -48,15 +49,12 @@ const ROUTES = [
 
 const EXCLUDED_DIRS = [
 	'_components',
+	'itinerary',
 	'[...not_found]',
 	'[slug]',
 	'api',
 	'_tests',
 ];
-
-const removeDoubleSlashes = (str) => {
-	return str.replace(/\/\//g, '/');
-};
 
 async function getDocumentData(type, slug) {
 	try {
@@ -122,7 +120,7 @@ async function getStaticRoutes(baseUrl) {
 
 				if (!disableIndex) {
 					routes.push({
-						url: removeDoubleSlashes(url),
+						url: formatUrl(url),
 						lastModified,
 						changeFrequency: 'weekly',
 						priority: 1.0,
@@ -163,7 +161,7 @@ async function getDynamicRoutes(baseUrl) {
 							if (disableIndex) return null;
 
 							return {
-								url: removeDoubleSlashes(url),
+								url: formatUrl(url),
 								lastModified,
 								changeFrequency,
 								priority,
