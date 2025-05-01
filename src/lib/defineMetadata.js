@@ -3,7 +3,7 @@ import { getRoute } from '@/lib/routes';
 // https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadata-fields
 
 const removeDoubleSlashes = (str) => {
-	return str.replace(/\/\//g, '');
+	return str.replace(/\/\//g, '/');
 };
 
 export default function defineMetadata({ data }) {

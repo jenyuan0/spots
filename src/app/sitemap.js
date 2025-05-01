@@ -54,7 +54,7 @@ const EXCLUDED_DIRS = [
 ];
 
 const removeDoubleSlashes = (str) => {
-	return str.replace(/\/\//g, '');
+	return str.replace(/\/\//g, '/');
 };
 
 async function getDocumentData(type, slug) {
