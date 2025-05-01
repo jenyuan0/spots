@@ -2,6 +2,10 @@ import { imageBuilder } from '@/sanity/lib/image';
 import { getRoute } from '@/lib/routes';
 // https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadata-fields
 
+const removeDoubleSlashes = (str) => {
+	return str.replace(/\/\//g, '');
+};
+
 export default function defineMetadata({ data }) {
 	const { site, page } = data || {};
 	const { _type, slug } = page || {};
@@ -71,7 +75,9 @@ export default function defineMetadata({ data }) {
 		},
 		metadataBase: new URL(process.env.SITE_URL),
 		alternates: {
-			...(pageRoute && { canonical: `${process.env.SITE_URL}${pageRoute}` }),
+			...(pageRoute && {
+				canonical: removeDoubleSlashes(`${process.env.SITE_URL}${pageRoute}`),
+			}),
 			// TODO: enable when site is multilingual
 			// languages: {
 			// 	'en-US': '/en-US',
