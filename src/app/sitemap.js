@@ -28,6 +28,7 @@ const ROUTES = [
 		slug: 'paris/itineraries',
 		changeFrequency: 'weekly',
 		priority: 0.8,
+		skipParentPath: true,
 	},
 	{
 		type: 'gCategories',
