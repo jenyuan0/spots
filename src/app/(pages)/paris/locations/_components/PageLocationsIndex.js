@@ -9,7 +9,8 @@ import CategoryPillList from '@/components/CategoryPillList';
 import CustomPortableText from '@/components/CustomPortableText';
 
 export default function PageLocationsIndex({ data }) {
-	const { heading, categorySlug, categories, paginationMethod } = data || {};
+	const { heading, slug, categories, isCategoryPage, paginationMethod } =
+		data || {};
 	const breadcrumb = [
 		{
 			title: 'Paris',
@@ -41,7 +42,7 @@ export default function PageLocationsIndex({ data }) {
 					<div className="p-guides__filters">
 						<CategoryPillList
 							categories={categories}
-							categorySlug={categorySlug}
+							activeSlug={slug}
 							isLink={true}
 						>
 							<li className="c-category-pill-list__title t-l-2">Filter:</li>
@@ -51,7 +52,7 @@ export default function PageLocationsIndex({ data }) {
 									data={dataAllPill}
 									postType={'locations'}
 									isLink={true}
-									isActive={!categorySlug}
+									isActive={!isCategoryPage}
 								/>
 							</li>
 						</CategoryPillList>

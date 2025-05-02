@@ -623,7 +623,9 @@ export const pageGuidesCategoryQuery = groq`{
   ...*[_type == "pGuides"][0]{
     ${guidesIndexQuery}
   },
-  "categorySlug": *[_type == "gCategories" && slug.current == $slug][0].slug.current,
+	"_type": "pLocationsCategory",
+  "slug": *[_type == "gCategories" && slug.current == $slug][0].slug.current,
+	"isCategoryPage": true,
   "articleList": *[_type == "gGuides" && references(*[_type == "gCategories" && slug.current == $slug]._id)] {
     ${getGuidesData('card')}
   },
@@ -687,7 +689,9 @@ export const pageLocationsCategoryQuery = groq`{
   ...*[_type == "pLocations"][0]{
     ${locationIndexQuery}
   },
-  "categorySlug": *[_type == "gCategories" && slug.current == $slug][0].slug.current,
+	"_type": "pLocationsCategory",
+  "slug": *[_type == "gCategories" && slug.current == $slug][0].slug.current,
+	"isCategoryPage": true,
   "locationList": *[_type == "gLocations" && references(*[_type == "gCategories" && slug.current == $slug]._id)] {
     ${getLocationsData('card')}
   },

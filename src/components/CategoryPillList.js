@@ -4,7 +4,7 @@ import CategoryPill from '@/components/CategoryPill';
 export default function CategoryPillList({
 	categories,
 	subcategories,
-	categorySlug,
+	activeSlug,
 	postType = 'locations',
 	limit,
 	children,
@@ -19,7 +19,7 @@ export default function CategoryPillList({
 			{finalCategories?.map((item) => (
 				<li key={`${item._id}`}>
 					<CategoryPill
-						isActive={item.slug === categorySlug}
+						isActive={item.slug === activeSlug}
 						postType={postType}
 						data={item}
 						isLink={isLink}

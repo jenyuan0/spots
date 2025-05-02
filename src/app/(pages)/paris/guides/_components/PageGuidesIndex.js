@@ -9,7 +9,8 @@ import CategoryPillList from '@/components/CategoryPillList';
 import CustomPortableText from '@/components/CustomPortableText';
 
 export default function PageGuidesIndex({ data }) {
-	const { heading, categorySlug, categories, paginationMethod } = data || {};
+	const { heading, slug, categories, isCategoryPage, paginationMethod } =
+		data || {};
 	const breadcrumb = [
 		{
 			title: 'Paris',
@@ -41,7 +42,7 @@ export default function PageGuidesIndex({ data }) {
 					<div className="p-guides__filters">
 						<CategoryPillList
 							categories={categories}
-							categorySlug={categorySlug}
+							activeSlug={slug}
 							postType={'guides'}
 							isLink={true}
 						>
@@ -52,7 +53,7 @@ export default function PageGuidesIndex({ data }) {
 									data={dataAllPill}
 									postType={'guides'}
 									isLink={true}
-									isActive={!categorySlug}
+									isActive={!isCategoryPage}
 								/>
 							</li>
 						</CategoryPillList>

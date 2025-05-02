@@ -24,12 +24,16 @@ export const getRoute = ({ documentType, slug }) => {
 			return `/contact`;
 		case 'pGuides':
 			return '/paris/guides';
+		case 'pGuidesCategory':
+			return `/paris/guides/category/${slug}`;
 		case 'gGuides':
 			return `/paris/guides/${slug}`;
 		case 'pParis':
 			return `/paris`;
 		case 'pLocations':
 			return `/paris/locations`;
+		case 'pLocationsCategory':
+			return `/paris/locations/category/${slug}`;
 		case 'gLocations':
 			return `/paris/locations/${slug}`;
 		case 'pTripReady':

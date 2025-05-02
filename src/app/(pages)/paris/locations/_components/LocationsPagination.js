@@ -101,7 +101,7 @@ const ListWithSSG = ({ data, currentPageNumber }) => {
 
 export default function LocationsPagination({ data }) {
 	const searchParams = useSearchParams();
-	const { categorySlug, itemsPerPage = 12 } = data;
+	const { slug, isCategoryPage, itemsPerPage = 12 } = data;
 	const items = data?.locationList || [];
 	const itemsTotalCount = items.length;
 	const currentPageNumber = Number(searchParams.get('page')) || 1;
@@ -118,7 +118,7 @@ export default function LocationsPagination({ data }) {
 				<Pagination
 					currentPageNumber={currentPageNumber}
 					totalPage={totalPages}
-					url={`/paris/locations${categorySlug ? `/category/${categorySlug}` : ''}`}
+					url={`/paris/locations${isCategoryPage ? `/category/${slug}` : ''}`}
 				/>
 			)}
 		</>
