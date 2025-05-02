@@ -101,7 +101,7 @@ export default function Layout({ children, siteData }) {
 			<Announcement data={announcement} />
 			<Header data={header} isActive={isHeaderActive} />
 			<Main>{children}</Main>
-			<AsideMap />
+			{/* <AsideMap /> */}
 			<Magnify />
 			<Lightbox />
 			<Footer siteData={siteData} data={footer} isActive={isFooterActive} />
