@@ -126,8 +126,8 @@
 
 		img {
 			width: auto;
-			height: clamp(350px, 100vw, 600px);
-			height: clamp(350px, 100vw, 600px);
+			height: clamp(350px, 100vw, 50vh);
+			height: clamp(350px, 100vw, 50svh);
 		}
 	}
 }
