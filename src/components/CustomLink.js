@@ -45,7 +45,7 @@ export default function CustomLink({
 			title={title}
 			{...props}
 		>
-			children
+			{children}
 		</NextLink>
 	);
 }
