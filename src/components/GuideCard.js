@@ -70,9 +70,10 @@ export default function GuideCard({ data, layout = 'vertical-1', color }) {
 				</div>
 			</div>
 			<Link
+				className="c-card__url p-fill"
 				href={url}
+				title={`Go to ${title}`}
 				aria-label="Open Guide"
-				className="p-fill"
 				tabIndex="-1"
 			/>
 		</div>

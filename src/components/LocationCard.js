@@ -180,6 +180,7 @@ export default function LocationCard({
 				className={`c-card__url p-fill`}
 				href={url}
 				onClick={handleDetailsClick}
+				title={`Go to ${title}`}
 				aria-label="Read more"
 				tabIndex="-1"
 			/>
