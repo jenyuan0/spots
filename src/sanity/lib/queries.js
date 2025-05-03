@@ -504,6 +504,9 @@ export const pageContactQuery = groq`
 export const pageTripReadyQuery = groq`
   *[_type == "pTripReady"][0]{
     ${baseFields},
+    paragraph[]{
+      ${portableTextContentFields}
+    },
     "itineraries": itineraries[]->{
       ${getItineraryData('card')}
     }

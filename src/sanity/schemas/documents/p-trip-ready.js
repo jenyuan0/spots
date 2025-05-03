@@ -11,6 +11,10 @@ export default defineType({
 		title(),
 		slug(),
 		{
+			name: 'paragraph',
+			type: 'portableTextSimple',
+		},
+		{
 			name: 'itineraries',
 			type: 'array',
 			of: [
