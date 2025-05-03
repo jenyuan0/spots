@@ -631,7 +631,7 @@ export const pageGuidesCategoryQuery = groq`{
   },
   "sharing": *[_type == "gCategories" && slug.current == $slug][0]{
     "disableIndex": sharing.disableIndex,
-    "metaTitle": sharing.metaTitle,
+    "metaTitle": title + " Guides",
     "metaDesc": sharing.metaDesc,
     "shareGraphic": sharing.shareGraphic
   }
@@ -697,7 +697,7 @@ export const pageLocationsCategoryQuery = groq`{
   },
   "sharing": *[_type == "gCategories" && slug.current == $slug][0]{
     "disableIndex": sharing.disableIndex,
-    "metaTitle": sharing.metaTitle,
+    "metaTitle": title + " Guides",
     "metaDesc": sharing.metaDesc,
     "shareGraphic": sharing.shareGraphic
   }
