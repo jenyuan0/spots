@@ -623,7 +623,7 @@ export const pageGuidesCategoryQuery = groq`{
   ...*[_type == "pGuides"][0]{
     ${guidesIndexQuery}
   },
-	"_type": "pLocationsCategory",
+	"_type": "pGuidesCategory",
   "slug": *[_type == "gCategories" && slug.current == $slug][0].slug.current,
 	"isCategoryPage": true,
   "articleList": *[_type == "gGuides" && references(*[_type == "gCategories" && slug.current == $slug]._id)] {
