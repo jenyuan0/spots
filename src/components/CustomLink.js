@@ -42,9 +42,10 @@ export default function CustomLink({
 			target={isMailTo || isNewTab ? '_blank' : undefined}
 			rel={isNewTab ? 'noopener noreferrer' : undefined}
 			onClick={handleClick}
+			title={title}
 			{...props}
 		>
-			{title || children}
+			children
 		</NextLink>
 	);
 }
