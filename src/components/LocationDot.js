@@ -20,7 +20,7 @@ export default function LocationDot({ data, initialLightOrDark }) {
 		<Link
 			className="c-location-dot"
 			style={{ '--cr-primary': `var(--cr-${color}-${lightOrDark})` }}
-			href={`/locations/${slug}`}
+			href={`/paris/locations/${slug}`}
 			aria-label={`Link to ${title}`}
 			{...(!hasPressedKeys && {
 				onClick: (e) => {
