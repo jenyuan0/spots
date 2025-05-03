@@ -40,6 +40,7 @@ export default function Lightbox() {
 				'is-active': lightboxActive,
 			})}
 			role="dialog"
+			aria-label="Image lightbox"
 			aria-modal={lightboxActive}
 		>
 			<div className="g-lightbox__header">

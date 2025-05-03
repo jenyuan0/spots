@@ -22,6 +22,7 @@ export default function AsideMap() {
 				'--cr-secondary': `var(--cr-${color}-l)`,
 			}}
 			role="dialog"
+			aria-label="Locations map"
 			aria-modal={asideMapActive}
 		>
 			{locations && <Map locations={locations} />}

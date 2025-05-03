@@ -1,5 +1,5 @@
 import React from 'react';
-import Link from 'next/link';
+import Link from '@/components/CustomLink';
 
 export default function Button({ children, icon, caret, ...props }) {
 	const { href } = props;

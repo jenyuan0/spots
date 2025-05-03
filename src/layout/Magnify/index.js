@@ -143,6 +143,7 @@ export function Magnify() {
 				'--cr-secondary': `var(--cr-${color}-l)`,
 			}}
 			role="dialog"
+			aria-label="Content details"
 			aria-modal={isActive}
 		>
 			<button

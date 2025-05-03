@@ -176,11 +176,13 @@
 		}
 
 		&__logo {
+			width: 100px;
 			margin-right: auto;
 			padding: 0 8px;
 		}
 
 		&__cta .btn-underline {
+			width: 100px;
 			text-transform: uppercase;
 			letter-spacing: 0.04em;
 			font: var(--t-l-2);

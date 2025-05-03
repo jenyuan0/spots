@@ -12,7 +12,6 @@ import ResponsiveGrid from '@/components/ResponsiveGrid';
 import LocationCard from '@/components/LocationCard';
 import GuideCard from '@/components/GuideCard';
 import useLightbox from '@/hooks/useLightbox';
-
 import Carousel from '@/components/Carousel';
 
 export default function PageLocationsSingle({ data }) {
