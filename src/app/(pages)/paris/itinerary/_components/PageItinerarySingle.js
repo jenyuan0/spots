@@ -236,7 +236,6 @@ export default function PageItinerarySingle({ data }) {
 			<div id="plan" className="p-itinerary__contact">
 				<PlanSection
 					data={data?.planForm}
-					isH1={true}
 					isH1Style={true}
 					budget={budget}
 					hiddenFields={planHiddenFields}

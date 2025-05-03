@@ -114,7 +114,7 @@ function Faq({ faq, isInView }) {
 
 export default function PlanSection({
 	data,
-	isH1,
+	isH1 = false,
 	isH1Style,
 	budget,
 	hiddenFields,
