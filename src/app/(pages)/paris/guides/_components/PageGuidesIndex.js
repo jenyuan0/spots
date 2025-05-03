@@ -9,8 +9,14 @@ import CategoryPillList from '@/components/CategoryPillList';
 import CustomPortableText from '@/components/CustomPortableText';
 
 export default function PageGuidesIndex({ data }) {
-	const { heading, slug, categories, isCategoryPage, paginationMethod } =
-		data || {};
+	const {
+		heading,
+		slug,
+		categories,
+		isCategoryPage,
+		categoryTitle,
+		paginationMethod,
+	} = data || {};
 	const breadcrumb = [
 		{
 			title: 'Paris',
@@ -33,7 +39,15 @@ export default function PageGuidesIndex({ data }) {
 				<Breadcrumb data={breadcrumb} />
 				{heading && (
 					<h1 className="t-h-1">
-						<CustomPortableText blocks={heading} hasPTag={false} />
+						{isCategoryPage && categoryTitle ? (
+							<>
+								Paris Guides for
+								<br />
+								{categoryTitle}
+							</>
+						) : (
+							<CustomPortableText blocks={heading} hasPTag={false} />
+						)}
 					</h1>
 				)}
 			</section>

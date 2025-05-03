@@ -626,6 +626,7 @@ export const pageGuidesCategoryQuery = groq`{
 	"_type": "pGuidesCategory",
   "slug": *[_type == "gCategories" && slug.current == $slug][0].slug.current,
 	"isCategoryPage": true,
+	"categoryTitle": *[_type == "gCategories" && slug.current == $slug][0].title,
   "articleList": *[_type == "gGuides" && references(*[_type == "gCategories" && slug.current == $slug]._id)] {
     ${getGuidesData('card')}
   },
@@ -692,6 +693,7 @@ export const pageLocationsCategoryQuery = groq`{
 	"_type": "pLocationsCategory",
   "slug": *[_type == "gCategories" && slug.current == $slug][0].slug.current,
 	"isCategoryPage": true,
+	"categoryTitle": *[_type == "gCategories" && slug.current == $slug][0].title,
   "locationList": *[_type == "gLocations" && references(*[_type == "gCategories" && slug.current == $slug]._id)] {
     ${getLocationsData('card')}
   },
