@@ -79,7 +79,7 @@ async function getStaticRoutes(baseUrl) {
 
 	// Add homepage
 	routes.push({
-		url: baseUrl,
+		url: formatUrl(baseUrl),
 		lastModified: new Date().toISOString(),
 		changeFrequency: 'weekly',
 		priority: 1.0,

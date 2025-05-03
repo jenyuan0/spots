@@ -253,7 +253,7 @@ export function getItinerariesSinglePage({ queryParams, isPreviewMode }) {
 	return sanityFetch({
 		query,
 		params: queryParams,
-		tags: [`gItineraries:${queryParams.slug}`],
+		tags: [`gItineraries:${queryParams.slug}`, 'gItinerariesDay'],
 		isPreviewMode,
 	});
 }
