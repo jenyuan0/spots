@@ -12,6 +12,7 @@ import {
 	globalAuthors,
 } from './desk/g-misc';
 import {
+	locationsFilterEmptyContent,
 	locationsFilterByCategory,
 	locationsFilterByHighlight,
 } from './desk/locations-filters';
@@ -98,6 +99,7 @@ const deskStructure = (S) =>
 			pageHotelBooking(S),
 			S.divider(),
 			globalLocations(S),
+			locationsFilterEmptyContent(S),
 			locationsFilterByCategory(S),
 			locationsFilterByHighlight(S),
 			pageLocationsIndex(S),

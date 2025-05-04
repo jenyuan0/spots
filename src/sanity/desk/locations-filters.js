@@ -1,5 +1,18 @@
 import { apiVersion } from '@/sanity/env';
 
+export const locationsFilterEmptyContent = (S) => {
+	return S.listItem()
+		.title('Locations - Empty Content')
+		.child(
+			S.documentList()
+				.title('Locations with Empty Content')
+				.apiVersion(apiVersion)
+				.filter(
+					'_type == "gLocations" && (!defined(content) || count(content) == 0)'
+				)
+		);
+};
+
 export const locationsFilterByCategory = (S) => {
 	return S.listItem()
 		.title('Locations - By Category')
@@ -8,7 +21,7 @@ export const locationsFilterByCategory = (S) => {
 				.title('Locations by Category')
 				.child((categoryId) => {
 					return S.documentList()
-						.title('Blogs')
+						.title('Locations')
 						.apiVersion(apiVersion)
 						.filter('_type == "gLocations" && references($categoryId)')
 						.params({ categoryId });
