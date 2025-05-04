@@ -33,7 +33,7 @@
 			}
 		}
 
-		@container form (max-width: 400px) {
+		@container form (max-width: 360px) {
 			&[data-size='1/2'] {
 				grid-column: 1 / -1;
 			}

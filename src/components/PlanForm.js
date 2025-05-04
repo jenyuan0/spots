@@ -34,13 +34,17 @@ export default function PlanForm({
 				)}
 				{isH1 ? (
 					<>
-						<h1 className={`t-h-${isH1Style ? '1' : '2'}`}>{formHeading}</h1>
-						<h2 className={`t-h-4`}>{formTitle}</h2>
+						{formHeading && (
+							<h1 className={`t-h-${isH1Style ? '1' : '2'}`}>{formHeading}</h1>
+						)}
+						{formTitle && <h2 className={`t-h-4`}>{formTitle}</h2>}
 					</>
 				) : (
 					<>
-						<h2 className={`t-h-${isH1Style ? '1' : '2'}`}>{formHeading}</h2>
-						<h3 className={`t-h-4`}>{formTitle}</h3>
+						{formHeading && (
+							<h2 className={`t-h-${isH1Style ? '1' : '2'}`}>{formHeading}</h2>
+						)}
+						{formTitle && <h3 className={`t-h-4`}>{formTitle}</h3>}
 					</>
 				)}
 			</div>

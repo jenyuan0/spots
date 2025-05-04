@@ -198,7 +198,7 @@ export default function Header({ data, isActive }) {
 				<Link
 					href={'/'}
 					className="g-header__logo t-h-3"
-					aria-label="Go to homepage"
+					aria-label="View homepage"
 				>
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36.64 9.39">
 						<path
