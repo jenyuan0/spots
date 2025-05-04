@@ -5,7 +5,7 @@ export const locationsFilterByCategory = (S) => {
 		.title('Locations - By Category')
 		.child(
 			S.documentTypeList('gCategories')
-				.title('Blogs by Category')
+				.title('Locations by Category')
 				.child((categoryId) => {
 					return S.documentList()
 						.title('Blogs')

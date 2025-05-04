@@ -15,6 +15,7 @@ import {
 	locationsFilterByCategory,
 	locationsFilterByHighlight,
 } from './desk/locations-filters';
+import { GuidesFilterByCategory } from './desk/guides-filters';
 import { menusMenu } from './desk/menus';
 import { colorsMenu } from './desk/colors';
 import { settingsMenu } from './desk/settings';
@@ -105,6 +106,7 @@ const deskStructure = (S) =>
 			globalItineraries(S),
 			S.divider(),
 			globalGuides(S),
+			GuidesFilterByCategory(S),
 			pageGuidesIndex(S),
 			globalAds(S),
 			S.divider(),
