@@ -29,7 +29,7 @@ export default function ItineraryCard({ data }) {
 				<h3 className="t-l-1">{totalDays} Day Itinerary</h3>
 				<h2 className="c-itinerary-card__title t-l-1">{title}</h2>
 			</div>
-			<div className="c-itinerary-card__thumb" href={url}>
+			<div className="c-itinerary-card__thumb">
 				{images && <Img image={images[0]} className={'child-fit'} />}
 			</div>
 			<h2 className="c-itinerary-card__subtitle">{subtitle}</h2>
