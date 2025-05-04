@@ -1,0 +1,26 @@
+@use '_mixin' as *;
+
+.c-index-header {
+	width: var(--width-sml);
+	margin: var(--s-section) auto;
+	margin-top: calc(var(--s-header) + var(--s-section));
+	text-align: center;
+
+	.c-breadcrumb {
+		justify-content: center;
+	}
+
+	.t-h-1 {
+		text-wrap: pretty;
+	}
+
+	p {
+		text-wrap: balance;
+	}
+
+	@include mobileDown {
+		.t-h-1 br {
+			display: none;
+		}
+	}
+}

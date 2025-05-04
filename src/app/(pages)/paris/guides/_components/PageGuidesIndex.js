@@ -12,9 +12,11 @@ export default function PageGuidesIndex({ data }) {
 	const {
 		heading,
 		slug,
+		paragraph,
+		guidesParagraph,
 		categories,
-		isCategoryPage,
 		categoryTitle,
+		isCategoryPage,
 		paginationMethod,
 	} = data || {};
 	const breadcrumb = [
@@ -32,10 +34,11 @@ export default function PageGuidesIndex({ data }) {
 		slug: '',
 		parentCategory: null,
 	};
+	const introParagraph = isCategoryPage ? guidesParagraph : paragraph;
 
 	return (
 		<>
-			<section className="p-locations__header wysiwyg">
+			<section className="p-locations__header c-index-header wysiwyg">
 				<Breadcrumb data={breadcrumb} />
 				{heading && (
 					<h1 className="t-h-1">
@@ -49,6 +52,11 @@ export default function PageGuidesIndex({ data }) {
 							<CustomPortableText blocks={heading} hasPTag={false} />
 						)}
 					</h1>
+				)}
+				{introParagraph && (
+					<p className="t-b-2">
+						<CustomPortableText blocks={introParagraph} hasPTag={false} />
+					</p>
 				)}
 			</section>
 			<section className="p-locations__body">

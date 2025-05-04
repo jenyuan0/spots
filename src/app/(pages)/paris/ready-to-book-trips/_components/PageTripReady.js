@@ -20,15 +20,17 @@ export default function PageReadyToBook({ data }) {
 	// TODO
 	// Include filters: 'for couples', 'first-timers', 'most popular'
 	// or 'most popular filters'
-	console.log(paragraph);
+
 	return (
 		<>
-			<section className="p-trip-ready__header wysiwyg">
+			<section className="p-trip-ready__header c-index-header wysiwyg">
 				<Breadcrumb data={breadcrumb} />
 				<h1 className="t-h-1">{title}</h1>
-				<p className="t-b-2">
-					<CustomPortableText blocks={paragraph} hasPTag={false} />
-				</p>
+				{paragraph && (
+					<p className="t-b-2">
+						<CustomPortableText blocks={paragraph} hasPTag={false} />
+					</p>
+				)}
 			</section>
 			<section className="p-trip-ready__body">
 				<ResponsiveGrid size="lge">

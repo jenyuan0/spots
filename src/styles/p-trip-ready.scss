@@ -1,14 +1,3 @@
-.p-trip-ready__header {
-	width: var(--width-sml);
-	margin: var(--s-section) auto;
-	margin-top: calc(var(--s-header) + var(--s-section));
-	text-align: center;
-
-	.c-breadcrumb {
-		justify-content: center;
-	}
-}
-
 .p-trip-ready__body {
 	width: var(--width-max);
 	margin: var(--s-section) auto;

@@ -14,7 +14,7 @@ const iconMap = {
 	'health-beauty': IconArchitecture,
 	'sights-attractions': IconSite,
 	'food-drinks': IconDine,
-	'night-life': IconDrinks,
+	nightlife: IconDrinks,
 	hotels: IconHotel,
 	'shopping-gifts': IconShop,
 };

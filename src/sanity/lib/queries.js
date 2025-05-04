@@ -630,6 +630,9 @@ export const pageGuidesCategoryQuery = groq`{
   "slug": *[_type == "gCategories" && slug.current == $slug][0].slug.current,
 	"isCategoryPage": true,
 	"categoryTitle": *[_type == "gCategories" && slug.current == $slug][0].title,
+	guidesParagraph[]{
+    ${portableTextContentFields}
+  },
   "articleList": *[_type == "gGuides" && references(*[_type == "gCategories" && slug.current == $slug]._id)] {
     ${getGuidesData('card')}
   },
@@ -675,6 +678,9 @@ export const locationIndexQuery = groq`
   heading[]{
     ${portableTextContentFields}
   },
+  paragraph[]{
+    ${portableTextContentFields}
+  },
   "categories": categories[]->{
     ${categoryMetaFields}
   },
@@ -696,7 +702,12 @@ export const pageLocationsCategoryQuery = groq`{
 	"_type": "pLocationsCategory",
   "slug": *[_type == "gCategories" && slug.current == $slug][0].slug.current,
 	"isCategoryPage": true,
-	"categoryTitle": *[_type == "gCategories" && slug.current == $slug][0].title,
+	"locationsHeading": *[_type == "gCategories" && slug.current == $slug][0].locationsHeading[]{
+    ${portableTextContentFields}
+  },
+	"locationsParagraph": *[_type == "gCategories" && slug.current == $slug][0].locationsParagraph[]{
+    ${portableTextContentFields}
+  },
   "locationList": *[_type == "gLocations" && references(*[_type == "gCategories" && slug.current == $slug]._id)] {
     ${getLocationsData('card')}
   },

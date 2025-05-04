@@ -17,6 +17,18 @@ export default defineType({
 		title(),
 		slug(),
 		{
+			name: 'locationsHeading',
+			type: 'portableTextSimple',
+		},
+		{
+			name: 'locationsParagraph',
+			type: 'portableTextSimple',
+		},
+		{
+			name: 'guidesParagraph',
+			type: 'portableTextSimple',
+		},
+		{
 			name: 'color',
 			type: 'reference',
 			to: [{ type: 'settingsBrandColors' }],

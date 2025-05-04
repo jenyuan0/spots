@@ -16,6 +16,10 @@ export default defineType({
 			type: 'portableTextSimple',
 		},
 		{
+			name: 'paragraph',
+			type: 'portableTextSimple',
+		},
+		{
 			name: 'categories',
 			type: 'array',
 			of: [

@@ -1,14 +1,3 @@
-.p-guides__header {
-	width: var(--width-med);
-	margin: var(--s-section) auto;
-	margin-top: calc(var(--s-header) + var(--s-section));
-	text-align: center;
-
-	.c-breadcrumb {
-		justify-content: center;
-	}
-}
-
 .p-guides__body {
 	width: var(--width-lge);
 	margin: var(--s-section) auto;

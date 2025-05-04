@@ -12,8 +12,10 @@ export default function PageLocationsIndex({ data }) {
 	const {
 		heading,
 		slug,
+		paragraph,
+		locationsHeading,
+		locationsParagraph,
 		categories,
-		categoryTitle,
 		isCategoryPage,
 		paginationMethod,
 	} = data || {};
@@ -32,23 +34,22 @@ export default function PageLocationsIndex({ data }) {
 		slug: '',
 		parentCategory: null,
 	};
+	const introHeading = isCategoryPage ? locationsHeading : heading;
+	const introParagraph = isCategoryPage ? locationsParagraph : paragraph;
 
 	return (
 		<>
-			<section className="p-locations__header wysiwyg">
+			<section className="p-locations__header c-index-header wysiwyg">
 				<Breadcrumb data={breadcrumb} />
-				{heading && (
+				{introHeading && (
 					<h1 className="t-h-1">
-						{isCategoryPage && categoryTitle ? (
-							<>
-								Paris Spots for
-								<br />
-								{categoryTitle}
-							</>
-						) : (
-							<CustomPortableText blocks={heading} hasPTag={false} />
-						)}
+						<CustomPortableText blocks={introHeading} hasPTag={false} />
 					</h1>
+				)}
+				{introParagraph && (
+					<p className="t-b-2">
+						<CustomPortableText blocks={introParagraph} hasPTag={false} />
+					</p>
 				)}
 			</section>
 			<section className="p-locations__body">
@@ -59,7 +60,7 @@ export default function PageLocationsIndex({ data }) {
 							activeSlug={slug}
 							isLink={true}
 						>
-							<li className="c-category-pill-list__title t-l-2">Filter:</li>
+							<li className="c-category-pill-list__title t-l-2">Categories:</li>
 							<li>
 								<CategoryPill
 									className="pill"
