@@ -542,7 +542,7 @@ export const pageParisQuery = groq`
           "category": @-> {
             _id,
             title,
-            "items": *[_type == "gGuides" && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
+            "items": *[_type == "gGuides" && hideFromIndex != true && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
               ${getGuidesData('card')}
             }
           }
@@ -551,7 +551,7 @@ export const pageParisQuery = groq`
           "subcategory": @-> {
             _id,
             title,
-            "items": *[_type == "gSubcategories" && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
+            "items": *[_type == "gSubcategories" && hideFromIndex != true && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
               ${getGuidesData('card')}
             }
           }
@@ -563,7 +563,7 @@ export const pageParisQuery = groq`
           "category": @-> {
             _id,
             title,
-            "items": *[_type == "gLocations" && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
+            "items": *[_type == "gLocations" && hideFromIndex != true && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
               ${getLocationsData('card')}
             }
           }
@@ -572,7 +572,7 @@ export const pageParisQuery = groq`
           "subcategory": @-> {
             _id,
             title,
-            "items": *[_type == "gSubcategories" && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
+            "items": *[_type == "gSubcategories" && hideFromIndex != true && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
               ${getLocationsData('card')}
             }
           }
