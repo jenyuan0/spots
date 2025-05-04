@@ -1,12 +1,16 @@
 'use client';
 
-import React, { useId, useCallback, useMemo } from 'react';
+import React, { useId, useCallback, useMemo, useState, useEffect } from 'react';
 import CustomPortableText from '@/components/CustomPortableText';
 import GuideCard from '@/components/GuideCard';
 import LocationCard from '@/components/LocationCard';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
 
 export default function ContentListSection({ data }) {
+	const [hasMounted, setHasMounted] = useState(false);
+	useEffect(() => {
+		setHasMounted(true);
+	}, []);
 	const { contentList } = data;
 	const id = useId();
 	const { isTabletScreen } = useWindowDimensions();
@@ -91,6 +95,8 @@ export default function ContentListSection({ data }) {
 			),
 		[contentList, processCardsPreserveDirectOrder]
 	);
+
+	if (!hasMounted) return null;
 
 	return (
 		<section className="p-paris__content-list">

@@ -9,28 +9,34 @@ export default function LocationsSection({ data }) {
 	const { locationList, locationCategories } = data || {};
 	const containerRef = useRef(null);
 	const [radius, setRadius] = useState(150);
+	const [dots, setDots] = useState([]);
 
 	useEffect(() => {
 		const updateRadius = () => {
 			if (containerRef.current) {
-				setRadius(containerRef.current.offsetWidth / 2);
+				const newRadius = containerRef.current.offsetWidth / 2;
+				setRadius(newRadius);
+
+				if (locationList) {
+					const computedDots = locationList.map((item, index) => {
+						const angle = (index / locationList.length) * Math.PI * 2;
+						const x = parseFloat(
+							(newRadius * Math.cos(angle) * 0.97).toFixed(2)
+						);
+						const y = parseFloat(
+							(newRadius * Math.sin(angle) * 0.97).toFixed(2)
+						);
+						return { x, y, item };
+					});
+					setDots(computedDots);
+				}
 			}
 		};
 
 		updateRadius();
 		window.addEventListener('resize', updateRadius);
 		return () => window.removeEventListener('resize', updateRadius);
-	}, []);
-
-	if (!locationList) return null;
-
-	const dots = locationList.map((item, index) => {
-		const angle = (index / locationList.length) * Math.PI * 2;
-		const x = radius * Math.cos(angle) * 0.97;
-		const y = radius * Math.sin(angle) * 0.97;
-
-		return { x, y, item };
-	});
+	}, [locationList]);
 
 	return (
 		<section className="p-paris__locations">
@@ -47,7 +53,7 @@ export default function LocationsSection({ data }) {
 			</div>
 			<div className="p-paris__locations__dots">
 				<div className="p-paris__locations__dots-container" ref={containerRef}>
-					{dots.map(({ x, y, item }, index) => (
+					{dots?.map(({ x, y, item }, index) => (
 						<div
 							key={`dot-${index}`}
 							className="p-paris__locations__dot"

@@ -1,10 +1,18 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from '@/components/CustomLink';
 
 export default function SeasonSection({ data }) {
 	const { seasonsTitle, seasons } = data;
+
+	const [hasMounted, setHasMounted] = useState(false);
+
+	useEffect(() => {
+		setHasMounted(true);
+	}, []);
+
+	if (!hasMounted) return null;
 
 	return (
 		<section className="p-paris__season">
