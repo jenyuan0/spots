@@ -710,7 +710,7 @@ export const pageLocationsCategoryQuery = groq`{
 	"locationsParagraph": *[_type == "gCategories" && slug.current == $slug][0].locationsParagraph[]{
     ${portableTextContentFields}
   },
-  "locationList": *[_type == "gLocations" && references(*[_type == "gCategories" && slug.current == $slug]._id)] {
+  "locationList": *[_type == "gLocations" && hideFromIndex != true && references(*[_type == "gCategories" && slug.current == $slug]._id)] {
     ${getLocationsData('card')}
   },
   "sharing": *[_type == "gCategories" && slug.current == $slug][0]{
