@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { springConfig, scrollEnable, scrollDisable } from '@/lib/helpers';
 import clsx from 'clsx';
 import Link from '@/components/CustomLink';
@@ -127,6 +127,11 @@ export default function PlanSection({
 
 	const springAnimation = useScaleAnimation(containerRef);
 	const { isMobileScreen } = useWindowDimensions();
+	const [isMounted, setIsMounted] = useState(false);
+
+	useEffect(() => {
+		setIsMounted(true);
+	}, []);
 
 	const setRefs = useCallback(
 		(node) => {
@@ -141,7 +146,9 @@ export default function PlanSection({
 			{image && (
 				<motion.div
 					className="g-plan__image p-fill"
-					style={{ scale: !isMobileScreen ? springAnimation : undefined }}
+					style={{
+						scale: isMounted && !isMobileScreen ? springAnimation : undefined,
+					}}
 				>
 					<div className="object-fit">
 						<Img image={image} responsiveImage={mobileImage} />

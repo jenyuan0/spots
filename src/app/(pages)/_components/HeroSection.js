@@ -12,14 +12,20 @@ import useWindowDimensions from '@/hooks/useWindowDimensions';
 // Spot component for individual animated spots
 function HeroSpot({ index, data, boundary, isLastChild, scrollYProgress }) {
 	const { isMobileScreen, width, height } = useWindowDimensions();
+	const [isMounted, setIsMounted] = useState(false);
+
+	useEffect(() => {
+		setIsMounted(true);
+	}, []);
+
 	const [spot, setSpot] = useState({
 		x: width / 2,
 		y: height / 2,
 	});
 	const [screen, setScreen] = useState({ x: 0, y: 0 });
 	const config = {
-		yLast: !isMobileScreen ? 70 : 20,
-		scaleMin: !isMobileScreen ? 0.2 : 0.5,
+		yLast: !isMounted || !isMobileScreen ? 70 : 20,
+		scaleMin: !isMounted || !isMobileScreen ? 0.2 : 0.5,
 	};
 
 	useEffect(() => {
@@ -117,7 +123,7 @@ function HeroSpot({ index, data, boundary, isLastChild, scrollYProgress }) {
 	);
 }
 
-export default function HeroSection({ data, setPrimaryColor }) {
+export default function HeroSection({ data }) {
 	const { heroHeading, heroSubheading, heroImage, heroSpots } = data || {};
 	const ref = useRef(null);
 	const [boundary, setBoundary] = useState({
@@ -201,7 +207,6 @@ export default function HeroSection({ data, setPrimaryColor }) {
 
 	useEffect(() => {
 		const lastSpot = heroSpots[heroSpots.length - 1];
-		setPrimaryColor(lastSpot?.color);
 	});
 
 	// Use useMemo to prevent re-renders

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { format, add, isSameDay, isSameMonth } from 'date-fns';
 import {
 	formatNumberWithCommas,
@@ -77,6 +77,11 @@ export default function PageItinerarySingle({ data }) {
 		rootMargin: '-100% 0% 0% 0%',
 	});
 	const { isTabletScreen } = useWindowDimensions();
+	const [isMounted, setIsMounted] = useState(false);
+
+	useEffect(() => {
+		setIsMounted(true);
+	}, []);
 	const [isOpen, setIsOpen] = useState(false);
 
 	return (
@@ -124,7 +129,7 @@ export default function PageItinerarySingle({ data }) {
 					{images && (
 						<Carousel
 							className="p-itinerary__images"
-							align={!isTabletScreen ? 'start' : 'center'}
+							align={isMounted && !isTabletScreen ? 'start' : 'center'}
 							gap={'10px'}
 							isShowNav={true}
 						>

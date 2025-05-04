@@ -5,13 +5,13 @@ import clsx from 'clsx';
 import CustomPortableText from '@/components/CustomPortableText';
 import Button from '@/components/Button';
 
-export default function IntroSection({ data, primaryColor }) {
+export default function IntroSection({ data }) {
 	const { introTitle, introHeading, introCta } = data || {};
 
 	return (
 		<section
 			className="p-home__intro wysiwyg"
-			style={{ '--cr-primary': `var(--cr-${primaryColor}-d)` }}
+			style={{ '--cr-primary': `var(--cr-red-d)` }}
 		>
 			{introTitle && (
 				<h2 className="p-home__intro__title t-l-1">{introTitle}</h2>

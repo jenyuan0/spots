@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useCallback, useId } from 'react';
+import React, { useState, useCallback, useEffect, useId } from 'react';
 import { formatTimeToAMPM, scrollEnable, scrollDisable } from '@/lib/helpers';
 import { format, isSameDay } from 'date-fns';
 import clsx from 'clsx';
@@ -63,7 +63,11 @@ export default function ItineraryDay({
 		date
 	);
 	const { isTabletScreen } = useWindowDimensions();
+	const [isMounted, setIsMounted] = useState(false);
 
+	useEffect(() => {
+		setIsMounted(true);
+	}, []);
 	// State management
 	const [isMapActive, setIsMapActive] = useState(false);
 	const [checkedActivities, setCheckedActivities] = useState(() => {
@@ -152,18 +156,19 @@ export default function ItineraryDay({
 							<ResponsiveGrid
 								className={'p-itinerary__day__activities__locations'}
 							>
-								{locations.map((item, index) => (
-									<LocationCard
-										key={`item-${index}`}
-										data={item}
-										layout={
-											!isTabletScreen
-												? `horizontal-${locations.length == 1 ? '2' : '1'}`
-												: 'vertical-2'
-										}
-										hasDirection={true}
-									/>
-								))}
+								{isMounted &&
+									locations.map((item, index) => (
+										<LocationCard
+											key={`item-${index}`}
+											data={item}
+											layout={
+												!isTabletScreen
+													? `horizontal-${locations.length == 1 ? '2' : '1'}`
+													: 'vertical-2'
+											}
+											hasDirection={true}
+										/>
+									))}
 							</ResponsiveGrid>
 							{/* // TODO // fallback locations */}
 							{/* {<div className="locations">

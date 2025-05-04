@@ -175,6 +175,12 @@ const ClockBlock = ({ data, index, color }) => {
 		textIndex: 0,
 	});
 
+	const [isMounted, setIsMounted] = useState(false);
+
+	useEffect(() => {
+		setIsMounted(true);
+	}, []);
+
 	const ref = useRef(null);
 	const springScale = useScrollAnimation({ ref, index });
 
@@ -202,14 +208,11 @@ const ClockBlock = ({ data, index, color }) => {
 			className="p-home__why-block"
 			style={{
 				scale: springScale,
-				'--cr-primary': `var(--cr-${color}-d)`,
+				'--cr-primary': isMounted ? `var(--cr-${state.color}-l)` : undefined,
 			}}
 		>
 			<div className="p-home__why-block__media">
-				<div
-					className="p-home__clock"
-					style={{ '--cr-primary': `var(--cr-${state.color}-l)` }}
-				>
+				<div className="p-home__clock">
 					{clockText?.map((item, index) => {
 						return (
 							<div

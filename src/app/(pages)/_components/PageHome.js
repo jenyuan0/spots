@@ -8,12 +8,10 @@ import ItineraryList from '@/components/ItineraryList';
 import PlanSection from '@/components/PlanSection';
 
 export default function PageHome({ data }) {
-	const [primaryColor, setPrimaryColor] = useState();
-
 	return (
 		<>
-			<HeroSection data={data} setPrimaryColor={setPrimaryColor} />
-			<IntroSection data={data} primaryColor={primaryColor} />
+			<HeroSection data={data} />
+			<IntroSection data={data} />
 			<WhySection data={data} />
 			<ItineraryList data={data} />
 			<section className="p-home__contact">

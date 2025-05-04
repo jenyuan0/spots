@@ -14,6 +14,11 @@ export default function ContentListSection({ data }) {
 	const { contentList } = data;
 	const id = useId();
 	const { isTabletScreen } = useWindowDimensions();
+	const [isMounted, setIsMounted] = useState(false);
+
+	useEffect(() => {
+		setIsMounted(true);
+	}, []);
 
 	const processCardsPreserveDirectOrder = useCallback(
 		(itemArrays, maxItems = Infinity) => {
@@ -72,28 +77,31 @@ export default function ContentListSection({ data }) {
 				<GuideCard
 					key={key}
 					data={el}
-					layout={!isTabletScreen ? 'horizontal-1' : 'vertical-1'}
+					layout={!isMounted || !isTabletScreen ? 'horizontal-1' : 'vertical-1'}
 					aria-label={`Guide card ${index + 1}`}
 				/>
 			) : (
 				<LocationCard
 					key={key}
 					data={el}
-					layout={!isTabletScreen ? 'horizontal-1' : 'vertical-2'}
+					layout={!isMounted || !isTabletScreen ? 'horizontal-1' : 'vertical-2'}
 					aria-label={`Location card ${index + 1}`}
 				/>
 			);
 		},
-		[id]
+		[id, isMounted, isTabletScreen]
 	);
 
 	// Process all cards upfront using useMemo
 	const processedCards = useMemo(
 		() =>
 			contentList.map((item) =>
-				processCardsPreserveDirectOrder(item.items, !isTabletScreen ? 4 : 8)
+				processCardsPreserveDirectOrder(
+					item.items,
+					!isMounted || !isTabletScreen ? 4 : 8
+				)
 			),
-		[contentList, processCardsPreserveDirectOrder]
+		[contentList, processCardsPreserveDirectOrder, isMounted, isTabletScreen]
 	);
 
 	if (!hasMounted) return null;

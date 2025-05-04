@@ -1,8 +1,3 @@
-// TODO:
-// min to read in &__header__subtitle
-// add author with portrait in &__header
-// ad block
-// add social
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
@@ -154,6 +149,11 @@ const PageGuidesSingle = ({ data = {} }) => {
 		springConfig
 	);
 	const { isTabletScreen } = useWindowDimensions();
+	const [isMounted, setIsMounted] = useState(false);
+
+	useEffect(() => {
+		setIsMounted(true);
+	}, []);
 
 	// const { setAsideMapActive, setAsideMapLocations } = useAsideMap();
 	// useEffect(() => {
@@ -204,7 +204,9 @@ const PageGuidesSingle = ({ data = {} }) => {
 				{thumb && (
 					<motion.div
 						className="p-guide__hero__image"
-						style={{ scale: !isTabletScreen ? springScale : undefined }}
+						style={{
+							scale: isMounted && !isTabletScreen ? springScale : undefined,
+						}}
 					>
 						<span className="object-fit">
 							<Img image={thumb} />

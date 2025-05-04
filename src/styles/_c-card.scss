@@ -190,6 +190,10 @@
 		margin-bottom: 0;
 	}
 
+	.c-card__content {
+		-webkit-line-clamp: 2;
+	}
+
 	.c-card__actions {
 		margin-top: unset;
 		margin-left: 3px;
@@ -208,6 +212,11 @@
 
 	.c-card__info {
 		flex: 1;
+	}
+
+	.c-category-pill-list .pill:not(.is-active):not(:hover) {
+		--cr-primary: var(--cr-subtle) !important;
+		--cr-secondary: var(--cr-brown) !important;
 	}
 }
 
