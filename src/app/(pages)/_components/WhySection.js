@@ -208,7 +208,7 @@ const ClockBlock = ({ data, index, color }) => {
 			className="p-home__why-block"
 			style={{
 				scale: springScale,
-				'--cr-primary': isMounted ? `var(--cr-${state.color}-l)` : undefined,
+				'--cr-primary': `var(--cr-${color}-d)`,
 			}}
 		>
 			<div className="p-home__why-block__media">
@@ -229,7 +229,12 @@ const ClockBlock = ({ data, index, color }) => {
 					})}
 					<div
 						className="p-home__clock__center"
-						style={{ transform: `rotate(${state.rotation}deg)` }}
+						style={{
+							transform: `rotate(${state.rotation}deg)`,
+							'--cr-primary': isMounted
+								? `var(--cr-${state.color}-l)`
+								: undefined,
+						}}
 					>
 						<div className="p-home__clock__label">{state.rotatingText}</div>
 					</div>
