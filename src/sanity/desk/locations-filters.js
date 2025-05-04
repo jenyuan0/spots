@@ -13,6 +13,17 @@ export const locationsFilterEmptyContent = (S) => {
 		);
 };
 
+export const locationsFilterHideFromIndex = (S) => {
+	return S.listItem()
+		.title('Locations - Hide from Index')
+		.child(
+			S.documentList()
+				.title('Locations - Hidden from Index')
+				.apiVersion(apiVersion)
+				.filter('_type == "gLocations" && hideFromIndex == true')
+		);
+};
+
 export const locationsFilterByCategory = (S) => {
 	return S.listItem()
 		.title('Locations - By Category')
@@ -37,11 +48,11 @@ export const locationsFilterByHighlight = (S) => {
 				.title('Locations by Highlight')
 				.items([
 					S.listItem()
-						.title('Must-See')
+						.title('Iconic')
 						.child(
 							S.documentList()
-								.title('Must-See Locations')
-								.filter('_type == "gLocations" && "must-see" in highlights')
+								.title('Iconic Locations')
+								.filter('_type == "gLocations" && "iconic" in highlights')
 						),
 					S.listItem()
 						.title('Trending')

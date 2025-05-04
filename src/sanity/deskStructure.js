@@ -13,6 +13,7 @@ import {
 } from './desk/g-misc';
 import {
 	locationsFilterEmptyContent,
+	locationsFilterHideFromIndex,
 	locationsFilterByCategory,
 	locationsFilterByHighlight,
 } from './desk/locations-filters';
@@ -100,6 +101,7 @@ const deskStructure = (S) =>
 			S.divider(),
 			globalLocations(S),
 			locationsFilterEmptyContent(S),
+			locationsFilterHideFromIndex(S),
 			locationsFilterByCategory(S),
 			locationsFilterByHighlight(S),
 			pageLocationsIndex(S),

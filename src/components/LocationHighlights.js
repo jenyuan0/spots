@@ -1,6 +1,6 @@
 export default function LocationHighlights({ highlights }) {
 	const map = {
-		'must-see': 'Must-See',
+		iconic: 'Iconic',
 		trending: 'Trending',
 		'editors-pick': 'Editor’s Pick',
 		'on-our-radar': 'On Our Radar',

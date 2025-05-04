@@ -65,7 +65,7 @@ export default defineType({
 			of: [{ type: 'string' }],
 			options: {
 				list: [
-					{ title: 'Must-See', value: 'must-see' },
+					{ title: 'Iconic', value: 'iconic' },
 					{ title: 'Trending', value: 'trending' },
 					{ title: 'Editor’s Pick', value: 'editors-pick' },
 					{ title: 'On Our Radar', value: 'on-our-radar' },
