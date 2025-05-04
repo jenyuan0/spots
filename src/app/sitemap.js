@@ -26,7 +26,7 @@ const ROUTES = [
 	},
 	{
 		type: 'gItineraries',
-		slug: 'paris/itineraries',
+		slug: 'paris/itinerary',
 		changeFrequency: 'weekly',
 		priority: 0.8,
 		skipParentPath: true,
