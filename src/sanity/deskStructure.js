@@ -11,6 +11,10 @@ import {
 	globalSubcategories,
 	globalAuthors,
 } from './desk/g-misc';
+import {
+	locationsFilterByCategory,
+	locationsFilterByHighlight,
+} from './desk/locations-filters';
 import { menusMenu } from './desk/menus';
 import { colorsMenu } from './desk/colors';
 import { settingsMenu } from './desk/settings';
@@ -93,7 +97,10 @@ const deskStructure = (S) =>
 			pageHotelBooking(S),
 			S.divider(),
 			globalLocations(S),
+			locationsFilterByCategory(S),
+			locationsFilterByHighlight(S),
 			pageLocationsIndex(S),
+			S.divider(),
 			globalItinerariesDay(S),
 			globalItineraries(S),
 			S.divider(),

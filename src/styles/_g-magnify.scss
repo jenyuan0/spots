@@ -83,6 +83,11 @@
 }
 
 .g-magnify-locations {
+	&__highlights {
+		text-align: center;
+		margin: 0 var(--s-4-h) 10px;
+	}
+
 	&__heading {
 		margin: 0 var(--s-4-h) var(--s-4-v);
 		text-align: center;

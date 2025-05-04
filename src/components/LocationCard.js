@@ -5,6 +5,7 @@ import Img from '@/components/Image';
 import Button from '@/components/Button';
 import CategoryPillList from '@/components/CategoryPillList';
 import CustomPortableText from '@/components/CustomPortableText';
+import LocationHighlights from '@/components/LocationHighlights';
 import useMagnify from '@/hooks/useMagnify';
 import useLightbox from '@/hooks/useLightbox';
 import useKey from '@/hooks/useKey';
@@ -64,6 +65,7 @@ export default function LocationCard({
 		slug,
 		categories,
 		subcategories,
+		highlights,
 		address,
 		res,
 		content,
@@ -125,6 +127,11 @@ export default function LocationCard({
 						</div>
 					)}
 				<div className="c-card__header">
+					{highlights && layout == 'vertical-2' && (
+						<div className="c-card__highlights t-l-2">
+							<LocationHighlights highlights={highlights} />
+						</div>
+					)}
 					<h3
 						className={clsx('c-card__title', {
 							't-h-3': layout === 'embed',

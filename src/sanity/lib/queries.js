@@ -110,6 +110,8 @@ export const getLocationsData = (type) => {
       ${subcategoryMetaFields}
     },
     "color": lower(categories[0]->color->title),
+		highlights,
+		hideFromIndex,
     images[]{
       ${imageMetaFields}
     },
@@ -668,7 +670,7 @@ export const pageGuidesSingleQuery = groq`
   }`;
 
 export const locationListAllQuery = groq`
-  "locationList": *[_type == "gLocations"] | order(_updatedAt desc) {
+  "locationList": *[_type == "gLocations" && hideFromIndex != true] | order(_updatedAt desc) {
     ${getLocationsData('card')}
   }
 `;

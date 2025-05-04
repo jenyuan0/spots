@@ -59,6 +59,24 @@ export default defineType({
 			hidden: ({ parent }) => !parent?.categories,
 		},
 		{
+			name: 'highlights',
+			title: 'Highlights',
+			type: 'array',
+			of: [{ type: 'string' }],
+			options: {
+				list: [
+					{ title: 'Must-See', value: 'must-see' },
+					{ title: 'Trending', value: 'trending' },
+					{ title: 'Editor’s Pick', value: 'editors-pick' },
+					{ title: 'On Our Radar', value: 'on-our-radar' },
+				],
+			},
+		},
+		{
+			name: 'hideFromIndex',
+			type: 'boolean',
+		},
+		{
 			name: 'images',
 			type: 'array',
 			of: [customImage({ hasCaptionOptions: true, hasCropOptions: true })],

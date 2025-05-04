@@ -6,6 +6,7 @@ import Img from '@/components/Image';
 import CustomPortableText from '@/components/CustomPortableText';
 import Carousel from '@/components/Carousel';
 import CategoryPillList from '@/components/CategoryPillList';
+import LocationHighlights from '@/components/LocationHighlights';
 import useLightbox from '@/hooks/useLightbox';
 
 export default function MagnifyLocation({ data }) {
@@ -16,6 +17,7 @@ export default function MagnifyLocation({ data }) {
 		images,
 		categories,
 		subcategories,
+		highlights,
 		content,
 		contentItinerary,
 		urls,
@@ -31,6 +33,11 @@ export default function MagnifyLocation({ data }) {
 
 	return (
 		<div className="g-magnify-locations">
+			{highlights && (
+				<div className="g-magnify-locations__highlights t-l-2">
+					<LocationHighlights highlights={highlights} />
+				</div>
+			)}
 			{title && <h2 className="g-magnify-locations__heading t-h-2">{title}</h2>}
 			{res?.length > 0 && (
 				<div className="g-magnify-locations__res wysiwyg-b-1">
