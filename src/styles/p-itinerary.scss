@@ -144,8 +144,13 @@
 			box-shadow: var(--shadow-3);
 		}
 
-		.field textarea {
-			height: 150px;
+		.c-field {
+			--height: 42px;
+			--padding-h: 12px;
+		}
+
+		.c-field textarea {
+			height: calc(var(--height) * 2);
 		}
 
 		@include midScreenUp {
