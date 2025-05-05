@@ -231,9 +231,7 @@ const ClockBlock = ({ data, index, color }) => {
 						className="p-home__clock__center"
 						style={{
 							transform: `rotate(${state.rotation}deg)`,
-							'--cr-primary': isMounted
-								? `var(--cr-${state.color}-d)`
-								: undefined,
+							'--cr-primary': isMounted ? `var(--cr-cream)` : undefined,
 						}}
 					>
 						<div className="p-home__clock__label">{state.rotatingText}</div>
