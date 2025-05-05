@@ -52,7 +52,11 @@ export default function PageLocationsIndex({ data }) {
 				<Breadcrumb data={breadcrumb} />
 				{introHeading && (
 					<h1 className="t-h-1">
-						<CustomPortableText blocks={introHeading} hasPTag={false} />
+						{Array.isArray(introHeading) ? (
+							<CustomPortableText blocks={introHeading} hasPTag={false} />
+						) : (
+							introHeading
+						)}
 					</h1>
 				)}
 				{introParagraph && (
