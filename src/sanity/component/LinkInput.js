@@ -13,6 +13,7 @@ const pageDocumentOrder = [
 	'pGuides',
 	'gGuides',
 	'gCategories',
+	'pLocations',
 	'gLocations',
 	'gItineraries',
 	'pTripBespoke',
