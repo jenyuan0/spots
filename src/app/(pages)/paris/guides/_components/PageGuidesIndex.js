@@ -49,9 +49,9 @@ export default function PageGuidesIndex({ data }) {
 	const introHeading = isCategoryPage
 		? guidesHeading || (
 				<>
-					Paris Guides for
+					Paris Travel Guides
 					<br />
-					{categoryTitle}
+					for {categoryTitle}
 				</>
 			)
 		: heading;
@@ -98,14 +98,6 @@ export default function PageGuidesIndex({ data }) {
 						</CategoryPillList>
 					</div>
 				)}
-				{paginationMethod === 'page-numbers' || !paginationMethod ? (
-					<Suspense>
-						<GuidesPagination data={data} />
-					</Suspense>
-				) : (
-					<GuidesInfiniteScroll data={data} />
-				)}
-
 				{Array.isArray(articleList) && articleList.length > 0 ? (
 					paginationMethod === 'page-numbers' || !paginationMethod ? (
 						<Suspense>
