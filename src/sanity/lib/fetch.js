@@ -191,7 +191,7 @@ export function getGuidesSinglePage({ queryParams, isPreviewMode }) {
 	return sanityFetch({
 		query,
 		params: queryParams,
-		tags: [`gGuides:${queryParams.slug}`, 'getGuides', 'gLocations'],
+		tags: [`gGuides:${queryParams.slug}`, 'gGuides', 'gLocations'],
 		isPreviewMode,
 	});
 }
@@ -239,7 +239,7 @@ export function getLocationsSinglePage({ queryParams, isPreviewMode }) {
 	return sanityFetch({
 		query,
 		params: queryParams,
-		tags: [`gLocations:${queryParams.slug}`, 'getGuides', 'gLocations'],
+		tags: [`gLocations:${queryParams.slug}`, 'gGuides', 'gLocations'],
 		isPreviewMode,
 	});
 }
