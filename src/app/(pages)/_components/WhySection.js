@@ -232,7 +232,7 @@ const ClockBlock = ({ data, index, color }) => {
 						style={{
 							transform: `rotate(${state.rotation}deg)`,
 							'--cr-primary': isMounted
-								? `var(--cr-${state.color}-l)`
+								? `var(--cr-${state.color}-d)`
 								: undefined,
 						}}
 					>
