@@ -629,18 +629,38 @@ export const pageGuidesCategoryQuery = groq`{
     ${guidesIndexQuery}
   },
 	"_type": "pGuidesCategory",
-  "slug": *[_type == "gCategories" && slug.current == $slug][0].slug.current,
+	"slug": coalesce(
+		*[_type == "gCategories" && slug.current == $slug][0].slug.current,
+		*[_type == "gSubcategories" && slug.current == $slug][0].slug.current
+	),
 	"isCategoryPage": true,
-	"categoryTitle": *[_type == "gCategories" && slug.current == $slug][0].title,
-	"guidesHeading": *[_type == "gCategories" && slug.current == $slug][0].locationsHeading[]{
-    ${portableTextContentFields}
-  },
-	"guidesParagraph": *[_type == "gCategories" && slug.current == $slug][0].locationsParagraph[]{
-    ${portableTextContentFields}
-  },
-  "articleList": *[_type == "gGuides" && references(*[_type == "gCategories" && slug.current == $slug]._id)] {
-    ${getGuidesData('card')}
-  },
+	"parentCategory": *[_type == "gSubcategories" && slug.current == $slug][0].parentCategory->{
+		"slug": slug.current,
+		title,
+	},
+	"categoryTitle": coalesce(
+		*[_type == "gCategories" && slug.current == $slug][0].title,
+		*[_type == "gSubcategories" && slug.current == $slug][0].title
+	),
+	"guidesHeading": coalesce(
+		*[_type == "gCategories" && slug.current == $slug][0].guidesHeading[]{
+			${portableTextContentFields}
+		},
+		*[_type == "gSubcategories" && slug.current == $slug][0].guidesHeading[]{
+			${portableTextContentFields}
+		}
+	),
+	"guidesParagraph": coalesce(
+		*[_type == "gCategories" && slug.current == $slug][0].guidesParagraph[]{
+			${portableTextContentFields}
+		},
+		*[_type == "gSubcategories" && slug.current == $slug][0].guidesParagraph[]{
+			${portableTextContentFields}
+		},
+	),
+	"articleList": *[_type == "gGuides" && hideFromIndex != true && (references(*[_type == "gCategories" && slug.current == $slug]._id) || references(*[_type == "gSubcategories" && slug.current == $slug]._id))] {
+		${getGuidesData('card')}
+	},
   "sharing": *[_type == "gCategories" && slug.current == $slug][0]{
     "metaTitle": title + " Guides",
   }
@@ -703,17 +723,37 @@ export const pageLocationsCategoryQuery = groq`{
   },
 	"_type": "pLocationsCategory",
 	"isCategoryPage": true,
-  "slug": *[_type == "gCategories" && slug.current == $slug][0].slug.current,
-	"categoryTitle": *[_type == "gCategories" && slug.current == $slug][0].title,
-	"locationsHeading": *[_type == "gCategories" && slug.current == $slug][0].locationsHeading[]{
-    ${portableTextContentFields}
-  },
-	"locationsParagraph": *[_type == "gCategories" && slug.current == $slug][0].locationsParagraph[]{
-    ${portableTextContentFields}
-  },
-  "locationList": *[_type == "gLocations" && hideFromIndex != true && references(*[_type == "gCategories" && slug.current == $slug]._id)] {
-    ${getLocationsData('card')}
-  },
+	"parentCategory": *[_type == "gSubcategories" && slug.current == $slug][0].parentCategory->{
+		"slug": slug.current,
+		title,
+	},
+	"slug": coalesce(
+		*[_type == "gCategories" && slug.current == $slug][0].slug.current,
+		*[_type == "gSubcategories" && slug.current == $slug][0].slug.current
+	),
+	"categoryTitle": coalesce(
+		*[_type == "gCategories" && slug.current == $slug][0].title,
+		*[_type == "gSubcategories" && slug.current == $slug][0].title
+	),
+	"locationsHeading": coalesce(
+		*[_type == "gCategories" && slug.current == $slug][0].locationsHeading[]{
+			${portableTextContentFields}
+		},
+		*[_type == "gSubcategories" && slug.current == $slug][0].locationsHeading[]{
+			${portableTextContentFields}
+		}
+	),
+	"locationsParagraph": coalesce(
+		*[_type == "gCategories" && slug.current == $slug][0].locationsParagraph[]{
+			${portableTextContentFields}
+		},
+		*[_type == "gSubcategories" && slug.current == $slug][0].locationsParagraph[]{
+			${portableTextContentFields}
+		},
+	),
+	"locationList": *[_type == "gLocations" && hideFromIndex != true && (references(*[_type == "gCategories" && slug.current == $slug]._id) || references(*[_type == "gSubcategories" && slug.current == $slug]._id))] {
+		${getLocationsData('card')}
+	},
   "sharing": *[_type == "gCategories" && slug.current == $slug][0]{
     "metaTitle": title + " Locations",
   }

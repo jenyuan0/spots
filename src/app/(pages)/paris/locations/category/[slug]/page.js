@@ -31,8 +31,7 @@ export default async function Page({ params }) {
 	});
 	const { page } = pageData || {};
 
-	if (!page || !page?.locationList || page?.locationList?.length == 0)
-		return notFound();
+	if (!page) return notFound();
 
 	return (
 		<LiveQuery

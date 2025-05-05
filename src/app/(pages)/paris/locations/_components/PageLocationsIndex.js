@@ -17,7 +17,9 @@ export default function PageLocationsIndex({ data }) {
 		locationsParagraph,
 		categories,
 		isCategoryPage,
+		parentCategory,
 		categoryTitle,
+		locationList,
 		paginationMethod,
 	} = data || {};
 	const breadcrumb = [
@@ -29,6 +31,14 @@ export default function PageLocationsIndex({ data }) {
 			title: 'Locations',
 			url: '/paris/locations',
 		},
+		...(parentCategory
+			? [
+					{
+						title: parentCategory.title,
+						url: `/paris/locations/category/${categories[0].slug}`,
+					},
+				]
+			: []),
 	];
 	const dataAllPill = {
 		title: 'All Locations',
@@ -38,9 +48,9 @@ export default function PageLocationsIndex({ data }) {
 	const introHeading = isCategoryPage
 		? locationsHeading || (
 				<>
-					Paris Locations for
+					Best Places in Paris
 					<br />
-					{categoryTitle}
+					for {categoryTitle}
 				</>
 			)
 		: heading;
@@ -70,7 +80,7 @@ export default function PageLocationsIndex({ data }) {
 					<div className="p-guides__filters">
 						<CategoryPillList
 							categories={categories}
-							activeSlug={slug}
+							activeSlug={parentCategory?.slug || slug}
 							isLink={true}
 						>
 							<li className="c-category-pill-list__title t-l-2">Categories:</li>
@@ -86,12 +96,18 @@ export default function PageLocationsIndex({ data }) {
 						</CategoryPillList>
 					</div>
 				)}
-				{paginationMethod === 'page-numbers' || !paginationMethod ? (
-					<Suspense>
-						<LocationsPagination data={data} />
-					</Suspense>
+				{Array.isArray(locationList) && locationList.length > 0 ? (
+					paginationMethod === 'page-numbers' || !paginationMethod ? (
+						<Suspense>
+							<LocationsPagination data={data} />
+						</Suspense>
+					) : (
+						<LocationsInfiniteScroll data={data} />
+					)
 				) : (
-					<LocationsInfiniteScroll data={data} />
+					<div className="p-locations__empty">
+						<p className="t-h-3">No items found</p>
+					</div>
 				)}
 			</section>
 		</>

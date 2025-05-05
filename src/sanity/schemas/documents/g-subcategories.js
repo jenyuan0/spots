@@ -19,6 +19,22 @@ export default defineType({
 			to: [{ type: 'gCategories' }],
 			validation: (Rule) => Rule.required(),
 		},
+		{
+			name: 'locationsHeading',
+			type: 'portableTextSimple',
+		},
+		{
+			name: 'locationsParagraph',
+			type: 'portableTextSimple',
+		},
+		{
+			name: 'guidesHeading',
+			type: 'portableTextSimple',
+		},
+		{
+			name: 'guidesParagraph',
+			type: 'portableTextSimple',
+		},
 		sharing(),
 	],
 	preview: {

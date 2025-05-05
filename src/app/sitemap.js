@@ -45,6 +45,20 @@ const ROUTES = [
 		priority: 0.7,
 		skipParentPath: true,
 	},
+	{
+		type: 'gSubcategories',
+		slug: 'paris/guides/category',
+		changeFrequency: 'monthly',
+		priority: 0.7,
+		skipParentPath: true,
+	},
+	{
+		type: 'gSubcategories',
+		slug: 'paris/locations/category',
+		changeFrequency: 'monthly',
+		priority: 0.7,
+		skipParentPath: true,
+	},
 ];
 
 const EXCLUDED_DIRS = [

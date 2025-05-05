@@ -15,9 +15,13 @@ import {
 	locationsFilterEmptyContent,
 	locationsFilterHideFromIndex,
 	locationsFilterByCategory,
+	locationsFilterBySubcategory,
 	locationsFilterByHighlight,
 } from './desk/locations-filters';
-import { GuidesFilterByCategory } from './desk/guides-filters';
+import {
+	guidesFilterByCategory,
+	guidesFilterBySubcategory,
+} from './desk/guides-filters';
 import { menusMenu } from './desk/menus';
 import { colorsMenu } from './desk/colors';
 import { settingsMenu } from './desk/settings';
@@ -103,6 +107,7 @@ const deskStructure = (S) =>
 			locationsFilterEmptyContent(S),
 			locationsFilterHideFromIndex(S),
 			locationsFilterByCategory(S),
+			locationsFilterBySubcategory(S),
 			locationsFilterByHighlight(S),
 			pageLocationsIndex(S),
 			S.divider(),
@@ -110,7 +115,8 @@ const deskStructure = (S) =>
 			globalItineraries(S),
 			S.divider(),
 			globalGuides(S),
-			GuidesFilterByCategory(S),
+			guidesFilterByCategory(S),
+			guidesFilterBySubcategory(S),
 			pageGuidesIndex(S),
 			globalAds(S),
 			S.divider(),

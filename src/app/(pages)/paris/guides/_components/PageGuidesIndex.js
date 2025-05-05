@@ -17,7 +17,9 @@ export default function PageGuidesIndex({ data }) {
 		guidesParagraph,
 		categories,
 		isCategoryPage,
+		parentCategory,
 		categoryTitle,
+		articleList,
 		paginationMethod,
 	} = data || {};
 	const breadcrumb = [
@@ -29,6 +31,14 @@ export default function PageGuidesIndex({ data }) {
 			title: 'Guides',
 			url: '/paris/guides',
 		},
+		...(parentCategory
+			? [
+					{
+						title: parentCategory.title,
+						url: `/paris/locations/category/${categories[0].slug}`,
+					},
+				]
+			: []),
 	];
 	const dataAllPill = {
 		title: 'All Guides',
@@ -71,11 +81,11 @@ export default function PageGuidesIndex({ data }) {
 					<div className="p-guides__filters">
 						<CategoryPillList
 							categories={categories}
-							activeSlug={slug}
+							activeSlug={parentCategory?.slug || slug}
 							postType={'guides'}
 							isLink={true}
 						>
-							<li className="c-category-pill-list__title t-l-2">Filter:</li>
+							<li className="c-category-pill-list__title t-l-2">Categories:</li>
 							<li>
 								<CategoryPill
 									className="pill"
@@ -94,6 +104,20 @@ export default function PageGuidesIndex({ data }) {
 					</Suspense>
 				) : (
 					<GuidesInfiniteScroll data={data} />
+				)}
+
+				{Array.isArray(articleList) && articleList.length > 0 ? (
+					paginationMethod === 'page-numbers' || !paginationMethod ? (
+						<Suspense>
+							<GuidesPagination data={data} />
+						</Suspense>
+					) : (
+						<GuidesInfiniteScroll data={data} />
+					)
+				) : (
+					<div className="p-guides__empty">
+						<p className="t-l-2">No items found</p>
+					</div>
 				)}
 			</section>
 		</>

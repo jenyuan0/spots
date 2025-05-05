@@ -40,6 +40,22 @@ export const locationsFilterByCategory = (S) => {
 		);
 };
 
+export const locationsFilterBySubcategory = (S) => {
+	return S.listItem()
+		.title('Locations - By Subcategory')
+		.child(
+			S.documentTypeList('gSubcategories')
+				.title('Locations by Subcategory')
+				.child((categoryId) => {
+					return S.documentList()
+						.title('Locations')
+						.apiVersion(apiVersion)
+						.filter('_type == "gLocations" && references($categoryId)')
+						.params({ categoryId });
+				})
+		);
+};
+
 export const locationsFilterByHighlight = (S) => {
 	return S.listItem()
 		.title('Locations - By Highlight')

@@ -169,6 +169,56 @@ export function formatUrl(url) {
 	return `${protocol}://${normalizedRest}`;
 }
 
+export function formatPluralize(phrase) {
+	const irregularPlurals = {
+		man: 'men',
+		woman: 'women',
+		child: 'children',
+		person: 'people',
+		mouse: 'mice',
+		foot: 'feet',
+		tooth: 'teeth',
+		goose: 'geese',
+	};
+
+	const pluralizeWord = (word) => {
+		const lower = word.toLowerCase();
+		if (irregularPlurals[lower])
+			return matchCase(word, irregularPlurals[lower]);
+		if (lower.endsWith('y') && !/[aeiou]y$/.test(lower))
+			return word.replace(/y$/i, 'ies');
+		if (/(s|sh|ch|x|z)$/i.test(lower)) return word + 'es';
+		if (lower.endsWith('f')) return word.replace(/f$/i, 'ves');
+		if (lower.endsWith('fe')) return word.replace(/fe$/i, 'ves');
+		return word + 's';
+	};
+
+	const matchCase = (original, replacement) => {
+		if (original === original.toUpperCase()) return replacement.toUpperCase();
+		if (original[0] === original[0].toUpperCase())
+			return replacement[0].toUpperCase() + replacement.slice(1);
+		return replacement;
+	};
+
+	if (!phrase || typeof phrase !== 'string') return phrase;
+
+	const segments = phrase.split(/\s+(&|\band\b)?\s+/i);
+
+	for (let i = segments.length - 1; i >= 0; i--) {
+		const word = segments[i];
+		if (
+			/^[a-z]+$/i.test(word) &&
+			word.toLowerCase() !== 'and' &&
+			word !== '&'
+		) {
+			segments[i] = pluralizeWord(word);
+			break;
+		}
+	}
+
+	return segments.join(' ');
+}
+
 // ***UTILITIES / VALIDATION***
 
 export function validateEmail(string) {
