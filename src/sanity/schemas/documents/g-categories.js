@@ -17,6 +17,11 @@ export default defineType({
 		title(),
 		slug(),
 		{
+			name: 'color',
+			type: 'reference',
+			to: [{ type: 'settingsBrandColors' }],
+		},
+		{
 			name: 'locationsHeading',
 			type: 'portableTextSimple',
 		},
@@ -25,13 +30,12 @@ export default defineType({
 			type: 'portableTextSimple',
 		},
 		{
-			name: 'guidesParagraph',
+			name: 'guidesHeading',
 			type: 'portableTextSimple',
 		},
 		{
-			name: 'color',
-			type: 'reference',
-			to: [{ type: 'settingsBrandColors' }],
+			name: 'guidesParagraph',
+			type: 'portableTextSimple',
 		},
 		sharing(),
 	],

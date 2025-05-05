@@ -10,13 +10,13 @@ import CustomPortableText from '@/components/CustomPortableText';
 
 export default function PageGuidesIndex({ data }) {
 	const {
-		heading,
 		slug,
 		paragraph,
+		guidesHeading,
 		guidesParagraph,
 		categories,
-		categoryTitle,
 		isCategoryPage,
+		categoryTitle,
 		paginationMethod,
 	} = data || {};
 	const breadcrumb = [
@@ -34,23 +34,24 @@ export default function PageGuidesIndex({ data }) {
 		slug: '',
 		parentCategory: null,
 	};
+	const introHeading = isCategoryPage ? (
+		guidesHeading
+	) : (
+		<>
+			Paris Guides for
+			<br />
+			{categoryTitle}
+		</>
+	);
 	const introParagraph = isCategoryPage ? guidesParagraph : paragraph;
 
 	return (
 		<>
 			<section className="p-locations__header c-index-header wysiwyg">
 				<Breadcrumb data={breadcrumb} />
-				{heading && (
+				{introHeading && (
 					<h1 className="t-h-1">
-						{isCategoryPage && categoryTitle ? (
-							<>
-								Paris Guides for
-								<br />
-								{categoryTitle}
-							</>
-						) : (
-							<CustomPortableText blocks={heading} hasPTag={false} />
-						)}
+						<CustomPortableText blocks={introHeading} hasPTag={false} />
 					</h1>
 				)}
 				{introParagraph && (

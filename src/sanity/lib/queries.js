@@ -632,17 +632,17 @@ export const pageGuidesCategoryQuery = groq`{
   "slug": *[_type == "gCategories" && slug.current == $slug][0].slug.current,
 	"isCategoryPage": true,
 	"categoryTitle": *[_type == "gCategories" && slug.current == $slug][0].title,
-	guidesParagraph[]{
+	"guidesHeading": *[_type == "gCategories" && slug.current == $slug][0].locationsHeading[]{
+    ${portableTextContentFields}
+  },
+	"guidesParagraph": *[_type == "gCategories" && slug.current == $slug][0].locationsParagraph[]{
     ${portableTextContentFields}
   },
   "articleList": *[_type == "gGuides" && references(*[_type == "gCategories" && slug.current == $slug]._id)] {
     ${getGuidesData('card')}
   },
   "sharing": *[_type == "gCategories" && slug.current == $slug][0]{
-    "disableIndex": sharing.disableIndex,
     "metaTitle": title + " Guides",
-    "metaDesc": sharing.metaDesc,
-    "shareGraphic": sharing.shareGraphic
   }
 }`;
 
@@ -702,8 +702,9 @@ export const pageLocationsCategoryQuery = groq`{
     ${locationIndexQuery}
   },
 	"_type": "pLocationsCategory",
-  "slug": *[_type == "gCategories" && slug.current == $slug][0].slug.current,
 	"isCategoryPage": true,
+  "slug": *[_type == "gCategories" && slug.current == $slug][0].slug.current,
+	"categoryTitle": *[_type == "gCategories" && slug.current == $slug][0].title,
 	"locationsHeading": *[_type == "gCategories" && slug.current == $slug][0].locationsHeading[]{
     ${portableTextContentFields}
   },
@@ -714,10 +715,7 @@ export const pageLocationsCategoryQuery = groq`{
     ${getLocationsData('card')}
   },
   "sharing": *[_type == "gCategories" && slug.current == $slug][0]{
-    "disableIndex": sharing.disableIndex,
-    "metaTitle": title + " Guides",
-    "metaDesc": sharing.metaDesc,
-    "shareGraphic": sharing.shareGraphic
+    "metaTitle": title + " Locations",
   }
 }`;
 

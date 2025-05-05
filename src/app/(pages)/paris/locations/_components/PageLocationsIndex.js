@@ -10,13 +10,13 @@ import CustomPortableText from '@/components/CustomPortableText';
 
 export default function PageLocationsIndex({ data }) {
 	const {
-		heading,
 		slug,
 		paragraph,
 		locationsHeading,
 		locationsParagraph,
 		categories,
 		isCategoryPage,
+		categoryTitle,
 		paginationMethod,
 	} = data || {};
 	const breadcrumb = [
@@ -34,7 +34,15 @@ export default function PageLocationsIndex({ data }) {
 		slug: '',
 		parentCategory: null,
 	};
-	const introHeading = isCategoryPage ? locationsHeading : heading;
+	const introHeading = isCategoryPage ? (
+		locationsHeading
+	) : (
+		<>
+			Paris Locations for
+			<br />
+			{categoryTitle}
+		</>
+	);
 	const introParagraph = isCategoryPage ? locationsParagraph : paragraph;
 
 	return (

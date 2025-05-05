@@ -12,7 +12,7 @@ const pageDocumentOrder = [
 	'pGeneral',
 	'pGuides',
 	'gGuides',
-	'pLocations',
+	'gCategories',
 	'gLocations',
 	'gItineraries',
 	'pTripBespoke',
@@ -79,7 +79,6 @@ const renderOption = (option) => {
 
 export const LinkInput = (props) => {
 	const { elementProps, onChange, value = '' } = props;
-
 	const [loading, setLoading] = useState(true);
 	const [pageItemData, setPageItemData] = useState([]);
 	const [optionsList, setOptionsList] = useState([]);

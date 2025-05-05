@@ -131,7 +131,7 @@ const PageGuidesSingle = ({ data = {} }) => {
 			? [
 					{
 						title: categories[0].title,
-						url: `/paris/locations/${categories[0].slug}`,
+						url: `/paris/locations/category/${categories[0].slug}`,
 					},
 				]
 			: []),

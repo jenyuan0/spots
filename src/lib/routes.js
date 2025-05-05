@@ -32,6 +32,8 @@ export const getRoute = ({ documentType, slug }) => {
 			return `/paris`;
 		case 'pLocations':
 			return `/paris/locations`;
+		case 'gCategories': // default categories to locations
+			return `/paris/locations/category/${slug}`;
 		case 'pLocationsCategory':
 			return `/paris/locations/category/${slug}`;
 		case 'gLocations':
