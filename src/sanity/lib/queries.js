@@ -666,10 +666,10 @@ export const pageGuidesCategoryQuery = groq`{
 	},
   "sharing": coalesce(
 		*[_type == "gCategories" && slug.current == $slug][0]{
-			"metaTitle": title + " Locations",
+			"metaTitle": title + " Guides",
 		},
 		*[_type == "gSubcategories" && slug.current == $slug][0]{
-			"metaTitle": title + " Locations",
+			"metaTitle": title + " Guides",
 		}
 	)
 }`;
