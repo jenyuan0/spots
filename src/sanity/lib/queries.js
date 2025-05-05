@@ -641,6 +641,28 @@ export const pageGuidesCategoryQuery = groq`{
 		"slug": slug.current,
 		title,
 	},
+	"subcategories": select(
+		defined(*[_type == "gSubcategories" && slug.current == $slug][0].parentCategory) =>
+			*[
+				_type == "gSubcategories" &&
+				parentCategory._ref == *[_type == "gSubcategories" && slug.current == $slug][0].parentCategory._ref
+			]{
+				${baseFields},
+				"colorTitle": parentCategory->color->title,
+				"colorD": parentCategory->color->colorD.hex,
+				"colorL": parentCategory->color->colorL.hex
+			},
+		true =>
+			*[
+				_type == "gSubcategories" &&
+				parentCategory._ref == *[_type == "gCategories" && slug.current == $slug][0]._id
+			]{
+				${baseFields},
+				"colorTitle": parentCategory->color->title,
+				"colorD": parentCategory->color->colorD.hex,
+				"colorL": parentCategory->color->colorL.hex
+			}
+	),
 	"categoryTitle": coalesce(
 		*[_type == "gCategories" && slug.current == $slug][0].title,
 		*[_type == "gSubcategories" && slug.current == $slug][0].title
@@ -666,10 +688,10 @@ export const pageGuidesCategoryQuery = groq`{
 	},
   "sharing": coalesce(
 		*[_type == "gCategories" && slug.current == $slug][0]{
-			"metaTitle": title + " Guides",
+			"metaTitle": title + " Guides | SPOTS Paris",
 		},
 		*[_type == "gSubcategories" && slug.current == $slug][0]{
-			"metaTitle": title + " Guides",
+			"metaTitle": title + " Guides | SPOTS Paris",
 		}
 	)
 }`;
@@ -734,7 +756,30 @@ export const pageLocationsCategoryQuery = groq`{
 	"parentCategory": *[_type == "gSubcategories" && slug.current == $slug][0].parentCategory->{
 		"slug": slug.current,
 		title,
+		_id,
 	},
+	"subcategories": select(
+		defined(*[_type == "gSubcategories" && slug.current == $slug][0].parentCategory) =>
+			*[
+				_type == "gSubcategories" &&
+				parentCategory._ref == *[_type == "gSubcategories" && slug.current == $slug][0].parentCategory._ref
+			]{
+				${baseFields},
+				"colorTitle": parentCategory->color->title,
+				"colorD": parentCategory->color->colorD.hex,
+				"colorL": parentCategory->color->colorL.hex
+			},
+		true =>
+			*[
+				_type == "gSubcategories" &&
+				parentCategory._ref == *[_type == "gCategories" && slug.current == $slug][0]._id
+			]{
+				${baseFields},
+				"colorTitle": parentCategory->color->title,
+				"colorD": parentCategory->color->colorD.hex,
+				"colorL": parentCategory->color->colorL.hex
+			}
+	),
 	"slug": coalesce(
 		*[_type == "gCategories" && slug.current == $slug][0].slug.current,
 		*[_type == "gSubcategories" && slug.current == $slug][0].slug.current
@@ -764,10 +809,10 @@ export const pageLocationsCategoryQuery = groq`{
 	},
   "sharing": coalesce(
 		*[_type == "gCategories" && slug.current == $slug][0]{
-			"metaTitle": title + " Locations",
+			"metaTitle": title + " in Paris | SPOTS Paris",
 		},
 		*[_type == "gSubcategories" && slug.current == $slug][0]{
-			"metaTitle": title + " Locations",
+			"metaTitle": title + " in Paris | SPOTS Paris",
 		}
 	)
 }`;

@@ -14,7 +14,6 @@ export default defineType({
 		slug(),
 		{
 			name: 'parentCategory',
-			title: 'Parent Category',
 			type: 'reference',
 			to: [{ type: 'gCategories' }],
 			validation: (Rule) => Rule.required(),

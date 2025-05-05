@@ -24,3 +24,20 @@
 		}
 	}
 }
+
+.c-index-filters {
+	margin-bottom: var(--s-4-v);
+
+	.c-category-pill-list {
+		justify-content: center;
+
+		&:not(:last-child) {
+			margin-bottom: var(--s-3-v);
+		}
+
+		.pill:not(.is-active):not(:hover) {
+			--cr-primary: var(--cr-subtle) !important;
+			--cr-secondary: var(--cr-brown) !important;
+		}
+	}
+}

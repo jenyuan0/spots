@@ -3,18 +3,6 @@
 	margin: var(--s-section) auto;
 }
 
-.p-locations__filters {
-	.c-category-pill-list {
-		justify-content: center;
-		margin-bottom: var(--s-4-v);
-
-		.pill:not(.is-active):not(:hover) {
-			--cr-primary: var(--cr-subtle) !important;
-			--cr-secondary: var(--cr-brown) !important;
-		}
-	}
-}
-
 .p-locations__empty {
 	margin-block: var(--s-section);
 	text-align: center;

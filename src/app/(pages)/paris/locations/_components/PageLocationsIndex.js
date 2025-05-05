@@ -18,6 +18,7 @@ export default function PageLocationsIndex({ data }) {
 		categories,
 		isCategoryPage,
 		parentCategory,
+		subcategories,
 		categoryTitle,
 		locationList,
 		paginationMethod,
@@ -76,24 +77,35 @@ export default function PageLocationsIndex({ data }) {
 				)}
 			</section>
 			<section className="p-locations__body">
-				{categories && (
-					<div className="p-guides__filters">
-						<CategoryPillList
-							categories={categories}
-							activeSlug={parentCategory?.slug || slug}
-							isLink={true}
-						>
-							<li className="c-category-pill-list__title t-l-2">Categories:</li>
-							<li>
-								<CategoryPill
-									className="pill"
-									data={dataAllPill}
-									postType={'locations'}
-									isLink={true}
-									isActive={!isCategoryPage}
-								/>
-							</li>
-						</CategoryPillList>
+				{(categories || subcategories) && (
+					<div className="c-index-filters">
+						{categories && (
+							<CategoryPillList
+								categories={categories}
+								activeSlug={parentCategory?.slug || slug}
+								isLink={true}
+							>
+								<li className="c-category-pill-list__title t-l-2">
+									Categories:
+								</li>
+								<li>
+									<CategoryPill
+										className="pill"
+										data={dataAllPill}
+										postType={'locations'}
+										isLink={true}
+										isActive={!isCategoryPage}
+									/>
+								</li>
+							</CategoryPillList>
+						)}
+						{subcategories && (
+							<CategoryPillList
+								categories={subcategories}
+								activeSlug={slug}
+								isLink={true}
+							/>
+						)}
 					</div>
 				)}
 				{Array.isArray(locationList) && locationList.length > 0 ? (

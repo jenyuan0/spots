@@ -18,6 +18,7 @@ export default function PageGuidesIndex({ data }) {
 		categories,
 		isCategoryPage,
 		parentCategory,
+		subcategories,
 		categoryTitle,
 		articleList,
 		paginationMethod,
@@ -77,25 +78,37 @@ export default function PageGuidesIndex({ data }) {
 				)}
 			</section>
 			<section className="p-locations__body">
-				{categories && (
-					<div className="p-guides__filters">
-						<CategoryPillList
-							categories={categories}
-							activeSlug={parentCategory?.slug || slug}
-							postType={'guides'}
-							isLink={true}
-						>
-							<li className="c-category-pill-list__title t-l-2">Categories:</li>
-							<li>
-								<CategoryPill
-									className="pill"
-									data={dataAllPill}
-									postType={'guides'}
-									isLink={true}
-									isActive={!isCategoryPage}
-								/>
-							</li>
-						</CategoryPillList>
+				{(categories || subcategories) && (
+					<div className="c-index-filters">
+						{categories && (
+							<CategoryPillList
+								categories={categories}
+								activeSlug={parentCategory?.slug || slug}
+								postType={'guides'}
+								isLink={true}
+							>
+								<li className="c-category-pill-list__title t-l-2">
+									Categories:
+								</li>
+								<li>
+									<CategoryPill
+										className="pill"
+										data={dataAllPill}
+										postType={'guides'}
+										isLink={true}
+										isActive={!isCategoryPage}
+									/>
+								</li>
+							</CategoryPillList>
+						)}
+						{/* {subcategories && (
+							<CategoryPillList
+								categories={subcategories}
+								activeSlug={slug}
+								postType={'guides'}
+								isLink={true}
+							/>
+						)} */}
 					</div>
 				)}
 				{Array.isArray(articleList) && articleList.length > 0 ? (
