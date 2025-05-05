@@ -610,6 +610,9 @@ export const guidesIndexQuery = groq`
   heading[]{
     ${portableTextContentFields}
   },
+  paragraph[]{
+    ${portableTextContentFields}
+  },
   "categories": categories[]->{
     ${categoryMetaFields}
   },
