@@ -260,7 +260,16 @@
 		}
 
 		.c-accordion__inner {
+			padding-top: var(--s-2-v);
 			padding-bottom: var(--s-4-v);
+		}
+
+		.c-accordion__content .wysiwyg-page {
+			p,
+			ol,
+			ul {
+				font-size: 16px;
+			}
 		}
 	}
 
