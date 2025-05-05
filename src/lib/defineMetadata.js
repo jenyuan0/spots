@@ -12,7 +12,7 @@ export default function defineMetadata({ data }) {
 	const metaTitle = page?.isHomepage
 		? page?.sharing?.metaTitle || siteTitle
 		: page?.sharing?.metaTitle ||
-			page?.title ||
+			`${page?.title} | ${siteTitle}` ||
 			`Page not found | ${siteTitle}`;
 
 	const siteFavicon = site?.sharing?.favicon || false;
