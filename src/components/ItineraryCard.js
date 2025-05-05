@@ -34,7 +34,7 @@ export default function ItineraryCard({ data }) {
 			</div>
 			<h2 className="c-itinerary-card__subtitle">{subtitle}</h2>
 			<Button className="c-itinerary-card__cta btn-outline cr-white" href={url}>
-				View Travel Plan
+				View Trip
 			</Button>
 			<Link
 				href={url}
