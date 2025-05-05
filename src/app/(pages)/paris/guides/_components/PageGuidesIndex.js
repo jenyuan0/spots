@@ -11,6 +11,7 @@ import CustomPortableText from '@/components/CustomPortableText';
 export default function PageGuidesIndex({ data }) {
 	const {
 		slug,
+		heading,
 		paragraph,
 		guidesHeading,
 		guidesParagraph,
@@ -34,15 +35,15 @@ export default function PageGuidesIndex({ data }) {
 		slug: '',
 		parentCategory: null,
 	};
-	const introHeading = isCategoryPage ? (
-		guidesHeading
-	) : (
-		<>
-			Paris Guides for
-			<br />
-			{categoryTitle}
-		</>
-	);
+	const introHeading = isCategoryPage
+		? guidesHeading || (
+				<>
+					Paris Guides for
+					<br />
+					{categoryTitle}
+				</>
+			)
+		: heading;
 	const introParagraph = isCategoryPage ? guidesParagraph : paragraph;
 
 	return (

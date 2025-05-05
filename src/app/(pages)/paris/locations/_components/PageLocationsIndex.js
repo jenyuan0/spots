@@ -11,6 +11,7 @@ import CustomPortableText from '@/components/CustomPortableText';
 export default function PageLocationsIndex({ data }) {
 	const {
 		slug,
+		heading,
 		paragraph,
 		locationsHeading,
 		locationsParagraph,
@@ -34,15 +35,15 @@ export default function PageLocationsIndex({ data }) {
 		slug: '',
 		parentCategory: null,
 	};
-	const introHeading = isCategoryPage ? (
-		locationsHeading
-	) : (
-		<>
-			Paris Locations for
-			<br />
-			{categoryTitle}
-		</>
-	);
+	const introHeading = isCategoryPage
+		? locationsHeading || (
+				<>
+					Paris Locations for
+					<br />
+					{categoryTitle}
+				</>
+			)
+		: heading;
 	const introParagraph = isCategoryPage ? locationsParagraph : paragraph;
 
 	return (
