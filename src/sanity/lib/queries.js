@@ -687,14 +687,10 @@ export const pageGuidesCategoryQuery = groq`{
 	"articleList": *[_type == "gGuides" && hideFromIndex != true && (references(*[_type == "gCategories" && slug.current == $slug]._id) || references(*[_type == "gSubcategories" && slug.current == $slug]._id))] {
 		${getGuidesData('card')}
 	},
-  "sharing": coalesce(
-		*[_type == "gCategories" && slug.current == $slug][0]{
-			"metaTitle": title + " Guides | SPOTS Paris",
-		},
-		*[_type == "gSubcategories" && slug.current == $slug][0]{
-			"metaTitle": title + " Guides | SPOTS Paris",
-		}
-	)
+	"title": coalesce(
+		*[_type == "gCategories" && slug.current == $slug][0].title,
+		*[_type == "gSubcategories" && slug.current == $slug][0].title
+	) + " Guides | SPOTS Paris",
 }`;
 
 export const pageGuidesIndexWithArticleDataSSGQuery = groq`
@@ -727,7 +723,7 @@ export const locationListAllQuery = groq`
 `;
 
 export const locationIndexQuery = groq`
-  ${baseFields},
+	${baseFields},
   heading[]{
     ${portableTextContentFields}
   },
@@ -808,14 +804,10 @@ export const pageLocationsCategoryQuery = groq`{
 	"locationList": *[_type == "gLocations" && hideFromIndex != true && (references(*[_type == "gCategories" && slug.current == $slug]._id) || references(*[_type == "gSubcategories" && slug.current == $slug]._id))] {
 		${getLocationsData('card')}
 	},
-  "sharing": coalesce(
-		*[_type == "gCategories" && slug.current == $slug][0]{
-			"metaTitle": title + " in Paris | SPOTS Paris",
-		},
-		*[_type == "gSubcategories" && slug.current == $slug][0]{
-			"metaTitle": title + " in Paris | SPOTS Paris",
-		}
-	)
+	"title": coalesce(
+		*[_type == "gCategories" && slug.current == $slug][0].title,
+		*[_type == "gSubcategories" && slug.current == $slug][0].title
+	) + " in Paris | SPOTS Paris",
 }`;
 
 export const pageLocationsIndexWithArticleDataSSGQuery = groq`
