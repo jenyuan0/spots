@@ -1,10 +1,8 @@
 import React from 'react';
 import Link from '@/components/CustomLink';
 
-export default function Button({ children, icon, caret, ...props }) {
-	const { href, className } = props;
-	const isButton = !href;
-	const content = (
+function Content({ children, icon, caret, underline }) {
+	return (
 		<>
 			{caret && (
 				<div className="btn__caret-hover">
@@ -12,11 +10,7 @@ export default function Button({ children, icon, caret, ...props }) {
 				</div>
 			)}
 			{icon && <div className="btn__icon">{icon}</div>}
-			{className.includes('btn-underline') ? (
-				children
-			) : (
-				<div className="btn__text">{children}</div>
-			)}
+			{underline ? children : <div className="btn__text">{children}</div>}
 			{caret && (
 				<div className="btn__caret">
 					<span className={`icon-caret-${caret}`} />
@@ -24,10 +18,39 @@ export default function Button({ children, icon, caret, ...props }) {
 			)}
 		</>
 	);
+}
 
-	if (isButton) {
-		return <button {...props}>{content}</button>;
+export default function Button({
+	children,
+	icon,
+	caret,
+	href,
+	className = '',
+	...props
+}) {
+	const underline = className.includes('btn-underline');
+
+	if (href) {
+		return (
+			<Link className={className} href={href} {...props}>
+				<Content
+					children={children}
+					icon={icon}
+					caret={caret}
+					underline={underline}
+				/>
+			</Link>
+		);
 	}
 
-	return <Link {...props}>{content}</Link>;
+	return (
+		<button className={className} {...props}>
+			<Content
+				children={children}
+				icon={icon}
+				caret={caret}
+				underline={underline}
+			/>
+		</button>
+	);
 }
