@@ -78,6 +78,10 @@
 
 	@include mobileDown {
 		max-height: 150svh;
+
+		&__heading {
+			font: var(--t-h-2);
+		}
 	}
 }
 
