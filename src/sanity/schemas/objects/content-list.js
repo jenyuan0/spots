@@ -1,5 +1,6 @@
 import title from '@/sanity/schemas/objects/title';
 import { getPortableTextPreview } from '@/sanity/lib/helpers';
+import { LinkInput } from '@/sanity/component/LinkInput';
 
 export default function contentList() {
 	return {
@@ -9,6 +10,13 @@ export default function contentList() {
 			title({
 				required: false,
 			}),
+			{
+				type: 'string',
+				name: 'titleUrl',
+				components: {
+					input: LinkInput,
+				},
+			},
 			{
 				name: 'subtitle',
 				type: 'string',

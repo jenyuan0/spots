@@ -4,6 +4,7 @@ import React, { useId, useCallback, useMemo, useState, useEffect } from 'react';
 import CustomPortableText from '@/components/CustomPortableText';
 import GuideCard from '@/components/GuideCard';
 import LocationCard from '@/components/LocationCard';
+import Link from '@/components/CustomLink';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
 
 export default function ContentListSection({ data }) {
@@ -118,7 +119,11 @@ export default function ContentListSection({ data }) {
 					<div className="p-paris__content-list__header wysiwyg-b-2">
 						{item.title && (
 							<h2 className="p-paris__content-list__title t-l-2">
-								{item.title}
+								{item.titleUrl ? (
+									<Link href={item.titleUrl}>{item.title}</Link>
+								) : (
+									`${item.title}`
+								)}
 							</h2>
 						)}
 						{item.subtitle && (

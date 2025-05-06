@@ -533,6 +533,7 @@ export const pageParisQuery = groq`
     },
     contentList[]{
       title,
+			titleUrl,
       subtitle,
       excerpt[]{
         ${portableTextContentFields}
