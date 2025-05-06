@@ -17,7 +17,7 @@ export default function Page404({ data }) {
 			{callToAction && (
 				<Button
 					className={'btn cr-green-d'}
-					link={callToAction.link}
+					href={callToAction?.link?.route}
 					isNewTab={callToAction.isNewTab}
 					// caret="right"
 				>
