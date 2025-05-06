@@ -33,24 +33,18 @@ export default function Button({
 	if (href) {
 		return (
 			<Link className={className} href={href} {...props}>
-				<Content
-					children={children}
-					icon={icon}
-					caret={caret}
-					underline={underline}
-				/>
+				<Content icon={icon} caret={caret} underline={underline}>
+					{children}
+				</Content>
 			</Link>
 		);
 	}
 
 	return (
 		<button className={className} {...props}>
-			<Content
-				children={children}
-				icon={icon}
-				caret={caret}
-				underline={underline}
-			/>
+			<Content icon={icon} caret={caret} underline={underline}>
+				{children}
+			</Content>
 		</button>
 	);
 }
