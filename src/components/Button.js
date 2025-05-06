@@ -2,7 +2,7 @@ import React from 'react';
 import Link from '@/components/CustomLink';
 
 export default function Button({ children, icon, caret, ...props }) {
-	const { href } = props;
+	const { href, className } = props;
 	const isButton = !href;
 	const content = (
 		<>
@@ -12,7 +12,11 @@ export default function Button({ children, icon, caret, ...props }) {
 				</div>
 			)}
 			{icon && <div className="btn__icon">{icon}</div>}
-			<div className="btn__text">{children}</div>
+			{className.includes('btn-underline') ? (
+				children
+			) : (
+				<div className="btn__text">{children}</div>
+			)}
 			{caret && (
 				<div className="btn__caret">
 					<span className={`icon-caret-${caret}`} />
