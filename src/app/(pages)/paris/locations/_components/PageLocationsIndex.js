@@ -49,8 +49,7 @@ export default function PageLocationsIndex({ data }) {
 	const introHeading = isCategoryPage
 		? locationsHeading || (
 				<>
-					Best Places in Paris
-					<br />
+					Best Places in Paris <br />
 					for {categoryTitle}
 				</>
 			)

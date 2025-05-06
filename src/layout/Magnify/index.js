@@ -1,5 +1,6 @@
 import React, { Suspense, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
+import { scrollEnable, scrollDisable } from '@/lib/helpers';
 import { client } from '@/sanity/lib/client';
 import { useSearchParams } from 'next/navigation';
 import useOutsideClick from '@/hooks/useOutsideClick';
@@ -50,6 +51,7 @@ export function Magnify() {
 			});
 			setColor(mag?.color || content.color || 'brown');
 			setIsActive(true);
+			scrollDisable();
 		} catch (error) {
 			console.error('Error fetching data:', error);
 		} finally {
@@ -67,6 +69,7 @@ export function Magnify() {
 			fetchLocationContent(mParam);
 		} else {
 			setIsActive(false);
+			scrollEnable();
 		}
 		return cleanup;
 	}, [searchParams]);
@@ -103,6 +106,7 @@ export function Magnify() {
 		if (!isActive) return;
 
 		setIsActive(false);
+		scrollEnable();
 		if (timerRef.current) {
 			clearTimeout(timerRef.current);
 		}

@@ -173,8 +173,14 @@
 		}
 	}
 
-	&:not(:hover) .c-card__categories {
+	.c-card__categories {
 		opacity: 0;
+	}
+
+	@media (hover: hover) {
+		&:hover {
+			opacity: 1;
+		}
 	}
 
 	.c-card__info {

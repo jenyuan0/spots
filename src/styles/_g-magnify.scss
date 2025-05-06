@@ -76,8 +76,8 @@
 			transform: unset;
 		}
 
-		&__body {
-			padding-top: calc(var(--s-header) + var(--s-4-v));
+		&__heading {
+			margin-inline: 60px;
 		}
 	}
 }

@@ -45,7 +45,7 @@
 	&[data-size='sml'] &__grid {
 		@container grid (max-width: 699px) {
 			grid-template-columns: repeat(2, 1fr);
-			gap: 5px;
+			gap: 2px;
 
 			.c-card[data-layout='vertical-2'] .c-card__title {
 				font: var(--t-h-5);

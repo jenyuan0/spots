@@ -13,6 +13,8 @@
 	}
 
 	@include mobileDown {
+		gap: 6px;
+
 		&__title {
 			width: 100%;
 			margin-bottom: 10px;

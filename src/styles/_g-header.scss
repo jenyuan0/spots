@@ -23,6 +23,11 @@
 		letter-spacing: -0.02em;
 		line-height: 1;
 		border-left: none;
+
+		svg {
+			display: block;
+			width: 100%;
+		}
 	}
 
 	&__cta {
@@ -197,10 +202,11 @@
 			position: fixed;
 			width: 100%;
 			top: var(--header-size);
-			height: calc(100vh - var(--header-size));
+			height: calc(100% - var(--header-size));
+			padding-top: 40px;
 			padding-bottom: 100px;
 			flex-direction: column;
-			justify-content: center;
+			overflow-y: auto;
 			gap: var(--s-4-v);
 			background-color: var(--cr-cream);
 			transition: opacity var(--t-1);
@@ -214,9 +220,11 @@
 
 			&__block {
 				flex: unset;
+				flex-shrink: 0;
 				margin-inline: auto;
 				width: 90%;
 				max-width: 600px;
+				height: fit-content;
 			}
 
 			&__translate {
@@ -251,7 +259,7 @@
 
 			a {
 				display: block;
-				padding: 0.6em 0;
+				padding: 0.5em 0;
 				text-align: center;
 				border-top: 1px solid;
 			}
