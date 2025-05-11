@@ -204,7 +204,7 @@ export default function defineMetadata({ data }) {
 				url: formatUrl(`${process.env.SITE_URL}${pageRoute}`),
 				image: shareGraphicUrl || '',
 				itinerary: (page?.plan || []).map((day, index) => ({
-					'@type': 'Itinerary',
+					'@type': 'ItemList',
 					name: day?.title || `Day ${index + 1}`,
 					itemListElement: (day?.content || []).map((block, i) => ({
 						'@type': 'ListItem',
