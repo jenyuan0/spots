@@ -56,6 +56,20 @@ export default function defineMetadata({ data }) {
 		slug: slug,
 	});
 
+	// Map category titles to Schema.org @type (Google Rich Results-compatible subtypes)
+	const schemaTypeMap = {
+		Accommodations: 'Hotel',
+		'Food & Drinks': 'Restaurant',
+		'Sights & Attractions': 'LocalBusiness',
+		'Things to do': 'LocalBusiness',
+		'Health & Beauty': 'HealthAndBeautyBusiness',
+		Nightlife: 'BarOrNightClub',
+		'Shopping & Gifts': 'Store',
+		Tips: 'LocalBusiness',
+	};
+	const firstCategoryTitle = page?.categories?.[0]?.title;
+	const schemaType = schemaTypeMap[firstCategoryTitle] || 'Place';
+
 	return {
 		title: metaTitle,
 		description: metaDesc,
@@ -109,7 +123,7 @@ export default function defineMetadata({ data }) {
 		...(page?._type === 'gLocations' && {
 			jsonLd: {
 				'@context': 'https://schema.org',
-				'@type': 'TouristAttraction',
+				'@type': schemaType,
 				name: page?.title || 'Untitled',
 				description: metaDesc,
 				url: formatUrl(`${process.env.SITE_URL}${pageRoute}`),
