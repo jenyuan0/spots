@@ -186,5 +186,24 @@ export default function defineMetadata({ data }) {
 				inLanguage: 'en',
 			},
 		}),
+		...(page?._type === 'gItineraries' && {
+			jsonLd: {
+				'@context': 'https://schema.org',
+				'@type': 'Trip',
+				name: page?.title || 'Untitled',
+				description: metaDesc,
+				url: formatUrl(`${process.env.SITE_URL}${pageRoute}`),
+				image: shareGraphicUrl || '',
+				itinerary: (page?.plan || []).map((day, index) => ({
+					'@type': 'Itinerary',
+					name: day?.title || `Day ${index + 1}`,
+					itemListElement: (day?.content || []).map((block, i) => ({
+						'@type': 'ListItem',
+						position: i + 1,
+						name: toPlainText([block]),
+					})),
+				})),
+			},
+		}),
 	};
 }
