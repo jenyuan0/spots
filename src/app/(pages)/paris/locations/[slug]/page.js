@@ -5,10 +5,14 @@ import { notFound } from 'next/navigation';
 import { LiveQuery } from 'next-sanity/preview/live-query';
 import defineMetadata from '@/lib/defineMetadata';
 import { pageLocationsSingleQuery } from '@/sanity/lib/queries';
-import { getLocationsSinglePage, getPagesPaths } from '@/sanity/lib/fetch';
+import {
+	getLocationsSinglePage,
+	getPagesPaths,
+	getSiteData,
+} from '@/sanity/lib/fetch';
 
 export async function generateStaticParams() {
-	const slugs = await getPagesPaths({ pageType: 'gGuides' });
+	const slugs = await getPagesPaths({ pageType: 'gLocations' });
 	const params = slugs.map((slug) => ({ slug }));
 	return params;
 }
@@ -19,6 +23,7 @@ export async function generateMetadata({ params }) {
 		queryParams: params,
 		isPreviewMode,
 	});
+
 	return defineMetadata({ data });
 }
 
@@ -29,6 +34,8 @@ export default async function Page({ params }) {
 		isPreviewMode,
 	});
 	const { page } = pageData || {};
+	const site = await getSiteData({ isPreviewMode });
+	const metadata = defineMetadata({ data: { site, page } });
 
 	if (!page) return notFound();
 
@@ -40,6 +47,14 @@ export default async function Page({ params }) {
 			params={{ slug: params.slug }}
 			as={PreviewPageLocationsSingle}
 		>
+			{metadata?.jsonLd && (
+				<script
+					type="application/ld+json"
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify(metadata.jsonLd),
+					}}
+				/>
+			)}
 			<PageLocationsSingle data={page} />
 		</LiveQuery>
 	);

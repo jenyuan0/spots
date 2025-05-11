@@ -91,7 +91,7 @@ export default async function RootLayout({ children, params }) {
 					</head>
 					<StyledJsxRegistry>
 						<body>
-							{bodyContent}{' '}
+							{bodyContent}
 							<svg
 								width="0"
 								height="0"
