@@ -13,6 +13,7 @@ export default function MagnifyLocation({ data }) {
 	const {
 		_id,
 		title,
+		slug,
 		address,
 		images,
 		categories,
@@ -38,7 +39,11 @@ export default function MagnifyLocation({ data }) {
 					<LocationHighlights highlights={highlights} />
 				</div>
 			)}
-			{title && <h2 className="g-magnify-locations__heading t-h-2">{title}</h2>}
+			{title && (
+				<h2 className="g-magnify-locations__heading t-h-2">
+					<Link href={`/paris/locations/${slug}`}>{title}</Link>
+				</h2>
+			)}
 			{res?.length > 0 && (
 				<div className="g-magnify-locations__res wysiwyg-b-1">
 					<h3 className="t-l-1">Reservation{res.length > 1 && 's'}</h3>
