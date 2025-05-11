@@ -178,11 +178,20 @@ export default function defineMetadata({ data }) {
 			jsonLd: {
 				'@context': 'https://schema.org',
 				'@type': 'BlogPosting',
+				headline: page?.title || 'Untitled',
 				name: page?.title || 'Untitled',
 				description: metaDesc,
 				url: formatUrl(`${process.env.SITE_URL}${pageRoute}`),
-				datePublished: page?.publishDate || '',
-				image: shareGraphicUrl || '',
+				datePublished: page?.publishDate
+					? new Date(page.publishDate).toISOString()
+					: '',
+				image: page?.thumb?.asset
+					? imageBuilder.image(page.thumb).width(1200).url()
+					: shareGraphicUrl || '',
+				author: {
+					'@type': 'Organization',
+					name: siteTitle,
+				},
 				inLanguage: 'en',
 			},
 		}),
