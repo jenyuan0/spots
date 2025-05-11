@@ -1,6 +1,7 @@
 import { imageBuilder } from '@/sanity/lib/image';
 import { getRoute } from '@/lib/routes';
 import { formatUrl } from '@/lib/helpers';
+import { toPlainText } from '@portabletext/react';
 // https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadata-fields
 
 export default function defineMetadata({ data }) {
@@ -8,7 +9,24 @@ export default function defineMetadata({ data }) {
 	const { _type, slug } = page || {};
 
 	const siteTitle = site?.title || '';
-	const metaDesc = page?.sharing?.metaDesc || '';
+	// Compose metaDesc: prefer sharing.metaDesc, then locationsParagraph (as plain text, truncated), or fallback to ''
+	let rawParagraph = '';
+
+	if (page?.sharing?.metaDesc) {
+		rawParagraph = page.sharing.metaDesc;
+	} else if (page?._type === 'gLocations') {
+		rawParagraph = page?.content ? toPlainText(page.content) : '';
+	} else if (page?._type === 'gGuides') {
+		rawParagraph =
+			page?.excerpt || (page?.content ? toPlainText(page.content) : '');
+	} else if (page?.locationsParagraph) {
+		rawParagraph = toPlainText(page.locationsParagraph);
+	}
+	const truncatedParagraph =
+		rawParagraph.length > 155
+			? rawParagraph.slice(0, 152).trim() + '...'
+			: rawParagraph;
+	const metaDesc = truncatedParagraph || '';
 	const metaTitle = page?.isHomepage
 		? page?.sharing?.metaTitle || siteTitle
 		: page?.sharing?.metaTitle || page?.title

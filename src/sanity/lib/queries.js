@@ -690,7 +690,7 @@ export const pageGuidesCategoryQuery = groq`{
 	"title": coalesce(
 		*[_type == "gCategories" && slug.current == $slug][0].title,
 		*[_type == "gSubcategories" && slug.current == $slug][0].title
-	) + " Guides | SPOTS Paris",
+	) + " Guides",
 }`;
 
 export const pageGuidesIndexWithArticleDataSSGQuery = groq`
@@ -807,7 +807,7 @@ export const pageLocationsCategoryQuery = groq`{
 	"title": coalesce(
 		*[_type == "gCategories" && slug.current == $slug][0].title,
 		*[_type == "gSubcategories" && slug.current == $slug][0].title
-	) + " in Paris | SPOTS Paris",
+	) + " in Paris",
 }`;
 
 export const pageLocationsIndexWithArticleDataSSGQuery = groq`
