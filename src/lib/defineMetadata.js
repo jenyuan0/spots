@@ -56,19 +56,42 @@ export default function defineMetadata({ data }) {
 		slug: slug,
 	});
 
-	// Map category titles to Schema.org @type (Google Rich Results-compatible subtypes)
+	// Map category/subcategory titles to Schema.org @type
 	const schemaTypeMap = {
 		Accommodations: 'Hotel',
-		'Food & Drinks': 'Restaurant',
+		'Food & Drinks': 'FoodEstablishment',
 		'Sights & Attractions': 'LocalBusiness',
 		'Things to do': 'LocalBusiness',
 		'Health & Beauty': 'HealthAndBeautyBusiness',
 		Nightlife: 'BarOrNightClub',
 		'Shopping & Gifts': 'Store',
 		Tips: 'LocalBusiness',
+		// Optional refinements based on common subcategories
+		Museums: 'Museum',
+		Restaurants: 'Restaurant',
+		Cafés: 'CafeOrCoffeeShop',
+		Bistros: 'Restaurant',
+		Bars: 'BarOrPub',
+		Clubs: 'NightClub',
+		Spas: 'Spa',
+		Bookstores: 'BookStore',
+		'Gift Shops': 'Store',
+		'Flea Markets': 'FleaMarket',
+		Galleries: 'ArtGallery',
+		'Furniture Shop': 'FurnitureStore',
+		'Pastry Shops': 'Bakery',
+		'Wine bars': 'BarOrPub',
+		'Department Stores': 'DepartmentStore',
+		'Cultural Centers': 'CivicStructure',
 	};
-	const firstCategoryTitle = page?.categories?.[0]?.title;
-	const schemaType = schemaTypeMap[firstCategoryTitle] || 'Place';
+
+	const allTitles = [
+		...(page?.categories || []).map((cat) => cat?.title),
+		...(page?.subcategories || []).map((sub) => sub?.title),
+	];
+
+	const matchedTitle = allTitles.find((title) => schemaTypeMap[title]);
+	const schemaType = schemaTypeMap[matchedTitle] || 'Place';
 
 	return {
 		title: metaTitle,
@@ -149,6 +172,18 @@ export default function defineMetadata({ data }) {
 							.filter(Boolean)
 					: [],
 				// openingHours: page?.openingHours || [],
+			},
+		}),
+		...(page?._type === 'gGuides' && {
+			jsonLd: {
+				'@context': 'https://schema.org',
+				'@type': 'BlogPosting',
+				name: page?.title || 'Untitled',
+				description: metaDesc,
+				url: formatUrl(`${process.env.SITE_URL}${pageRoute}`),
+				datePublished: page?.publishDate || '',
+				image: shareGraphicUrl || '',
+				inLanguage: 'en',
 			},
 		}),
 	};
