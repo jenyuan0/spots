@@ -105,5 +105,37 @@ export default function defineMetadata({ data }) {
 			follow: disableIndex ? false : true,
 			nocache: true,
 		},
+		// Schema.org structured data
+		...(page?._type === 'gLocations' && {
+			jsonLd: {
+				'@context': 'https://schema.org',
+				'@type': 'TouristAttraction',
+				name: page?.title || 'Untitled',
+				description: metaDesc,
+				url: formatUrl(`${process.env.SITE_URL}${pageRoute}`),
+				address: {
+					'@type': 'PostalAddress',
+					streetAddress: page?.address?.street || '',
+					addressLocality: page?.address?.city || '',
+					postalCode: page?.address?.zip || '',
+					addressCountry: 'FR',
+				},
+				geo: {
+					'@type': 'GeoCoordinates',
+					latitude: page?.geo?.lat || '',
+					longitude: page?.geo?.lng || '',
+				},
+				image: page?.images?.length
+					? page.images
+							.map((img) =>
+								img?.asset?._ref
+									? imageBuilder.image(img).width(1200).url()
+									: null
+							)
+							.filter(Boolean)
+					: [],
+				// openingHours: page?.openingHours || [],
+			},
+		}),
 	};
 }
