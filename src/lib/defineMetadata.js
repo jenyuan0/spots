@@ -16,9 +16,21 @@ export default function defineMetadata({ data }) {
 		rawParagraph = page.sharing.metaDesc;
 	} else if (page?._type === 'gLocations') {
 		rawParagraph = page?.content ? toPlainText(page.content) : '';
+	} else if (page?._type === 'pLocations') {
+		rawParagraph = page?.paragraph ? toPlainText(page.paragraph) : '';
+	} else if (page?._type === 'pLocationsCategory') {
+		rawParagraph = page?.locationsParagraph
+			? toPlainText(page.locationsParagraph)
+			: '';
 	} else if (page?._type === 'gGuides') {
 		rawParagraph =
 			page?.excerpt || (page?.content ? toPlainText(page.content) : '');
+	} else if (page?._type === 'pGuides') {
+		rawParagraph = page?.paragraph ? toPlainText(page.paragraph) : '';
+	} else if (page?._type === 'pGuidesCategory') {
+		rawParagraph = page?.guidesParagraph
+			? toPlainText(page.guidesParagraph)
+			: '';
 	} else if (page?.locationsParagraph) {
 		rawParagraph = toPlainText(page.locationsParagraph);
 	}
