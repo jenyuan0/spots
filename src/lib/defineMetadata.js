@@ -14,6 +14,8 @@ export default function defineMetadata({ data }) {
 
 	if (page?.sharing?.metaDesc) {
 		rawParagraph = page.sharing.metaDesc;
+	} else if (page?._type === 'gItineraries') {
+		rawParagraph = page?.introduction || '';
 	} else if (page?._type === 'gLocations') {
 		rawParagraph = page?.content ? toPlainText(page.content) : '';
 	} else if (page?._type === 'pLocations') {
@@ -33,7 +35,10 @@ export default function defineMetadata({ data }) {
 			: '';
 	} else if (page?.locationsParagraph) {
 		rawParagraph = toPlainText(page.locationsParagraph);
+	} else if (page?.paragraph) {
+		rawParagraph = toPlainText(page.paragraph);
 	}
+
 	const truncatedParagraph =
 		rawParagraph.length > 155
 			? rawParagraph.slice(0, 152).trim() + '...'
