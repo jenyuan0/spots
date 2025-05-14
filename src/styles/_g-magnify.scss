@@ -131,8 +131,7 @@
 
 		img {
 			width: auto;
-			height: clamp(350px, 100vw, 50vh);
-			height: clamp(350px, 100vw, 50svh);
+			height: clamp(350px, 100vw, calc(var(--s-vp-height) * 0.5));
 		}
 	}
 }

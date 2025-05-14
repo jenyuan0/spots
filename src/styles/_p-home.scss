@@ -77,7 +77,7 @@
 	}
 
 	@include mobileDown {
-		max-height: 150svh;
+		max-height: calc(var(--s-vp-height) * 1.5);
 
 		&__heading {
 			font: var(--t-h-2);

@@ -29,6 +29,10 @@ export default function Layout({ children, siteData }) {
 
 	useEffect(() => {
 		siteSetup();
+		document.documentElement.style.setProperty(
+			'--s-vp-height',
+			`${window.innerHeight}px`
+		);
 	}, []);
 
 	useEffect(() => {
