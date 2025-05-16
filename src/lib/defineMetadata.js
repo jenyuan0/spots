@@ -48,7 +48,7 @@ export default function defineMetadata({ data }) {
 	const metaTitle = page?.isHomepage
 		? page?.sharing?.metaTitle || siteTitle
 		: page?._type === 'pLocationsCategory'
-			? `${page?.title} in Paris | Updated ${new Date().toLocaleDateString(
+			? `The Best ${page?.title} in Paris | Updated ${new Date().toLocaleDateString(
 					'en-US',
 					{
 						month: 'long',
