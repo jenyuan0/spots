@@ -180,7 +180,7 @@ export function getGuidesCategoryPage({ queryParams, isPreviewMode }) {
 	return sanityFetch({
 		query,
 		params: queryParams,
-		tags: ['gGuides'],
+		tags: ['gGuides', 'gCategories', 'gSubcategories'],
 		isPreviewMode,
 	});
 }
@@ -226,7 +226,7 @@ export function getLocationsCategoryPage({ queryParams, isPreviewMode }) {
 	return sanityFetch({
 		query,
 		params: queryParams,
-		tags: ['gLocations'],
+		tags: ['gLocations', 'gCategories', 'gSubcategories'],
 		isPreviewMode,
 	});
 }
