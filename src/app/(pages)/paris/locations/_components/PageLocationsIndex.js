@@ -42,7 +42,7 @@ export default function PageLocationsIndex({ data }) {
 			: []),
 	];
 	const dataAllPill = {
-		title: 'All Locations',
+		title: 'All Spots',
 		slug: '',
 		parentCategory: null,
 	};
