@@ -44,11 +44,20 @@ export default function defineMetadata({ data }) {
 			? rawParagraph.slice(0, 152).trim() + '...'
 			: rawParagraph;
 	const metaDesc = truncatedParagraph || '';
+
 	const metaTitle = page?.isHomepage
 		? page?.sharing?.metaTitle || siteTitle
-		: page?.sharing?.metaTitle || page?.title
-			? `${page?.title}${page?.title?.length < 48 && ` | ${siteTitle}`}`
-			: `Page not found | ${siteTitle}`;
+		: page?._type === 'pLocationsCategory'
+			? `${page?.title} in Paris | Updated ${new Date().toLocaleDateString(
+					'en-US',
+					{
+						month: 'long',
+						year: 'numeric',
+					}
+				)}`
+			: page?.sharing?.metaTitle || page?.title
+				? `${page?.title}${page?.title?.length < 48 ? ` | ${siteTitle}` : ''}`
+				: `Page not found | ${siteTitle}`;
 
 	const siteFavicon = site?.sharing?.favicon || false;
 	const siteFaviconUrl = siteFavicon
