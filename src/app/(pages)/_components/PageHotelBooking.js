@@ -115,6 +115,118 @@ export default function PageHotelBooking({}) {
 				),
 			},
 		],
+		examplesHeading: 'Here’s How Easy It Is.',
+		examplesList: [
+			{
+				title: 'For hotel hunting',
+				excerpt: 'We understand your taste',
+				color: 'green',
+				ctaLabel: 'Find Your Stay',
+				messages: [
+					{ sender: 'Client', text: 'Headed to Lisbon next month.' },
+					{
+						sender: 'Client',
+						text: 'Looking for something boutique, under €400/night.',
+					},
+					{
+						sender: 'Client',
+						text: 'Walkable to cafés and shops. Good light, if possible :)',
+					},
+					{
+						sender: 'SPOTS',
+						text: 'Love that. I’ve pulled three options I think you’ll really like—design-forward, walkable, and well-reviewed. I’ll include breakfast and upgrades where possible. Sending now.',
+					},
+					{
+						sender: 'Client',
+						text: 'These look amazing, leaning toward the Lumiares.',
+					},
+					{
+						sender: 'SPOTS',
+						text: 'Great pick. Want me to check availability and secure it for your dates?',
+					},
+				],
+			},
+			{
+				title: 'For deal finding',
+				excerpt: 'We save you money',
+				color: 'orange',
+				ctaLabel: 'Check Your Rates',
+				messages: [
+					{
+						sender: 'Client',
+						text: 'Can you check rates for Château Voltaire in Paris?',
+					},
+					{
+						sender: 'Client',
+						text: 'May 3 to May 7. Want to compare with what I saw online.',
+					},
+					{
+						sender: 'SPOTS',
+						text: 'Just checked—direct rate is €670/night. I can get it for €630 with breakfast, €100 F&B credit, and a possible upgrade. Let me know if you’d like me to hold it.',
+					},
+					{
+						sender: 'Client',
+						text: 'Wow, that’s a better deal than what I found—yes please.',
+					},
+					{
+						sender: 'SPOTS',
+						text: 'I’ll go ahead and reserve it. Just confirm traveler names and I’ll take care of the rest.',
+					},
+				],
+			},
+			{
+				title: 'For special requests',
+				excerpt: 'We elevate the experience',
+				color: 'purple',
+				ctaLabel: 'Tailor Your Stay',
+				messages: [
+					{ sender: 'Client', text: 'Hi!' },
+					{
+						sender: 'Client',
+						text: 'Can you see if early check-in is possible?',
+					},
+					{
+						sender: 'Client',
+						text: 'Also wondering if I can request a high floor.',
+					},
+					{
+						sender: 'SPOTS',
+						text: 'Absolutely—I’ll request early check-in and note your preference for a higher floor. The hotel can usually hold bags if the room isn’t ready. Let me know if you’d like help with dinner or spa bookings too.',
+					},
+					{ sender: 'Client', text: 'That’s perfect, thanks so much!' },
+					{
+						sender: 'SPOTS',
+						text: 'Of course—I’ll confirm with the hotel and follow up once it’s locked in. If you have other preferences, just send them anytime.',
+					},
+				],
+			},
+			{
+				title: 'For group trips',
+				excerpt: 'We handle the messy stuff',
+				color: 'red',
+				ctaLabel: 'Start Planning',
+				messages: [
+					{ sender: 'Client', text: 'Hey!' },
+					{ sender: 'Client', text: 'We’re a group of six—three couples.' },
+					{
+						sender: 'Client',
+						text: 'Different budgets, but we’d all love to stay near the Marais.',
+					},
+					{
+						sender: 'SPOTS',
+						text: 'Got it. I’ll find a few options in that area with a mix of suite and standard rooms—same vibe, flexible pricing. I’ll also check if we can link bookings for shared perks.',
+					},
+					{
+						sender: 'Client',
+						text: 'Awesome, I’ll check with the others and get back to you.',
+					},
+					{
+						sender: 'SPOTS',
+						text: 'Sounds good! I’ll keep the options warm in the meantime. Feel free to send dates when you’re ready.',
+					},
+				],
+			},
+		],
 	};
 
 	return (
