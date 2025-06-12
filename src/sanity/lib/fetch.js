@@ -60,6 +60,16 @@ export async function getPageHomeData({ isPreviewMode }) {
 	});
 }
 
+export async function getPageHotelBooking({ isPreviewMode }) {
+	const query = getPageDataStructure({ query: queries.pageHotelBookingQuery });
+
+	return sanityFetch({
+		query,
+		tags: ['pHotelBooking', 'gLocations'],
+		isPreviewMode,
+	});
+}
+
 export async function get404PageData() {
 	const query = getPageDataStructure({ query: queries.page404Query });
 

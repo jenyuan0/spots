@@ -496,6 +496,12 @@ export const pagesBySlugQuery = groq`
     }
   }`;
 
+export const pageHotelBookingQuery = groq`
+  *[_type == "pHotelBooking"][0]{
+    ${baseFields},
+	}
+`;
+
 export const pageContactQuery = groq`
   *[_type == "pContact"][0]{
     ${baseFields},

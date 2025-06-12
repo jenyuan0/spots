@@ -1,13 +1,12 @@
 @use '_mixin' as *;
 
 .p-home__hero {
-	--s-top: calc(var(--s-header) + var(--s-contain));
 	position: relative;
 	display: flex;
 	flex-direction: column;
-	height: calc(var(--s-vp-height) - var(--s-top) - var(--s-contain));
+	height: calc(var(--s-vp-height) - var(--s-header-space) - var(--s-contain));
 	width: var(--width-max);
-	margin: var(--s-top) auto;
+	margin: var(--s-header-space) auto;
 	color: var(--cr-white);
 	z-index: 1;
 
