@@ -2,6 +2,7 @@
 
 import clsx from 'clsx';
 import React, { useEffect, useRef, useState } from 'react';
+import CustomPortableText from '@/components/CustomPortableText';
 import Button from '@/components/Button';
 import { useInView } from 'react-intersection-observer';
 
@@ -14,22 +15,26 @@ function MessageBubble({ index, msg, delayOffset }) {
 			})}
 			style={{ animationDelay: `${delayOffset + index * 0.8}s` }}
 		>
-			<span className="chat-text">{msg.text}</span>
+			<p className="chat-text">
+				<CustomPortableText blocks={msg.text} hasPTag={false} />
+			</p>
 		</div>
 	);
 }
 
 function ExampleChat({ example, delayOffset }) {
+	let color = example?.color?.title || 'green';
+
 	return (
 		<div
 			className={clsx('p-booking__examples__chat')}
 			style={{
-				'--cr-primary': `var(--cr-${example.color}-d)`,
-				'--cr-secondary': `var(--cr-${example.color}-l)`,
+				'--cr-primary': `var(--cr-${color}-d)`,
+				'--cr-secondary': `var(--cr-${color}-l)`,
 			}}
 		>
 			<div className="p-booking__examples__chat__sequence">
-				{example?.messages.map(
+				{example?.messages?.map(
 					(msg, index) =>
 						msg?.text && (
 							<MessageBubble
@@ -41,9 +46,7 @@ function ExampleChat({ example, delayOffset }) {
 						)
 				)}
 			</div>
-			<Button className={`btn cr-${example.color}-d`}>
-				{example.ctaLabel}
-			</Button>
+			<Button className={`btn cr-${color}-d`}>{example.ctaLabel}</Button>
 			<div className="p-booking__examples__chat__header wysiwyg">
 				<h3 className="t-l-2">{example.title}</h3>
 				<p className="t-h-4">{example.excerpt}</p>

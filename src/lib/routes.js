@@ -17,11 +17,13 @@ export const getRoute = ({ documentType, slug }) => {
 
 	switch (documentType) {
 		case 'pHome':
-			return '/';
+			return '/paris/travel-design';
 		case 'pGeneral':
 			return `/${slug}`;
 		case 'pContact':
 			return `/contact`;
+		case 'pHotelBooking':
+			return '/';
 		case 'pGuides':
 			return '/paris/guides';
 		case 'pGuidesCategory':

@@ -2,9 +2,7 @@ import { defineType } from 'sanity';
 import title from '@/sanity/schemas/objects/title';
 import slug from '@/sanity/schemas/objects/slug';
 import sharing from '@/sanity/schemas/objects/sharing';
-import freeform from '@/sanity/schemas/objects/freeform';
-import carousel from '@/sanity/schemas/objects/carousel';
-import customImage from '@/sanity/schemas/objects/custom-image';
+import { getPortableTextPreview } from '@/sanity/lib/helpers';
 
 export default defineType({
 	title: 'Hotel Booking',
@@ -14,10 +12,144 @@ export default defineType({
 		title(),
 		slug(),
 		{
-			title: 'Page Modules',
-			name: 'pageModules',
+			name: 'heroHeading',
+			type: 'portableTextSimple',
+		},
+		{
+			name: 'heroSubheading',
+			type: 'string',
+		},
+		{
+			name: 'heroSpots',
 			type: 'array',
-			of: [freeform(), carousel(), customImage()],
+			of: [
+				{
+					type: 'reference',
+					to: [{ type: 'gLocations' }],
+					options: {
+						filter:
+							'references(*[_type == "gCategories" && slug.current == $slug]._id)',
+						filterParams: { slug: 'hotels' },
+					},
+				},
+			],
+		},
+		{
+			name: 'whyListHeading',
+			type: 'string',
+		},
+		{
+			name: 'whyList',
+			type: 'array',
+			of: [
+				{
+					type: 'object',
+					fields: [
+						{
+							name: 'title',
+							type: 'string',
+						},
+						{
+							name: 'paragraph',
+							type: 'text',
+						},
+						{
+							name: 'img',
+							type: 'image',
+						},
+					],
+				},
+			],
+		},
+		{
+			name: 'examplesHeading',
+			type: 'string',
+		},
+		{
+			name: 'examplesList',
+			type: 'array',
+			of: [
+				{
+					type: 'object',
+					fields: [
+						{
+							name: 'title',
+							type: 'string',
+						},
+						{
+							name: 'excerpt',
+							type: 'string',
+						},
+						{
+							name: 'color',
+							type: 'reference',
+							to: [{ type: 'settingsBrandColors' }],
+						},
+						{
+							name: 'ctaLabel',
+							type: 'string',
+						},
+						{
+							name: 'messages',
+							type: 'array',
+							of: [
+								{
+									type: 'object',
+									fields: [
+										{
+											name: 'sender',
+											type: 'string',
+											options: {
+												list: ['Client', 'SPOTS'],
+												layout: 'radio',
+											},
+											initialValue: 'Client',
+										},
+										// TODO: add image gallery ability
+										{
+											name: 'text',
+											type: 'portableTextSimple',
+										},
+									],
+									preview: {
+										select: {
+											text: 'text',
+											subtitle: 'sender',
+										},
+										prepare({ text, subtitle }) {
+											return {
+												title: getPortableTextPreview(text),
+												subtitle,
+											};
+										},
+									},
+								},
+							],
+						},
+					],
+				},
+			],
+		},
+		{
+			name: 'faq',
+			type: 'array',
+			of: [
+				{
+					name: 'item',
+					type: 'object',
+					fields: [
+						{
+							name: 'title',
+							type: 'string',
+						},
+						{
+							title: 'Answer',
+							name: 'answer',
+							type: 'portableTextSimple',
+						},
+					],
+				},
+			],
 		},
 		sharing(),
 	],

@@ -8,6 +8,7 @@ import { client } from '@/sanity/lib/client';
 
 const pageDocumentOrder = [
 	'pHome',
+	'pHotelBooking',
 	'pContact',
 	'pGeneral',
 	'pGuides',

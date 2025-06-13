@@ -59,6 +59,19 @@ export const pageTripBespoke = (S) => {
 		.icon(DocumentIcon);
 };
 
+export const pageHotelBooking = (S) => {
+	return S.listItem()
+		.title('Hotel Booking')
+		.child(
+			S.editor()
+				.id('pHotelBooking')
+				.title('Hotel Booking')
+				.schemaType('pHotelBooking')
+				.documentId('pHotelBooking')
+		)
+		.icon(DocumentIcon);
+};
+
 export const pagesMenu = (S) => {
 	return S.listItem()
 		.title('Primary Pages')
@@ -67,7 +80,13 @@ export const pagesMenu = (S) => {
 		.child(
 			S.list()
 				.title('Primary Pages')
-				.items([pageHome(S), pageError(S), pageContact(S), pageTripBespoke(S)])
+				.items([
+					pageHome(S),
+					pageError(S),
+					pageContact(S),
+					pageHotelBooking(S),
+					pageTripBespoke(S),
+				])
 		);
 };
 

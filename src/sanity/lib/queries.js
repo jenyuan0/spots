@@ -499,7 +499,37 @@ export const pagesBySlugQuery = groq`
 export const pageHotelBookingQuery = groq`
   *[_type == "pHotelBooking"][0]{
     ${baseFields},
-	}
+    heroHeading[]{
+      ${portableTextContentFields}
+    },
+    heroSubheading,
+    heroSpots[]->{
+      ${getLocationsData('card')}
+    },
+    whyListHeading,
+    whyList[]{
+      title,
+      paragraph,
+      img {
+        ${imageMetaFields}
+      }
+    },
+    examplesHeading,
+    examplesList[]{
+      title,
+      excerpt,
+      color->{
+        ${colorMetaFields}
+      },
+      ctaLabel,
+      messages[]{
+        sender,
+        text[]{
+					${portableTextContentFields}
+				}
+      }
+    }
+  }
 `;
 
 export const pageContactQuery = groq`

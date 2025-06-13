@@ -2,6 +2,7 @@
 
 import clsx from 'clsx';
 import React, { useRef, useState, useEffect } from 'react';
+import Img from '@/components/Image';
 import Button from '@/components/Button';
 import { springConfig } from '@/lib/helpers';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
@@ -67,7 +68,9 @@ export default function SectionWhy({ data }) {
 			<div className="p-booking__why__lists">
 				{whyList.map((el, index) => (
 					<ListItem key={index}>
-						<div className="p-booking__why__lists-icon">{el.img}</div>
+						<div className="p-booking__why__lists-icon">
+							<Img image={el.img} />
+						</div>
 						<h3 className="t-h-4">{el.title}</h3>
 						<p class="t-b-1">{el.paragraph}</p>
 					</ListItem>
