@@ -34,6 +34,28 @@
 	}
 }
 
+@keyframes fadeInUp10 {
+	from {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes fadeInUp40 {
+	from {
+		opacity: 0;
+		transform: translateY(40px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
 @supports (view-transition-name: none) {
 	::view-transition-old(root),
 	::view-transition-new(root) {

@@ -134,7 +134,7 @@ export default function PageHotelBooking({}) {
 					},
 					{
 						sender: 'SPOTS',
-						text: 'Love that. I’ve pulled three options I think you’ll really like—design-forward, walkable, and well-reviewed. I’ll include breakfast and upgrades where possible. Sending now.',
+						text: 'Love that. I’ve pulled three options I think you’ll really like based on your previous stays: design-forward, walkable, and well-reviewed. I’ll include breakfast and upgrades where possible. Sending now.',
 					},
 					{
 						sender: 'Client',
@@ -142,7 +142,7 @@ export default function PageHotelBooking({}) {
 					},
 					{
 						sender: 'SPOTS',
-						text: 'Great pick. Want me to check availability and secure it for your dates?',
+						text: 'Want me to check availability and secure it for your dates?',
 					},
 				],
 			},
@@ -183,15 +183,11 @@ export default function PageHotelBooking({}) {
 					{ sender: 'Client', text: 'Hi!' },
 					{
 						sender: 'Client',
-						text: 'Can you see if early check-in is possible?',
-					},
-					{
-						sender: 'Client',
-						text: 'Also wondering if I can request a high floor.',
+						text: 'Can you see if early check-in is possible? Also wondering if I can request a high floor.',
 					},
 					{
 						sender: 'SPOTS',
-						text: 'Absolutely—I’ll request early check-in and note your preference for a higher floor. The hotel can usually hold bags if the room isn’t ready. Let me know if you’d like help with dinner or spa bookings too.',
+						text: 'Absolutely—I’ll request early check-in and note your preference for a higher floor. The hotel can usually hold bags if the room isn’t ready.',
 					},
 					{ sender: 'Client', text: 'That’s perfect, thanks so much!' },
 					{

@@ -55,7 +55,7 @@ export default function SectionHero({ data }) {
 		target: ref,
 		offset: ['start start', 'end start'],
 	});
-	const motionY = useTransform(scrollYProgress, [0, 1], [0, height / 2]);
+	const motionY = useTransform(scrollYProgress, [0, 1], [0, height / 1.5]);
 
 	if (!data) return null;
 

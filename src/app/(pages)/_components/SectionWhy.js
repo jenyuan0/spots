@@ -1,9 +1,29 @@
 'use client';
 
+import clsx from 'clsx';
 import React, { useRef, useState, useEffect } from 'react';
 import Button from '@/components/Button';
 import { springConfig } from '@/lib/helpers';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+
+function ListItem({ children }) {
+	const { ref, inView } = useInView({
+		rootMargin: '0% 0px -20% 0px',
+		triggerOnce: true,
+	});
+
+	return (
+		<div
+			ref={ref}
+			className={clsx('p-booking__why__lists-item', {
+				'is-in-view': inView,
+			})}
+		>
+			{children}
+		</div>
+	);
+}
 
 export default function SectionWhy({ data }) {
 	const { whyList, whyListHeading } = data;
@@ -14,10 +34,17 @@ export default function SectionWhy({ data }) {
 	});
 	const motionRotate = useTransform(scrollYProgress, [0, 1], [-20, -300]);
 	const springRotate = useSpring(motionRotate, springConfig);
+	const motionWidth = useTransform(scrollYProgress, [0, 1], [120, 200]);
+	const springWidth = useSpring(motionWidth, springConfig);
 
 	return (
 		<motion.section ref={ref} className="p-booking__why">
-			<div className="p-booking__why__border-radius" />
+			<motion.div
+				className="p-booking__why__border-radius"
+				style={{
+					width: useTransform(springWidth, (val) => `${val}%`),
+				}}
+			/>
 			<h2 className="screen-reader-only">{whyListHeading}</h2>
 			<div className="p-booking__why__heading t-h-3" aria-hidden="true">
 				<motion.svg
@@ -38,20 +65,23 @@ export default function SectionWhy({ data }) {
 				</motion.svg>
 			</div>
 			<div className="p-booking__why__lists">
-				{whyList.map((el) => (
-					<div className="p-booking__why__lists-item" key={el.title}>
+				{whyList.map((el, index) => (
+					<ListItem key={index}>
 						<div className="p-booking__why__lists-icon">{el.img}</div>
 						<h3 className="t-h-4">{el.title}</h3>
 						<p class="t-b-1">{el.paragraph}</p>
-					</div>
+					</ListItem>
 				))}
-				<Button
-					className={'p-booking__why__lists-cta btn-outline cr-white'}
-					href={'#link'}
-					caret="right"
-				>
-					Run Free Search
-				</Button>
+
+				<ListItem>
+					<Button
+						className={'p-booking__why__lists-cta btn-outline cr-white'}
+						href={'#link'}
+						caret="right"
+					>
+						Run Free Search
+					</Button>
+				</ListItem>
 			</div>
 		</motion.section>
 	);
