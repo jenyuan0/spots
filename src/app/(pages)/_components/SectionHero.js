@@ -17,8 +17,9 @@ function SpotsColumns({
 }) {
 	const motionY = useTransform(scrollYProgress, [0, 1], [0, 200]);
 	const springY = useSpring(motionY, springConfig);
-	const columnYTransform = useTransform(springY, (val) =>
-		index % 2 === 0 ? -val : val
+	const columnYTransform = useTransform(
+		springY,
+		(val) => (index % 2 === 0 ? -val : val * 0.8) * index
 	);
 
 	return (
@@ -54,7 +55,11 @@ export default function SectionHero({ data }) {
 	}, []);
 
 	const columnCount = useMemo(
-		() => Math.min(3, Math.max(1, isMounted ? Math.floor(width / 400) : 3)),
+		() =>
+			Math.min(
+				4,
+				Math.max(1, isMounted ? Math.floor((width - 1000) / 300) : 4)
+			),
 		[width, isMounted]
 	);
 

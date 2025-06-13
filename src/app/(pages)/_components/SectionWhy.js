@@ -33,7 +33,7 @@ export default function SectionWhy({ data }) {
 		target: ref,
 		offset: ['start end', 'end start'],
 	});
-	const motionRotate = useTransform(scrollYProgress, [0, 1], [-20, -300]);
+	const motionRotate = useTransform(scrollYProgress, [0, 1], [0, -300]);
 	const springRotate = useSpring(motionRotate, springConfig);
 	const motionWidth = useTransform(scrollYProgress, [0, 1], [120, 200]);
 	const springWidth = useSpring(motionWidth, springConfig);
@@ -69,13 +69,14 @@ export default function SectionWhy({ data }) {
 				{whyList.map((el, index) => (
 					<ListItem key={index}>
 						<div className="p-booking__why__lists-icon">
-							<Img image={el.img} />
+							<span className="object-contain">
+								<Img image={el.img} />
+							</span>
 						</div>
 						<h3 className="t-h-4">{el.title}</h3>
 						<p class="t-b-1">{el.paragraph}</p>
 					</ListItem>
 				))}
-
 				<ListItem>
 					<Button
 						className={'p-booking__why__lists-cta btn-outline cr-white'}
