@@ -4,6 +4,7 @@ import { scrollEnable, scrollDisable } from '@/lib/helpers';
 import Link from '@/components/CustomLink';
 import MobileMenuTrigger from './mobile-menu-trigger';
 import Button from '@/components/Button';
+import useSearchHotel from '@/hooks/useSearchHotel';
 import { motion } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import { checkIfActive } from '@/lib/routes';
@@ -131,6 +132,7 @@ export default function Header({ data, isActive }) {
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 	const [isScrolled, setIsScrolled] = useState(false);
 	const [isTransparent, setIsTransparent] = useState(false);
+	const { setSearchHotelActive } = useSearchHotel();
 
 	useEffect(() => {
 		if (!ref?.current) return;
@@ -227,8 +229,11 @@ export default function Header({ data, isActive }) {
 					</div>
 				</div>
 				<div className="g-header__cta">
-					<Button className="btn-underline" href={'/contact'}>
-						Contact & FAQ
+					<Button
+						className="btn-underline"
+						onClick={() => setSearchHotelActive(true)}
+					>
+						Search Hotel
 					</Button>
 				</div>
 				<MobileMenuTrigger

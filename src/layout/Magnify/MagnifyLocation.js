@@ -4,9 +4,11 @@ import { hasArrayValue, formatAddress } from '@/lib/helpers';
 import Link from '@/components/CustomLink';
 import Img from '@/components/Image';
 import CustomPortableText from '@/components/CustomPortableText';
+import Button from '@/components/Button';
 import Carousel from '@/components/Carousel';
 import CategoryPillList from '@/components/CategoryPillList';
 import LocationHighlights from '@/components/LocationHighlights';
+import useSearchHotel from '@/hooks/useSearchHotel';
 import useLightbox from '@/hooks/useLightbox';
 
 export default function MagnifyLocation({ data }) {
@@ -24,6 +26,7 @@ export default function MagnifyLocation({ data }) {
 		urls,
 		fees,
 	} = data?.content || {};
+	const { setSearchHotelActive, setSearchContent } = useSearchHotel();
 	const res = data.reservations?.filter((r) => r.location._id === _id);
 	const addressString =
 		address &&
@@ -31,6 +34,7 @@ export default function MagnifyLocation({ data }) {
 			.filter((value) => value)
 			.join(', ');
 	const { setLightboxImages, setLightboxActive } = useLightbox();
+	const hasHotelCategory = categories?.some((cat) => cat?.slug === 'hotels');
 
 	return (
 		<div className="g-magnify-locations">
@@ -43,6 +47,23 @@ export default function MagnifyLocation({ data }) {
 				<h2 className="g-magnify-locations__heading t-h-2">
 					<Link href={`/paris/locations/${slug}`}>{title}</Link>
 				</h2>
+			)}
+			{hasHotelCategory && (
+				<div className="g-magnify-locations__cta">
+					<Button
+						className={`btn cr-green-d`}
+						onClick={() => {
+							setSearchHotelActive(true);
+							setSearchContent({
+								heading: 'Unlock Insider Rates',
+								subject: `Rate & Perks for ${title}`,
+								placeholder: `Hi! Can you check if there’s an insider rate or perks for ${title} from [DATES]?`,
+							});
+						}}
+					>
+						Unlock Insider Rates
+					</Button>
+				</div>
 			)}
 			{res?.length > 0 && (
 				<div className="g-magnify-locations__res wysiwyg-b-1">

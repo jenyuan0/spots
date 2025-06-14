@@ -34,7 +34,7 @@ const ContactLink = ({ type, value }) => {
 			className: 'g-plan__contact-item',
 		},
 		whatsapp: {
-			href: `https://wa.me/${encodeURIComponent(value)}`,
+			href: `https://wa.me/${encodeURIComponent(value.replace(/\D+/g, ''))}`,
 			icon: <IconWhatsApp />,
 			className: 'g-plan__contact-item t-l-1',
 		},

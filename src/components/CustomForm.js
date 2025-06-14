@@ -220,7 +220,7 @@ export default function CustomForm({ data, hiddenFields }) {
 				</form>
 				{formState !== FORM_STATES.ERROR && (
 					<div className="c-form__message t-b-2 cr-subtle-5">
-						{'Average response time < 16hr'}
+						{'Average response time < 8hr'}
 					</div>
 				)}
 				{formState === FORM_STATES.ERROR && (

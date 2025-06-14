@@ -327,48 +327,8 @@
 	background-color: var(--cr-white);
 	border-radius: var(--br-3);
 
-	&__header {
-		max-width: 600px;
-		margin-bottom: var(--s-4-v);
-		margin-inline: auto;
-		text-align: center;
-
-		p {
-			text-wrap: balance;
-		}
-	}
-
-	&__body {
+	.g-hotel-form {
 		max-width: 600px;
 		margin-inline: auto;
-		margin-bottom: 20px;
-
-		.c-field {
-			align-self: stretch;
-		}
-
-		.c-field textarea {
-			padding-block: calc(var(--height) / 2);
-			height: calc(var(--height) * 1.5);
-			text-align: center;
-			background-color: var(--cr-subtle);
-			border-color: var(--cr-subtle-1);
-		}
-	}
-
-	&__footer {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-
-	&__cta {
-		display: flex;
-		align-items: center;
-		gap: 8px;
-
-		.btn {
-			min-width: 220px;
-		}
 	}
 }

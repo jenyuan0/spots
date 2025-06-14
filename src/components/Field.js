@@ -35,6 +35,7 @@ export default function Field({
 	register,
 	rules,
 	selectOptions,
+	value,
 	onChange,
 }) {
 	const id = useId();
@@ -71,6 +72,7 @@ export default function Field({
 						})}
 						placeholder={placeholder}
 						disabled={disabled}
+						value={value}
 						onChange={(e) => onChange?.(e)}
 						{...(register ? register(name, rules) : {})}
 					/>

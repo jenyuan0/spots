@@ -46,7 +46,7 @@
 		color: inherit;
 		border: 1px solid;
 		border-radius: var(--br-1);
-		transition: 0.2s;
+		transition: 0.1s;
 	}
 
 	&.is-floating-label {
@@ -57,7 +57,7 @@
 				top: 0;
 				left: 0;
 				pointer-events: none;
-				transition: 0.2s;
+				transition: 0.1s;
 			}
 
 			&:not(select):focus,

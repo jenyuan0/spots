@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import React, { useEffect, useRef, useState } from 'react';
 import CustomPortableText from '@/components/CustomPortableText';
 import Button from '@/components/Button';
+import useSearchHotel from '@/hooks/useSearchHotel';
 import { useInView } from 'react-intersection-observer';
 
 function MessageBubble({ index, msg, delayOffset }) {
@@ -23,7 +24,39 @@ function MessageBubble({ index, msg, delayOffset }) {
 }
 
 function ExampleChat({ example, delayOffset }) {
-	let color = example?.color?.title || 'green';
+	const { setSearchHotelActive, setSearchContent } = useSearchHotel();
+	const color = example?.color?.title || 'green';
+	const handleOnClick = () => {
+		setSearchHotelActive(true);
+
+		switch (example.ctaLabel) {
+			case 'Find Your Stay':
+				setSearchContent({
+					heading: 'Find Your Stay',
+					subheading:
+						'Tell us where you’re going and what matters most — we’ll curate the best fits and handle the rest.',
+					subject: 'Hotel search',
+				});
+				break;
+			case 'Unlock Insider Rates':
+				setSearchContent({
+					heading: 'Unlock Insider Rates',
+					subheading:
+						'Share your travel dates and we’ll check for insider pricing, upgrades, and perks — no strings attached.',
+					subject: 'Rate check request',
+					placeholder:
+						'Hi! Can you check your rate for [HOTEL NAME] for [DATES]?',
+				});
+				break;
+			case 'Start Planning':
+				setSearchContent({
+					heading: 'Plan Your Trip',
+					subheading:
+						'Planning for a group or something specific? Tell us your needs — we’ll simplify everything.',
+				});
+				break;
+		}
+	};
 
 	return (
 		<div
@@ -46,7 +79,9 @@ function ExampleChat({ example, delayOffset }) {
 						)
 				)}
 			</div>
-			<Button className={`btn cr-${color}-d`}>{example.ctaLabel}</Button>
+			<Button className={`btn cr-${color}-d`} onClick={handleOnClick}>
+				{example.ctaLabel}
+			</Button>
 			<div className="p-booking__examples__chat__header wysiwyg">
 				<h3 className="t-l-2">{example.title}</h3>
 				<p className="t-h-4">{example.excerpt}</p>

@@ -89,8 +89,13 @@
 	}
 
 	&__heading {
-		margin: 0 var(--s-4-h) var(--s-4-v);
+		margin: 0 var(--s-4-v) var(--s-4-h);
 		text-align: center;
+	}
+
+	&__cta {
+		text-align: center;
+		margin-bottom: var(--s-4-v);
 	}
 
 	&__categories {

@@ -127,7 +127,7 @@ export function Magnify() {
 		}, 500);
 	};
 
-	useOutsideClick(containerRef, handleClose, 'g-lightbox');
+	// useOutsideClick(containerRef, handleClose, 'g-lightbox');
 
 	// TODO
 	// having to click esc twice in order to close magnify
@@ -154,7 +154,7 @@ export function Magnify() {
 				className="g-magnify__overlay"
 				aria-hidden="true"
 				onClick={handleClose}
-			></button>
+			/>
 			<div className="g-magnify__content">
 				<button
 					type="button"

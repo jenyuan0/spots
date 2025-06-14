@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import CustomPortableText from '@/components/CustomPortableText';
 import Button from '@/components/Button';
 import LocationCard from '@/components/LocationCard';
+import useSearchHotel from '@/hooks/useSearchHotel';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { springConfig } from '@/lib/helpers';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
@@ -46,6 +47,7 @@ function SpotsColumns({
 
 export default function SectionHero({ data }) {
 	const { heroHeading, heroSubheading, heroSpots } = data;
+	const { setSearchHotelActive } = useSearchHotel();
 	const ref = useRef(null);
 	const { isTabletScreen, width, height } = useWindowDimensions();
 	const [isMounted, setIsMounted] = useState(false);
@@ -99,7 +101,11 @@ export default function SectionHero({ data }) {
 					</h1>
 				)}
 				{heroSubheading && <p className="t-h-4">{heroSubheading}</p>}
-				<Button className={'btn cr-green-l'} href={'#link'} caret="right">
+				<Button
+					className={'btn cr-green-l'}
+					caret="right"
+					onClick={() => setSearchHotelActive(true)}
+				>
 					Start Your Search
 				</Button>
 				{/* <p>No fees. No catch. We’re paid by the hotels — not by you.</p> */}

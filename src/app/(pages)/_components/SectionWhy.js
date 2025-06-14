@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import React, { useRef, useState, useEffect } from 'react';
 import Img from '@/components/Image';
 import Button from '@/components/Button';
+import useSearchHotel from '@/hooks/useSearchHotel';
 import { springConfig } from '@/lib/helpers';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
@@ -28,6 +29,7 @@ function ListItem({ children }) {
 
 export default function SectionWhy({ data }) {
 	const { whyList, whyListHeading } = data;
+	const { setSearchHotelActive } = useSearchHotel();
 	const ref = useRef(null);
 	const { scrollYProgress } = useScroll({
 		target: ref,
@@ -74,16 +76,16 @@ export default function SectionWhy({ data }) {
 							</span>
 						</div>
 						<h3 className="t-h-4">{el.title}</h3>
-						<p class="t-b-1">{el.paragraph}</p>
+						<p className="t-b-1">{el.paragraph}</p>
 					</ListItem>
 				))}
 				<ListItem>
 					<Button
 						className={'p-booking__why__lists-cta btn-outline cr-white'}
-						href={'#link'}
 						caret="right"
+						onClick={() => setSearchHotelActive(true)}
 					>
-						Run Free Search
+						Start Your Search
 					</Button>
 				</ListItem>
 			</div>

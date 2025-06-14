@@ -14,6 +14,7 @@ import Main from './Main';
 import AsideMap from './AsideMap';
 import Magnify from './Magnify';
 import Lightbox from './Lightbox';
+import SearchHotel from './SearchHotel';
 import ProgressLoader from './ProgressLoader';
 import useAsideMap from '@/hooks/useAsideMap';
 
@@ -108,6 +109,7 @@ export default function Layout({ children, siteData }) {
 			{/* <AsideMap /> */}
 			<Magnify />
 			<Lightbox />
+			<SearchHotel />
 			<Footer siteData={siteData} data={footer} isActive={isFooterActive} />
 		</>
 	);
