@@ -10,6 +10,16 @@
       }
     }
 */
+@mixin lgScreenUp {
+	@media screen and (min-width: 1741px) {
+		@content;
+	}
+}
+@mixin lgScreenDown {
+	@media screen and (max-width: 1740px) {
+		@content;
+	}
+}
 @mixin midScreenUp {
 	@media screen and (min-width: 1281px) {
 		@content;

@@ -56,10 +56,7 @@ export default function SectionHero({ data }) {
 
 	const columnCount = useMemo(
 		() =>
-			Math.min(
-				4,
-				Math.max(1, isMounted ? Math.floor((width - 1000) / 300) : 4)
-			),
+			Math.min(4, Math.max(1, isMounted ? Math.floor((width - 800) / 300) : 4)),
 		[width, isMounted]
 	);
 
