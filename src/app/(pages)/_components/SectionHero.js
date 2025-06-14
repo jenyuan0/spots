@@ -100,8 +100,9 @@ export default function SectionHero({ data }) {
 				)}
 				{heroSubheading && <p className="t-h-4">{heroSubheading}</p>}
 				<Button className={'btn cr-green-l'} href={'#link'} caret="right">
-					Run Free Search
+					Start Your Search
 				</Button>
+				{/* <p>No fees. No catch. We’re paid by the hotels — not by you.</p> */}
 			</div>
 			<div className="p-booking__hero__spots">
 				{shuffledColumns.map((spots, index) => (

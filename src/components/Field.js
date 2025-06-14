@@ -35,6 +35,7 @@ export default function Field({
 	register,
 	rules,
 	selectOptions,
+	onChange,
 }) {
 	const id = useId();
 	const isLabelAtTop = !isFloatingLabel && type !== FieldTypes.CHECKBOX;
@@ -70,6 +71,7 @@ export default function Field({
 						})}
 						placeholder={placeholder}
 						disabled={disabled}
+						onChange={(e) => onChange?.(e)}
 						{...(register ? register(name, rules) : {})}
 					/>
 				);
@@ -102,7 +104,7 @@ export default function Field({
 
 	return (
 		<div
-			className={clsx('field', className, {
+			className={clsx('c-field', className, {
 				'is-error': errors && errors[name],
 				'is-floating-label': !isLabelAtTop,
 			})}
