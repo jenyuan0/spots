@@ -1,0 +1,38 @@
+'use client';
+
+import React, { useState } from 'react';
+import Accordion from '@/components/Accordions/Accordion';
+import CustomPortableText from '@/components/CustomPortableText';
+
+export default function SectionFaq({ data }) {
+	const { faqHeading, faqSubheading, faq } = data;
+	const [activeAccordion, setActiveAccordion] = useState(null);
+
+	const handleAccordionToggle = (index) => {
+		setActiveAccordion(activeAccordion === index ? null : index);
+	};
+
+	return (
+		<section className={'p-booking__faq'}>
+			<div className="p-booking__faq__header wysiwyg">
+				{faqHeading && <h2 className="t-h-1">{faqHeading}</h2>}
+				{faqSubheading && <p className="t-h-4">{faqSubheading}</p>}
+			</div>
+			<div className="p-booking__faq__body">
+				{faq?.map((item, index) => (
+					<Accordion
+						key={`faq-${index}`}
+						title={item.title}
+						isCaret={true}
+						isActive={activeAccordion === index}
+						onHandleToggle={() => handleAccordionToggle(index)}
+					>
+						<div className="wysiwyg-page">
+							<CustomPortableText blocks={item.answer} />
+						</div>
+					</Accordion>
+				))}
+			</div>
+		</section>
+	);
+}

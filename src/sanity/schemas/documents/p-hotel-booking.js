@@ -131,6 +131,14 @@ export default defineType({
 			],
 		},
 		{
+			name: 'faqHeading',
+			type: 'string',
+		},
+		{
+			name: 'faqSubheading',
+			type: 'string',
+		},
+		{
 			name: 'faq',
 			type: 'array',
 			of: [

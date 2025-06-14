@@ -1,11 +1,8 @@
 'use client';
 
-import clsx from 'clsx';
-import React, { useEffect, useRef, useState } from 'react';
-import CustomPortableText from '@/components/CustomPortableText';
+import React, { useEffect, useState } from 'react';
 import Button from '@/components/Button';
 import Field from '@/components/Field';
-import { useInView } from 'react-intersection-observer';
 import { IconWhatsApp, IconEmail } from '@/components/SvgIcons';
 
 export default function SectionContact({ data }) {
@@ -20,8 +17,8 @@ export default function SectionContact({ data }) {
 	return (
 		<section className={'p-booking__contact'}>
 			<div className="p-booking__contact__header wysiwyg">
-				<h2 className="t-h-1">{contactHeading}</h2>
-				<p className="t-h-4">{contactSubheading}</p>
+				{contactHeading && <h2 className="t-h-1">{contactHeading}</h2>}
+				{contactSubheading && <p className="t-h-4">{contactSubheading}</p>}
 			</div>
 			<div className="p-booking__contact__body">
 				<Field

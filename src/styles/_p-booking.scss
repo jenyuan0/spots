@@ -263,6 +263,63 @@
 	}
 }
 
+.p-booking__faq {
+	max-width: var(--width-sml);
+	margin-inline: auto;
+	margin-block: var(--s-section);
+
+	&__header {
+		margin-bottom: var(--s-4-v);
+		margin-inline: auto;
+		text-align: center;
+
+		p {
+			text-wrap: balance;
+		}
+	}
+
+	@media (hover: hover) {
+		.c-accordion__toggle {
+			transition: color var(--t-1);
+		}
+
+		.c-accordion__icon {
+			transition: background-color var(--t-1);
+		}
+
+		.c-accordion:hover {
+			.c-accordion__toggle {
+				color: var(--cr-orange-d);
+			}
+
+			.c-accordion__icon {
+				background-color: var(--cr-orange-l);
+			}
+		}
+	}
+
+	.c-accordion__title {
+		font: var(--t-b-1);
+		font-size: 16px;
+		font-weight: 500;
+	}
+
+	.c-accordion__inner {
+		padding-top: var(--s-2-v);
+		padding-bottom: var(--s-4-v);
+	}
+
+	.c-accordion__content .wysiwyg-page {
+		max-width: 600px;
+
+		p,
+		ol,
+		ul {
+			font-size: 16px;
+		}
+	}
+}
+
 .p-booking__contact {
 	margin: var(--s-section) var(--padding-med);
 	padding: var(--s-5-v) var(--s-5-h);

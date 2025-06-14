@@ -528,6 +528,15 @@ export const pageHotelBookingQuery = groq`
 					${portableTextContentFields}
 				}
       }
+    },
+		faqHeading,
+		faqSubheading,
+    faq[]{
+      _key,
+      title,
+      answer[]{
+        ${portableTextContentFields}
+      }
     }
   }
 `;
