@@ -80,6 +80,7 @@
 			padding-block: calc(var(--height) / 2);
 			height: calc(var(--height) * 1.5);
 			text-align: center;
+			text-wrap: balance;
 			background-color: var(--cr-subtle);
 			border-color: var(--cr-subtle-1);
 		}
