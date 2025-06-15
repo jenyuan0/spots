@@ -382,6 +382,12 @@
 			}
 		}
 
+		@include lgScreenDown {
+			&__bubble {
+				max-width: 85%;
+			}
+		}
+
 		@include mobileDown {
 			&__sequence {
 				padding: 12px;
@@ -389,7 +395,6 @@
 			}
 
 			&__bubble {
-				max-width: 85%;
 				padding: 8px 12px;
 			}
 		}
