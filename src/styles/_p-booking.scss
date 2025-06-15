@@ -75,7 +75,7 @@
 				transition: var(--t-2);
 			}
 
-			&:not(:hover) &__info {
+			&:not(:hover) .c-card__info {
 				opacity: 0;
 			}
 		}
@@ -115,8 +115,9 @@
 			flex-direction: row;
 		}
 
-		.c-card__info {
-			display: none;
+		.c-card__info,
+		.c-card__thumb:after {
+			display: none !important;
 		}
 	}
 }

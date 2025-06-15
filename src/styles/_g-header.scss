@@ -58,7 +58,7 @@
 		}
 
 		@include tabletUp {
-			&__block:has(&__links):hover &__translate {
+			&__block:has(.g-header__links):hover &__translate {
 				transform: translate3d(0, calc(var(--s-header) * -1), 0);
 			}
 		}

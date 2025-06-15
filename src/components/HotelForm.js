@@ -63,7 +63,7 @@ export default function HotelForm({ data }) {
 						icon={<IconWhatsApp />}
 						className={'btn cr-green-d'}
 						href={`https://wa.me/33686047390?text=${encodeURI(message)}`}
-						target={'_blank'}
+						isNewTab={true}
 					>
 						Send via WhatsApp
 					</Button>
@@ -72,7 +72,7 @@ export default function HotelForm({ data }) {
 						icon={<IconEmail />}
 						className={'btn cr-blue-d'}
 						href={`mailto:vip@spotstravel.co?subject=${encodeURI(subject)}&body=${encodeURI(message)}`}
-						target={'_blank'}
+						isNewTab={true}
 					>
 						Send via Email
 					</Button>

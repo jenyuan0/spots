@@ -25,6 +25,7 @@ export default function Button({
 	icon,
 	caret,
 	href,
+	isNewTab,
 	className = '',
 	...props
 }) {
@@ -32,7 +33,7 @@ export default function Button({
 
 	if (href) {
 		return (
-			<Link className={className} href={href} {...props}>
+			<Link className={className} href={href} isNewTab={isNewTab} {...props}>
 				<Content icon={icon} caret={caret} underline={underline}>
 					{children}
 				</Content>

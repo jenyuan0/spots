@@ -104,11 +104,17 @@
 	@include tabletDown {
 		.c-field textarea {
 			padding-block: calc(var(--height) / 3);
-			height: calc(var(--height) * 1.5);
+			height: calc(var(--height) * 1.6);
 		}
 
 		&__cta {
 			flex-direction: column;
+		}
+	}
+	@include mobileDown {
+		.t-h-1 {
+			max-width: 320px;
+			margin-inline: auto;
 		}
 	}
 }
