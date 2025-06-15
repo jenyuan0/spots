@@ -2,8 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import Link from '@/components/CustomLink';
 import { motion } from 'framer-motion';
 import { pageTransitionFade } from '@/lib/animate';
+import { usePathname } from 'next/navigation';
 
 export default function Footer({ siteData, data, isActive }) {
+	const pathname = usePathname();
 	const footerRef = useRef();
 
 	useEffect(() => {
@@ -52,7 +54,7 @@ export default function Footer({ siteData, data, isActive }) {
 				<div className="g-footer__copyright t-h-5">
 					© {new Date().getFullYear()} {siteData?.title}
 				</div>
-				<div className="g-footer__nav">
+				{pathname !== '/' && (
 					<ul className="g-footer__links t-l-2">
 						{nav.map((item, index) => {
 							return (
@@ -70,7 +72,7 @@ export default function Footer({ siteData, data, isActive }) {
 							);
 						})}
 					</ul>
-				</div>
+				)}
 			</motion.footer>
 		</>
 	);

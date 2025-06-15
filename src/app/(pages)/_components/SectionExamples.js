@@ -122,7 +122,10 @@ export default function SectionExamples({ data }) {
 						loop={true}
 					>
 						{examplesList.map((example, index) => (
-							<div className="p-booking__examples__item">
+							<div
+								key={`example-${index}`}
+								className="p-booking__examples__item"
+							>
 								<ExampleChat
 									key={index}
 									example={example}

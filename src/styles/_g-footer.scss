@@ -2,8 +2,8 @@
 
 .g-footer {
 	display: flex;
-	justify-content: space-between;
 	align-items: center;
+	justify-content: center;
 	width: var(--width-max);
 	margin: var(--s-3-v) auto;
 	padding-top: var(--s-3-v);
@@ -14,6 +14,7 @@
 		align-items: center;
 		justify-content: center;
 		white-space: nowrap;
+		margin-left: auto;
 		gap: 20px;
 
 		a:after {
