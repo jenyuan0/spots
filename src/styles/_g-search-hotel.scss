@@ -1,3 +1,5 @@
+@use '_mixin' as *;
+
 .g-search-hotel {
 	position: relative;
 	z-index: 200;
@@ -16,7 +18,7 @@
 		position: fixed;
 		top: 50%;
 		left: 50%;
-		width: Min(800px, 100vw);
+		width: Min(800px, 95vw);
 		padding: var(--s-5-v) var(--s-5-h);
 		transform: translate3d(-50%, -50%, 0);
 		color: var(--cr-brown);
@@ -47,6 +49,13 @@
 		top: 10px;
 		right: 10px;
 	}
+
+	@include tabletDown {
+		&__content {
+			padding: 30px 20px;
+			padding-top: 60px;
+		}
+	}
 }
 
 .g-hotel-form {
@@ -61,12 +70,12 @@
 
 	&__body {
 		margin-bottom: 40px;
+	}
 
-		.c-field {
-			align-self: stretch;
-		}
+	.c-field {
+		align-self: stretch;
 
-		.c-field textarea {
+		textarea {
 			white-space: normal;
 			padding-block: calc(var(--height) / 2);
 			height: calc(var(--height) * 1.5);
@@ -89,6 +98,17 @@
 
 		.btn {
 			min-width: 220px;
+		}
+	}
+
+	@include tabletDown {
+		.c-field textarea {
+			padding-block: calc(var(--height) / 3);
+			height: calc(var(--height) * 1.5);
+		}
+
+		&__cta {
+			flex-direction: column;
 		}
 	}
 }

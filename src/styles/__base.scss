@@ -32,10 +32,10 @@
 	--s-med: 1200px;
 	--s-lge: 1800px;
 	--s-max: 2800px;
-	--width-sml: Min(100vw - calc(var(--s-contain) * 2), var(--s-sml));
-	--width-med: Min(100vw - calc(var(--s-contain) * 2), var(--s-med));
-	--width-lge: Min(100vw - calc(var(--s-contain) * 2), var(--s-lge));
-	--width-max: Min(100vw - calc(var(--s-contain) * 2), var(--s-max));
+	--width-sml: Min(100vw - calc(var(--s-contain) * 4), var(--s-sml));
+	--width-med: Min(100vw - calc(var(--s-contain) * 4), var(--s-med));
+	--width-lge: Min(100vw - calc(var(--s-contain) * 4), var(--s-lge));
+	--width-max: Min(100vw - calc(var(--s-contain) * 4), var(--s-max));
 	--padding-sml: calc((100vw - var(--width-sml)) / 2);
 	--padding-med: calc((100vw - var(--width-med)) / 2);
 	--padding-lge: calc((100vw - var(--width-lge)) / 2);

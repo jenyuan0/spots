@@ -12,7 +12,9 @@
 	box-shadow: var(--shadow-3-transparent);
 	border-radius: var(--br-2);
 	gap: 5px;
-	transition: var(--t-1);
+	transition:
+		box-shadow var(--t-1),
+		border-color var(--t-1);
 
 	@media (hover: hover) {
 		&:hover {
@@ -45,6 +47,7 @@
 	}
 
 	&__lightbox {
+		--size: 30px;
 		position: absolute;
 		bottom: 10px;
 		right: 10px;
@@ -192,6 +195,7 @@
 	}
 
 	.c-card__header {
+		padding-right: 40px;
 		margin-top: auto;
 		margin-bottom: 0;
 	}

@@ -1,11 +1,13 @@
 'use client';
 
 import clsx from 'clsx';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CustomPortableText from '@/components/CustomPortableText';
+import Carousel from '@/components/Carousel';
 import Button from '@/components/Button';
 import useSearchHotel from '@/hooks/useSearchHotel';
 import { useInView } from 'react-intersection-observer';
+import useWindowDimensions from '@/hooks/useWindowDimensions';
 
 function MessageBubble({ index, msg, delayOffset }) {
 	return (
@@ -16,9 +18,9 @@ function MessageBubble({ index, msg, delayOffset }) {
 			})}
 			style={{ animationDelay: `${delayOffset + index * 0.8}s` }}
 		>
-			<p className="chat-text">
-				<CustomPortableText blocks={msg.text} hasPTag={false} />
-			</p>
+			<div className="chat-text">
+				<CustomPortableText blocks={msg.text} />
+			</div>
 		</div>
 	);
 }
@@ -79,7 +81,10 @@ function ExampleChat({ example, delayOffset }) {
 						)
 				)}
 			</div>
-			<Button className={`btn cr-${color}-d`} onClick={handleOnClick}>
+			<Button
+				className={`p-booking__examples__chat__cta btn cr-${color}-d`}
+				onClick={handleOnClick}
+			>
 				{example.ctaLabel}
 			</Button>
 			<div className="p-booking__examples__chat__header wysiwyg">
@@ -93,6 +98,12 @@ function ExampleChat({ example, delayOffset }) {
 export default function SectionExamples({ data }) {
 	const { examplesHeading, examplesList } = data;
 	const { ref, inView } = useInView({ triggerOnce: true });
+	const { isMdscreen } = useWindowDimensions();
+	const [isMounted, setIsMounted] = useState(false);
+
+	useEffect(() => {
+		setIsMounted(true);
+	}, []);
 
 	return (
 		<section
@@ -101,12 +112,32 @@ export default function SectionExamples({ data }) {
 				'is-in-view': inView,
 			})}
 		>
-			<h2 className="p-booking__examples__heading t-h-1">{examplesHeading}</h2>
-			<div className="p-booking__examples__lists">
-				{examplesList.map((example, index) => (
-					<ExampleChat key={index} example={example} delayOffset={index} />
+			<h2 className="p-booking__examples__header t-h-1">{examplesHeading}</h2>
+			{isMounted &&
+				(isMdscreen ? (
+					<Carousel
+						itemWidth="Min(85vw, 500px)"
+						gap={'10px'}
+						isShowDots={true}
+						loop={true}
+					>
+						{examplesList.map((example, index) => (
+							<div className="p-booking__examples__item">
+								<ExampleChat
+									key={index}
+									example={example}
+									delayOffset={index}
+								/>
+							</div>
+						))}
+					</Carousel>
+				) : (
+					<div className="p-booking__examples__lists">
+						{examplesList.map((example, index) => (
+							<ExampleChat key={index} example={example} delayOffset={index} />
+						))}
+					</div>
 				))}
-			</div>
 		</section>
 	);
 }

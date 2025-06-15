@@ -53,6 +53,7 @@ export function Iframe({ data }) {
 
 export default function CustomPortableText({ blocks, hasPTag = true }) {
 	// Memoize components to prevent unnecessary rerenders
+
 	const portableTextComponents = useMemo(
 		() => ({
 			block: {

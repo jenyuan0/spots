@@ -5,8 +5,9 @@ import { useEffect, useState } from 'react';
 export const breakpoints = {
 	mobile: 600,
 	tablet: 1024,
-	midScreen: 1280,
-	widescreen: 1920,
+	smScreen: 1280,
+	mdScreen: 1540,
+	lgScreen: 1920,
 };
 
 const getWindowDimensions = () => {
@@ -31,16 +32,18 @@ const getDeviceFlags = (width) => {
 	const isMobileScreen = width <= breakpoints.mobile;
 	const isTabletScreen = width <= breakpoints.tablet;
 	const isDesktopScreen = width > breakpoints.tablet;
-	const isMidScreen = width <= breakpoints.midScreen;
-	const isWideScreen = width >= breakpoints.widescreen;
+	const isSmScreen = width <= breakpoints.smScreen;
+	const isMdscreen = width <= breakpoints.mdScreen;
+	const islgScreen = width >= breakpoints.lgScreen;
 
 	return {
 		isTouchDevice,
 		isMobileScreen,
 		isTabletScreen,
 		isDesktopScreen,
-		isMidScreen,
-		isWideScreen,
+		isSmScreen,
+		isMdscreen,
+		islgScreen,
 	};
 };
 

@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import useEmblaCarousel from 'embla-carousel-react';
 import AutoHeight from 'embla-carousel-auto-height';
 import Autoplay from 'embla-carousel-autoplay';
+import AutoScroll from 'embla-carousel-auto-scroll';
 import ClassNames from 'embla-carousel-class-names';
 import Fade from 'embla-carousel-fade';
 import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures';
@@ -26,6 +27,7 @@ export default function Carousel({
 	isAutoplay = false,
 	autoplayInterval = 4000,
 	isAutoHeight = true,
+	isAutoScroll = false,
 	children,
 	className,
 
@@ -54,6 +56,9 @@ export default function Carousel({
 		...(isFade ? [Fade()] : []),
 		...(isAutoplay ? [Autoplay(autoplayOptions)] : []),
 		...(isAutoHeight ? [AutoHeight()] : []),
+		...(isAutoScroll
+			? [AutoScroll({ speed: 1.5, playOnInit: true, stopOnInteraction: false })]
+			: []),
 	];
 	const [emblaRef, emblaApi] = useEmblaCarousel(options, plugins);
 	const {
