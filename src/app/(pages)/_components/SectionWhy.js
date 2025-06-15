@@ -71,8 +71,11 @@ export default function SectionWhy({ data }) {
 				{whyList.map((el, index) => (
 					<ListItem key={index}>
 						<div className="p-booking__why__lists-icon">
-							<span className="object-contain">
+							<span className="p-booking__why__lists-icon__img object-contain">
 								<Img image={el.img} />
+							</span>
+							<span className="p-booking__why__lists-icon__num">
+								{index + 1}
 							</span>
 						</div>
 						<h3 className="t-h-4">{el.title}</h3>

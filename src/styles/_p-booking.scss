@@ -199,7 +199,18 @@
 		}
 
 		.p-booking__why__lists-icon {
+			font: var(--t-h-5);
 			grid-row: span 2;
+
+			&__img,
+			&__num {
+				transition: opacity var(--t-1);
+			}
+		}
+
+		&:not(:hover) .p-booking__why__lists-icon__img,
+		&:hover .p-booking__why__lists-icon__num {
+			opacity: 0;
 		}
 
 		h2 {
