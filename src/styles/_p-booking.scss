@@ -160,6 +160,7 @@
 		transform: translate3d(-50%, -50%, 0);
 		width: Min(95%, var(--heading-max-size));
 		pointer-events: none;
+		user-select: none;
 
 		&__text {
 			fill: var(--cr-cream);
