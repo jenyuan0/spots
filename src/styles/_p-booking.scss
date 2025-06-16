@@ -270,6 +270,12 @@
 
 	@include sectionHeader;
 
+	@include tabletDown {
+		&__header {
+			margin-bottom: var(--s-section);
+		}
+	}
+
 	&__lists {
 		display: flex;
 		gap: 40px;
