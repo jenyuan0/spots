@@ -68,6 +68,10 @@ function ExampleChat({ example, delayOffset }) {
 				'--cr-secondary': `var(--cr-${color}-l)`,
 			}}
 		>
+			<div className="p-booking__examples__chat__header wysiwyg">
+				<h3 className="t-l-2">{example.title}</h3>
+				<p className="t-h-4">{example.excerpt}</p>
+			</div>
 			<div className="p-booking__examples__chat__sequence">
 				{example?.messages?.map(
 					(msg, index) =>
@@ -87,10 +91,6 @@ function ExampleChat({ example, delayOffset }) {
 			>
 				{example.ctaLabel}
 			</Button>
-			<div className="p-booking__examples__chat__header wysiwyg">
-				<h3 className="t-l-2">{example.title}</h3>
-				<p className="t-h-4">{example.excerpt}</p>
-			</div>
 		</div>
 	);
 }

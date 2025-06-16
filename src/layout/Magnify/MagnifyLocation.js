@@ -55,7 +55,7 @@ export default function MagnifyLocation({ data }) {
 						onClick={() => {
 							setSearchHotelActive(true);
 							setSearchContent({
-								heading: 'Unlock Insider Rates',
+								heading: 'Unlock Insider Rate & Perks',
 								subject: `Rate & Perks for ${title}`,
 								placeholder: `Hi! Can you check if there’s an insider rate or perks for ${title} from [DATES]?`,
 							});

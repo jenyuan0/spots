@@ -296,27 +296,16 @@
 
 	.c-carousel {
 		.p-booking__examples__chat {
-			display: flex;
-			flex-direction: column;
-			justify-content: stretch;
-			gap: 30px;
-
 			&__header {
-				order: 1;
+				margin-bottom: 20px;
 			}
 
 			.t-h-4 {
 				font: var(--t-h-3);
 			}
 
-			&__sequence {
-				order: 2;
-			}
-
 			&__cta {
-				order: 3;
-				align-self: center;
-				margin-top: 0;
+				margin-top: 20px;
 			}
 		}
 
@@ -334,7 +323,7 @@
 		transition: opacity var(--t-1);
 
 		&__header {
-			margin-top: var(--s-4-v);
+			margin-bottom: var(--s-4-v);
 			text-align: center;
 			color: var(--cr-primary);
 		}
