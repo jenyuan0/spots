@@ -47,6 +47,7 @@
 		&__links {
 			display: grid;
 			grid-template-columns: repeat(2, 1fr);
+			margin-left: 0;
 			gap: 0;
 
 			li {
@@ -57,6 +58,10 @@
 			li:nth-child(even) {
 				border-left: 1px solid;
 			}
+		}
+
+		&__copyright {
+			margin-top: 20px;
 		}
 	}
 }
