@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import Button from '@/components/Button';
 import Field from '@/components/Field';
@@ -42,6 +43,8 @@ export default function HotelForm({ data }) {
 		}
 	}, [data, content]);
 
+	const [errorIsVisible, setErrorIsVisible] = useState(false);
+
 	return (
 		<div className="g-hotel-form">
 			<div className="g-hotel-form__header wysiwyg">
@@ -64,6 +67,9 @@ export default function HotelForm({ data }) {
 						className={'btn cr-green-d'}
 						href={`https://wa.me/33686047390?text=${encodeURI(message)}`}
 						isNewTab={true}
+						onClick={() => {
+							setErrorIsVisible(true);
+						}}
 					>
 						Send via WhatsApp
 					</Button>
@@ -72,10 +78,20 @@ export default function HotelForm({ data }) {
 						icon={<IconEmail />}
 						className={'btn cr-blue-d'}
 						href={`mailto:vip@spotstravel.co?subject=${encodeURI(subject)}&body=${encodeURI(message)}`}
-						// isNewTab={true}
+						isNewTab={true}
+						onClick={() => {
+							setErrorIsVisible(true);
+						}}
 					>
 						Send via Email
 					</Button>
+					<div
+						className={clsx('g-hotel-form__error t-b-1', {
+							'is-visible': errorIsVisible,
+						})}
+					>
+						Need another way? Reach us at <strong>vip@spotstravel.co</strong>
+					</div>
 				</div>
 			</div>
 		</div>

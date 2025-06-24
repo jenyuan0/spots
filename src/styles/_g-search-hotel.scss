@@ -19,7 +19,7 @@
 		top: 50%;
 		left: 50%;
 		width: Min(800px, 95vw);
-		padding: var(--s-5-v) var(--s-5-h);
+		padding: var(--s-5-v) var(--s-5-h) var(--s-4-v);
 		transform: translate3d(-50%, -50%, 0);
 		color: var(--cr-brown);
 		background-color: var(--cr-white);
@@ -52,7 +52,7 @@
 
 	@include tabletDown {
 		&__content {
-			padding: 30px 20px;
+			padding: 30px 20px 20px;
 			padding-top: 60px;
 		}
 	}
@@ -73,6 +73,8 @@
 	}
 
 	.c-field {
+		max-width: 600px;
+		margin-inline: auto;
 		align-self: stretch;
 
 		textarea {
@@ -94,11 +96,30 @@
 
 	&__cta {
 		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
 		align-items: center;
 		gap: 8px;
 
 		.btn {
 			min-width: 220px;
+		}
+	}
+
+	&__error {
+		width: fit-content;
+		margin-top: 16px;
+		padding: 8px 20px;
+		border-radius: 20px;
+		color: var(--cr-green-d);
+		background-color: var(--cr-green-l);
+		text-align: center;
+		opacity: 0;
+		pointer-events: none;
+
+		&.is-visible {
+			pointer-events: auto;
+			animation: 0.4s 0.8s fadeIn both;
 		}
 	}
 
