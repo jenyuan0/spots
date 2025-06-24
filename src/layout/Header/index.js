@@ -7,7 +7,6 @@ import Button from '@/components/Button';
 import useSearchHotel from '@/hooks/useSearchHotel';
 import { motion } from 'framer-motion';
 import { usePathname } from 'next/navigation';
-import { useSearchParams } from 'next/navigation';
 import { checkIfActive } from '@/lib/routes';
 
 // TODO
@@ -129,7 +128,6 @@ const DesignDots = () => {
 
 export default function Header({ data, isActive }) {
 	const pathname = usePathname();
-	const searchParams = useSearchParams();
 	const ref = useRef();
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 	const [isScrolled, setIsScrolled] = useState(false);
@@ -189,11 +187,18 @@ export default function Header({ data, isActive }) {
 	}, [pathname]);
 
 	useEffect(() => {
-		const shouldTrigger = searchParams.get('s') === 'true';
+		if (typeof window === 'undefined') return;
+
+		const params = new URLSearchParams(window.location.search);
+		const shouldTrigger = params.get('s') === 'true';
+
 		if (shouldTrigger) {
 			setSearchHotelActive(true);
+
+			const cleanUrl = window.location.pathname;
+			window.history.replaceState({}, '', cleanUrl);
 		}
-	}, [searchParams]);
+	}, []);
 
 	return (
 		<>
