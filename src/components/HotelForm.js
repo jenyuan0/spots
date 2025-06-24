@@ -72,7 +72,7 @@ export default function HotelForm({ data }) {
 						icon={<IconEmail />}
 						className={'btn cr-blue-d'}
 						href={`mailto:vip@spotstravel.co?subject=${encodeURI(subject)}&body=${encodeURI(message)}`}
-						isNewTab={true}
+						// isNewTab={true}
 					>
 						Send via Email
 					</Button>
