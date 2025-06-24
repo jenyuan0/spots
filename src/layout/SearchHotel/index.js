@@ -14,6 +14,10 @@ export default function SearchHotel() {
 
 	const handleClose = () => {
 		setSearchHotelActive(false);
+		// Remove ?s=true from the URL
+		const url = new URL(window.location.href);
+		url.searchParams.delete('s');
+		window.history.replaceState({}, '', url.toString());
 		setTimeout(() => {
 			setSearchContent(null);
 		}, 500);
