@@ -86,7 +86,7 @@ export default function PageEmailSignature() {
 								style={{
 									verticalAlign: 'middle',
 									fontFamily: 'Helvetica, sans-serif',
-									fontSize: '13px',
+									fontSize: '12px',
 									lineHeight: 1.25,
 									color: 'black',
 								}}
@@ -132,9 +132,9 @@ export default function PageEmailSignature() {
 				<span className="btn-label">{buttonText}</span>
 			</button>
 
-			<div className="p-email-signature__instructions f-v f-a-c gap-2">
+			<div className="p-email-signature__instructions f-v f-a-c">
 				<p className="t-b-1">Instructions:</p>
-				<ul className="email-signature__instructions__list f-h f-j-c f-w gap-2">
+				<ul className="p-email-signature__instructions__list f-h f-j-c f-w">
 					<li>
 						<Link
 							href="https://support.google.com/mail/answer/8395?hl=en&co=GENIE.Platform%3DAndroid"
