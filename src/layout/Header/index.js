@@ -262,7 +262,7 @@ export default function Header({ data, isActive }) {
 				<div className="g-header__cta">
 					{pathname === '/' ? (
 						<Button
-							className="btn-underline"
+							className="btn-underline js-search-trigger"
 							onClick={() => setSearchHotelActive(true)}
 						>
 							Search Hotel
