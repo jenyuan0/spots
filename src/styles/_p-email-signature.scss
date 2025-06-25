@@ -1,0 +1,27 @@
+.p-email-signature {
+	min-height: 100svh;
+	gap: 40px;
+
+	&__inputs {
+		width: 100%;
+		gap: 20px;
+	}
+
+	&__content {
+		padding: 20px;
+		border-radius: 4px;
+
+		img {
+			opacity: 1;
+		}
+	}
+
+	&__instructions {
+		text-align: center;
+
+		&__list {
+			margin-top: 10px;
+			gap: 10px;
+		}
+	}
+}
