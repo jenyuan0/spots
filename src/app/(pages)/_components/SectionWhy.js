@@ -85,7 +85,7 @@ export default function SectionWhy({ data }) {
 				<ListItem>
 					<Button
 						className={
-							'p-booking__why__lists-cta btn-outline cr-white js-search-trigger'
+							'p-booking__why__lists-cta btn-outline cr-white js-gtm-search'
 						}
 						caret="right"
 						onClick={() => setSearchHotelActive(true)}

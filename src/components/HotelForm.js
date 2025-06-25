@@ -64,7 +64,7 @@ export default function HotelForm({ data }) {
 				<div className="g-hotel-form__cta">
 					<Button
 						icon={<IconWhatsApp />}
-						className={'btn cr-green-d'}
+						className={'btn cr-green-d js-gtm-whatsapp'}
 						href={`https://wa.me/33686047390?text=${encodeURI(message)}`}
 						isNewTab={true}
 						onClick={() => {
@@ -76,7 +76,7 @@ export default function HotelForm({ data }) {
 					<div className="t-l-2 cr-subtle-5">Or</div>
 					<Button
 						icon={<IconEmail />}
-						className={'btn cr-blue-d'}
+						className={'btn cr-blue-d js-gtm-email'}
 						href={`mailto:vip@spotstravel.co?subject=${encodeURI(subject)}&body=${encodeURI(message)}`}
 						isNewTab={true}
 						onClick={() => {

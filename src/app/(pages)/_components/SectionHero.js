@@ -109,7 +109,7 @@ export default function SectionHero({ data }) {
 				)}
 				{heroSubheading && <p className="t-h-4">{heroSubheading}</p>}
 				<Button
-					className={'btn cr-green-l js-search-trigger'}
+					className={'btn cr-green-l js-gtm-search'}
 					caret="right"
 					onClick={() => setSearchHotelActive(true)}
 				>
