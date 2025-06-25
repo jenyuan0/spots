@@ -224,6 +224,7 @@ input[disabled] {
 		position: relative;
 		width: calc(var(--height) * 0.35);
 		margin-right: auto;
+		pointer-events: none;
 	}
 
 	&__text {
@@ -234,6 +235,7 @@ input[disabled] {
 		align-items: center;
 		gap: 5px;
 		transition: transform var(--t-2);
+		pointer-events: none;
 	}
 
 	&__caret,
@@ -248,6 +250,7 @@ input[disabled] {
 		border-radius: 100%;
 		background-color: var(--cr-subtle);
 		transition: transform var(--t-2);
+		pointer-events: none;
 	}
 
 	&__caret-hover {
