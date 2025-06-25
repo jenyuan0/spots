@@ -78,7 +78,7 @@ export default function PageEmailSignature() {
 										width="80"
 										height="80"
 										alt="Spots Travel Logo"
-										src="https://www.spotstravel.co/email-signature-logo.gif"
+										src="https://cdn.sanity.io/images/jdgxljb1/production/8072bd04692db3c724a787e73b7df15ee7905350-512x512.gif"
 									/>
 								</a>
 							</td>
