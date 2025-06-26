@@ -164,8 +164,8 @@ export default function defineMetadata({ data }) {
 			// },
 		},
 		robots: {
-			index: disableIndex ? false : true,
-			follow: disableIndex ? false : true,
+			index: !disableIndex,
+			follow: !disableIndex,
 			nocache: true,
 		},
 		// Schema.org structured data
