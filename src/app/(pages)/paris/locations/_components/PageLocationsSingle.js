@@ -38,24 +38,23 @@ export default function PageLocationsSingle({ data }) {
 			.filter((value) => value)
 			.join(', ');
 	const { setLightboxImages, setLightboxActive } = useLightbox();
-	const breadcrumb = [
-		{
-			title: 'Paris',
-			url: '/paris',
-		},
-		{
-			title: 'Locations',
-			url: '/paris/locations',
-		},
-		...(categories?.length
+	const breadcrumb =
+		address.city.toLowerCase() == 'paris'
 			? [
+					{
+						title: 'Paris',
+						url: '/paris',
+					},
+					{
+						title: 'Locations',
+						url: '/paris/locations',
+					},
 					{
 						title: categories[0].title,
 						url: `/paris/locations/category/${categories[0].slug}`,
 					},
 				]
-			: []),
-	];
+			: null;
 
 	// TODO
 	// Share
@@ -84,7 +83,7 @@ export default function PageLocationsSingle({ data }) {
 				</Carousel>
 			)}
 			<section className="p-locations-single__text">
-				<Breadcrumb data={breadcrumb} />
+				{breadcrumb && <Breadcrumb data={breadcrumb} />}
 				<h1 className="p-locations-single__heading t-h-1">{title}</h1>
 				{address && (
 					<div className="p-locations-single__address wysiwyg-b-1">
