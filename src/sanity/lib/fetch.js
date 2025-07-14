@@ -70,6 +70,16 @@ export async function getPageHotelBooking({ isPreviewMode }) {
 	});
 }
 
+export async function getPageTravelDesign({ isPreviewMode }) {
+	const query = getPageDataStructure({ query: queries.pageTravelDesignQuery });
+
+	return sanityFetch({
+		query,
+		tags: ['pTravelDesign', 'gLocations', 'gItineraries'],
+		isPreviewMode,
+	});
+}
+
 export async function get404PageData() {
 	const query = getPageDataStructure({ query: queries.page404Query });
 

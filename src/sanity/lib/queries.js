@@ -541,6 +541,51 @@ export const pageHotelBookingQuery = groq`
   }
 `;
 
+export const pageTravelDesignQuery = groq`
+  *[_type == "pTravelDesign"][0]{
+    ${baseFields},
+    "isHomepage": true,
+    heroHeading[]{
+      ${portableTextContentFields}
+    },
+    heroSubheading,
+    heroImage,
+    heroSpots[]->{
+      title,
+      _id,
+      "slug": slug.current,
+      "color": lower(categories[0]->color->title)
+    },
+    introTitle,
+    introHeading,
+    introCta,
+    clockHeading,
+    clockParagraph,
+    clockOffers,
+    clockText,
+    clockCta,
+    masksHeading,
+    masksParagraph,
+    masksOffers,
+    masksCta,
+    masksImages[]{
+      ${imageMetaFields}
+    },
+    toggleHeading,
+    toggleParagraph,
+    toggleOffers,
+    toggleCta,
+    itinerariesTitle,
+    itinerariesExcerpt[]{
+      ${portableTextContentFields}
+    },
+    "itinerariesItems": itinerariesItems[]->{
+      ${getItineraryData('card')}
+    },
+    ${planFormData}
+  }
+`;
+
 export const pageContactQuery = groq`
   *[_type == "pContact"][0]{
     ${baseFields},
