@@ -200,6 +200,8 @@ export default function Header({ data, isActive }) {
 		}
 	}, []);
 
+	console.log(pathname);
+
 	return (
 		<>
 			<header
@@ -223,57 +225,74 @@ export default function Header({ data, isActive }) {
 						/>
 					</svg>
 				</Link>
-				<div className="g-header__menu">
-					{pathname === '/' ? (
+
+				{pathname === '/' || pathname === '/travel-design' ? (
+					<div className="g-header__toggle t-l-2">
+						<Link
+							href="/"
+							className={clsx({
+								'is-active': pathname === '/',
+							})}
+						>
+							Hotel Booking
+						</Link>
+						<Link
+							href="/travel-design"
+							className={clsx({
+								'is-active': pathname === '/travel-design',
+							})}
+						>
+							Travel Design
+						</Link>
+					</div>
+				) : (
+					<div className="g-header__menu">
 						<div className="g-header__menu__block">
 							<div className="g-header__menu__translate">
-								<div className="g-header__tagline t-h-5">
-									{/* <span className="icon-plus" /> */}
-									No markups, no hidden fees. Always free for travelers.
-									<DesignDots />
-								</div>
+								<motion.div className="g-header__tagline t-h-5">
+									<span className="icon-plus" />
+									Parisian Treasures Refreshed Weekly
+									<FrenchDots />
+								</motion.div>
+								<NavLink nav={leftNav} pathname={pathname} />
 							</div>
 						</div>
-					) : (
-						<>
-							<div className="g-header__menu__block">
-								<div className="g-header__menu__translate">
-									<motion.div className="g-header__tagline t-h-5">
-										<span className="icon-plus" />
-										Parisian Treasures Refreshed Weekly
-										<FrenchDots />
-									</motion.div>
-									<NavLink nav={leftNav} pathname={pathname} />
-								</div>
+						<div className="g-header__menu__block">
+							<div className="g-header__menu__translate">
+								<motion.div className="g-header__tagline t-h-5">
+									<span className="icon-plus" />
+									Design Conscious Travel Planning
+									<DesignDots />
+								</motion.div>
+								<NavLink nav={rightNav} pathname={pathname} />
 							</div>
-							<div className="g-header__menu__block">
-								<div className="g-header__menu__translate">
-									<motion.div className="g-header__tagline t-h-5">
-										<span className="icon-plus" />
-										Design Conscious Travel Planning
-										<DesignDots />
-									</motion.div>
-									<NavLink nav={rightNav} pathname={pathname} />
-								</div>
-							</div>
-						</>
-					)}
-				</div>
+						</div>
+					</div>
+				)}
 				<div className="g-header__cta">
-					{pathname === '/' ? (
+					{pathname === '/' && (
 						<Button
 							className="btn-underline js-gtm-search"
 							onClick={() => setSearchHotelActive(true)}
 						>
 							Search Hotel
 						</Button>
-					) : (
+					)}
+					{pathname === '/travel-design' && (
+						<Button
+							className="btn-underline js-gtm-plan"
+							onClick={() => setSearchHotelActive(true)}
+						>
+							Plan Your Trip
+						</Button>
+					)}
+					{pathname !== '/' && pathname !== '/travel-design' && (
 						<Button className="btn-underline" href={'/contact'}>
 							Contact & FAQ
 						</Button>
 					)}
 				</div>
-				{pathname !== '/' && (
+				{pathname !== '/' && pathname !== '/travel-design' && (
 					<MobileMenuTrigger
 						isMobileMenuOpen={isMobileMenuOpen}
 						onHandleClick={onToggleMenu}

@@ -72,6 +72,19 @@ export const pageHotelBooking = (S) => {
 		.icon(DocumentIcon);
 };
 
+export const pageTravelDesign = (S) => {
+	return S.listItem()
+		.title('Travel Design')
+		.child(
+			S.editor()
+				.id('pTravelDesign')
+				.title('Travel Design')
+				.schemaType('pTravelDesign')
+				.documentId('pTravelDesign')
+		)
+		.icon(DocumentIcon);
+};
+
 export const pagesMenu = (S) => {
 	return S.listItem()
 		.title('Primary Pages')
@@ -85,7 +98,7 @@ export const pagesMenu = (S) => {
 					pageError(S),
 					pageContact(S),
 					pageHotelBooking(S),
-					pageTripBespoke(S),
+					pageTravelDesign(S),
 				])
 		);
 };

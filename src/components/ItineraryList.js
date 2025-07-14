@@ -37,7 +37,7 @@ export default function ItineraryList({ data }) {
 	}, []);
 
 	useEffect(() => {
-		if (itinerariesItems[activeIndex]?.color?.colorD) {
+		if (itinerariesItems && itinerariesItems[activeIndex]?.color?.colorD) {
 			setDotColor(itinerariesItems[activeIndex].color.colorD);
 		}
 	}, [activeIndex, itinerariesItems]);

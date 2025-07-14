@@ -41,6 +41,7 @@ import pContact from './schemas/documents/p-contact';
 import pTripBespoke from './schemas/documents/p-trip-bespoke';
 import pTripReady from './schemas/documents/p-trip-ready';
 import pHotelBooking from './schemas/documents/p-hotel-booking';
+import pTravelDesign from './schemas/documents/p-travel-design';
 
 import pParis from './schemas/documents/p-paris';
 import pGuides from './schemas/documents/p-guides';
@@ -86,6 +87,7 @@ const schemas = [
 	pTripBespoke,
 	pTripReady,
 	pHotelBooking,
+	pTravelDesign,
 	pParis,
 	pGuides,
 	pLocations,
