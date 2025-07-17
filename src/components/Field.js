@@ -37,6 +37,7 @@ export default function Field({
 	selectOptions,
 	value,
 	onChange,
+	...props
 }) {
 	const id = useId();
 	const isLabelAtTop = !isFloatingLabel && type !== FieldTypes.CHECKBOX;
@@ -98,6 +99,10 @@ export default function Field({
 						})}
 						placeholder={placeholder}
 						disabled={disabled}
+						readOnly={props.readOnly}
+						onClick={props.onClick}
+						value={value}
+						onChange={(e) => onChange?.(e)}
 						{...(register ? register(name, rules) : {})}
 					/>
 				);
@@ -110,6 +115,7 @@ export default function Field({
 				'is-error': errors && errors[name],
 				'is-floating-label': !isLabelAtTop,
 			})}
+			{...props}
 		>
 			{isLabelAtTop && (
 				<Label isHideLabel={isHideLabel} id={id} name={name}>
