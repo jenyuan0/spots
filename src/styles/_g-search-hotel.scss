@@ -68,6 +68,21 @@
 			padding-top: 60px;
 		}
 	}
+
+	@include mobileDown {
+		&__content {
+			top: 0;
+			left: 0;
+			height: 100%;
+			width: 100%;
+			border-radius: 0;
+			overflow-y: auto;
+		}
+
+		&__close {
+			position: fixed;
+		}
+	}
 }
 
 .g-hotel-form {
