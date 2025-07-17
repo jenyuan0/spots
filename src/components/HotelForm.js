@@ -223,7 +223,7 @@ export default function HotelForm({ data }) {
 									<button
 										type="button"
 										onClick={() => updateWho(0, -1)}
-										disabled={who[0] === 0}
+										disabled={who[0] === 1}
 									>
 										<span className="icon-minus" />
 									</button>
