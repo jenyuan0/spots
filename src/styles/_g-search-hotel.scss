@@ -52,8 +52,11 @@
 
 	&:not(.is-active) &__content {
 		opacity: 0;
-		transform: translate3d(-50%, calc(-50% + 40px), 0);
 		box-shadow: var(--shadow-1-transparent);
+
+		@include mobileUp {
+			transform: translate3d(-50%, calc(-50% + 40px), 0);
+		}
 	}
 
 	&__close {
