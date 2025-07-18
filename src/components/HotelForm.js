@@ -100,6 +100,7 @@ export default function HotelForm({ data }) {
 		const nights = endDateObj.diff(startDateObj, 'day');
 
 		setWhenMessage(`${startDate}—${endDate} (${nights} nights)`);
+		setWhenCalActive(false);
 	};
 
 	const handleActiveStartDateChange = ({
@@ -175,9 +176,8 @@ export default function HotelForm({ data }) {
 						placeholder={'Select Dates'}
 						value={whenMessage}
 						readOnly={true}
-						onClick={(e) => {
-							setWhenCalActive(!whenCalActive);
-						}}
+						onFocus={() => setWhenCalActive(true)}
+						// onBlur={() => setWhenCalActive(false)}
 					/>
 					<Calendar
 						className={clsx({
