@@ -100,7 +100,7 @@
 	}
 
 	&__intake {
-		margin-bottom: 40px;
+		margin-bottom: 20px;
 	}
 
 	&__when {
@@ -175,7 +175,7 @@
 
 			.g-hotel-form__who__detail__label {
 				font-size: 16px;
-				font-weight: 600;
+				font-weight: 500;
 			}
 
 			.g-hotel-form__who__detail__sublabel {
@@ -223,6 +223,49 @@
 			border: none;
 			border-top: 1px solid #e0e0e0;
 			margin: 0;
+		}
+	}
+
+	&__budget {
+		max-height: 0;
+		overflow: hidden;
+		margin-block: 20px;
+		transition:
+			max-height 0.5s ease,
+			opacity 0.5s ease;
+		opacity: 0;
+
+		&.is-visible {
+			max-height: 300px; // or auto with JS, but safe with fixed max-height
+			opacity: 1;
+		}
+
+		display: flex;
+		flex-wrap: wrap;
+		gap: 16px 8px;
+		text-align: center;
+		justify-content: center;
+
+		&__title {
+			width: 100%;
+		}
+
+		.pill {
+			height: 30px;
+			font-size: 14px;
+			border-radius: 15px;
+		}
+
+		.pill.is-active {
+			background-color: var(--cr-green-l);
+			border-color: var(--cr-green-d);
+			color: var(--cr-green-d);
+		}
+
+		@media (hover: hover) {
+			.pill:hover {
+				background-color: var(--cr-subtle-1);
+			}
 		}
 	}
 

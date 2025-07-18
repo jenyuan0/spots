@@ -54,6 +54,7 @@ export default function HotelForm({ data }) {
 	const [whenMessage, setWhenMessage] = useState('');
 	const [whoMessage, setWhoMessage] = useState('');
 	const [message, setMessage] = useState('');
+	const [budgetChoice, setBudgetChoice] = useState('');
 
 	useEffect(() => {
 		if (content) {
@@ -68,9 +69,10 @@ export default function HotelForm({ data }) {
 			if (newWhere) parts.push(`in ${newWhere}`);
 			if (whenMessage) parts.push(`for ${whenMessage}`);
 			if (whoMessage) parts.push(`for ${whoMessage.toLowerCase()}`);
+			if (budgetChoice) parts.push(`with a budget of ${budgetChoice}`);
 			setMessage(parts.join(' ') + '.');
 		}
-	}, [data, content, whenMessage, whoMessage]);
+	}, [data, content, whenMessage, whoMessage, budgetChoice]);
 
 	const [errorIsVisible, setErrorIsVisible] = useState(false);
 	const [detailStep, setDetailStep] = useState(0);
@@ -128,12 +130,15 @@ export default function HotelForm({ data }) {
 	};
 
 	useEffect(() => {
-		let parts = ['Hi, I’m looking for help finding a hotel'];
+		let parts = [
+			`Hi, ${data?.where ? 'I’m looking to book' : 'I’m looking for help finding a hotel'}`,
+		];
 		if (where) parts.push(`${data?.where ? 'at' : 'in'} ${where}`);
 		if (whenMessage) parts.push(`for ${whenMessage}`);
 		if (whoMessage) parts.push(`for ${whoMessage.toLowerCase()}`);
+		if (budgetChoice) parts.push(`with a budget of ${budgetChoice}`);
 		setMessage(parts.join(' ') + '.');
-	}, [where, whoMessage, whenMessage]);
+	}, [where, whoMessage, whenMessage, budgetChoice]);
 
 	useEffect(() => {
 		setIsMounted(true);
@@ -142,178 +147,182 @@ export default function HotelForm({ data }) {
 	if (!isMounted) return false;
 
 	return (
-		<div className="g-hotel-form">
+		<div className="g-hotel-form c-form">
 			<div className="g-hotel-form__header wysiwyg">
 				{heading && <h2 className="t-h-1">{heading}</h2>}
 				{subheading && <p className="t-h-4">{subheading}</p>}
 			</div>
-			<div className="g-hotel-form__details c-form">
+			<div
+				className={clsx('g-hotel-form__intake c-form__fields', {
+					'is-active': detailStep == 0,
+				})}
+			>
+				<Field
+					type={'text'}
+					label={'Where'}
+					placeholder={'Your Destination'}
+					value={where}
+					onChange={(e) => setWhere(e.target.value)}
+				/>
 				<div
-					className={clsx('g-hotel-form__intake c-form__fields', {
-						'is-active': detailStep == 0,
-					})}
+					ref={whenFieldRef}
+					className="g-hotel-form__when c-field"
+					data-size="1/2"
 				>
 					<Field
 						type={'text'}
-						label={'Where'}
-						placeholder={'Your Destination'}
-						value={where}
-						onChange={(e) => setWhere(e.target.value)}
+						label={'When'}
+						placeholder={'Select Dates'}
+						value={whenMessage}
+						readOnly={true}
+						onClick={(e) => {
+							setWhenCalActive(!whenCalActive);
+						}}
+					/>
+					<Calendar
+						className={clsx({
+							'is-active': whenCalActive == true,
+						})}
+						selectRange={true}
+						value={whenRange}
+						minDate={new Date()}
+						maxDate={
+							new Date(new Date().setFullYear(new Date().getFullYear() + 1))
+						}
+						showNeighboringMonth={false}
+						showDoubleView={!isTabletScreen}
+						activeStartDate={whenStartDate}
+						onActiveStartDateChange={handleActiveStartDateChange}
+						onChange={handleDateChange}
+					/>
+				</div>
+				<div
+					ref={whoFieldRef}
+					className="g-hotel-form__who c-field"
+					data-size="1/2"
+				>
+					<Field
+						type={'text'}
+						label={'Who'}
+						placeholder={'Add guests'}
+						value={whoMessage}
+						readOnly={true}
+						onClick={(e) => {
+							setWhoDetailsActive(!whoDetailsActive);
+						}}
 					/>
 					<div
-						ref={whenFieldRef}
-						className="g-hotel-form__when c-field"
-						data-size="1/2"
+						className={clsx('g-hotel-form__who__detail', {
+							'is-active': whoDetailsActive == true,
+						})}
 					>
-						<Field
-							type={'text'}
-							label={'When'}
-							placeholder={'Select Dates'}
-							value={whenMessage}
-							readOnly={true}
-							onClick={(e) => {
-								setWhenCalActive(!whenCalActive);
-							}}
-						/>
-						<Calendar
-							className={clsx({
-								'is-active': whenCalActive == true,
-							})}
-							selectRange={true}
-							value={whenRange}
-							minDate={new Date()}
-							maxDate={
-								new Date(new Date().setFullYear(new Date().getFullYear() + 1))
-							}
-							showNeighboringMonth={false}
-							showDoubleView={!isTabletScreen}
-							activeStartDate={whenStartDate}
-							onActiveStartDateChange={handleActiveStartDateChange}
-							onChange={handleDateChange}
-						/>
-					</div>
-					<div
-						ref={whoFieldRef}
-						className="g-hotel-form__who c-field"
-						data-size="1/2"
-					>
-						<Field
-							type={'text'}
-							label={'Who'}
-							placeholder={'Add guests'}
-							value={whoMessage}
-							readOnly={true}
-							onClick={(e) => {
-								setWhoDetailsActive(!whoDetailsActive);
-							}}
-						/>
-						<div
-							className={clsx('g-hotel-form__who__detail', {
-								'is-active': whoDetailsActive == true,
-							})}
-						>
-							<div className="g-hotel-form__who__detail__item">
-								<div className="g-hotel-form__who__detail__label-group">
-									<div className="g-hotel-form__who__detail__label">Adult</div>
-									<div className="g-hotel-form__who__detail__sublabel cr-subtle-4">
-										Age 13 or above
-									</div>
-								</div>
-								<div className="g-hotel-form__who__detail__form">
-									<button
-										type="button"
-										onClick={() => updateWho(0, -1)}
-										disabled={who[0] === 1}
-									>
-										<span className="icon-minus" />
-									</button>
-									<div className="g-hotel-form__who__detail__qty">
-										{who[0] || 0}
-									</div>
-									<button
-										type="button"
-										onClick={() => updateWho(0, 1)}
-										disabled={who[0] === 8}
-									>
-										<span className="icon-plus" />
-									</button>
+						<div className="g-hotel-form__who__detail__item">
+							<div className="g-hotel-form__who__detail__label-group">
+								<div className="g-hotel-form__who__detail__label">Adult</div>
+								<div className="g-hotel-form__who__detail__sublabel cr-subtle-4">
+									Age 13 or above
 								</div>
 							</div>
-							<div className="g-hotel-form__who__detail__item">
-								<div className="g-hotel-form__who__detail__label-group">
-									<div className="g-hotel-form__who__detail__label">
-										Children
-									</div>
-									<div className="g-hotel-form__who__detail__sublabel cr-subtle-4">
-										Ages 0–12
-									</div>
+							<div className="g-hotel-form__who__detail__form">
+								<button
+									type="button"
+									onClick={() => updateWho(0, -1)}
+									disabled={who[0] === 1}
+								>
+									<span className="icon-minus" />
+								</button>
+								<div className="g-hotel-form__who__detail__qty">
+									{who[0] || 0}
 								</div>
-								<div className="g-hotel-form__who__detail__form">
-									<button
-										type="button"
-										onClick={() => updateWho(1, -1)}
-										disabled={who[1] === 0}
-									>
-										<span className="icon-minus" />
-									</button>
-									<div className="g-hotel-form__who__detail__qty">
-										{who[1] || 0}
-									</div>
-									<button
-										type="button"
-										onClick={() => updateWho(1, 1)}
-										disabled={who[1] === 8}
-									>
-										<span className="icon-plus" />
-									</button>
+								<button
+									type="button"
+									onClick={() => updateWho(0, 1)}
+									disabled={who[0] === 8}
+								>
+									<span className="icon-plus" />
+								</button>
+							</div>
+						</div>
+						<div className="g-hotel-form__who__detail__item">
+							<div className="g-hotel-form__who__detail__label-group">
+								<div className="g-hotel-form__who__detail__label">Children</div>
+								<div className="g-hotel-form__who__detail__sublabel cr-subtle-4">
+									Ages 0–12
 								</div>
 							</div>
-							<div className="g-hotel-form__who__detail__item">
-								<div className="g-hotel-form__who__detail__label-group">
-									<div className="g-hotel-form__who__detail__label">Pets</div>
-									<div className="g-hotel-form__who__detail__sublabel cr-subtle-4">
-										Dogs, cats, etc.
-									</div>
+							<div className="g-hotel-form__who__detail__form">
+								<button
+									type="button"
+									onClick={() => updateWho(1, -1)}
+									disabled={who[1] === 0}
+								>
+									<span className="icon-minus" />
+								</button>
+								<div className="g-hotel-form__who__detail__qty">
+									{who[1] || 0}
 								</div>
-								<div className="g-hotel-form__who__detail__form">
-									<button
-										type="button"
-										onClick={() => updateWho(2, -1)}
-										disabled={who[2] === 0}
-									>
-										<span className="icon-minus" />
-									</button>
-									<div className="g-hotel-form__who__detail__qty">
-										{who[2] || 0}
-									</div>
-									<button
-										type="button"
-										onClick={() => updateWho(2, 1)}
-										disabled={who[2] === 8}
-									>
-										<span className="icon-plus" />
-									</button>
+								<button
+									type="button"
+									onClick={() => updateWho(1, 1)}
+									disabled={who[1] === 8}
+								>
+									<span className="icon-plus" />
+								</button>
+							</div>
+						</div>
+						<div className="g-hotel-form__who__detail__item">
+							<div className="g-hotel-form__who__detail__label-group">
+								<div className="g-hotel-form__who__detail__label">Pets</div>
+								<div className="g-hotel-form__who__detail__sublabel cr-subtle-4">
+									Dogs, cats, etc.
 								</div>
+							</div>
+							<div className="g-hotel-form__who__detail__form">
+								<button
+									type="button"
+									onClick={() => updateWho(2, -1)}
+									disabled={who[2] === 0}
+								>
+									<span className="icon-minus" />
+								</button>
+								<div className="g-hotel-form__who__detail__qty">
+									{who[2] || 0}
+								</div>
+								<button
+									type="button"
+									onClick={() => updateWho(2, 1)}
+									disabled={who[2] === 8}
+								>
+									<span className="icon-plus" />
+								</button>
 							</div>
 						</div>
 					</div>
 				</div>
 
-				{/* <div
-					className="g-hotel-form__step"
-					className={clsx('g-hotel-form__step', {
-						'is-active': detailStep == 1,
+				<div
+					className={clsx('g-hotel-form__budget c-field', {
+						'is-visible': whenRange[0] && whenRange[1],
 					})}
 				>
-					<h2>Whats your max budget per night?</h2>
-					<div>$250</div>
-					<div>$500</div>
-					<div>$750</div>
-					<div>$1000</div>
-				</div> */}
-				{/* 1. Where are you thinking of going?
-(Or tell us if you’re undecided!)
-
+					<div className="g-hotel-form__budget__title t-b-1">
+						What’s your ideal nightly budget (if you have one)?
+					</div>
+					{['$250—$500', '$500—$750', '$750+'].map((option) => (
+						<button
+							key={option}
+							className={clsx('pill', {
+								'is-active': budgetChoice === option,
+							})}
+							onClick={() =>
+								setBudgetChoice(budgetChoice === option ? '' : option)
+							}
+						>
+							{option}
+						</button>
+					))}
+				</div>
+				{/*
 5. What’s your ideal hotel vibe? (Optional)
 [ ] Design-forward boutique
 [ ] Luxury classic
@@ -334,7 +343,7 @@ export default function HotelForm({ data }) {
 					<Button
 						icon={<IconWhatsApp />}
 						className={'btn cr-green-d js-gtm-whatsapp'}
-						href={`https://wa.me/33686047390?text=${encodeURI(message)}`}
+						href={`https://wa.me/33686047390?text=${encodeURIComponent(message)}`}
 						isNewTab={true}
 						onClick={() => {
 							setErrorIsVisible(true);
@@ -346,7 +355,7 @@ export default function HotelForm({ data }) {
 					<Button
 						icon={<IconEmail />}
 						className={'btn cr-blue-d js-gtm-email'}
-						href={`mailto:vip@spotstravel.co?subject=${encodeURI(subject)}&body=${encodeURI(message)}`}
+						href={`mailto:vip@spotstravel.co?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`}
 						isNewTab={true}
 						onClick={() => {
 							setErrorIsVisible(true);
