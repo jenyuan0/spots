@@ -25,6 +25,22 @@ export default function HotelForm({ data }) {
 	const { isTabletScreen } = useWindowDimensions();
 	const [isMounted, setIsMounted] = useState(false);
 
+	const [subject] = useState(data?.subject ?? 'Hotel search');
+	const [heading, setHeading] = useState(data?.heading ?? '');
+	const [subheading, setSubheading] = useState(data?.subheading ?? '');
+	const [where, setWhere] = useState(data?.where || '');
+	const [whenMessage, setWhenMessage] = useState('');
+	const [whoMessage, setWhoMessage] = useState('');
+	const [message, setMessage] = useState('');
+	const [budget, setBudget] = useState('');
+	const [errorIsVisible, setErrorIsVisible] = useState(false);
+
+	const [budgetTotal, setBudgetTotal] = useState(0);
+	const [budgetPerNight, setBudgetPerNight] = useState(0);
+
+	const [budgetMin, setBudgetMin] = useState(0);
+	const [budgetMax, setBudgetMax] = useState(0);
+
 	const [content, setContent] = useState();
 	const fetchContent = async () => {
 		try {
@@ -47,14 +63,6 @@ export default function HotelForm({ data }) {
 		fetchContent();
 	}, []);
 
-	const [subject] = useState(data?.subject ?? 'Hotel search');
-	const [heading, setHeading] = useState(data?.heading ?? '');
-	const [subheading, setSubheading] = useState(data?.subheading ?? '');
-	const [where, setWhere] = useState(data?.where || '');
-	const [whenMessage, setWhenMessage] = useState('');
-	const [whoMessage, setWhoMessage] = useState('');
-	const [message, setMessage] = useState('');
-
 	useEffect(() => {
 		if (content) {
 			const newHeading = data?.heading ?? content.contactHeading ?? '';
@@ -68,12 +76,13 @@ export default function HotelForm({ data }) {
 			if (newWhere) parts.push(`in ${newWhere}`);
 			if (whenMessage) parts.push(`for ${whenMessage}`);
 			if (whoMessage) parts.push(`for ${whoMessage.toLowerCase()}`);
+			if (budgetMin > 0 && budgetMax > 0)
+				parts.push(
+					`with a per-night budget of $${budgetMin.toLocaleString()}–${budgetMax.toLocaleString()}`
+				);
 			setMessage(parts.join(' ') + '.');
 		}
-	}, [data, content, whenMessage, whoMessage]);
-
-	const [errorIsVisible, setErrorIsVisible] = useState(false);
-	const [detailStep, setDetailStep] = useState(0);
+	}, [data, content, whenMessage, whoMessage, budgetMin, budgetMax]);
 
 	const [whenCalActive, setWhenCalActive] = useState(false);
 	const [whenStartDate, setWhenStartDate] = useState(new Date());
@@ -98,6 +107,23 @@ export default function HotelForm({ data }) {
 		const nights = endDateObj.diff(startDateObj, 'day');
 
 		setWhenMessage(`${startDate}—${endDate} (${nights} nights)`);
+
+		const minPerNight = 200;
+		const maxPerNight = 1200;
+
+		setBudgetMin(minPerNight);
+		setBudgetMax(maxPerNight);
+
+		let currentPerNight = budgetPerNight;
+		if (currentPerNight === 0) {
+			currentPerNight = minPerNight;
+		}
+
+		// Recalculate per night budget proportionally to new nights
+		let newTotal = currentPerNight * nights;
+
+		setBudgetTotal(newTotal);
+		setBudgetPerNight(currentPerNight);
 	};
 
 	const handleActiveStartDateChange = ({
@@ -132,8 +158,12 @@ export default function HotelForm({ data }) {
 		if (where) parts.push(`${data?.where ? 'at' : 'in'} ${where}`);
 		if (whenMessage) parts.push(`for ${whenMessage}`);
 		if (whoMessage) parts.push(`for ${whoMessage.toLowerCase()}`);
+		if (budgetMin > 0 && budgetMax > 0)
+			parts.push(
+				`with a per-night budget of $${budgetMin.toLocaleString()}–${budgetMax.toLocaleString()}${budgetMax == 1200 ? '\+' : ''}`
+			);
 		setMessage(parts.join(' ') + '.');
-	}, [where, whoMessage, whenMessage]);
+	}, [where, whoMessage, whenMessage, budgetMin, budgetMax]);
 
 	useEffect(() => {
 		setIsMounted(true);
@@ -141,193 +171,219 @@ export default function HotelForm({ data }) {
 
 	if (!isMounted) return false;
 
+	const nights =
+		whenRange[0] && whenRange[1]
+			? dayjs(whenRange[1]).diff(dayjs(whenRange[0]), 'day')
+			: 1;
+
 	return (
-		<div className="g-hotel-form">
+		<div className="g-hotel-form c-form">
 			<div className="g-hotel-form__header wysiwyg">
 				{heading && <h2 className="t-h-1">{heading}</h2>}
 				{subheading && <p className="t-h-4">{subheading}</p>}
 			</div>
-			<div className="g-hotel-form__details c-form">
+
+			<div className={'g-hotel-form__intake c-form__fields'}>
+				<Field
+					type={'text'}
+					label={'Where'}
+					placeholder={'Your Destination'}
+					value={where}
+					onChange={(e) => setWhere(e.target.value)}
+				/>
 				<div
-					className={clsx('g-hotel-form__intake c-form__fields', {
-						'is-active': detailStep == 0,
-					})}
+					ref={whenFieldRef}
+					className="g-hotel-form__when c-field"
+					data-size="1/2"
 				>
 					<Field
 						type={'text'}
-						label={'Where'}
-						placeholder={'Your Destination'}
-						value={where}
-						onChange={(e) => setWhere(e.target.value)}
+						label={'When'}
+						placeholder={'Select Dates'}
+						value={whenMessage}
+						readOnly={true}
+						onClick={(e) => {
+							setWhenCalActive(!whenCalActive);
+						}}
+					/>
+					<Calendar
+						className={clsx({
+							'is-active': whenCalActive == true,
+						})}
+						selectRange={true}
+						value={whenRange}
+						minDate={new Date()}
+						maxDate={
+							new Date(new Date().setFullYear(new Date().getFullYear() + 1))
+						}
+						showNeighboringMonth={false}
+						showDoubleView={!isTabletScreen}
+						activeStartDate={whenStartDate}
+						onActiveStartDateChange={handleActiveStartDateChange}
+						onChange={handleDateChange}
+					/>
+				</div>
+				<div
+					ref={whoFieldRef}
+					className="g-hotel-form__who c-field"
+					data-size="1/2"
+				>
+					<Field
+						type={'text'}
+						label={'Who'}
+						placeholder={'Add guests'}
+						value={whoMessage}
+						readOnly={true}
+						onClick={(e) => {
+							setWhoDetailsActive(!whoDetailsActive);
+						}}
 					/>
 					<div
-						ref={whenFieldRef}
-						className="g-hotel-form__when c-field"
-						data-size="1/2"
+						className={clsx('g-hotel-form__who__detail', {
+							'is-active': whoDetailsActive == true,
+						})}
 					>
-						<Field
-							type={'text'}
-							label={'When'}
-							placeholder={'Select Dates'}
-							value={whenMessage}
-							readOnly={true}
-							onClick={(e) => {
-								setWhenCalActive(!whenCalActive);
-							}}
-						/>
-						<Calendar
-							className={clsx({
-								'is-active': whenCalActive == true,
-							})}
-							selectRange={true}
-							value={whenRange}
-							minDate={new Date()}
-							maxDate={
-								new Date(new Date().setFullYear(new Date().getFullYear() + 1))
-							}
-							showNeighboringMonth={false}
-							showDoubleView={!isTabletScreen}
-							activeStartDate={whenStartDate}
-							onActiveStartDateChange={handleActiveStartDateChange}
-							onChange={handleDateChange}
-						/>
-					</div>
-					<div
-						ref={whoFieldRef}
-						className="g-hotel-form__who c-field"
-						data-size="1/2"
-					>
-						<Field
-							type={'text'}
-							label={'Who'}
-							placeholder={'Add guests'}
-							value={whoMessage}
-							readOnly={true}
-							onClick={(e) => {
-								setWhoDetailsActive(!whoDetailsActive);
-							}}
-						/>
-						<div
-							className={clsx('g-hotel-form__who__detail', {
-								'is-active': whoDetailsActive == true,
-							})}
-						>
-							<div className="g-hotel-form__who__detail__item">
-								<div className="g-hotel-form__who__detail__label-group">
-									<div className="g-hotel-form__who__detail__label">Adult</div>
-									<div className="g-hotel-form__who__detail__sublabel cr-subtle-4">
-										Age 13 or above
-									</div>
-								</div>
-								<div className="g-hotel-form__who__detail__form">
-									<button
-										type="button"
-										onClick={() => updateWho(0, -1)}
-										disabled={who[0] === 1}
-									>
-										<span className="icon-minus" />
-									</button>
-									<div className="g-hotel-form__who__detail__qty">
-										{who[0] || 0}
-									</div>
-									<button
-										type="button"
-										onClick={() => updateWho(0, 1)}
-										disabled={who[0] === 8}
-									>
-										<span className="icon-plus" />
-									</button>
+						<div className="g-hotel-form__who__detail__item">
+							<div className="g-hotel-form__who__detail__label-group">
+								<div className="g-hotel-form__who__detail__label">Adult</div>
+								<div className="g-hotel-form__who__detail__sublabel cr-subtle-4">
+									Age 13 or above
 								</div>
 							</div>
-							<div className="g-hotel-form__who__detail__item">
-								<div className="g-hotel-form__who__detail__label-group">
-									<div className="g-hotel-form__who__detail__label">
-										Children
-									</div>
-									<div className="g-hotel-form__who__detail__sublabel cr-subtle-4">
-										Ages 0–12
-									</div>
+							<div className="g-hotel-form__who__detail__form">
+								<button
+									type="button"
+									onClick={() => updateWho(0, -1)}
+									disabled={who[0] === 1}
+								>
+									<span className="icon-minus" />
+								</button>
+								<div className="g-hotel-form__who__detail__qty">
+									{who[0] || 0}
 								</div>
-								<div className="g-hotel-form__who__detail__form">
-									<button
-										type="button"
-										onClick={() => updateWho(1, -1)}
-										disabled={who[1] === 0}
-									>
-										<span className="icon-minus" />
-									</button>
-									<div className="g-hotel-form__who__detail__qty">
-										{who[1] || 0}
-									</div>
-									<button
-										type="button"
-										onClick={() => updateWho(1, 1)}
-										disabled={who[1] === 8}
-									>
-										<span className="icon-plus" />
-									</button>
+								<button
+									type="button"
+									onClick={() => updateWho(0, 1)}
+									disabled={who[0] === 8}
+								>
+									<span className="icon-plus" />
+								</button>
+							</div>
+						</div>
+						<div className="g-hotel-form__who__detail__item">
+							<div className="g-hotel-form__who__detail__label-group">
+								<div className="g-hotel-form__who__detail__label">Children</div>
+								<div className="g-hotel-form__who__detail__sublabel cr-subtle-4">
+									Ages 0–12
 								</div>
 							</div>
-							<div className="g-hotel-form__who__detail__item">
-								<div className="g-hotel-form__who__detail__label-group">
-									<div className="g-hotel-form__who__detail__label">Pets</div>
-									<div className="g-hotel-form__who__detail__sublabel cr-subtle-4">
-										Dogs, cats, etc.
-									</div>
+							<div className="g-hotel-form__who__detail__form">
+								<button
+									type="button"
+									onClick={() => updateWho(1, -1)}
+									disabled={who[1] === 0}
+								>
+									<span className="icon-minus" />
+								</button>
+								<div className="g-hotel-form__who__detail__qty">
+									{who[1] || 0}
 								</div>
-								<div className="g-hotel-form__who__detail__form">
-									<button
-										type="button"
-										onClick={() => updateWho(2, -1)}
-										disabled={who[2] === 0}
-									>
-										<span className="icon-minus" />
-									</button>
-									<div className="g-hotel-form__who__detail__qty">
-										{who[2] || 0}
-									</div>
-									<button
-										type="button"
-										onClick={() => updateWho(2, 1)}
-										disabled={who[2] === 8}
-									>
-										<span className="icon-plus" />
-									</button>
+								<button
+									type="button"
+									onClick={() => updateWho(1, 1)}
+									disabled={who[1] === 8}
+								>
+									<span className="icon-plus" />
+								</button>
+							</div>
+						</div>
+						<div className="g-hotel-form__who__detail__item">
+							<div className="g-hotel-form__who__detail__label-group">
+								<div className="g-hotel-form__who__detail__label">Pets</div>
+								<div className="g-hotel-form__who__detail__sublabel cr-subtle-4">
+									Dogs, cats, etc.
 								</div>
+							</div>
+							<div className="g-hotel-form__who__detail__form">
+								<button
+									type="button"
+									onClick={() => updateWho(2, -1)}
+									disabled={who[2] === 0}
+								>
+									<span className="icon-minus" />
+								</button>
+								<div className="g-hotel-form__who__detail__qty">
+									{who[2] || 0}
+								</div>
+								<button
+									type="button"
+									onClick={() => updateWho(2, 1)}
+									disabled={who[2] === 8}
+								>
+									<span className="icon-plus" />
+								</button>
 							</div>
 						</div>
 					</div>
 				</div>
-
-				{/* <div
-					className="g-hotel-form__step"
-					className={clsx('g-hotel-form__step', {
-						'is-active': detailStep == 1,
-					})}
-				>
-					<h2>Whats your max budget per night?</h2>
-					<div>$250</div>
-					<div>$500</div>
-					<div>$750</div>
-					<div>$1000</div>
-				</div> */}
-				{/* 1. Where are you thinking of going?
-(Or tell us if you’re undecided!)
-
-5. What’s your ideal hotel vibe? (Optional)
-[ ] Design-forward boutique
-[ ] Luxury classic
-[ ] Family-friendly comfort
-[ ] I’m open
-
-6. What’s your hotel budget per night?
-[ ] $250–500
-[ ] $500–750
-[ ] $750+
-[ ] I’m flexible—recommend what fits best
-
-7. Anything else we should know? (Optional)
-[Free text: dietary needs, accessibility, must-haves, etc.) */}
+				<div className="g-hotel-form__budget c-field">
+					<h2 className="t-b-1">
+						What’s your ideal nightly budget (if you have one)?
+					</h2>
+					<div className="budget-slider">
+						<div className="slider-track"></div>
+						<div
+							className="slider-range"
+							style={{
+								left:
+									Math.max(0, ((budgetMin - 200) / (1200 - 200)) * 100) + '%',
+								right: 100 - ((budgetMax - 200) / (1200 - 200)) * 100 + '%',
+							}}
+						></div>
+						<input
+							type="range"
+							min={200}
+							max={1200}
+							value={budgetMin}
+							onChange={(e) => {
+								const val = parseInt(e.target.value);
+								const value = Math.max(200, Math.min(val, budgetMax - 10));
+								setBudgetMin(value);
+							}}
+							className="thumb thumb-left"
+						/>
+						<input
+							type="range"
+							min={200}
+							max={1200}
+							value={budgetMax}
+							onChange={(e) => {
+								const val = parseInt(e.target.value);
+								const value = Math.max(200, Math.max(val, budgetMin + 10));
+								setBudgetMax(value);
+								if (budgetMin == 0) setBudgetMin(200);
+							}}
+							className="thumb thumb-right"
+						/>
+					</div>
+					<div className="g-hotel-form__budget__minmax">
+						<div className="g-hotel-form__budget__minmax__item">
+							<div className="t-l-2">Min</div>
+							<div className="pill">
+								${budgetMin > 0 ? budgetMin.toLocaleString() : '0'}
+							</div>
+						</div>
+						<div className="g-hotel-form__budget__minmax__item">
+							<div className="t-l-2">Max</div>
+							<div className="pill">
+								$
+								{budgetMax > 0
+									? `${budgetMax.toLocaleString()}${budgetMax == 1200 ? '+' : ''}`
+									: '0'}
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 			<div className="g-hotel-form__footer">
 				<div className="g-hotel-form__cta">
