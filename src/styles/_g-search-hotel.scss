@@ -334,7 +334,9 @@
 	@include mobileDown {
 		.t-h-1 {
 			max-width: 320px;
+			font: var(--t-h-2);
 			margin-inline: auto;
+			margin-bottom: 10px !important;
 		}
 	}
 }
