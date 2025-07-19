@@ -57,15 +57,18 @@ export default function HotelForm({ data }) {
 	const [errorIsVisible, setErrorIsVisible] = useState(false);
 
 	useEffect(() => {
+		if (data?.where) {
+			setWhere(data?.where);
+		}
+	}, [data]);
+
+	useEffect(() => {
 		if (content) {
 			const newHeading = data?.heading ?? content.contactHeading ?? '';
 			const newSubheading = data?.subheading ?? content.contactSubheading ?? '';
 			setHeading(newHeading);
 			setSubheading(newSubheading);
 		}
-
-		setWhere(data?.where || '');
-
 		let parts = ['Hi, I’m looking for help finding a hotel'];
 
 		if (where) {
