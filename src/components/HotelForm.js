@@ -78,7 +78,7 @@ export default function HotelForm({ data }) {
 		}
 		if (whenMessage) parts.push(`for ${whenMessage}`);
 		if (whoMessage) parts.push(`for ${whoMessage.toLowerCase()}`);
-		if (budgetChoice) parts.push(`with a budget of ${budgetChoice}`);
+		if (budgetChoice) parts.push(`with a nightly budget of ${budgetChoice}`);
 		setMessage(parts.join(' ') + '.');
 	}, [data, content, whenMessage, whoMessage, budgetChoice, where]);
 
