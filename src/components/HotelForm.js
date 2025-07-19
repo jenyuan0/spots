@@ -69,12 +69,14 @@ export default function HotelForm({ data }) {
 			setHeading(newHeading);
 			setSubheading(newSubheading);
 		}
-		let parts = ['Hi, I’m looking for help finding a hotel'];
+		let parts = ['Hi,'];
 
 		if (where) {
-			const preposition = data?.where ? 'at' : 'in';
-			parts.push(`${preposition} ${where}`);
-			setSubject(`Hotel search ${preposition} ${where}`);
+			const isRoom = data?.where;
+			parts.push(
+				`${isRoom ? 'I’m looking to book a room at' : 'I’m looking for help finding a hotel'} ${where}`
+			);
+			setSubject(`Hotel search ${isRoom ? 'at' : 'in'} ${where}`);
 		}
 		if (whenMessage) parts.push(`for ${whenMessage}`);
 		if (whoMessage) parts.push(`for ${whoMessage.toLowerCase()}`);
