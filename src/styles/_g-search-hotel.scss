@@ -116,9 +116,6 @@
 
 			@include tabletDown {
 				width: 100%;
-				top: 12px;
-				left: 50%;
-				transform: translate3d(-50%, -100%, 0);
 			}
 
 			&:not(.is-active) {
