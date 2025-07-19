@@ -292,7 +292,7 @@ export default function HotelForm({ data }) {
 					})}
 				>
 					<div className="g-hotel-form__budget__title t-b-1">
-						What’s your ideal nightly budget (if you have one)?
+						(Optional) What’s your ideal nightly budget?
 					</div>
 					{['$250—$500', '$500—$750', '$750+'].map((option) => (
 						<button
