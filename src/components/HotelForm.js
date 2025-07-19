@@ -1,5 +1,11 @@
 import clsx from 'clsx';
-import React, { useEffect, useState, useRef } from 'react';
+import React, {
+	useEffect,
+	useState,
+	useRef,
+	useCallback,
+	useMemo,
+} from 'react';
 import Button from '@/components/Button';
 import Field from '@/components/Field';
 import { IconWhatsApp, IconEmail } from '@/components/SvgIcons';
@@ -13,74 +19,50 @@ import useWindowDimensions from '@/hooks/useWindowDimensions';
 const DATE_FORMAT = 'MMM D';
 
 function getWhoMessage([adults, children, pets]) {
+	if (adults === 0 && children === 0 && pets === 0) return '';
 	const parts = [];
 	if (adults > 0) parts.push(`${adults} Adult${adults > 1 ? 's' : ''}`);
 	if (children > 0)
 		parts.push(`${children} Children${children > 1 ? 's' : ''}`);
 	if (pets > 0) parts.push(`${pets} Pet${pets > 1 ? 's' : ''}`);
-	return parts.join(', ') || '';
+	return parts.join(', ');
 }
 
 export default function HotelForm({ data }) {
 	const { isTabletScreen } = useWindowDimensions();
 	const [isMounted, setIsMounted] = useState(false);
 	const [content, setContent] = useState();
-	const fetchContent = async () => {
-		try {
-			const data = await Promise.all([
-				client.fetch(`
-					*[_type == "pHotelBooking"][0]{
-						contactHeading,
-						contactSubheading,
-						contactPlaceholder
-					}
-				`),
-			]);
-			setContent(data[0]);
-		} catch (error) {
-			console.error('Error fetching data:', error);
-		}
-	};
-
 	useEffect(() => {
+		async function fetchContent() {
+			try {
+				const data = await Promise.all([
+					client.fetch(`
+						*[_type == "pHotelBooking"][0]{
+							contactHeading,
+							contactSubheading,
+							contactPlaceholder
+						}
+					`),
+				]);
+				setContent(data[0]);
+			} catch (error) {
+				console.error('Error fetching data:', error);
+			}
+		}
 		fetchContent();
 	}, []);
 
 	const [subject, setSubject] = useState(data?.subject ?? 'Hotel search');
-	const [heading, setHeading] = useState(data?.heading ?? '');
-	const [subheading, setSubheading] = useState(data?.subheading ?? '');
+	const [formText, setFormText] = useState({
+		heading: data?.heading ?? '',
+		subheading: data?.subheading ?? '',
+	});
 	const [where, setWhere] = useState(data?.where || '');
 	const [whenMessage, setWhenMessage] = useState('');
 	const [whoMessage, setWhoMessage] = useState('');
 	const [message, setMessage] = useState('');
 	const [budgetChoice, setBudgetChoice] = useState('');
 	const [errorIsVisible, setErrorIsVisible] = useState(false);
-
-	useEffect(() => {
-		setWhere(data?.where || '');
-	}, [data]);
-
-	useEffect(() => {
-		if (content) {
-			const newHeading = data?.heading ?? content.contactHeading ?? '';
-			const newSubheading = data?.subheading ?? content.contactSubheading ?? '';
-			setHeading(newHeading);
-			setSubheading(newSubheading);
-		}
-		let parts = ['Hi,'];
-
-		if (where) {
-			const isRoom = data?.where;
-			parts.push(
-				`${isRoom ? 'I’m looking to book a room at' : 'I’m looking for help finding a hotel in'} ${where}`
-			);
-			setSubject(`Hotel ${isRoom ? 'inquiry for' : 'search in'} ${where}`);
-		}
-		if (whenMessage) parts.push(`for ${whenMessage}`);
-		if (whoMessage) parts.push(`for ${whoMessage.toLowerCase()}`);
-		if (budgetChoice) parts.push(`with a nightly budget of ${budgetChoice}`);
-		setMessage(parts.join(' ') + '.');
-	}, [data, content, whenMessage, whoMessage, budgetChoice, where]);
 
 	const [whenCalActive, setWhenCalActive] = useState(false);
 	const [whenStartDate, setWhenStartDate] = useState(new Date());
@@ -128,24 +110,56 @@ export default function HotelForm({ data }) {
 		setWhoMessage(getWhoMessage(who));
 	}, []);
 
-	const updateWho = (index, delta) => {
-		const newWho = [...who];
-		newWho[index] = Math.max(0, Math.min(8, (newWho[index] || 0) + delta));
-		setWho(newWho);
-		setWhoMessage(getWhoMessage(newWho));
-	};
+	const updateWho = useCallback((index, delta) => {
+		setWho((prevWho) => {
+			const newWho = [...prevWho];
+			newWho[index] = Math.max(0, Math.min(8, (newWho[index] || 0) + delta));
+			setWhoMessage(getWhoMessage(newWho));
+			return newWho;
+		});
+	}, []);
 
 	useEffect(() => {
 		setIsMounted(true);
 	}, []);
 
-	if (!isMounted) return false;
+	useEffect(() => {
+		if (content) {
+			const newHeading = data?.heading ?? content.contactHeading ?? '';
+			const newSubheading = data?.subheading ?? content.contactSubheading ?? '';
+			setFormText({ heading: newHeading, subheading: newSubheading });
+		}
+	}, [content, data]);
+
+	const computedMessage = useMemo(() => {
+		let parts = ['Hi,'];
+
+		if (where) {
+			const isRoom = data?.where;
+			parts.push(
+				`${isRoom ? 'I’m looking to book a room at' : 'I’m looking for help finding a hotel in'} ${where}`
+			);
+			setSubject(`Hotel ${isRoom ? 'inquiry for' : 'search in'} ${where}`);
+		}
+		if (whenMessage) parts.push(`for ${whenMessage}`);
+		if (whoMessage) parts.push(`for ${whoMessage.toLowerCase()}`);
+		if (budgetChoice) parts.push(`with a nightly budget of ${budgetChoice}`);
+		const newMessage = parts.join(' ') + '.';
+		setMessage(newMessage);
+		return newMessage;
+	}, [data, content, whenMessage, whoMessage, budgetChoice, where]);
+
+	useEffect(() => {
+		setWhere(data?.where || '');
+	}, [data]);
+
+	if (!isMounted) return null;
 
 	return (
 		<div className="g-hotel-form c-form">
 			<div className="g-hotel-form__header wysiwyg">
-				{heading && <h2 className="t-h-1">{heading}</h2>}
-				{subheading && <p className="t-h-4">{subheading}</p>}
+				{formText.heading && <h2 className="t-h-1">{formText.heading}</h2>}
+				{formText.subheading && <p className="t-h-4">{formText.subheading}</p>}
 			</div>
 			<div className={'g-hotel-form__intake c-form__fields'}>
 				<Field
@@ -332,7 +346,7 @@ export default function HotelForm({ data }) {
 					<Button
 						icon={<IconWhatsApp />}
 						className={'btn cr-green-d js-gtm-whatsapp'}
-						href={`https://wa.me/33686047390?text=${encodeURIComponent(message)}`}
+						href={`https://wa.me/33686047390?text=${encodeURIComponent(computedMessage)}`}
 						isNewTab={true}
 						onClick={() => {
 							setErrorIsVisible(true);
@@ -344,7 +358,7 @@ export default function HotelForm({ data }) {
 					<Button
 						icon={<IconEmail />}
 						className={'btn cr-blue-d js-gtm-email'}
-						href={`mailto:vip@spotstravel.co?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`}
+						href={`mailto:vip@spotstravel.co?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(computedMessage)}`}
 						isNewTab={true}
 						onClick={() => {
 							setErrorIsVisible(true);
