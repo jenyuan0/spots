@@ -45,7 +45,8 @@ export default function MagnifyLocation({ data }) {
 			)}
 			{title && (
 				<h2 className="g-magnify-locations__heading t-h-2">
-					<Link href={`/paris/locations/${slug}`}>{title}</Link>
+					{/* <Link href={`/paris/locations/${slug}`}>{title}</Link> */}
+					{title}
 				</h2>
 			)}
 			{hasHotelCategory && (

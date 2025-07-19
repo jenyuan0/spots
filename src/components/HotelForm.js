@@ -24,7 +24,6 @@ function getWhoMessage([adults, children, pets]) {
 export default function HotelForm({ data }) {
 	const { isTabletScreen } = useWindowDimensions();
 	const [isMounted, setIsMounted] = useState(false);
-
 	const [content, setContent] = useState();
 	const fetchContent = async () => {
 		try {
@@ -47,7 +46,7 @@ export default function HotelForm({ data }) {
 		fetchContent();
 	}, []);
 
-	const [subject] = useState(data?.subject ?? 'Hotel search');
+	const [subject, setSubject] = useState(data?.subject ?? 'Hotel search');
 	const [heading, setHeading] = useState(data?.heading ?? '');
 	const [subheading, setSubheading] = useState(data?.subheading ?? '');
 	const [where, setWhere] = useState(data?.where || '');
@@ -55,27 +54,30 @@ export default function HotelForm({ data }) {
 	const [whoMessage, setWhoMessage] = useState('');
 	const [message, setMessage] = useState('');
 	const [budgetChoice, setBudgetChoice] = useState('');
+	const [errorIsVisible, setErrorIsVisible] = useState(false);
 
 	useEffect(() => {
 		if (content) {
 			const newHeading = data?.heading ?? content.contactHeading ?? '';
 			const newSubheading = data?.subheading ?? content.contactSubheading ?? '';
-			const newWhere = data?.where || '';
 			setHeading(newHeading);
 			setSubheading(newSubheading);
-			setWhere(newWhere);
-
-			let parts = ['Hi, I’m looking for help finding a hotel'];
-			if (newWhere) parts.push(`in ${newWhere}`);
-			if (whenMessage) parts.push(`for ${whenMessage}`);
-			if (whoMessage) parts.push(`for ${whoMessage.toLowerCase()}`);
-			if (budgetChoice) parts.push(`with a budget of ${budgetChoice}`);
-			setMessage(parts.join(' ') + '.');
 		}
-	}, [data, content, whenMessage, whoMessage, budgetChoice]);
 
-	const [errorIsVisible, setErrorIsVisible] = useState(false);
-	const [detailStep, setDetailStep] = useState(0);
+		setWhere(data?.where || '');
+
+		let parts = ['Hi, I’m looking for help finding a hotel'];
+
+		if (where) {
+			const preposition = data?.where ? 'at' : 'in';
+			parts.push(`${preposition} ${where}`);
+			setSubject(`Hotel search ${preposition} ${where}`);
+		}
+		if (whenMessage) parts.push(`for ${whenMessage}`);
+		if (whoMessage) parts.push(`for ${whoMessage.toLowerCase()}`);
+		if (budgetChoice) parts.push(`with a budget of ${budgetChoice}`);
+		setMessage(parts.join(' ') + '.');
+	}, [data, content, whenMessage, whoMessage, budgetChoice, where]);
 
 	const [whenCalActive, setWhenCalActive] = useState(false);
 	const [whenStartDate, setWhenStartDate] = useState(new Date());
@@ -131,17 +133,6 @@ export default function HotelForm({ data }) {
 	};
 
 	useEffect(() => {
-		let parts = [
-			`Hi, ${data?.where ? 'I’m looking to book' : 'I’m looking for help finding a hotel'}`,
-		];
-		if (where) parts.push(`${data?.where ? 'at' : 'in'} ${where}`);
-		if (whenMessage) parts.push(`for ${whenMessage}`);
-		if (whoMessage) parts.push(`for ${whoMessage.toLowerCase()}`);
-		if (budgetChoice) parts.push(`with a budget of ${budgetChoice}`);
-		setMessage(parts.join(' ') + '.');
-	}, [where, whoMessage, whenMessage, budgetChoice]);
-
-	useEffect(() => {
 		setIsMounted(true);
 	}, []);
 
@@ -153,11 +144,7 @@ export default function HotelForm({ data }) {
 				{heading && <h2 className="t-h-1">{heading}</h2>}
 				{subheading && <p className="t-h-4">{subheading}</p>}
 			</div>
-			<div
-				className={clsx('g-hotel-form__intake c-form__fields', {
-					'is-active': detailStep == 0,
-				})}
-			>
+			<div className={'g-hotel-form__intake c-form__fields'}>
 				<Field
 					type={'text'}
 					label={'Where'}
@@ -177,7 +164,6 @@ export default function HotelForm({ data }) {
 						value={whenMessage}
 						readOnly={true}
 						onFocus={() => setWhenCalActive(true)}
-						// onBlur={() => setWhenCalActive(false)}
 					/>
 					<Calendar
 						className={clsx({
