@@ -57,9 +57,7 @@ export default function HotelForm({ data }) {
 	const [errorIsVisible, setErrorIsVisible] = useState(false);
 
 	useEffect(() => {
-		if (data?.where) {
-			setWhere(data?.where);
-		}
+		setWhere(data?.where || '');
 	}, [data]);
 
 	useEffect(() => {
@@ -74,9 +72,9 @@ export default function HotelForm({ data }) {
 		if (where) {
 			const isRoom = data?.where;
 			parts.push(
-				`${isRoom ? 'I’m looking to book a room at' : 'I’m looking for help finding a hotel'} ${where}`
+				`${isRoom ? 'I’m looking to book a room at' : 'I’m looking for help finding a hotel in'} ${where}`
 			);
-			setSubject(`Hotel search ${isRoom ? 'at' : 'in'} ${where}`);
+			setSubject(`Hotel ${isRoom ? 'inquiry for' : 'search in'} ${where}`);
 		}
 		if (whenMessage) parts.push(`for ${whenMessage}`);
 		if (whoMessage) parts.push(`for ${whoMessage.toLowerCase()}`);
