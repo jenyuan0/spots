@@ -140,6 +140,8 @@ export default function HotelForm({ data }) {
 				`${isRoom ? 'I’m looking to book a room at' : 'I’m looking for help finding a hotel in'} ${where}`
 			);
 			setSubject(`Hotel ${isRoom ? 'inquiry for' : 'search in'} ${where}`);
+		} else {
+			parts.push(`I’m looking for help finding a hotel`);
 		}
 		if (whenMessage) parts.push(`for ${whenMessage}`);
 		if (whoMessage) parts.push(`for ${whoMessage.toLowerCase()}`);
