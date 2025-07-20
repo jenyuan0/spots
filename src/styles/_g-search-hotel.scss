@@ -57,6 +57,10 @@
 		@include mobileUp {
 			transform: translate3d(-50%, calc(-50% + 40px), 0);
 		}
+
+		@include mobileDown {
+			transform: translate3d(-50%, -50%, 0) scale(0.85);
+		}
 	}
 
 	&__close {
@@ -76,9 +80,6 @@
 		&__content {
 			height: 100%;
 			width: 100%;
-			top: 0;
-			left: 0;
-			transform: unset;
 			border-radius: 0;
 			overflow-y: auto;
 		}
