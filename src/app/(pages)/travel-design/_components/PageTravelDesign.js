@@ -7,6 +7,11 @@ import WhySection from './WhySection';
 import ItineraryList from '@/components/ItineraryList';
 import PlanSection from '@/components/PlanSection';
 
+// https://engine.com/
+// add: "easily book group travels"
+// Geared towards corporate retreats, group travels, or such that may require a "need"
+// consolidate notes on notion
+
 export default function PageTravelDesign({ data }) {
 	return (
 		<>
