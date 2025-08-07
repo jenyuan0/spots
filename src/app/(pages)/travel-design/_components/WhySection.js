@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { colorArray, springConfig } from '@/lib/helpers';
+import { colorArray, getRandomInt, springConfig } from '@/lib/helpers';
 import Img from '@/components/Image';
 import Button from '@/components/Button';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
@@ -11,7 +11,7 @@ import clsx from 'clsx';
 const ANIMATION_CONFIG = {
 	ROTATION_INTERVAL: 600,
 	MASKS_INTERVAL: 6000,
-	ROTATION_STEP: 15,
+	ROTATION_STEP: 30,
 	SCROLL_OFFSET: ['-250px start', '-104px start'],
 };
 
@@ -38,7 +38,7 @@ const WhyText = ({ data, color }) => {
 		<div className="p-design__why-block__text">
 			<div className="p-design__why-block__text-container wysiwyg">
 				<h2 className="p-design__why-block__heading t-b-1">{heading}</h2>
-				<p className="p-design__why-block__paragraph t-h-2">{paragraph}</p>
+				<p className="p-design__why-block__paragraph t-h-4">{paragraph}</p>
 				{offers && (
 					<ul className="p-design__why-block__offers t-b-1">
 						{offers?.map((item, index) => (
@@ -46,7 +46,7 @@ const WhyText = ({ data, color }) => {
 						))}
 					</ul>
 				)}
-				{cta && (
+				{cta?.link && cta?.label && (
 					<Button
 						className={clsx('btn-outline', `cr-${color}-d`)}
 						href={cta.link.route}
@@ -73,6 +73,7 @@ const MasksBlock = ({ data, index, color }) => {
 	const ref = useRef(null);
 	const springScale = useScrollAnimation({ ref, index });
 	const [activeIndices, setActiveIndices] = useState(Array(9).fill(0));
+	const [directions, setDirections] = useState(Array(9).fill(0));
 
 	useEffect(() => {
 		const intervals = Array(9).fill(null);
@@ -95,6 +96,11 @@ const MasksBlock = ({ data, index, color }) => {
 								newIndices[circleIndex] =
 									(prev[circleIndex] + 1) % masksImages.length;
 								return newIndices;
+							});
+							setDirections((prev) => {
+								const newDirs = [...prev];
+								newDirs[circleIndex] = Math.floor(Math.random() * 4);
+								return newDirs;
 							});
 						}, circleIndex * 50);
 					}, 5000);
@@ -119,7 +125,7 @@ const MasksBlock = ({ data, index, color }) => {
 			<div
 				key={`item-${blockIndex}`}
 				className="p-design__masks__circle"
-				data-direction={blockIndex % 3}
+				data-direction={directions[blockIndex] ?? 0}
 			>
 				{masksImages?.map((el, idx) => (
 					<div
@@ -138,7 +144,7 @@ const MasksBlock = ({ data, index, color }) => {
 				))}
 			</div>
 		),
-		[activeIndices, masksImages]
+		[activeIndices, masksImages, directions]
 	);
 
 	return (
@@ -213,6 +219,15 @@ const ClockBlock = ({ data, index, color }) => {
 		>
 			<div className="p-design__why-block__media">
 				<div className="p-design__clock">
+					{Array.from({ length: 12 }).map((_, i) => (
+						<div
+							key={`hour-line-${i}`}
+							className="p-design__clock__hour-line"
+							style={{
+								transform: `translate3d(-50%, -50%, 0) rotate(${i * 30}deg)`,
+							}}
+						/>
+					))}
 					{clockText?.map((item, index) => {
 						return (
 							<div
@@ -230,7 +245,7 @@ const ClockBlock = ({ data, index, color }) => {
 					<div
 						className="p-design__clock__center"
 						style={{
-							transform: `rotate(${state.rotation}deg)`,
+							transform: `translate3d(-50%, -50%, 0) rotate(${state.rotation}deg)`,
 							'--cr-primary': isMounted ? `var(--cr-cream)` : undefined,
 						}}
 					>

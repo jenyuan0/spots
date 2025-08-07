@@ -160,6 +160,7 @@
 		width: fit-content;
 		margin-inline: auto;
 		margin-block: calc((var(--header-size) - var(--height)) / 2);
+		gap: 2px;
 		padding: 2px;
 		height: var(--height);
 		border-radius: calc(var(--height) / 2);

@@ -238,9 +238,9 @@ export default function HeroSection({ data }) {
 		<section ref={ref} className="p-design__hero">
 			<motion.div
 				className={'p-design__hero__image p-fill'}
-				style={{
-					scale: motionScale,
-				}}
+				// style={{
+				// 	scale: motionScale,
+				// }}
 			>
 				<div className="object-fit">
 					{heroImage && <Img image={heroImage} />}

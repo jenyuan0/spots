@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Accordion from '@/components/Accordions/Accordion';
 import CustomPortableText from '@/components/CustomPortableText';
+import { formatPad } from '@/lib/helpers';
 
 export default function SectionFaq({ data }) {
 	const { faqHeading, faqSubheading, faq } = data;
@@ -22,6 +23,7 @@ export default function SectionFaq({ data }) {
 				{faq?.map((item, index) => (
 					<Accordion
 						key={`faq-${index}`}
+						subtitle={formatPad(index + 1)}
 						title={item.title}
 						isCaret={true}
 						isActive={activeAccordion === index}

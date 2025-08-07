@@ -439,6 +439,11 @@
 		}
 	}
 
+	.c-accordion__subtitle {
+		font-weight: 500;
+		color: var(--cr-orange-d);
+	}
+
 	.c-accordion__title {
 		font: var(--t-b-1);
 		text-wrap: balance;

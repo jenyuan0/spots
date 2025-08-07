@@ -558,7 +558,6 @@ export const pageTravelDesignQuery = groq`
     },
     introTitle,
     introHeading,
-    introCta,
     clockHeading,
     clockParagraph,
     clockOffers,
@@ -575,14 +574,6 @@ export const pageTravelDesignQuery = groq`
     toggleParagraph,
     toggleOffers,
     toggleCta,
-    itinerariesTitle,
-    itinerariesExcerpt[]{
-      ${portableTextContentFields}
-    },
-    "itinerariesItems": itinerariesItems[]->{
-      ${getItineraryData('card')}
-    },
-    ${planFormData}
   }
 `;
 

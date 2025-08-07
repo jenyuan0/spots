@@ -6,7 +6,7 @@ import CustomPortableText from '@/components/CustomPortableText';
 import Button from '@/components/Button';
 
 export default function IntroSection({ data }) {
-	const { introTitle, introHeading, introCta } = data || {};
+	const { introTitle, introHeading } = data || {};
 
 	return (
 		<section
@@ -21,15 +21,6 @@ export default function IntroSection({ data }) {
 					<CustomPortableText blocks={introHeading} hasPTag={false} />
 				</p>
 			)}
-			{/* {introCta && (
-				<Button
-					className={clsx('btn-outline', `cr-${primaryColor}-d`)}
-					link={introCta?.link}
-					isNewTab={introCta?.isNewTab}
-				>
-					{introCta.label}
-				</Button>
-			)} */}
 		</section>
 	);
 }

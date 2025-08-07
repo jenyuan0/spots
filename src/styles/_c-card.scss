@@ -14,7 +14,8 @@
 	gap: 5px;
 	transition:
 		box-shadow var(--t-1),
-		border-color var(--t-1);
+		border-color var(--t-1),
+		transform var(--t-1);
 
 	@media (hover: hover) {
 		&:hover {
