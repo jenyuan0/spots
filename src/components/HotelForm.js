@@ -167,7 +167,7 @@ export default function HotelForm({ data }) {
 				<Field
 					type={'text'}
 					label={'Where'}
-					placeholder={'Your Destination'}
+					placeholder={'Your Destination(s)'}
 					value={where}
 					onChange={(e) => setWhere(e.target.value)}
 				/>

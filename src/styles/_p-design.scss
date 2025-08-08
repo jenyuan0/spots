@@ -642,6 +642,7 @@
 		flex-direction: column;
 		align-items: flex-start;
 		gap: 20px;
+		cursor: pointer;
 		transition: color var(--t-1);
 
 		&__title {
@@ -722,7 +723,7 @@
 
 	&__list-item.is-active &__list-item__img {
 		will-change: transform; /* only when active to reduce memory */
-		transform: translate3d(0, 0, 0) rotate(var(--rot, 0deg));
+		transform: rotate(var(--rot, 0deg)) translate3d(0, var(--y), 0);
 		transition-duration: var(--dur, 400ms);
 		transition-delay: var(--delay, 0s);
 	}

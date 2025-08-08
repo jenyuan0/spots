@@ -46,6 +46,7 @@ export default function SectionCase({ data }) {
 		return (list || []).map(() =>
 			Array.from({ length: 4 }).map(() => ({
 				rot: getRandomInt(-10, 10),
+				y: getRandomInt(-30, 30),
 				delay: getRandomInt(0, 0.25),
 				dur: getRandomInt(0.9, 1.6),
 			}))
@@ -93,7 +94,7 @@ export default function SectionCase({ data }) {
 				{list?.map((el, i) => {
 					const color = palette[i % palette.length];
 					return (
-						<button
+						<div
 							key={i}
 							ref={(el) => (itemRefs.current[i] = el)}
 							style={{ '--cr-primary': `var(--cr-${color}-d)` }}
@@ -111,6 +112,7 @@ export default function SectionCase({ data }) {
 												style={{
 													'--index': j,
 													'--rot': `${s.rot}deg`,
+													'--y': `${s.y}%`,
 													'--delay': `${s.delay}s`,
 													'--dur': `${s.dur}s`,
 												}}
@@ -128,7 +130,7 @@ export default function SectionCase({ data }) {
 								</Button>
 							</div>
 							<p className="t-h-4">{el.subtitle}</p>
-						</button>
+						</div>
 					);
 				})}
 			</div>
