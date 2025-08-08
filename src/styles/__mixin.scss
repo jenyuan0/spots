@@ -244,3 +244,78 @@
 	padding: var(--block-padding);
 	border-left: 1px solid;
 }
+
+@mixin v2SectionHeader {
+	&__header {
+		width: Min(90vw, 800px);
+		margin-bottom: var(--s-5-v);
+		margin-inline: auto;
+		text-align: center;
+
+		p {
+			text-wrap: balance;
+		}
+
+		@include tabletDown {
+			margin-bottom: 30px;
+
+			.t-h-1 {
+				font: var(--t-h-2);
+			}
+		}
+	}
+}
+
+@mixin v2SectionFaq {
+	@include v2SectionHeader;
+	max-width: var(--width-sml);
+	margin-inline: auto;
+	margin-block: var(--s-section);
+
+	@media (hover: hover) {
+		.c-accordion__toggle {
+			transition: color var(--t-1);
+		}
+
+		.c-accordion__icon {
+			transition: background-color var(--t-1);
+		}
+
+		.c-accordion:hover {
+			.c-accordion__toggle {
+				color: var(--cr-orange-d);
+			}
+
+			.c-accordion__icon {
+				background-color: var(--cr-orange-l);
+			}
+		}
+	}
+
+	.c-accordion__subtitle {
+		font-weight: 500;
+		color: var(--cr-orange-d);
+	}
+
+	.c-accordion__title {
+		font: var(--t-b-1);
+		text-wrap: balance;
+		font-size: 16px;
+		font-weight: 500;
+	}
+
+	.c-accordion__inner {
+		padding-top: var(--s-2-v);
+		padding-bottom: var(--s-4-v);
+	}
+
+	.c-accordion__content .wysiwyg-page {
+		max-width: 600px;
+
+		p,
+		ol,
+		ul {
+			font-size: 16px;
+		}
+	}
+}

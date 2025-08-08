@@ -574,6 +574,16 @@ export const pageTravelDesignQuery = groq`
     toggleParagraph,
     toggleOffers,
     toggleCta,
+
+    faqHeading,
+    faqSubheading,
+    faq[]{
+      _key,
+      title,
+      answer[]{
+        ${portableTextContentFields}
+      }
+    }
   }
 `;
 

@@ -741,3 +741,7 @@
 		}
 	}
 }
+
+.p-design__faq {
+	@include v2SectionFaq;
+}

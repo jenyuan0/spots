@@ -14,12 +14,12 @@ export default function SectionFaq({ data }) {
 	};
 
 	return (
-		<section className={'p-booking__faq'}>
-			<div className="p-booking__faq__header wysiwyg">
+		<section className={'p-design__faq'}>
+			<div className="p-design__faq__header wysiwyg">
 				{faqHeading && <h2 className="t-h-1">{faqHeading}</h2>}
 				{faqSubheading && <p className="t-h-4">{faqSubheading}</p>}
 			</div>
-			<div className="p-booking__faq__body">
+			<div className="p-design__faq__body">
 				{faq?.map((item, index) => (
 					<Accordion
 						key={`faq-${index}`}

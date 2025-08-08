@@ -144,6 +144,36 @@ export default defineType({
 				},
 			],
 		},
+
+		{
+			name: 'faqHeading',
+			type: 'string',
+		},
+		{
+			name: 'faqSubheading',
+			type: 'string',
+		},
+		{
+			name: 'faq',
+			type: 'array',
+			of: [
+				{
+					name: 'item',
+					type: 'object',
+					fields: [
+						{
+							name: 'title',
+							type: 'string',
+						},
+						{
+							title: 'Answer',
+							name: 'answer',
+							type: 'portableTextSimple',
+						},
+					],
+				},
+			],
+		},
 		sharing(),
 	],
 	preview: {

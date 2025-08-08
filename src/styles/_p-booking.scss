@@ -1,26 +1,5 @@
 @use '_mixin' as *;
 
-@mixin sectionHeader {
-	&__header {
-		width: Min(90vw, 800px);
-		margin-bottom: var(--s-5-v);
-		margin-inline: auto;
-		text-align: center;
-
-		p {
-			text-wrap: balance;
-		}
-
-		@include tabletDown {
-			margin-bottom: 30px;
-
-			.t-h-1 {
-				font: var(--t-h-2);
-			}
-		}
-	}
-}
-
 .p-booking__hero {
 	--gap: 20px;
 	display: flex;
@@ -268,7 +247,7 @@
 	background-color: #f8f3ca;
 	border-bottom: 1px solid;
 
-	@include sectionHeader;
+	@include v2SectionHeader;
 
 	@include tabletDown {
 		&__header {
@@ -413,58 +392,7 @@
 }
 
 .p-booking__faq {
-	max-width: var(--width-sml);
-	margin-inline: auto;
-	margin-block: var(--s-section);
-
-	@include sectionHeader;
-
-	@media (hover: hover) {
-		.c-accordion__toggle {
-			transition: color var(--t-1);
-		}
-
-		.c-accordion__icon {
-			transition: background-color var(--t-1);
-		}
-
-		.c-accordion:hover {
-			.c-accordion__toggle {
-				color: var(--cr-orange-d);
-			}
-
-			.c-accordion__icon {
-				background-color: var(--cr-orange-l);
-			}
-		}
-	}
-
-	.c-accordion__subtitle {
-		font-weight: 500;
-		color: var(--cr-orange-d);
-	}
-
-	.c-accordion__title {
-		font: var(--t-b-1);
-		text-wrap: balance;
-		font-size: 16px;
-		font-weight: 500;
-	}
-
-	.c-accordion__inner {
-		padding-top: var(--s-2-v);
-		padding-bottom: var(--s-4-v);
-	}
-
-	.c-accordion__content .wysiwyg-page {
-		max-width: 600px;
-
-		p,
-		ol,
-		ul {
-			font-size: 16px;
-		}
-	}
+	@include v2SectionFaq;
 }
 
 .p-booking__contact {
