@@ -434,10 +434,10 @@ const ToggleBlock = ({ data, index, color }) => {
 
 export default function SectionWhy({ data }) {
 	return (
-		<div className="p-design__why">
+		<section className="p-design__why">
 			<ClockBlock data={data} index={0} color={'red'} />
 			<MasksBlock data={data} index={1} color={'blue'} />
 			<ToggleBlock data={data} index={2} color={'purple'} />
-		</div>
+		</section>
 	);
 }
