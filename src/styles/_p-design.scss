@@ -726,13 +726,26 @@
 		will-change: transform; /* only when active to reduce memory */
 		transform: rotate(var(--rot, 0deg)) translate3d(0, var(--y), 0);
 		transition-duration: var(--dur, 400ms);
-		transition-delay: var(--delay, 0s);
+		transition-delay: 0s;
 		transition-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
 	}
 
+	&__cta {
+		position: fixed;
+		top: 0;
+		left: 0;
+		transform-origin: center;
+		z-index: 20;
+		pointer-events: none;
+		transition: opacity var(--t-1);
+
+		&:not(.is-visible) {
+			opacity: 0;
+		}
+	}
+
 	@media (prefers-reduced-motion: reduce) {
-		&__list-item__img,
-		&__list-item__cta {
+		&__list-item__img {
 			transition: none;
 			transform: none;
 		}

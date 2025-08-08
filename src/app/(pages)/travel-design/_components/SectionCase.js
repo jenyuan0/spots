@@ -5,9 +5,19 @@ import clsx from 'clsx';
 import { getRandomInt } from '@/lib/helpers';
 import Img from '@/components/Image';
 import Button from '@/components/Button';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { springConfig } from '@/lib/helpers';
+import useWindowDimensions from '@/hooks/useWindowDimensions';
 
 export default function SectionCase({ data }) {
 	const { caseHeading, caseItems } = data || {};
+	const { width, height } = useWindowDimensions();
+	const [isMounted, setIsMounted] = useState(false);
+
+	useEffect(() => {
+		setIsMounted(true);
+	}, []);
+
 	// Pre-compute randomized motion/size/ timing for each image so it stays stable per render
 	const seeds = useMemo(() => {
 		return (caseItems || []).map(() =>
@@ -23,7 +33,19 @@ export default function SectionCase({ data }) {
 	const itemRefs = useRef([]);
 	const sectionRef = useRef(null);
 	const lastActiveRef = useRef(null);
+	const hoverIndexRef = useRef(null);
 	const [activeIndex, setActiveIndex] = useState(null);
+
+	// Floating CTA state
+	const [ctaVisible, setCtaVisible] = useState(false);
+	const [ctaColor, setCtaColor] = useState('red');
+
+	// Framer Motion values for cursor-following CTA
+	const mvX = useMotionValue(width / 2);
+	const mvY = useMotionValue(height / 2);
+	const springX = useSpring(mvX, springConfig);
+	const springY = useSpring(mvY, springConfig);
+	const scale = useSpring(0, springConfig);
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -91,6 +113,38 @@ export default function SectionCase({ data }) {
 		};
 	}, []);
 
+	// Floating CTA handlers
+	const onItemEnter = (e, colorName, index) => {
+		hoverIndexRef.current = index;
+		setCtaColor(colorName || 'brown');
+		setCtaVisible(true);
+		// position & spring in
+		mvX.set(e.clientX + 20);
+		mvY.set(e.clientY);
+		scale.set(1);
+		setActiveIndex(index);
+	};
+	const onItemLeave = () => {
+		hoverIndexRef.current = null;
+		setCtaVisible(false);
+		// spring out
+		scale.set(0);
+	};
+	const onItemMove = (e) => {
+		mvX.set(e.clientX + 20);
+		mvY.set(e.clientY);
+	};
+
+	useEffect(() => {
+		if (hoverIndexRef.current !== null) {
+			const idx = hoverIndexRef.current;
+			const item = caseItems?.[idx];
+			const colorName = item?.color?.title || 'red';
+			const isActive = idx === activeIndex;
+			setCtaColor(isActive ? colorName : 'brown');
+		}
+	}, [activeIndex, caseItems]);
+
 	return (
 		<section className="p-design__case" ref={sectionRef}>
 			<div className="p-design__case__header">
@@ -102,9 +156,12 @@ export default function SectionCase({ data }) {
 					let color = el?.color.title || 'red';
 
 					return (
-						<div
+						<button
 							key={i}
 							ref={(el) => (itemRefs.current[i] = el)}
+							onMouseEnter={(e) => onItemEnter(e, color, i)}
+							onMouseLeave={onItemLeave}
+							onMouseMove={onItemMove}
 							style={{ '--cr-primary': `var(--cr-${color}-d)` }}
 							className={clsx('p-design__case__list-item', {
 								'is-active': i === activeIndex,
@@ -120,7 +177,6 @@ export default function SectionCase({ data }) {
 												'--index': j,
 												'--rot': `${s.rot}deg`,
 												'--y': `${s.y}%`,
-												// '--delay': `${s.delay}s`,
 												'--dur': `${0.4 + j * 0.1}s`,
 											}}
 										>
@@ -131,19 +187,20 @@ export default function SectionCase({ data }) {
 							)}
 							<div className="p-design__case__list-item__title">
 								<h3 className="t-h-1">{el.title}</h3>
-								<Button
-									className={clsx('p-design__case__list-item__cta btn', {
-										[`cr-${color}-d`]: i === activeIndex,
-									})}
-								>
-									View Case Study
-								</Button>
 							</div>
 							<p className="t-h-5">{el.subtitle}</p>
-						</div>
+						</button>
 					);
 				})}
 			</div>
+			<motion.div
+				className={clsx('p-design__case__cta', { 'is-visible': ctaVisible })}
+				style={{ x: springX, y: springY, scale }}
+			>
+				<Button className={clsx('btn', `cr-${ctaColor}-d`)}>
+					View Case Study
+				</Button>
+			</motion.div>
 		</section>
 	);
 }
