@@ -9,7 +9,7 @@ import clsx from 'clsx';
 
 // Constants
 const ANIMATION_CONFIG = {
-	ROTATION_INTERVAL: 600,
+	ROTATION_INTERVAL: 1600,
 	MASKS_INTERVAL: 6000,
 	ROTATION_STEP: 30,
 	SCROLL_OFFSET: ['-250px start', '-104px start'],
@@ -190,23 +190,117 @@ const ClockBlock = ({ data, index, color }) => {
 	const ref = useRef(null);
 	const springScale = useScrollAnimation({ ref, index });
 
-	useEffect(() => {
-		if (!clockText?.length) return;
+	const centerRef = useRef(null);
+	const intervalRef = useRef(null);
+	const timeoutsRef = useRef([]);
+	const lastHandledRotationRef = useRef(0);
+	const rotationRef = useRef(0);
 
-		const interval = setInterval(() => {
-			setState((prev) => ({
-				textIndex: (prev.textIndex + 1) % clockText.length,
-				rotatingText: clockText[prev.textIndex].text,
-				rotation: (prev.rotation + ANIMATION_CONFIG.ROTATION_STEP) % 360,
+	const updateTextAfterRotation = useCallback(() => {
+		setState((prev) => {
+			const nextIndex = (prev.textIndex + 1) % clockText.length;
+			return {
+				...prev,
+				textIndex: nextIndex,
+				rotatingText: clockText[nextIndex].text,
 				color:
 					colorArray()[
 						Math.floor(Math.random() * colorArray.length)
 					].toLowerCase(),
-			}));
-		}, ANIMATION_CONFIG.ROTATION_INTERVAL);
-
-		return () => clearInterval(interval);
+			};
+		});
 	}, [clockText]);
+
+	const tick = useCallback(() => {
+		let nextRotation = 0;
+		setState((prev) => {
+			nextRotation = prev.rotation + ANIMATION_CONFIG.ROTATION_STEP;
+			rotationRef.current = nextRotation;
+			return {
+				...prev,
+				rotation: nextRotation,
+			};
+		});
+
+		const el = centerRef.current;
+		if (!el) return;
+
+		// Guard so text only updates once per rotation step
+		const maybeUpdateText = () => {
+			if (lastHandledRotationRef.current >= nextRotation) return; // already handled
+			lastHandledRotationRef.current = nextRotation;
+			updateTextAfterRotation();
+		};
+
+		let fired = false;
+		const onEnd = (e) => {
+			if (e.propertyName !== 'transform') return;
+			fired = true;
+			el.removeEventListener('transitionend', onEnd);
+			maybeUpdateText();
+		};
+
+		el.addEventListener('transitionend', onEnd);
+
+		// Fallback in case transitionend doesn't fire (e.g., user pref reduce-motion)
+		const tid = setTimeout(() => {
+			if (!fired) maybeUpdateText();
+		}, 400);
+		timeoutsRef.current.push(tid);
+	}, [updateTextAfterRotation]);
+
+	const startInterval = useCallback(() => {
+		if (intervalRef.current) return;
+		intervalRef.current = setInterval(tick, ANIMATION_CONFIG.ROTATION_INTERVAL);
+	}, [tick]);
+
+	const stopInterval = useCallback(() => {
+		if (intervalRef.current) {
+			clearInterval(intervalRef.current);
+			intervalRef.current = null;
+		}
+		// Clear any pending timeouts
+		timeoutsRef.current.forEach((t) => clearTimeout(t));
+		timeoutsRef.current = [];
+	}, []);
+
+	// Track page visibility
+	const [tabVisible, setTabVisible] = useState(
+		typeof document === 'undefined' ? true : !document.hidden
+	);
+	useEffect(() => {
+		const handleVisibility = () => setTabVisible(!document.hidden);
+		document.addEventListener('visibilitychange', handleVisibility);
+		return () =>
+			document.removeEventListener('visibilitychange', handleVisibility);
+	}, []);
+
+	// Track in-viewport using IntersectionObserver
+	const [inView, setInView] = useState(true);
+	useEffect(() => {
+		const node = ref.current;
+		if (!node) return;
+		const obs = new IntersectionObserver(
+			([entry]) => setInView(entry.isIntersecting),
+			{ root: null, threshold: 0.15 }
+		);
+		obs.observe(node);
+		return () => obs.disconnect();
+	}, []);
+
+	useEffect(() => {
+		if (clockText?.length && tabVisible && inView) {
+			// align handled-rotation with current so we don't double-fire on resume
+			lastHandledRotationRef.current = rotationRef.current;
+			startInterval();
+		} else {
+			stopInterval();
+		}
+
+		return () => {
+			stopInterval();
+		};
+	}, [clockText, tabVisible, inView, startInterval, stopInterval]);
 
 	return (
 		<div
@@ -243,6 +337,7 @@ const ClockBlock = ({ data, index, color }) => {
 						);
 					})}
 					<div
+						ref={centerRef}
 						className="p-design__clock__center"
 						style={{
 							transform: `translate3d(-50%, -50%, 0) rotate(${state.rotation}deg)`,
