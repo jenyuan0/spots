@@ -322,7 +322,7 @@ const ClockBlock = ({ data, index, color }) => {
 							}}
 						/>
 					))}
-					{clockText?.map((item, index) => {
+					{/* {clockText?.map((item, index) => {
 						return (
 							<div
 								key={`clock-image-${index}`}
@@ -335,7 +335,7 @@ const ClockBlock = ({ data, index, color }) => {
 								</div>
 							</div>
 						);
-					})}
+					})} */}
 					<div
 						ref={centerRef}
 						className="p-design__clock__center"

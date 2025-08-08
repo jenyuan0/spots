@@ -149,7 +149,7 @@ export default function SectionCase({ data }) {
 		<section className="p-design__case" ref={sectionRef}>
 			<div className="p-design__case__header">
 				<h2 className="t-h-1">{caseHeading}</h2>
-				<div className="t-h-5">​</div>
+				<div className="t-b-1">​</div>
 			</div>
 			<div className="p-design__case__list">
 				{caseItems?.map((el, i) => {
@@ -167,6 +167,12 @@ export default function SectionCase({ data }) {
 								'is-active': i === activeIndex,
 							})}
 						>
+							<h3 className="p-design__case__list-item__title t-h-1">
+								{el.title}
+							</h3>
+							<p className="p-design__case__list-item__subtitle t-b-1">
+								{el.subtitle}
+							</p>
 							{Array.isArray(el.thumbs) && el.thumbs.length > 0 && (
 								<div className={'p-design__case__list-item__images'}>
 									{(seeds[i] || []).map((s, j) => (
@@ -185,10 +191,6 @@ export default function SectionCase({ data }) {
 									))}
 								</div>
 							)}
-							<div className="p-design__case__list-item__title">
-								<h3 className="t-h-1">{el.title}</h3>
-							</div>
-							<p className="t-h-5">{el.subtitle}</p>
 						</button>
 					);
 				})}
