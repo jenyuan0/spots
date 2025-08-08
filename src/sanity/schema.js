@@ -28,6 +28,7 @@ import gLocations from './schemas/documents/g-locations';
 import gItinerariesDay from './schemas/documents/g-itineraries-day';
 import gItineraries from './schemas/documents/g-itineraries';
 import gGuides from './schemas/documents/g-guides';
+import gCases from './schemas/documents/g-cases';
 import gCategories from './schemas/documents/g-categories';
 import gSubcategories from './schemas/documents/g-subcategories';
 import gAuthors from './schemas/documents/g-authors';
@@ -75,6 +76,7 @@ const schemas = [
 	gItinerariesDay,
 	gItineraries,
 	gGuides,
+	gCases,
 	gCategories,
 	gSubcategories,
 	gAuthors,

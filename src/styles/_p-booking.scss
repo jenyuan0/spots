@@ -396,19 +396,5 @@
 }
 
 .p-booking__contact {
-	margin: var(--s-section) var(--padding-med);
-	padding: var(--s-5-v) var(--s-5-h);
-	box-shadow: var(--shadow-1);
-	background-color: var(--cr-white);
-	border-radius: var(--br-3);
-
-	.g-hotel-form {
-		max-width: 600px;
-		margin-inline: auto;
-	}
-
-	@include tabletDown {
-		padding: 30px 20px;
-		padding-top: 40px;
-	}
+	@include v2SectionContact;
 }

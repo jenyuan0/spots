@@ -48,16 +48,6 @@ export default defineType({
 			type: 'text',
 			rows: 4,
 		},
-		{
-			name: 'clockOffers',
-			type: 'array',
-			of: [
-				{
-					name: 'offer',
-					type: 'string',
-				},
-			],
-		},
 		callToAction({ name: 'clockCta' }),
 		{
 			name: 'clockText',
@@ -86,16 +76,6 @@ export default defineType({
 			rows: 4,
 		},
 		{
-			name: 'masksOffers',
-			type: 'array',
-			of: [
-				{
-					name: 'offer',
-					type: 'string',
-				},
-			],
-		},
-		{
 			name: 'masksImages',
 			type: 'array',
 			of: [customImage()],
@@ -113,34 +93,20 @@ export default defineType({
 			type: 'text',
 			rows: 4,
 		},
-		{
-			name: 'toggleOffers',
-			type: 'array',
-			of: [
-				{
-					name: 'offer',
-					type: 'string',
-				},
-			],
-		},
 		callToAction({ name: 'toggleCta' }),
 
 		{
-			name: 'itinerariesTitle',
+			name: 'caseHeading',
 			type: 'string',
 		},
 		{
-			name: 'itinerariesExcerpt',
-			type: 'portableTextSimple',
-		},
-		{
-			name: 'itinerariesItems',
+			name: 'caseItems',
 			type: 'array',
 			of: [
 				{
 					name: 'itinerary',
 					type: 'reference',
-					to: [{ type: 'gItineraries' }],
+					to: [{ type: 'gCases' }],
 				},
 			],
 		},

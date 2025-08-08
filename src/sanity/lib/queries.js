@@ -309,6 +309,22 @@ export const getItineraryData = (type) => {
 	return defaultData;
 };
 
+export const getCaseData = (type) => {
+	let defaultData = groq`
+    ${baseFields},
+    subtitle,
+    thumbs[]{
+      ${imageMetaFields}
+    },
+    color->{
+      ${colorMetaFields}
+    },`;
+	if (type !== 'card') {
+		defaultData += groq``;
+	}
+	return defaultData;
+};
+
 // Construct our content "modules" GROQ
 export const pageModules = groq`
   _type == 'freeform' => {
@@ -560,20 +576,22 @@ export const pageTravelDesignQuery = groq`
     introHeading,
     clockHeading,
     clockParagraph,
-    clockOffers,
     clockText,
     clockCta,
     masksHeading,
     masksParagraph,
-    masksOffers,
     masksCta,
     masksImages[]{
       ${imageMetaFields}
     },
     toggleHeading,
     toggleParagraph,
-    toggleOffers,
     toggleCta,
+
+    caseHeading,		
+    "caseItems": caseItems[]->{
+      ${getCaseData('card')}
+    },
 
     faqHeading,
     faqSubheading,
