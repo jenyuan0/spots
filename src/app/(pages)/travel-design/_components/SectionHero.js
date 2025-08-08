@@ -123,7 +123,7 @@ function HeroSpot({ index, data, boundary, isLastChild, scrollYProgress }) {
 	);
 }
 
-export default function HeroSection({ data }) {
+export default function SectionHero({ data }) {
 	const { heroHeading, heroSubheading, heroImage, heroSpots } = data || {};
 	const ref = useRef(null);
 	const [boundary, setBoundary] = useState({

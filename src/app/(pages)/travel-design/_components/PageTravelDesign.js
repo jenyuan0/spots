@@ -1,23 +1,22 @@
 'use client';
 
-import React, { useState } from 'react';
-import HeroSection from './HeroSection';
-import IntroSection from './IntroSection';
-import WhySection from './WhySection';
-import CaseSection from './CaseSection';
-
-// https://engine.com/
-// add: "easily book group travels"
-// Geared towards corporate retreats, group travels, or such that may require a "need"
-// consolidate notes on notion
+import React from 'react';
+import SectionHero from './SectionHero';
+import SectionIntro from './SectionIntro';
+import SectionWhy from './SectionWhy';
+import SectionCase from './SectionCase';
+import SectionFaq from '../../_components/SectionFaq';
+import SectionContact from '../../_components/SectionContact';
 
 export default function PageTravelDesign({ data }) {
 	return (
 		<>
-			<HeroSection data={data} />
-			<IntroSection data={data} />
-			<WhySection data={data} />
-			<CaseSection data={data} />
+			<SectionHero data={data} />
+			<SectionIntro data={data} />
+			<SectionWhy data={data} />
+			<SectionCase data={data} />
+			<SectionFaq data={data} />
+			<SectionContact data={data} />
 		</>
 	);
 }

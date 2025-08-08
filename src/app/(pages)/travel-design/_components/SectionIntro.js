@@ -1,11 +1,9 @@
 'use client';
 
 import React from 'react';
-import clsx from 'clsx';
 import CustomPortableText from '@/components/CustomPortableText';
-import Button from '@/components/Button';
 
-export default function IntroSection({ data }) {
+export default function SectionIntro({ data }) {
 	const { introTitle, introHeading } = data || {};
 
 	return (

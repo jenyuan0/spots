@@ -337,7 +337,7 @@ const ToggleBlock = ({ data, index, color }) => {
 	);
 };
 
-export default function WhySection({ data }) {
+export default function SectionWhy({ data }) {
 	return (
 		<div className="p-design__why">
 			<ClockBlock data={data} index={0} color={'red'} />
