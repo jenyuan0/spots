@@ -267,10 +267,16 @@
 }
 
 @mixin v2SectionFaq {
-	@include v2SectionHeader;
 	max-width: var(--width-sml);
 	margin-inline: auto;
 	margin-block: var(--s-section);
+
+	@include v2SectionHeader;
+
+	&__header {
+		max-width: 600px;
+		margin-inline: auto;
+	}
 
 	@media (hover: hover) {
 		.c-accordion__toggle {
@@ -307,6 +313,7 @@
 	.c-accordion__inner {
 		padding-top: var(--s-2-v);
 		padding-bottom: var(--s-4-v);
+		padding-left: 40px;
 	}
 
 	.c-accordion__content .wysiwyg-page {

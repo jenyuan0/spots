@@ -200,8 +200,6 @@ export default function Header({ data, isActive }) {
 		}
 	}, []);
 
-	console.log(pathname);
-
 	return (
 		<>
 			<header

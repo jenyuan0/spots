@@ -1,75 +1,38 @@
 import React, { Suspense, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { scrollEnable, scrollDisable } from '@/lib/helpers';
-import { client } from '@/sanity/lib/client';
 import { useSearchParams } from 'next/navigation';
 import useOutsideClick from '@/hooks/useOutsideClick';
 import useKey from '@/hooks/useKey';
 import useMagnify from '@/hooks/useMagnify';
 import useLightbox from '@/hooks/useLightbox';
 import MagnifyLocation from './MagnifyLocation';
-import { getLocationsData, fileMetaFields } from '@/sanity/lib/queries';
+import MagnifyCase from './MagnifyCase';
 
 export function Magnify() {
 	const [isActive, setIsActive] = useState(false);
-	const [isLoading, setIsLoading] = useState(false);
-	const [content, setContent] = useState({});
 	const [color, setColor] = useState('brown');
+	const [type, setType] = useState('location');
 	const [pageSlug, setPageSlug] = useState(null);
+	const [mParam, setMParam] = useState(null);
 	const { mag, clearMag } = useMagnify();
 	const { lightboxActive } = useLightbox();
 	const searchParams = useSearchParams();
 	const containerRef = useRef();
 	const timerRef = useRef();
 
-	const fetchLocationContent = async (mParam) => {
-		setIsLoading(true);
-
-		try {
-			const dataSlug = mParam.split('/').pop();
-			const [content, reservations] = await Promise.all([
-				client.fetch(
-					`*[_type == "gLocations" && slug.current == "${dataSlug}"][0]{
-						${getLocationsData()}
-					}`
-				),
-				client.fetch(`
-					*[_type == "gItineraries" && slug.current == "${pageSlug}"][0].reservations[]{
-						"location": location->{
-							_id
-						},
-						startTime,
-						endTime,
-						notes,
-						attachments[]{${fileMetaFields}}
-					}
-				`),
-			]);
-			setContent({
-				content: content,
-				reservations: reservations,
-			});
-			setColor(mag?.color || content.color || 'brown');
-			setIsActive(true);
-			scrollDisable();
-		} catch (error) {
-			console.error('Error fetching data:', error);
-		} finally {
-			setIsLoading(false);
-		}
-	};
-
 	useEffect(() => {
 		setPageSlug(window?.location.pathname?.split('/').pop());
 	}, []);
 
 	useEffect(() => {
-		const mParam = searchParams.get('m');
-		if (mParam) {
-			fetchLocationContent(mParam);
+		const m = searchParams.get('m');
+		if (m) {
+			setMParam(m);
+			setIsActive(true);
 		} else {
 			setIsActive(false);
-			scrollEnable();
+			setMParam(null);
 		}
 		return cleanup;
 	}, [searchParams]);
@@ -77,9 +40,14 @@ export function Magnify() {
 	useEffect(() => {
 		cleanup();
 
+		if (mag?.type) {
+			setType(mag?.type);
+		}
+
 		if (mag?.slug) {
 			const url = new URL(window.location.href);
 			const params = url.searchParams;
+			scrollDisable();
 
 			// Remove existing 'm' parameter if present
 			params.delete('m');
@@ -112,8 +80,8 @@ export function Magnify() {
 		}
 
 		timerRef.current = setTimeout(() => {
-			setContent({});
 			clearMag();
+			setMParam(null);
 
 			// Reset URL param
 			const url = new URL(window.location.href);
@@ -146,6 +114,7 @@ export function Magnify() {
 				'--cr-primary': `var(--cr-${color}-d)`,
 				'--cr-secondary': `var(--cr-${color}-l)`,
 			}}
+			data-type={type}
 			role="dialog"
 			aria-label="Content details"
 			aria-modal={isActive}
@@ -175,7 +144,22 @@ export function Magnify() {
 					</div>
 				</button>
 				<div className="g-magnify__body">
-					{content && !isLoading && <MagnifyLocation data={content} />}
+					{type === 'location' && (
+						<MagnifyLocation
+							key={mParam || 'location'}
+							mParam={mParam}
+							pageSlug={pageSlug}
+							onColorChange={(c) => setColor(c || 'brown')}
+						/>
+					)}
+					{type === 'case' && (
+						<MagnifyCase
+							key={mParam || 'case'}
+							mParam={mParam}
+							pageSlug={pageSlug}
+							onColorChange={(c) => setColor(c || 'brown')}
+						/>
+					)}
 				</div>
 			</div>
 		</div>

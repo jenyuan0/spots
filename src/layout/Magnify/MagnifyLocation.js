@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { hasArrayValue, formatAddress } from '@/lib/helpers';
 import Link from '@/components/CustomLink';
@@ -10,8 +10,66 @@ import CategoryPillList from '@/components/CategoryPillList';
 import LocationHighlights from '@/components/LocationHighlights';
 import useSearchHotel from '@/hooks/useSearchHotel';
 import useLightbox from '@/hooks/useLightbox';
+import { client } from '@/sanity/lib/client';
+import { getLocationsData, fileMetaFields } from '@/sanity/lib/queries';
 
-export default function MagnifyLocation({ data }) {
+export default function MagnifyLocation({ mParam, pageSlug, onColorChange }) {
+	const [locationContent, setLocationContent] = useState(null);
+	const [reservations, setReservations] = useState([]);
+	const [isLoaded, setIsLoaded] = useState(false);
+
+	// Hooks must be called unconditionally (before any early returns)
+	const { setSearchHotelActive, setSearchContent } = useSearchHotel();
+	const { setLightboxImages, setLightboxActive } = useLightbox();
+
+	useEffect(() => {
+		const fetchData = async () => {
+			if (!mParam) return;
+			try {
+				const dataSlug = mParam.split('/').pop();
+				const [content, resvs] = await Promise.all([
+					client.fetch(
+						`*[_type == "gLocations" && slug.current == "${dataSlug}"][0]{
+                ${getLocationsData()}
+              }`
+					),
+					client.fetch(`
+              *[_type == "gItineraries" && slug.current == "${pageSlug}"][0].reservations[]{
+                "location": location->{ _id },
+                startTime,
+                endTime,
+                notes,
+                attachments[]{${fileMetaFields}}
+              }
+            `),
+				]);
+				setLocationContent(content);
+				setReservations(resvs || []);
+				if (onColorChange) {
+					onColorChange(
+						(content &&
+							(content.color ||
+								content?.categories?.[0]?.color?.title?.toLowerCase())) ||
+							'brown'
+					);
+				}
+			} catch (e) {
+				console.error('Error fetching location content:', e);
+			}
+		};
+
+		if (!isLoaded) {
+			setIsLoaded(true);
+			fetchData();
+		}
+	}, [mParam, pageSlug, onColorChange]);
+
+	if (!isLoaded || !locationContent) {
+		return null;
+	}
+
+	const data = { content: locationContent, reservations };
+
 	const {
 		_id,
 		title,
@@ -21,19 +79,17 @@ export default function MagnifyLocation({ data }) {
 		categories,
 		subcategories,
 		highlights,
-		content,
+		content: contentBlocks,
 		contentItinerary,
 		urls,
 		fees,
 	} = data?.content || {};
-	const { setSearchHotelActive, setSearchContent } = useSearchHotel();
 	const res = data.reservations?.filter((r) => r.location._id === _id);
 	const addressString =
 		address &&
 		Object.values(address)
 			.filter((value) => value)
 			.join(', ');
-	const { setLightboxImages, setLightboxActive } = useLightbox();
 	const hasHotelCategory = categories?.some((cat) => cat?.slug === 'hotels');
 
 	return (
@@ -143,9 +199,9 @@ export default function MagnifyLocation({ data }) {
 					</ul>
 				</div>
 			)}
-			{content && (
+			{contentBlocks && (
 				<div className="g-magnify-locations__content wysiwyg-page">
-					<CustomPortableText blocks={content} />
+					<CustomPortableText blocks={contentBlocks} />
 				</div>
 			)}
 			{contentItinerary && (

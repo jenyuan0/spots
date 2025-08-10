@@ -8,6 +8,8 @@ import Button from '@/components/Button';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 import { springConfig } from '@/lib/helpers';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
+import useMagnify from '@/hooks/useMagnify';
+import useKey from '@/hooks/useKey';
 
 export default function SectionCase({ data }) {
 	const { caseHeading, caseItems } = data || {};
@@ -145,6 +147,21 @@ export default function SectionCase({ data }) {
 		}
 	}, [activeIndex, caseItems]);
 
+	const setMag = useMagnify((state) => state.setMag);
+	const { hasPressedKeys } = useKey();
+
+	const handleDetailsClick = (e, slug) => {
+		if (!hasPressedKeys) {
+			e.preventDefault();
+			setMag({
+				slug,
+				type: 'case',
+			});
+		}
+	};
+
+	if (!isMounted) return false;
+
 	return (
 		<section className="p-design__case" ref={sectionRef}>
 			<div className="p-design__case__header">
@@ -153,6 +170,7 @@ export default function SectionCase({ data }) {
 			</div>
 			<div className="p-design__case__list">
 				{caseItems?.map((el, i) => {
+					let slug = el.slug;
 					let color = el?.color.title || 'red';
 
 					return (
@@ -162,6 +180,9 @@ export default function SectionCase({ data }) {
 							onMouseEnter={(e) => onItemEnter(e, color, i)}
 							onMouseLeave={onItemLeave}
 							onMouseMove={onItemMove}
+							onClick={(e) => {
+								handleDetailsClick(e, slug);
+							}}
 							style={{ '--cr-primary': `var(--cr-${color}-d)` }}
 							className={clsx('p-design__case__list-item', {
 								'is-active': i === activeIndex,
