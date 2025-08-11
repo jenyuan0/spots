@@ -6,7 +6,7 @@ import PlannerForm from '@/components/PlannerForm';
 export default function SectionContact() {
 	return (
 		<section className={'p-design__contact'}>
-			<PlannerForm type={'design'} />
+			<PlannerForm plan={'design'} />
 		</section>
 	);
 }

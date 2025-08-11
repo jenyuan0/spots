@@ -52,7 +52,7 @@ export default function SectionCase({ data }) {
 	useEffect(() => {
 		const handleScroll = () => {
 			// Alignment line for ALL items (matches sticky title at ~40% from top)
-			const targetY = window.innerHeight * 0.5;
+			const targetY = window.innerHeight * 0.55;
 			const firstActivateY = targetY;
 			// Guard: last should deactivate once scrolled past ~15% from top
 			const lastDeactivateY = window.innerHeight * 0.15;

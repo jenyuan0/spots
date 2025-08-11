@@ -115,7 +115,7 @@ export default function MagnifyCase({ mParam, pageSlug, onColorChange }) {
 						});
 					}}
 				>
-					Plan Your Own Trip
+					Plan Your Trip
 				</Button>
 			</div>
 			<div className="g-magnify-cases__content wysiwyg-page">

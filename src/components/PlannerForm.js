@@ -28,7 +28,7 @@ function getWhoMessage([adults, children, pets]) {
 	return parts.join(', ');
 }
 
-export default function PlannerForm({ data }) {
+export default function PlannerForm({ data, plan }) {
 	const { isTabletScreen } = useWindowDimensions();
 	const [isMounted, setIsMounted] = useState(false);
 	const [content, setContent] = useState();
@@ -134,14 +134,15 @@ export default function PlannerForm({ data }) {
 	}, []);
 
 	useEffect(() => {
-		setType(data?.type || null);
+		setType(plan || data?.type);
+
 		if (content) {
 			const newHeading = data?.heading ?? content.contactHeading ?? '';
 			const newSubheading = data?.subheading ?? content.contactSubheading ?? '';
 			setFormText({ heading: newHeading, subheading: newSubheading });
 			setSubject(data?.subject ?? content.contactSubject ?? '');
 		}
-	}, [content, data]);
+	}, [content, plan, data]);
 
 	const computedMessage = useMemo(() => {
 		let parts = ['Hi,'];

@@ -5,8 +5,8 @@ import SectionHero from './SectionHero';
 import SectionIntro from './SectionIntro';
 import SectionWhy from './SectionWhy';
 import SectionCase from './SectionCase';
-import SectionFaq from '../../_components/SectionFaq';
-import SectionContact from '../../_components/SectionContact';
+import SectionFaq from './SectionFaq';
+import SectionContact from './SectionContact';
 
 export default function PageTravelDesign({ data }) {
 	return (

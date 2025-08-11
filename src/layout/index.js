@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { scrollEnable } from '@/lib/helpers';
 import { usePathname } from 'next/navigation';
 import { client } from '@/sanity/lib/client';
 import { siteSetup } from '@/hooks/useVsSetup';
@@ -11,7 +10,6 @@ import Announcement from './Announcement';
 import Footer from './Footer';
 import Header from './Header';
 import Main from './Main';
-import AsideMap from './AsideMap';
 import Magnify from './Magnify';
 import Lightbox from './Lightbox';
 import Planner from './Planner';
@@ -37,8 +35,6 @@ export default function Layout({ children, siteData }) {
 	}, []);
 
 	useEffect(() => {
-		// scrollEnable();
-
 		if (siteData?.integrations?.gaID) {
 			gtag.pageview(pathname, siteData.integrations.gaID);
 		}
