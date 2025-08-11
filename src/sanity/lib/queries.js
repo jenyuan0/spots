@@ -320,7 +320,19 @@ export const getCaseData = (type) => {
       ${colorMetaFields}
     },`;
 	if (type !== 'card') {
-		defaultData += groq``;
+		defaultData += groq`
+			heroImage{
+				${imageMetaFields}
+			},
+      introduction,
+			offers,
+			content[]{
+				${portableTextObj}
+			},
+      accomodations[]->{
+        ${getLocationsData('card')}
+      },
+		`;
 	}
 	return defaultData;
 };

@@ -29,6 +29,39 @@ export default defineType({
 				layout: 'grid',
 			},
 		},
+		customImage({ name: 'heroImage' }),
+		{
+			name: 'introduction',
+			type: 'text',
+			rows: 4,
+		},
+		{
+			name: 'offers',
+			type: 'array',
+			of: [
+				{
+					name: 'offer',
+					type: 'string',
+				},
+			],
+		},
+		{
+			name: 'accomodations',
+			type: 'array',
+			of: [
+				{
+					type: 'reference',
+					to: [{ type: 'gLocations' }],
+					options: {
+						filter: `_type == "gLocations" && references(*[_type == "gCategories" && slug.current == "hotels"]._id)`,
+					},
+				},
+			],
+		},
+		{
+			name: 'content',
+			type: 'portableText',
+		},
 		sharing(),
 	],
 	preview: {

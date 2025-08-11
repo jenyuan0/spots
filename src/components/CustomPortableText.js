@@ -73,7 +73,32 @@ export default function CustomPortableText({ blocks, hasPTag = true }) {
 				number: ({ children }) => <ol>{children}</ol>,
 			},
 			types: {
-				image: (data) => <Image data={data?.value} />,
+				image: (data) => (
+					<div className="c-image-columns">
+						<div className="c-image-columns__item">
+							<Image data={data?.value} />
+						</div>
+					</div>
+				),
+				imageColumns: (data) => {
+					const { value } = data;
+
+					if (!value?.items) return null;
+
+					return (
+						<div className="c-image-columns">
+							{value.items.map((item, i) => (
+								<div key={`image-${i}`} className="c-image-columns__item">
+									{item._type == 'image' ? (
+										<Image data={item} />
+									) : (
+										<Iframe data={item} />
+									)}
+								</div>
+							))}
+						</div>
+					);
+				},
 				iframe: (data) => <Iframe data={data?.value} />,
 				portableTable: (data) => {
 					return <PortableTable blocks={data?.value} />;
@@ -88,9 +113,7 @@ export default function CustomPortableText({ blocks, hasPTag = true }) {
 							{value.items.map((item, i) => (
 								<div key={`image-${i}`} className="c-carousel-item">
 									{item._type == 'image' ? (
-										<>
-											<Image data={item} />
-										</>
+										<Image data={item} />
 									) : (
 										<Iframe data={item} />
 									)}

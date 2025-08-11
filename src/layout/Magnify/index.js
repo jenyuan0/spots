@@ -2,7 +2,6 @@ import React, { Suspense, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { scrollEnable, scrollDisable } from '@/lib/helpers';
 import { useSearchParams } from 'next/navigation';
-import useOutsideClick from '@/hooks/useOutsideClick';
 import useKey from '@/hooks/useKey';
 import useMagnify from '@/hooks/useMagnify';
 import useLightbox from '@/hooks/useLightbox';
@@ -27,12 +26,17 @@ export function Magnify() {
 
 	useEffect(() => {
 		const m = searchParams.get('m');
+		const t = searchParams.get('t');
+		console.log(m);
 		if (m) {
+			if (t) setType(t);
 			setMParam(m);
 			setIsActive(true);
+			scrollDisable();
 		} else {
 			setIsActive(false);
 			setMParam(null);
+			scrollEnable();
 		}
 		return cleanup;
 	}, [searchParams]);
@@ -40,25 +44,19 @@ export function Magnify() {
 	useEffect(() => {
 		cleanup();
 
-		if (mag?.type) {
-			setType(mag?.type);
-		}
+		if (mag?.type) setType(mag?.type);
 
 		if (mag?.slug) {
 			const url = new URL(window.location.href);
 			const params = url.searchParams;
-			scrollDisable();
 
-			// Remove existing 'm' parameter if present
-			params.delete('m');
-
-			// Add new 'm' parameter
+			// Add/replace params
 			const mValue = `/${mag.slug}`;
+			params.set('m', mValue);
+			params.set('t', mag?.type);
 
-			// If there are other params, append with &m=, otherwise use ?m=
-			const separator = params.toString() ? '&' : '?';
-			const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}${separator}m=${mValue}`;
-
+			// Build URL with both params
+			const newUrl = `${window.location.pathname}?${params.toString()}`;
 			window.history.pushState({}, '', newUrl);
 		}
 	}, [mag]);
@@ -74,7 +72,6 @@ export function Magnify() {
 		if (!isActive) return;
 
 		setIsActive(false);
-		scrollEnable();
 		if (timerRef.current) {
 			clearTimeout(timerRef.current);
 		}
@@ -88,14 +85,13 @@ export function Magnify() {
 			const params = url.searchParams;
 
 			params.delete('m');
+			params.delete('t');
 
 			// Construct new URL with remaining parameters
 			const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
 			window.history.pushState({}, '', newUrl);
 		}, 500);
 	};
-
-	// useOutsideClick(containerRef, handleClose, 'g-lightbox');
 
 	// TODO
 	// having to click esc twice in order to close magnify

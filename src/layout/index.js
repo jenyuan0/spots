@@ -37,7 +37,7 @@ export default function Layout({ children, siteData }) {
 	}, []);
 
 	useEffect(() => {
-		scrollEnable();
+		// scrollEnable();
 
 		if (siteData?.integrations?.gaID) {
 			gtag.pageview(pathname, siteData.integrations.gaID);

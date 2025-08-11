@@ -15,6 +15,7 @@ import { getLocationsData, fileMetaFields } from '@/sanity/lib/queries';
 
 export default function MagnifyLocation({ mParam, pageSlug, onColorChange }) {
 	const [locationContent, setLocationContent] = useState(null);
+	const [color, setColor] = useState(null);
 	const [reservations, setReservations] = useState([]);
 	const [isLoaded, setIsLoaded] = useState(false);
 
@@ -43,16 +44,16 @@ export default function MagnifyLocation({ mParam, pageSlug, onColorChange }) {
               }
             `),
 				]);
+				const contentColor =
+					(content &&
+						(content.color ||
+							content?.categories?.[0]?.color?.title?.toLowerCase())) ||
+					'brown';
+
 				setLocationContent(content);
 				setReservations(resvs || []);
-				if (onColorChange) {
-					onColorChange(
-						(content &&
-							(content.color ||
-								content?.categories?.[0]?.color?.title?.toLowerCase())) ||
-							'brown'
-					);
-				}
+				setColor(contentColor);
+				if (onColorChange) onColorChange(contentColor);
 			} catch (e) {
 				console.error('Error fetching location content:', e);
 			}
@@ -108,7 +109,7 @@ export default function MagnifyLocation({ mParam, pageSlug, onColorChange }) {
 			{hasHotelCategory && (
 				<div className="g-magnify-locations__cta">
 					<Button
-						className={`btn cr-green-d`}
+						className={`btn cr-${color}-d`}
 						onClick={() => {
 							setSearchHotelActive(true);
 							setSearchContent({
