@@ -13,13 +13,13 @@ import LocationCard from '@/components/LocationCard';
 import ResponsiveGrid from '@/components/ResponsiveGrid';
 import { client } from '@/sanity/lib/client';
 import { getCaseData } from '@/sanity/lib/queries';
-import useSearchHotel from '@/hooks/useSearchHotel';
+import usePlanner from '@/hooks/usePlanner';
 
 export default function MagnifyCase({ mParam, pageSlug, onColorChange }) {
 	const [caseContent, setCaseContent] = useState(null);
 	const [color, setColor] = useState(null);
 	const [isLoaded, setIsLoaded] = useState(false);
-	const { setSearchHotelActive } = useSearchHotel();
+	const { setPlannerActive, setPlannerContent } = usePlanner();
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -70,7 +70,7 @@ export default function MagnifyCase({ mParam, pageSlug, onColorChange }) {
 				<div className="t-h-4">Plan your trip right away</div>
 				<Button
 					className={`btn cr-${color}-d`}
-					onClick={() => setSearchHotelActive(true)}
+					onClick={() => setPlannerActive(true)}
 				>
 					Plan Your Trip
 				</Button>
@@ -108,7 +108,12 @@ export default function MagnifyCase({ mParam, pageSlug, onColorChange }) {
 				)}
 				<Button
 					className={`btn cr-${color}-d`}
-					onClick={() => setSearchHotelActive(true)}
+					onClick={() => {
+						setPlannerActive(true);
+						setPlannerContent({
+							type: 'design',
+						});
+					}}
 				>
 					Plan Your Own Trip
 				</Button>

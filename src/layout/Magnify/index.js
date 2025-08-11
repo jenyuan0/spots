@@ -27,7 +27,7 @@ export function Magnify() {
 	useEffect(() => {
 		const m = searchParams.get('m');
 		const t = searchParams.get('t');
-		console.log(m);
+
 		if (m) {
 			if (t) setType(t);
 			setMParam(m);

@@ -1,12 +1,12 @@
 'use client';
 
 import React from 'react';
-import HotelForm from '@/components/HotelForm';
+import PlannerForm from '@/components/PlannerForm';
 
 export default function SectionContact() {
 	return (
 		<section className={'p-design__contact'}>
-			<HotelForm />
+			<PlannerForm type={'design'} />
 		</section>
 	);
 }

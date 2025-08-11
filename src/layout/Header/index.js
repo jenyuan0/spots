@@ -4,7 +4,7 @@ import { scrollEnable, scrollDisable } from '@/lib/helpers';
 import Link from '@/components/CustomLink';
 import MobileMenuTrigger from './mobile-menu-trigger';
 import Button from '@/components/Button';
-import useSearchHotel from '@/hooks/useSearchHotel';
+import usePlanner from '@/hooks/usePlanner';
 import { motion } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import { checkIfActive } from '@/lib/routes';
@@ -132,7 +132,7 @@ export default function Header({ data, isActive }) {
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 	const [isScrolled, setIsScrolled] = useState(false);
 	const [isTransparent, setIsTransparent] = useState(false);
-	const { setSearchHotelActive } = useSearchHotel();
+	const { setPlannerActive, setPlannerContent } = usePlanner();
 
 	useEffect(() => {
 		if (!ref?.current) return;
@@ -185,20 +185,6 @@ export default function Header({ data, isActive }) {
 
 		setIsTransparent(isNonCategoryPage);
 	}, [pathname]);
-
-	useEffect(() => {
-		if (typeof window === 'undefined') return;
-
-		const params = new URLSearchParams(window.location.search);
-		const shouldTrigger = params.get('s') === 'true';
-
-		if (shouldTrigger) {
-			setSearchHotelActive(true);
-
-			const cleanUrl = window.location.pathname;
-			window.history.replaceState({}, '', cleanUrl);
-		}
-	}, []);
 
 	return (
 		<>
@@ -271,7 +257,10 @@ export default function Header({ data, isActive }) {
 					{pathname === '/' && (
 						<Button
 							className="btn-underline js-gtm-search"
-							onClick={() => setSearchHotelActive(true)}
+							onClick={() => {
+								setPlannerActive(true);
+								setPlannerContent({ type: 'hotel' });
+							}}
 						>
 							Search Hotel
 						</Button>
@@ -279,7 +268,10 @@ export default function Header({ data, isActive }) {
 					{pathname === '/travel-design' && (
 						<Button
 							className="btn-underline js-gtm-plan"
-							onClick={() => setSearchHotelActive(true)}
+							onClick={() => {
+								setPlannerActive(true);
+								setPlannerContent({ type: 'design' });
+							}}
 						>
 							Plan Your Trip
 						</Button>

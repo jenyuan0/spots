@@ -140,6 +140,22 @@ export default defineType({
 				},
 			],
 		},
+		{
+			name: 'contactHeading',
+			type: 'string',
+		},
+		{
+			name: 'contactSubheading',
+			type: 'string',
+		},
+		{
+			name: 'contactPlaceholder',
+			type: 'string',
+		},
+		{
+			name: 'contactSubject',
+			type: 'string',
+		},
 		sharing(),
 	],
 	preview: {

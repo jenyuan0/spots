@@ -8,7 +8,7 @@ import Button from '@/components/Button';
 import Carousel from '@/components/Carousel';
 import CategoryPillList from '@/components/CategoryPillList';
 import LocationHighlights from '@/components/LocationHighlights';
-import useSearchHotel from '@/hooks/useSearchHotel';
+import usePlanner from '@/hooks/usePlanner';
 import useLightbox from '@/hooks/useLightbox';
 import { client } from '@/sanity/lib/client';
 import { getLocationsData, fileMetaFields } from '@/sanity/lib/queries';
@@ -20,7 +20,7 @@ export default function MagnifyLocation({ mParam, pageSlug, onColorChange }) {
 	const [isLoaded, setIsLoaded] = useState(false);
 
 	// Hooks must be called unconditionally (before any early returns)
-	const { setSearchHotelActive, setSearchContent } = useSearchHotel();
+	const { setPlannerActive, setPlannerContent } = usePlanner();
 	const { setLightboxImages, setLightboxActive } = useLightbox();
 
 	useEffect(() => {
@@ -111,8 +111,8 @@ export default function MagnifyLocation({ mParam, pageSlug, onColorChange }) {
 					<Button
 						className={`btn cr-${color}-d`}
 						onClick={() => {
-							setSearchHotelActive(true);
-							setSearchContent({
+							setPlannerActive(true);
+							setPlannerContent({
 								heading: 'Unlock Insider Rate & Perks',
 								subject: `Rate & Perks for ${title}`,
 								where: title,

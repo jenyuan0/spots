@@ -21,7 +21,7 @@ export default function LocationList({ data }) {
 							key={`item-${index}`}
 							data={item}
 							layout={'horizontal-1'}
-							hasDirection={true}
+							hasDirection={false}
 						/>
 					))}
 				</ResponsiveGrid>
