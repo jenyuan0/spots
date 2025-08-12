@@ -1,4 +1,10 @@
-import React, { Suspense, useEffect, useRef, useState } from 'react';
+import React, {
+	Suspense,
+	useEffect,
+	useRef,
+	useState,
+	useCallback,
+} from 'react';
 import clsx from 'clsx';
 import { scrollEnable, scrollDisable } from '@/lib/helpers';
 import { useSearchParams } from 'next/navigation';
@@ -7,10 +13,16 @@ import useMagnify from '@/hooks/useMagnify';
 import useLightbox from '@/hooks/useLightbox';
 import MagnifyLocation from './MagnifyLocation';
 import MagnifyCase from './MagnifyCase';
+import Button from '@/components/Button';
+import usePlanner from '@/hooks/usePlanner';
 
 export function Magnify() {
 	const [isActive, setIsActive] = useState(false);
 	const [color, setColor] = useState('brown');
+	const [locMeta, setLocMeta] = useState({
+		hasHotelCategory: false,
+		title: '',
+	});
 	const [type, setType] = useState('location');
 	const [pageSlug, setPageSlug] = useState(null);
 	const [mParam, setMParam] = useState(null);
@@ -19,6 +31,15 @@ export function Magnify() {
 	const searchParams = useSearchParams();
 	const containerRef = useRef();
 	const timerRef = useRef();
+	const { setPlannerActive, setPlannerContent } = usePlanner();
+
+	const handleMeta = useCallback((meta) => {
+		setLocMeta(meta);
+	}, []);
+
+	const handleColorChange = useCallback((c) => {
+		setColor(c || 'brown');
+	}, []);
 
 	useEffect(() => {
 		setPageSlug(window?.location.pathname?.split('/').pop());
@@ -110,7 +131,6 @@ export function Magnify() {
 				'--cr-primary': `var(--cr-${color}-d)`,
 				'--cr-secondary': `var(--cr-${color}-l)`,
 			}}
-			data-type={type}
 			role="dialog"
 			aria-label="Content details"
 			aria-modal={isActive}
@@ -121,31 +141,61 @@ export function Magnify() {
 				onClick={handleClose}
 			/>
 			<div className="g-magnify__content">
-				<button
-					type="button"
-					className="g-magnify__toggle"
-					onClick={handleClose}
-				>
-					<div
-						className={clsx(
-							'g-magnify__toggle__label',
-							'pill',
-							`cr-${color}-l`
-						)}
+				<div className="g-magnify__header">
+					<button
+						type="button"
+						className="g-magnify__toggle"
+						onClick={handleClose}
 					>
-						Close
-					</div>
-					<div className="g-magnify__toggle__icon trigger">
-						<div className="icon-close" />
-					</div>
-				</button>
+						<div
+							className={clsx(
+								'g-magnify__toggle__label',
+								'pill',
+								`cr-${color}-l`
+							)}
+						>
+							Close
+						</div>
+						<div className="g-magnify__toggle__icon trigger">
+							<div className="icon-close" />
+						</div>
+					</button>
+					{type === 'location' && locMeta.hasHotelCategory ? (
+						<Button
+							className={`btn cr-${color}-d`}
+							onClick={() => {
+								setPlannerActive(true);
+								setPlannerContent({
+									heading: 'Unlock Insider Rate & Perks',
+									subject: `Rate & Perks for ${locMeta.title}`,
+									where: locMeta.title,
+								});
+							}}
+						>
+							Unlock Insider Rates
+						</Button>
+					) : (
+						<Button
+							className={`btn cr-${color}-d`}
+							onClick={() => {
+								setPlannerActive(true);
+								setPlannerContent({
+									type: 'design',
+								});
+							}}
+						>
+							Plan Your Trip
+						</Button>
+					)}
+				</div>
 				<div className="g-magnify__body">
 					{type === 'location' && (
 						<MagnifyLocation
 							key={mParam || 'location'}
 							mParam={mParam}
 							pageSlug={pageSlug}
-							onColorChange={(c) => setColor(c || 'brown')}
+							onColorChange={handleColorChange}
+							onMeta={handleMeta}
 						/>
 					)}
 					{type === 'case' && (
@@ -153,7 +203,7 @@ export function Magnify() {
 							key={mParam || 'case'}
 							mParam={mParam}
 							pageSlug={pageSlug}
-							onColorChange={(c) => setColor(c || 'brown')}
+							onColorChange={handleColorChange}
 						/>
 					)}
 				</div>

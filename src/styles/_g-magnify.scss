@@ -47,10 +47,22 @@
 			transform var(--t-2);
 	}
 
+	&__header {
+		--height: 60px;
+		position: sticky;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		height: var(--height);
+		top: 0;
+		padding-right: 5px;
+		background-color: var(--cr-cream);
+		border-bottom: 1px solid;
+		z-index: 205;
+	}
+
 	&__toggle {
 		@include asideToggle;
-		top: 40px;
-		z-index: 205;
 	}
 
 	&__body {
@@ -156,8 +168,16 @@
 	}
 }
 
-.g-magnify[data-type='case'] .g-magnify__content {
-	width: Min(2400px, 90vw);
+.g-magnify:has(.g-magnify-cases) .g-magnify {
+	&__header {
+		margin-bottom: calc(-1 * var(--height));
+		background-color: transparent;
+		border-bottom: unset;
+	}
+
+	&__content {
+		width: Min(2400px, 90vw);
+	}
 }
 
 .g-magnify-cases {

@@ -7,7 +7,7 @@
 	height: clamp(
 		400px,
 		calc(var(--s-vp-height) * 0.9 - var(--s-header-space) - var(--s-contain)),
-		800px
+		1000px
 	);
 	margin-top: var(--s-header);
 	color: var(--cr-cream);

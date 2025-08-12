@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { format } from 'date-fns';
 import { hasArrayValue, formatAddress } from '@/lib/helpers';
 import Link from '@/components/CustomLink';
@@ -13,14 +13,16 @@ import useLightbox from '@/hooks/useLightbox';
 import { client } from '@/sanity/lib/client';
 import { getLocationsData, fileMetaFields } from '@/sanity/lib/queries';
 
-export default function MagnifyLocation({ mParam, pageSlug, onColorChange }) {
+export default function MagnifyLocation({
+	mParam,
+	pageSlug,
+	onColorChange,
+	onMeta,
+}) {
 	const [locationContent, setLocationContent] = useState(null);
 	const [color, setColor] = useState(null);
 	const [reservations, setReservations] = useState([]);
 	const [isLoaded, setIsLoaded] = useState(false);
-
-	// Hooks must be called unconditionally (before any early returns)
-	const { setPlannerActive, setPlannerContent } = usePlanner();
 	const { setLightboxImages, setLightboxActive } = useLightbox();
 
 	useEffect(() => {
@@ -65,6 +67,29 @@ export default function MagnifyLocation({ mParam, pageSlug, onColorChange }) {
 		}
 	}, [mParam, pageSlug, onColorChange]);
 
+	// --- meta for parent (must run before any early return) ---
+	const metaTitle = locationContent?.title || '';
+	const metaHasHotelCategory = Array.isArray(locationContent?.categories)
+		? locationContent.categories.some((cat) => cat?.slug === 'hotels')
+		: false;
+	const lastMetaRef = useRef({ hasHotelCategory: false, title: '' });
+
+	useEffect(() => {
+		const nextMeta = {
+			hasHotelCategory: metaHasHotelCategory,
+			title: metaTitle,
+		};
+		const prev = lastMetaRef.current;
+		if (
+			prev.hasHotelCategory !== nextMeta.hasHotelCategory ||
+			prev.title !== nextMeta.title
+		) {
+			lastMetaRef.current = nextMeta;
+			if (onMeta) onMeta(nextMeta);
+		}
+	}, [metaHasHotelCategory, metaTitle, onMeta]);
+	// --- end meta ---
+
 	if (!isLoaded || !locationContent) {
 		return null;
 	}
@@ -105,23 +130,6 @@ export default function MagnifyLocation({ mParam, pageSlug, onColorChange }) {
 					{/* <Link href={`/paris/locations/${slug}`}>{title}</Link> */}
 					{title}
 				</h2>
-			)}
-			{hasHotelCategory && (
-				<div className="g-magnify-locations__cta">
-					<Button
-						className={`btn cr-${color}-d`}
-						onClick={() => {
-							setPlannerActive(true);
-							setPlannerContent({
-								heading: 'Unlock Insider Rate & Perks',
-								subject: `Rate & Perks for ${title}`,
-								where: title,
-							});
-						}}
-					>
-						Unlock Insider Rates
-					</Button>
-				</div>
 			)}
 			{res?.length > 0 && (
 				<div className="g-magnify-locations__res wysiwyg-b-1">

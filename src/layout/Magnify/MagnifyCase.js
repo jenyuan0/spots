@@ -1,18 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { format } from 'date-fns';
-import { hasArrayValue, formatAddress } from '@/lib/helpers';
-import Link from '@/components/CustomLink';
+import { client } from '@/sanity/lib/client';
+import { getCaseData } from '@/sanity/lib/queries';
 import Img from '@/components/Image';
 import CustomPortableText from '@/components/CustomPortableText';
 import Button from '@/components/Button';
-import Carousel from '@/components/Carousel';
-import CategoryPillList from '@/components/CategoryPillList';
-import LocationHighlights from '@/components/LocationHighlights';
-
 import LocationCard from '@/components/LocationCard';
 import ResponsiveGrid from '@/components/ResponsiveGrid';
-import { client } from '@/sanity/lib/client';
-import { getCaseData } from '@/sanity/lib/queries';
 import usePlanner from '@/hooks/usePlanner';
 
 export default function MagnifyCase({ mParam, pageSlug, onColorChange }) {
@@ -66,16 +59,6 @@ export default function MagnifyCase({ mParam, pageSlug, onColorChange }) {
 
 	return (
 		<div className="g-magnify-cases">
-			{/* <div className="g-magnify-cases__header">
-				<div className="t-h-4">Plan your trip right away</div>
-				<Button
-					className={`btn cr-${color}-d`}
-					onClick={() => setPlannerActive(true)}
-				>
-					Plan Your Trip
-				</Button>
-			</div> */}
-
 			<div className="g-magnify-cases__hero">
 				{heroImage && (
 					<span className="g-magnify-cases__hero__image object-fit">
