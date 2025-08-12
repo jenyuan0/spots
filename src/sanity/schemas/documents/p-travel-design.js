@@ -20,6 +20,7 @@ export default defineType({
 			name: 'heroSubheading',
 			type: 'string',
 		},
+		customImage({ name: 'heroImage' }),
 		{
 			name: 'heroSpots',
 			type: 'array',
@@ -31,14 +32,24 @@ export default defineType({
 			],
 		},
 		{
-			name: 'introTitle',
+			name: 'caseHeading',
 			type: 'string',
 		},
 		{
-			name: 'introHeading',
-			type: 'portableTextSimple',
+			name: 'caseItems',
+			type: 'array',
+			of: [
+				{
+					name: 'itinerary',
+					type: 'reference',
+					to: [{ type: 'gCases' }],
+				},
+			],
 		},
-		callToAction({ name: 'introCta' }),
+		{
+			name: 'whyHeading',
+			type: 'string',
+		},
 		{
 			name: 'clockHeading',
 			type: 'string',
@@ -94,23 +105,6 @@ export default defineType({
 			rows: 4,
 		},
 		callToAction({ name: 'toggleCta' }),
-
-		{
-			name: 'caseHeading',
-			type: 'string',
-		},
-		{
-			name: 'caseItems',
-			type: 'array',
-			of: [
-				{
-					name: 'itinerary',
-					type: 'reference',
-					to: [{ type: 'gCases' }],
-				},
-			],
-		},
-
 		{
 			name: 'faqHeading',
 			type: 'string',

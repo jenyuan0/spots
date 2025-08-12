@@ -131,20 +131,11 @@ export default function SectionHero({ data }) {
 		height: 0,
 	});
 	const [spots, setSpots] = useState([]);
-	const [isNudgeActive, setIsNudgeActive] = useState(true);
 	const { scrollYProgress } = useScroll({
 		target: ref,
 		offset: ['start start', 'end start'],
 	});
 	const { isMobileScreen } = useWindowDimensions();
-
-	useEffect(() => {
-		const scroll = scrollYProgress.onChange((value) => {
-			setIsNudgeActive(value >= 0.15 ? false : true);
-		});
-
-		return () => scroll();
-	}, [scrollYProgress]);
 
 	useEffect(() => {
 		const handleResize = () => {
@@ -205,10 +196,6 @@ export default function SectionHero({ data }) {
 		return () => window.removeEventListener('resize', generateSpots);
 	}, [heroSpots, boundary]);
 
-	useEffect(() => {
-		const lastSpot = heroSpots[heroSpots.length - 1];
-	});
-
 	// Use useMemo to prevent re-renders
 	const spotElements = useMemo(() => {
 		return heroSpots && spots.length
@@ -231,17 +218,9 @@ export default function SectionHero({ data }) {
 			: null;
 	}, [heroSpots, spots, scrollYProgress]);
 
-	const motionScale = useTransform(scrollYProgress, [0, 1], [1, 0.85]);
-	// const springScale = useSpring(motionScale, springConfig);
-
 	return (
 		<section ref={ref} className="p-design__hero">
-			<motion.div
-				className={'p-design__hero__image p-fill'}
-				// style={{
-				// 	scale: motionScale,
-				// }}
-			>
+			<motion.div className={'p-design__hero__image p-fill'}>
 				<div className="object-fit">
 					{heroImage && <Img image={heroImage} />}
 				</div>
@@ -256,21 +235,6 @@ export default function SectionHero({ data }) {
 				{heroSubheading && (
 					<h2 className="p-design__hero__subheading t-h-3">{heroSubheading}</h2>
 				)}
-			</div>
-			<div
-				className={clsx('p-design__hero__nudge', {
-					'is-active': isNudgeActive,
-				})}
-			>
-				{Array(3)
-					.fill(null)
-					.map((_, i) => (
-						<div
-							key={`hero-nudge-dot-${i}`}
-							style={{ '--index': i }}
-							className="p-design__hero__nudge-dot"
-						/>
-					))}
 			</div>
 		</section>
 	);

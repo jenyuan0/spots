@@ -316,6 +316,9 @@ export const getCaseData = (type) => {
     thumbs[]{
       ${imageMetaFields}
     },
+		"images": thumbs[]{
+			${imageMetaFields}
+		},
     color->{
       ${colorMetaFields}
     },`;
@@ -584,8 +587,11 @@ export const pageTravelDesignQuery = groq`
       "slug": slug.current,
       "color": lower(categories[0]->color->title)
     },
-    introTitle,
-    introHeading,
+    caseHeading,		
+    "caseItems": caseItems[]->{
+      ${getCaseData('card')}
+    },
+    whyHeading,
     clockHeading,
     clockParagraph,
     clockText,
@@ -599,12 +605,6 @@ export const pageTravelDesignQuery = groq`
     toggleHeading,
     toggleParagraph,
     toggleCta,
-
-    caseHeading,		
-    "caseItems": caseItems[]->{
-      ${getCaseData('card')}
-    },
-
     faqHeading,
     faqSubheading,
     faq[]{

@@ -15,22 +15,6 @@ const ANIMATION_CONFIG = {
 	SCROLL_OFFSET: ['-250px start', '-104px start'],
 };
 
-const useScrollAnimation = ({ ref, index = 0 }) => {
-	const { scrollYProgress } = useScroll({
-		target: ref,
-		offset: ANIMATION_CONFIG.SCROLL_OFFSET,
-	});
-
-	const motionScale = useTransform(
-		scrollYProgress,
-		[0, 1],
-		[1, 0.9 + 0.01 * index]
-	);
-
-	return 1;
-	// return useSpring(motionScale, springConfig);
-};
-
 const WhyText = ({ data, color }) => {
 	const { heading, paragraph, offers, cta } = data;
 
@@ -71,7 +55,6 @@ const MasksBlock = ({ data, index, color }) => {
 		cta: masksCta,
 	};
 	const ref = useRef(null);
-	const springScale = useScrollAnimation({ ref, index });
 	const [activeIndices, setActiveIndices] = useState(Array(9).fill(0));
 	const [directions, setDirections] = useState(Array(9).fill(0));
 
@@ -151,7 +134,7 @@ const MasksBlock = ({ data, index, color }) => {
 		<motion.div
 			ref={ref}
 			className="p-design__why-block"
-			style={{ scale: springScale, '--cr-primary': `var(--cr-${color}-d)` }}
+			style={{ '--cr-primary': `var(--cr-${color}-d)` }}
 		>
 			<div className="p-design__why-block__media">
 				<div className="p-design__masks">
@@ -188,8 +171,6 @@ const ClockBlock = ({ data, index, color }) => {
 	}, []);
 
 	const ref = useRef(null);
-	const springScale = useScrollAnimation({ ref, index });
-
 	const centerRef = useRef(null);
 	const intervalRef = useRef(null);
 	const timeoutsRef = useRef([]);
@@ -307,7 +288,6 @@ const ClockBlock = ({ data, index, color }) => {
 			ref={ref}
 			className="p-design__why-block"
 			style={{
-				scale: springScale,
 				'--cr-primary': `var(--cr-${color}-d)`,
 			}}
 		>
@@ -364,7 +344,6 @@ const ToggleBlock = ({ data, index, color }) => {
 	const [toggle, setToggle] = useState(0);
 	const [intervalId, setIntervalId] = useState(null);
 	const ref = useRef(null);
-	const springScale = useScrollAnimation({ ref, index });
 
 	// Setup auto-toggle interval
 	useEffect(() => {
@@ -398,7 +377,7 @@ const ToggleBlock = ({ data, index, color }) => {
 		<motion.div
 			ref={ref}
 			className="p-design__why-block"
-			style={{ scale: springScale, '--cr-primary': `var(--cr-${color}-d)` }}
+			style={{ '--cr-primary': `var(--cr-${color}-d)` }}
 		>
 			<div className="p-design__why-block__media">
 				<button
@@ -433,8 +412,13 @@ const ToggleBlock = ({ data, index, color }) => {
 };
 
 export default function SectionWhy({ data }) {
+	const { whyHeading } = data;
+
 	return (
 		<section className="p-design__why">
+			<section className="p-design__why__header">
+				<h2 className="t-h-2">{whyHeading}</h2>
+			</section>
 			<ClockBlock data={data} index={0} color={'red'} />
 			<MasksBlock data={data} index={1} color={'blue'} />
 			<ToggleBlock data={data} index={2} color={'purple'} />
