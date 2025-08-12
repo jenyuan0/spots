@@ -113,7 +113,10 @@ export default function MagnifyCase({ mParam, pageSlug, onColorChange }) {
 							{accomodations.length > 1 && 's'}
 						</span>
 					</h3>
-					<ResponsiveGrid className="g-magnify-cases__accomodations__grid">
+					<ResponsiveGrid
+						className="g-magnify-cases__accomodations__grid"
+						size={'sml'}
+					>
 						{accomodations.map((item, index) => (
 							<LocationCard
 								key={`item-${index}`}

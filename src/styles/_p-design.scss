@@ -9,6 +9,7 @@
 		calc(var(--s-vp-height) * 0.9 - var(--s-header-space) - var(--s-contain)),
 		1000px
 	);
+	overflow-x: clip;
 	margin-top: var(--s-header);
 	color: var(--cr-cream);
 	background-color: var(--cr-subtle);
@@ -171,17 +172,16 @@
 			}
 
 			&__media {
-				width: calc(100% - var(--s-contain) * 2);
-				padding: var(--s-2-v) var(--s-2-h);
+				width: Min(50%, 200px);
+				padding: 0;
 			}
 
 			&__text {
-				padding: var(--s-3-v) var(--s-3-h);
-				padding-bottom: var(--s-section);
+				text-align: center;
 			}
 
 			&__paragraph {
-				font-size: 24px;
+				font-size: 20px;
 			}
 
 			&__offers {
@@ -586,6 +586,16 @@
 		transform: translateY(100%);
 		transition-delay: calc(var(--index) * 0.05s);
 	}
+
+	@include mobileDown {
+		&__moon {
+			--dec-translate: 60px;
+
+			&__dec {
+				width: 13%;
+			}
+		}
+	}
 }
 
 .p-design__contact {
@@ -612,25 +622,73 @@
 		grid-template-columns: repeat(6, 1fr);
 		justify-content: center;
 		gap: 20px;
+
+		.p-design__case__card {
+			grid-column: span 2;
+		}
+
+		@include midScreenUp {
+			&:has(> .p-design__case__card:nth-child(3n + 2):last-child)
+				> .p-design__case__card:nth-last-child(2) {
+				/* place in columns 2–3 */
+				grid-column: 2 / span 2;
+			}
+
+			&:has(> .p-design__case__card:nth-child(3n + 2):last-child)
+				> .p-design__case__card:last-child {
+				/* place in columns 4–5 */
+				grid-column: 4 / span 2;
+			}
+		}
+
+		@include midScreenDown {
+			@include tabletUp {
+				/* Two columns (each card spans 2 of 4 tracks) */
+				grid-template-columns: repeat(4, 1fr);
+
+				/* If the last item is odd (i.e., total count is odd), center it */
+				&:has(> .p-design__case__card:nth-child(2n + 1):last-child)
+					> .p-design__case__card:last-child {
+					grid-column: 2 / span 2; /* start at track 2, span 2 => centered */
+				}
+			}
+		}
+
+		@include tabletDown {
+			gap: 10px;
+			grid-template-columns: repeat(2, 1fr);
+
+			/* If the last item is odd (i.e., total count is odd), center it */
+			&:has(> .p-design__case__card:nth-child(2n + 1):last-child)
+				> .p-design__case__card:last-child {
+				grid-column: 1 / span 2; /* start at track 2, span 2 => centered */
+			}
+		}
 	}
 
 	&__card {
 		--padding: 30px;
-		grid-column: span 2;
 		position: relative;
 		display: flex;
+		min-height: 120px;
 		flex-direction: column;
+		justify-content: center;
 		text-align: left;
 		gap: 15px;
-		cursor: pointer;
-		transition:
-			color var(--t-1),
-			border-color var(--t-1);
-
 		padding: var(--padding);
 		background-color: var(--cr-white);
 		border: 1px solid var(--cr-subtle);
+		box-shadow: var(--shadow-2-transparent);
 		border-radius: var(--br-3);
+		cursor: pointer;
+		transition:
+			color var(--t-1),
+			border-color var(--t-1),
+			box-shadow var(--t-1);
+
+		&__subtitle {
+			text-wrap: balance;
+		}
 
 		&__images {
 			position: absolute;
@@ -665,6 +723,7 @@
 			&:hover {
 				color: var(--cr-primary);
 				border-color: var(--cr-primary);
+				box-shadow: var(--shadow-2);
 
 				@include selection {
 					color: var(--cr-cream);
@@ -681,18 +740,19 @@
 				opacity: 1;
 			}
 		}
-	}
 
-	&__list:has(> .p-design__case__card:nth-child(3n + 2):last-child)
-		> .p-design__case__card:nth-last-child(2) {
-		/* place in columns 2–3 */
-		grid-column: 2 / span 2;
-	}
+		@include tabletDown {
+			--padding: 20px;
+			gap: 10px;
 
-	&__list:has(> .p-design__case__card:nth-child(3n + 2):last-child)
-		> .p-design__case__card:last-child {
-		/* place in columns 4–5 */
-		grid-column: 4 / span 2;
+			&__subtitle {
+				max-width: 200px;
+			}
+
+			&__img {
+				width: 50px;
+			}
+		}
 	}
 
 	&__cta {

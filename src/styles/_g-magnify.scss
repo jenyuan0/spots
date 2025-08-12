@@ -94,10 +94,16 @@
 	}
 
 	@include tabletDown {
+		&__header {
+			padding-inline: 10px;
+			padding-right: 5px;
+			justify-content: space-between;
+		}
+
 		&__toggle {
-			top: var(--s-contain);
+			position: relative;
+			top: unset;
 			left: unset;
-			right: var(--s-contain);
 			transform: unset;
 		}
 
@@ -177,6 +183,12 @@
 
 	&__content {
 		width: Min(2400px, 90vw);
+	}
+
+	@include tabletDown {
+		&__content {
+			width: 100vw;
+		}
 	}
 }
 
@@ -280,6 +292,17 @@
 
 			&:has(+ .c-image-columns) {
 				margin-bottom: -50px;
+			}
+		}
+
+		@include tabletDown {
+			.c-image-columns {
+				width: 100vw;
+				margin-inline: calc(-1 * var(--s-contain));
+
+				.c-portable-image__caption {
+					padding-inline: var(--s-contain);
+				}
 			}
 		}
 	}

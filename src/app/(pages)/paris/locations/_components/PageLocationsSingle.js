@@ -145,10 +145,7 @@ export default function PageLocationsSingle({ data }) {
 					{/* TODO
 					// prioritize subcategories and other attributes such as editors pick, trending, etc.
 					 */}
-					<ResponsiveGrid
-						className="p-locations-single__related__list"
-						size={'sml'}
-					>
+					<ResponsiveGrid className="p-locations-single__related__list">
 						{[...Array(12)].map((_, index) => {
 							const relatedItems = relatedLocations || [];
 							const defaultItems = defaultRelatedLocations || [];
