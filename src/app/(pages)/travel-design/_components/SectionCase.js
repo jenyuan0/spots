@@ -143,7 +143,7 @@ export default function SectionCase({ data }) {
 				style={{ x: springX, y: springY, scale }}
 			>
 				<Button className={clsx('btn', `cr-${ctaColor}-d`)}>
-					View Case Study
+					Explore Case Study
 				</Button>
 			</motion.div>
 		</section>

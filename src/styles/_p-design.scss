@@ -615,7 +615,7 @@
 }
 
 .p-design__case {
-	padding-inline: var(--padding-lge);
+	padding-inline: var(--padding-med);
 	margin: var(--s-section) auto;
 
 	&__header {
@@ -627,7 +627,7 @@
 
 	&__list {
 		display: grid;
-		grid-template-columns: repeat(6, 1fr);
+		grid-template-columns: repeat(4, 1fr);
 		justify-content: center;
 		gap: 20px;
 
@@ -635,31 +635,10 @@
 			grid-column: span 2;
 		}
 
-		@include midScreenUp {
-			&:has(> .p-design__case__card:nth-child(3n + 2):last-child)
-				> .p-design__case__card:nth-last-child(2) {
-				/* place in columns 2–3 */
-				grid-column: 2 / span 2;
-			}
-
-			&:has(> .p-design__case__card:nth-child(3n + 2):last-child)
-				> .p-design__case__card:last-child {
-				/* place in columns 4–5 */
-				grid-column: 4 / span 2;
-			}
-		}
-
-		@include midScreenDown {
-			@include tabletUp {
-				/* Two columns (each card spans 2 of 4 tracks) */
-				grid-template-columns: repeat(4, 1fr);
-
-				/* If the last item is odd (i.e., total count is odd), center it */
-				&:has(> .p-design__case__card:nth-child(2n + 1):last-child)
-					> .p-design__case__card:last-child {
-					grid-column: 2 / span 2; /* start at track 2, span 2 => centered */
-				}
-			}
+		/* If the last item is odd (i.e., total count is odd), center it */
+		&:has(> .p-design__case__card:nth-child(2n + 1):last-child)
+			> .p-design__case__card:last-child {
+			grid-column: 2 / span 2; /* start at track 2, span 2 => centered */
 		}
 
 		@include tabletDown {
