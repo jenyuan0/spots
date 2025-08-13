@@ -141,11 +141,17 @@ export default function SectionHero({ data }) {
 	const { isMobileScreen } = useWindowDimensions();
 
 	useEffect(() => {
+		let lastWidth = window.innerWidth;
 		const handleResize = () => {
-			setBoundary({
-				width: ref.current.getBoundingClientRect().width,
-				height: ref.current.getBoundingClientRect().height,
-			});
+			if (window.innerWidth !== lastWidth) {
+				lastWidth = window.innerWidth;
+				setBoundary({
+					width: ref.current.getBoundingClientRect().width,
+					height: ref.current.getBoundingClientRect().height,
+				});
+			} else {
+				return;
+			}
 		};
 
 		handleResize(); // Initial measurement

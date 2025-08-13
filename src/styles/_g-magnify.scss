@@ -11,8 +11,6 @@
 	overflow-x: clip;
 	z-index: 200;
 
-	@include customScrollbar(var(--cr-primary));
-
 	&:before {
 		content: '';
 		display: block;
@@ -34,6 +32,7 @@
 
 	&__content {
 		position: relative;
+		transform: translate3d(0, 0, 0);
 		width: Min(800px, 100vw);
 		height: fit-content;
 		min-height: 100%;

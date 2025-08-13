@@ -20,7 +20,7 @@ export default function CustomLink({
 	const router = useRouter();
 	const { hasPressedKeys } = useKey();
 
-	if (!isValidRoute(href || link?.route)) return null;
+	if (!isValidRoute(href || link?.route)) return children;
 
 	const isMailTo = href?.match('^mailto:');
 	const handleClick = (event) => {
