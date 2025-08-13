@@ -39,7 +39,7 @@ export default function MagnifyCase({ mParam, pageSlug, onColorChange }) {
 			setIsLoaded(true);
 			fetchData();
 		}
-	}, [mParam, pageSlug, onColorChange]);
+	}, [mParam, pageSlug, onColorChange, isLoaded]);
 
 	if (!isLoaded || !caseContent) {
 		return null;
@@ -122,9 +122,8 @@ export default function MagnifyCase({ mParam, pageSlug, onColorChange }) {
 								key={`item-${index}`}
 								data={item}
 								layout={'vertical-2'}
-								hasDirection={true}
-								isLinkout={true}
 								hasDirection={false}
+								isLinkout={true}
 							/>
 						))}
 					</ResponsiveGrid>

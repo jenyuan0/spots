@@ -20,7 +20,7 @@ const ROUTES = [
 	},
 	{
 		type: 'gLocations',
-		slug: 'paris/locations',
+		slug: 'locations',
 		changeFrequency: 'weekly',
 		priority: 0.8,
 	},
@@ -40,7 +40,7 @@ const ROUTES = [
 	},
 	{
 		type: 'gCategories',
-		slug: 'paris/locations/category',
+		slug: 'locations/category',
 		changeFrequency: 'monthly',
 		priority: 0.7,
 		skipParentPath: true,
@@ -54,7 +54,7 @@ const ROUTES = [
 	},
 	{
 		type: 'gSubcategories',
-		slug: 'paris/locations/category',
+		slug: 'locations/category',
 		changeFrequency: 'monthly',
 		priority: 0.7,
 		skipParentPath: true,
