@@ -22,6 +22,12 @@ export default defineType({
 		},
 		customImage({ name: 'heroImage' }),
 		{
+			name: 'heroVideo',
+			title: 'Hero Video',
+			type: 'file',
+			options: { accept: 'video/*' },
+		},
+		{
 			name: 'heroSpots',
 			type: 'array',
 			of: [
@@ -48,7 +54,12 @@ export default defineType({
 		},
 		{
 			name: 'whyHeading',
-			type: 'string',
+			type: 'portableTextSimple',
+		},
+		{
+			name: 'whyParagraph',
+			type: 'text',
+			row: 4,
 		},
 		{
 			name: 'clockHeading',

@@ -221,6 +221,7 @@
 		}
 	}
 
+	&__help,
 	&__budget {
 		max-height: 0;
 		overflow: hidden;
@@ -237,7 +238,7 @@
 
 		display: flex;
 		flex-wrap: wrap;
-		gap: 16px 8px;
+		gap: 12px 8px;
 		text-align: center;
 		justify-content: center;
 

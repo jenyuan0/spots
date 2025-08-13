@@ -22,18 +22,6 @@
 		}
 	}
 
-	@include lgScreenDown {
-		--gap: 10px;
-
-		&__content {
-			max-width: 600px;
-
-			.t-h-1 {
-				font: var(--t-h-2);
-			}
-		}
-	}
-
 	&__spots {
 		flex: 1;
 		display: flex;
@@ -78,9 +66,23 @@
 		}
 	}
 
+	@include lgScreenDown {
+		--gap: 10px;
+		gap: var(--s-contain);
+
+		&__content {
+			max-width: 520px;
+
+			.t-h-1 {
+				font: var(--t-h-2);
+			}
+		}
+	}
+
 	@include midScreenDown {
 		transform: unset !important;
 		height: fit-content;
+		gap: 0;
 		padding-inline: 0;
 		flex-direction: column;
 		margin-bottom: var(--s-2-v);

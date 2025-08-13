@@ -22,6 +22,7 @@ export default function LocationList({ data }) {
 							data={item}
 							layout={'horizontal-1'}
 							hasDirection={false}
+							isLinkout={true}
 						/>
 					))}
 				</ResponsiveGrid>

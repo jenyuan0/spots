@@ -72,6 +72,7 @@ export default function PlannerForm({ data, plan }) {
 	const [whoMessage, setWhoMessage] = useState('');
 	const [message, setMessage] = useState('');
 	const [budgetChoice, setBudgetChoice] = useState('');
+	const [helpPlanChoice, setHelpPlanChoice] = useState(''); // 'yes' | 'no'
 	const [errorIsVisible, setErrorIsVisible] = useState(false);
 
 	const [whenCalActive, setWhenCalActive] = useState(false);
@@ -164,10 +165,21 @@ export default function PlannerForm({ data, plan }) {
 		if (whenMessage) parts.push(`for ${whenMessage}`);
 		if (whoMessage) parts.push(`for ${whoMessage.toLowerCase()}`);
 		if (budgetChoice) parts.push(`with a nightly budget of ${budgetChoice}`);
+		if (helpPlanChoice && helpPlanChoice.toLowerCase() === 'yes') {
+			parts.push('and I’d like help planning the trip');
+		}
 		const newMessage = parts.join(' ') + '.';
 		setMessage(newMessage);
 		return newMessage;
-	}, [data, content, whenMessage, whoMessage, budgetChoice, where]);
+	}, [
+		data,
+		content,
+		whenMessage,
+		whoMessage,
+		budgetChoice,
+		where,
+		helpPlanChoice,
+	]);
 
 	useEffect(() => {
 		setWhere(data?.where || '');
@@ -325,28 +337,58 @@ export default function PlannerForm({ data, plan }) {
 					</div>
 				</div>
 				{type !== 'design' && (
-					<div
-						className={clsx('g-planner-form__budget c-field', {
-							'is-visible': whenRange[0] && whenRange[1],
-						})}
-					>
-						<div className="g-planner-form__budget__title t-b-1">
-							(Optional) What’s your ideal nightly budget?
+					<>
+						<div
+							className={clsx('g-planner-form__help c-field', {
+								'is-visible': whenRange[0] && whenRange[1],
+							})}
+							role="radiogroup"
+							aria-label="Help planning"
+						>
+							<div className="g-planner-form__help__title t-b-1">
+								Would you like help planning your trip?
+							</div>
+							{['Yes', 'No'].map((option) => (
+								<button
+									key={option}
+									className={clsx('pill', {
+										'is-active': helpPlanChoice === option,
+									})}
+									role="radio"
+									aria-checked={helpPlanChoice === option}
+									onClick={() =>
+										setHelpPlanChoice(helpPlanChoice === option ? '' : option)
+									}
+								>
+									{option}
+								</button>
+							))}
 						</div>
-						{['$250—$500', '$500—$750', '$750+'].map((option) => (
-							<button
-								key={option}
-								className={clsx('pill', {
-									'is-active': budgetChoice === option,
-								})}
-								onClick={() =>
-									setBudgetChoice(budgetChoice === option ? '' : option)
-								}
-							>
-								{option}
-							</button>
-						))}
-					</div>
+						<div
+							className={clsx('g-planner-form__budget c-field', {
+								'is-visible': whenRange[0] && whenRange[1],
+							})}
+							role="radiogroup"
+							aria-label="Budget choice"
+						>
+							<div className="g-planner-form__budget__title t-b-1">
+								What’s your ideal nightly budget?
+							</div>
+							{['$250—$500', '$500—$750', '$750+'].map((option) => (
+								<button
+									key={option}
+									className={clsx('pill', {
+										'is-active': budgetChoice === option,
+									})}
+									onClick={() =>
+										setBudgetChoice(budgetChoice === option ? '' : option)
+									}
+								>
+									{option}
+								</button>
+							))}
+						</div>
+					</>
 				)}
 				{/*
 5. What’s your ideal hotel vibe? (Optional)

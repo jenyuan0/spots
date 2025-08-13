@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import React, { useState, useEffect } from 'react';
 import { hasArrayValue, formatTime } from '@/lib/helpers';
 import Img from '@/components/Image';
+import Link from '@/components/CustomLink';
 import Button from '@/components/Button';
 import CategoryPillList from '@/components/CategoryPillList';
 import CustomPortableText from '@/components/CustomPortableText';
@@ -165,6 +166,7 @@ export default function LocationCard({
 							'cr-cream': layout === 'vertical-2',
 						})}
 						href={url}
+						isNewTab={true}
 						onClick={handleDetailsClick}
 					>
 						{isShowContent && layout !== 'embed' ? 'Read More' : 'Details'}
@@ -175,7 +177,7 @@ export default function LocationCard({
 								'cr-cream': layout === 'vertical-2',
 							})}
 							href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(title)}+${encodeURIComponent(addressString)}`}
-							target="_blank"
+							isNewTab={true}
 							rel="noopener noreferrer"
 						>
 							Get Direction
@@ -183,11 +185,12 @@ export default function LocationCard({
 					)}
 				</div>
 			</div>
-			<Button
+			<Link
 				className={`c-card__url p-fill`}
 				href={url}
 				onClick={handleDetailsClick}
 				title={`View ${title}`}
+				isNewTab={true}
 				aria-label="Read more"
 				tabIndex="-1"
 			/>

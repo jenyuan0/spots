@@ -209,26 +209,26 @@ export default function Header({ data, isActive }) {
 						/>
 					</svg>
 				</Link>
-
-				{pathname === '/' || pathname === '/travel-design' ? (
-					<div className="g-header__toggle t-l-2">
-						<Link
-							href="/"
-							className={clsx({
-								'is-active': pathname === '/',
-							})}
-						>
-							Hotel Booking
-						</Link>
-						<Link
-							href="/travel-design"
-							className={clsx({
-								'is-active': pathname === '/travel-design',
-							})}
-						>
-							Travel Design
-						</Link>
-					</div>
+				<div className="g-header__toggle t-l-2">
+					<Link
+						href="/"
+						className={clsx({
+							'is-active': pathname === '/',
+						})}
+					>
+						Hotel Booking
+					</Link>
+					<Link
+						href="/travel-design"
+						className={clsx({
+							'is-active': pathname !== '/',
+						})}
+					>
+						Travel Design
+					</Link>
+				</div>
+				{/* {pathname === '/' || pathname === '/travel-design' ? (
+					<></>
 				) : (
 					<div className="g-header__menu">
 						<div className="g-header__menu__block">
@@ -252,7 +252,7 @@ export default function Header({ data, isActive }) {
 							</div>
 						</div>
 					</div>
-				)}
+				)} */}
 				<div className="g-header__cta">
 					{pathname === '/' && (
 						<Button
@@ -276,18 +276,13 @@ export default function Header({ data, isActive }) {
 							Plan Your Trip
 						</Button>
 					)}
-					{pathname !== '/' && pathname !== '/travel-design' && (
-						<Button className="btn-underline" href={'/contact'}>
-							Contact & FAQ
-						</Button>
-					)}
 				</div>
-				{pathname !== '/' && pathname !== '/travel-design' && (
+				{/* {pathname !== '/' && pathname !== '/travel-design' && (
 					<MobileMenuTrigger
 						isMobileMenuOpen={isMobileMenuOpen}
 						onHandleClick={onToggleMenu}
 					/>
-				)}
+				)} */}
 			</header>
 		</>
 	);

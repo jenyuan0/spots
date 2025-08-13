@@ -72,7 +72,7 @@ export function Magnify() {
 			const params = url.searchParams;
 
 			// Add/replace params
-			const mValue = `/${mag.slug}`;
+			const mValue = `${mag.slug}`;
 			params.set('m', mValue);
 			params.set('t', mag?.type);
 

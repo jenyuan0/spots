@@ -581,6 +581,9 @@ export const pageTravelDesignQuery = groq`
     },
     heroSubheading,
     heroImage,
+    heroVideo{
+      ${fileMetaFields}
+    },
     heroSpots[]->{
       title,
       _id,
@@ -591,7 +594,10 @@ export const pageTravelDesignQuery = groq`
     "caseItems": caseItems[]->{
       ${getCaseData('card')}
     },
-    whyHeading,
+    whyHeading[]{
+      ${portableTextContentFields}
+    },
+		whyParagraph,
     clockHeading,
     clockParagraph,
     clockText,

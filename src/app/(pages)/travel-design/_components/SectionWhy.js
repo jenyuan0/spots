@@ -1,10 +1,11 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { colorArray, getRandomInt, springConfig } from '@/lib/helpers';
+import { colorArray } from '@/lib/helpers';
 import Img from '@/components/Image';
+import CustomPortableText from '@/components/CustomPortableText';
 import Button from '@/components/Button';
-import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import clsx from 'clsx';
 
 // Constants
@@ -412,12 +413,17 @@ const ToggleBlock = ({ data, index, color }) => {
 };
 
 export default function SectionWhy({ data }) {
-	const { whyHeading } = data;
+	const { whyHeading, whyParagraph } = data;
 
 	return (
 		<section className="p-design__why">
-			<section className="p-design__why__header">
-				<h2 className="t-h-2">{whyHeading}</h2>
+			<section className="p-design__why__header wysiwyg">
+				{whyHeading && (
+					<h2 className="t-h-2">
+						<CustomPortableText blocks={whyHeading} hasPTag={false} />
+					</h2>
+				)}
+				{whyParagraph && <p className="t-b-1">{whyParagraph}</p>}
 			</section>
 			<ClockBlock data={data} index={0} color={'red'} />
 			<MasksBlock data={data} index={1} color={'blue'} />

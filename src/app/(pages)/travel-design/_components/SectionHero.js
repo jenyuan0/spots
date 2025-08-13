@@ -124,7 +124,10 @@ function HeroSpot({ index, data, boundary, isLastChild, scrollYProgress }) {
 }
 
 export default function SectionHero({ data }) {
-	const { heroHeading, heroSubheading, heroImage, heroSpots } = data || {};
+	const { heroHeading, heroSubheading, heroImage, heroVideo, heroSpots } =
+		data || {};
+	const [isVideoActive, setIsVideoActive] = useState(false);
+	const videoRef = useRef(null);
 	const ref = useRef(null);
 	const [boundary, setBoundary] = useState({
 		width: 0,
@@ -150,9 +153,24 @@ export default function SectionHero({ data }) {
 		return () => window.removeEventListener('resize', handleResize);
 	}, [ref]);
 
+	useEffect(() => {
+		if (!heroVideo?.url || !videoRef.current) return;
+		// Try to play programmatically to detect autoplay availability
+		const v = videoRef.current;
+		const tryPlay = async () => {
+			try {
+				await v.play();
+				// onPlay will set isVideoActive
+			} catch (e) {
+				// Autoplay blocked (e.g., iOS Low Power Mode). Keep image visible.
+			}
+		};
+		tryPlay();
+	}, [heroVideo?.url]);
+
 	// Function to check for overlaps
 	const checkOverlap = (x, y, existingPositions) => {
-		const minDistance = !isMobileScreen ? 100 : 50;
+		const minDistance = !isMobileScreen ? 150 : 50;
 		const centerY = boundary.height / 2;
 		const isCenterArea = y > centerY - 150 && y < centerY + 150;
 		const hasOverlap = existingPositions.some((pos) => {
@@ -222,7 +240,21 @@ export default function SectionHero({ data }) {
 		<section ref={ref} className="p-design__hero">
 			<motion.div className={'p-design__hero__image p-fill'}>
 				<div className="object-fit">
-					{heroImage && <Img image={heroImage} />}
+					{heroImage && !isVideoActive && <Img image={heroImage} />}
+					{heroVideo?.url && (
+						<video
+							ref={videoRef}
+							src={heroVideo.url}
+							muted
+							playsInline
+							loop
+							preload="metadata"
+							onPlay={() => setIsVideoActive(true)}
+							style={{
+								visibility: isVideoActive,
+							}}
+						/>
+					)}
 				</div>
 			</motion.div>
 			{spotElements}
