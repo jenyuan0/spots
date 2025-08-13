@@ -141,7 +141,7 @@ export default function SectionHero({ data }) {
 	const { isMobileScreen } = useWindowDimensions();
 
 	useEffect(() => {
-		let lastWidth = window.innerWidth;
+		let lastWidth = false;
 		const handleResize = () => {
 			if (window.innerWidth !== lastWidth) {
 				lastWidth = window.innerWidth;
@@ -149,8 +149,6 @@ export default function SectionHero({ data }) {
 					width: ref.current.getBoundingClientRect().width,
 					height: ref.current.getBoundingClientRect().height,
 				});
-			} else {
-				return;
 			}
 		};
 

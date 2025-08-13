@@ -29,6 +29,10 @@
 	}
 
 	.c-card {
+		transition:
+			box-shadow var(--t-1),
+			border-color var(--t-1);
+
 		&__header {
 			margin-bottom: -5px !important;
 		}
