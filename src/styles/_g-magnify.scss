@@ -298,10 +298,16 @@
 			.c-image-columns {
 				width: 100vw;
 				margin-inline: calc(-1 * var(--s-contain));
+				gap: 5px;
 
 				.c-portable-image__caption {
+					margin-bottom: 10px;
 					padding-inline: var(--s-contain);
 				}
+			}
+
+			.c-image-columns:has(+ .c-image-columns) {
+				margin-bottom: -55px;
 			}
 		}
 	}

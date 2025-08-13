@@ -188,34 +188,28 @@ export default function SectionHero({ data }) {
 
 	// Generate all spots first
 	useEffect(() => {
-		const generateSpots = () => {
-			const paddingX = boundary.width * 0.1;
-			const paddingY = boundary.height * 0.1;
-			const newPositions = [];
+		const paddingX = boundary.width * 0.1;
+		const paddingY = boundary.height * 0.1;
+		const newPositions = [];
 
-			heroSpots?.forEach(() => {
-				let validPosition = false;
-				let attempts = 0;
-				let x, y;
+		heroSpots?.forEach(() => {
+			let validPosition = false;
+			let attempts = 0;
+			let x, y;
 
-				while (!validPosition && attempts < 25) {
-					x = Math.random() * (boundary.width - paddingX * 2) + paddingX;
-					y = Math.random() * (boundary.height - paddingY * 2) + paddingY / 2;
+			while (!validPosition && attempts < 25) {
+				x = Math.random() * (boundary.width - paddingX * 2) + paddingX;
+				y = Math.random() * (boundary.height - paddingY * 2) + paddingY / 2;
 
-					if (!checkOverlap(x, y, newPositions)) {
-						validPosition = true;
-						newPositions.push({ x, y });
-					}
-					attempts++;
+				if (!checkOverlap(x, y, newPositions)) {
+					validPosition = true;
+					newPositions.push({ x, y });
 				}
-			});
+				attempts++;
+			}
+		});
 
-			setSpots(newPositions);
-		};
-
-		generateSpots();
-		window.addEventListener('resize', generateSpots);
-		return () => window.removeEventListener('resize', generateSpots);
+		setSpots(newPositions);
 	}, [heroSpots, boundary]);
 
 	// Use useMemo to prevent re-renders
