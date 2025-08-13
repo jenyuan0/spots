@@ -24,7 +24,7 @@ const leftNav = [
 	},
 	{
 		title: 'Locations',
-		url: '/paris/locations',
+		url: '/locations',
 		// hasCaret: true,
 	},
 ];

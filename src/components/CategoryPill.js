@@ -41,7 +41,7 @@ export default function CategoryPill({
 					'--cr-primary': colorD,
 					'--cr-secondary': colorL,
 				}}
-				href={`/paris/${postType}${slug ? `/category/${slug}` : ''}`}
+				href={`/${postType == 'guides' ? 'paris/' : ''}${postType}${slug ? `/category/${slug}` : ''}`}
 			>
 				{Icon && <Icon />}
 				{title}

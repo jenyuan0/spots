@@ -38,23 +38,16 @@ export default function PageLocationsSingle({ data }) {
 			.filter((value) => value)
 			.join(', ');
 	const { setLightboxImages, setLightboxActive } = useLightbox();
-	const breadcrumb =
-		address.city.toLowerCase() == 'paris'
-			? [
-					{
-						title: 'Paris',
-						url: '/paris',
-					},
-					{
-						title: 'Locations',
-						url: '/paris/locations',
-					},
-					{
-						title: categories[0].title,
-						url: `/paris/locations/category/${categories[0].slug}`,
-					},
-				]
-			: null;
+	const breadcrumb = [
+		{
+			title: 'Locations',
+			url: '/locations',
+		},
+		{
+			title: categories[0].title,
+			url: `/locations/category/${categories[0].slug}`,
+		},
+	];
 
 	// TODO
 	// Share
@@ -145,7 +138,10 @@ export default function PageLocationsSingle({ data }) {
 					{/* TODO
 					// prioritize subcategories and other attributes such as editors pick, trending, etc.
 					 */}
-					<ResponsiveGrid className="p-locations-single__related__list">
+					<ResponsiveGrid
+						className="p-locations-single__related__list"
+						size={'sml'}
+					>
 						{[...Array(12)].map((_, index) => {
 							const relatedItems = relatedLocations || [];
 							const defaultItems = defaultRelatedLocations || [];

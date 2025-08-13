@@ -125,7 +125,7 @@ export default function MagnifyLocation({
 			)}
 			{title && (
 				<h2 className="g-magnify-locations__heading t-h-2">
-					{/* <Link href={`/paris/locations/${slug}`}>{title}</Link> */}
+					{/* <Link href={`/locations/${slug}`}>{title}</Link> */}
 					{title}
 				</h2>
 			)}

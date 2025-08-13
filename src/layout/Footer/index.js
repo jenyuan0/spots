@@ -26,7 +26,7 @@ export default function Footer({ siteData, data, isActive }) {
 		},
 		{
 			title: 'Locations',
-			url: '/paris/locations',
+			url: '/locations',
 		},
 		{
 			title: 'Service Overview',

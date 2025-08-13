@@ -72,8 +72,7 @@ export default function LocationCard({
 		content,
 	} = data;
 
-	const isParis = address.city.toLowerCase() == 'paris';
-	const url = `${isParis ? '/paris' : ''}/locations/${slug}`;
+	const url = `/locations/${slug}`;
 	const addressString =
 		address && Object.values(address).filter(Boolean).join(', ');
 	const resStart = res?.startTime && new Date(res?.startTime);
