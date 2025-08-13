@@ -118,7 +118,7 @@ export default function LocationsPagination({ data }) {
 				<Pagination
 					currentPageNumber={currentPageNumber}
 					totalPage={totalPages}
-					url={`/paris/locations${isCategoryPage ? `/category/${slug}` : ''}`}
+					url={`/locations${isCategoryPage ? `/category/${slug}` : ''}`}
 				/>
 			)}
 		</>

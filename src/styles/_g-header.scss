@@ -22,7 +22,8 @@
 		font-size: 32px;
 		letter-spacing: -0.02em;
 		line-height: 1;
-		border-left: none;
+		border: none;
+		border-right: 1px solid;
 
 		svg {
 			display: block;
@@ -150,6 +151,73 @@
 
 		&-dot:nth-child(3) {
 			background-color: var(--cr-red-d);
+		}
+	}
+
+	&__toggle {
+		--height: 35px;
+		display: flex;
+		width: fit-content;
+		margin-inline: auto;
+		margin-block: calc((var(--header-size) - var(--height)) / 2);
+		gap: 2px;
+		padding: 2px;
+		height: var(--height);
+		border-radius: calc(var(--height) / 2);
+		border: 1px solid;
+		background-color: var(--cr-subtle);
+
+		a {
+			display: block;
+			padding-inline: 15px;
+			white-space: nowrap;
+			line-height: calc(var(--height) - 4px - 2px);
+			border-radius: calc((var(--height) - 4px) / 2);
+			transition: var(--t-2);
+
+			&.is-active {
+				color: var(--cr-cream);
+				background-color: var(--cr-brown);
+			}
+
+			@media (hover: hover) {
+				&:not(.is-active):hover {
+					background-color: var(--cr-subtle-1);
+				}
+			}
+		}
+
+		@include mobileDown {
+			--height: 32px;
+			margin-left: auto;
+			margin-right: 4px;
+			border: none;
+
+			a {
+				font-size: 10px;
+				padding-inline: 10px;
+			}
+		}
+	}
+
+	@include mobileDown {
+		&__toggle + &__cta {
+			position: fixed;
+			width: 100%;
+			left: 0;
+			bottom: 0;
+			background-color: var(--cr-cream);
+			border-left: 0;
+			border-top: 1px solid;
+
+			.btn-underline {
+				width: fit-content;
+			}
+
+			.btn-underline:before,
+			.btn-underline:after {
+				display: block;
+			}
 		}
 	}
 

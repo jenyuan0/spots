@@ -1,74 +1,62 @@
-import React, { Suspense, useEffect, useRef, useState } from 'react';
+import React, {
+	Suspense,
+	useEffect,
+	useRef,
+	useState,
+	useCallback,
+} from 'react';
 import clsx from 'clsx';
 import { scrollEnable, scrollDisable } from '@/lib/helpers';
-import { client } from '@/sanity/lib/client';
 import { useSearchParams } from 'next/navigation';
-import useOutsideClick from '@/hooks/useOutsideClick';
 import useKey from '@/hooks/useKey';
 import useMagnify from '@/hooks/useMagnify';
 import useLightbox from '@/hooks/useLightbox';
 import MagnifyLocation from './MagnifyLocation';
-import { getLocationsData, fileMetaFields } from '@/sanity/lib/queries';
+import MagnifyCase from './MagnifyCase';
+import Button from '@/components/Button';
+import usePlanner from '@/hooks/usePlanner';
 
 export function Magnify() {
 	const [isActive, setIsActive] = useState(false);
-	const [isLoading, setIsLoading] = useState(false);
-	const [content, setContent] = useState({});
 	const [color, setColor] = useState('brown');
+	const [locMeta, setLocMeta] = useState({
+		hasHotelCategory: false,
+		title: '',
+	});
+	const [type, setType] = useState('location');
 	const [pageSlug, setPageSlug] = useState(null);
+	const [mParam, setMParam] = useState(null);
 	const { mag, clearMag } = useMagnify();
 	const { lightboxActive } = useLightbox();
 	const searchParams = useSearchParams();
 	const containerRef = useRef();
 	const timerRef = useRef();
+	const { setPlannerActive, setPlannerContent } = usePlanner();
 
-	const fetchLocationContent = async (mParam) => {
-		setIsLoading(true);
+	const handleMeta = useCallback((meta) => {
+		setLocMeta(meta);
+	}, []);
 
-		try {
-			const dataSlug = mParam.split('/').pop();
-			const [content, reservations] = await Promise.all([
-				client.fetch(
-					`*[_type == "gLocations" && slug.current == "${dataSlug}"][0]{
-						${getLocationsData()}
-					}`
-				),
-				client.fetch(`
-					*[_type == "gItineraries" && slug.current == "${pageSlug}"][0].reservations[]{
-						"location": location->{
-							_id
-						},
-						startTime,
-						endTime,
-						notes,
-						attachments[]{${fileMetaFields}}
-					}
-				`),
-			]);
-			setContent({
-				content: content,
-				reservations: reservations,
-			});
-			setColor(mag?.color || content.color || 'brown');
-			setIsActive(true);
-			scrollDisable();
-		} catch (error) {
-			console.error('Error fetching data:', error);
-		} finally {
-			setIsLoading(false);
-		}
-	};
+	const handleColorChange = useCallback((c) => {
+		setColor(c || 'brown');
+	}, []);
 
 	useEffect(() => {
 		setPageSlug(window?.location.pathname?.split('/').pop());
 	}, []);
 
 	useEffect(() => {
-		const mParam = searchParams.get('m');
-		if (mParam) {
-			fetchLocationContent(mParam);
+		const m = searchParams.get('m');
+		const t = searchParams.get('t');
+
+		if (m) {
+			if (t) setType(t);
+			setMParam(m);
+			setIsActive(true);
+			scrollDisable();
 		} else {
 			setIsActive(false);
+			setMParam(null);
 			scrollEnable();
 		}
 		return cleanup;
@@ -77,20 +65,19 @@ export function Magnify() {
 	useEffect(() => {
 		cleanup();
 
+		if (mag?.type) setType(mag?.type);
+
 		if (mag?.slug) {
 			const url = new URL(window.location.href);
 			const params = url.searchParams;
 
-			// Remove existing 'm' parameter if present
-			params.delete('m');
+			// Add/replace params
+			const mValue = `${mag.slug}`;
+			params.set('m', mValue);
+			params.set('t', mag?.type);
 
-			// Add new 'm' parameter
-			const mValue = `/${mag.slug}`;
-
-			// If there are other params, append with &m=, otherwise use ?m=
-			const separator = params.toString() ? '&' : '?';
-			const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}${separator}m=${mValue}`;
-
+			// Build URL with both params
+			const newUrl = `${window.location.pathname}?${params.toString()}`;
 			window.history.pushState({}, '', newUrl);
 		}
 	}, [mag]);
@@ -106,28 +93,26 @@ export function Magnify() {
 		if (!isActive) return;
 
 		setIsActive(false);
-		scrollEnable();
 		if (timerRef.current) {
 			clearTimeout(timerRef.current);
 		}
 
 		timerRef.current = setTimeout(() => {
-			setContent({});
 			clearMag();
+			setMParam(null);
 
 			// Reset URL param
 			const url = new URL(window.location.href);
 			const params = url.searchParams;
 
 			params.delete('m');
+			params.delete('t');
 
 			// Construct new URL with remaining parameters
 			const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
 			window.history.pushState({}, '', newUrl);
 		}, 500);
 	};
-
-	// useOutsideClick(containerRef, handleClose, 'g-lightbox');
 
 	// TODO
 	// having to click esc twice in order to close magnify
@@ -156,26 +141,71 @@ export function Magnify() {
 				onClick={handleClose}
 			/>
 			<div className="g-magnify__content">
-				<button
-					type="button"
-					className="g-magnify__toggle"
-					onClick={handleClose}
-				>
-					<div
-						className={clsx(
-							'g-magnify__toggle__label',
-							'pill',
-							`cr-${color}-l`
-						)}
+				<div className="g-magnify__header">
+					<button
+						type="button"
+						className="g-magnify__toggle"
+						onClick={handleClose}
 					>
-						Close
-					</div>
-					<div className="g-magnify__toggle__icon trigger">
-						<div className="icon-close" />
-					</div>
-				</button>
+						<div
+							className={clsx(
+								'g-magnify__toggle__label',
+								'pill',
+								`cr-${color}-l`
+							)}
+						>
+							Close
+						</div>
+						<div className="g-magnify__toggle__icon trigger">
+							<div className="icon-close" />
+						</div>
+					</button>
+					{type === 'location' && locMeta.hasHotelCategory ? (
+						<Button
+							className={`btn cr-${color}-d`}
+							onClick={() => {
+								setPlannerActive(true);
+								setPlannerContent({
+									heading: 'Unlock Insider Rate & Perks',
+									subject: `Rate & Perks for ${locMeta.title}`,
+									where: locMeta.title,
+								});
+							}}
+						>
+							Unlock Insider Rates
+						</Button>
+					) : (
+						<Button
+							className={`btn cr-${color}-d`}
+							onClick={() => {
+								setPlannerActive(true);
+								setPlannerContent({
+									type: 'design',
+								});
+							}}
+						>
+							Plan Your Trip
+						</Button>
+					)}
+				</div>
 				<div className="g-magnify__body">
-					{content && !isLoading && <MagnifyLocation data={content} />}
+					{type === 'location' && (
+						<MagnifyLocation
+							key={mParam || 'location'}
+							mParam={mParam}
+							pageSlug={pageSlug}
+							onColorChange={handleColorChange}
+							onMeta={handleMeta}
+						/>
+					)}
+					{type === 'case' && (
+						<MagnifyCase
+							key={mParam || 'case'}
+							mParam={mParam}
+							pageSlug={pageSlug}
+							onColorChange={handleColorChange}
+						/>
+					)}
 				</div>
 			</div>
 		</div>

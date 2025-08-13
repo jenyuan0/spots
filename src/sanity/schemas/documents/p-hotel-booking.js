@@ -171,6 +171,10 @@ export default defineType({
 			name: 'contactPlaceholder',
 			type: 'string',
 		},
+		{
+			name: 'contactSubject',
+			type: 'string',
+		},
 		sharing(),
 	],
 	preview: {

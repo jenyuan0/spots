@@ -309,6 +309,37 @@ export const getItineraryData = (type) => {
 	return defaultData;
 };
 
+export const getCaseData = (type) => {
+	let defaultData = groq`
+    ${baseFields},
+    subtitle,
+    thumbs[]{
+      ${imageMetaFields}
+    },
+		"images": thumbs[]{
+			${imageMetaFields}
+		},
+    color->{
+      ${colorMetaFields}
+    },`;
+	if (type !== 'card') {
+		defaultData += groq`
+			heroImage{
+				${imageMetaFields}
+			},
+      introduction,
+			offers,
+			content[]{
+				${portableTextObj}
+			},
+      accomodations[]->{
+        ${getLocationsData('card')}
+      },
+		`;
+	}
+	return defaultData;
+};
+
 // Construct our content "modules" GROQ
 export const pageModules = groq`
   _type == 'freeform' => {
@@ -531,6 +562,57 @@ export const pageHotelBookingQuery = groq`
     },
 		faqHeading,
 		faqSubheading,
+    faq[]{
+      _key,
+      title,
+      answer[]{
+        ${portableTextContentFields}
+      }
+    }
+  }
+`;
+
+export const pageTravelDesignQuery = groq`
+  *[_type == "pTravelDesign"][0]{
+    ${baseFields},
+    "isHomepage": true,
+    heroHeading[]{
+      ${portableTextContentFields}
+    },
+    heroSubheading,
+    heroImage,
+    heroVideo{
+      ${fileMetaFields}
+    },
+    heroSpots[]->{
+      title,
+      _id,
+      "slug": slug.current,
+      "color": lower(categories[0]->color->title)
+    },
+    caseHeading,		
+    "caseItems": caseItems[]->{
+      ${getCaseData('card')}
+    },
+    whyHeading[]{
+      ${portableTextContentFields}
+    },
+		whyParagraph,
+    clockHeading,
+    clockParagraph,
+    clockText,
+    clockCta,
+    masksHeading,
+    masksParagraph,
+    masksCta,
+    masksImages[]{
+      ${imageMetaFields}
+    },
+    toggleHeading,
+    toggleParagraph,
+    toggleCta,
+    faqHeading,
+    faqSubheading,
     faq[]{
       _key,
       title,

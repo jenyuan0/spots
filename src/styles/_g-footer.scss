@@ -64,4 +64,8 @@
 			margin-top: 20px;
 		}
 	}
+
+	@include mobileDown {
+		padding-bottom: 60px;
+	}
 }

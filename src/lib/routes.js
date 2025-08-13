@@ -3,9 +3,7 @@ export const checkIfActive = ({ pathname, url }) => {
 
 	if (pathname.includes('/paris/guides') && url == '/paris/guides') {
 		return true;
-	} else if (
-		pathname.includes('/paris/locations' && url == '/paris/locations')
-	) {
+	} else if (pathname.includes('/locations' && url == '/locations')) {
 		return true;
 	} else {
 		return pathname == url;
@@ -24,6 +22,16 @@ export const getRoute = ({ documentType, slug }) => {
 			return `/contact`;
 		case 'pHotelBooking':
 			return '/';
+
+		case 'pLocations':
+			return `/locations`;
+		case 'gCategories': // default categories to locations
+			return `/locations/category/${slug}`;
+		case 'pLocationsCategory':
+			return `/locations/category/${slug}`;
+		case 'gLocations':
+			return `/locations/${slug}`;
+
 		case 'pGuides':
 			return '/paris/guides';
 		case 'pGuidesCategory':
@@ -32,14 +40,6 @@ export const getRoute = ({ documentType, slug }) => {
 			return `/paris/guides/${slug}`;
 		case 'pParis':
 			return `/paris`;
-		case 'pLocations':
-			return `/paris/locations`;
-		case 'gCategories': // default categories to locations
-			return `/paris/locations/category/${slug}`;
-		case 'pLocationsCategory':
-			return `/paris/locations/category/${slug}`;
-		case 'gLocations':
-			return `/paris/locations/${slug}`;
 		case 'pTripReady':
 			return `/paris/${slug}`;
 		case 'gItineraries':

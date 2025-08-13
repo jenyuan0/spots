@@ -4,7 +4,7 @@ import { scrollEnable, scrollDisable } from '@/lib/helpers';
 import Link from '@/components/CustomLink';
 import MobileMenuTrigger from './mobile-menu-trigger';
 import Button from '@/components/Button';
-import useSearchHotel from '@/hooks/useSearchHotel';
+import usePlanner from '@/hooks/usePlanner';
 import { motion } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import { checkIfActive } from '@/lib/routes';
@@ -24,7 +24,7 @@ const leftNav = [
 	},
 	{
 		title: 'Locations',
-		url: '/paris/locations',
+		url: '/locations',
 		// hasCaret: true,
 	},
 ];
@@ -132,7 +132,7 @@ export default function Header({ data, isActive }) {
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 	const [isScrolled, setIsScrolled] = useState(false);
 	const [isTransparent, setIsTransparent] = useState(false);
-	const { setSearchHotelActive } = useSearchHotel();
+	const { setPlannerActive, setPlannerContent } = usePlanner();
 
 	useEffect(() => {
 		if (!ref?.current) return;
@@ -186,20 +186,6 @@ export default function Header({ data, isActive }) {
 		setIsTransparent(isNonCategoryPage);
 	}, [pathname]);
 
-	useEffect(() => {
-		if (typeof window === 'undefined') return;
-
-		const params = new URLSearchParams(window.location.search);
-		const shouldTrigger = params.get('s') === 'true';
-
-		if (shouldTrigger) {
-			setSearchHotelActive(true);
-
-			const cleanUrl = window.location.pathname;
-			window.history.replaceState({}, '', cleanUrl);
-		}
-	}, []);
-
 	return (
 		<>
 			<header
@@ -223,62 +209,80 @@ export default function Header({ data, isActive }) {
 						/>
 					</svg>
 				</Link>
-				<div className="g-header__menu">
-					{pathname === '/' ? (
+				<div className="g-header__toggle t-l-2">
+					<Link
+						href="/"
+						className={clsx({
+							'is-active': pathname === '/',
+						})}
+					>
+						Hotel Booking
+					</Link>
+					<Link
+						href="/travel-design"
+						className={clsx({
+							'is-active': pathname !== '/',
+						})}
+					>
+						Travel Design
+					</Link>
+				</div>
+				{/* {pathname === '/' || pathname === '/travel-design' ? (
+					<></>
+				) : (
+					<div className="g-header__menu">
 						<div className="g-header__menu__block">
 							<div className="g-header__menu__translate">
-								<div className="g-header__tagline t-h-5">
-									{/* <span className="icon-plus" /> */}
-									No markups, no hidden fees. Always free for travelers.
-									<DesignDots />
-								</div>
+								<motion.div className="g-header__tagline t-h-5">
+									<span className="icon-plus" />
+									Parisian Treasures Refreshed Weekly
+									<FrenchDots />
+								</motion.div>
+								<NavLink nav={leftNav} pathname={pathname} />
 							</div>
 						</div>
-					) : (
-						<>
-							<div className="g-header__menu__block">
-								<div className="g-header__menu__translate">
-									<motion.div className="g-header__tagline t-h-5">
-										<span className="icon-plus" />
-										Parisian Treasures Refreshed Weekly
-										<FrenchDots />
-									</motion.div>
-									<NavLink nav={leftNav} pathname={pathname} />
-								</div>
+						<div className="g-header__menu__block">
+							<div className="g-header__menu__translate">
+								<motion.div className="g-header__tagline t-h-5">
+									<span className="icon-plus" />
+									Design Conscious Travel Planning
+									<DesignDots />
+								</motion.div>
+								<NavLink nav={rightNav} pathname={pathname} />
 							</div>
-							<div className="g-header__menu__block">
-								<div className="g-header__menu__translate">
-									<motion.div className="g-header__tagline t-h-5">
-										<span className="icon-plus" />
-										Design Conscious Travel Planning
-										<DesignDots />
-									</motion.div>
-									<NavLink nav={rightNav} pathname={pathname} />
-								</div>
-							</div>
-						</>
-					)}
-				</div>
+						</div>
+					</div>
+				)} */}
 				<div className="g-header__cta">
-					{pathname === '/' ? (
+					{pathname === '/' && (
 						<Button
 							className="btn-underline js-gtm-search"
-							onClick={() => setSearchHotelActive(true)}
+							onClick={() => {
+								setPlannerActive(true);
+								setPlannerContent({ type: 'hotel' });
+							}}
 						>
 							Search Hotel
 						</Button>
-					) : (
-						<Button className="btn-underline" href={'/contact'}>
-							Contact & FAQ
+					)}
+					{pathname === '/travel-design' && (
+						<Button
+							className="btn-underline js-gtm-plan"
+							onClick={() => {
+								setPlannerActive(true);
+								setPlannerContent({ type: 'design' });
+							}}
+						>
+							Plan Your Trip
 						</Button>
 					)}
 				</div>
-				{pathname !== '/' && (
+				{/* {pathname !== '/' && pathname !== '/travel-design' && (
 					<MobileMenuTrigger
 						isMobileMenuOpen={isMobileMenuOpen}
 						onHandleClick={onToggleMenu}
 					/>
-				)}
+				)} */}
 			</header>
 		</>
 	);

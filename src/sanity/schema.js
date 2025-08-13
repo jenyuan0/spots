@@ -28,6 +28,7 @@ import gLocations from './schemas/documents/g-locations';
 import gItinerariesDay from './schemas/documents/g-itineraries-day';
 import gItineraries from './schemas/documents/g-itineraries';
 import gGuides from './schemas/documents/g-guides';
+import gCases from './schemas/documents/g-cases';
 import gCategories from './schemas/documents/g-categories';
 import gSubcategories from './schemas/documents/g-subcategories';
 import gAuthors from './schemas/documents/g-authors';
@@ -41,6 +42,7 @@ import pContact from './schemas/documents/p-contact';
 import pTripBespoke from './schemas/documents/p-trip-bespoke';
 import pTripReady from './schemas/documents/p-trip-ready';
 import pHotelBooking from './schemas/documents/p-hotel-booking';
+import pTravelDesign from './schemas/documents/p-travel-design';
 
 import pParis from './schemas/documents/p-paris';
 import pGuides from './schemas/documents/p-guides';
@@ -74,6 +76,7 @@ const schemas = [
 	gItinerariesDay,
 	gItineraries,
 	gGuides,
+	gCases,
 	gCategories,
 	gSubcategories,
 	gAuthors,
@@ -86,6 +89,7 @@ const schemas = [
 	pTripBespoke,
 	pTripReady,
 	pHotelBooking,
+	pTravelDesign,
 	pParis,
 	pGuides,
 	pLocations,

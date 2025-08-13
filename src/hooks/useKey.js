@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function useKey(onEscape) {
 	const [pressedKeys, setPressedKeys] = useState({
@@ -9,79 +9,76 @@ export default function useKey(onEscape) {
 	});
 	const [hasPressedKeys, setHasPressedKeys] = useState(false);
 
+	// Keep a stable ref to the latest onEscape callback
+	const onEscapeRef = useRef(onEscape);
 	useEffect(() => {
+		onEscapeRef.current = onEscape;
+	}, [onEscape]);
+
+	useEffect(() => {
+		const areEqual = (a, b) =>
+			a.command === b.command &&
+			a.ctrl === b.ctrl &&
+			a.shift === b.shift &&
+			a.alt === b.alt;
+
+		const updateStateIfChanged = (next) => {
+			setPressedKeys((prev) => (areEqual(prev, next) ? prev : next));
+			const nextHas = next.command || next.ctrl || next.shift || next.alt;
+			setHasPressedKeys((prev) => (prev === nextHas ? prev : nextHas));
+		};
+
 		const handleKeyDown = (e) => {
-			const newPressedKeys = {
+			const next = {
 				command: e.metaKey,
 				ctrl: e.ctrlKey,
 				shift: e.shiftKey,
 				alt: e.altKey,
 			};
-			setPressedKeys(newPressedKeys);
-			setHasPressedKeys(Object.values(newPressedKeys).includes(true));
+			updateStateIfChanged(next);
 		};
 
 		const handleKeyUp = (e) => {
-			const newPressedKeys = {
+			const next = {
 				command: e.metaKey,
 				ctrl: e.ctrlKey,
 				shift: e.shiftKey,
 				alt: e.altKey,
 			};
-			setPressedKeys(newPressedKeys);
-			setHasPressedKeys(Object.values(newPressedKeys).includes(true));
+			updateStateIfChanged(next);
 
-			// Call onEscape callback when Escape key is released
-			if (e.key === 'Escape' && onEscape) {
-				onEscape();
+			if (e.key === 'Escape' && typeof onEscapeRef.current === 'function') {
+				onEscapeRef.current();
 			}
 		};
 
-		const handleVisibilityChange = () => {
-			// Reset keys when tab/window loses focus
-			if (document.hidden) {
-				setPressedKeys({
-					command: false,
-					ctrl: false,
-					shift: false,
-					alt: false,
-				});
-				setHasPressedKeys(false);
-			} else {
-				// Recheck key states when focus returns
-				setPressedKeys({
-					command: false,
-					ctrl: false,
-					shift: false,
-					alt: false,
-				});
-				setHasPressedKeys(false);
-			}
-		};
-
-		const handleBlur = () => {
-			// Reset keys when window loses focus
-			setPressedKeys({
+		const resetKeys = () => {
+			updateStateIfChanged({
 				command: false,
 				ctrl: false,
 				shift: false,
 				alt: false,
 			});
-			setHasPressedKeys(false);
+		};
+
+		const handleVisibilityChange = () => {
+			if (document.hidden) {
+				resetKeys();
+			}
 		};
 
 		window.addEventListener('keydown', handleKeyDown);
 		window.addEventListener('keyup', handleKeyUp);
 		document.addEventListener('visibilitychange', handleVisibilityChange);
-		window.addEventListener('blur', handleBlur);
+		window.addEventListener('blur', resetKeys);
 
 		return () => {
 			window.removeEventListener('keydown', handleKeyDown);
 			window.removeEventListener('keyup', handleKeyUp);
 			document.removeEventListener('visibilitychange', handleVisibilityChange);
-			window.removeEventListener('blur', handleBlur);
+			window.removeEventListener('blur', resetKeys);
 		};
-	}, [onEscape]);
+	}, []); // Attach listeners once
 
 	return {
 		pressedKeys,

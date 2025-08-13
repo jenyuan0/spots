@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import React, { useRef, useState, useEffect } from 'react';
 import Img from '@/components/Image';
 import Button from '@/components/Button';
-import useSearchHotel from '@/hooks/useSearchHotel';
+import usePlanner from '@/hooks/usePlanner';
 import { springConfig } from '@/lib/helpers';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
@@ -29,7 +29,7 @@ function ListItem({ children }) {
 
 export default function SectionWhy({ data }) {
 	const { whyList, whyListHeading } = data;
-	const { setSearchHotelActive } = useSearchHotel();
+	const { setPlannerActive } = usePlanner();
 	const ref = useRef(null);
 	const { scrollYProgress } = useScroll({
 		target: ref,
@@ -88,7 +88,7 @@ export default function SectionWhy({ data }) {
 							'p-booking__why__lists-cta btn-outline cr-white js-gtm-search'
 						}
 						caret="right"
-						onClick={() => setSearchHotelActive(true)}
+						onClick={() => setPlannerActive(true)}
 					>
 						Start Your Search
 					</Button>

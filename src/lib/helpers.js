@@ -297,13 +297,51 @@ export function arrayCartesian(...arrays) {
 // ***ACTIONS***
 
 export function scrollDisable() {
+	// Capture current scroll and store it so we can restore later
+	const y = window.scrollY || window.pageYOffset || 0;
+	document.body.dataset.scrollY = String(y);
+
+	// Calculate scrollbar width to avoid layout shift when locking the body
+	const scrollbarWidth =
+		window.innerWidth - document.documentElement.clientWidth;
+
+	// Lock scrolling on the root as well (prevents wheel/keyboard scroll)
 	document.documentElement.style.overflow = 'hidden';
-	document.body.style.overflow = 'hidden';
+	document.documentElement.style.overscrollBehavior = 'none';
+
+	// Lock the body in place
+	document.body.style.position = 'fixed';
+	document.body.style.top = `-${y}px`;
+	document.body.style.left = '0';
+	document.body.style.right = '0';
+	document.body.style.width = '100%';
+	// Prevent layout shift from scrollbar removal
+	if (scrollbarWidth > 0) {
+		document.body.style.paddingRight = `${scrollbarWidth}px`;
+	}
+	// iOS Safari: disable touch scrolling while overlay is open
+	document.body.style.touchAction = 'none';
 }
 
 export function scrollEnable() {
-	document.documentElement.style.overflow = 'initial';
-	document.body.style.overflow = 'initial';
+	const y = parseInt(document.body.dataset.scrollY || '0', 10);
+
+	// Unlock root
+	document.documentElement.style.overflow = '';
+	document.documentElement.style.overscrollBehavior = '';
+
+	// Unlock body and clear inline styles
+	document.body.style.position = '';
+	document.body.style.top = '';
+	document.body.style.left = '';
+	document.body.style.right = '';
+	document.body.style.width = '';
+	document.body.style.paddingRight = '';
+	document.body.style.touchAction = '';
+	delete document.body.dataset.scrollY;
+
+	// Restore scroll
+	window.scrollTo(0, y);
 }
 
 // simple debounce

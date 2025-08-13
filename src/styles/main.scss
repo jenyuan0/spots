@@ -15,6 +15,7 @@
 @use 'c-accordion';
 @use 'c-carousel';
 @use 'c-vimeo-video';
+@use 'c-image-columns';
 @use 'c-free-form';
 @use 'c-iframe';
 @use 'c-portable-image';
@@ -43,7 +44,7 @@
 @use 'g-aside-map';
 @use 'g-magnify';
 @use 'g-lightbox';
-@use 'g-search-hotel';
+@use 'g-planner';
 @use 'g-footer';
 @use 'g-plan';
 
@@ -63,3 +64,4 @@
 @use 'p-email-signature';
 
 @use 'p-booking';
+@use 'p-design';

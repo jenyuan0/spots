@@ -25,18 +25,14 @@ export default function PageLocationsIndex({ data }) {
 	} = data || {};
 	const breadcrumb = [
 		{
-			title: 'Paris',
-			url: '/paris',
-		},
-		{
 			title: 'Locations',
-			url: '/paris/locations',
+			url: '/locations',
 		},
 		...(parentCategory
 			? [
 					{
 						title: parentCategory.title,
-						url: `/paris/locations/category/${categories[0].slug}`,
+						url: `/locations/category/${categories[0].slug}`,
 					},
 				]
 			: []),

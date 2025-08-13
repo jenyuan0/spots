@@ -26,7 +26,7 @@ export default function Footer({ siteData, data, isActive }) {
 		},
 		{
 			title: 'Locations',
-			url: '/paris/locations',
+			url: '/locations',
 		},
 		{
 			title: 'Service Overview',
@@ -54,7 +54,7 @@ export default function Footer({ siteData, data, isActive }) {
 				<div className="g-footer__copyright t-h-5">
 					© {new Date().getFullYear()} {siteData?.title}
 				</div>
-				{pathname !== '/' && (
+				{/* {pathname !== '/' && pathname !== '/travel-design' && (
 					<ul className="g-footer__links t-l-2">
 						{nav.map((item, index) => {
 							return (
@@ -72,7 +72,7 @@ export default function Footer({ siteData, data, isActive }) {
 							);
 						})}
 					</ul>
-				)}
+				)} */}
 			</motion.footer>
 		</>
 	);

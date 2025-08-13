@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import CustomPortableText from '@/components/CustomPortableText';
 import Carousel from '@/components/Carousel';
 import Button from '@/components/Button';
-import useSearchHotel from '@/hooks/useSearchHotel';
+import usePlanner from '@/hooks/usePlanner';
 import { useInView } from 'react-intersection-observer';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
 
@@ -26,14 +26,14 @@ function MessageBubble({ index, msg, delayOffset }) {
 }
 
 function ExampleChat({ example, delayOffset }) {
-	const { setSearchHotelActive, setSearchContent } = useSearchHotel();
+	const { setPlannerActive, setPlannerContent } = usePlanner();
 	const color = example?.color?.title || 'green';
 	const handleOnClick = () => {
-		setSearchHotelActive(true);
+		setPlannerActive(true);
 
 		switch (example.ctaLabel) {
 			case 'Find Your Stay':
-				setSearchContent({
+				setPlannerContent({
 					heading: 'Find Your Stay',
 					subheading:
 						'Tell us where you’re going and what matters most — we’ll curate the best fits and handle the rest.',
@@ -41,7 +41,7 @@ function ExampleChat({ example, delayOffset }) {
 				});
 				break;
 			case 'Unlock Insider Rates':
-				setSearchContent({
+				setPlannerContent({
 					heading: 'Unlock Insider Rates',
 					subheading:
 						'Share your travel dates and we’ll check for insider pricing, upgrades, and perks — no strings attached.',
@@ -51,7 +51,7 @@ function ExampleChat({ example, delayOffset }) {
 				});
 				break;
 			case 'Start Planning':
-				setSearchContent({
+				setPlannerContent({
 					heading: 'Plan Your Trip',
 					subheading:
 						'Planning for a group or something specific? Tell us your needs — we’ll simplify everything.',

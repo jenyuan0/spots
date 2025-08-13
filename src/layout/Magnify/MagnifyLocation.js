@@ -1,17 +1,99 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { format } from 'date-fns';
 import { hasArrayValue, formatAddress } from '@/lib/helpers';
 import Link from '@/components/CustomLink';
 import Img from '@/components/Image';
 import CustomPortableText from '@/components/CustomPortableText';
-import Button from '@/components/Button';
 import Carousel from '@/components/Carousel';
 import CategoryPillList from '@/components/CategoryPillList';
 import LocationHighlights from '@/components/LocationHighlights';
-import useSearchHotel from '@/hooks/useSearchHotel';
 import useLightbox from '@/hooks/useLightbox';
+import { client } from '@/sanity/lib/client';
+import { getLocationsData, fileMetaFields } from '@/sanity/lib/queries';
 
-export default function MagnifyLocation({ data }) {
+export default function MagnifyLocation({
+	mParam,
+	pageSlug,
+	onColorChange,
+	onMeta,
+}) {
+	const [locationContent, setLocationContent] = useState(null);
+	const [color, setColor] = useState(null);
+	const [reservations, setReservations] = useState([]);
+	const [isLoaded, setIsLoaded] = useState(false);
+	const { setLightboxImages, setLightboxActive } = useLightbox();
+
+	useEffect(() => {
+		const fetchData = async () => {
+			if (!mParam) return;
+			try {
+				const dataSlug = mParam.split('/').pop();
+				const [content, resvs] = await Promise.all([
+					client.fetch(
+						`*[_type == "gLocations" && slug.current == "${dataSlug}"][0]{
+                ${getLocationsData()}
+              }`
+					),
+					client.fetch(`
+              *[_type == "gItineraries" && slug.current == "${pageSlug}"][0].reservations[]{
+                "location": location->{ _id },
+                startTime,
+                endTime,
+                notes,
+                attachments[]{${fileMetaFields}}
+              }
+            `),
+				]);
+				const contentColor =
+					(content &&
+						(content.color ||
+							content?.categories?.[0]?.color?.title?.toLowerCase())) ||
+					'brown';
+
+				setLocationContent(content);
+				setReservations(resvs || []);
+				setColor(contentColor);
+				if (onColorChange) onColorChange(contentColor);
+			} catch (e) {
+				console.error('Error fetching location content:', e);
+			}
+		};
+
+		if (!isLoaded) {
+			setIsLoaded(true);
+			fetchData();
+		}
+	}, [mParam, pageSlug, onColorChange]);
+
+	// --- meta for parent (must run before any early return) ---
+	const metaTitle = locationContent?.title || '';
+	const metaHasHotelCategory = Array.isArray(locationContent?.categories)
+		? locationContent.categories.some((cat) => cat?.slug === 'hotels')
+		: false;
+	const lastMetaRef = useRef({ hasHotelCategory: false, title: '' });
+
+	useEffect(() => {
+		const nextMeta = {
+			hasHotelCategory: metaHasHotelCategory,
+			title: metaTitle,
+		};
+		const prev = lastMetaRef.current;
+		if (
+			prev.hasHotelCategory !== nextMeta.hasHotelCategory ||
+			prev.title !== nextMeta.title
+		) {
+			lastMetaRef.current = nextMeta;
+			if (onMeta) onMeta(nextMeta);
+		}
+	}, [metaHasHotelCategory, metaTitle, onMeta]);
+	// --- end meta ---
+
+	if (!isLoaded || !locationContent) {
+		return null;
+	}
+
+	const data = { content: locationContent, reservations };
+
 	const {
 		_id,
 		title,
@@ -21,19 +103,17 @@ export default function MagnifyLocation({ data }) {
 		categories,
 		subcategories,
 		highlights,
-		content,
+		content: contentBlocks,
 		contentItinerary,
 		urls,
 		fees,
 	} = data?.content || {};
-	const { setSearchHotelActive, setSearchContent } = useSearchHotel();
 	const res = data.reservations?.filter((r) => r.location._id === _id);
 	const addressString =
 		address &&
 		Object.values(address)
 			.filter((value) => value)
 			.join(', ');
-	const { setLightboxImages, setLightboxActive } = useLightbox();
 	const hasHotelCategory = categories?.some((cat) => cat?.slug === 'hotels');
 
 	return (
@@ -45,26 +125,9 @@ export default function MagnifyLocation({ data }) {
 			)}
 			{title && (
 				<h2 className="g-magnify-locations__heading t-h-2">
-					{/* <Link href={`/paris/locations/${slug}`}>{title}</Link> */}
+					{/* <Link href={`/locations/${slug}`}>{title}</Link> */}
 					{title}
 				</h2>
-			)}
-			{hasHotelCategory && (
-				<div className="g-magnify-locations__cta">
-					<Button
-						className={`btn cr-green-d`}
-						onClick={() => {
-							setSearchHotelActive(true);
-							setSearchContent({
-								heading: 'Unlock Insider Rate & Perks',
-								subject: `Rate & Perks for ${title}`,
-								where: title,
-							});
-						}}
-					>
-						Unlock Insider Rates
-					</Button>
-				</div>
 			)}
 			{res?.length > 0 && (
 				<div className="g-magnify-locations__res wysiwyg-b-1">
@@ -143,9 +206,9 @@ export default function MagnifyLocation({ data }) {
 					</ul>
 				</div>
 			)}
-			{content && (
+			{contentBlocks && (
 				<div className="g-magnify-locations__content wysiwyg-page">
-					<CustomPortableText blocks={content} />
+					<CustomPortableText blocks={contentBlocks} />
 				</div>
 			)}
 			{contentItinerary && (

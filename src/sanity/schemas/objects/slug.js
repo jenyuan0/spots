@@ -6,18 +6,14 @@ export default function slug({ initialValue, readOnly, group } = {}) {
 		title: 'Slug (Page URL)',
 		name: 'slug',
 		type: 'slug',
-		components: {
-			field: SlugField,
-		},
+		components: { field: SlugField },
 		options: {
 			source: 'title',
 			maxLength: 200,
 			slugify: (input) => {
 				if (!input) return '';
-				// Detect if the input contains Chinese characters
+				// Detect Chinese
 				const hasChinese = /[\u4E00-\u9FFF]/.test(input);
-
-				// Convert Chinese to Pinyin if Chinese characters are detected
 				const processedInput = hasChinese
 					? pinyin(input, {
 							style: pinyin.STYLE_NORMAL,
@@ -25,17 +21,26 @@ export default function slug({ initialValue, readOnly, group } = {}) {
 						}).join(' ')
 					: input;
 
-				// Convert common ligatures to their regular character equivalents
-				const decomposedInput = processedInput
-					// Latin ligatures
+				// Normalize apostrophes and fix possessives
+				const unifiedApostrophes = processedInput.replace(
+					/[\u2019\u2018\u02BC\u2032\uFF07]/g,
+					"'"
+				);
+				const possessivesFixed = unifiedApostrophes
+					// Convert singular possessives: "Friend's" -> "Friends"
+					.replace(/([A-Za-z0-9])'s\b/gi, '$1s')
+					// Convert plural possessives: "Friends'" -> "Friends"
+					.replace(/([A-Za-z0-9]+)'\b/gi, '$1');
+				let baseForSlug = possessivesFixed;
+
+				// Ligatures → plain
+				const decomposedInput = baseForSlug
 					.replace(/œ/g, 'oe')
 					.replace(/æ/g, 'ae')
 					.replace(/Œ/g, 'OE')
 					.replace(/Æ/g, 'AE')
-					// Germanic ligatures
 					.replace(/ĳ/g, 'ij')
 					.replace(/Ĳ/g, 'IJ')
-					// Historical ligatures
 					.replace(/ﬀ/g, 'ff')
 					.replace(/ﬁ/g, 'fi')
 					.replace(/ﬂ/g, 'fl')
@@ -47,9 +52,10 @@ export default function slug({ initialValue, readOnly, group } = {}) {
 				return decomposedInput
 					.toLowerCase()
 					.normalize('NFD')
-					.replace(/[\u0300-\u036f]/g, '') // Remove diacritics
-					.replace(/'/g, '') // Remove apostrophes
-					.replace(/[\s\W-]+/g, '-') // Convert other non-word chars to hyphens
+					.replace(/[\u0300-\u036f]/g, '')
+					.replace(/[’'`]/g, '')
+					.replace(/[^\p{Letter}\p{Number}\s-]+/gu, '')
+					.replace(/[\s\W-]+/g, '-')
 					.replace(/^-+|-+$/g, '')
 					.slice(0, 200);
 			},

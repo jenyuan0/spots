@@ -28,40 +28,51 @@ function getWhoMessage([adults, children, pets]) {
 	return parts.join(', ');
 }
 
-export default function HotelForm({ data }) {
+export default function PlannerForm({ data, plan }) {
 	const { isTabletScreen } = useWindowDimensions();
 	const [isMounted, setIsMounted] = useState(false);
 	const [content, setContent] = useState();
-	useEffect(() => {
-		async function fetchContent() {
-			try {
-				const data = await Promise.all([
-					client.fetch(`
-						*[_type == "pHotelBooking"][0]{
-							contactHeading,
-							contactSubheading,
-							contactPlaceholder
-						}
-					`),
-				]);
-				setContent(data[0]);
-			} catch (error) {
-				console.error('Error fetching data:', error);
-			}
-		}
-		fetchContent();
-	}, []);
+	const [type, setType] = useState(null);
 
-	const [subject, setSubject] = useState(data?.subject ?? 'Hotel search');
+	useEffect(() => {
+		const controller = new AbortController();
+		const DOC_MAP = { hotel: 'pHotelBooking', design: 'pTravelDesign' };
+		const docType = DOC_MAP[type] ?? 'pHotelBooking';
+
+		(async () => {
+			try {
+				const doc = await client.fetch(
+					`*[_type == $docType][0]{
+						contactHeading,
+						contactSubheading,
+						contactPlaceholder,
+						contactSubject
+					}`,
+					{ docType },
+					{ signal: controller.signal }
+				);
+				setContent(doc || {});
+			} catch (error) {
+				if (error.name !== 'AbortError') {
+					console.error('Error fetching data:', error);
+				}
+			}
+		})();
+
+		return () => controller.abort();
+	}, [type]);
+
+	const [subject, setSubject] = useState();
 	const [formText, setFormText] = useState({
 		heading: data?.heading ?? '',
 		subheading: data?.subheading ?? '',
 	});
-	const [where, setWhere] = useState(data?.where || '');
+	const [where, setWhere] = useState('');
 	const [whenMessage, setWhenMessage] = useState('');
 	const [whoMessage, setWhoMessage] = useState('');
 	const [message, setMessage] = useState('');
 	const [budgetChoice, setBudgetChoice] = useState('');
+	const [helpPlanChoice, setHelpPlanChoice] = useState(''); // 'yes' | 'no'
 	const [errorIsVisible, setErrorIsVisible] = useState(false);
 
 	const [whenCalActive, setWhenCalActive] = useState(false);
@@ -124,17 +135,25 @@ export default function HotelForm({ data }) {
 	}, []);
 
 	useEffect(() => {
+		setType(plan || data?.type);
+
 		if (content) {
 			const newHeading = data?.heading ?? content.contactHeading ?? '';
 			const newSubheading = data?.subheading ?? content.contactSubheading ?? '';
 			setFormText({ heading: newHeading, subheading: newSubheading });
+			setSubject(data?.subject ?? content.contactSubject ?? '');
 		}
-	}, [content, data]);
+	}, [content, plan, data]);
 
 	const computedMessage = useMemo(() => {
 		let parts = ['Hi,'];
 
-		if (where) {
+		if (type == 'design') {
+			parts.push(
+				`I’m looking for help planning a trip${where && ` to ${where}`}`
+			);
+			setSubject(`Travel Planning to ${where}`);
+		} else if (where) {
 			const isRoom = data?.where;
 			parts.push(
 				`${isRoom ? 'I’m looking to book a room at' : 'I’m looking for help finding a hotel in'} ${where}`
@@ -146,10 +165,21 @@ export default function HotelForm({ data }) {
 		if (whenMessage) parts.push(`for ${whenMessage}`);
 		if (whoMessage) parts.push(`for ${whoMessage.toLowerCase()}`);
 		if (budgetChoice) parts.push(`with a nightly budget of ${budgetChoice}`);
+		if (helpPlanChoice && helpPlanChoice.toLowerCase() === 'yes') {
+			parts.push('and I’d like help planning the trip');
+		}
 		const newMessage = parts.join(' ') + '.';
 		setMessage(newMessage);
 		return newMessage;
-	}, [data, content, whenMessage, whoMessage, budgetChoice, where]);
+	}, [
+		data,
+		content,
+		whenMessage,
+		whoMessage,
+		budgetChoice,
+		where,
+		helpPlanChoice,
+	]);
 
 	useEffect(() => {
 		setWhere(data?.where || '');
@@ -158,22 +188,22 @@ export default function HotelForm({ data }) {
 	if (!isMounted) return null;
 
 	return (
-		<div className="g-hotel-form c-form">
-			<div className="g-hotel-form__header wysiwyg">
+		<div className="g-planner-form c-form">
+			<div className="g-planner-form__header wysiwyg">
 				{formText.heading && <h2 className="t-h-1">{formText.heading}</h2>}
 				{formText.subheading && <p className="t-h-4">{formText.subheading}</p>}
 			</div>
-			<div className={'g-hotel-form__intake c-form__fields'}>
+			<div className={'g-planner-form__intake c-form__fields'}>
 				<Field
 					type={'text'}
 					label={'Where'}
-					placeholder={'Your Destination'}
+					placeholder={'Your Destination(s)'}
 					value={where}
 					onChange={(e) => setWhere(e.target.value)}
 				/>
 				<div
 					ref={whenFieldRef}
-					className="g-hotel-form__when c-field"
+					className="g-planner-form__when c-field"
 					data-size="1/2"
 				>
 					<Field
@@ -203,7 +233,7 @@ export default function HotelForm({ data }) {
 				</div>
 				<div
 					ref={whoFieldRef}
-					className="g-hotel-form__who c-field"
+					className="g-planner-form__who c-field"
 					data-size="1/2"
 				>
 					<Field
@@ -217,18 +247,18 @@ export default function HotelForm({ data }) {
 						}}
 					/>
 					<div
-						className={clsx('g-hotel-form__who__detail', {
+						className={clsx('g-planner-form__who__detail', {
 							'is-active': whoDetailsActive == true,
 						})}
 					>
-						<div className="g-hotel-form__who__detail__item">
-							<div className="g-hotel-form__who__detail__label-group">
-								<div className="g-hotel-form__who__detail__label">Adult</div>
-								<div className="g-hotel-form__who__detail__sublabel cr-subtle-4">
+						<div className="g-planner-form__who__detail__item">
+							<div className="g-planner-form__who__detail__label-group">
+								<div className="g-planner-form__who__detail__label">Adult</div>
+								<div className="g-planner-form__who__detail__sublabel cr-subtle-4">
 									Age 13 or above
 								</div>
 							</div>
-							<div className="g-hotel-form__who__detail__form">
+							<div className="g-planner-form__who__detail__form">
 								<button
 									type="button"
 									onClick={() => updateWho(0, -1)}
@@ -236,7 +266,7 @@ export default function HotelForm({ data }) {
 								>
 									<span className="icon-minus" />
 								</button>
-								<div className="g-hotel-form__who__detail__qty">
+								<div className="g-planner-form__who__detail__qty">
 									{who[0] || 0}
 								</div>
 								<button
@@ -248,14 +278,16 @@ export default function HotelForm({ data }) {
 								</button>
 							</div>
 						</div>
-						<div className="g-hotel-form__who__detail__item">
-							<div className="g-hotel-form__who__detail__label-group">
-								<div className="g-hotel-form__who__detail__label">Children</div>
-								<div className="g-hotel-form__who__detail__sublabel cr-subtle-4">
+						<div className="g-planner-form__who__detail__item">
+							<div className="g-planner-form__who__detail__label-group">
+								<div className="g-planner-form__who__detail__label">
+									Children
+								</div>
+								<div className="g-planner-form__who__detail__sublabel cr-subtle-4">
 									Ages 0–12
 								</div>
 							</div>
-							<div className="g-hotel-form__who__detail__form">
+							<div className="g-planner-form__who__detail__form">
 								<button
 									type="button"
 									onClick={() => updateWho(1, -1)}
@@ -263,7 +295,7 @@ export default function HotelForm({ data }) {
 								>
 									<span className="icon-minus" />
 								</button>
-								<div className="g-hotel-form__who__detail__qty">
+								<div className="g-planner-form__who__detail__qty">
 									{who[1] || 0}
 								</div>
 								<button
@@ -275,14 +307,14 @@ export default function HotelForm({ data }) {
 								</button>
 							</div>
 						</div>
-						<div className="g-hotel-form__who__detail__item">
-							<div className="g-hotel-form__who__detail__label-group">
-								<div className="g-hotel-form__who__detail__label">Pets</div>
-								<div className="g-hotel-form__who__detail__sublabel cr-subtle-4">
+						<div className="g-planner-form__who__detail__item">
+							<div className="g-planner-form__who__detail__label-group">
+								<div className="g-planner-form__who__detail__label">Pets</div>
+								<div className="g-planner-form__who__detail__sublabel cr-subtle-4">
 									Dogs, cats, etc.
 								</div>
 							</div>
-							<div className="g-hotel-form__who__detail__form">
+							<div className="g-planner-form__who__detail__form">
 								<button
 									type="button"
 									onClick={() => updateWho(2, -1)}
@@ -290,7 +322,7 @@ export default function HotelForm({ data }) {
 								>
 									<span className="icon-minus" />
 								</button>
-								<div className="g-hotel-form__who__detail__qty">
+								<div className="g-planner-form__who__detail__qty">
 									{who[2] || 0}
 								</div>
 								<button
@@ -304,29 +336,60 @@ export default function HotelForm({ data }) {
 						</div>
 					</div>
 				</div>
-
-				<div
-					className={clsx('g-hotel-form__budget c-field', {
-						'is-visible': whenRange[0] && whenRange[1],
-					})}
-				>
-					<div className="g-hotel-form__budget__title t-b-1">
-						(Optional) What’s your ideal nightly budget?
-					</div>
-					{['$250—$500', '$500—$750', '$750+'].map((option) => (
-						<button
-							key={option}
-							className={clsx('pill', {
-								'is-active': budgetChoice === option,
+				{type !== 'design' && (
+					<>
+						<div
+							className={clsx('g-planner-form__help c-field', {
+								'is-visible': whenRange[0] && whenRange[1],
 							})}
-							onClick={() =>
-								setBudgetChoice(budgetChoice === option ? '' : option)
-							}
+							role="radiogroup"
+							aria-label="Help planning"
 						>
-							{option}
-						</button>
-					))}
-				</div>
+							<div className="g-planner-form__help__title t-b-1">
+								Would you like help planning your trip?
+							</div>
+							{['Yes', 'No'].map((option) => (
+								<button
+									key={option}
+									className={clsx('pill', {
+										'is-active': helpPlanChoice === option,
+									})}
+									role="radio"
+									aria-checked={helpPlanChoice === option}
+									onClick={() =>
+										setHelpPlanChoice(helpPlanChoice === option ? '' : option)
+									}
+								>
+									{option}
+								</button>
+							))}
+						</div>
+						<div
+							className={clsx('g-planner-form__budget c-field', {
+								'is-visible': whenRange[0] && whenRange[1],
+							})}
+							role="radiogroup"
+							aria-label="Budget choice"
+						>
+							<div className="g-planner-form__budget__title t-b-1">
+								What’s your ideal nightly budget?
+							</div>
+							{['$250—$500', '$500—$750', '$750+'].map((option) => (
+								<button
+									key={option}
+									className={clsx('pill', {
+										'is-active': budgetChoice === option,
+									})}
+									onClick={() =>
+										setBudgetChoice(budgetChoice === option ? '' : option)
+									}
+								>
+									{option}
+								</button>
+							))}
+						</div>
+					</>
+				)}
 				{/*
 5. What’s your ideal hotel vibe? (Optional)
 [ ] Design-forward boutique
@@ -334,17 +397,11 @@ export default function HotelForm({ data }) {
 [ ] Family-friendly comfort
 [ ] I’m open
 
-6. What’s your hotel budget per night?
-[ ] $250–500
-[ ] $500–750
-[ ] $750+
-[ ] I’m flexible—recommend what fits best
-
 7. Anything else we should know? (Optional)
 [Free text: dietary needs, accessibility, must-haves, etc.) */}
 			</div>
-			<div className="g-hotel-form__footer">
-				<div className="g-hotel-form__cta">
+			<div className="g-planner-form__footer">
+				<div className="g-planner-form__cta">
 					<Button
 						icon={<IconWhatsApp />}
 						className={'btn cr-green-d js-gtm-whatsapp'}
@@ -369,7 +426,7 @@ export default function HotelForm({ data }) {
 						Send via Email
 					</Button>
 					<div
-						className={clsx('g-hotel-form__error t-b-1', {
+						className={clsx('g-planner-form__error t-b-1', {
 							'is-visible': errorIsVisible,
 						})}
 					>

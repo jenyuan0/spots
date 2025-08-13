@@ -4,6 +4,7 @@ import {
 	CalendarIcon,
 	BookIcon,
 	CommentIcon,
+	CaseIcon,
 	TagsIcon,
 	UserIcon,
 	BlockContentIcon,
@@ -66,6 +67,26 @@ export const globalItineraries = (S) => {
 				.canHandleIntent(
 					(intent, { type }) =>
 						['create', 'edit'].includes(intent) && type === 'gItineraries'
+				)
+		);
+};
+
+export const globalCases = (S) => {
+	return S.listItem()
+		.title('Cases')
+		.schemaType('gCases')
+		.icon(CaseIcon)
+		.child(
+			S.documentTypeList('gCases')
+				.title('Cases')
+				.filter(`_type == "gCases"`)
+				.apiVersion(apiVersion)
+				.child((documentId) =>
+					S.document().documentId(documentId).schemaType('gCases')
+				)
+				.canHandleIntent(
+					(intent, { type }) =>
+						['create', 'edit'].includes(intent) && type === 'gCases'
 				)
 		);
 };

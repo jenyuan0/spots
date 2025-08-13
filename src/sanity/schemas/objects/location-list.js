@@ -12,7 +12,7 @@ export default function locationList({
 		icon: PinIcon,
 		fields: [
 			title({
-				initialValue: 'The Spots',
+				initialValue: 'Spots worth visiting',
 				required: false,
 			}),
 			...(showStartTime

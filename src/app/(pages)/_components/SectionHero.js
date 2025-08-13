@@ -5,7 +5,7 @@ import CustomPortableText from '@/components/CustomPortableText';
 import Carousel from '@/components/Carousel';
 import Button from '@/components/Button';
 import LocationCard from '@/components/LocationCard';
-import useSearchHotel from '@/hooks/useSearchHotel';
+import usePlanner from '@/hooks/usePlanner';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { springConfig } from '@/lib/helpers';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
@@ -33,7 +33,7 @@ function SpotsColumns({ data, index, scrollYProgress }) {
 
 export default function SectionHero({ data }) {
 	const { heroHeading, heroSubheading, heroSpots } = data;
-	const { setSearchHotelActive } = useSearchHotel();
+	const { setPlannerActive } = usePlanner();
 	const ref = useRef(null);
 	const { isSmScreen, height } = useWindowDimensions();
 	const [isMounted, setIsMounted] = useState(false);
@@ -111,7 +111,7 @@ export default function SectionHero({ data }) {
 				<Button
 					className={'btn cr-green-l js-gtm-search'}
 					caret="right"
-					onClick={() => setSearchHotelActive(true)}
+					onClick={() => setPlannerActive(true)}
 				>
 					Start Your Search
 				</Button>

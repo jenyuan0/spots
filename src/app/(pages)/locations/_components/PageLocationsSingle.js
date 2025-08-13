@@ -38,23 +38,16 @@ export default function PageLocationsSingle({ data }) {
 			.filter((value) => value)
 			.join(', ');
 	const { setLightboxImages, setLightboxActive } = useLightbox();
-	const breadcrumb =
-		address.city.toLowerCase() == 'paris'
-			? [
-					{
-						title: 'Paris',
-						url: '/paris',
-					},
-					{
-						title: 'Locations',
-						url: '/paris/locations',
-					},
-					{
-						title: categories[0].title,
-						url: `/paris/locations/category/${categories[0].slug}`,
-					},
-				]
-			: null;
+	const breadcrumb = [
+		{
+			title: 'Locations',
+			url: '/locations',
+		},
+		{
+			title: categories[0].title,
+			url: `/locations/category/${categories[0].slug}`,
+		},
+	];
 
 	// TODO
 	// Share
@@ -140,7 +133,7 @@ export default function PageLocationsSingle({ data }) {
 				hasArrayValue(defaultRelatedLocations)) && (
 				<section className="p-locations-single__related">
 					<h2 className="p-locations-single__related__title t-h-2">
-						More to Discover
+						More Spots to Discover
 					</h2>
 					{/* TODO
 					// prioritize subcategories and other attributes such as editors pick, trending, etc.
@@ -168,8 +161,7 @@ export default function PageLocationsSingle({ data }) {
 					</ResponsiveGrid>
 				</section>
 			)}
-
-			{(hasArrayValue(relatedGuides) ||
+			{/* {(hasArrayValue(relatedGuides) ||
 				hasArrayValue(defaultRelatedGuides)) && (
 				<section className="p-locations-single__related">
 					<h2 className="p-locations-single__related__title t-h-2">
@@ -189,7 +181,7 @@ export default function PageLocationsSingle({ data }) {
 						</ResponsiveGrid>
 					</div>
 				</section>
-			)}
+			)} */}
 		</>
 	);
 }
