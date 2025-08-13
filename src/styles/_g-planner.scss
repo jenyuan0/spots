@@ -96,6 +96,12 @@
 	&__header {
 		text-align: center;
 
+		@include mobileUp {
+			.pill {
+				margin-bottom: 30px;
+			}
+		}
+
 		p {
 			text-wrap: balance;
 		}
