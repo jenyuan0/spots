@@ -176,7 +176,9 @@ export default function SectionHero({ data }) {
 	const checkOverlap = (x, y, existingPositions) => {
 		const minDistance = !isMobileScreen ? 150 : 50;
 		const centerY = boundary.height / 2;
-		const isCenterArea = y > centerY - 150 && y < centerY + 150;
+		const centerAreaRange = !isMobileScreen ? 150 : 75;
+		const isCenterArea =
+			y > centerY - centerAreaRange && y < centerY + centerAreaRange;
 		const hasOverlap = existingPositions.some((pos) => {
 			const dx = pos.x - x;
 			const dy = pos.y - y;
