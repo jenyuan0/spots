@@ -81,7 +81,7 @@ export default function SectionCase({ data }) {
 		}
 	};
 
-	if (!isMounted) return false;
+	if (!isMounted || !caseItems) return false;
 
 	return (
 		<section className="p-design__case" ref={sectionRef}>

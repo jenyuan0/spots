@@ -423,7 +423,7 @@ export default function SectionWhy({ data }) {
 						<CustomPortableText blocks={whyHeading} hasPTag={false} />
 					</h2>
 				)}
-				{whyParagraph && <p className="t-b-1">{whyParagraph}</p>}
+				{whyParagraph && <p className="t-b-2">{whyParagraph}</p>}
 			</section>
 			<ClockBlock data={data} index={0} color={'red'} />
 			<MasksBlock data={data} index={1} color={'blue'} />
