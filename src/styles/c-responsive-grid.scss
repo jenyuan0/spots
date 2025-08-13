@@ -8,10 +8,6 @@
 		display: grid;
 		grid-template-columns: repeat(1, 1fr);
 		gap: 10px;
-
-		@container grid (min-width: 1600px) {
-			gap: 20px;
-		}
 	}
 
 	&[data-size='med'] &__grid {
@@ -36,7 +32,6 @@
 	&[data-size='lge'] &__grid {
 		@container grid (min-width: 800px) {
 			grid-template-columns: repeat(2, 1fr);
-			gap: 20px;
 		}
 
 		@container grid (min-width: 1200px) {
@@ -45,6 +40,7 @@
 
 		@container grid (min-width: 1600px) {
 			grid-template-columns: repeat(4, 1fr);
+			gap: 20px;
 		}
 	}
 
@@ -65,7 +61,6 @@
 
 		@container grid (min-width: 700px) {
 			grid-template-columns: repeat(3, 1fr);
-			gap: 20px;
 		}
 
 		@container grid (min-width: 1200px) {

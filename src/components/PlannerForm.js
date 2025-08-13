@@ -190,8 +190,14 @@ export default function PlannerForm({ data, plan }) {
 	return (
 		<div className="g-planner-form c-form">
 			<div className="g-planner-form__header wysiwyg">
-				<div className="pill">
-					{type == 'design' ? `Free Consolutation` : 'Always Free'}
+				<div
+					className="pill"
+					style={{
+						'--cr-primary': 'var(--cr-green-l)',
+						'--cr-secondary': 'var(--cr-green-d)',
+					}}
+				>
+					{type == 'design' ? `Free Consultation` : 'Always Free'}
 				</div>
 				{formText.heading && <h2 className="t-h-1">{formText.heading}</h2>}
 				{formText.subheading && <p className="t-h-4">{formText.subheading}</p>}
