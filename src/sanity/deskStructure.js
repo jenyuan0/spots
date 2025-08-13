@@ -1,6 +1,6 @@
 import { BookIcon, PinIcon, DocumentIcon, EarthGlobeIcon } from '@sanity/icons';
 import { globalMenu } from './desk/global';
-import { pagesMenu, otherPagesMenu } from './desk/pages';
+import { pagesMenu, otherPagesMenu, pageTravelDesign } from './desk/pages';
 import {
 	globalLocations,
 	globalItinerariesDay,
@@ -100,9 +100,11 @@ const deskStructure = (S) =>
 			pagesMenu(S),
 			otherPagesMenu(S),
 			S.divider(),
+			pageTravelDesign(S),
+			pageHotelBooking(S),
+			S.divider(),
 			pageParis(S),
 			pageTripReady(S),
-			pageHotelBooking(S),
 			S.divider(),
 			globalLocations(S),
 			locationsFilterEmptyContent(S),

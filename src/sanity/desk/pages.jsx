@@ -93,13 +93,7 @@ export const pagesMenu = (S) => {
 		.child(
 			S.list()
 				.title('Primary Pages')
-				.items([
-					pageHome(S),
-					pageError(S),
-					pageContact(S),
-					pageHotelBooking(S),
-					pageTravelDesign(S),
-				])
+				.items([pageHome(S), pageError(S), pageContact(S)])
 		);
 };
 
