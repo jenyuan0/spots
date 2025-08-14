@@ -53,13 +53,16 @@ export function Magnify() {
 			if (t) setType(t);
 			setMParam(m);
 			setIsActive(true);
-			scrollDisable();
+			scrollDisable(containerRef.current);
 		} else {
 			setIsActive(false);
 			setMParam(null);
 			scrollEnable();
 		}
-		return cleanup;
+		return () => {
+			scrollEnable();
+			cleanup();
+		};
 	}, [searchParams]);
 
 	useEffect(() => {

@@ -294,43 +294,152 @@ export function arrayCartesian(...arrays) {
 	);
 }
 
+// --- SCROLL TRAP STATE (module-scoped) ---
+let _scrollTrapCleanup = null;
+let _scrollTrapTarget = null;
+
+// Attach listeners that prevent page scroll outside a given scrollable element.
+// Returns a cleanup function to remove all listeners.
+function _addScrollTrap(targetEl) {
+	_scrollTrapTarget = targetEl;
+
+	const handleWheel = (e) => {
+		const el = _scrollTrapTarget;
+		if (!el) return;
+
+		const deltaY = e.deltaY;
+		const atTop = el.scrollTop === 0;
+		const atBottom =
+			Math.abs(el.scrollHeight - el.scrollTop - el.clientHeight) <= 1;
+
+		const scrollingUp = deltaY < 0;
+		const scrollingDown = deltaY > 0;
+		const shouldPrevent = (scrollingUp && atTop) || (scrollingDown && atBottom);
+
+		// If the wheel target is outside the scrollable container OR we've hit a boundary, block page scroll
+		if (!el.contains(e.target) || shouldPrevent) {
+			e.preventDefault();
+		}
+	};
+
+	let lastTouchY = null;
+
+	const handleTouchStart = (e) => {
+		if (e.touches.length !== 1) return;
+		lastTouchY = e.touches[0].clientY;
+	};
+
+	const handleTouchMove = (e) => {
+		const el = _scrollTrapTarget;
+		// If not interacting inside the target, block page scroll
+		if (lastTouchY === null || !el || !el.contains(e.target)) {
+			if (e.cancelable) e.preventDefault();
+			return;
+		}
+		const currentTouchY = e.touches[0].clientY;
+		const deltaY = currentTouchY - lastTouchY;
+
+		const atTop = el.scrollTop === 0;
+		const atBottom =
+			Math.abs(el.scrollHeight - el.scrollTop - el.clientHeight) <= 1;
+
+		const scrollingUp = deltaY > 0;
+		const scrollingDown = deltaY < 0;
+		const shouldPrevent = (scrollingUp && atTop) || (scrollingDown && atBottom);
+
+		if (!el.contains(e.target) || shouldPrevent) {
+			if (e.cancelable) e.preventDefault();
+		}
+		lastTouchY = currentTouchY;
+	};
+
+	const handleTouchEnd = () => {
+		lastTouchY = null;
+	};
+
+	document.addEventListener('wheel', handleWheel, { passive: false });
+	document.addEventListener('touchstart', handleTouchStart, { passive: false });
+	document.addEventListener('touchmove', handleTouchMove, { passive: false });
+	document.addEventListener('touchend', handleTouchEnd, { passive: false });
+
+	return () => {
+		document.removeEventListener('wheel', handleWheel);
+		document.removeEventListener('touchstart', handleTouchStart);
+		document.removeEventListener('touchmove', handleTouchMove);
+		document.removeEventListener('touchend', handleTouchEnd);
+		_scrollTrapTarget = null;
+	};
+}
+
 // ***ACTIONS***
 
-export function scrollDisable() {
-	// Capture current scroll and store it so we can restore later
+export function scrollDisable(targetElOrSelector) {
+	// React/SSR guard
+	if (typeof window === 'undefined' || typeof document === 'undefined') return;
+	// If a target is provided, set up a scroll trap that allows the target to scroll
+	// while preventing the page from scrolling outside of it. This avoids body locking.
+	if (targetElOrSelector) {
+		// Resolve element from selector or take element directly
+		const el =
+			typeof targetElOrSelector === 'string'
+				? document.querySelector(targetElOrSelector)
+				: targetElOrSelector;
+
+		if (el) {
+			// If already trapped for another element, clear it first
+			if (_scrollTrapCleanup) {
+				_scrollTrapCleanup();
+				_scrollTrapCleanup = null;
+			}
+			_scrollTrapCleanup = _addScrollTrap(el);
+			return; // Do not body-lock when we trap a specific container
+		}
+		// If selector didn't match, warn and skip global lock
+		console.warn(
+			'scrollDisable: target not found, skipping (no global lock applied)'
+		);
+		return;
+	}
+
+	// --- GLOBAL BODY LOCK (existing behavior) ---
 	const y = window.scrollY || window.pageYOffset || 0;
 	document.body.dataset.scrollY = String(y);
 
-	// Calculate scrollbar width to avoid layout shift when locking the body
 	const scrollbarWidth =
 		window.innerWidth - document.documentElement.clientWidth;
 
-	// Lock scrolling on the root as well (prevents wheel/keyboard scroll)
 	document.documentElement.style.overflow = 'hidden';
 	document.documentElement.style.overscrollBehavior = 'none';
 
-	// Lock the body in place
 	document.body.style.position = 'fixed';
 	document.body.style.top = `-${y}px`;
 	document.body.style.left = '0';
 	document.body.style.right = '0';
 	document.body.style.width = '100%';
-	// Prevent layout shift from scrollbar removal
 	if (scrollbarWidth > 0) {
 		document.body.style.paddingRight = `${scrollbarWidth}px`;
 	}
-	// iOS Safari: disable touch scrolling while overlay is open
 	document.body.style.touchAction = 'none';
 }
 
 export function scrollEnable() {
-	const y = parseInt(document.body.dataset.scrollY || '0', 10);
+	if (typeof window === 'undefined' || typeof document === 'undefined') return;
+	// If we set up a scoped trap, remove it first
+	if (_scrollTrapCleanup) {
+		_scrollTrapCleanup();
+		_scrollTrapCleanup = null;
+	}
 
-	// Unlock root
+	// If the body was globally locked, restore it; otherwise do nothing (scoped trap case)
+	const hadBodyLock =
+		!!document.body.dataset.scrollY || document.body.style.position === 'fixed';
+	const y = hadBodyLock
+		? parseInt(document.body.dataset.scrollY || '0', 10)
+		: null;
+
 	document.documentElement.style.overflow = '';
 	document.documentElement.style.overscrollBehavior = '';
 
-	// Unlock body and clear inline styles
 	document.body.style.position = '';
 	document.body.style.top = '';
 	document.body.style.left = '';
@@ -340,8 +449,10 @@ export function scrollEnable() {
 	document.body.style.touchAction = '';
 	delete document.body.dataset.scrollY;
 
-	// Restore scroll
-	window.scrollTo(0, y);
+	// Restore scroll only if we had a global lock
+	if (hadBodyLock && y !== null && !Number.isNaN(y)) {
+		window.scrollTo(0, y);
+	}
 }
 
 // simple debounce
