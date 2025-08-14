@@ -9,18 +9,12 @@
 	justify-content: flex-end;
 	overflow-y: auto;
 	overflow-x: clip;
+	backdrop-filter: blur(10px);
+	background-color: rgba(125, 125, 125, 0.6);
+	transition:
+		background-color 1s,
+		backdrop-filter 1s linear;
 	z-index: 200;
-
-	&:before {
-		content: '';
-		display: block;
-		position: fixed;
-		inset: 0;
-		backdrop-filter: blur(2px);
-		background-color: rgba(0, 0, 0, 0.6);
-		pointer-events: none;
-		transition: opacity var(--t-2);
-	}
 
 	&__overlay {
 		display: block;
@@ -75,10 +69,8 @@
 
 	&:not(.is-active) {
 		pointer-events: none;
-	}
-
-	&:not(.is-active):before {
-		opacity: 0;
+		backdrop-filter: blur(0px);
+		background-color: rgba(0, 0, 0, 0);
 	}
 
 	&:not(.is-active) &__content {
