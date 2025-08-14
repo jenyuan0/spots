@@ -192,6 +192,9 @@
 }
 
 .g-magnify-cases {
+	--s-sml: 720px;
+	--width-sml: Min(100vw - calc(var(--s-contain) * 2), var(--s-sml));
+
 	&__hero {
 		position: relative;
 		display: flex;
@@ -229,12 +232,11 @@
 		flex-direction: column;
 		align-items: flex-start;
 		gap: 40px;
-		max-width: var(--s-sml);
+		width: var(--width-sml);
 		margin: var(--s-section) auto;
-		padding-inline: var(--s-contain);
 
-		&__summary {
-			text-wrap: balance;
+		&__summary p {
+			font: var(--t-h-4);
 		}
 
 		&__offers {
@@ -277,7 +279,7 @@
 			ol,
 			ul,
 			.c-location-list {
-				max-width: var(--s-sml);
+				width: var(--width-sml);
 				margin-inline: auto;
 			}
 		}

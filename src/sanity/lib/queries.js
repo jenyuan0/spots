@@ -328,6 +328,9 @@ export const getCaseData = (type) => {
 				${imageMetaFields}
 			},
       introduction,
+			highlights[]{
+				${portableTextObj}
+			},
 			offers,
 			content[]{
 				${portableTextObj}

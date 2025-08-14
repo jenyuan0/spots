@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Img from '@/components/Image';
 
 export default function SectionHero({ data }) {
@@ -37,7 +37,7 @@ export default function SectionHero({ data }) {
 						preload="metadata"
 						onPlay={() => setIsVideoActive(true)}
 						style={{
-							visibility: isVideoActive,
+							visibility: isVideoActive ? 'visible' : 'hidden',
 						}}
 					/>
 				)}

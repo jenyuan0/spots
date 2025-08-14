@@ -4,10 +4,9 @@
 	position: relative;
 	height: clamp(100px, calc(var(--s-vp-height) * 0.2), 200px);
 	margin-top: var(--s-header);
+	pointer-events: none;
 	background-color: var(--cr-blue-d);
 	z-index: 1;
-
-	pointer-events: none;
 
 	&:after {
 		content: '';
@@ -17,6 +16,8 @@
 		height: 100%;
 		bottom: -2px;
 		left: 0;
+		z-index: 2;
+		pointer-events: none;
 		background: linear-gradient(rgba(255, 255, 255, 0), var(--cr-cream));
 	}
 }

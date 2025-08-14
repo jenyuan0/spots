@@ -121,6 +121,7 @@ function Img({
 				})}
 				role="img"
 				loading="lazy"
+				unoptimized
 			/>
 		</picture>
 	);

@@ -31,9 +31,8 @@ export default defineType({
 		},
 		customImage({ name: 'heroImage' }),
 		{
-			name: 'introduction',
-			type: 'text',
-			rows: 4,
+			name: 'highlights',
+			type: 'portableTextSimple',
 		},
 		{
 			name: 'offers',

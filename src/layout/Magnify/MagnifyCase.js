@@ -51,7 +51,7 @@ export default function MagnifyCase({ mParam, pageSlug, onColorChange }) {
 		title,
 		subtitle,
 		heroImage,
-		introduction,
+		highlights,
 		offers,
 		content,
 		accomodations,
@@ -77,9 +77,9 @@ export default function MagnifyCase({ mParam, pageSlug, onColorChange }) {
 				<h3 className="g-magnify-cases__highlights__title t-l-1">
 					Trip Highlights
 				</h3>
-				{introduction && (
+				{highlights && (
 					<div className="g-magnify-cases__highlights__summary wysiwyg">
-						<p className="t-h-4">{introduction}</p>
+						<CustomPortableText blocks={highlights} />
 					</div>
 				)}
 				{offers && (
