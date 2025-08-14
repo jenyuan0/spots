@@ -53,8 +53,8 @@ export default function SectionCase({ data }) {
 		setCtaColor(colorName || 'brown');
 		setCtaVisible(true);
 		// position & spring in
-		mvX.set(e.clientX + 20);
-		mvY.set(e.clientY);
+		mvX.set(e.clientX - 167.5 / 2);
+		mvY.set(e.clientY - 45 / 2);
 		scale.set(1);
 	};
 	const onItemLeave = () => {
@@ -64,8 +64,8 @@ export default function SectionCase({ data }) {
 		scale.set(0);
 	};
 	const onItemMove = (e) => {
-		mvX.set(e.clientX + 20);
-		mvY.set(e.clientY);
+		mvX.set(e.clientX - 167.5 / 2);
+		mvY.set(e.clientY - 45 / 2);
 	};
 
 	const setMag = useMagnify((state) => state.setMag);
