@@ -83,11 +83,16 @@ export default function MagnifyCase({ mParam, pageSlug, onColorChange }) {
 					</div>
 				)}
 				{offers && (
-					<ul className="g-magnify-cases__highlights__offers t-b-1">
-						{offers?.map((item, index) => (
-							<li key={`offer-${index}`}>{item}</li>
-						))}
-					</ul>
+					<>
+						<h3 className="g-magnify-cases__highlights__offers-title t-l-1">
+							Our Role
+						</h3>
+						<ul className="g-magnify-cases__highlights__offers t-b-1">
+							{offers?.map((item, index) => (
+								<li key={`offer-${index}`}>{item}</li>
+							))}
+						</ul>
+					</>
 				)}
 				<Button
 					className={`btn cr-${color}-d`}

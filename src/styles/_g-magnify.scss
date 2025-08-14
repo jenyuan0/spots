@@ -9,6 +9,7 @@
 	justify-content: flex-end;
 	overflow-y: auto;
 	overflow-x: clip;
+	transform: translate3d(0, 0, 0);
 	backdrop-filter: blur(10px);
 	background-color: rgba(125, 125, 125, 0.6);
 	transition:
@@ -26,9 +27,9 @@
 
 	&__content {
 		position: relative;
-		transform: translate3d(0, 0, 0);
 		width: Min(800px, 100vw);
 		height: fit-content;
+		transform: translate3d(0, 0, 0);
 		min-height: 100%;
 		color: var(--cr-primary);
 		background-color: var(--cr-cream);
@@ -231,7 +232,14 @@
 			font: var(--t-h-4);
 		}
 
+		&__offers-title {
+			margin-bottom: -20px;
+			margin-top: 30px;
+		}
+
 		&__offers {
+			width: 100%;
+
 			li {
 				display: flex;
 				align-items: center;
