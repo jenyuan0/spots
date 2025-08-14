@@ -139,8 +139,10 @@ export function Magnify() {
 			aria-modal={isActive}
 		>
 			<button
+				type="button"
 				className="g-magnify__overlay"
 				aria-hidden="true"
+				tabIndex={-1}
 				onClick={handleClose}
 			/>
 			<div className="g-magnify__content">
