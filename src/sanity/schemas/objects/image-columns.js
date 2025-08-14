@@ -1,6 +1,7 @@
 import { InlineElementIcon } from '@sanity/icons';
 import customImage from '@/sanity/schemas/objects/custom-image';
 import customIframe from '@/sanity/schemas/objects/custom-iframe';
+import { options } from 'sanitize-html';
 
 export default function imageColumns() {
 	return {
@@ -16,6 +17,9 @@ export default function imageColumns() {
 					customImage({ hasCaptionOptions: true, hasCropOptions: true }),
 					customIframe(),
 				],
+				options: {
+					layout: 'grid',
+				},
 				validation: (Rule) => Rule.min(1).required(),
 			},
 		],
