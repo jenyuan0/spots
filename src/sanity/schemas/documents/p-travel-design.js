@@ -12,14 +12,6 @@ export default defineType({
 	fields: [
 		title(),
 		slug(),
-		{
-			name: 'heroHeading',
-			type: 'portableTextSimple',
-		},
-		{
-			name: 'heroSubheading',
-			type: 'string',
-		},
 		customImage({ name: 'heroImage' }),
 		{
 			name: 'heroVideo',
@@ -36,6 +28,14 @@ export default defineType({
 					to: [{ type: 'gLocations' }],
 				},
 			],
+		},
+		{
+			name: 'introHeading',
+			type: 'string',
+		},
+		{
+			name: 'introParagraph',
+			type: 'portableTextSimple',
 		},
 		{
 			name: 'caseHeading',

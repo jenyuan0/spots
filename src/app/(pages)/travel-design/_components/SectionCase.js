@@ -13,7 +13,7 @@ import useKey from '@/hooks/useKey';
 
 export default function SectionCase({ data }) {
 	const { caseHeading, caseItems } = data || {};
-	const { width, height } = useWindowDimensions();
+	const { isTouchDevice, width, height } = useWindowDimensions();
 	const [isMounted, setIsMounted] = useState(false);
 
 	useEffect(() => {
@@ -86,7 +86,7 @@ export default function SectionCase({ data }) {
 	return (
 		<section className="p-design__case" ref={sectionRef}>
 			<div className="p-design__case__header">
-				<h2 className="pill">{caseHeading}</h2>
+				<h2 className="t-l-2 p-design__case__heading">{caseHeading}</h2>
 			</div>
 			<div className="p-design__case__list">
 				{caseItems?.map((el, i) => {
@@ -139,7 +139,9 @@ export default function SectionCase({ data }) {
 				})}
 			</div>
 			<motion.div
-				className={clsx('p-design__case__cta', { 'is-visible': ctaVisible })}
+				className={clsx('p-design__case__cta', {
+					'is-visible': !isTouchDevice && ctaVisible,
+				})}
 				style={{ x: springX, y: springY, scale }}
 			>
 				<Button className={clsx('btn', `cr-${ctaColor}-d`)}>

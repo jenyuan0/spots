@@ -576,10 +576,6 @@ export const pageTravelDesignQuery = groq`
   *[_type == "pTravelDesign"][0]{
     ${baseFields},
     "isHomepage": true,
-    heroHeading[]{
-      ${portableTextContentFields}
-    },
-    heroSubheading,
     heroImage,
     heroVideo{
       ${fileMetaFields}
@@ -590,6 +586,10 @@ export const pageTravelDesignQuery = groq`
       "slug": slug.current,
       "color": lower(categories[0]->color->title)
     },
+    introHeading,
+    introParagraph[]{
+      ${portableTextContentFields}
+		},
     caseHeading,		
     "caseItems": caseItems[]->{
       ${getCaseData('card')}

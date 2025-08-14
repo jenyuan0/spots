@@ -419,7 +419,7 @@ export default function SectionWhy({ data }) {
 		<section className="p-design__why">
 			<section className="p-design__why__header wysiwyg">
 				{whyHeading && (
-					<h2 className="t-h-2">
+					<h2 className="t-l-2">
 						<CustomPortableText blocks={whyHeading} hasPTag={false} />
 					</h2>
 				)}
