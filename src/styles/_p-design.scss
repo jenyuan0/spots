@@ -5,7 +5,7 @@
 	height: clamp(100px, calc(var(--s-vp-height) * 0.2), 200px);
 	margin-top: var(--s-header);
 	pointer-events: none;
-	background-color: var(--cr-blue-d);
+	background-color: var(--cr-subtle);
 	z-index: 1;
 
 	&:after {
