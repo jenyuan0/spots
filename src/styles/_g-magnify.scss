@@ -14,7 +14,7 @@
 	background-color: rgba(125, 125, 125, 0.6);
 	transition:
 		background-color 1s,
-		backdrop-filter 1s linear;
+		backdrop-filter var(--t-2);
 	z-index: 200;
 
 	&__overlay {
