@@ -15,7 +15,7 @@ export default function LocationList({ data }) {
 				</div>
 			)}
 			{locations && (
-				<ResponsiveGrid className="c-location-list__cards" size={'lge'}>
+				<ResponsiveGrid className="c-location-list__cards" size={'med'}>
 					{locations.map((item, index) => (
 						<LocationCard
 							key={`item-${index}`}
