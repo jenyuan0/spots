@@ -56,13 +56,17 @@ export default function SectionSpots({ data }) {
 	const ref = useRef(null);
 	const progress = useMotionValue(0);
 	const [isMounted, setIsMounted] = useState(false);
+	const [viewportHeight, setViewportHeight] = useState(false);
+
+	useEffect(() => {
+		setViewportHeight(window.innerHeight);
+	}, []);
 
 	useEffect(() => {
 		const handleScroll = () => {
 			if (!isMounted) return 0;
 
 			const rect = ref.current.getBoundingClientRect();
-			const viewportHeight = window.innerHeight;
 			const startTrigger = viewportHeight * 0.5; // middle of screen
 			const endTrigger = 0; // top of screen
 			const total = startTrigger - endTrigger;
