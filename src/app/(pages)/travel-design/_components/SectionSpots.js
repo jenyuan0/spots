@@ -12,18 +12,21 @@ function HeroSpot({ data, isLastChild, progress }) {
 	const scaleMin = isMobileScreen ? 0.5 : 0.35;
 	const screenX = width / 2;
 	const screenY = (isMobileScreen ? width : height) / 2;
+	const [finalPosition, setFinalPosition] = useState({
+		x: screenX,
+		y: screenY,
+	});
+
+	useEffect(() => {
+		setFinalPosition({
+			x: screenX + getRandomInt(screenX * -1.2, screenX * 1.2),
+			y: getRandomInt(screenY * -1.2, screenY * 1.2),
+		});
+	}, []);
 
 	// Use the passed MotionValue progress directly
-	const motionX = useTransform(
-		progress,
-		[0, 1],
-		[screenX, screenX + getRandomInt(screenX * -1.2, screenX * 1.2)]
-	);
-	const motionY = useTransform(
-		progress,
-		[0, 1],
-		[0, getRandomInt(screenY * -1.2, screenY * 1.2)]
-	);
+	const motionX = useTransform(progress, [0, 1], [screenX, finalPosition.x]);
+	const motionY = useTransform(progress, [0, 1], [0, finalPosition.y]);
 	const motionOpacity = useTransform(progress, [0, 0.8, 1], [1, 1, 0]);
 	const motionScale = useTransform(
 		progress,
@@ -56,13 +59,16 @@ export default function SectionSpots({ data }) {
 	const ref = useRef(null);
 	const progress = useMotionValue(0);
 	const [isMounted, setIsMounted] = useState(false);
+	const [viewportHeight, setViewportHeight] = useState(false);
+
+	useEffect(() => {
+		setViewportHeight(window.innerHeight);
+	}, []);
 
 	useEffect(() => {
 		const handleScroll = () => {
 			if (!isMounted) return 0;
-
 			const rect = ref.current.getBoundingClientRect();
-			const viewportHeight = window.innerHeight;
 			const startTrigger = viewportHeight * 0.5; // middle of screen
 			const endTrigger = 0; // top of screen
 			const total = startTrigger - endTrigger;
