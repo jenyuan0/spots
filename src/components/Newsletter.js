@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import { useForm } from 'react-hook-form';
 import CustomPortableText from '@/components/CustomPortableText';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 import { fadeAnim } from '@/lib/animate';
 
 export default function Newsletter({ data = {} }) {

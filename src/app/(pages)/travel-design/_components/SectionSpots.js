@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import LocationDot from '@/components/LocationDot';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
 import { getRandomInt, springConfig } from '@/lib/helpers';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
 

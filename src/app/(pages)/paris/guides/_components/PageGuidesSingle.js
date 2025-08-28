@@ -18,7 +18,7 @@ import GuideCard from '@/components/GuideCard';
 import ItineraryCard from '@/components/ItineraryCard';
 import CategoryPillList from '@/components/CategoryPillList';
 import ResponsiveGrid from '@/components/ResponsiveGrid';
-import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { motion, useScroll, useSpring, useTransform } from 'motion/react';
 import { useInView } from 'react-intersection-observer';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
 

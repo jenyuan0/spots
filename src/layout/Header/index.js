@@ -5,7 +5,7 @@ import Link from '@/components/CustomLink';
 import MobileMenuTrigger from './mobile-menu-trigger';
 import Button from '@/components/Button';
 import usePlanner from '@/hooks/usePlanner';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { usePathname } from 'next/navigation';
 import { checkIfActive } from '@/lib/routes';
 

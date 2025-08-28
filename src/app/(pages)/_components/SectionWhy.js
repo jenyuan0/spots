@@ -6,7 +6,7 @@ import Img from '@/components/Image';
 import Button from '@/components/Button';
 import usePlanner from '@/hooks/usePlanner';
 import { springConfig } from '@/lib/helpers';
-import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { motion, useScroll, useSpring, useTransform } from 'motion/react';
 import { useInView } from 'react-intersection-observer';
 
 function ListItem({ children }) {

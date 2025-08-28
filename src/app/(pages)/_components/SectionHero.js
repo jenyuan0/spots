@@ -6,7 +6,7 @@ import Carousel from '@/components/Carousel';
 import Button from '@/components/Button';
 import LocationCard from '@/components/LocationCard';
 import usePlanner from '@/hooks/usePlanner';
-import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { motion, useScroll, useSpring, useTransform } from 'motion/react';
 import { springConfig } from '@/lib/helpers';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
 

@@ -1,5 +1,5 @@
 import React, { useId } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { fadeAnim } from '@/lib/animate';
 import { hasArrayValue, slugify } from '@/lib/helpers';
 import clsx from 'clsx';

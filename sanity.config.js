@@ -1,9 +1,14 @@
 import { colorInput } from '@sanity/color-input';
+import {
+	DeleteTranslationAction,
+	documentInternationalization,
+} from '@sanity/document-internationalization';
 import { visionTool } from '@sanity/vision';
 import { defineConfig, isDev } from 'sanity';
 import { structureTool } from 'sanity/structure';
 import { media } from 'sanity-plugin-media';
 import { getWindowURl } from '@/lib/routes';
+import { i18n } from './languages';
 import deskStructure from './src/sanity/deskStructure';
 import {
 	apiVersion,
@@ -34,6 +39,10 @@ const commonPlugins = [
 	googleMapsInput({
 		apiKey: googleMapAPI,
 	}),
+	documentInternationalization({
+		supportedLanguages: i18n.languages,
+		schemaTypes: i18n.translationDocuments,
+	}),
 ];
 
 const devPlugins = [
@@ -49,6 +58,10 @@ export default defineConfig({
 	plugins: isDev ? devPlugins : commonPlugins,
 	schema: {
 		types: schemas,
+		templates: (prev) =>
+			prev.filter(
+				(template) => !i18n.translationDocuments.includes(template.id)
+			),
 	},
 	document: {
 		productionUrl: async (prev, context) => {

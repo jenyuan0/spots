@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import Link from '@/components/CustomLink';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { pageTransitionFade } from '@/lib/animate';
 import { usePathname } from 'next/navigation';
 

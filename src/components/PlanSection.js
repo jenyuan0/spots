@@ -10,7 +10,7 @@ import CustomPortableText from '@/components/CustomPortableText';
 import PlanForm from '@/components/PlanForm';
 import Button from '@/components/Button';
 import { IconEmail, IconWhatsApp, IconLine } from './SvgIcons';
-import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { motion, useScroll, useSpring, useTransform } from 'motion/react';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
 import { useInView } from 'react-intersection-observer';
 

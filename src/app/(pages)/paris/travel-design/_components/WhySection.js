@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { colorArray, springConfig } from '@/lib/helpers';
 import Img from '@/components/Image';
 import Button from '@/components/Button';
-import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { motion, useScroll, useSpring, useTransform } from 'motion/react';
 import clsx from 'clsx';
 
 // Constants

@@ -4,7 +4,7 @@ import React, { useCallback, useState, useEffect } from 'react';
 import ItineraryCard from '@/components/ItineraryCard';
 import Carousel from '@/components/Carousel';
 import CustomPortableText from '@/components/CustomPortableText';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 export default function ItineraryList({ data }) {
 	const { itinerariesTitle, itinerariesExcerpt, itinerariesItems } = data;

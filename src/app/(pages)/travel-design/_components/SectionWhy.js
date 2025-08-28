@@ -5,7 +5,7 @@ import { colorArray } from '@/lib/helpers';
 import Img from '@/components/Image';
 import CustomPortableText from '@/components/CustomPortableText';
 import Button from '@/components/Button';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import clsx from 'clsx';
 
 // Constants

@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import { getRandomInt } from '@/lib/helpers';
 import Img from '@/components/Image';
 import Button from '@/components/Button';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { motion, useMotionValue, useSpring } from 'motion/react';
 import { springConfig } from '@/lib/helpers';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
 import useMagnify from '@/hooks/useMagnify';

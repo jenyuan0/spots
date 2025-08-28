@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import Img from '@/components/Image';
 import CustomPortableText from '@/components/CustomPortableText';
 import LocationDot from '@/components/LocationDot';
-import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { motion, useScroll, useSpring, useTransform } from 'motion/react';
 import { getRandomInt, springConfig } from '@/lib/helpers';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
 
