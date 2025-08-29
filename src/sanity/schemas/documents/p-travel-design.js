@@ -161,6 +161,11 @@ export default defineType({
 			name: 'contactSubject',
 			type: 'string',
 		},
+		customImage({ name: 'contactAuthorImg' }),
+		{
+			name: 'contactAuthorText',
+			type: 'portableTextSimple',
+		},
 		sharing(),
 	],
 	preview: {

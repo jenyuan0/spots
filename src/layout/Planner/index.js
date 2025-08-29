@@ -1,18 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import PlannerForm from '@/components/PlannerForm';
-import { usePathname } from 'next/navigation';
 import usePlanner from '@/hooks/usePlanner';
 import useKey from '@/hooks/useKey';
+import { scrollEnable, scrollDisable } from '@/lib/helpers';
 
 export default function Planner() {
-	const pathname = usePathname();
+	const refContent = useRef();
 	const {
 		plannerActive,
 		clearPlannerContent,
 		plannerContent,
 		setPlannerActive,
 	} = usePlanner();
+
+	useEffect(() => {
+		plannerActive == true ? scrollDisable(refContent.current) : scrollEnable();
+	}, [plannerActive]);
 
 	useEffect(() => {
 		if (typeof window === 'undefined') return;
@@ -55,7 +59,7 @@ export default function Planner() {
 				aria-hidden="true"
 				onClick={handleClose}
 			/>
-			<div className="g-planner__content">
+			<div ref={refContent} className="g-planner__content">
 				<button className="g-planner__close trigger" onClick={handleClose}>
 					<div className="icon-close" />
 				</button>

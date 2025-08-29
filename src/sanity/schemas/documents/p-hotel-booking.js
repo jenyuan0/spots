@@ -1,6 +1,7 @@
 import { defineType } from 'sanity';
 import title from '@/sanity/schemas/objects/title';
 import slug from '@/sanity/schemas/objects/slug';
+import customImage from '@/sanity/schemas/objects/custom-image';
 import sharing from '@/sanity/schemas/objects/sharing';
 import { getPortableTextPreview } from '@/sanity/lib/helpers';
 
@@ -174,6 +175,11 @@ export default defineType({
 		{
 			name: 'contactSubject',
 			type: 'string',
+		},
+		customImage({ name: 'contactAuthorImg' }),
+		{
+			name: 'contactAuthorText',
+			type: 'portableTextSimple',
 		},
 		sharing(),
 	],

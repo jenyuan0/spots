@@ -6,10 +6,13 @@ import React, {
 	useCallback,
 	useMemo,
 } from 'react';
+import Img from '@/components/Image';
 import Button from '@/components/Button';
 import Field from '@/components/Field';
+import CustomPortableText from '@/components/CustomPortableText';
 import { IconWhatsApp, IconEmail } from '@/components/SvgIcons';
 import { client } from '@/sanity/lib/client';
+import { imageMetaFields, portableTextObj } from '@/sanity/lib/queries';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import dayjs from 'dayjs';
@@ -46,11 +49,14 @@ export default function PlannerForm({ data, plan }) {
 						contactHeading,
 						contactSubheading,
 						contactPlaceholder,
-						contactSubject
+						contactSubject,
+						contactAuthorImg{${imageMetaFields}},
+						contactAuthorText[]{${portableTextObj}},
 					}`,
 					{ docType },
 					{ signal: controller.signal }
 				);
+				console.log(doc);
 				setContent(doc || {});
 			} catch (error) {
 				if (error.name !== 'AbortError') {
@@ -411,7 +417,7 @@ export default function PlannerForm({ data, plan }) {
 			</div>
 			<div className="g-planner-form__footer">
 				<div className="g-planner-form__cta">
-					<Button
+					{/* <Button
 						icon={<IconWhatsApp />}
 						className={'btn cr-green-d js-gtm-whatsapp'}
 						href={`https://wa.me/33686047390?text=${encodeURIComponent(computedMessage)}`}
@@ -422,7 +428,7 @@ export default function PlannerForm({ data, plan }) {
 					>
 						Send via WhatsApp
 					</Button>
-					<div className="t-l-2 cr-subtle-5">Or</div>
+					<div className="t-l-2 cr-subtle-5">Or</div> */}
 					<Button
 						icon={<IconEmail />}
 						className={'btn cr-blue-d js-gtm-email'}
@@ -441,6 +447,19 @@ export default function PlannerForm({ data, plan }) {
 					>
 						Need another way? Reach us at <strong>vip@spotstravel.co</strong>
 					</div>
+				</div>
+			</div>
+
+			<div className="g-planner-form__author">
+				<div className="g-planner-form__author__img">
+					{content?.contactAuthorImg && (
+						<Img image={content.contactAuthorImg} />
+					)}
+				</div>
+				<div className="g-planner-form__author__text">
+					{content?.contactAuthorText && (
+						<CustomPortableText blocks={content.contactAuthorText} />
+					)}
 				</div>
 			</div>
 		</div>
