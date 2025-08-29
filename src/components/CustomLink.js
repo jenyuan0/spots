@@ -23,17 +23,21 @@ export default function CustomLink({
 	if (!isValidRoute(href || link?.route)) return children;
 
 	const isMailTo = href?.match('^mailto:');
+
 	const handleClick = (event) => {
 		onClick?.(event);
 
-		if (event.defaultPrevented) return;
+		if (event.defaultPrevented || isNewTab || hasPressedKeys || isMailTo)
+			return;
 
-		if (document.startViewTransition && !isNewTab && !hasPressedKeys) {
-			event.preventDefault();
-			document.startViewTransition(() => {
-				router.push(href);
-			});
+		if (!document.startViewTransition) {
+			router.push(href);
+			return;
 		}
+
+		document.startViewTransition(() => {
+			router.push(href);
+		});
 	};
 
 	return (

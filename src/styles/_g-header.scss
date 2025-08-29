@@ -156,6 +156,7 @@
 
 	&__toggle {
 		--height: 35px;
+		position: relative;
 		display: flex;
 		width: fit-content;
 		margin-inline: auto;
@@ -167,17 +168,33 @@
 		border: 1px solid;
 		background-color: var(--cr-subtle);
 
+		&__active {
+			position: absolute;
+			top: 2px;
+			left: 0;
+			height: calc(var(--height) - 4px - 2px);
+			background-color: var(--cr-brown);
+			border-radius: calc((var(--height) - 4px) / 2);
+			transition:
+				width var(--t-1),
+				transform var(--t-1);
+			pointer-events: none;
+			z-index: -1;
+		}
+
 		a {
 			display: block;
 			padding-inline: 15px;
 			white-space: nowrap;
 			line-height: calc(var(--height) - 4px - 2px);
 			border-radius: calc((var(--height) - 4px) / 2);
-			transition: var(--t-2);
+			transition:
+				color var(--t-1),
+				background-color var(--t-2);
 
 			&.is-active {
 				color: var(--cr-cream);
-				background-color: var(--cr-brown);
+				transition-delay: color 0.2s;
 			}
 
 			@media (hover: hover) {

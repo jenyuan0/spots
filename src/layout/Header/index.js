@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, createRef } from 'react';
 import clsx from 'clsx';
 import { scrollEnable, scrollDisable } from '@/lib/helpers';
 import Link from '@/components/CustomLink';
@@ -134,6 +134,24 @@ export default function Header({ data, isActive }) {
 	const [isTransparent, setIsTransparent] = useState(false);
 	const { setPlannerActive, setPlannerContent } = usePlanner();
 
+	const refLinkBooking = useRef();
+	const refLinkDesign = useRef();
+
+	const [toggleActiveProp, setToggleActiveProp] = useState({
+		width: 0,
+		left: 0,
+	});
+
+	useEffect(() => {
+		const activeRef = pathname == '/' ? refLinkBooking : refLinkDesign;
+		console.log(refLinkBooking, refLinkDesign);
+
+		setToggleActiveProp({
+			width: activeRef.current.offsetWidth,
+			left: activeRef.current.offsetLeft,
+		});
+	}, [pathname]);
+
 	useEffect(() => {
 		if (!ref?.current) return;
 
@@ -210,22 +228,33 @@ export default function Header({ data, isActive }) {
 					</svg>
 				</Link>
 				<div className="g-header__toggle t-l-2">
-					<Link
-						href="/"
-						className={clsx({
-							'is-active': pathname === '/',
-						})}
-					>
-						Hotel Booking
-					</Link>
-					<Link
-						href="/travel-design"
-						className={clsx({
-							'is-active': pathname !== '/',
-						})}
-					>
-						Travel Design
-					</Link>
+					<div ref={refLinkBooking}>
+						<Link
+							href="/"
+							className={clsx({
+								'is-active': pathname === '/',
+							})}
+						>
+							Hotel Booking
+						</Link>
+					</div>
+					<div
+						className="g-header__toggle__active"
+						style={{
+							width: `${toggleActiveProp.width}px`,
+							transform: `translateX(${toggleActiveProp.left}px)`,
+						}}
+					/>
+					<div ref={refLinkDesign}>
+						<Link
+							href="/travel-design"
+							className={clsx({
+								'is-active': pathname !== '/',
+							})}
+						>
+							Travel Design
+						</Link>
+					</div>
 				</div>
 				{/* {pathname === '/' || pathname === '/travel-design' ? (
 					<></>

@@ -59,26 +59,9 @@
 @supports (view-transition-name: none) {
 	::view-transition-old(root),
 	::view-transition-new(root) {
-		animation-duration: 0.2s;
+		animation-duration: 0.1s;
 	}
 }
-
-// Shopify & WordPress specific -----
-
-body {
-	opacity: 0;
-}
-
-html.is-loaded body {
-	animation: 0.4s fadeIn both;
-}
-
-html.is-leaving body {
-	animation: 0.4s fadeOut both !important;
-	pointer-events: none;
-}
-
-// Shopify & WordPress specific -----
 
 // ***PAGE ANIMATION***
 
