@@ -3,8 +3,8 @@
 .p-booking__hero {
 	--gap: 20px;
 	display: flex;
-	height: calc(100vh - var(--s-header));
-	height: calc(100svh - var(--s-header));
+	height: calc(100vh - var(--s-header, 100px));
+	height: calc(100svh - var(--s-header, 100px));
 	margin-top: var(--s-header);
 	padding-inline: var(--padding-max);
 
