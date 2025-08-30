@@ -69,8 +69,8 @@ function ExampleChat({ example, delayOffset }) {
 			}}
 		>
 			<div className="p-booking__examples__chat__header wysiwyg">
-				<h3 className="t-l-2">{example.title}</h3>
-				<p className="t-h-4">{example.excerpt}</p>
+				<h3 className="t-l-2">{example.excerpt}</h3>
+				<p className="t-h-2">{example.title}</p>
 			</div>
 			<div className="p-booking__examples__chat__sequence">
 				{example?.messages?.map(
