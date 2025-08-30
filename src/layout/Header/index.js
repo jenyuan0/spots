@@ -133,10 +133,9 @@ export default function Header({ data, isActive }) {
 	const [isScrolled, setIsScrolled] = useState(false);
 	const [isTransparent, setIsTransparent] = useState(false);
 	const { setPlannerActive, setPlannerContent } = usePlanner();
-
 	const refLinkBooking = useRef();
 	const refLinkDesign = useRef();
-
+	const [toggleActiveInit, setToggleActiveInit] = useState(false);
 	const [toggleActiveProp, setToggleActiveProp] = useState({
 		width: 0,
 		left: 0,
@@ -144,13 +143,18 @@ export default function Header({ data, isActive }) {
 
 	useEffect(() => {
 		const activeRef = pathname == '/' ? refLinkBooking : refLinkDesign;
-		console.log(refLinkBooking, refLinkDesign);
 
 		setToggleActiveProp({
 			width: activeRef.current.offsetWidth,
 			left: activeRef.current.offsetLeft,
 		});
 	}, [pathname]);
+
+	useEffect(() => {
+		setTimeout(() => {
+			setToggleActiveInit(true);
+		}, 10);
+	}, []);
 
 	useEffect(() => {
 		if (!ref?.current) return;
@@ -243,6 +247,9 @@ export default function Header({ data, isActive }) {
 						style={{
 							width: `${toggleActiveProp.width}px`,
 							transform: `translateX(${toggleActiveProp.left}px)`,
+							transition: toggleActiveInit
+								? `width var(--t-1), transform var(--t-1)`
+								: '0s',
 						}}
 					/>
 					<div ref={refLinkDesign}>

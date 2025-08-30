@@ -175,9 +175,6 @@
 			height: calc(var(--height) - 4px - 2px);
 			background-color: var(--cr-brown);
 			border-radius: calc((var(--height) - 4px) / 2);
-			transition:
-				width var(--t-1),
-				transform var(--t-1);
 			pointer-events: none;
 			z-index: -1;
 		}
@@ -194,7 +191,6 @@
 
 			&.is-active {
 				color: var(--cr-cream);
-				transition-delay: color 0.2s;
 			}
 
 			@media (hover: hover) {
@@ -202,6 +198,11 @@
 					background-color: var(--cr-subtle-1);
 				}
 			}
+		}
+
+		// fill background before movable toggle is setup
+		&:has(.g-header__toggle__active[style*='width:0px']) a.is-active {
+			background-color: var(--cr-brown);
 		}
 
 		@include mobileDown {

@@ -56,7 +56,7 @@ export default function PlannerForm({ data, plan }) {
 					{ docType },
 					{ signal: controller.signal }
 				);
-				console.log(doc);
+
 				setContent(doc || {});
 			} catch (error) {
 				if (error.name !== 'AbortError') {
