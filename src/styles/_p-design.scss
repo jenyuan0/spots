@@ -211,7 +211,7 @@
 			content: '';
 			display: block;
 			width: 1px;
-			height: clamp(15px, 10%, 25px);
+			height: 10px;
 			background: rgba(255, 255, 255, 0.25);
 		}
 	}
@@ -247,7 +247,7 @@
 		white-space: nowrap;
 		font: var(--t-b-1);
 		font-size: 0;
-		width: 50px;
+		width: 45px;
 		height: 1px;
 		// background: linear-gradient(
 		// 	0.25turn,
