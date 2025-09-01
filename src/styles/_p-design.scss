@@ -20,6 +20,14 @@
 		pointer-events: none;
 		background: linear-gradient(rgba(255, 255, 255, 0), var(--cr-cream));
 	}
+
+	video {
+		opacity: 0;
+	}
+
+	video.is-active {
+		animation: fadeIn 2s both;
+	}
 }
 
 .p-design__spots {

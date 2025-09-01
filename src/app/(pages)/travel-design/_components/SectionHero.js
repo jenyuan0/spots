@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import clsx from 'clsx';
 import Img from '@/components/Image';
 
 export default function SectionHero({ data }) {
@@ -36,9 +37,9 @@ export default function SectionHero({ data }) {
 						loop
 						preload="metadata"
 						onPlay={() => setIsVideoActive(true)}
-						style={{
-							visibility: isVideoActive ? 'visible' : 'hidden',
-						}}
+						className={clsx({
+							'is-active': isVideoActive,
+						})}
 					/>
 				)}
 			</div>
