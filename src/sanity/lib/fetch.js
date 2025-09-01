@@ -96,6 +96,8 @@ export function getPagesPaths({ pageType }) {
 				return groq`*[_type == "pGeneral"].slug.current`;
 			case 'gLocations':
 				return groq`*[_type == "gLocations"].slug.current`;
+			case 'gCases':
+				return groq`*[_type == "gCases"].slug.current`;
 			case 'gItineraries':
 				return groq`*[_type == "gItineraries"].slug.current`;
 			case 'gGuides':
@@ -260,6 +262,19 @@ export function getLocationsSinglePage({ queryParams, isPreviewMode }) {
 		query,
 		params: queryParams,
 		tags: [`gLocations:${queryParams.slug}`, 'gGuides', 'gLocations'],
+		isPreviewMode,
+	});
+}
+
+export function getCasesSinglePage({ queryParams, isPreviewMode }) {
+	const query = getPageDataStructure({
+		query: queries.pageCasesSingleQuery,
+	});
+
+	return sanityFetch({
+		query,
+		params: queryParams,
+		tags: [`gCases:${queryParams.slug}`, 'gLocations'],
 		isPreviewMode,
 	});
 }

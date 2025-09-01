@@ -969,6 +969,11 @@ export const pageLocationsSingleQuery = groq`
       }
   }`;
 
+export const pageCasesSingleQuery = groq`
+  *[_type == "gCases" && slug.current == $slug][0]{
+    ${getCaseData()}
+  }`;
+
 export const pageItinerariesSingleQuery = groq`
   *[_type == "gItineraries" && slug.current == $slug][0]{
     ${getItineraryData()},
