@@ -203,7 +203,9 @@ export default function PlannerForm({ data, plan }) {
 						'--cr-secondary': 'var(--cr-green-d)',
 					}}
 				>
-					{type == 'design' ? `Free Consultation` : 'Always Free'}
+					{type == 'design'
+						? `First Consultation · No Fees`
+						: 'Hotel Booking · No Fees'}
 				</div>
 				{formText.heading && <h2 className="t-h-1">{formText.heading}</h2>}
 				{formText.subheading && <p className="t-h-4">{formText.subheading}</p>}
