@@ -274,7 +274,7 @@ export function getCasesSinglePage({ queryParams, isPreviewMode }) {
 	return sanityFetch({
 		query,
 		params: queryParams,
-		tags: [`gCases:${queryParams.slug}`, 'gLocations'],
+		tags: [`gCases:${queryParams.slug}`, 'gLocations', 'pTravelDesign'],
 		isPreviewMode,
 	});
 }
