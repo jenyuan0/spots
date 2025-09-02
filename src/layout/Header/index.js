@@ -292,7 +292,7 @@ export default function Header({ data, isActive }) {
 				<div className="g-header__cta">
 					{pathname === '/' && (
 						<Button
-							className="btn-underline js-gtm-search"
+							className="btn-underline js-gtm-booking-popup"
 							onClick={() => {
 								setPlannerActive(true);
 								setPlannerContent({ type: 'hotel' });
@@ -303,7 +303,7 @@ export default function Header({ data, isActive }) {
 					)}
 					{pathname === '/travel-design' && (
 						<Button
-							className="btn-underline js-gtm-plan"
+							className="btn-underline js-gtm-design-popup"
 							onClick={() => {
 								setPlannerActive(true);
 								setPlannerContent({ type: 'design' });

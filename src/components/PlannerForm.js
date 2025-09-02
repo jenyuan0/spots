@@ -210,7 +210,12 @@ export default function PlannerForm({ data, plan }) {
 				{formText.heading && <h2 className="t-h-1">{formText.heading}</h2>}
 				{formText.subheading && <p className="t-h-4">{formText.subheading}</p>}
 			</div>
-			<div className={'g-planner-form__intake c-form__fields'}>
+			<div
+				className={clsx('g-planner-form__intake c-form__fields', {
+					'js-gtm-booking-form-interact': type != 'design',
+					'js-gtm-design-form-interact': type == 'design',
+				})}
+			>
 				<Field
 					type={'text'}
 					label={'Where'}
@@ -421,7 +426,10 @@ export default function PlannerForm({ data, plan }) {
 				<div className="g-planner-form__cta">
 					{/* <Button
 						icon={<IconWhatsApp />}
-						className={'btn cr-green-d js-gtm-whatsapp'}
+						className={clsx('btn cr-green-d', {
+							'js-gtm-booking-whatsapp': type != 'design',
+							'js-gtm-design-whatsapp': type == 'design',
+						})}
 						href={`https://wa.me/33686047390?text=${encodeURIComponent(computedMessage)}`}
 						isNewTab={true}
 						onClick={() => {
@@ -433,7 +441,10 @@ export default function PlannerForm({ data, plan }) {
 					<div className="t-l-2 cr-subtle-5">Or</div> */}
 					<Button
 						icon={<IconEmail />}
-						className={'btn cr-blue-d js-gtm-email'}
+						className={clsx('btn cr-blue-d', {
+							'js-gtm-booking-email': type != 'design',
+							'js-gtm-design-email': type == 'design',
+						})}
 						href={`mailto:vip@spotstravel.co?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(computedMessage)}`}
 						isNewTab={true}
 						onClick={() => {
