@@ -112,7 +112,7 @@ export const getLocationsData = (type) => {
     "color": lower(categories[0]->color->title),
 		highlights,
 		hideFromIndex,
-    images[]{
+    images[0...8]{
       ${imageMetaFields}
     },
     geo,
@@ -237,7 +237,7 @@ export const getItineraryData = (type) => {
 	let defaultData = groq`
     ${baseFields},
     subtitle,
-    images[]{
+    images[0...5]{
       ${imageMetaFields}
     },
     color->{
@@ -258,7 +258,7 @@ export const getItineraryData = (type) => {
         "day": itineraryDay->{
           title,
           content,
-          images[]{
+          images[0...6]{
             ${imageMetaFields}
           },
           activities[] {
@@ -313,10 +313,10 @@ export const getCaseData = (type) => {
 	let defaultData = groq`
     ${baseFields},
     subtitle,
-    thumbs[]{
+    thumbs[0...8]{
       ${imageMetaFields}
     },
-		"images": thumbs[]{
+		"images": thumbs[0...8]{
 			${imageMetaFields}
 		},
     color->{
@@ -492,7 +492,7 @@ export const pageHomeQuery = groq`
     masksParagraph,
     masksOffers,
     masksCta,
-    masksImages[]{
+    masksImages[0...8]{
       ${imageMetaFields}
     },
     toggleHeading,
@@ -608,7 +608,7 @@ export const pageTravelDesignQuery = groq`
     masksHeading,
     masksParagraph,
     masksCta,
-    masksImages[]{
+    masksImages[0...8]{
       ${imageMetaFields}
     },
     toggleHeading,
@@ -731,7 +731,7 @@ export const pageParisQuery = groq`
 `;
 
 export const articleListAllQuery = groq`
-  "articleList": *[_type == "gGuides"] | order(_updatedAt desc) {
+  "articleList": *[_type == "gGuides"] | order(_updatedAt desc)[0...200] {
     ${getGuidesData('card')}
   }
 `;
@@ -847,7 +847,7 @@ export const pageGuidesSingleQuery = groq`
   }`;
 
 export const locationListAllQuery = groq`
-  "locationList": *[_type == "gLocations" && hideFromIndex != true] | order(_updatedAt desc) {
+  "locationList": *[_type == "gLocations" && hideFromIndex != true] | order(_updatedAt desc)[0...300] {
     ${getLocationsData('card')}
   }
 `;
