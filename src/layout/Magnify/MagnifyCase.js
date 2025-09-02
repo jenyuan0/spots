@@ -95,7 +95,7 @@ export default function MagnifyCase({ mParam, pageSlug, onColorChange }) {
 					</>
 				)}
 				<Button
-					className={`btn cr-${color}-d`}
+					className={`btn cr-${color}-d js-gtm-design-popup`}
 					onClick={() => {
 						setPlannerActive(true);
 						setPlannerContent({

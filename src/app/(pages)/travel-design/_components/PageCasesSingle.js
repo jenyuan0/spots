@@ -59,7 +59,7 @@ export default function PageCasesSingle({ data }) {
 					</>
 				)}
 				<Button
-					className={`btn cr-${color}-d`}
+					className={`btn cr-${color}-d js-gtm-design-popup`}
 					onClick={() => {
 						setPlannerActive(true);
 						setPlannerContent({

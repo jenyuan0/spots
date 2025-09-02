@@ -86,7 +86,7 @@ function ExampleChat({ example, delayOffset }) {
 				)}
 			</div>
 			<Button
-				className={`p-booking__examples__chat__cta btn cr-${color}-d js-gtm-search`}
+				className={`p-booking__examples__chat__cta btn cr-${color}-d js-gtm-booking-popup`}
 				onClick={handleOnClick}
 			>
 				{example.ctaLabel}

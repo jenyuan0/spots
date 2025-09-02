@@ -85,7 +85,7 @@ export default function SectionWhy({ data }) {
 				<ListItem>
 					<Button
 						className={
-							'p-booking__why__lists-cta btn-outline cr-white js-gtm-search'
+							'p-booking__why__lists-cta btn-outline cr-white js-gtm-booking-popup'
 						}
 						caret="right"
 						onClick={() => setPlannerActive(true)}
