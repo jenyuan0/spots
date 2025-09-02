@@ -26,7 +26,7 @@ const ROUTES = [
 	},
 	{
 		type: 'gCases',
-		slug: 'cases',
+		slug: 'travel-design',
 		changeFrequency: 'weekly',
 		priority: 0.8,
 	},
@@ -83,9 +83,7 @@ async function getDocumentData(type, slug) {
       "disableIndex": sharing.disableIndex
     }`;
 		const doc = await client.fetch(query);
-		if (slug == 'gCases') {
-			console.log('xxxx', doc);
-		}
+
 		return {
 			lastModified: doc?._updatedAt || new Date().toISOString(),
 			disableIndex: doc?.disableIndex || false,
