@@ -1,4 +1,22 @@
 import { groq } from 'next-sanity';
+import { i18n } from '../../../languages';
+
+export const getDocumentWithFallback = ({
+	docType, // e.g. "gFooter"
+	languageField = 'language', // field name for language (default: "language")
+} = {}) => `coalesce(
+  *[_type == "${docType}" && ${languageField} == $language][0],
+  *[_type == "${docType}" && ${languageField} == "${i18n.base}"][0]
+)`;
+
+export const translations = groq`
+	language,
+	"_translations": *[_type == "translation.metadata" && references(^._id)].translations[].value->{
+		title,
+		slug,
+		language,
+	},
+`;
 
 // Construct our "home" page GROQ
 export const homeID = groq`*[_type=="pHome"][0]._id`;
@@ -576,7 +594,7 @@ export const pageHotelBookingQuery = groq`
 `;
 
 export const pageTravelDesignQuery = groq`
-  *[_type == "pTravelDesign"][0]{
+	${getDocumentWithFallback({ docType: 'pTravelDesign' })}{
     ${baseFields},
     "isHomepage": true,
     heroImage,
@@ -593,7 +611,7 @@ export const pageTravelDesignQuery = groq`
     introParagraph[]{
       ${portableTextContentFields}
 		},
-    caseHeading,		
+    caseHeading,
     "caseItems": caseItems[]->{
       ${getCaseData('card')}
     },
@@ -622,7 +640,8 @@ export const pageTravelDesignQuery = groq`
       answer[]{
         ${portableTextContentFields}
       }
-    }
+    },
+		${translations}
   }
 `;
 

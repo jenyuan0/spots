@@ -13,7 +13,9 @@ export async function generateMetadata() {
 	return defineMetadata({ data });
 }
 
-export default async function Page() {
+export default async function Page({ params }) {
+	const queryParams = { language: params.lang?.replace('-', '_') };
+	console.log('🚀 ~ Page ~ queryParams:', queryParams);
 	const isPreviewMode = draftMode().isEnabled;
 	const pageData = await getLocationsIndexPage({
 		isPreviewMode,

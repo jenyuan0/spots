@@ -70,11 +70,12 @@ export async function getPageHotelBooking({ isPreviewMode }) {
 	});
 }
 
-export async function getPageTravelDesign({ isPreviewMode }) {
+export async function getPageTravelDesign({ queryParams, isPreviewMode }) {
 	const query = getPageDataStructure({ query: queries.pageTravelDesignQuery });
 
 	return sanityFetch({
 		query,
+		params: queryParams,
 		tags: ['pTravelDesign', 'gLocations', 'gItineraries'],
 		isPreviewMode,
 	});

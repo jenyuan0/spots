@@ -1,5 +1,5 @@
 import { get404PageData } from '@/sanity/lib/fetch';
-import Page404 from './(pages)/_components/Page404';
+import Page404 from '@/app/[lang]/(pages)/_components/Page404';
 
 export default async function NotFound() {
 	const pageData = await get404PageData();
