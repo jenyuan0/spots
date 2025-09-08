@@ -21,7 +21,12 @@ const languages = [
 ];
 
 // Add document's type to the list to enable localization for the document
-const translationDocuments = ['gCases', 'gLocations'];
+const translationDocuments = [
+	'gCases',
+	'gLocations',
+	'pHotelBooking',
+	'pTravelDesign',
+];
 
 export const i18n = {
 	languages,
