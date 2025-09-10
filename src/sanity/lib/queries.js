@@ -531,7 +531,7 @@ export const pagesBySlugQuery = groq`
   }`;
 
 export const pageHotelBookingQuery = groq`
-  *[_type == "pHotelBooking"][0]{
+  *[_type == "pHotelBooking" && language == "en"][0]{
     ${baseFields},
     heroHeading[]{
       ${portableTextContentFields}
@@ -571,12 +571,13 @@ export const pageHotelBookingQuery = groq`
       answer[]{
         ${portableTextContentFields}
       }
-    }
+    },
+		language
   }
 `;
 
 export const pageTravelDesignQuery = groq`
-  *[_type == "pTravelDesign"][0]{
+  *[_type == "pTravelDesign" && language == "en"][0]{
     ${baseFields},
     "isHomepage": true,
     heroImage,
@@ -593,7 +594,7 @@ export const pageTravelDesignQuery = groq`
     introParagraph[]{
       ${portableTextContentFields}
 		},
-    caseHeading,		
+    caseHeading,
     "caseItems": caseItems[]->{
       ${getCaseData('card')}
     },
