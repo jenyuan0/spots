@@ -101,20 +101,23 @@ export default function SectionHero({ data }) {
 				visibility: isHidden ? 'hidden' : 'visible',
 			}}
 		>
-			<div className="p-booking__hero__content wysiwyg">
-				{heroHeading && (
-					<h1 className="t-h-1">
-						<CustomPortableText blocks={heroHeading} hasPTag={false} />
-					</h1>
-				)}
-				{heroSubheading && <p className="t-h-4">{heroSubheading}</p>}
-				<Button
-					className={'btn cr-green-l js-gtm-booking-popup'}
-					caret="right"
-					onClick={() => setPlannerActive(true)}
-				>
-					Start Your Search
-				</Button>
+			<div className="p-booking__hero__text">
+				<div className="p-booking__hero__content wysiwyg">
+					{heroHeading && (
+						<h1 className="t-h-1">
+							<CustomPortableText blocks={heroHeading} hasPTag={false} />
+						</h1>
+					)}
+					{heroSubheading && <p className="t-h-4">{heroSubheading}</p>}
+					<Button
+						className={'btn cr-green-l js-gtm-booking-popup'}
+						caret="right"
+						onClick={() => setPlannerActive(true)}
+					>
+						Start Your Search
+					</Button>
+				</div>
+				<div className={'p-booking__hero__scroll t-l-1'}>Scroll to Explore</div>
 			</div>
 			{isMounted &&
 				(isSmScreen ? (
