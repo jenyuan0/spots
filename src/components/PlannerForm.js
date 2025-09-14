@@ -45,7 +45,7 @@ export default function PlannerForm({ data, plan }) {
 		(async () => {
 			try {
 				const doc = await client.fetch(
-					`*[_type == $docType][0]{
+					`*[_type == $docType && language == "en"][0]{
 						contactHeading,
 						contactSubheading,
 						contactPlaceholder,

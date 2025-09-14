@@ -69,17 +69,14 @@
 }
 
 .p-design__why {
-	--sticky: calc(var(--s-header-space) + 40px);
 	--media-size: Min(400px, 95%);
 	width: var(--width-sml);
 	margin: var(--s-section) auto;
 
 	&__header {
-		position: sticky;
-		top: var(--sticky);
 		max-width: 500px;
 		margin-inline: auto;
-		padding-block: 80px;
+		margin-bottom: 80px;
 		text-align: center;
 		color: var(--cr-red-d);
 
@@ -89,14 +86,11 @@
 	}
 
 	&-block {
-		position: sticky;
-		top: var(--sticky);
 		display: flex;
 		align-items: center;
 		overflow: hidden;
 		padding-block: 60px;
 		gap: 40px;
-		background-color: var(--cr-cream);
 		border-top: 1px solid;
 
 		&:nth-child(even) {
