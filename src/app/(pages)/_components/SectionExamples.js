@@ -35,16 +35,16 @@ function ExampleChat({ example, delayOffset }) {
 			case 'Find Your Stay':
 				setPlannerContent({
 					heading: 'Find Your Stay',
-					subheading:
-						'Tell us where you’re going and what matters most — we’ll curate the best fits and handle the rest.',
+					// subheading:
+					// 	'Tell us where you’re going and what matters most — we’ll curate the best fits and handle the rest.',
 					subject: 'Hotel search',
 				});
 				break;
 			case 'Unlock Insider Rates':
 				setPlannerContent({
 					heading: 'Unlock Insider Rates',
-					subheading:
-						'Share your travel dates and we’ll check for insider pricing, upgrades, and perks — no strings attached.',
+					// subheading:
+					// 	'Share your travel dates and we’ll check for insider pricing, upgrades, and perks — no strings attached.',
 					subject: 'Rate check request',
 					placeholder:
 						'Hi! Can you check your rate for [HOTEL NAME] for [DATES]?',
@@ -53,8 +53,8 @@ function ExampleChat({ example, delayOffset }) {
 			case 'Start Planning':
 				setPlannerContent({
 					heading: 'Plan Your Trip',
-					subheading:
-						'Planning for a group or something specific? Tell us your needs — we’ll simplify everything.',
+					// subheading:
+					// 	'Planning for a group or something specific? Tell us your needs — we’ll simplify everything.',
 				});
 				break;
 		}
