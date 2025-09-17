@@ -445,7 +445,7 @@ export default function PlannerForm({ data, plan }) {
 							'js-gtm-booking-email': type != 'design',
 							'js-gtm-design-email': type == 'design',
 						})}
-						href={`mailto:vip@spotstravel.co?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(computedMessage)}`}
+						href={`mailto:${type == 'design' ? 'vip' : 'hotels'}@spotstravel.co?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(computedMessage)}`}
 						isNewTab={true}
 						onClick={() => {
 							setErrorIsVisible(true);
@@ -458,7 +458,10 @@ export default function PlannerForm({ data, plan }) {
 							'is-visible': errorIsVisible,
 						})}
 					>
-						Need another way? Reach us at <strong>vip@spotstravel.co</strong>
+						Need another way? Reach us at{' '}
+						<strong>
+							${type == 'design' ? 'vip' : 'hotels'}@spotstravel.co
+						</strong>
 					</div>
 				</div>
 			</div>
