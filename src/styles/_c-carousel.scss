@@ -92,9 +92,8 @@
 		width: var(--dot-size);
 		height: var(--dot-size);
 		border-radius: 100%;
-		border: 2px solid transparent;
 		background-color: var(--cr-black);
-		border: none;
+		border: 1px solid;
 		box-shadow: none;
 		outline: none;
 		user-select: none;
