@@ -460,7 +460,7 @@ export default function PlannerForm({ data, plan }) {
 					>
 						Need another way? Reach us at{' '}
 						<strong>
-							${type == 'design' ? 'vip' : 'hotels'}@spotstravel.co
+							{type == 'design' ? 'vip' : 'hotels'}@spotstravel.co
 						</strong>
 					</div>
 				</div>

@@ -76,17 +76,15 @@
 		}
 	}
 
-	@include mobileDown {
-		&__content {
-			height: 100%;
-			width: 100%;
-			border-radius: 0;
-			overflow-y: auto;
-		}
+	&.is-fullscreen &__content {
+		height: 100%;
+		width: 100%;
+		border-radius: 0;
+		overflow-y: auto;
+	}
 
-		&__close {
-			position: fixed;
-		}
+	&.is-fullscreen &__close {
+		position: fixed;
 	}
 }
 
@@ -314,14 +312,14 @@
 		margin-top: 16px;
 		padding: 8px 20px;
 		border-radius: 20px;
-		color: var(--cr-green-d);
-		background-color: var(--cr-green-l);
+		color: var(--cr-blue-d);
+		background-color: var(--cr-blue-l);
 		text-align: center;
 		opacity: 0;
 		pointer-events: none;
 	}
 
-	&.is-active &__error.is-visible {
+	&__error.is-visible {
 		pointer-events: auto;
 		animation: 0.4s 0.8s fadeIn both;
 	}

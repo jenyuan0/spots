@@ -1,11 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import PlannerForm from '@/components/PlannerForm';
 import usePlanner from '@/hooks/usePlanner';
 import useKey from '@/hooks/useKey';
+import useWindowDimensions from '@/hooks/useWindowDimensions';
 import { scrollEnable, scrollDisable } from '@/lib/helpers';
 
 export default function Planner() {
+	const ref = useRef();
 	const refContent = useRef();
 	const {
 		plannerActive,
@@ -13,6 +15,12 @@ export default function Planner() {
 		plannerContent,
 		setPlannerActive,
 	} = usePlanner();
+	const { height } = useWindowDimensions();
+	const [isFullScreen, setIsFullScreen] = useState(false);
+
+	useEffect(() => {
+		setIsFullScreen(refContent.current.clientHeight > height - 20);
+	}, [ref, height, refContent, plannerActive]);
 
 	useEffect(() => {
 		plannerActive == true ? scrollDisable(refContent.current) : scrollEnable();
@@ -47,8 +55,10 @@ export default function Planner() {
 
 	return (
 		<div
+			ref={ref}
 			className={clsx('g-planner cr-white', {
 				'is-active': plannerActive,
+				'is-fullscreen': isFullScreen,
 			})}
 			role="dialog"
 			aria-label="Plan trip"
