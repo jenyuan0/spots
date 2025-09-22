@@ -90,7 +90,7 @@ export default function SectionWhy({ data }) {
 						caret="right"
 						onClick={() => setPlannerActive(true)}
 					>
-						Start Your Search
+						Search Hotel
 					</Button>
 				</ListItem>
 			</div>

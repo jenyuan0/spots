@@ -24,6 +24,11 @@
 
 	&__content {
 		margin-block: auto;
+
+		.btn-outline {
+			margin-right: 0.7em;
+			color: var(--cr-green-d);
+		}
 	}
 
 	&__scroll {
