@@ -29,6 +29,12 @@
 			margin-right: 0.7em;
 			color: var(--cr-green-d);
 		}
+
+		@include midScreenDown {
+			.btn-outline {
+				display: none;
+			}
+		}
 	}
 
 	&__scroll {
