@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import CustomPortableText from '@/components/CustomPortableText';
 import Carousel from '@/components/Carousel';
 import Button from '@/components/Button';
+import Link from '@/components/CustomLink';
 import LocationCard from '@/components/LocationCard';
 import usePlanner from '@/hooks/usePlanner';
 import { motion, useScroll, useSpring, useTransform } from 'motion/react';
@@ -101,20 +102,26 @@ export default function SectionHero({ data }) {
 				visibility: isHidden ? 'hidden' : 'visible',
 			}}
 		>
-			<div className="p-booking__hero__content wysiwyg">
-				{heroHeading && (
-					<h1 className="t-h-1">
-						<CustomPortableText blocks={heroHeading} hasPTag={false} />
-					</h1>
-				)}
-				{heroSubheading && <p className="t-h-4">{heroSubheading}</p>}
-				<Button
-					className={'btn cr-green-l js-gtm-booking-popup'}
-					caret="right"
-					onClick={() => setPlannerActive(true)}
-				>
-					Start Your Search
-				</Button>
+			<div className="p-booking__hero__text">
+				<div className="p-booking__hero__content wysiwyg">
+					{heroHeading && (
+						<h1 className="t-h-1">
+							<CustomPortableText blocks={heroHeading} hasPTag={false} />
+						</h1>
+					)}
+					{heroSubheading && <p className="t-h-4">{heroSubheading}</p>}
+					<Button className="btn-outline cr-green-l" href="/travel-design">
+						Travel Design
+					</Button>
+					<Button
+						className={'btn cr-green-l js-gtm-booking-popup'}
+						caret="right"
+						onClick={() => setPlannerActive(true)}
+					>
+						Search Hotel
+					</Button>
+				</div>
+				<div className={'p-booking__hero__scroll t-l-1'}>Scroll to Explore</div>
 			</div>
 			{isMounted &&
 				(isSmScreen ? (

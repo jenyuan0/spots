@@ -24,8 +24,8 @@ const languages = [
 const translationDocuments = [
 	'gCases',
 	'gLocations',
-	'pTravelDesign',
 	'pHotelBooking',
+	'pTravelDesign',
 ];
 
 export const i18n = {
