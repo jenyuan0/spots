@@ -33,7 +33,10 @@ function SpotsColumns({ data, index, scrollYProgress }) {
 }
 
 export default function SectionHero({ data }) {
-	const { heroHeading, heroSubheading, heroSpots } = data;
+	const { heroHeading, heroSubheading, heroSpots, localization } = data;
+	console.log('🚀 ~ SectionHero ~ localization:', localization);
+
+	const { travelDesign, searchHotel, scrollToExplore } = localization || {};
 	const { setPlannerActive } = usePlanner();
 	const ref = useRef(null);
 	const { isSmScreen, height } = useWindowDimensions();
@@ -111,17 +114,19 @@ export default function SectionHero({ data }) {
 					)}
 					{heroSubheading && <p className="t-h-4">{heroSubheading}</p>}
 					<Button className="btn-outline cr-green-l" href="/travel-design">
-						Travel Design
+						{travelDesign || 'Travel Design'}
 					</Button>
 					<Button
 						className={'btn cr-green-l js-gtm-booking-popup'}
 						caret="right"
 						onClick={() => setPlannerActive(true)}
 					>
-						Search Hotel
+						{searchHotel || 'Search Hotel'}
 					</Button>
 				</div>
-				<div className={'p-booking__hero__scroll t-l-1'}>Scroll to Explore</div>
+				<div className={'p-booking__hero__scroll t-l-1'}>
+					{scrollToExplore || 'Scroll to Explore'}
+				</div>
 			</div>
 			{isMounted &&
 				(isSmScreen ? (

@@ -4,7 +4,11 @@ export default defineType({
 	title: 'Localization',
 	name: 'settingsLocalization',
 	type: 'document',
-	fields: [globalLabelLocalization(), globalFormLocalization()],
+	fields: [
+		globalLabelLocalization(),
+		globalFormLocalization(),
+		globalCustomEmailLocalization(),
+	],
 	preview: {
 		prepare() {
 			return {
@@ -110,7 +114,7 @@ function globalFormLocalization() {
 				type: 'internationalizedArrayString',
 			}),
 			defineField({
-				title: 'Ages 0–12',
+				title: 'Ages 0-12',
 				name: 'ageBelow',
 				type: 'internationalizedArrayString',
 			}),
@@ -127,6 +131,16 @@ function globalFormLocalization() {
 			defineField({
 				title: 'Would you like help planning your trip?',
 				name: 'wouldYouLikeHelp',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Yes',
+				name: 'yesOption',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'No',
+				name: 'noOption',
 				type: 'internationalizedArrayString',
 			}),
 			defineField({
@@ -147,6 +161,85 @@ function globalFormLocalization() {
 			defineField({
 				title: 'Need another way? Reach us at',
 				name: 'needAnotherWay',
+				type: 'internationalizedArrayString',
+			}),
+		],
+		options: {
+			collapsible: true,
+			collapsed: false,
+		},
+	});
+}
+
+function globalCustomEmailLocalization() {
+	return defineField({
+		title: 'Global Custom Email',
+		name: 'globalCustomEmail',
+		type: 'object',
+		fields: [
+			defineField({
+				title: 'Greeting',
+				name: 'greeting',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'I’m looking for help planning a trip',
+				name: 'helpPlanTrip',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'To',
+				name: 'toPreposition',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Travel Planning to ',
+				name: 'travelPlanning',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'I’m looking to book a room at',
+				name: 'bookRoomAt',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'I’m looking for help finding a hotel in',
+				name: 'findHotelIn',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Hotel',
+				name: 'hotel',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Inquiry for',
+				name: 'inquiryFor',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Search in',
+				name: 'searchIn',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'I’m looking for help finding a hotel',
+				name: 'findHotel',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'For',
+				name: 'forConjunction',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'with a nightly budget of',
+				name: 'withNightlyBudget',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'and I’d like help planning the trip',
+				name: 'andHelpPlanTrip',
 				type: 'internationalizedArrayString',
 			}),
 		],

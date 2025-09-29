@@ -424,6 +424,50 @@ const customForm = groq`
     }
   }`;
 
+export const formLocalization = groq`
+	"localization": *[_type == "settingsLocalization"][0].globalForm {
+		"firstConsultationNoFees": ${getTranslationByLanguage('firstConsultationNoFees')},
+		"hotelBookingNoFees": ${getTranslationByLanguage('hotelBookingNoFees')},
+		"where": ${getTranslationByLanguage('where')},
+		"yourDestinations": ${getTranslationByLanguage('yourDestinations')},
+		"when": ${getTranslationByLanguage('when')},
+		"selectDates": ${getTranslationByLanguage('selectDates')},
+		"who": ${getTranslationByLanguage('who')},
+		"addGuests": ${getTranslationByLanguage('addGuests')},
+		"adult": ${getTranslationByLanguage('adult')},
+		"ageAbove": ${getTranslationByLanguage('ageAbove')},
+		"children": ${getTranslationByLanguage('children')},
+		"ageBelow": ${getTranslationByLanguage('ageBelow')},
+		"pets": ${getTranslationByLanguage('pets')},
+		"dogsCats": ${getTranslationByLanguage('dogsCats')},
+		"wouldYouLikeHelp": ${getTranslationByLanguage('wouldYouLikeHelp')},
+		"yesOption": ${getTranslationByLanguage('yesOption')},
+		"noOption": ${getTranslationByLanguage('noOption')},
+		"whatsYourBudget": ${getTranslationByLanguage('whatsYourBudget')},
+		"sendViaEmail": ${getTranslationByLanguage('sendViaEmail')},
+		"sendViaWhatsApp": ${getTranslationByLanguage('sendViaWhatsApp')},
+		"needAnotherWay": ${getTranslationByLanguage('needAnotherWay')},
+	},
+`;
+
+export const customEmailLocalization = groq`
+	"emailLocalization": *[_type == "settingsLocalization"][0].globalCustomEmail {
+		"greeting": ${getTranslationByLanguage('greeting')},
+		"helpPlanTrip": ${getTranslationByLanguage('helpPlanTrip')},
+		"toPreposition": ${getTranslationByLanguage('toPreposition')},
+		"travelPlanning": ${getTranslationByLanguage('travelPlanning')},
+		"bookRoomAt": ${getTranslationByLanguage('bookRoomAt')},
+		"findHotelIn": ${getTranslationByLanguage('findHotelIn')},
+		"hotel": ${getTranslationByLanguage('hotel')},
+		"inquiryFor": ${getTranslationByLanguage('inquiryFor')},
+		"searchIn": ${getTranslationByLanguage('searchIn')},
+		"findHotel": ${getTranslationByLanguage('findHotel')},
+		"forConjunction": ${getTranslationByLanguage('forConjunction')},
+		"withNightlyBudget": ${getTranslationByLanguage('withNightlyBudget')},
+		"andHelpPlanTrip": ${getTranslationByLanguage('andHelpPlanTrip')},
+	},
+`;
+
 export const planFormData = groq`
  	"planForm": ${getDocumentWithFallback({ docType: 'gPlanForm' })} {
     image,
@@ -445,7 +489,7 @@ export const planFormData = groq`
       answer[]{
         ${portableTextContentFields}
       }
-    }
+    },
   }`;
 
 // Construct our "site" GROQ
@@ -598,6 +642,11 @@ export const pageHotelBookingQuery = groq`
         ${portableTextContentFields}
       }
     },
+		"localization": *[_type == "settingsLocalization"][0].globalLabel {
+			"travelDesign": ${getTranslationByLanguage('travelDesign')},
+			"searchHotel": ${getTranslationByLanguage('searchHotel')},
+			"scrollToExplore": ${getTranslationByLanguage('scrollToExplore')},
+		},
 		${translations}
   }
 `;

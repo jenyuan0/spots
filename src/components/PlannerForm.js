@@ -12,23 +12,47 @@ import Field from '@/components/Field';
 import CustomPortableText from '@/components/CustomPortableText';
 import { IconWhatsApp, IconEmail } from '@/components/SvgIcons';
 import { client } from '@/sanity/lib/client';
-import { imageMetaFields, portableTextObj } from '@/sanity/lib/queries';
+import {
+	imageMetaFields,
+	portableTextObj,
+	formLocalization,
+	customEmailLocalization,
+} from '@/sanity/lib/queries';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import dayjs from 'dayjs';
 import useOutsideClick from '@/hooks/useOutsideClick';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
 import { useCurrentLang } from '@/hooks/useCurrentLang';
+import { i18n } from '../../languages';
 
 const DATE_FORMAT = 'MMM D';
 
-function getWhoMessage([adults, children, pets]) {
+function getWhoMessage(
+	[adults, children, pets],
+	localization,
+	currentLanguageCode
+) {
+	const isEnglish = currentLanguageCode == 'en';
+	const {
+		adult,
+		children: childrenLabel,
+		pets: petsLabel,
+	} = localization || {};
 	if (adults === 0 && children === 0 && pets === 0) return '';
 	const parts = [];
-	if (adults > 0) parts.push(`${adults} Adult${adults > 1 ? 's' : ''}`);
+	if (adults > 0)
+		parts.push(
+			`${adults} ${adult || 'Adult'}${adults && isEnglish > 1 ? 's' : ''}`
+		);
 	if (children > 0)
-		parts.push(`${children} Children${children > 1 ? 's' : ''}`);
-	if (pets > 0) parts.push(`${pets} Pet${pets > 1 ? 's' : ''}`);
+		parts.push(
+			`${children} ${childrenLabel || 'Children'}${children && isEnglish > 1 ? 's' : ''}`
+		);
+	if (pets > 0)
+		parts.push(
+			`${pets} ${petsLabel || 'Pet'}${pets && isEnglish > 1 ? 's' : ''}`
+		);
 	return parts.join(', ');
 }
 
@@ -38,6 +62,32 @@ export default function PlannerForm({ data, plan }) {
 	const [content, setContent] = useState();
 	const [type, setType] = useState(null);
 	const [currentLanguageCode] = useCurrentLang();
+	const [calendarLocale, setCalendarLocale] = useState(
+		i18n.languages.find((lang) => lang.id === currentLanguageCode).code || 'en'
+	);
+
+	const { localization, emailLocalization } = content || {};
+	const {
+		firstConsultationNoFees,
+		hotelBookingNoFees,
+		where: whereLabel,
+		yourDestinations,
+		when: whenLabel,
+		selectDates,
+		who: whoLabel,
+		addGuests,
+		adult,
+		ageAbove,
+		children,
+		ageBelow,
+		pets,
+		dogsCats,
+		wouldYouLikeHelp,
+		whatsYourBudget,
+		sendViaEmail,
+		sendViaWhatsApp,
+		needAnotherWay,
+	} = localization || {};
 
 	useEffect(() => {
 		const controller = new AbortController();
@@ -57,6 +107,8 @@ export default function PlannerForm({ data, plan }) {
 						contactSubject,
 						contactAuthorImg{${imageMetaFields}},
 						contactAuthorText[]{${portableTextObj}},
+						${formLocalization}
+						${customEmailLocalization}
 					}`,
 					{ docType, language: currentLanguageCode },
 					{ signal: controller.signal }
@@ -69,7 +121,6 @@ export default function PlannerForm({ data, plan }) {
 				}
 			}
 		})();
-
 		return () => controller.abort();
 	}, [type, currentLanguageCode]);
 
@@ -129,17 +180,20 @@ export default function PlannerForm({ data, plan }) {
 	const [who, setWho] = useState([1, 0, 0]);
 
 	useEffect(() => {
-		setWhoMessage(getWhoMessage(who));
-	}, []);
+		setWhoMessage(getWhoMessage(who, localization, currentLanguageCode));
+	}, [localization]);
 
-	const updateWho = useCallback((index, delta) => {
-		setWho((prevWho) => {
-			const newWho = [...prevWho];
-			newWho[index] = Math.max(0, Math.min(8, (newWho[index] || 0) + delta));
-			setWhoMessage(getWhoMessage(newWho));
-			return newWho;
-		});
-	}, []);
+	const updateWho = useCallback(
+		(index, delta) => {
+			setWho((prevWho) => {
+				const newWho = [...prevWho];
+				newWho[index] = Math.max(0, Math.min(8, (newWho[index] || 0) + delta));
+				setWhoMessage(getWhoMessage(newWho, localization, currentLanguageCode));
+				return newWho;
+			});
+		},
+		[localization]
+	);
 
 	useEffect(() => {
 		setIsMounted(true);
@@ -157,27 +211,51 @@ export default function PlannerForm({ data, plan }) {
 	}, [content, plan, data]);
 
 	const computedMessage = useMemo(() => {
-		let parts = ['Hi,'];
+		const {
+			greeting,
+			helpPlanTrip,
+			toPreposition,
+			travelPlanning,
+			bookRoomAt,
+			findHotelIn,
+			hotel,
+			inquiryFor,
+			searchIn,
+			findHotel,
+			forConjunction,
+			withNightlyBudget,
+			andHelpPlanTrip,
+		} = emailLocalization || {};
+
+		let parts = [`${greeting || 'Hi'},`];
 
 		if (type == 'design') {
 			parts.push(
-				`I’m looking for help planning a trip${where && ` to ${where}`}`
+				`${helpPlanTrip || 'I’m looking for help planning a trip'}${where && `${toPreposition || 'to'} ${where}`}`
 			);
-			setSubject(`Travel Planning to ${where}`);
+			setSubject(`${travelPlanning || 'Travel Planning to'} ${where}`);
 		} else if (where) {
 			const isRoom = data?.where;
 			parts.push(
-				`${isRoom ? 'I’m looking to book a room at' : 'I’m looking for help finding a hotel in'} ${where}`
+				`${isRoom ? `${bookRoomAt || 'I’m looking to book a room at'}` : `${findHotelIn || 'I’m looking for help finding a hotel in'} ${where}`}`
 			);
-			setSubject(`Hotel ${isRoom ? 'inquiry for' : 'search in'} ${where}`);
+			setSubject(
+				`${hotel || 'Hotel'} ${
+					isRoom ? inquiryFor || 'inquiry for' : searchIn || 'search in'
+				} ${where}`
+			);
 		} else {
-			parts.push(`I’m looking for help finding a hotel`);
+			parts.push(`${findHotel || 'I’m looking for help finding a hotel'}`);
 		}
-		if (whenMessage) parts.push(`for ${whenMessage}`);
-		if (whoMessage) parts.push(`for ${whoMessage.toLowerCase()}`);
-		if (budgetChoice) parts.push(`with a nightly budget of ${budgetChoice}`);
-		if (helpPlanChoice && helpPlanChoice.toLowerCase() === 'yes') {
-			parts.push('and I’d like help planning the trip');
+		if (whenMessage) parts.push(`${forConjunction || 'for'} ${whenMessage}`);
+		if (whoMessage)
+			parts.push(`${forConjunction || 'for'} ${whoMessage.toLowerCase()}`);
+		if (budgetChoice)
+			parts.push(
+				`${withNightlyBudget || 'with a nightly budget of'} ${budgetChoice}`
+			);
+		if (helpPlanChoice && helpPlanChoice === 0) {
+			parts.push(`${andHelpPlanTrip || 'and I’d like help planning the trip'}`);
 		}
 		const newMessage = parts.join(' ') + '.';
 		setMessage(newMessage);
@@ -191,6 +269,10 @@ export default function PlannerForm({ data, plan }) {
 		where,
 		helpPlanChoice,
 	]);
+	console.log(
+		'computedMessagecomputedMessagecomputedMessagecomputedMessage',
+		computedMessage
+	);
 
 	useEffect(() => {
 		setWhere(data?.where || '');
@@ -209,8 +291,8 @@ export default function PlannerForm({ data, plan }) {
 					}}
 				>
 					{type == 'design'
-						? `First Consultation · No Fees`
-						: 'Hotel Booking · No Fees'}
+						? `${firstConsultationNoFees || 'First Consultation · No Fees'}`
+						: `${hotelBookingNoFees || 'Hotel Booking · No Fees'}`}
 				</div>
 				{formText.heading && <h2 className="t-h-1">{formText.heading}</h2>}
 				{formText.subheading && <p className="t-h-4">{formText.subheading}</p>}
@@ -223,8 +305,8 @@ export default function PlannerForm({ data, plan }) {
 			>
 				<Field
 					type={'text'}
-					label={'Where'}
-					placeholder={'Your Destination(s)'}
+					label={whereLabel || 'Where'}
+					placeholder={yourDestinations || 'Your Destination(s)'}
 					value={where}
 					onChange={(e) => setWhere(e.target.value)}
 				/>
@@ -235,8 +317,8 @@ export default function PlannerForm({ data, plan }) {
 				>
 					<Field
 						type={'text'}
-						label={'When'}
-						placeholder={'Select Dates'}
+						label={whenLabel || 'When'}
+						placeholder={selectDates || 'Select Dates'}
 						value={whenMessage}
 						readOnly={true}
 						onFocus={() => setWhenCalActive(true)}
@@ -256,6 +338,8 @@ export default function PlannerForm({ data, plan }) {
 						activeStartDate={whenStartDate}
 						onActiveStartDateChange={handleActiveStartDateChange}
 						onChange={handleDateChange}
+						locale={calendarLocale}
+						formatDay={(locale, date) => date.getDate().toString()}
 					/>
 				</div>
 				<div
@@ -265,8 +349,8 @@ export default function PlannerForm({ data, plan }) {
 				>
 					<Field
 						type={'text'}
-						label={'Who'}
-						placeholder={'Add guests'}
+						label={whoLabel || 'Who'}
+						placeholder={addGuests || 'Add guests'}
 						value={whoMessage}
 						readOnly={true}
 						onClick={(e) => {
@@ -280,9 +364,11 @@ export default function PlannerForm({ data, plan }) {
 					>
 						<div className="g-planner-form__who__detail__item">
 							<div className="g-planner-form__who__detail__label-group">
-								<div className="g-planner-form__who__detail__label">Adult</div>
+								<div className="g-planner-form__who__detail__label">
+									{adult || 'Adult'}
+								</div>
 								<div className="g-planner-form__who__detail__sublabel cr-subtle-4">
-									Age 13 or above
+									{ageAbove || 'Age 13 or above'}
 								</div>
 							</div>
 							<div className="g-planner-form__who__detail__form">
@@ -308,10 +394,10 @@ export default function PlannerForm({ data, plan }) {
 						<div className="g-planner-form__who__detail__item">
 							<div className="g-planner-form__who__detail__label-group">
 								<div className="g-planner-form__who__detail__label">
-									Children
+									{children || 'Children'}
 								</div>
 								<div className="g-planner-form__who__detail__sublabel cr-subtle-4">
-									Ages 0–12
+									{ageBelow || 'Ages 0-12'}
 								</div>
 							</div>
 							<div className="g-planner-form__who__detail__form">
@@ -336,9 +422,11 @@ export default function PlannerForm({ data, plan }) {
 						</div>
 						<div className="g-planner-form__who__detail__item">
 							<div className="g-planner-form__who__detail__label-group">
-								<div className="g-planner-form__who__detail__label">Pets</div>
+								<div className="g-planner-form__who__detail__label">
+									{pets || 'Pets'}
+								</div>
 								<div className="g-planner-form__who__detail__sublabel cr-subtle-4">
-									Dogs, cats, etc.
+									{dogsCats || 'Dogs, cats, etc.'}
 								</div>
 							</div>
 							<div className="g-planner-form__who__detail__form">
@@ -373,18 +461,18 @@ export default function PlannerForm({ data, plan }) {
 							aria-label="Help planning"
 						>
 							<div className="g-planner-form__help__title t-b-1">
-								Would you like help planning your trip?
+								{wouldYouLikeHelp || 'Would you like help planning your trip?'}
 							</div>
-							{['Yes', 'No'].map((option) => (
+							{['Yes', 'No'].map((option, index) => (
 								<button
 									key={option}
 									className={clsx('pill', {
-										'is-active': helpPlanChoice === option,
+										'is-active': helpPlanChoice === index,
 									})}
 									role="radio"
-									aria-checked={helpPlanChoice === option}
+									aria-checked={helpPlanChoice === index}
 									onClick={() =>
-										setHelpPlanChoice(helpPlanChoice === option ? '' : option)
+										setHelpPlanChoice(helpPlanChoice === index ? '' : index)
 									}
 								>
 									{option}
@@ -399,7 +487,7 @@ export default function PlannerForm({ data, plan }) {
 							aria-label="Budget choice"
 						>
 							<div className="g-planner-form__budget__title t-b-1">
-								What’s your ideal nightly budget?
+								{whatsYourBudget || 'What’s your ideal nightly budget?'}
 							</div>
 							{['$250—$500', '$500—$750', '$750+'].map((option) => (
 								<button
@@ -441,7 +529,7 @@ export default function PlannerForm({ data, plan }) {
 							setErrorIsVisible(true);
 						}}
 					>
-						Send via WhatsApp
+						{sendViaWhatsApp || 'Send via WhatsApp'}
 					</Button>
 					<div className="t-l-2 cr-subtle-5">Or</div> */}
 					<Button
@@ -456,14 +544,14 @@ export default function PlannerForm({ data, plan }) {
 							setErrorIsVisible(true);
 						}}
 					>
-						Send via Email
+						{sendViaEmail || 'Send via Email'}
 					</Button>
 					<div
 						className={clsx('g-planner-form__error t-b-1', {
 							'is-visible': errorIsVisible,
 						})}
 					>
-						Need another way? Reach us at{' '}
+						{needAnotherWay || 'Need another way? Reach us at'}{' '}
 						<strong>
 							{type == 'design' ? 'vip' : 'hotels'}@spotstravel.co
 						</strong>
