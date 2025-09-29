@@ -51,7 +51,7 @@ export default function Footer({ siteData, data, isActive }) {
 				variants={pageTransitionFade}
 				className={'g-footer'}
 			>
-				<div className="g-footer__copyright t-h-5">
+				<div className="g-footer__copyright t-l-2">
 					© {new Date().getFullYear()} {siteData?.title} /{' '}
 					<Link isNewTab={true} href="https://www.instagram.com/spotstravel.co">
 						Instagram
