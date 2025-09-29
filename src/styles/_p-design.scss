@@ -1,25 +1,19 @@
 @use '_mixin' as *;
 
 .p-design__hero {
+	--size: Min(60vw, 600px);
 	position: relative;
-	height: clamp(100px, calc(var(--s-vp-height) * 0.2), 200px);
-	margin-top: var(--s-header);
+	height: var(--size);
+	width: var(--size);
+	margin-top: calc(var(--s-header) + var(--s-section));
+	margin-inline: auto;
+	position: sticky;
+	top: calc(var(--s-header) + var(--s-section));
 	pointer-events: none;
 	background-color: var(--cr-subtle);
-	z-index: 1;
-
-	&:after {
-		content: '';
-		display: block;
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		bottom: -2px;
-		left: 0;
-		z-index: 2;
-		pointer-events: none;
-		background: linear-gradient(rgba(255, 255, 255, 0), var(--cr-cream));
-	}
+	overflow: hidden;
+	border-radius: 100%;
+	z-index: -1;
 
 	video {
 		opacity: 0;
@@ -34,16 +28,15 @@
 	position: relative;
 	height: 10px;
 	overflow-x: clip;
-	margin: var(--s-section) 0;
+	margin-block: calc(var(--s-section) * 1.5);
 	z-index: -1;
 
 	&__spot {
-		--size: clamp(35px, 5vw, 80px);
+		--size: clamp(35px, 5vw, 50px);
 		position: absolute;
 		width: fit-content;
 		height: fit-content;
-		top: 0;
-		left: 0%;
+		left: 50%;
 		transform-origin: center;
 		margin: calc(var(--size) / 2 * -1);
 	}
@@ -70,58 +63,56 @@
 
 .p-design__why {
 	--media-size: Min(400px, 95%);
-	width: var(--width-sml);
 	margin: var(--s-section) auto;
 
 	&__header {
-		max-width: 500px;
+		width: (--width-sml);
+		max-width: 400px;
 		margin-inline: auto;
-		margin-bottom: 80px;
+		margin-bottom: 60px;
 		text-align: center;
-		color: var(--cr-red-d);
+	}
 
-		p {
-			text-wrap: balance;
-		}
+	&__list {
+		display: flex;
+		max-width: var(--width-med);
+		margin-inline: auto;
+		border-top: 1px solid;
+		border-bottom: 1px solid;
 	}
 
 	&-block {
+		width: 100%;
 		display: flex;
+		flex-direction: column;
 		align-items: center;
 		overflow: hidden;
-		padding-block: 60px;
+		padding: 60px 30px;
 		gap: 40px;
-		border-top: 1px solid;
 
-		&:nth-child(even) {
-			flex-direction: row-reverse;
-		}
-
-		&:last-child {
-			border-bottom: 1px solid;
-		}
-
-		@include selection {
-			color: var(--cr-cream);
-			background-color: var(--cr-primary);
+		&:not(:first-child) {
+			border-left: 1px solid;
 		}
 
 		&__media {
+			display: none !important;
+
 			position: relative;
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			width: Min(20%, 600px);
+			width: Min(50%, 600px);
 			overflow: hidden;
 			aspect-ratio: 1;
 			border-radius: var(--br-3);
-			padding: var(--s-2-v) var(--s-2-h);
+			padding: 5px;
 			color: var(--cr-white);
 			background-color: var(--cr-primary);
 		}
 
 		&__text {
 			flex: 1;
+			text-align: center;
 
 			&-container {
 				max-width: 500px;
@@ -159,31 +150,33 @@
 				}
 			}
 		}
+	}
 
-		&__heading {
-			color: var(--cr-primary);
+	@include tabletDown {
+		.c-carousel__dots {
+			margin-top: 30px;
 		}
 
-		@include mobileDown {
-			--media-size: calc(100% - var(--s-2-h) * 2);
+		&__header {
+			margin-bottom: 30px;
+		}
 
-			&,
-			&:nth-child(even) {
-				flex-direction: column;
+		&__list {
+			display: unset;
+		}
+
+		&-block {
+			width: 90vw;
+			border-top: 1px solid;
+			border-bottom: 1px solid;
+
+			&:not(:first-child) {
+				border-left: unset;
 			}
 
-			&__media {
-				width: Min(50%, 200px);
-				padding: 0;
-			}
-
-			&__text {
-				text-align: center;
-			}
-
-			&__offers {
-				margin-top: 20px;
-				font: var(--t-b-2);
+			&__heading {
+				font: var(--t-b-1);
+				font-weight: 500;
 			}
 		}
 	}
@@ -605,10 +598,13 @@
 }
 
 .p-design__case {
-	padding-inline: var(--padding-med);
+	width: var(--width-sml);
+	max-width: 600px;
 	margin: var(--s-section) auto;
 
 	&__heading {
+		max-width: 400px;
+		margin-inline: auto;
 		color: var(--cr-red-d);
 	}
 
@@ -620,30 +616,13 @@
 	}
 
 	&__list {
-		display: grid;
-		grid-template-columns: repeat(4, 1fr);
+		display: flex;
+		flex-direction: column;
 		justify-content: center;
 		gap: 20px;
 
-		.p-design__case__card {
-			grid-column: span 2;
-		}
-
-		/* If the last item is odd (i.e., total count is odd), center it */
-		&:has(> .p-design__case__card:nth-child(2n + 1):last-child)
-			> .p-design__case__card:last-child {
-			grid-column: 2 / span 2; /* start at track 2, span 2 => centered */
-		}
-
-		@include tabletDown {
+		@include mobileDown {
 			gap: 10px;
-			grid-template-columns: repeat(2, 1fr);
-
-			/* If the last item is odd (i.e., total count is odd), center it */
-			&:has(> .p-design__case__card:nth-child(2n + 1):last-child)
-				> .p-design__case__card:last-child {
-				grid-column: 1 / span 2; /* start at track 2, span 2 => centered */
-			}
 		}
 	}
 
@@ -723,15 +702,15 @@
 		}
 
 		@include tabletDown {
-			--padding: 20px;
+			--padding: 15px;
 			gap: 10px;
 
 			&__subtitle {
-				max-width: 200px;
+				display: none;
 			}
 
 			&__img {
-				width: 50px;
+				width: 60px;
 			}
 		}
 	}

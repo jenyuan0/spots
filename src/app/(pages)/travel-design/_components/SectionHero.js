@@ -1,13 +1,31 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import Img from '@/components/Image';
+import {
+	motion,
+	useMotionValue,
+	useSpring,
+	useScroll,
+	useTransform,
+} from 'motion/react';
 
 export default function SectionHero({ data }) {
 	const { heroImage, heroVideo } = data || {};
 	const videoRef = useRef(null);
+	const ref = useRef();
 	const [isVideoActive, setIsVideoActive] = useState(false);
+	const { scrollY } = useScroll();
+	const progress = useTransform(
+		scrollY,
+		[0, ref.current?.offsetHeight],
+		[0, 1],
+		{
+			clamp: true,
+		}
+	);
+	const motionOpacity = useTransform(progress, [0, 1], [1, 0]);
 
 	useEffect(() => {
 		if (!heroVideo?.url || !videoRef.current) return;
@@ -25,7 +43,11 @@ export default function SectionHero({ data }) {
 	}, [heroVideo?.url]);
 
 	return (
-		<section className="p-design__hero">
+		<motion.section
+			ref={ref}
+			className="p-design__hero"
+			style={{ opacity: motionOpacity }}
+		>
 			<div className="object-fit">
 				{heroImage && !isVideoActive && <Img image={heroImage} />}
 				{heroVideo?.url && (
@@ -43,6 +65,6 @@ export default function SectionHero({ data }) {
 					/>
 				)}
 			</div>
-		</section>
+		</motion.section>
 	);
 }
