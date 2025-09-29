@@ -45,7 +45,7 @@ export const getRoute = ({ documentType, slug }) => {
 		case 'gItineraries':
 			return `/paris/itinerary/${slug}`;
 		case 'gCases':
-			return `/travel-design?m=${slug}&t=case`;
+			return `/travel-design/${slug}`;
 
 		case 'externalUrl':
 			return slug;
