@@ -11,13 +11,14 @@ export function Image({ data }) {
 	if (!data?.asset) return;
 
 	const { link, caption } = data || {};
+	const alt = data?.alt || caption || '';
 	const image =
 		link && link?.route ? (
 			<Link href={link.route} isNewTab={link.isNewTab}>
-				<Img image={data} />
+				<Img image={data} alt={alt} />
 			</Link>
 		) : (
-			<Img image={data} />
+			<Img image={data} alt={alt} />
 		);
 
 	return (
@@ -53,6 +54,14 @@ export function Iframe({ data }) {
 
 export default function CustomPortableText({ blocks, hasPTag = true }) {
 	// Memoize components to prevent unnecessary rerenders
+
+	const safeBlocks = Array.isArray(blocks)
+		? blocks.map((b) => ({
+				...b,
+				markDefs: Array.isArray(b?.markDefs) ? b.markDefs : [],
+				children: Array.isArray(b?.children) ? b.children : [],
+			}))
+		: [];
 
 	const portableTextComponents = useMemo(
 		() => ({
@@ -166,5 +175,7 @@ export default function CustomPortableText({ blocks, hasPTag = true }) {
 	); // Only recompute when hasPTag changes
 
 	if (!blocks) return null;
-	return <PortableText value={blocks} components={portableTextComponents} />;
+	return (
+		<PortableText value={safeBlocks} components={portableTextComponents} />
+	);
 }
