@@ -603,7 +603,7 @@
 	margin: var(--s-section) auto;
 
 	&__heading {
-		max-width: 400px;
+		max-width: Min(80vw, 400px);
 		margin-inline: auto;
 		color: var(--cr-red-d);
 	}
