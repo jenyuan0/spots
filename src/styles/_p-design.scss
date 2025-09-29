@@ -1,7 +1,7 @@
 @use '_mixin' as *;
 
 .p-design__hero {
-	--size: Min(60vw, 600px);
+	--size: Min(60vw, 420px);
 	position: relative;
 	height: var(--size);
 	width: var(--size);
