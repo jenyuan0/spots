@@ -15,7 +15,6 @@ export async function generateMetadata() {
 
 export default async function Page({ params }) {
 	const queryParams = { language: params.lang?.replace('-', '_') };
-	console.log('🚀 ~ Page ~ queryParams:', queryParams);
 	const isPreviewMode = draftMode().isEnabled;
 	const pageData = await getLocationsIndexPage({
 		isPreviewMode,

@@ -13,8 +13,9 @@ export async function generateMetadata() {
 }
 
 export default async function Page() {
+	const queryParams = { language: params.lang?.replace('-', '_') };
 	const isPreviewMode = draftMode().isEnabled;
-	const pageData = await getPageHomeData({ isPreviewMode });
+	const pageData = await getPageHomeData({ queryParams, isPreviewMode });
 	const { page } = pageData || {};
 
 	if (page) {

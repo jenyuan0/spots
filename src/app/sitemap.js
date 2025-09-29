@@ -95,7 +95,7 @@ async function getDocumentData(type, slug) {
 }
 
 async function getStaticRoutes(baseUrl) {
-	const fullPath = path.join(process.cwd(), 'src/app/(pages)');
+	const fullPath = path.join(process.cwd(), 'src/app/[lang]/(pages)');
 	const routes = [];
 
 	// Add homepage

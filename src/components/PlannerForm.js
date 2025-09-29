@@ -18,6 +18,7 @@ import 'react-calendar/dist/Calendar.css';
 import dayjs from 'dayjs';
 import useOutsideClick from '@/hooks/useOutsideClick';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
+import { useCurrentLang } from '@/hooks/useCurrentLang';
 
 const DATE_FORMAT = 'MMM D';
 
@@ -36,6 +37,7 @@ export default function PlannerForm({ data, plan }) {
 	const [isMounted, setIsMounted] = useState(false);
 	const [content, setContent] = useState();
 	const [type, setType] = useState(null);
+	const [currentLanguageCode] = useCurrentLang();
 
 	useEffect(() => {
 		const controller = new AbortController();
@@ -45,7 +47,10 @@ export default function PlannerForm({ data, plan }) {
 		(async () => {
 			try {
 				const doc = await client.fetch(
-					`*[_type == $docType && language == "en"][0]{
+					`coalesce(
+						*[_type == $docType && language == $language][0],
+  					*[_type == $docType && language == "en"][0]
+					){
 						contactHeading,
 						contactSubheading,
 						contactPlaceholder,
@@ -53,7 +58,7 @@ export default function PlannerForm({ data, plan }) {
 						contactAuthorImg{${imageMetaFields}},
 						contactAuthorText[]{${portableTextObj}},
 					}`,
-					{ docType },
+					{ docType, language: currentLanguageCode },
 					{ signal: controller.signal }
 				);
 
@@ -66,7 +71,7 @@ export default function PlannerForm({ data, plan }) {
 		})();
 
 		return () => controller.abort();
-	}, [type]);
+	}, [type, currentLanguageCode]);
 
 	const [subject, setSubject] = useState();
 	const [formText, setFormText] = useState({

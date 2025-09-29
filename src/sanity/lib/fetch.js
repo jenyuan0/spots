@@ -50,21 +50,23 @@ const getPageDataStructure = ({ query }) => {
 	return data;
 };
 
-export async function getPageHomeData({ isPreviewMode }) {
+export async function getPageHomeData({ queryParams, isPreviewMode }) {
 	const query = getPageDataStructure({ query: queries.pageHomeQuery });
 
 	return sanityFetch({
 		query,
+		params: queryParams,
 		tags: ['pHome', 'gLocations', 'gItineraries'],
 		isPreviewMode,
 	});
 }
 
-export async function getPageHotelBooking({ isPreviewMode }) {
+export async function getPageHotelBooking({ queryParams, isPreviewMode }) {
 	const query = getPageDataStructure({ query: queries.pageHotelBookingQuery });
 
 	return sanityFetch({
 		query,
+		params: queryParams,
 		tags: ['pHotelBooking', 'gLocations'],
 		isPreviewMode,
 	});

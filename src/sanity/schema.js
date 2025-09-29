@@ -4,6 +4,7 @@ import settingsBrandColors from './schemas/documents/settings-color';
 import settingsMenu from './schemas/documents/settings-menu';
 import settingsRedirect from './schemas/documents/settings-redirect';
 import settingsIntegration from './schemas/documents/settings-integrations';
+import settingsLocalization from './schemas/documents/settings-localization';
 
 // Object types
 import button from './schemas/objects/button';
@@ -54,6 +55,7 @@ const schemas = [
 	settingsMenu,
 	settingsRedirect,
 	settingsIntegration,
+	settingsLocalization,
 
 	button,
 	formFields,

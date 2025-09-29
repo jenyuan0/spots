@@ -6,15 +6,17 @@ import { pageHotelBookingQuery } from '@/sanity/lib/queries';
 import PageHotelBooking from '@/app/[lang]/(pages)/_components/PageHotelBooking';
 import PreviewPageHotelBooking from '@/app/[lang]/(pages)/_components/PreviewPageHotelBooking';
 
-export async function generateMetadata() {
+export async function generateMetadata({ params }) {
+	const queryParams = { language: params.lang?.replace('-', '_') };
 	const isPreviewMode = draftMode().isEnabled;
-	const data = await getPageHotelBooking({ isPreviewMode });
+	const data = await getPageHotelBooking({ queryParams, isPreviewMode });
 	return defineMetadata({ data });
 }
 
 export default async function Page({ params }) {
+	const queryParams = { language: params.lang?.replace('-', '_') };
 	const isPreviewMode = draftMode().isEnabled;
-	const pageData = await getPageHotelBooking({ isPreviewMode });
+	const pageData = await getPageHotelBooking({ queryParams, isPreviewMode });
 	const { page } = pageData || {};
 
 	if (page) {

@@ -26,6 +26,7 @@ const translationDocuments = [
 	'gLocations',
 	'pHotelBooking',
 	'pTravelDesign',
+	'gPlanForm',
 ];
 
 export const i18n = {

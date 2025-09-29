@@ -3,11 +3,19 @@ import { i18n } from '../../../languages';
 
 export const getDocumentWithFallback = ({
 	docType, // e.g. "gFooter"
-	languageField = 'language', // field name for language (default: "language")
 } = {}) => `coalesce(
-  *[_type == "${docType}" && ${languageField} == $language][0],
-  *[_type == "${docType}" && ${languageField} == "${i18n.base}"][0]
+  *[_type == "${docType}" && language == $language][0],
+  *[_type == "${docType}" && language == "${i18n.base}"][0]
 )`;
+
+export const getTranslationByLanguage = (type) => {
+	return `
+		select(
+			count(${type}[_key == $language]) > 0 => ${type}[_key == $language][0].value,
+			${type}[_key == '${i18n.base}'][0].value
+		)
+	`;
+};
 
 export const translations = groq`
 	language,
@@ -417,7 +425,7 @@ const customForm = groq`
   }`;
 
 export const planFormData = groq`
-  "planForm": *[_type == "gPlanForm"][0]{
+ 	"planForm": ${getDocumentWithFallback({ docType: 'gPlanForm' })} {
     image,
     mobileImage,
     formTitle,
@@ -484,7 +492,7 @@ export const site = groq`
 `;
 
 export const pageHomeQuery = groq`
-  *[_type == "pHome"][0]{
+	*[_type == "pHome"][0] {
     ${baseFields},
     "isHomepage": true,
     heroHeading[]{
@@ -549,7 +557,7 @@ export const pagesBySlugQuery = groq`
   }`;
 
 export const pageHotelBookingQuery = groq`
-  *[_type == "pHotelBooking" && language == "en"][0]{
+	${getDocumentWithFallback({ docType: 'pHotelBooking' })}{
     ${baseFields},
     heroHeading[]{
       ${portableTextContentFields}
@@ -590,12 +598,12 @@ export const pageHotelBookingQuery = groq`
         ${portableTextContentFields}
       }
     },
-		language
+		${translations}
   }
 `;
 
 export const pageTravelDesignQuery = groq`
-  *[_type == "pTravelDesign" && language == "en"][0]{
+ ${getDocumentWithFallback({ docType: 'pTravelDesign' })}{
     ${baseFields},
     "isHomepage": true,
     heroImage,

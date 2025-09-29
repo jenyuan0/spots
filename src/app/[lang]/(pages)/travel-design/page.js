@@ -14,16 +14,10 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function Page({ params }) {
-	console.log('🚀 ~ Page ~ params:', params);
 	const queryParams = { language: params.lang?.replace('-', '_') };
-	console.log('🚀🚀🚀🚀 ~ Page ~ queryParams:', queryParams);
 	const isPreviewMode = draftMode().isEnabled;
 	const pageData = await getPageTravelDesign({ queryParams, isPreviewMode });
 	const { page } = pageData || {};
-
-	const { _translations } = page || {};
-	console.log('🚀 ~ Page ~ page:', page);
-	console.log('🚀 ~ Page ~ _translations:', _translations);
 
 	if (page) {
 		return (

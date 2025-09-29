@@ -25,7 +25,7 @@ import {
 } from './desk/guides-filters';
 import { menusMenu } from './desk/menus';
 import { colorsMenu } from './desk/colors';
-import { settingsMenu } from './desk/settings';
+import { settingsMenu, settingsLocalization } from './desk/settings';
 
 export const pageParis = (S) => {
 	return S.listItem()
@@ -132,6 +132,7 @@ const deskStructure = (S) =>
 			menusMenu(S),
 			colorsMenu(S),
 			settingsMenu(S),
+			settingsLocalization(S),
 		]);
 
 export default deskStructure;

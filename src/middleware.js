@@ -12,7 +12,7 @@ const SUPPORTED_LOCALES_SET = new Set(SUPPORTED_LOCALE_IDS);
 // Cache the locale pattern regex for better performance
 const LOCALE_PATH_REGEX = new RegExp(
 	`^/(${SUPPORTED_LOCALE_IDS.join('|')})(/|$)`,
-	'i' // Add case-insensitive flag
+	'i' // IMPORTANT: Case-insensitive for detection
 );
 
 function getLocale(request) {
@@ -28,6 +28,22 @@ function getLocale(request) {
 	return matchLocale(languages, SUPPORTED_LOCALE_IDS, i18n.base);
 }
 
+// Add this helper function to find the correct locale ID with proper casing
+function getNormalizedLocale(pathname) {
+	// Extract the potential locale from the pathname
+	const pathSegments = pathname.split('/').filter(Boolean);
+	if (pathSegments.length === 0) return null;
+
+	const potentialLocale = pathSegments[0];
+
+	// Find matching locale with correct casing (case-insensitive search)
+	const normalizedLocale = SUPPORTED_LOCALE_IDS.find(
+		(locale) => locale.toLowerCase() === potentialLocale.toLowerCase()
+	);
+
+	return normalizedLocale;
+}
+
 export function middleware(request) {
 	// Add null checks to prevent build errors
 	if (!request || !request.nextUrl) {
@@ -35,10 +51,6 @@ export function middleware(request) {
 	}
 
 	const pathname = request.nextUrl?.pathname;
-
-	console.log('LOCALE_PATH_REGEX:', LOCALE_PATH_REGEX);
-	console.log('Testing pathname:', pathname);
-	console.log('hasLocale result:', LOCALE_PATH_REGEX.test(pathname));
 
 	// Ignore specific files and paths
 	if (
@@ -49,13 +61,24 @@ export function middleware(request) {
 		return;
 	}
 
-	// Use regex for faster locale detection instead of array.every()
+	// Check if path has a locale (case-insensitive)
 	const hasLocale = LOCALE_PATH_REGEX.test(pathname);
 
-	// Redirect if there is no locale
-	if (!hasLocale) {
+	if (hasLocale) {
+		// Locale exists, but check if it needs case correction
+		const normalizedLocale = getNormalizedLocale(pathname);
+		const pathSegments = pathname.split('/').filter(Boolean);
+		const currentLocale = pathSegments[0];
+
+		// If the case doesn't match, redirect to correct case
+		if (normalizedLocale && currentLocale !== normalizedLocale) {
+			const restOfPath = pathSegments.slice(1).join('/');
+			const correctedPath = `/${normalizedLocale}${restOfPath ? '/' + restOfPath : ''}`;
+			return NextResponse.redirect(new URL(correctedPath, request.url));
+		}
+	} else {
+		// No locale found, add it
 		const locale = getLocale(request);
-		// Clean up pathname - remove leading slash to avoid double slash
 		const cleanPathname = pathname.startsWith('/')
 			? pathname.slice(1)
 			: pathname;
@@ -63,6 +86,7 @@ export function middleware(request) {
 			new URL(`/${locale}/${cleanPathname}`, request.url)
 		);
 	}
+
 	return NextResponse.next();
 }
 
