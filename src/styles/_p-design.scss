@@ -1,7 +1,7 @@
 @use '_mixin' as *;
 
 .p-design__hero {
-	--size: Min(60vw, 500px);
+	--size: Min(60vw, 420px);
 	position: relative;
 	height: var(--size);
 	width: var(--size);
@@ -28,7 +28,7 @@
 	position: relative;
 	height: 10px;
 	overflow-x: clip;
-	margin-block: calc(var(--s-section) * 1.4);
+	margin-block: calc(var(--s-section) * 1.5);
 
 	&__spot {
 		--size: clamp(35px, 5vw, 50px);
