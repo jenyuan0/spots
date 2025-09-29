@@ -52,7 +52,7 @@ export default function Footer({ siteData, data, isActive }) {
 				className={'g-footer'}
 			>
 				<div className="g-footer__copyright t-h-5">
-					© {new Date().getFullYear()} {siteData?.title} /
+					© {new Date().getFullYear()} {siteData?.title} /{' '}
 					<Link isNewTab={true} href="https://www.instagram.com/spotstravel.co">
 						Instagram
 					</Link>{' '}
