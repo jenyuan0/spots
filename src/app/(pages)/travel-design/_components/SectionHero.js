@@ -13,13 +13,14 @@ export default function SectionHero({ data }) {
 	const { scrollY } = useScroll();
 	const progress = useTransform(
 		scrollY,
-		[0, ref.current?.offsetHeight / 2],
+		[0, ref.current?.offsetHeight * 0.4],
 		[0, 1],
 		{
 			clamp: true,
 		}
 	);
 	const motionOpacity = useTransform(progress, [0, 1], [1, 0]);
+	const motionSCale = useTransform(progress, [0, 1], [1, 0.95]);
 
 	useEffect(() => {
 		if (!heroVideo?.url || !videoRef.current) return;
@@ -40,7 +41,7 @@ export default function SectionHero({ data }) {
 		<motion.section
 			ref={ref}
 			className="p-design__hero"
-			style={{ opacity: motionOpacity }}
+			style={{ opacity: motionOpacity, scale: motionSCale }}
 		>
 			<div className="object-fit">
 				{heroImage && !isVideoActive && <Img image={heroImage} />}
