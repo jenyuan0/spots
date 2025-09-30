@@ -14,7 +14,11 @@ function HeroSpot({ data, index, totalChild, isLastChild, progress }) {
 		[0, 0, 500 + (index + 1) * 20]
 	);
 	const angle = 180 + index * (360 / totalChild);
-	const motionOpacity = useTransform(progress, [0, 0.2, 1], [1, 1, 0]);
+	const motionOpacity = useTransform(
+		progress,
+		[0, 0.1, 0.15, 0.2, 1],
+		[isLastChild ? 1 : 0, isLastChild ? 1 : 0, 1, 1, 0]
+	);
 	const motionScale = useTransform(
 		progress,
 		[0, 0.4, 1],
