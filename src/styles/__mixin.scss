@@ -319,13 +319,18 @@
 		padding-top: var(--s-2-v);
 		padding-bottom: var(--s-4-v);
 
+		@include mobileDown() {
+			.c-portable-table {
+			}
+		}
+
 		@include mobileUp {
 			padding-left: 40px;
 		}
 	}
 
 	.c-accordion__content .wysiwyg-page {
-		max-width: 600px;
+		max-width: 720px;
 
 		p,
 		ol,

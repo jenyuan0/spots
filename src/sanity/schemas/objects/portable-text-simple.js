@@ -30,5 +30,6 @@ export default defineType({
 				spellCheck: true,
 			},
 		},
+		{ title: 'Table', type: 'portableTable' },
 	],
 });
