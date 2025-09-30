@@ -3,13 +3,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import Img from '@/components/Image';
-import {
-	motion,
-	useMotionValue,
-	useSpring,
-	useScroll,
-	useTransform,
-} from 'motion/react';
+import { motion, useScroll, useTransform } from 'motion/react';
 
 export default function SectionHero({ data }) {
 	const { heroImage, heroVideo } = data || {};
@@ -19,7 +13,7 @@ export default function SectionHero({ data }) {
 	const { scrollY } = useScroll();
 	const progress = useTransform(
 		scrollY,
-		[0, ref.current?.offsetHeight],
+		[0, ref.current?.offsetHeight / 2],
 		[0, 1],
 		{
 			clamp: true,
