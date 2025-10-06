@@ -18,15 +18,34 @@ const languages = [
 		subtitle: '繁',
 		country: 'tw',
 	},
+	{
+		id: 'zh_CN',
+		code: 'zh-CN',
+		title: '简体中文',
+		subtitle: '简',
+		country: 'cn',
+	},
 ];
 
 // Add document's type to the list to enable localization for the document
 const translationDocuments = [
 	'gCases',
 	'gLocations',
+	'gItinerariesDay',
+	'gItineraries',
+	'gGuides',
+	'gCategories',
+	'gSubcategories',
+	'gPlanForm',
+	'gAds',
 	'pHotelBooking',
 	'pTravelDesign',
-	'gPlanForm',
+	'pParis',
+	'pTripReady',
+	'pGuides',
+	'pHome',
+	'pLocations',
+	'pGeneral',
 ];
 
 export const i18n = {

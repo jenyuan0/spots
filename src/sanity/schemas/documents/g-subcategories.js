@@ -35,6 +35,13 @@ export default defineType({
 			type: 'portableTextSimple',
 		},
 		sharing(),
+		{
+			// should match 'languageField' plugin configuration setting, if customized
+			name: 'language',
+			type: 'string',
+			// readOnly: true,
+			// hidden: true,
+		},
 	],
 	preview: {
 		select: {

@@ -28,7 +28,7 @@ function ListItem({ children }) {
 }
 
 export default function SectionWhy({ data }) {
-	const { whyList, whyListHeading } = data;
+	const { whyList, whyListHeading, localization } = data;
 	const { setPlannerActive } = usePlanner();
 	const ref = useRef(null);
 	const { scrollYProgress } = useScroll({
@@ -90,7 +90,7 @@ export default function SectionWhy({ data }) {
 						caret="right"
 						onClick={() => setPlannerActive(true)}
 					>
-						Search Hotel
+						{localization?.searchHotel || 'Search Hotel'}
 					</Button>
 				</ListItem>
 			</div>
