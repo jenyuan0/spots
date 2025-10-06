@@ -7,16 +7,14 @@ import PageHotelBooking from '@/app/[lang]/(pages)/_components/PageHotelBooking'
 import PreviewPageHotelBooking from '@/app/[lang]/(pages)/_components/PreviewPageHotelBooking';
 
 export async function generateMetadata({ params }) {
-	const queryParams = { language: params.lang?.replace('-', '_') };
 	const isPreviewMode = draftMode().isEnabled;
-	const data = await getPageHotelBooking({ queryParams, isPreviewMode });
+	const data = await getPageHotelBooking({ params, isPreviewMode });
 	return defineMetadata({ data });
 }
 
 export default async function Page({ params }) {
-	const queryParams = { language: params.lang?.replace('-', '_') };
 	const isPreviewMode = draftMode().isEnabled;
-	const pageData = await getPageHotelBooking({ queryParams, isPreviewMode });
+	const pageData = await getPageHotelBooking({ params, isPreviewMode });
 	const { page } = pageData || {};
 
 	if (page) {

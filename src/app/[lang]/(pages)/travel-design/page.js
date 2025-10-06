@@ -7,16 +7,14 @@ import PageTravelDesign from './_components/PageTravelDesign';
 import PreviewPageTravelDesign from './_components/PreviewPageTravelDesign';
 
 export async function generateMetadata({ params }) {
-	const queryParams = { language: params.lang?.replace('-', '_') };
 	const isPreviewMode = draftMode().isEnabled;
-	const data = await getPageTravelDesign({ queryParams, isPreviewMode });
+	const data = await getPageTravelDesign({ params, isPreviewMode });
 	return defineMetadata({ data });
 }
 
 export default async function Page({ params }) {
-	const queryParams = { language: params.lang?.replace('-', '_') };
 	const isPreviewMode = draftMode().isEnabled;
-	const pageData = await getPageTravelDesign({ queryParams, isPreviewMode });
+	const pageData = await getPageTravelDesign({ params, isPreviewMode });
 	const { page } = pageData || {};
 
 	if (page) {

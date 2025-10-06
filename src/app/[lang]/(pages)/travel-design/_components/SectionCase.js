@@ -90,8 +90,8 @@ export default function SectionCase({ data }) {
 			</div>
 			<div className="p-design__case__list">
 				{caseItems?.map((el, i) => {
-					let slug = el.slug;
-					let color = el?.color.title || 'red';
+					let slug = el?.slug;
+					let color = el?.color?.title || 'red';
 
 					return (
 						<button

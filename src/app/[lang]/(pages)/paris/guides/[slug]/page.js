@@ -20,7 +20,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }) {
 	const isPreviewMode = draftMode().isEnabled;
 	const data = await getGuidesSinglePage({
-		queryParams: params,
+		params,
 		isPreviewMode,
 	});
 	return defineMetadata({ data });
@@ -29,12 +29,12 @@ export async function generateMetadata({ params }) {
 export default async function Page({ params }) {
 	const isPreviewMode = draftMode().isEnabled;
 	const pageData = await getGuidesSinglePage({
-		queryParams: params,
+		params,
 		isPreviewMode,
 	});
 	const { page } = pageData || {};
 	const site = await getSiteData({
-		queryParams: { language: params.lang?.replace('-', '_') },
+		params,
 		isPreviewMode,
 	});
 	const metadata = defineMetadata({ data: { site, page } });

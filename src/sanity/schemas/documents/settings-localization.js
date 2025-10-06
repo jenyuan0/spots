@@ -49,6 +49,46 @@ function globalLabelLocalization() {
 				name: 'scrollToExplore',
 				type: 'internationalizedArrayString',
 			}),
+			defineField({
+				title: 'Contact Us',
+				name: 'contactUs',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Frequently Asked Questions',
+				name: 'frequentlyAskedQuestions',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Option',
+				name: 'option',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Trip Highlights',
+				name: 'tripHighlights',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Our Role',
+				name: 'ourRole',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Suggested Accomodations',
+				name: 'suggestedAccomodations',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Unlock Insider Rates',
+				name: 'unlockInsiderRates',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Close',
+				name: 'closeLabel',
+				type: 'internationalizedArrayString',
+			}),
 		],
 		options: {
 			collapsible: true,
@@ -166,6 +206,21 @@ function globalFormLocalization() {
 			defineField({
 				title: 'Need another way? Reach us at',
 				name: 'needAnotherWay',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Sending',
+				name: 'sending',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Send message',
+				name: 'sendMessage',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Average response time < 8hr',
+				name: 'averageResponseTime',
 				type: 'internationalizedArrayString',
 			}),
 		],

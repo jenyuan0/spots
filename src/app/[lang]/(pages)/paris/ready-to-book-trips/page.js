@@ -5,19 +5,17 @@ import { notFound } from 'next/navigation';
 import { LiveQuery } from 'next-sanity/preview/live-query';
 import defineMetadata from '@/lib/defineMetadata';
 import { getTripReadyPage } from '@/sanity/lib/fetch';
-import { pageContactQuery } from '@/sanity/lib/queries';
+import { pageTripReadyQuery } from '@/sanity/lib/queries';
 
-export async function generateMetadata() {
+export async function generateMetadata({ params }) {
 	const isPreviewMode = draftMode().isEnabled;
-	const data = await getTripReadyPage({ isPreviewMode });
+	const data = await getTripReadyPage({ params, isPreviewMode });
 	return defineMetadata({ data });
 }
 
-export default async function Page() {
+export default async function Page({ params }) {
 	const isPreviewMode = draftMode().isEnabled;
-	const pageData = await getTripReadyPage({
-		isPreviewMode,
-	});
+	const pageData = await getTripReadyPage({ params, isPreviewMode });
 
 	const { page } = pageData || {};
 
@@ -26,7 +24,7 @@ export default async function Page() {
 	return (
 		<LiveQuery
 			enabled={isPreviewMode}
-			query={pageContactQuery}
+			query={pageTripReadyQuery}
 			initialData={page}
 			as={PreviewPageReadyTrip}
 		>

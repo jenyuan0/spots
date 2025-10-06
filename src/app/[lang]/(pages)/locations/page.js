@@ -7,16 +7,16 @@ import defineMetadata from '@/lib/defineMetadata';
 import { getLocationsIndexPage } from '@/sanity/lib/fetch';
 import { pageGuidesIndexWithArticleDataSSGQuery } from '@/sanity/lib/queries';
 
-export async function generateMetadata() {
+export async function generateMetadata({ params }) {
 	const isPreviewMode = draftMode().isEnabled;
-	const data = await getLocationsIndexPage({ isPreviewMode });
+	const data = await getLocationsIndexPage({ params, isPreviewMode });
 	return defineMetadata({ data });
 }
 
 export default async function Page({ params }) {
-	const queryParams = { language: params.lang?.replace('-', '_') };
 	const isPreviewMode = draftMode().isEnabled;
 	const pageData = await getLocationsIndexPage({
+		params,
 		isPreviewMode,
 		isArticleDataSSG: true,
 	});

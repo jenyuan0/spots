@@ -15,7 +15,7 @@ export async function generateStaticParams() {
 }
 
 const getPageData = async ({ params }) => {
-	return await getPageBySlug({ queryParams: params });
+	return await getPageBySlug({ params });
 };
 
 export async function generateMetadata({ params, searchParams }, parent) {

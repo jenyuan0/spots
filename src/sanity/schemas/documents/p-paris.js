@@ -14,6 +14,21 @@ export default defineType({
 		title({ readOnly: true }),
 		slug({ readOnly: true }),
 		{
+			title: 'Eyebrow',
+			name: 'eyebrow',
+			type: 'string',
+		},
+		{
+			title: 'Title',
+			name: 'titleHeader',
+			type: 'string',
+		},
+		{
+			title: 'CTA Label',
+			name: 'ctaLabel',
+			type: 'string',
+		},
+		{
 			name: 'locationCategories',
 			type: 'array',
 			of: [

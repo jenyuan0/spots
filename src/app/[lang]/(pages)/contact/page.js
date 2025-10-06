@@ -7,17 +7,15 @@ import defineMetadata from '@/lib/defineMetadata';
 import { getContactPage } from '@/sanity/lib/fetch';
 import { pageContactQuery } from '@/sanity/lib/queries';
 
-export async function generateMetadata() {
+export async function generateMetadata({ params }) {
 	const isPreviewMode = draftMode().isEnabled;
-	const data = await getContactPage({ isPreviewMode });
+	const data = await getContactPage({ params, isPreviewMode });
 	return defineMetadata({ data });
 }
 
-export default async function Page() {
+export default async function Page({ params }) {
 	const isPreviewMode = draftMode().isEnabled;
-	const pageData = await getContactPage({
-		isPreviewMode,
-	});
+	const pageData = await getContactPage({ params, isPreviewMode });
 	const { page } = pageData || {};
 
 	if (!page) return notFound();

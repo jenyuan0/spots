@@ -7,15 +7,16 @@ import defineMetadata from '@/lib/defineMetadata';
 import { getGuidesIndexPage } from '@/sanity/lib/fetch';
 import { pageGuidesIndexWithArticleDataSSGQuery } from '@/sanity/lib/queries';
 
-export async function generateMetadata() {
+export async function generateMetadata({ params }) {
 	const isPreviewMode = draftMode().isEnabled;
-	const data = await getGuidesIndexPage({ isPreviewMode });
+	const data = await getGuidesIndexPage({ params, isPreviewMode });
 	return defineMetadata({ data });
 }
 
-export default async function Page() {
+export default async function Page({ params }) {
 	const isPreviewMode = draftMode().isEnabled;
 	const pageData = await getGuidesIndexPage({
+		params,
 		isPreviewMode,
 		isArticleDataSSG: true,
 	});

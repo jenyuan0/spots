@@ -7,23 +7,35 @@ import Button from '@/components/Button';
 import LocationCard from '@/components/LocationCard';
 import ResponsiveGrid from '@/components/ResponsiveGrid';
 import usePlanner from '@/hooks/usePlanner';
+import { useCurrentLang } from '@/hooks/useCurrentLang';
 
-export default function MagnifyCase({ mParam, pageSlug, onColorChange }) {
+export default function MagnifyCase({
+	mParam,
+	pageSlug,
+	onColorChange,
+	localization,
+}) {
 	const [caseContent, setCaseContent] = useState(null);
 	const [color, setColor] = useState(null);
 	const [isLoaded, setIsLoaded] = useState(false);
 	const { setPlannerActive, setPlannerContent } = usePlanner();
+	const [currentLanguageCode] = useCurrentLang();
 
 	useEffect(() => {
 		const fetchData = async () => {
 			if (!mParam) return;
 			try {
 				const dataSlug = mParam.split('/').pop();
+
 				const [content] = await Promise.all([
 					client.fetch(
-						`*[_type == "gCases" && language == "en" && slug.current == "${dataSlug}"][0]{
-                ${getCaseData()}
-              }`
+						`coalesce(
+			*[_type == "gCases" && language == "${currentLanguageCode}" && slug.current == "${dataSlug}"][0],
+			*[_type == "gCases" && language == "en" && slug.current == "${dataSlug}"][0]
+		){
+			${getCaseData()}
+		}`,
+						{ language: currentLanguageCode } // Add this parameter
 					),
 				]);
 				const contentColor = (content && content.color.title) || 'brown';
@@ -57,6 +69,14 @@ export default function MagnifyCase({ mParam, pageSlug, onColorChange }) {
 		accomodations,
 	} = data?.content || {};
 
+	const {
+		tripHighlights,
+		ourRole,
+		suggestedAccomodations,
+		option: optionLabel,
+		planYourTrip,
+	} = localization || {};
+
 	return (
 		<div className="g-magnify-cases">
 			<div className="g-magnify-cases__hero">
@@ -75,7 +95,7 @@ export default function MagnifyCase({ mParam, pageSlug, onColorChange }) {
 			</div>
 			<div className="g-magnify-cases__highlights">
 				<h3 className="g-magnify-cases__highlights__title t-l-1">
-					Trip Highlights
+					{tripHighlights || 'Trip Highlights'}
 				</h3>
 				{highlights && (
 					<div className="g-magnify-cases__highlights__summary wysiwyg">
@@ -85,7 +105,7 @@ export default function MagnifyCase({ mParam, pageSlug, onColorChange }) {
 				{offers && (
 					<>
 						<h3 className="g-magnify-cases__highlights__offers-title t-l-1">
-							Our Role
+							{ourRole || 'Our Role'}
 						</h3>
 						<ul className="g-magnify-cases__highlights__offers t-b-1">
 							{offers?.map((item, index) => (
@@ -103,7 +123,7 @@ export default function MagnifyCase({ mParam, pageSlug, onColorChange }) {
 						});
 					}}
 				>
-					Plan Your Trip
+					{planYourTrip || 'Plan Your Trip'}
 				</Button>
 			</div>
 			<div className="g-magnify-cases__content wysiwyg-page">
@@ -112,10 +132,10 @@ export default function MagnifyCase({ mParam, pageSlug, onColorChange }) {
 			{accomodations && (
 				<div className="g-magnify-cases__accomodations">
 					<h3 className="g-magnify-cases__title t-h-2">
-						Suggested Accomodations
+						{suggestedAccomodations || 'Suggested Accomodations'}
 						<span className="t-l-1">
-							{accomodations.length} Option
-							{accomodations.length > 1 && 's'}
+							{accomodations.length} {optionLabel || 'Option'}
+							{accomodations.length > 1 && currentLanguageCode === 'en' && 's'}
 						</span>
 					</h3>
 					<ResponsiveGrid

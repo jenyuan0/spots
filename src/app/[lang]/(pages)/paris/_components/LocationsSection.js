@@ -6,7 +6,8 @@ import LocationDot from '@/components/LocationDot';
 import Button from '@/components/Button';
 
 export default function LocationsSection({ data }) {
-	const { locationList, locationCategories } = data || {};
+	const { eyebrow, titleHeader, ctaLabel, locationList, locationCategories } =
+		data || {};
 	const containerRef = useRef(null);
 	const [radius, setRadius] = useState(150);
 	const [dots, setDots] = useState([]);
@@ -41,14 +42,16 @@ export default function LocationsSection({ data }) {
 	return (
 		<section className="p-paris__locations">
 			<div className="p-paris__locations__text wysiwyg">
-				<h1 className="t-l-2">Explore Paris</h1>
-				<h2 className="t-h-1">Where every circle leads to discovery</h2>
+				<h1 className="t-l-2">{eyebrow || 'Explore Paris'}</h1>
+				<h2 className="t-h-1">
+					{titleHeader || 'Where every circle leads to discovery'}
+				</h2>
 				<CategoryPillList categories={locationCategories} isLink={true} />
 				<Button
 					href={'/paris/locations'}
 					className="p-paris__locations__cta btn-outline"
 				>
-					View All Spots (200+)
+					{ctaLabel || 'View All Spots (200+)'}
 				</Button>
 			</div>
 			<div className="p-paris__locations__dots">

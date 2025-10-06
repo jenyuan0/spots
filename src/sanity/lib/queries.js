@@ -1,12 +1,27 @@
 import { groq } from 'next-sanity';
 import { i18n } from '../../../languages';
 
-export const getDocumentWithFallback = ({
-	docType, // e.g. "gFooter"
-} = {}) => `coalesce(
-  *[_type == "${docType}" && language == $language][0],
-  *[_type == "${docType}" && language == "${i18n.base}"][0]
+export const getDocumentWithFallback = ({ docType, withSlug = false } = {}) => {
+	const slugCondition = withSlug ? ' && slug.current == $slug' : '';
+
+	return `coalesce(
+  *[_type == "${docType}"${slugCondition} && language == $language][0],
+  *[_type == "${docType}"${slugCondition} && language == "${i18n.base}"][0]
 )`;
+};
+
+export const translatedReferenceArray = ({
+	sourceField, // e.g. "services"
+	projection, // e.g. getServicesData('card')
+} = {}) => `
+	${sourceField}[]->{
+		...coalesce(
+			*[_type == "translation.metadata" && references(^._id)][0].translations[_key == $language][0].value,
+			*[_type == "translation.metadata" && references(^._id)][0].translations[_key == "en"][0].value
+		)->{
+			${projection}
+		}
+	}`;
 
 export const getTranslationByLanguage = (type) => {
 	return `
@@ -35,6 +50,7 @@ const baseFields = groq`
   _type,
   title,
   "slug": slug.current,
+	language,
   sharing
 `;
 
@@ -269,6 +285,7 @@ export const getItineraryData = (type) => {
     color->{
       ${colorMetaFields}
     },
+
     "totalDays": length(plan[]),
     "totalActivities": count(plan[].itineraryDay->activities[]),
     "totalLocations": count(plan[].itineraryDay->activities[].locations[]),`;
@@ -276,6 +293,7 @@ export const getItineraryData = (type) => {
 		defaultData += groq`excerpt`;
 	} else {
 		defaultData += groq`
+
       introduction,
       accomodations[]->{
         ${getLocationsData('card')}
@@ -447,6 +465,10 @@ export const formLocalization = groq`
 		"sendViaEmail": ${getTranslationByLanguage('sendViaEmail')},
 		"sendViaWhatsApp": ${getTranslationByLanguage('sendViaWhatsApp')},
 		"needAnotherWay": ${getTranslationByLanguage('needAnotherWay')},
+		"sending": ${getTranslationByLanguage('sending')},
+		"sendMessage": ${getTranslationByLanguage('sendMessage')},
+		"averageResponseTime": ${getTranslationByLanguage('averageResponseTime')},
+		"errorMessage": ${getTranslationByLanguage('errorMessage')},
 	},
 `;
 
@@ -490,6 +512,16 @@ export const planFormData = groq`
         ${portableTextContentFields}
       }
     },
+		"localizationTitle": *[_type == "settingsLocalization"][0].globalLabel {
+			"contactUs": ${getTranslationByLanguage('contactUs')},
+			"frequentlyAskedQuestions": ${getTranslationByLanguage('frequentlyAskedQuestions')},
+		},
+		"localization": *[_type == "settingsLocalization"][0].globalForm {
+			"sending": ${getTranslationByLanguage('sending')},
+			"sendMessage": ${getTranslationByLanguage('sendMessage')},
+			"averageResponseTime": ${getTranslationByLanguage('averageResponseTime')},
+			"errorMessage": ${getTranslationByLanguage('errorMessage')},
+		}
   }`;
 
 // Construct our "site" GROQ
@@ -511,11 +543,11 @@ export const site = groq`
         ${menuFields}
       },
 			"localization": *[_type == "settingsLocalization"][0].globalLabel {
-			"travelDesign": ${getTranslationByLanguage('travelDesign')},
-			"hotelBooking": ${getTranslationByLanguage('hotelBooking')},
-			"searchHotel": ${getTranslationByLanguage('searchHotel')},
-			"planYourTrip": ${getTranslationByLanguage('planYourTrip')},
-		},
+				"travelDesign": ${getTranslationByLanguage('travelDesign')},
+				"hotelBooking": ${getTranslationByLanguage('hotelBooking')},
+				"searchHotel": ${getTranslationByLanguage('searchHotel')},
+				"planYourTrip": ${getTranslationByLanguage('planYourTrip')},
+			},
     },
     "footer": *[_type == "gFooter"][0]{
       menu->{
@@ -537,12 +569,21 @@ export const site = groq`
     },
     "colors": *[_type == "settingsBrandColors"][]{
       ${colorMetaFields}
-    }
+    },
+		"localization": *[_type == "settingsLocalization"][0].globalLabel {
+			"tripHighlights": ${getTranslationByLanguage('tripHighlights')},
+			"ourRole": ${getTranslationByLanguage('ourRole')},
+			"suggestedAccomodations": ${getTranslationByLanguage('suggestedAccomodations')},
+			"planYourTrip": ${getTranslationByLanguage('planYourTrip')},
+			"option": ${getTranslationByLanguage('option')},
+			"unlockInsiderRates": ${getTranslationByLanguage('unlockInsiderRates')},
+			"closeLabel": ${getTranslationByLanguage('closeLabel')},
+		},
   }
 `;
 
 export const pageHomeQuery = groq`
-  *[_type == "pHome" && language == "en"][0]{
+	${getDocumentWithFallback({ docType: 'pHome' })}{
     ${baseFields},
     "isHomepage": true,
     heroHeading[]{
@@ -599,7 +640,7 @@ export const page404Query = groq`
   }`;
 
 export const pagesBySlugQuery = groq`
-  *[_type == "pGeneral" && language == "en" && slug.current == $slug][0]{
+  ${getDocumentWithFallback({ docType: 'pGeneral', withSlug: true })}{
     ${baseFields},
     pageModules[]{
       ${pageModules}
@@ -653,7 +694,6 @@ export const pageHotelBookingQuery = groq`
 			"searchHotel": ${getTranslationByLanguage('searchHotel')},
 			"scrollToExplore": ${getTranslationByLanguage('scrollToExplore')},
 		},
-		${translations}
   }
 `;
 
@@ -676,9 +716,10 @@ export const pageTravelDesignQuery = groq`
       ${portableTextContentFields}
 		},
     caseHeading,
-    "caseItems": caseItems[]->{
-      ${getCaseData('card')}
-    },
+		${translatedReferenceArray({
+			sourceField: 'caseItems',
+			projection: `${getCaseData('card')}`,
+		})},
     whyHeading[]{
       ${portableTextContentFields}
     },
@@ -705,19 +746,18 @@ export const pageTravelDesignQuery = groq`
         ${portableTextContentFields}
       }
     },
-		${translations}
   }
 `;
 
 export const pageContactQuery = groq`
-  *[_type == "pContact" && language == "en"][0]{
+	${getDocumentWithFallback({ docType: 'pContact' })}{
     ${baseFields},
     ${planFormData}
   }
 `;
 
 export const pageTripReadyQuery = groq`
-  *[_type == "pTripReady" && language == "en"][0]{
+	${getDocumentWithFallback({ docType: 'pTripReady' })}{
     ${baseFields},
     paragraph[]{
       ${portableTextContentFields}
@@ -729,8 +769,11 @@ export const pageTripReadyQuery = groq`
 `;
 
 export const pageParisQuery = groq`
-  *[_type == "pParis" && language == "en"][0]{
+	${getDocumentWithFallback({ docType: 'pParis' })}{
     ${baseFields},
+		eyebrow,
+		titleHeader,
+		ctaLabel,
     "locationCategories": locationCategories[]->{
       ${categoryMetaFields}
     },
@@ -837,12 +880,12 @@ export const guidesIndexQuery = groq`
 `;
 
 export const pageGuidesIndex = groq`
-  *[_type == "pGuides" && language == "en"][0]{
+	${getDocumentWithFallback({ docType: 'pGuides' })}{
     ${guidesIndexQuery}
   }`;
 
 export const pageGuidesCategoryQuery = groq`{
-  ...*[_type == "pGuides" && language == "en"][0]{
+  ...${getDocumentWithFallback({ docType: 'pGuides' })}{
     ${guidesIndexQuery}
   },
 	"_type": "pGuidesCategory",
@@ -907,7 +950,7 @@ export const pageGuidesCategoryQuery = groq`{
 }`;
 
 export const pageGuidesIndexWithArticleDataSSGQuery = groq`
-  *[_type == "pGuides" && language == "en"][0]{
+  ${getDocumentWithFallback({ docType: 'pGuides' })}{
     ${guidesIndexQuery},
     ${articleListAllQuery}
   }`;

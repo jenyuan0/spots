@@ -17,10 +17,9 @@ const PreviewProvider = dynamic(
 );
 
 export async function generateMetadata({ params }) {
-	const queryParams = { language: params.lang?.replace('-', '_') };
 	const isPreviewMode = draftMode().isEnabled;
 
-	const data = await getSiteData({ queryParams, isPreviewMode });
+	const data = await getSiteData({ params, isPreviewMode });
 	return defineMetadata({ data });
 }
 
@@ -67,9 +66,8 @@ const fontKalice = localFont({
 });
 
 export default async function RootLayout({ children, params }) {
-	const queryParams = { language: params.lang?.replace('-', '_') };
 	const isPreviewMode = draftMode().isEnabled;
-	const { site } = await getSiteData({ queryParams, isPreviewMode });
+	const { site } = await getSiteData({ params, isPreviewMode });
 	const layout = <Layout siteData={site}>{children}</Layout>;
 	const previewLayout = (
 		<PreviewProvider token={token}>

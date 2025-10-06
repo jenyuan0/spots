@@ -17,7 +17,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }) {
 	const isPreviewMode = draftMode().isEnabled;
 	const data = await getGuidesCategoryPage({
-		queryParams: params,
+		params,
 		isPreviewMode,
 	});
 	return defineMetadata({ data });
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }) {
 export default async function Page({ params }) {
 	const isPreviewMode = draftMode().isEnabled;
 	const pageData = await getGuidesCategoryPage({
-		queryParams: params,
+		params,
 		isPreviewMode,
 	});
 	const { page } = pageData || {};

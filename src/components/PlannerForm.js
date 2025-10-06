@@ -267,10 +267,6 @@ export default function PlannerForm({ data, plan }) {
 		where,
 		helpPlanChoice,
 	]);
-	console.log(
-		'computedMessagecomputedMessagecomputedMessagecomputedMessage',
-		computedMessage
-	);
 
 	useEffect(() => {
 		setWhere(data?.where || '');

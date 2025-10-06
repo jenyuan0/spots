@@ -32,7 +32,7 @@ export async function GET(request) {
 
 	if (documentType === 'pGeneral') {
 		const queryParams = { slug };
-		const data = await getPageBySlug({ queryParams });
+		const data = await getPageBySlug({ params: queryParams });
 		// If the slug doesn't exist prevent draft mode from being enabled
 		if (!data) {
 			return new Response(

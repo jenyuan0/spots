@@ -6,16 +6,15 @@ import { pageHomeQuery } from '@/sanity/lib/queries';
 import PageHome from './_components/PageHome';
 import PreviewPageHome from './_components/PreviewPageHome';
 
-export async function generateMetadata() {
+export async function generateMetadata({ params }) {
 	const isPreviewMode = draftMode().isEnabled;
-	const data = await getPageHomeData({ isPreviewMode });
+	const data = await getPageHomeData({ params, isPreviewMode });
 	return defineMetadata({ data });
 }
 
-export default async function Page() {
-	const queryParams = { language: params.lang?.replace('-', '_') };
+export default async function Page({ params }) {
 	const isPreviewMode = draftMode().isEnabled;
-	const pageData = await getPageHomeData({ queryParams, isPreviewMode });
+	const pageData = await getPageHomeData({ params, isPreviewMode });
 	const { page } = pageData || {};
 
 	if (page) {
