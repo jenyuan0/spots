@@ -15,7 +15,7 @@ export default function Reservations({ reservations }) {
 			<div className="p-itinerary__reservations__list">
 				{reservations?.map((item, index) => {
 					const findReservation = (location, reservations) =>
-						reservations.find((r) => r.location._id === location._id);
+						reservations?.find((r) => r.location._id === location._id);
 					let location = {
 						...item.location,
 						res: findReservation(item.location, reservations),

@@ -86,12 +86,13 @@ export default function SectionCase({ data }) {
 	return (
 		<section className="p-design__case" ref={sectionRef}>
 			<div className="p-design__case__header">
-				<h2 className="t-l-2 p-design__case__heading">{caseHeading}</h2>
+				<h2 className="t-h-2 p-design__case__heading">{caseHeading}</h2>
 			</div>
 			<div className="p-design__case__list">
 				{caseItems?.map((el, i) => {
 					let slug = el.slug;
 					let color = el?.color.title || 'red';
+
 					return (
 						<button
 							key={i}
@@ -106,9 +107,9 @@ export default function SectionCase({ data }) {
 							className={'p-design__case__card'}
 						>
 							<h3 className="p-design__case__card__title t-h-3">{el.title}</h3>
-							<p className="p-design__case__card__subtitle t-b-2">
+							{/* <p className="p-design__case__card__subtitle t-b-2">
 								{el.subtitle}
-							</p>
+							</p> */}
 							{el.thumbs && el.thumbs.length > 0 && (
 								<div className={'p-design__case__card__images'}>
 									{(() => {

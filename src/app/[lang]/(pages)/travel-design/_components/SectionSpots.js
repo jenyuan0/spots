@@ -3,54 +3,49 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import LocationDot from '@/components/LocationDot';
 import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
-import { getRandomInt, springConfig } from '@/lib/helpers';
-import useWindowDimensions from '@/hooks/useWindowDimensions';
+import { springConfig } from '@/lib/helpers';
 
 // Spot component for individual animated spots
-function HeroSpot({ data, isLastChild, progress }) {
-	const { isMobileScreen, width, height } = useWindowDimensions();
-	const scaleMin = isMobileScreen ? 0.5 : 0.35;
-	const screenX = width / 2;
-	const screenY = (isMobileScreen ? width : height) / 2;
-	const [finalPosition, setFinalPosition] = useState({
-		x: screenX,
-		y: screenY,
-	});
-
-	useEffect(() => {
-		setFinalPosition({
-			x: screenX + getRandomInt(screenX * -1.2, screenX * 1.2),
-			y: getRandomInt(screenY * -1.2, screenY * 1.2),
-		});
-	}, []);
-
-	// Use the passed MotionValue progress directly
-	const motionX = useTransform(progress, [0, 1], [screenX, finalPosition.x]);
-	const motionY = useTransform(progress, [0, 1], [0, finalPosition.y]);
-	const motionOpacity = useTransform(progress, [0, 0.8, 1], [1, 1, 0]);
+function HeroSpot({ data, index, totalChild, isLastChild, progress }) {
+	const scaleMin = 0.5;
+	const motionY = useTransform(
+		progress,
+		[0, index * 0.02, 1],
+		[0, 0, 500 + (index + 1) * 20]
+	);
+	const angle = 180 + index * (360 / totalChild);
+	const motionOpacity = useTransform(
+		progress,
+		[0, 0.1, 0.15, 0.2, 1],
+		[isLastChild ? 1 : 0, isLastChild ? 1 : 0, 1, 1, 0]
+	);
 	const motionScale = useTransform(
 		progress,
-		[0, 0.8, 1],
+		[0, 0.4, 1],
 		[scaleMin, scaleMin * (isLastChild ? 1.1 : 1), 1]
 	);
-	const springX = useSpring(motionX, springConfig);
 	const springY = useSpring(motionY, springConfig);
 	const springScale = useSpring(motionScale, springConfig);
 
 	if (!data) return null;
-
+	console.log(index * 30);
 	return (
-		<motion.div
+		<div
 			className={'p-design__spots__spot'}
 			style={{
-				x: springX,
-				y: springY,
-				scale: springScale,
-				opacity: motionOpacity,
+				rotate: `${angle}deg`,
 			}}
 		>
-			<LocationDot data={data} initialLightOrDark={isLastChild && 'd'} />
-		</motion.div>
+			<motion.div
+				style={{
+					y: springY,
+					scale: springScale,
+					opacity: motionOpacity,
+				}}
+			>
+				<LocationDot data={data} initialLightOrDark={isLastChild && 'd'} />
+			</motion.div>
+		</div>
 	);
 }
 
@@ -87,6 +82,8 @@ export default function SectionSpots({ data }) {
 			<HeroSpot
 				key={`spot-${i}`}
 				data={el}
+				index={i}
+				totalChild={heroSpots.length}
 				isLastChild={i === heroSpots.length - 1}
 				progress={progress}
 			/>

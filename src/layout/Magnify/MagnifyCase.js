@@ -21,7 +21,7 @@ export default function MagnifyCase({ mParam, pageSlug, onColorChange }) {
 				const dataSlug = mParam.split('/').pop();
 				const [content] = await Promise.all([
 					client.fetch(
-						`*[_type == "gCases" && slug.current == "${dataSlug}"][0]{
+						`*[_type == "gCases" && language == "en" && slug.current == "${dataSlug}"][0]{
                 ${getCaseData()}
               }`
 					),

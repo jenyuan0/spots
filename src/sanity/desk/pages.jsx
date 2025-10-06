@@ -105,7 +105,7 @@ export const otherPagesMenu = (S) => {
 		.child(
 			S.documentTypeList('pGeneral')
 				.title('Other Pages')
-				.filter(`_type == "pGeneral"`)
+				.filter(`_type == "pGeneral" && language == "en"`)
 				.apiVersion(apiVersion)
 				.child((documentId) =>
 					S.document().documentId(documentId).schemaType('pGeneral')

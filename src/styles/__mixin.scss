@@ -298,7 +298,12 @@
 		}
 	}
 
+	.c-accordion__toggle {
+		align-items: flex-start;
+	}
+
 	.c-accordion__subtitle {
+		margin-top: 0.22em;
 		font-weight: 500;
 		color: var(--cr-orange-d);
 	}
@@ -313,11 +318,19 @@
 	.c-accordion__inner {
 		padding-top: var(--s-2-v);
 		padding-bottom: var(--s-4-v);
-		padding-left: 40px;
+
+		@include mobileDown() {
+			.c-portable-table {
+			}
+		}
+
+		@include mobileUp {
+			padding-left: 40px;
+		}
 	}
 
 	.c-accordion__content .wysiwyg-page {
-		max-width: 600px;
+		max-width: 720px;
 
 		p,
 		ol,

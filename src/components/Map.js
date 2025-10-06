@@ -67,77 +67,84 @@ export default function TheMap({ id, locations, color }) {
 				apiKey={process.env.NEXT_PUBLIC_SANITY_GOOGLE_MAP_API_KEY}
 				// onError={console.error('API ERROR!')}
 			>
-				<Map
-					defaultCenter={center}
-					defaultZoom={zoom}
-					gestureHandling={'greedy'}
-					// colorScheme={'LIGHT'}
-					// disableDefaultUI={true}
-					mapId={id || 'x'}
-				>
-					{locations?.map((location, index) => {
-						const isSelected = selectedMarker === location.title;
-						const resStartTime = location?.res?.startTime
-							? formatTime(new Date(location.res.startTime))
-							: false;
-						const actStartTime = location?.activity?.startTime
-							? formatTimeToAMPM(location.activity.startTime)
-							: false;
+				{center && zoom && (
+					<Map
+						defaultCenter={center}
+						defaultZoom={zoom}
+						gestureHandling={'greedy'}
+						// colorScheme={'LIGHT'}
+						// disableDefaultUI={true}
+						mapId={id || 'x'}
+					>
+						{locations?.map((location, index) => {
+							const isSelected = selectedMarker === location.title;
+							const resStartTime = location?.res?.startTime
+								? formatTime(new Date(location.res.startTime))
+								: false;
+							const actStartTime = location?.activity?.startTime
+								? formatTimeToAMPM(location.activity.startTime)
+								: false;
 
-						return (
-							location.geo?.lat &&
-							location.geo?.lng && (
-								<AdvancedMarker
-									key={`${location.title}-${index}`}
-									position={{ lat: location.geo?.lat, lng: location.geo?.lng }}
-									style={{ '--index': `${index}` }}
-									title={location.title}
-									onClick={() => {
-										setMag({
-											slug: location.slug,
-											type: 'location',
-										});
-										setSelectedMarker(location.title);
-									}}
-								>
-									<div
-										className="c-map__marker"
-										style={{
-											'--cr-primary': `var(--cr-${location.color}-d)`,
-											'--cr-secondary': `var(--cr-${location.color}-l)`,
+							return (
+								location.geo?.lat &&
+								location.geo?.lng && (
+									<AdvancedMarker
+										key={`${location.title}-${index}`}
+										position={{
+											lat: location.geo?.lat,
+											lng: location.geo?.lng,
+										}}
+										style={{ '--index': `${index}` }}
+										title={location.title}
+										onClick={() => {
+											setMag({
+												slug: location.slug,
+												type: 'location',
+											});
+											setSelectedMarker(location.title);
 										}}
 									>
-										<div className="c-map__marker__thumb">
-											<span className="object-fit">
-												{location.images && <Img image={location.images[0]} />}
-											</span>
-										</div>
 										<div
-											className={clsx('c-map__marker__content', {
-												'is-selected': isSelected,
-											})}
+											className="c-map__marker"
+											style={{
+												'--cr-primary': `var(--cr-${location.color}-d)`,
+												'--cr-secondary': `var(--cr-${location.color}-l)`,
+											}}
 										>
-											<div className="c-map__marker__title">
-												{location.title}
-											</div>
-											{(resStartTime || actStartTime) && (
-												<div className="c-map__marker__time t-l-2">
-													{resStartTime ? (
-														<span>Reservation: {resStartTime}</span>
-													) : location?.activity?.title ? (
-														`${location.activity.title} (${actStartTime})`
-													) : (
-														actStartTime
+											<div className="c-map__marker__thumb">
+												<span className="object-fit">
+													{location.images && (
+														<Img image={location.images[0]} />
 													)}
+												</span>
+											</div>
+											<div
+												className={clsx('c-map__marker__content', {
+													'is-selected': isSelected,
+												})}
+											>
+												<div className="c-map__marker__title">
+													{location.title}
 												</div>
-											)}
+												{(resStartTime || actStartTime) && (
+													<div className="c-map__marker__time t-l-2">
+														{resStartTime ? (
+															<span>Reservation: {resStartTime}</span>
+														) : location?.activity?.title ? (
+															`${location.activity.title} (${actStartTime})`
+														) : (
+															actStartTime
+														)}
+													</div>
+												)}
+											</div>
 										</div>
-									</div>
-								</AdvancedMarker>
-							)
-						);
-					})}
-				</Map>
+									</AdvancedMarker>
+								)
+							);
+						})}
+					</Map>
+				)}
 			</APIProvider>
 		</div>
 	);

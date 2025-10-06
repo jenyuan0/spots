@@ -18,6 +18,7 @@ export default async function Page() {
 	const pageData = await getTripReadyPage({
 		isPreviewMode,
 	});
+
 	const { page } = pageData || {};
 
 	if (!page) return notFound();

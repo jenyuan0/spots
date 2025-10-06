@@ -8,7 +8,7 @@ export const locationsFilterEmptyContent = (S) => {
 				.title('Locations with Empty Content')
 				.apiVersion(apiVersion)
 				.filter(
-					'_type == "gLocations" && (!defined(content) || count(content) == 0)'
+					'_type == "gLocations" && language == "en" && (!defined(content) || count(content) == 0)'
 				)
 		);
 };
@@ -20,7 +20,9 @@ export const locationsFilterHideFromIndex = (S) => {
 			S.documentList()
 				.title('Locations - Hidden from Index')
 				.apiVersion(apiVersion)
-				.filter('_type == "gLocations" && hideFromIndex == true')
+				.filter(
+					'_type == "gLocations" && language == "en" && hideFromIndex == true'
+				)
 		);
 };
 
@@ -34,7 +36,9 @@ export const locationsFilterByCategory = (S) => {
 					return S.documentList()
 						.title('Locations')
 						.apiVersion(apiVersion)
-						.filter('_type == "gLocations" && references($categoryId)')
+						.filter(
+							'_type == "gLocations" && language == "en" && references($categoryId)'
+						)
 						.params({ categoryId });
 				})
 		);
@@ -50,7 +54,9 @@ export const locationsFilterBySubcategory = (S) => {
 					return S.documentList()
 						.title('Locations')
 						.apiVersion(apiVersion)
-						.filter('_type == "gLocations" && references($categoryId)')
+						.filter(
+							'_type == "gLocations" && language == "en" && references($categoryId)'
+						)
 						.params({ categoryId });
 				})
 		);
@@ -68,28 +74,36 @@ export const locationsFilterByHighlight = (S) => {
 						.child(
 							S.documentList()
 								.title('Iconic Locations')
-								.filter('_type == "gLocations" && "iconic" in highlights')
+								.filter(
+									'_type == "gLocations" && language == "en" && "iconic" in highlights'
+								)
 						),
 					S.listItem()
 						.title('Trending')
 						.child(
 							S.documentList()
 								.title('Trending Locations')
-								.filter('_type == "gLocations" && "trending" in highlights')
+								.filter(
+									'_type == "gLocations" && language == "en" && "trending" in highlights'
+								)
 						),
 					S.listItem()
 						.title('Editor’s Pick')
 						.child(
 							S.documentList()
 								.title('Editor’s Pick Locations')
-								.filter('_type == "gLocations" && "editors-pick" in highlights')
+								.filter(
+									'_type == "gLocations" && language == "en" && "editors-pick" in highlights'
+								)
 						),
 					S.listItem()
 						.title('On Our Radar')
 						.child(
 							S.documentList()
 								.title('On Our Radar Locations')
-								.filter('_type == "gLocations" && "on-our-radar" in highlights')
+								.filter(
+									'_type == "gLocations"  && language == "en"&& "on-our-radar" in highlights'
+								)
 						),
 				])
 		);

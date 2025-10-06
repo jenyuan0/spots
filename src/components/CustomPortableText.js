@@ -11,13 +11,14 @@ export function Image({ data }) {
 	if (!data?.asset) return;
 
 	const { link, caption } = data || {};
+	const alt = data?.alt || caption || '';
 	const image =
 		link && link?.route ? (
 			<Link href={link.route} isNewTab={link.isNewTab}>
-				<Img image={data} />
+				<Img image={data} alt={alt} />
 			</Link>
 		) : (
-			<Img image={data} />
+			<Img image={data} alt={alt} />
 		);
 
 	return (
@@ -53,7 +54,6 @@ export function Iframe({ data }) {
 
 export default function CustomPortableText({ blocks, hasPTag = true }) {
 	// Memoize components to prevent unnecessary rerenders
-
 	const portableTextComponents = useMemo(
 		() => ({
 			block: {
@@ -165,6 +165,28 @@ export default function CustomPortableText({ blocks, hasPTag = true }) {
 		[hasPTag]
 	); // Only recompute when hasPTag changes
 
-	if (!blocks) return null;
-	return <PortableText value={blocks} components={portableTextComponents} />;
+	// Guard + normalize to avoid @portabletext errors on null children/marks
+	const safeBlocks = useMemo(() => {
+		if (!Array.isArray(blocks)) return [];
+		return blocks.map((b) => {
+			if (!b || typeof b !== 'object') return b;
+			// Only normalize real text blocks; leave custom object blocks as-is
+			if (b._type === 'block') {
+				const children = Array.isArray(b.children)
+					? b.children.map((c) => ({
+							...c,
+							marks: Array.isArray(c?.marks) ? c.marks : [],
+						}))
+					: [];
+				const markDefs = Array.isArray(b.markDefs) ? b.markDefs : [];
+				return { ...b, children, markDefs };
+			}
+			return b;
+		});
+	}, [blocks]);
+
+	if (safeBlocks.length === 0) return null;
+	return (
+		<PortableText value={safeBlocks} components={portableTextComponents} />
+	);
 }

@@ -132,7 +132,6 @@ export default function PlannerForm({ data, plan }) {
 	const [where, setWhere] = useState('');
 	const [whenMessage, setWhenMessage] = useState('');
 	const [whoMessage, setWhoMessage] = useState('');
-	const [message, setMessage] = useState('');
 	const [budgetChoice, setBudgetChoice] = useState('');
 	const [helpPlanChoice, setHelpPlanChoice] = useState(''); // 'yes' | 'no'
 	const [errorIsVisible, setErrorIsVisible] = useState(false);
@@ -177,7 +176,7 @@ export default function PlannerForm({ data, plan }) {
 	useOutsideClick(whoFieldRef, () => {
 		setWhoDetailsActive(false);
 	});
-	const [who, setWho] = useState([1, 0, 0]);
+	const [who, setWho] = useState([2, 0, 0]);
 
 	useEffect(() => {
 		setWhoMessage(getWhoMessage(who, localization, currentLanguageCode));
@@ -258,7 +257,6 @@ export default function PlannerForm({ data, plan }) {
 			parts.push(`${andHelpPlanTrip || 'and I’d like help planning the trip'}`);
 		}
 		const newMessage = parts.join(' ') + '.';
-		setMessage(newMessage);
 		return newMessage;
 	}, [
 		data,

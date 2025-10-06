@@ -1,12 +1,14 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import clsx from 'clsx';
 import { colorArray } from '@/lib/helpers';
 import Img from '@/components/Image';
 import CustomPortableText from '@/components/CustomPortableText';
 import Button from '@/components/Button';
 import { motion } from 'motion/react';
-import clsx from 'clsx';
+import useWindowDimensions from '@/hooks/useWindowDimensions';
+import Carousel from '@/components/Carousel';
 
 // Constants
 const ANIMATION_CONFIG = {
@@ -22,8 +24,8 @@ const WhyText = ({ data, color }) => {
 	return (
 		<div className="p-design__why-block__text">
 			<div className="p-design__why-block__text-container wysiwyg">
-				<h2 className="p-design__why-block__heading t-h-4">{heading}</h2>
-				<p className="p-design__why-block__paragraph t-b-1">{paragraph}</p>
+				<h2 className="p-design__why-block__heading t-h-3">{heading}</h2>
+				<p className="p-design__why-block__paragraph t-b-2">{paragraph}</p>
 				{offers && (
 					<ul className="p-design__why-block__offers t-b-1">
 						{offers?.map((item, index) => (
@@ -414,20 +416,38 @@ const ToggleBlock = ({ data, index, color }) => {
 
 export default function SectionWhy({ data }) {
 	const { whyHeading, whyParagraph } = data;
+	const { isTabletScreen } = useWindowDimensions();
+	const [isMounted, setIsMounted] = useState(false);
+
+	useEffect(() => {
+		setIsMounted(true);
+	}, []);
+
+	if (!isMounted) return null;
 
 	return (
 		<section className="p-design__why">
 			<section className="p-design__why__header wysiwyg">
 				{whyHeading && (
-					<h2 className="t-l-2">
+					<h2 className="t-h-2">
 						<CustomPortableText blocks={whyHeading} hasPTag={false} />
 					</h2>
 				)}
 				{whyParagraph && <p className="t-b-2">{whyParagraph}</p>}
 			</section>
-			<ClockBlock data={data} index={0} color={'red'} />
-			<MasksBlock data={data} index={1} color={'blue'} />
-			<ToggleBlock data={data} index={2} color={'purple'} />
+			{isTabletScreen ? (
+				<Carousel className="p-design__why__list" gap={'5vw'} isShowDots={true}>
+					<ClockBlock data={data} index={0} color={'red'} />
+					<MasksBlock data={data} index={1} color={'blue'} />
+					<ToggleBlock data={data} index={2} color={'purple'} />
+				</Carousel>
+			) : (
+				<div className="p-design__why__list">
+					<ClockBlock data={data} index={0} color={'red'} />
+					<MasksBlock data={data} index={1} color={'blue'} />
+					<ToggleBlock data={data} index={2} color={'purple'} />
+				</div>
+			)}
 		</section>
 	);
 }
