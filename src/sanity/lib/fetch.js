@@ -23,9 +23,11 @@ export async function sanityFetch({ query, params = {}, tags, isPreviewMode }) {
 	});
 }
 
-export async function getSiteData({ isPreviewMode }) {
+export async function getSiteData({ queryParams, isPreviewMode }) {
+	console.log('🚀🚀🚀🚀 ~ getSiteData ~ queryParams:', queryParams);
 	const data = sanityFetch({
 		query: `{${queries.site}}`,
+		params: queryParams,
 		tags: [
 			'gAnnouncement',
 			'gHeader',

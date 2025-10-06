@@ -16,45 +16,48 @@ const PreviewProvider = dynamic(
 	() => import('@/components/preview/PreviewProvider')
 );
 
-export async function generateMetadata({ isPreviewMode }) {
-	const data = await getSiteData({ isPreviewMode });
+export async function generateMetadata({ params }) {
+	const queryParams = { language: params.lang?.replace('-', '_') };
+	const isPreviewMode = draftMode().isEnabled;
+
+	const data = await getSiteData({ queryParams, isPreviewMode });
 	return defineMetadata({ data });
 }
 
 const fontKalice = localFont({
 	src: [
 		{
-			path: '../../public/fonts/kalice-regular.woff2',
+			path: '../../../public/fonts/kalice-regular.woff2',
 			weight: '400',
 			style: 'normal',
 			fontDisplay: 'swap',
 		},
 		{
-			path: '../../public/fonts/kalice-regular-italic.woff2',
+			path: '../../../public/fonts/kalice-regular-italic.woff2',
 			weight: '400',
 			style: 'italic',
 			fontDisplay: 'swap',
 		},
 		{
-			path: '../../public/fonts/kalice-medium.woff2',
+			path: '../../../public/fonts/kalice-medium.woff2',
 			weight: '500',
 			style: 'normal',
 			fontDisplay: 'swap',
 		},
 		{
-			path: '../../public/fonts/kalice-medium-italic.woff2',
+			path: '../../../public/fonts/kalice-medium-italic.woff2',
 			weight: '500',
 			style: 'italic',
 			fontDisplay: 'swap',
 		},
 		{
-			path: '../../public/fonts/kalice-bold.woff2',
+			path: '../../../public/fonts/kalice-bold.woff2',
 			weight: '700',
 			style: 'normal',
 			fontDisplay: 'swap',
 		},
 		{
-			path: '../../public/fonts/kalice-bold-italic.woff2',
+			path: '../../../public/fonts/kalice-bold-italic.woff2',
 			weight: '700',
 			style: 'italic',
 			fontDisplay: 'swap',
@@ -64,8 +67,9 @@ const fontKalice = localFont({
 });
 
 export default async function RootLayout({ children, params }) {
+	const queryParams = { language: params.lang?.replace('-', '_') };
 	const isPreviewMode = draftMode().isEnabled;
-	const { site } = await getSiteData({ isPreviewMode });
+	const { site } = await getSiteData({ queryParams, isPreviewMode });
 	const layout = <Layout siteData={site}>{children}</Layout>;
 	const previewLayout = (
 		<PreviewProvider token={token}>

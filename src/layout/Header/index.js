@@ -8,6 +8,7 @@ import usePlanner from '@/hooks/usePlanner';
 import { motion } from 'motion/react';
 import { usePathname } from 'next/navigation';
 import { checkIfActive } from '@/lib/routes';
+import { useCurrentLang } from '@/hooks/useCurrentLang';
 
 // TODO
 // Megamenu
@@ -127,6 +128,10 @@ const DesignDots = () => {
 };
 
 export default function Header({ data, isActive }) {
+	const { localization } = data || {};
+	const { travelDesign, hotelBooking, searchHotel, planYourTrip } =
+		localization || {};
+	const [currentLanguageCode] = useCurrentLang();
 	const pathname = usePathname();
 	const ref = useRef();
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -141,8 +146,11 @@ export default function Header({ data, isActive }) {
 		left: 0,
 	});
 
+	const isHomepage = pathname === `/${currentLanguageCode}`;
+	const isTravelDesign = pathname === `/${currentLanguageCode}/travel-design`;
+
 	useEffect(() => {
-		const activeRef = pathname == '/' ? refLinkBooking : refLinkDesign;
+		const activeRef = isHomepage ? refLinkBooking : refLinkDesign;
 
 		setToggleActiveProp({
 			width: activeRef.current.offsetWidth,
@@ -236,10 +244,10 @@ export default function Header({ data, isActive }) {
 						<Link
 							href="/"
 							className={clsx({
-								'is-active': pathname === '/',
+								'is-active': isHomepage,
 							})}
 						>
-							Hotel Booking
+							{hotelBooking || 'Hotel Booking'}
 						</Link>
 					</div>
 					<div
@@ -256,14 +264,14 @@ export default function Header({ data, isActive }) {
 						<Link
 							href="/travel-design"
 							className={clsx({
-								'is-active': pathname !== '/',
+								'is-active': !isHomepage,
 							})}
 						>
-							Travel Design
+							{travelDesign || 'Travel Design'}
 						</Link>
 					</div>
 				</div>
-				{/* {pathname === '/' || pathname === '/travel-design' ? (
+				{/* {isHomepage || isTravelDesign ? (
 					<></>
 				) : (
 					<div className="g-header__menu">
@@ -290,7 +298,7 @@ export default function Header({ data, isActive }) {
 					</div>
 				)} */}
 				<div className="g-header__cta">
-					{pathname === '/' && (
+					{isHomepage && (
 						<Button
 							className="btn-underline js-gtm-booking-popup"
 							onClick={() => {
@@ -298,10 +306,10 @@ export default function Header({ data, isActive }) {
 								setPlannerContent({ type: 'hotel' });
 							}}
 						>
-							Search Hotel
+							{searchHotel || 'Search Hotel'}
 						</Button>
 					)}
-					{pathname === '/travel-design' && (
+					{isTravelDesign && (
 						<Button
 							className="btn-underline js-gtm-design-popup"
 							onClick={() => {
@@ -309,7 +317,7 @@ export default function Header({ data, isActive }) {
 								setPlannerContent({ type: 'design' });
 							}}
 						>
-							Plan Your Trip
+							{planYourTrip || 'Plan Your Trip'}
 						</Button>
 					)}
 				</div>

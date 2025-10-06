@@ -33,8 +33,12 @@ export default async function Page({ params }) {
 		queryParams: params,
 		isPreviewMode,
 	});
+
 	const { page } = pageData || {};
-	const site = await getSiteData({ isPreviewMode });
+	const site = await getSiteData({
+		queryParams: { language: params.lang?.replace('-', '_') },
+		isPreviewMode,
+	});
 	const metadata = defineMetadata({ data: { site, page } });
 
 	if (!page) return notFound();

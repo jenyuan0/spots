@@ -30,6 +30,11 @@ function globalLabelLocalization() {
 				type: 'internationalizedArrayString',
 			}),
 			defineField({
+				title: 'Hotel Booking',
+				name: 'hotelBooking',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
 				title: 'Search Hotel',
 				name: 'searchHotel',
 				type: 'internationalizedArrayString',

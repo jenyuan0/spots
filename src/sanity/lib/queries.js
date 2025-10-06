@@ -509,7 +509,13 @@ export const site = groq`
     "header": *[_type == "gHeader"][0]{
       menu[]{
         ${menuFields}
-      }
+      },
+			"localization": *[_type == "settingsLocalization"][0].globalLabel {
+			"travelDesign": ${getTranslationByLanguage('travelDesign')},
+			"hotelBooking": ${getTranslationByLanguage('hotelBooking')},
+			"searchHotel": ${getTranslationByLanguage('searchHotel')},
+			"planYourTrip": ${getTranslationByLanguage('planYourTrip')},
+		},
     },
     "footer": *[_type == "gFooter"][0]{
       menu->{
