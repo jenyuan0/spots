@@ -19,7 +19,7 @@ export const globalLocations = (S) => {
 		.child(
 			S.documentTypeList('gLocations')
 				.title('Locations')
-				.filter(`_type == "gLocations"`)
+				.filter(`_type == "gLocations" && language == "en"`)
 				.apiVersion(apiVersion)
 				.child((documentId) =>
 					S.document().documentId(documentId).schemaType('gLocations')
@@ -39,7 +39,7 @@ export const globalItinerariesDay = (S) => {
 		.child(
 			S.documentTypeList('gItinerariesDay')
 				.title('Itineraries (day)')
-				.filter(`_type == "gItinerariesDay"`)
+				.filter(`_type == "gItinerariesDay" && language == "en"`)
 				.apiVersion(apiVersion)
 				.child((documentId) =>
 					S.document().documentId(documentId).schemaType('gItinerariesDay')
@@ -59,7 +59,7 @@ export const globalItineraries = (S) => {
 		.child(
 			S.documentTypeList('gItineraries')
 				.title('Itineraries')
-				.filter(`_type == "gItineraries"`)
+				.filter(`_type == "gItineraries" && language == "en"`)
 				.apiVersion(apiVersion)
 				.child((documentId) =>
 					S.document().documentId(documentId).schemaType('gItineraries')
@@ -79,7 +79,7 @@ export const globalCases = (S) => {
 		.child(
 			S.documentTypeList('gCases')
 				.title('Cases')
-				.filter(`_type == "gCases"`)
+				.filter(`_type == "gCases" && language == "en"`)
 				.apiVersion(apiVersion)
 				.child((documentId) =>
 					S.document().documentId(documentId).schemaType('gCases')
@@ -94,8 +94,20 @@ export const globalCases = (S) => {
 export const globalGuides = (S) => {
 	return S.listItem()
 		.title('Guides')
-		.child(S.documentTypeList('gGuides').title('Guides'))
-		.icon(BookIcon);
+		.icon(BookIcon)
+		.child(
+			S.documentTypeList('gGuides')
+				.title('Guides')
+				.filter(`_type == "gGuides" && language == "en"`)
+				.apiVersion(apiVersion)
+				.child((documentId) =>
+					S.document().documentId(documentId).schemaType('gGuides')
+				)
+				.canHandleIntent(
+					(intent, { type }) =>
+						['create', 'edit'].includes(intent) && type === 'gGuides'
+				)
+		);
 };
 
 export const globalAds = (S) => {
@@ -106,7 +118,7 @@ export const globalAds = (S) => {
 		.child(
 			S.documentTypeList('gAds')
 				.title('Ads')
-				.filter(`_type == "gAds"`)
+				.filter(`_type == "gAds" && language == "en"`)
 				.apiVersion(apiVersion)
 				.child((documentId) =>
 					S.document().documentId(documentId).schemaType('gAds')
@@ -121,15 +133,39 @@ export const globalAds = (S) => {
 export const globalCategories = (S) => {
 	return S.listItem()
 		.title('Categories')
-		.child(S.documentTypeList('gCategories').title('Categories'))
-		.icon(TagsIcon);
+		.icon(TagsIcon)
+		.child(
+			S.documentTypeList('gCategories')
+				.title('Categories')
+				.filter(`_type == "gCategories" && language == "en"`)
+				.apiVersion(apiVersion)
+				.child((documentId) =>
+					S.document().documentId(documentId).schemaType('gCategories')
+				)
+				.canHandleIntent(
+					(intent, { type }) =>
+						['create', 'edit'].includes(intent) && type === 'gCategories'
+				)
+		);
 };
 
 export const globalSubcategories = (S) => {
 	return S.listItem()
 		.title('Subcategories')
-		.child(S.documentTypeList('gSubcategories').title('Subcategories'))
-		.icon(TagsIcon);
+		.icon(TagsIcon)
+		.child(
+			S.documentTypeList('gSubcategories')
+				.title('Subcategories')
+				.filter(`_type == "gSubcategories" && language == "en"`)
+				.apiVersion(apiVersion)
+				.child((documentId) =>
+					S.document().documentId(documentId).schemaType('gSubcategories')
+				)
+				.canHandleIntent(
+					(intent, { type }) =>
+						['create', 'edit'].includes(intent) && type === 'gSubcategories'
+				)
+		);
 };
 
 export const globalAuthors = (S) => {
@@ -156,7 +192,7 @@ export const pageGuidesFilters = (S) => {
 										.title('Articles')
 										.apiVersion(apiVersion)
 										.filter(
-											'_type == "gGuides" && $categoryId in category[]._ref'
+											'_type == "gGuides" && language == "en" && $categoryId in category[]._ref'
 										)
 										.params({ categoryId });
 								})
@@ -170,7 +206,9 @@ export const pageGuidesFilters = (S) => {
 									S.documentList()
 										.title('Guides')
 										.apiVersion(apiVersion)
-										.filter('_type == "gGuides" && $authorId == author._ref')
+										.filter(
+											'_type == "gGuides" && language == "en" && $authorId == author._ref'
+										)
 										.params({ authorId })
 								)
 						),

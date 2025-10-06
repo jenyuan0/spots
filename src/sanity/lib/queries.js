@@ -399,7 +399,7 @@ const customForm = groq`
   }`;
 
 export const planFormData = groq`
-  "planForm": *[_type == "gPlanForm"][0]{
+  "planForm": *[_type == "gPlanForm" && language == "en"][0]{
     image,
     mobileImage,
     formTitle,
@@ -466,7 +466,7 @@ export const site = groq`
 `;
 
 export const pageHomeQuery = groq`
-  *[_type == "pHome"][0]{
+  *[_type == "pHome" && language == "en"][0]{
     ${baseFields},
     "isHomepage": true,
     heroHeading[]{
@@ -523,7 +523,7 @@ export const page404Query = groq`
   }`;
 
 export const pagesBySlugQuery = groq`
-  *[_type == "pGeneral" && slug.current == $slug][0]{
+  *[_type == "pGeneral" && language == "en" && slug.current == $slug][0]{
     ${baseFields},
     pageModules[]{
       ${pageModules}
@@ -628,14 +628,14 @@ export const pageTravelDesignQuery = groq`
 `;
 
 export const pageContactQuery = groq`
-  *[_type == "pContact"][0]{
+  *[_type == "pContact" && language == "en"][0]{
     ${baseFields},
     ${planFormData}
   }
 `;
 
 export const pageTripReadyQuery = groq`
-  *[_type == "pTripReady"][0]{
+  *[_type == "pTripReady" && language == "en"][0]{
     ${baseFields},
     paragraph[]{
       ${portableTextContentFields}
@@ -647,12 +647,12 @@ export const pageTripReadyQuery = groq`
 `;
 
 export const pageParisQuery = groq`
-  *[_type == "pParis"][0]{
+  *[_type == "pParis" && language == "en"][0]{
     ${baseFields},
     "locationCategories": locationCategories[]->{
       ${categoryMetaFields}
     },
-    "locationList": *[_type == "gLocations"] | order(_updatedAt desc)[0...30] {
+    "locationList": *[_type == "gLocations" && language == "en"] | order(_updatedAt desc)[0...30] {
       ${getLocationsData('card')}
     },
     itinerariesTitle,
@@ -674,7 +674,7 @@ export const pageParisQuery = groq`
           "category": @-> {
             _id,
             title,
-            "items": *[_type == "gGuides" && hideFromIndex != true && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
+            "items": *[_type == "gGuides" && language == "en" && hideFromIndex != true && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
               ${getGuidesData('card')}
             }
           }
@@ -683,7 +683,7 @@ export const pageParisQuery = groq`
           "subcategory": @-> {
             _id,
             title,
-            "items": *[_type == "gSubcategories" && hideFromIndex != true && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
+            "items": *[_type == "gSubcategories" && language == "en" && hideFromIndex != true && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
               ${getGuidesData('card')}
             }
           }
@@ -695,7 +695,7 @@ export const pageParisQuery = groq`
           "category": @-> {
             _id,
             title,
-            "items": *[_type == "gLocations" && hideFromIndex != true && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
+            "items": *[_type == "gLocations" && language == "en" && hideFromIndex != true && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
               ${getLocationsData('card')}
             }
           }
@@ -704,7 +704,7 @@ export const pageParisQuery = groq`
           "subcategory": @-> {
             _id,
             title,
-            "items": *[_type == "gSubcategories" && hideFromIndex != true && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
+            "items": *[_type == "gSubcategories" && language == "en" && hideFromIndex != true && references(^._id)] | order(publishedAt desc, _createdAt desc) [0..11] {
               ${getLocationsData('card')}
             }
           }
@@ -732,7 +732,7 @@ export const pageParisQuery = groq`
 `;
 
 export const articleListAllQuery = groq`
-  "articleList": *[_type == "gGuides"] | order(_updatedAt desc)[0...200] {
+  "articleList": *[_type == "gGuides" && language == "en"] | order(_updatedAt desc)[0...200] {
     ${getGuidesData('card')}
   }
 `;
@@ -755,29 +755,29 @@ export const guidesIndexQuery = groq`
 `;
 
 export const pageGuidesIndex = groq`
-  *[_type == "pGuides"][0]{
+  *[_type == "pGuides" && language == "en"][0]{
     ${guidesIndexQuery}
   }`;
 
 export const pageGuidesCategoryQuery = groq`{
-  ...*[_type == "pGuides"][0]{
+  ...*[_type == "pGuides" && language == "en"][0]{
     ${guidesIndexQuery}
   },
 	"_type": "pGuidesCategory",
 	"slug": coalesce(
-		*[_type == "gCategories" && slug.current == $slug][0].slug.current,
-		*[_type == "gSubcategories" && slug.current == $slug][0].slug.current
+		*[_type == "gCategories" && language == "en" && slug.current == $slug][0].slug.current,
+		*[_type == "gSubcategories" && language == "en" && slug.current == $slug][0].slug.current
 	),
 	"isCategoryPage": true,
-	"parentCategory": *[_type == "gSubcategories" && slug.current == $slug][0].parentCategory->{
+	"parentCategory": *[_type == "gSubcategories" && language == "en" && slug.current == $slug][0].parentCategory->{
 		"slug": slug.current,
 		title,
 	},
 	"subcategories": select(
-		defined(*[_type == "gSubcategories" && slug.current == $slug][0].parentCategory) =>
+		defined(*[_type == "gSubcategories" && language == "en" && slug.current == $slug][0].parentCategory) =>
 			*[
-				_type == "gSubcategories" &&
-				parentCategory._ref == *[_type == "gSubcategories" && slug.current == $slug][0].parentCategory._ref
+				_type == "gSubcategories" && language == "en" &&
+				parentCategory._ref == *[_type == "gSubcategories" && language == "en" && slug.current == $slug][0].parentCategory._ref
 			]{
 				${baseFields},
 				"colorTitle": parentCategory->color->title,
@@ -786,8 +786,8 @@ export const pageGuidesCategoryQuery = groq`{
 			},
 		true =>
 			*[
-				_type == "gSubcategories" &&
-				parentCategory._ref == *[_type == "gCategories" && slug.current == $slug][0]._id
+				_type == "gSubcategories" && language == "en" &&
+				parentCategory._ref == *[_type == "gCategories" && language == "en" && slug.current == $slug][0]._id
 			]{
 				${baseFields},
 				"colorTitle": parentCategory->color->title,
@@ -796,51 +796,50 @@ export const pageGuidesCategoryQuery = groq`{
 			}
 	),
 	"categoryTitle": coalesce(
-		*[_type == "gCategories" && slug.current == $slug][0].title,
-		*[_type == "gSubcategories" && slug.current == $slug][0].title
+		*[_type == "gCategories" && language == "en" && slug.current == $slug][0].title,
+		*[_type == "gSubcategories" && language == "en" && slug.current == $slug][0].title
 	),
 	"guidesHeading": coalesce(
-		*[_type == "gCategories" && slug.current == $slug][0].guidesHeading[]{
+		*[_type == "gCategories" && language == "en" && slug.current == $slug][0].guidesHeading[]{
 			${portableTextContentFields}
 		},
-		*[_type == "gSubcategories" && slug.current == $slug][0].guidesHeading[]{
+		*[_type == "gSubcategories" && language == "en" && slug.current == $slug][0].guidesHeading[]{
 			${portableTextContentFields}
 		}
 	),
 	"guidesParagraph": coalesce(
-		*[_type == "gCategories" && slug.current == $slug][0].guidesParagraph[]{
+		*[_type == "gCategories" && language == "en" && slug.current == $slug][0].guidesParagraph[]{
 			${portableTextContentFields}
 		},
-		*[_type == "gSubcategories" && slug.current == $slug][0].guidesParagraph[]{
+		*[_type == "gSubcategories" && language == "en" && slug.current == $slug][0].guidesParagraph[]{
 			${portableTextContentFields}
 		},
 	),
-	"articleList": *[_type == "gGuides" && hideFromIndex != true && (references(*[_type == "gCategories" && slug.current == $slug]._id) || references(*[_type == "gSubcategories" && slug.current == $slug]._id))] {
+	"articleList": *[_type == "gGuides" && language == "en" && hideFromIndex != true && (references(*[_type == "gCategories" && language == "en" && slug.current == $slug]._id) || references(*[_type == "gSubcategories" && language == "en" && slug.current == $slug]._id))] {
 		${getGuidesData('card')}
 	},
 	"title": coalesce(
-		*[_type == "gCategories" && slug.current == $slug][0].title,
-		*[_type == "gSubcategories" && slug.current == $slug][0].title
+		*[_type == "gCategories" && language == "en" && slug.current == $slug][0].title,
+		*[_type == "gSubcategories" && language == "en" && slug.current == $slug][0].title
 	) + " Guides",
 }`;
 
 export const pageGuidesIndexWithArticleDataSSGQuery = groq`
-  *[_type == "pGuides"][0]{
+  *[_type == "pGuides" && language == "en"][0]{
     ${guidesIndexQuery},
     ${articleListAllQuery}
   }`;
 
 export const pageGuidesPaginationMethodQuery = groq`
   {
-    "articleTotalNumber": count(*[_type == "gGuides"]),
-    "itemsPerPage": *[_type == "pGuides"][0].itemsPerPage
+    "articleTotalNumber": count(*[_type == "gGuides" && language == "en"]),
+    "itemsPerPage": *[_type == "pGuides" && language == "en"][0].itemsPerPage
   }`;
 
 export const pageGuidesSingleQuery = groq`
-  *[_type == "gGuides" && slug.current == $slug][0]{
+  *[_type == "gGuides" && language == "en" && slug.current == $slug][0]{
     ${getGuidesData()},
-    "defaultRelated": *[_type == "gGuides"
-      && count(categories[@._ref in ^.^.categories[]._ref]) > 0
+    "defaultRelated": *[_type == "gGuides" && language == "en" && count(categories[@._ref in ^.^.categories[]._ref]) > 0
       && _id != ^._id
       ] | order(publishedAt desc, _createdAt desc) [0..1] {
         ${getGuidesData('card')}
@@ -848,7 +847,7 @@ export const pageGuidesSingleQuery = groq`
   }`;
 
 export const locationListAllQuery = groq`
-  "locationList": *[_type == "gLocations" && hideFromIndex != true] | order(_updatedAt desc)[0...300] {
+  "locationList": *[_type == "gLocations" && language == "en" && hideFromIndex != true] | order(_updatedAt desc)[0...300] {
     ${getLocationsData('card')}
   }
 `;
@@ -871,26 +870,26 @@ export const locationIndexQuery = groq`
 `;
 
 export const pageLocationsIndex = groq`
-  *[_type == "pLocations"][0]{
+  *[_type == "pLocations" && language == "en"][0]{
     ${locationIndexQuery}
   }`;
 
 export const pageLocationsCategoryQuery = groq`{
-  ...*[_type == "pLocations"][0]{
+  ...*[_type == "pLocations" && language == "en"][0]{
     ${locationIndexQuery}
   },
 	"_type": "pLocationsCategory",
 	"isCategoryPage": true,
-	"parentCategory": *[_type == "gSubcategories" && slug.current == $slug][0].parentCategory->{
+	"parentCategory": *[_type == "gSubcategories" && language == "en" && slug.current == $slug][0].parentCategory->{
 		"slug": slug.current,
 		title,
 		_id,
 	},
 	"subcategories": select(
-		defined(*[_type == "gSubcategories" && slug.current == $slug][0].parentCategory) =>
+		defined(*[_type == "gSubcategories" && language == "en" && slug.current == $slug][0].parentCategory) =>
 			*[
-				_type == "gSubcategories" &&
-				parentCategory._ref == *[_type == "gSubcategories" && slug.current == $slug][0].parentCategory._ref
+				_type == "gSubcategories" && language == "en" &&
+				parentCategory._ref == *[_type == "gSubcategories" && language == "en" && slug.current == $slug][0].parentCategory._ref
 			]{
 				${baseFields},
 				"colorTitle": parentCategory->color->title,
@@ -899,8 +898,8 @@ export const pageLocationsCategoryQuery = groq`{
 			},
 		true =>
 			*[
-				_type == "gSubcategories" &&
-				parentCategory._ref == *[_type == "gCategories" && slug.current == $slug][0]._id
+				_type == "gSubcategories" && language == "en" &&
+				parentCategory._ref == *[_type == "gCategories" && language == "en" && slug.current == $slug][0]._id
 			]{
 				${baseFields},
 				"colorTitle": parentCategory->color->title,
@@ -909,60 +908,60 @@ export const pageLocationsCategoryQuery = groq`{
 			}
 	),
 	"slug": coalesce(
-		*[_type == "gCategories" && slug.current == $slug][0].slug.current,
-		*[_type == "gSubcategories" && slug.current == $slug][0].slug.current
+		*[_type == "gCategories" && language == "en" && slug.current == $slug][0].slug.current,
+		*[_type == "gSubcategories" && language == "en" && slug.current == $slug][0].slug.current
 	),
 	"categoryTitle": coalesce(
-		*[_type == "gCategories" && slug.current == $slug][0].title,
-		*[_type == "gSubcategories" && slug.current == $slug][0].title
+		*[_type == "gCategories" && language == "en" && slug.current == $slug][0].title,
+		*[_type == "gSubcategories" && language == "en" && slug.current == $slug][0].title
 	),
 	"locationsHeading": coalesce(
-		*[_type == "gCategories" && slug.current == $slug][0].locationsHeading[]{
+		*[_type == "gCategories" && language == "en" && slug.current == $slug][0].locationsHeading[]{
 			${portableTextContentFields}
 		},
-		*[_type == "gSubcategories" && slug.current == $slug][0].locationsHeading[]{
+		*[_type == "gSubcategories" && language == "en" && slug.current == $slug][0].locationsHeading[]{
 			${portableTextContentFields}
 		}
 	),
 	"locationsParagraph": coalesce(
-		*[_type == "gCategories" && slug.current == $slug][0].locationsParagraph[]{
+		*[_type == "gCategories" && language == "en" && slug.current == $slug][0].locationsParagraph[]{
 			${portableTextContentFields}
 		},
-		*[_type == "gSubcategories" && slug.current == $slug][0].locationsParagraph[]{
+		*[_type == "gSubcategories" && language == "en" && slug.current == $slug][0].locationsParagraph[]{
 			${portableTextContentFields}
 		},
 	),
-	"locationList": *[_type == "gLocations" && hideFromIndex != true && (references(*[_type == "gCategories" && slug.current == $slug]._id) || references(*[_type == "gSubcategories" && slug.current == $slug]._id))] {
+	"locationList": *[_type == "gLocations" && language == "en" && hideFromIndex != true && (references(*[_type == "gCategories" && language == "en" && slug.current == $slug]._id) || references(*[_type == "gSubcategories" && language == "en" && slug.current == $slug]._id))] {
 		${getLocationsData('card')}
 	},
 	"title": coalesce(
-		*[_type == "gCategories" && slug.current == $slug][0].title,
-		*[_type == "gSubcategories" && slug.current == $slug][0].title
+		*[_type == "gCategories" && slug.current == $slug && language == "en"][0].title,
+		*[_type == "gSubcategories" && slug.current == $slug && language == "en"][0].title
 	),
 }`;
 
 export const pageLocationsIndexWithArticleDataSSGQuery = groq`
-  *[_type == "pLocations"][0]{
+  *[_type == "pLocations" && language == "en"][0]{
     ${locationIndexQuery},
     ${locationListAllQuery}
   }`;
 
 export const pageLocationsPaginationMethodQuery = groq`
   {
-    "articleTotalNumber": count(*[_type == "gLocations"]),
-    "itemsPerPage": *[_type == "pLocations"][0].itemsPerPage
+    "articleTotalNumber": count(*[_type == "gLocations" && language == "en"]),
+    "itemsPerPage": *[_type == "pLocations" && language == "en"][0].itemsPerPage
   }`;
 
 export const pageLocationsSingleQuery = groq`
-  *[_type == "gLocations" && slug.current == $slug][0]{
+  *[_type == "gLocations" && slug.current == $slug && language == "en"][0]{
     ${getLocationsData()},
-    "defaultRelatedLocations": *[_type == "gLocations"
+    "defaultRelatedLocations": *[_type == "gLocations" && language == "en"
       && count(categories[@._ref in ^.^.categories[]._ref ]) > 0
       && _id != ^._id
       ] | order(publishedAt desc, _createdAt desc) [0..11] {
         ${getLocationsData('card')}
       },
-    "defaultRelatedGuides": *[_type == "gGuides"
+    "defaultRelatedGuides": *[_type == "gGuides" && language == "en"
       && count(categories[@._ref in ^.^.categories[]._ref ]) > 0
       && _id != ^._id
       ] | order(publishedAt desc, _createdAt desc) [0..11] {
@@ -971,12 +970,12 @@ export const pageLocationsSingleQuery = groq`
   }`;
 
 export const pageCasesSingleQuery = groq`
-  *[_type == "gCases" && slug.current == $slug][0]{
+  *[_type == "gCases" && slug.current == $slug && language == "en"][0]{
     ${getCaseData()}
   }`;
 
 export const pageItinerariesSingleQuery = groq`
-  *[_type == "gItineraries" && slug.current == $slug][0]{
+  *[_type == "gItineraries" && slug.current == $slug && language == "en"][0]{
     ${getItineraryData()},
     ${planFormData}
   }`;

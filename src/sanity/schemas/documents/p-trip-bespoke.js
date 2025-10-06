@@ -20,6 +20,13 @@ export default defineType({
 			of: [freeform(), carousel(), customImage()],
 		},
 		sharing(),
+		{
+			// should match 'languageField' plugin configuration setting, if customized
+			name: 'language',
+			type: 'string',
+			// readOnly: true,
+			// hidden: true,
+		},
 	],
 	preview: {
 		select: {

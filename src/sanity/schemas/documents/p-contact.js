@@ -9,5 +9,16 @@ export default defineType({
 	name: 'pContact',
 	type: 'document',
 	icon: BookIcon,
-	fields: [title(), slug(), sharing()],
+	fields: [
+		title(),
+		slug(),
+		sharing(),
+		{
+			// should match 'languageField' plugin configuration setting, if customized
+			name: 'language',
+			type: 'string',
+			// readOnly: true,
+			// hidden: true,
+		},
+	],
 });

@@ -10,7 +10,9 @@ export const guidesFilterByCategory = (S) => {
 					return S.documentList()
 						.title('Blogs')
 						.apiVersion(apiVersion)
-						.filter('_type == "gGuides" && references($categoryId)')
+						.filter(
+							'_type == "gGuides" && language == "en" && references($categoryId)'
+						)
 						.params({ categoryId });
 				})
 		);
@@ -26,7 +28,9 @@ export const guidesFilterBySubcategory = (S) => {
 					return S.documentList()
 						.title('Blogs')
 						.apiVersion(apiVersion)
-						.filter('_type == "gGuides" && references($categoryId)')
+						.filter(
+							'_type == "gGuides" && language == "en" && references($categoryId)'
+						)
 						.params({ categoryId });
 				})
 		);

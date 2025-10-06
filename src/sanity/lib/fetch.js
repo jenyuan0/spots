@@ -93,22 +93,22 @@ export function getPagesPaths({ pageType }) {
 	const getQuery = (pageType) => {
 		switch (pageType) {
 			case 'pGeneral':
-				return groq`*[_type == "pGeneral"].slug.current`;
+				return groq`*[_type == "pGeneral" && language == "en"].slug.current`;
 			case 'gLocations':
-				return groq`*[_type == "gLocations"].slug.current`;
+				return groq`*[_type == "gLocations" && language == "en"].slug.current`;
 			case 'gCases':
-				return groq`*[_type == "gCases"].slug.current`;
+				return groq`*[_type == "gCases" && language == "en"].slug.current`;
 			case 'gItineraries':
-				return groq`*[_type == "gItineraries"].slug.current`;
+				return groq`*[_type == "gItineraries" && language == "en"].slug.current`;
 			case 'gGuides':
-				return groq`*[_type == "gGuides"].slug.current`;
+				return groq`*[_type == "gGuides" && language == "en"].slug.current`;
 			case 'gCategories':
-				return groq`*[_type == "gCategories"].slug.current`;
+				return groq`*[_type == "gCategories" && language == "en"].slug.current`;
 			case 'gSubcategories':
-				return groq`*[_type == "gSubcategories"].slug.current`;
+				return groq`*[_type == "gSubcategories" && language == "en"].slug.current`;
 			default:
 				console.warn('Invalid Page Type:', pageType);
-				return groq`*[_type == "pGeneral" ].slug.current`;
+				return groq`*[_type == "pGeneral" && language == "en"].slug.current`;
 		}
 	};
 

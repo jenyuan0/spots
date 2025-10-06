@@ -61,7 +61,7 @@ export default function Layout({ children, siteData }) {
 			const dataSlug = pathname.split('/').pop();
 			const showItineraryHeader = await Promise.all([
 				client.fetch(
-					`*[_type == "gItineraries" && slug.current == "${dataSlug}"][0] {
+					`*[_type == "gItineraries" && language == "en" && slug.current == "${dataSlug}"][0] {
 						"value": coalesce(
 							select(
 									defined(slug.current) && type == "custom" => false,

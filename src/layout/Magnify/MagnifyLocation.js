@@ -30,12 +30,12 @@ export default function MagnifyLocation({
 				const dataSlug = mParam.split('/').pop();
 				const [content, resvs] = await Promise.all([
 					client.fetch(
-						`*[_type == "gLocations" && slug.current == "${dataSlug}"][0]{
+						`*[_type == "gLocations" && language == "en" && slug.current == "${dataSlug}"][0]{
                 ${getLocationsData()}
               }`
 					),
 					client.fetch(`
-              *[_type == "gItineraries" && slug.current == "${pageSlug}"][0].reservations[]{
+              *[_type == "gItineraries" && language == "en" && slug.current == "${pageSlug}"][0].reservations[]{
                 "location": location->{ _id },
                 startTime,
                 endTime,
