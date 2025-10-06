@@ -18,6 +18,13 @@ export default defineType({
 		customImage({ hasCropOptions: true }),
 		{ name: 'newsletterID', type: 'string' },
 		callToAction(),
+		{
+			// should match 'languageField' plugin configuration setting, if customized
+			name: 'language',
+			type: 'string',
+			// readOnly: true,
+			// hidden: true,
+		},
 	],
 	preview: {
 		select: {
