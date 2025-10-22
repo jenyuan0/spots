@@ -7,9 +7,11 @@ import Breadcrumb from '@/components/Breadcrumb';
 import CategoryPill from '@/components/CategoryPill';
 import CategoryPillList from '@/components/CategoryPillList';
 import CustomPortableText from '@/components/CustomPortableText';
+import { useCurrentLang } from '@/hooks/useCurrentLang';
 
 export default function PageLocationsIndex({ data }) {
 	const {
+		title,
 		slug,
 		heading,
 		paragraph,
@@ -22,10 +24,23 @@ export default function PageLocationsIndex({ data }) {
 		categoryTitle,
 		locationList,
 		paginationMethod,
+		localization,
 	} = data || {};
+
+	const {
+		allSpots,
+		categoriesLabel,
+		noItemsFound,
+		locationsLabel,
+		bestPlacesInParis,
+	} = localization || {};
+
+	const [currentLanguageCode] = useCurrentLang();
+	const breadcrumbTitle = locationsLabel ? locationsLabel : 'Locations';
+
 	const breadcrumb = [
 		{
-			title: 'Locations',
+			title: breadcrumbTitle,
 			url: '/locations',
 		},
 		...(parentCategory
@@ -38,15 +53,25 @@ export default function PageLocationsIndex({ data }) {
 			: []),
 	];
 	const dataAllPill = {
-		title: 'All Spots',
+		title: `${allSpots ? allSpots : 'All Spots'}`,
 		slug: '',
 		parentCategory: null,
 	};
 	const introHeading = isCategoryPage
 		? locationsHeading || (
 				<>
-					Best Places in Paris <br />
-					for {categoryTitle}
+					{currentLanguageCode === 'en' ? (
+						<>
+							{bestPlacesInParis || 'Best Places in Paris'}
+							<br />
+							for {categoryTitle}
+						</>
+					) : (
+						<>
+							{bestPlacesInParis || 'Best Places in Paris'}
+							{categoryTitle}
+						</>
+					)}
 				</>
 			)
 		: heading;
@@ -81,7 +106,7 @@ export default function PageLocationsIndex({ data }) {
 								isLink={true}
 							>
 								<li className="c-category-pill-list__title t-l-2">
-									Categories:
+									{categoriesLabel || 'Categories'}:
 								</li>
 								<li>
 									<CategoryPill
@@ -113,7 +138,7 @@ export default function PageLocationsIndex({ data }) {
 					)
 				) : (
 					<div className="p-locations__empty">
-						<p className="t-h-3">No items found</p>
+						<p className="t-h-3">{noItemsFound || 'No items found'}</p>
 					</div>
 				)}
 			</section>

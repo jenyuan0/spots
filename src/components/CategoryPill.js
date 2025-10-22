@@ -9,6 +9,7 @@ import {
 	IconHotel,
 	IconShop,
 } from './SvgIcons';
+import { useCurrentLang } from '@/hooks/useCurrentLang';
 
 const iconMap = {
 	'health-beauty': IconArchitecture,
@@ -25,6 +26,7 @@ export default function CategoryPill({
 	isLink = false,
 	isActive,
 }) {
+	const [currentLanguageCode] = useCurrentLang();
 	const { title, slug, parentCategory } = data;
 	const colorD = data?.colorD || parentCategory?.colorD || 'var(--cr-brown-d)';
 	const colorL = data?.colorL || parentCategory?.colorL || 'var(--cr-brown-l)';
@@ -41,7 +43,7 @@ export default function CategoryPill({
 					'--cr-primary': colorD,
 					'--cr-secondary': colorL,
 				}}
-				href={`/${postType == 'guides' ? 'paris/' : ''}${postType}${slug ? `/category/${slug}` : ''}`}
+				href={`/${currentLanguageCode}/${postType == 'guides' ? 'paris/' : ''}${postType}${slug ? `/category/${slug}` : ''}`}
 			>
 				{Icon && <Icon />}
 				{title}

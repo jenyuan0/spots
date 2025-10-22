@@ -43,6 +43,7 @@ const commonPlugins = [
 	documentInternationalization({
 		supportedLanguages: i18n.languages,
 		schemaTypes: i18n.translationDocuments,
+		allowCreateMetaDoc: true,
 	}),
 	internationalizedArray({
 		languages: i18n.languages,

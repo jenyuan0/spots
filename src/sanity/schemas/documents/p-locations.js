@@ -9,7 +9,7 @@ export default defineType({
 	name: 'pLocations',
 	type: 'document',
 	fields: [
-		title({ readOnly: true }),
+		title(),
 		slug({ readOnly: true }),
 		{
 			name: 'heading',

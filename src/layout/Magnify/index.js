@@ -17,7 +17,7 @@ import Button from '@/components/Button';
 import usePlanner from '@/hooks/usePlanner';
 
 export function Magnify({ siteData }) {
-	const { localization } = siteData || {};
+	const { localization, localizationHighlights } = siteData || {};
 	const { planYourTrip, unlockInsiderRates, closeLabel } = localization || {};
 	const [isActive, setIsActive] = useState(false);
 	const [color, setColor] = useState('brown');
@@ -203,6 +203,7 @@ export function Magnify({ siteData }) {
 							onColorChange={handleColorChange}
 							onMeta={handleMeta}
 							localization={localization}
+							localizationHighlights={localizationHighlights}
 						/>
 					)}
 					{type === 'case' && (

@@ -8,6 +8,7 @@ import { useSearchParams } from 'next/navigation';
 import { client } from '@/sanity/lib/client';
 import { getLocationsData } from '@/sanity/lib/queries';
 import useAsideMap from '@/hooks/useAsideMap';
+import { useCurrentLang } from '@/hooks/useCurrentLang';
 
 const getLocationsQueryGROQ = ({ pageNumber, pageSize }) => {
 	let queryGroq = `_type == "gLocations"`;
@@ -100,6 +101,8 @@ const ListWithSSG = ({ data, currentPageNumber }) => {
 };
 
 export default function LocationsPagination({ data }) {
+	const [currentLanguageCode] = useCurrentLang();
+
 	const searchParams = useSearchParams();
 	const { slug, isCategoryPage, itemsPerPage = 12 } = data;
 	const items = data?.locationList || [];
@@ -118,7 +121,7 @@ export default function LocationsPagination({ data }) {
 				<Pagination
 					currentPageNumber={currentPageNumber}
 					totalPage={totalPages}
-					url={`/locations${isCategoryPage ? `/category/${slug}` : ''}`}
+					url={`/${currentLanguageCode}/locations${isCategoryPage ? `/category/${slug}` : ''}`}
 				/>
 			)}
 		</>

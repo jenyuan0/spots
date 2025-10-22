@@ -8,6 +8,8 @@ export default defineType({
 		globalLabelLocalization(),
 		globalFormLocalization(),
 		globalCustomEmailLocalization(),
+		globalLocationCard(),
+		globalHighlights(),
 	],
 	preview: {
 		prepare() {
@@ -89,10 +91,25 @@ function globalLabelLocalization() {
 				name: 'closeLabel',
 				type: 'internationalizedArrayString',
 			}),
+			defineField({
+				title: 'Explore Case Study',
+				name: 'exploreCaseStudy',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Address Label',
+				name: 'addressLabel',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Website Label',
+				name: 'websiteLabel',
+				type: 'internationalizedArrayString',
+			}),
 		],
 		options: {
 			collapsible: true,
-			collapsed: false,
+			collapsed: true,
 		},
 	});
 }
@@ -226,7 +243,7 @@ function globalFormLocalization() {
 		],
 		options: {
 			collapsible: true,
-			collapsed: false,
+			collapsed: true,
 		},
 	});
 }
@@ -305,7 +322,95 @@ function globalCustomEmailLocalization() {
 		],
 		options: {
 			collapsible: true,
-			collapsed: false,
+			collapsed: true,
+		},
+	});
+}
+
+function globalLocationCard() {
+	return defineField({
+		title: 'Global Location Labels',
+		name: 'globalLocationCard',
+		type: 'object',
+		fields: [
+			defineField({
+				title: 'Locations Label',
+				name: 'locationsLabel',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Best Places In Paris',
+				name: 'bestPlacesInParis',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Read More',
+				name: 'readMore',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Details',
+				name: 'detailsLabel',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Get Direction',
+				name: 'getDirection',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'All Spots',
+				name: 'allSpots',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Categories Label',
+				name: 'categoriesLabel',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'No Items Found',
+				name: 'noItemsFound',
+				type: 'internationalizedArrayString',
+			}),
+		],
+		options: {
+			collapsible: true,
+			collapsed: true,
+		},
+	});
+}
+
+function globalHighlights() {
+	return defineField({
+		title: 'Global Highlights',
+		name: 'globalHighlights',
+		type: 'object',
+		fields: [
+			defineField({
+				title: 'Iconic',
+				name: 'iconic',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Trending',
+				name: 'trending',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Editor’s Pick',
+				name: 'editorsPick',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'On Our Radar',
+				name: 'onOurRadar',
+				type: 'internationalizedArrayString',
+			}),
+		],
+		options: {
+			collapsible: true,
+			collapsed: true,
 		},
 	});
 }

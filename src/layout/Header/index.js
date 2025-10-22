@@ -145,9 +145,10 @@ export default function Header({ data, isActive }) {
 		width: 0,
 		left: 0,
 	});
-
-	const isHomepage = pathname === `/${currentLanguageCode}`;
-	const isTravelDesign = pathname === `/${currentLanguageCode}/travel-design`;
+	const homepageUrl = `/${currentLanguageCode}`;
+	const travelDesignUrl = `/${currentLanguageCode}/travel-design`;
+	const isHomepage = pathname === homepageUrl;
+	const isTravelDesign = pathname === travelDesignUrl;
 
 	useEffect(() => {
 		const activeRef = isHomepage ? refLinkBooking : refLinkDesign;
@@ -228,7 +229,7 @@ export default function Header({ data, isActive }) {
 				})}
 			>
 				<Link
-					href={'/'}
+					href={homepageUrl}
 					className="g-header__logo t-h-3"
 					aria-label="View homepage"
 				>
@@ -242,7 +243,7 @@ export default function Header({ data, isActive }) {
 				<div className="g-header__toggle t-l-2">
 					<div ref={refLinkBooking}>
 						<Link
-							href="/"
+							href={homepageUrl}
 							className={clsx({
 								'is-active': isHomepage,
 							})}
@@ -262,7 +263,7 @@ export default function Header({ data, isActive }) {
 					/>
 					<div ref={refLinkDesign}>
 						<Link
-							href="/travel-design"
+							href={travelDesignUrl}
 							className={clsx({
 								'is-active': !isHomepage,
 							})}

@@ -12,7 +12,8 @@ import useMagnify from '@/hooks/useMagnify';
 import useKey from '@/hooks/useKey';
 
 export default function SectionCase({ data }) {
-	const { caseHeading, caseItems } = data || {};
+	const { caseHeading, caseItems, localization } = data || {};
+	const { exploreCaseStudy } = localization || {};
 	const { isTouchDevice, width, height } = useWindowDimensions();
 	const [isMounted, setIsMounted] = useState(false);
 
@@ -146,7 +147,7 @@ export default function SectionCase({ data }) {
 				style={{ x: springX, y: springY, scale }}
 			>
 				<Button className={clsx('btn', `cr-${ctaColor}-d`)}>
-					Explore Case Study
+					{exploreCaseStudy || 'Explore Case Study'}
 				</Button>
 			</motion.div>
 		</section>

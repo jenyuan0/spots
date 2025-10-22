@@ -10,17 +10,41 @@ export const getDocumentWithFallback = ({ docType, withSlug = false } = {}) => {
 )`;
 };
 
+export const translatedReference = ({
+	sourceField, // e.g. "parentCategory"
+	projection, // e.g. 'title,slug'
+} = {}) => `
+	${sourceField}->{
+		...coalesce(
+			*[_type == "translation.metadata" && references(^._id)][0].translations[_key == $language][0].value->{
+				${projection}
+			},
+			*[_type == "translation.metadata" && references(^._id)][0].translations[_key == "en"][0].value->{
+				${projection}
+			},
+			{
+				${projection}
+			}
+		)
+	}
+`;
+
 export const translatedReferenceArray = ({
-	sourceField, // e.g. "services"
-	projection, // e.g. getServicesData('card')
+	sourceField, // e.g. "caseItems"
+	projection, // e.g. getCaseData('card')
 } = {}) => `
 	${sourceField}[]->{
 		...coalesce(
-			*[_type == "translation.metadata" && references(^._id)][0].translations[_key == $language][0].value,
-			*[_type == "translation.metadata" && references(^._id)][0].translations[_key == "en"][0].value
-		)->{
-			${projection}
-		}
+			*[_type == "translation.metadata" && references(^._id)][0].translations[_key == $language][0].value->{
+				${projection}
+			},
+			*[_type == "translation.metadata" && references(^._id)][0].translations[_key == "en"][0].value->{
+				${projection}
+			},
+			{
+				${projection}
+			}
+		)
 	}`;
 
 export const getTranslationByLanguage = (type) => {
@@ -145,12 +169,14 @@ export const portableTextContentFields = groq`
 export const getLocationsData = (type) => {
 	let defaultData = groq`
     ${baseFields},
-    categories[]->{
-      ${categoryMetaFields}
-    },
-    subcategories[]->{
-      ${subcategoryMetaFields}
-    },
+		${translatedReferenceArray({
+			sourceField: 'categories',
+			projection: `${categoryMetaFields}`,
+		})},
+		${translatedReferenceArray({
+			sourceField: 'subcategories',
+			projection: `${subcategoryMetaFields}`,
+		})},
     "color": lower(categories[0]->color->title),
 		highlights,
 		hideFromIndex,
@@ -165,7 +191,13 @@ export const getLocationsData = (type) => {
     },
     content[]{
       ${portableTextContentFields}
-    },`;
+    },
+		"localization": *[_type == "settingsLocalization"][0].globalLocationCard {
+			"readMore": ${getTranslationByLanguage('readMore')},
+			"detailsLabel": ${getTranslationByLanguage('detailsLabel')},
+			"getDirection": ${getTranslationByLanguage('getDirection')},
+		},
+		`;
 	if (type === 'card') {
 		// Card-specific fields can be added here
 	} else {
@@ -293,11 +325,11 @@ export const getItineraryData = (type) => {
 		defaultData += groq`excerpt`;
 	} else {
 		defaultData += groq`
-
       introduction,
-      accomodations[]->{
-        ${getLocationsData('card')}
-      },
+			${translatedReferenceArray({
+				sourceField: 'accomodations',
+				projection: `${getLocationsData('card')}`,
+			})},
       plan[]{
         "day": itineraryDay->{
           title,
@@ -379,9 +411,10 @@ export const getCaseData = (type) => {
 			content[]{
 				${portableTextObj}
 			},
-      accomodations[]->{
-        ${getLocationsData('card')}
-      },
+			${translatedReferenceArray({
+				sourceField: 'accomodations',
+				projection: `${getLocationsData('card')}`,
+			})},
 		`;
 	}
 	return defaultData;
@@ -578,6 +611,14 @@ export const site = groq`
 			"option": ${getTranslationByLanguage('option')},
 			"unlockInsiderRates": ${getTranslationByLanguage('unlockInsiderRates')},
 			"closeLabel": ${getTranslationByLanguage('closeLabel')},
+			"addressLabel": ${getTranslationByLanguage('addressLabel')},
+			"websiteLabel": ${getTranslationByLanguage('websiteLabel')},
+		},
+		"localizationHighlights": *[_type == "settingsLocalization"][0].globalHighlights {
+			"iconic": ${getTranslationByLanguage('iconic')},
+			"trending": ${getTranslationByLanguage('trending')},
+			"editorsPick": ${getTranslationByLanguage('editorsPick')},
+			"onOurRadar": ${getTranslationByLanguage('onOurRadar')},
 		},
   }
 `;
@@ -746,6 +787,9 @@ export const pageTravelDesignQuery = groq`
         ${portableTextContentFields}
       }
     },
+		"localization": *[_type == "settingsLocalization"][0].globalLabel {
+			"exploreCaseStudy": ${getTranslationByLanguage('exploreCaseStudy')},
+		},
   }
 `;
 
@@ -985,35 +1029,45 @@ export const locationIndexQuery = groq`
   paragraph[]{
     ${portableTextContentFields}
   },
-  "categories": categories[]->{
-    ${categoryMetaFields}
-  },
+	${translatedReferenceArray({
+		sourceField: 'categories',
+		projection: `${categoryMetaFields}`,
+	})},
   itemsPerPage,
   paginationMethod,
   loadMoreButtonLabel,
-  infiniteScrollCompleteLabel
+  infiniteScrollCompleteLabel,
+	"localization": *[_type == "settingsLocalization"][0].globalLocationCard {
+		"locationsLabel": ${getTranslationByLanguage('locationsLabel')},
+		"allSpots": ${getTranslationByLanguage('allSpots')},
+		"categoriesLabel": ${getTranslationByLanguage('categoriesLabel')},
+		"noItemsFound": ${getTranslationByLanguage('noItemsFound')},
+		"bestPlacesInParis": ${getTranslationByLanguage('bestPlacesInParis')},
+	}
 `;
 
 export const pageLocationsIndex = groq`
-  *[_type == "pLocations" && language == "en"][0]{
+  ${getDocumentWithFallback({ docType: 'pLocations' })}{
     ${locationIndexQuery}
   }`;
 
 export const pageLocationsCategoryQuery = groq`{
-  ...*[_type == "pLocations" && language == "en"][0]{
+  ...${getDocumentWithFallback({ docType: 'pLocations' })}{
     ${locationIndexQuery}
   },
 	"_type": "pLocationsCategory",
 	"isCategoryPage": true,
-	"parentCategory": *[_type == "gSubcategories" && language == "en" && slug.current == $slug][0].parentCategory->{
-		"slug": slug.current,
+	"parentCategory": ${translatedReference({
+		sourceField:
+			'*[_type == "gSubcategories" && language == $language && slug.current == $slug][0].parentCategory',
+		projection: `"slug": slug.current,
 		title,
-		_id,
-	},
+		_id,`,
+	})},
 	"subcategories": select(
-		defined(*[_type == "gSubcategories" && language == "en" && slug.current == $slug][0].parentCategory) =>
+		defined(*[_type == "gSubcategories" && language == $language && slug.current == $slug][0].parentCategory) =>
 			*[
-				_type == "gSubcategories" && language == "en" &&
+				_type == "gSubcategories" && language == $language &&
 				parentCategory._ref == *[_type == "gSubcategories" && language == "en" && slug.current == $slug][0].parentCategory._ref
 			]{
 				${baseFields},
@@ -1023,7 +1077,7 @@ export const pageLocationsCategoryQuery = groq`{
 			},
 		true =>
 			*[
-				_type == "gSubcategories" && language == "en" &&
+				_type == "gSubcategories" && language == $language &&
 				parentCategory._ref == *[_type == "gCategories" && language == "en" && slug.current == $slug][0]._id
 			]{
 				${baseFields},
@@ -1033,26 +1087,26 @@ export const pageLocationsCategoryQuery = groq`{
 			}
 	),
 	"slug": coalesce(
-		*[_type == "gCategories" && language == "en" && slug.current == $slug][0].slug.current,
-		*[_type == "gSubcategories" && language == "en" && slug.current == $slug][0].slug.current
+		${getDocumentWithFallback({ docType: 'gCategories', withSlug: true })}.slug.current,
+		${getDocumentWithFallback({ docType: 'gSubcategories', withSlug: true })}.slug.current
 	),
 	"categoryTitle": coalesce(
-		*[_type == "gCategories" && language == "en" && slug.current == $slug][0].title,
-		*[_type == "gSubcategories" && language == "en" && slug.current == $slug][0].title
+		${getDocumentWithFallback({ docType: 'gCategories', withSlug: true })}.title,
+		${getDocumentWithFallback({ docType: 'gSubcategories', withSlug: true })}.title
 	),
 	"locationsHeading": coalesce(
-		*[_type == "gCategories" && language == "en" && slug.current == $slug][0].locationsHeading[]{
+		${getDocumentWithFallback({ docType: 'gCategories', withSlug: true })}.locationsHeading[]{
 			${portableTextContentFields}
 		},
-		*[_type == "gSubcategories" && language == "en" && slug.current == $slug][0].locationsHeading[]{
+		${getDocumentWithFallback({ docType: 'gSubcategories', withSlug: true })}.locationsHeading[]{
 			${portableTextContentFields}
 		}
 	),
 	"locationsParagraph": coalesce(
-		*[_type == "gCategories" && language == "en" && slug.current == $slug][0].locationsParagraph[]{
+		${getDocumentWithFallback({ docType: 'gCategories', withSlug: true })}.locationsParagraph[]{
 			${portableTextContentFields}
 		},
-		*[_type == "gSubcategories" && language == "en" && slug.current == $slug][0].locationsParagraph[]{
+		${getDocumentWithFallback({ docType: 'gSubcategories', withSlug: true })}.locationsParagraph[]{
 			${portableTextContentFields}
 		},
 	),
@@ -1066,7 +1120,7 @@ export const pageLocationsCategoryQuery = groq`{
 }`;
 
 export const pageLocationsIndexWithArticleDataSSGQuery = groq`
-  *[_type == "pLocations" && language == "en"][0]{
+  ${getDocumentWithFallback({ docType: 'pLocations' })}{
     ${locationIndexQuery},
     ${locationListAllQuery}
   }`;
@@ -1078,7 +1132,7 @@ export const pageLocationsPaginationMethodQuery = groq`
   }`;
 
 export const pageLocationsSingleQuery = groq`
-  *[_type == "gLocations" && slug.current == $slug && language == "en"][0]{
+  ${getDocumentWithFallback({ docType: 'gLocations', withSlug: true })}{
     ${getLocationsData()},
     "defaultRelatedLocations": *[_type == "gLocations" && language == "en"
       && count(categories[@._ref in ^.^.categories[]._ref ]) > 0
