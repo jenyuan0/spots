@@ -28,7 +28,7 @@ function HeroSpot({ data, index, totalChild, isLastChild, progress }) {
 	const springScale = useSpring(motionScale, springConfig);
 
 	if (!data) return null;
-	console.log(index * 30);
+
 	return (
 		<div
 			className={'p-design__spots__spot'}

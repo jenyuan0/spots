@@ -717,7 +717,10 @@ export const pageHomeQuery = groq`
 `;
 
 export const page404Query = groq`
-  *[_type == "p404" && _id == "p404"][0]{
+  coalesce(
+		*[_type == "p404" && _id == "p404" && language == $language][0],
+		*[_type == "p404" && _id == "p404"  && language == "${i18n.base}"][0]
+	){
     ${baseFields},
     heading,
     paragraph[]{
