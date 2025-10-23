@@ -227,7 +227,7 @@ export function getGuidesIndexPage({
 	isArticleDataSSG,
 }) {
 	const modifiedParam = {
-		slug: params.slug,
+		...params,
 		language: params.lang?.replace('-', '_') || params.lang,
 	};
 	const query = getPageDataStructure({

@@ -459,6 +459,13 @@ export const getCaseData = (type) => {
 				sourceField: 'accomodations',
 				projection: `${getLocationsData('card')}`,
 			})},
+			"localization": *[_type == "settingsLocalization"][0].globalLabel {
+				"tripHighlights": ${getTranslationByLanguage('tripHighlights')},
+				"ourRole": ${getTranslationByLanguage('ourRole')},
+				"suggestedAccomodations": ${getTranslationByLanguage('suggestedAccomodations')},
+				"planYourTrip": ${getTranslationByLanguage('planYourTrip')},
+				"option": ${getTranslationByLanguage('option')},
+			},
 		`;
 	}
 	return defaultData;
@@ -1207,7 +1214,7 @@ export const pageLocationsSingleQuery = groq`
   }`;
 
 export const pageCasesSingleQuery = groq`
-  *[_type == "gCases" && slug.current == $slug && language == "en"][0]{
+	${getDocumentWithFallback({ docType: 'gCases', withSlug: true })}{
     ${getCaseData()}
   }`;
 
