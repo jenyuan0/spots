@@ -55,6 +55,12 @@ export default defineType({
 			type: 'string',
 		},
 		{
+			name: 'offering',
+			title: 'Offerings',
+			type: 'array',
+			of: [{ type: 'string' }],
+		},
+		{
 			name: 'faq',
 			type: 'array',
 			of: [

@@ -12,6 +12,7 @@ export default defineType({
 		globalHighlights(),
 		globalItinerary(),
 		globalGuide(),
+		globalMap(),
 	],
 	preview: {
 		prepare() {
@@ -478,6 +479,11 @@ function globalItinerary() {
 				name: 'planYourTripToday',
 				type: 'internationalizedArrayString',
 			}),
+			defineField({
+				title: 'Optional',
+				name: 'optionalLabel',
+				type: 'internationalizedArrayString',
+			}),
 		],
 		options: {
 			collapsible: true,
@@ -500,6 +506,45 @@ function globalGuide() {
 			defineField({
 				title: 'Guide Coming Soon',
 				name: 'guideComingSoon',
+				type: 'internationalizedArrayString',
+			}),
+		],
+		options: {
+			collapsible: true,
+			collapsed: true,
+		},
+	});
+}
+
+function globalMap() {
+	return defineField({
+		title: 'Global Map',
+		name: 'globalMap',
+		type: 'object',
+		fields: [
+			defineField({
+				title: 'Show Map',
+				name: 'showMap',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Close Map',
+				name: 'closeMap',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Filter Activities',
+				name: 'filterActivities',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Select All',
+				name: 'selectAll',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Deselect All',
+				name: 'deselectAll',
 				type: 'internationalizedArrayString',
 			}),
 		],

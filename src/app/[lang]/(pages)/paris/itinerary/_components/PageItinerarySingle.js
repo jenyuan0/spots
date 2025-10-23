@@ -66,6 +66,7 @@ export default function PageItinerarySingle({ data }) {
 		planForm,
 		localization,
 		localizationGlobal,
+		localizationMap,
 	} = data || {};
 	const { dayLabel, spotLabel, tripItinerary, planYourTripToday } =
 		localization || {};
@@ -173,8 +174,11 @@ export default function PageItinerarySingle({ data }) {
 							<h3 className="p-itinerary__section__title t-h-2">
 								{suggestedAccomodations || 'Suggested Accomodations'}
 								<span className="t-l-1">
-									{accomodations.length} {option || 'Option'}
-									{accomodations.length > 1 && 's'}
+									{getLocalizationPlural(
+										currentLanguageCode,
+										accomodations,
+										option || 'Option'
+									)}
 								</span>
 							</h3>
 							<ResponsiveGrid className="p-itinerary__accomodations__grid">
@@ -194,8 +198,11 @@ export default function PageItinerarySingle({ data }) {
 							<h3 className="p-itinerary__section__title t-h-2">
 								{tripItinerary || 'Trip Itinerary'}
 								<span className="t-l-1">
-									{plan.length} Day
-									{plan.length > 1 && 's'}
+									{getLocalizationPlural(
+										currentLanguageCode,
+										plan,
+										dayLabel || 'Day'
+									)}
 								</span>
 							</h3>
 							{plan?.map((plan, i) => {
@@ -210,6 +217,8 @@ export default function PageItinerarySingle({ data }) {
 										reservations={reservations}
 										date={date}
 										color={color}
+										localizationMap={localizationMap}
+										localization={localization}
 									/>
 								);
 							})}
@@ -255,7 +264,7 @@ export default function PageItinerarySingle({ data }) {
 							data={planForm}
 							title={false}
 							budget={budget}
-							offering={true}
+							displayOffering
 							hiddenFields={planHiddenFields}
 						/>
 					</div>

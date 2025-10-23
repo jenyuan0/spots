@@ -6,6 +6,7 @@ import Img from '@/components/Image';
 import Button from '@/components/Button';
 import { motion, useScroll, useSpring, useTransform } from 'motion/react';
 import clsx from 'clsx';
+import { useCurrentLang } from '@/hooks/useCurrentLang';
 
 // Constants
 const ANIMATION_CONFIG = {
@@ -33,6 +34,7 @@ const useScrollAnimation = ({ ref, index = 0 }) => {
 
 const WhyText = ({ data, color }) => {
 	const { heading, paragraph, offers, cta } = data;
+	const [currentLanguageCode] = useCurrentLang();
 
 	return (
 		<div className="p-home__why-block__text">
@@ -46,10 +48,10 @@ const WhyText = ({ data, color }) => {
 						))}
 					</ul>
 				)}
-				{cta && (
+				{cta && cta?.link?.route && cta?.label && (
 					<Button
 						className={clsx('btn-outline', `cr-${color}-d`)}
-						href={cta.link.route}
+						href={`/${currentLanguageCode}${cta.link.route}`}
 						isNewTab={cta.isNewTab}
 						caret="right"
 					>

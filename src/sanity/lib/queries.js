@@ -395,6 +395,13 @@ export const getItineraryData = (type) => {
 				"option": ${getTranslationByLanguage('option')},
 				"closeLabel": ${getTranslationByLanguage('closeLabel')},
 			},
+			"localizationMap": *[_type == "settingsLocalization"][0].globalMap {
+				"showMap": ${getTranslationByLanguage('showMap')},
+				"closeMap": ${getTranslationByLanguage('closeMap')},
+				"filterActivities": ${getTranslationByLanguage('filterActivities')},
+				"selectAll": ${getTranslationByLanguage('selectAll')},
+				"deselectAll": ${getTranslationByLanguage('deselectAll')},
+			},
       ...select(type == "custom" => {
         passcode,
         name,
@@ -575,6 +582,7 @@ export const planFormData = groq`
     email,
     whatsapp,
     line,
+		offering[],
     faq[]{
       _key,
       title,
@@ -670,12 +678,13 @@ export const pageHomeQuery = groq`
     },
     heroSubheading,
     heroImage,
-    heroSpots[]->{
-      title,
+		${translatedReferenceArray({
+			sourceField: 'heroSpots',
+			projection: `title,
       _id,
       "slug": slug.current,
-      "color": lower(categories[0]->color->title)
-    },
+      "color": lower(categories[0]->color->title)`,
+		})},
     introTitle,
     introHeading,
     introCta,
@@ -699,9 +708,10 @@ export const pageHomeQuery = groq`
     itinerariesExcerpt[]{
       ${portableTextContentFields}
     },
-    "itinerariesItems": itinerariesItems[]->{
-      ${getItineraryData('card')}
-    },
+		${translatedReferenceArray({
+			sourceField: 'itinerariesItems',
+			projection: `${getItineraryData('card')}`,
+		})},
     ${planFormData}
   }
 `;

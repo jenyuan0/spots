@@ -54,7 +54,12 @@ export default function ItineraryDay({
 	reservations,
 	date,
 	color,
+	localizationMap,
+	localization,
 }) {
+	const { showMap, closeMap, filterActivities, selectAll, deselectAll } =
+		localizationMap || {};
+	const { optionalLabel } = localization || {};
 	const baseId = useId();
 	const activities = plan?.day?.activities || [];
 	const activitiesPlusRes = getActivitiesPlusRes(
@@ -146,7 +151,11 @@ export default function ItineraryDay({
 						<Accordion
 							key={`${index}-activity-${i}`}
 							title={title}
-							subtitle={startTime ? formatTimeToAMPM(startTime) : 'Optional'}
+							subtitle={
+								startTime
+									? formatTimeToAMPM(startTime)
+									: optionalLabel || 'Optional'
+							}
 						>
 							{content && (
 								<div className="p-itinerary__day__activities__content wysiwyg-b-1">
@@ -200,7 +209,7 @@ export default function ItineraryDay({
 						scrollDisable();
 					}}
 				>
-					Show Map
+					{showMap || 'Show Map'}
 				</Button>
 			</div>
 			<div
@@ -217,10 +226,10 @@ export default function ItineraryDay({
 					icon={<IconMinimize />}
 					onClick={handleMapClose}
 				>
-					Close Map
+					{closeMap || 'Close Map'}
 				</Button>
 				<div className="p-itinerary__day__map__filters">
-					<h2 className="t-h-3">Filter Activities</h2>
+					<h2 className="t-h-3">{filterActivities || 'Filter Activities'}</h2>
 					<ul>
 						{activities?.map((activity, i) => {
 							const { title, startTime } = activity;
@@ -254,8 +263,8 @@ export default function ItineraryDay({
 							>
 								<u>
 									{checkedActivities.size == activities.length
-										? 'Deselect All'
-										: 'Select All'}
+										? deselectAll || 'Deselect All'
+										: selectAll || 'Select All'}
 								</u>
 							</button>
 						</li>

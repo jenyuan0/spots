@@ -2,7 +2,7 @@
 
 import React from 'react';
 import CustomForm from '@/components/CustomForm';
-import { formatNumberWithCommas } from '@/lib/helpers';
+import { formatNumberWithCommas, hasArrayValue } from '@/lib/helpers';
 
 export default function PlanForm({
 	data,
@@ -12,8 +12,9 @@ export default function PlanForm({
 	heading,
 	hiddenFields,
 	budget,
-	offering,
+	displayOffering = false,
 }) {
+	const { offering } = data || {};
 	const formTitle = title === false ? false : title || data.formTitle;
 	const formHeading = heading === false ? false : heading || data.formHeading;
 	const formData = {
@@ -48,7 +49,7 @@ export default function PlanForm({
 					</>
 				)}
 			</div>
-			{offering && (
+			{displayOffering && hasArrayValue(offering) && (
 				<ul className="g-plan__offers t-b-2">
 					{/* <li>
 						<span>Get started in 5 minutes</span>
@@ -56,18 +57,15 @@ export default function PlanForm({
 					{/* <li>
 						<span>Start your journey feeling like a local from day one.</span>
 					</li> */}
-					<li>
-						<span>Smart route planning, train & chauffeur options</span>
-					</li>
-					<li>
-						<span>24/7 travel support & assistance during your trip</span>
-					</li>
-					<li>
-						<span>All-inclusive: Hotels, dining, and activities</span>
-					</li>
-					<li>
-						<span>Customize and tailor every detail to your preference</span>
-					</li>
+
+					{offering.map((offer, index) => {
+						return (
+							<li key={`plan-form-${index}`}>
+								<span>{offer}</span>
+							</li>
+						);
+					})}
+
 					{/* <li>
 						<span>All reservations confirmed before you arrive</span>
 					</li> */}
