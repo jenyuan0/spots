@@ -33,6 +33,10 @@ export default async function Page({ params }) {
 		params,
 		isPreviewMode,
 	});
+	const modifiedParam = {
+		...params,
+		language: params.lang?.replace('-', '_'),
+	};
 
 	const { page } = pageData || {};
 	const site = await getSiteData({
@@ -48,7 +52,7 @@ export default async function Page({ params }) {
 			enabled={isPreviewMode}
 			query={pageLocationsSingleQuery}
 			initialData={page}
-			params={{ slug: params.slug }}
+			params={modifiedParam}
 			as={PreviewPageLocationsSingle}
 		>
 			{metadata?.jsonLd && (
