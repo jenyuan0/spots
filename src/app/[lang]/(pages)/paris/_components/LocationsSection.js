@@ -50,7 +50,7 @@ export default function LocationsSection({ data }) {
 				</h2>
 				<CategoryPillList categories={locationCategories} isLink={true} />
 				<Button
-					href={`${currentLanguageCode}/paris/locations`}
+					href={`/${currentLanguageCode}/paris/locations`}
 					className="p-paris__locations__cta btn-outline"
 				>
 					{ctaLabel || 'View All Spots (200+)'}
