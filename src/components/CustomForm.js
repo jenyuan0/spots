@@ -57,7 +57,7 @@ const getFieldRules = ({ required, inputType, minLength }) => {
 	return rules;
 };
 
-const FormItem = ({ item, control }) => {
+const FormItem = ({ item, control, selectOption }) => {
 	const {
 		inputType,
 		fieldLabel,
@@ -78,6 +78,7 @@ const FormItem = ({ item, control }) => {
 						{...field}
 						options={selectOptions}
 						placeholder={placeholder}
+						selectOption={selectOption}
 					/>
 				);
 			default:
@@ -117,7 +118,8 @@ export default function CustomForm({ data, hiddenFields }) {
 		localization,
 	} = data || {};
 
-	const { sending, sendMessage, averageResponseTime } = localization || {};
+	const { sending, sendMessage, averageResponseTime, selectOption } =
+		localization || {};
 	const [formState, setFormState] = useState(FORM_STATES.IDLE);
 	const dispatch = useAppDispatch();
 	const formFieldsData = (formFields || []).map((item) => {
@@ -201,7 +203,12 @@ export default function CustomForm({ data, hiddenFields }) {
 						/>
 					))}
 					{formFieldsData.map((item) => (
-						<FormItem key={item._key} item={item} control={form.control} />
+						<FormItem
+							key={item._key}
+							item={item}
+							control={form.control}
+							selectOption={selectOption}
+						/>
 					))}
 					{formState === FORM_STATES.SUCCESS ? (
 						<p className="c-form__message t-l-1">

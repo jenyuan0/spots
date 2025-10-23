@@ -4,7 +4,8 @@ import React, { useEffect, useState } from 'react';
 import Link from '@/components/CustomLink';
 
 export default function SeasonSection({ data }) {
-	const { seasonsTitle, seasons } = data;
+	const { seasonsTitle, seasons, localization } = data;
+	const { guideComingSoon } = localization || {};
 
 	const [hasMounted, setHasMounted] = useState(false);
 
@@ -63,7 +64,9 @@ export default function SeasonSection({ data }) {
 										) : (
 											<>
 												<h4 className="t-h-4">{month.name}</h4>
-												<div className="pill">Guide Coming Soon</div>
+												<div className="pill">
+													{guideComingSoon || 'Guide Coming Soon'}
+												</div>
 											</>
 										)}
 									</li>

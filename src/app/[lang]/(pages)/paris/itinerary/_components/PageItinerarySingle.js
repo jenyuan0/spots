@@ -6,6 +6,7 @@ import {
 	formatNumberWithCommas,
 	scrollEnable,
 	scrollDisable,
+	getLocalizationPlural,
 } from '@/lib/helpers';
 import clsx from 'clsx';
 import LocationCard from '@/components/LocationCard';
@@ -19,6 +20,7 @@ import Button from '@/components/Button';
 import { IconMinimize } from '@/components/SvgIcons';
 import { useInView } from 'react-intersection-observer';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
+import { useCurrentLang } from '@/hooks/useCurrentLang';
 
 // TODO:
 // 1. custom background image for each day
@@ -35,6 +37,7 @@ import useWindowDimensions from '@/hooks/useWindowDimensions';
 // https://www.airbnb.com/rooms/32011367
 
 export default function PageItinerarySingle({ data }) {
+	const [currentLanguageCode] = useCurrentLang();
 	const {
 		title,
 		subtitle,
@@ -61,7 +64,14 @@ export default function PageItinerarySingle({ data }) {
 		accommodation,
 		reservations,
 		planForm,
+		localization,
+		localizationGlobal,
 	} = data || {};
+	const { dayLabel, spotLabel, tripItinerary, planYourTripToday } =
+		localization || {};
+	const { tripHighlights, suggestedAccomodations, option, closeLabel } =
+		localizationGlobal || {};
+
 	const startDateObj = startDate ? new Date(startDate) : false;
 	const endDateObj = startDateObj
 		? add(startDateObj, { days: plan.length })
@@ -107,11 +117,23 @@ export default function PageItinerarySingle({ data }) {
 				</div>
 				<ul className="p-itinerary__header__stats">
 					<li>
-						<div className="t-l-2">Day{totalDays > 1 && 's'}</div>
+						<div className="t-l-2">
+							{getLocalizationPlural(
+								currentLanguageCode,
+								totalDays,
+								dayLabel || 'Day'
+							)}
+						</div>
 						<div className="t-h-2">{totalDays}</div>
 					</li>
 					<li>
-						<div className="t-l-2">Spot{totalActivities > 1 && 's'}</div>
+						<div className="t-l-2">
+							{getLocalizationPlural(
+								currentLanguageCode,
+								totalActivities,
+								spotLabel || 'Spot'
+							)}
+						</div>
 						<div className="t-h-2">{totalActivities}</div>
 					</li>
 				</ul>
@@ -141,7 +163,7 @@ export default function PageItinerarySingle({ data }) {
 					{introduction && (
 						<div className="p-itinerary__introduction p-itinerary__section">
 							<h2 className="p-itinerary__section__title t-l-1">
-								Trip Highlights
+								{tripHighlights || 'Trip Highlights'}
 							</h2>
 							<p className="t-h-3">{introduction}</p>
 						</div>
@@ -149,9 +171,9 @@ export default function PageItinerarySingle({ data }) {
 					{accomodations && (
 						<div className="p-itinerary__accomodations p-itinerary__section">
 							<h3 className="p-itinerary__section__title t-h-2">
-								Suggested Accomodations
+								{suggestedAccomodations || 'Suggested Accomodations'}
 								<span className="t-l-1">
-									{accomodations.length} Option
+									{accomodations.length} {option || 'Option'}
 									{accomodations.length > 1 && 's'}
 								</span>
 							</h3>
@@ -170,7 +192,7 @@ export default function PageItinerarySingle({ data }) {
 					{plan && (
 						<div className="p-itinerary__days p-itinerary__section">
 							<h3 className="p-itinerary__section__title t-h-2">
-								Trip Itinerary
+								{tripItinerary || 'Trip Itinerary'}
 								<span className="t-l-1">
 									{plan.length} Day
 									{plan.length > 1 && 's'}
@@ -215,14 +237,16 @@ export default function PageItinerarySingle({ data }) {
 										? `—$${formatNumberWithCommas(budget.high)}`
 										: '+'}
 								</span>{' '}
-								<span className="t-b-2">/ person</span>
+								<span className="t-b-2">/ {person || 'person'}</span>
 							</p>
 						)}
 						<Button
 							className={clsx('btn', `cr-${color?.title || 'green'}-d`)}
 							icon={isOpen ? <span className="icon-close" /> : undefined}
 						>
-							{!isOpen ? 'Plan Your Trip Today' : 'Close'}
+							{!isOpen
+								? planYourTripToday || 'Plan Your Trip Today'
+								: closeLabel || 'Close'}
 						</Button>
 					</div>
 					<div className="p-itinerary__sidebar-flex" />

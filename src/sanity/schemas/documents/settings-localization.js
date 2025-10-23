@@ -10,6 +10,8 @@ export default defineType({
 		globalCustomEmailLocalization(),
 		globalLocationCard(),
 		globalHighlights(),
+		globalItinerary(),
+		globalGuide(),
 	],
 	preview: {
 		prepare() {
@@ -104,6 +106,16 @@ function globalLabelLocalization() {
 			defineField({
 				title: 'Website Label',
 				name: 'websiteLabel',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Paris Label',
+				name: 'parisLabel',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Ready-to-Book Trips',
+				name: 'readyToBookLabel',
 				type: 'internationalizedArrayString',
 			}),
 		],
@@ -238,6 +250,11 @@ function globalFormLocalization() {
 			defineField({
 				title: 'Average response time < 8hr',
 				name: 'averageResponseTime',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Select Option',
+				name: 'selectOption',
 				type: 'internationalizedArrayString',
 			}),
 		],
@@ -410,6 +427,79 @@ function globalHighlights() {
 			defineField({
 				title: 'On Our Radar',
 				name: 'onOurRadar',
+				type: 'internationalizedArrayString',
+			}),
+		],
+		options: {
+			collapsible: true,
+			collapsed: true,
+		},
+	});
+}
+
+function globalItinerary() {
+	return defineField({
+		title: 'Global Itinerary',
+		name: 'globalItinerary',
+		type: 'object',
+		fields: [
+			defineField({
+				title: 'Day',
+				name: 'day',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Spot',
+				name: 'spot',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Itinerary',
+				name: 'itinerary',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'View Trip',
+				name: 'viewTrip',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Trip Itinerary',
+				name: 'tripItinerary',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Person',
+				name: 'person',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Plan Your Trip Today',
+				name: 'planYourTripToday',
+				type: 'internationalizedArrayString',
+			}),
+		],
+		options: {
+			collapsible: true,
+			collapsed: true,
+		},
+	});
+}
+
+function globalGuide() {
+	return defineField({
+		title: 'Global Guide',
+		name: 'globalGuide',
+		type: 'object',
+		fields: [
+			defineField({
+				title: 'Read Guide',
+				name: 'readGuide',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Guide Coming Soon',
+				name: 'guideComingSoon',
 				type: 'internationalizedArrayString',
 			}),
 		],

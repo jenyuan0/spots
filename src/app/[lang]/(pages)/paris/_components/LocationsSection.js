@@ -4,10 +4,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import CategoryPillList from '@/components/CategoryPillList';
 import LocationDot from '@/components/LocationDot';
 import Button from '@/components/Button';
+import { useCurrentLang } from '@/hooks/useCurrentLang';
 
 export default function LocationsSection({ data }) {
 	const { eyebrow, titleHeader, ctaLabel, locationList, locationCategories } =
 		data || {};
+	const [currentLanguageCode] = useCurrentLang();
 	const containerRef = useRef(null);
 	const [radius, setRadius] = useState(150);
 	const [dots, setDots] = useState([]);
@@ -48,7 +50,7 @@ export default function LocationsSection({ data }) {
 				</h2>
 				<CategoryPillList categories={locationCategories} isLink={true} />
 				<Button
-					href={'/paris/locations'}
+					href={`${currentLanguageCode}/paris/locations`}
 					className="p-paris__locations__cta btn-outline"
 				>
 					{ctaLabel || 'View All Spots (200+)'}
@@ -64,7 +66,10 @@ export default function LocationsSection({ data }) {
 								transform: `translate(-50%, -50%) translate(${x}px, ${y}px)`,
 							}}
 						>
-							<LocationDot data={item} />
+							<LocationDot
+								data={item}
+								currentLanguageCode={currentLanguageCode}
+							/>
 						</div>
 					))}
 				</div>

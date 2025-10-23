@@ -288,15 +288,21 @@ export const getGuidesData = (type) => {
       ${imageMetaFields}
     },
     publishDate,
-    categories[]->{
-      ${categoryMetaFields}
-    },
-    subcategories[]->{
-      ${subcategoryMetaFields}
-    },
+		${translatedReferenceArray({
+			sourceField: 'categories',
+			projection: ` ${categoryMetaFields}`,
+		})},
+		${translatedReferenceArray({
+			sourceField: 'subcategories',
+			projection: ` ${subcategoryMetaFields}`,
+		})},
     "color": lower(categories[0]->color->title),
     "colorHex": lower(categories[0]->color->colorD.hex),
-    excerpt,`;
+    excerpt,
+		"localization": *[_type == "settingsLocalization"][0].globalGuide {
+			"readGuide": ${getTranslationByLanguage('readGuide')},
+		},
+		`;
 	if (type === 'card') {
 		defaultData += groq`excerpt`;
 	} else {
@@ -325,12 +331,19 @@ export const getItineraryData = (type) => {
     color->{
       ${colorMetaFields}
     },
-
     "totalDays": length(plan[]),
     "totalActivities": count(plan[].itineraryDay->activities[]),
-    "totalLocations": count(plan[].itineraryDay->activities[].locations[]),`;
+    "totalLocations": count(plan[].itineraryDay->activities[].locations[]),
+		`;
 	if (type === 'card') {
-		defaultData += groq`excerpt`;
+		defaultData += groq`
+		excerpt,
+		"localization": *[_type == "settingsLocalization"][0].globalItinerary {
+			"dayLabel": ${getTranslationByLanguage('day')},
+			"itineraryLabel": ${getTranslationByLanguage('itinerary')},
+			"viewTrip": ${getTranslationByLanguage('viewTrip')},
+		},
+		`;
 	} else {
 		defaultData += groq`
       introduction,
@@ -339,8 +352,9 @@ export const getItineraryData = (type) => {
 				projection: `${getLocationsData('card')}`,
 			})},
       plan[]{
-        "day": itineraryDay->{
-          title,
+				"day":${translatedReference({
+					sourceField: 'itineraryDay',
+					projection: `title,
           content,
           images[0...6]{
             ${imageMetaFields}
@@ -348,16 +362,18 @@ export const getItineraryData = (type) => {
           activities[] {
             ${locationListObj}
           },
-          relatedGuides[]->{
-            ${getGuidesData('card')}
-          }
-        },
+					${translatedReferenceArray({
+						sourceField: 'relatedGuides',
+						projection: `${getLocationsData('card')}`,
+					})},`,
+				})},
         title,
         content
       },
-      guides[]->{
-        ${getGuidesData('card')}
-      },
+			${translatedReferenceArray({
+				sourceField: 'guides',
+				projection: `${getGuidesData('card')}`,
+			})},
       type,
       ...select(type == "premade" => {
         NumOfTravelers,
@@ -367,6 +383,18 @@ export const getItineraryData = (type) => {
         },
         ${planFormData}
       }),
+			"localization": *[_type == "settingsLocalization"][0].globalItinerary {
+				"dayLabel": ${getTranslationByLanguage('day')},
+				"spotLabel": ${getTranslationByLanguage('spot')},
+				"tripItinerary": ${getTranslationByLanguage('tripItinerary')},
+				"planYourTripToday": ${getTranslationByLanguage('planYourTripToday')},
+			},
+			"localizationGlobal": *[_type == "settingsLocalization"][0].globalLabel {
+				"tripHighlights": ${getTranslationByLanguage('tripHighlights')},
+				"suggestedAccomodations": ${getTranslationByLanguage('suggestedAccomodations')},
+				"option": ${getTranslationByLanguage('option')},
+				"closeLabel": ${getTranslationByLanguage('closeLabel')},
+			},
       ...select(type == "custom" => {
         passcode,
         name,
@@ -388,7 +416,8 @@ export const getItineraryData = (type) => {
           "notes": notes,
           "attachments": attachments[]{${fileMetaFields}}
         }
-      })`;
+      })
+			`;
 	}
 	return defaultData;
 };
@@ -561,6 +590,7 @@ export const planFormData = groq`
 			"sending": ${getTranslationByLanguage('sending')},
 			"sendMessage": ${getTranslationByLanguage('sendMessage')},
 			"averageResponseTime": ${getTranslationByLanguage('averageResponseTime')},
+			"selectOption": ${getTranslationByLanguage('selectOption')},
 			"errorMessage": ${getTranslationByLanguage('errorMessage')},
 		}
   }`;
@@ -814,9 +844,14 @@ export const pageTripReadyQuery = groq`
     paragraph[]{
       ${portableTextContentFields}
     },
-    "itineraries": itineraries[]->{
-      ${getItineraryData('card')}
-    }
+		${translatedReferenceArray({
+			sourceField: 'itineraries',
+			projection: `${getItineraryData('card')}`,
+		})},
+		"localization": *[_type == "settingsLocalization"][0].globalLabel {
+			"parisLabel": ${getTranslationByLanguage('parisLabel')},
+			"readyToBookLabel": ${getTranslationByLanguage('readyToBookLabel')},
+		},
   }
 `;
 
@@ -826,9 +861,10 @@ export const pageParisQuery = groq`
 		eyebrow,
 		titleHeader,
 		ctaLabel,
-    "locationCategories": locationCategories[]->{
-      ${categoryMetaFields}
-    },
+		${translatedReferenceArray({
+			sourceField: 'locationCategories',
+			projection: `${categoryMetaFields}`,
+		})},
     "locationList": *[_type == "gLocations" && language == "en"] | order(_updatedAt desc)[0...30] {
       ${getLocationsData('card')}
     },
@@ -836,9 +872,10 @@ export const pageParisQuery = groq`
     itinerariesExcerpt[]{
       ${portableTextContentFields}
     },
-    "itinerariesItems": itinerariesItems[]->{
-      ${getItineraryData('card')}
-    },
+		${translatedReferenceArray({
+			sourceField: 'itinerariesItems',
+			projection: ` ${getItineraryData('card')}`,
+		})},
     contentList[]{
       title,
 			titleUrl,
@@ -904,7 +941,10 @@ export const pageParisQuery = groq`
           "slug": slug.current
         }
       }
-    }
+    },
+		"localization": *[_type == "settingsLocalization"][0].globalGuide {
+			"guideComingSoon": ${getTranslationByLanguage('guideComingSoon')},
+		},
   }
 `;
 
@@ -1162,7 +1202,7 @@ export const pageCasesSingleQuery = groq`
   }`;
 
 export const pageItinerariesSingleQuery = groq`
-  *[_type == "gItineraries" && slug.current == $slug && language == "en"][0]{
+  ${getDocumentWithFallback({ docType: 'gItineraries', withSlug: true })}{
     ${getItineraryData()},
     ${planFormData}
   }`;

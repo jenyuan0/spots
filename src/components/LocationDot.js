@@ -4,7 +4,11 @@ import useMagnify from '@/hooks/useMagnify';
 import useKey from '@/hooks/useKey';
 import { getRandomInt } from '@/lib/helpers';
 
-export default function LocationDot({ data, initialLightOrDark }) {
+export default function LocationDot({
+	data,
+	initialLightOrDark,
+	currentLanguageCode,
+}) {
 	const { slug, title, color } = data;
 	const [lightOrDark, setLightOrDark] = useState(initialLightOrDark);
 	const setMag = useMagnify((state) => state.setMag);
@@ -20,7 +24,7 @@ export default function LocationDot({ data, initialLightOrDark }) {
 		<Link
 			className="c-location-dot"
 			style={{ '--cr-primary': `var(--cr-${color}-${lightOrDark})` }}
-			href={`/paris/locations/${slug}`}
+			href={`${currentLanguageCode}/paris/locations/${slug}`}
 			title={`View ${title}`}
 			aria-label={`Link to ${title}`}
 			{...(!hasPressedKeys && {

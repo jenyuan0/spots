@@ -632,3 +632,10 @@ export function formatLanguageCode(lang) {
 		return 'en';
 	}
 }
+
+export function getLocalizationPlural(lang, items, word) {
+	const count = Array.isArray(items) ? items.length : items;
+	const isEnglish = lang === 'en';
+	const pluralSuffix = isEnglish && count > 1 ? 's' : '';
+	return `${count} ${word}${pluralSuffix}`;
+}

@@ -3,13 +3,13 @@ import clsx from 'clsx';
 import { hasArrayValue } from '@/lib/helpers';
 
 const Select = React.forwardRef(
-	({ options, className, placeholder, ...props }, ref) => {
+	({ options, className, placeholder, selectOption, ...props }, ref) => {
 		if (!hasArrayValue(options)) return null;
 
 		return (
 			<select className={clsx(className)} ref={ref} {...props}>
 				<option disabled={true} {...(!props.value ? { value: '' } : {})}>
-					{placeholder || 'Select option'}
+					{placeholder || selectOption || 'Select option'}
 				</option>
 				{options.map((item, index) => {
 					const { value, title, isDefault } = item || {};

@@ -4,17 +4,25 @@ import Breadcrumb from '@/components/Breadcrumb';
 import CustomPortableText from '@/components/CustomPortableText';
 import ItineraryCard from '@/components/ItineraryCard';
 import ResponsiveGrid from '@/components/ResponsiveGrid';
+import { useCurrentLang } from '@/hooks/useCurrentLang';
 
 export default function PageReadyToBook({ data }) {
-	const { title, paragraph, itineraries } = data || {};
+	const { title, paragraph, itineraries, localization } = data || {};
+	const { parisLabel, readyToBookLabel } = localization || {};
+	const [currentLanguageCode] = useCurrentLang();
+	const breadcrumbTitle = parisLabel ? parisLabel : 'Paris';
+	const breadcrumbTitleSec = readyToBookLabel
+		? readyToBookLabel
+		: 'Ready-to-Book Trips';
+
 	const breadcrumb = [
 		{
-			title: 'Paris',
-			url: '/paris',
+			title: breadcrumbTitle,
+			url: `/${currentLanguageCode}/paris`,
 		},
 		{
-			title: 'Ready-to-Book Trips',
-			url: '/paris/ready-to-book-trips',
+			title: breadcrumbTitleSec,
+			url: `/${currentLanguageCode}/paris/ready-to-book-trips`,
 		},
 	];
 	// TODO
