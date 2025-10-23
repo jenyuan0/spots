@@ -32,6 +32,7 @@ export const locationsFilterByCategory = (S) => {
 		.child(
 			S.documentTypeList('gCategories')
 				.title('Locations by Category')
+				.filter('_type == "gCategories" && language == "en"')
 				.child((categoryId) => {
 					return S.documentList()
 						.title('Locations')
@@ -50,6 +51,7 @@ export const locationsFilterBySubcategory = (S) => {
 		.child(
 			S.documentTypeList('gSubcategories')
 				.title('Locations by Subcategory')
+				.filter('_type == "gSubcategories" && language == "en"')
 				.child((categoryId) => {
 					return S.documentList()
 						.title('Locations')

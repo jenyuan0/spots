@@ -35,6 +35,9 @@ export default defineType({
 				{
 					type: 'reference',
 					to: [{ type: 'gCategories' }],
+					options: {
+						filter: '_type == "gCategories" && language == "en"',
+					},
 				},
 			],
 		},
@@ -54,6 +57,9 @@ export default defineType({
 					name: 'itinerary',
 					type: 'reference',
 					to: [{ type: 'gItineraries' }],
+					options: {
+						filter: '_type == "gItineraries" && language == "en"',
+					},
 				},
 			],
 		},
@@ -88,6 +94,9 @@ export default defineType({
 							type: 'reference',
 							name: 'guide',
 							to: [{ type: 'gGuides' }],
+							options: {
+								filter: '_type == "gGuides" && language == "en"',
+							},
 						},
 						{
 							name: 'months',
@@ -105,6 +114,9 @@ export default defineType({
 											type: 'reference',
 											name: 'guide',
 											to: [{ type: 'gGuides' }],
+											options: {
+												filter: '_type == "gGuides" && language == "en"',
+											},
 										},
 									],
 								},

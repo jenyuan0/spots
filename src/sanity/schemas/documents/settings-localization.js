@@ -373,6 +373,11 @@ function globalLocationCard() {
 				name: 'noItemsFound',
 				type: 'internationalizedArrayString',
 			}),
+			defineField({
+				title: 'More Spots to Discover',
+				name: 'moreSpotsToDiscover',
+				type: 'internationalizedArrayString',
+			}),
 		],
 		options: {
 			collapsible: true,

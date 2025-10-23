@@ -52,7 +52,7 @@ export default defineType({
 					type: 'reference',
 					to: [{ type: 'gLocations' }],
 					options: {
-						filter: `_type == "gLocations" && references(*[_type == "gCategories" && slug.current == "hotels"]._id)`,
+						filter: `_type == "gLocations" && language == "en" && references(*[_type == "gCategories" && slug.current == "hotels"]._id)`,
 					},
 				},
 			],

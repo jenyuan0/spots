@@ -13,8 +13,12 @@ import LocationCard from '@/components/LocationCard';
 import GuideCard from '@/components/GuideCard';
 import useLightbox from '@/hooks/useLightbox';
 import Carousel from '@/components/Carousel';
+import { useCurrentLang } from '@/hooks/useCurrentLang';
 
-export default function PageLocationsSingle({ data }) {
+export default function PageLocationsSingle({ data, siteData }) {
+	const [currentLanguageCode] = useCurrentLang();
+	const { localization: siteLocalization } = siteData?.site || {};
+	const { addressLabel } = siteLocalization || {};
 	const {
 		color,
 		title,
@@ -31,21 +35,26 @@ export default function PageLocationsSingle({ data }) {
 		relatedGuides,
 		defaultRelatedLocations,
 		defaultRelatedGuides,
+		localization,
 	} = data || {};
+
+	const { moreSpotsToDiscover, locationsLabel } = localization || {};
+	const breadcrumbTitle = locationsLabel ? locationsLabel : 'Locations';
 	const addressString =
 		address &&
 		Object.values(address)
 			.filter((value) => value)
 			.join(', ');
 	const { setLightboxImages, setLightboxActive } = useLightbox();
+
 	const breadcrumb = [
 		{
-			title: 'Locations',
-			url: '/locations',
+			title: breadcrumbTitle,
+			url: `/${currentLanguageCode}/locations`,
 		},
 		{
 			title: categories[0].title,
-			url: `/locations/category/${categories[0].slug}`,
+			url: `/${currentLanguageCode}/locations/category/${categories[0].slug}`,
 		},
 	];
 
@@ -80,7 +89,7 @@ export default function PageLocationsSingle({ data }) {
 				<h1 className="p-locations-single__heading t-h-1">{title}</h1>
 				{address && (
 					<div className="p-locations-single__address wysiwyg-b-1">
-						<h3 className="t-l-1">Address</h3>
+						<h3 className="t-l-1">{addressLabel || 'Address'}</h3>
 						<p>
 							<Link
 								href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(title)}+${encodeURIComponent(addressString)}`}
@@ -133,7 +142,7 @@ export default function PageLocationsSingle({ data }) {
 				hasArrayValue(defaultRelatedLocations)) && (
 				<section className="p-locations-single__related">
 					<h2 className="p-locations-single__related__title t-h-2">
-						More Spots to Discover
+						{moreSpotsToDiscover || 'More Spots to Discover'}
 					</h2>
 					{/* TODO
 					// prioritize subcategories and other attributes such as editors pick, trending, etc.

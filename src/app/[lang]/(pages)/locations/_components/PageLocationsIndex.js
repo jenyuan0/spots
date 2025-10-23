@@ -41,13 +41,13 @@ export default function PageLocationsIndex({ data }) {
 	const breadcrumb = [
 		{
 			title: breadcrumbTitle,
-			url: '/locations',
+			url: `/${currentLanguageCode}/locations`,
 		},
 		...(parentCategory
 			? [
 					{
 						title: parentCategory.title,
-						url: `/locations/category/${categories[0].slug}`,
+						url: `/${currentLanguageCode}/locations/category/${categories[0].slug}`,
 					},
 				]
 			: []),

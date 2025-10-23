@@ -2,6 +2,7 @@ import React from 'react';
 import Link from '@/components/CustomLink';
 
 export default function Breadcrumb({ data }) {
+	console.log('🚀 ~ Breadcrumb ~ data:', data);
 	return (
 		<ul className="c-breadcrumb t-l-2">
 			{data.map((item, index) => {

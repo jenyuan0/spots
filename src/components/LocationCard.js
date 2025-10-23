@@ -72,6 +72,7 @@ export default function LocationCard({
 		res,
 		content,
 		localization,
+		localizationHighlights,
 	} = data || {};
 
 	const { readMore, detailsLabel, getDirection } = localization || {};
@@ -135,7 +136,10 @@ export default function LocationCard({
 				<div className="c-card__header">
 					{highlights && layout == 'vertical-2' && (
 						<div className="c-card__highlights t-l-2">
-							<LocationHighlights highlights={highlights} />
+							<LocationHighlights
+								highlights={highlights}
+								localizationHighlights={localizationHighlights}
+							/>
 						</div>
 					)}
 					<h3

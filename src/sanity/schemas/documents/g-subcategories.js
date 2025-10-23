@@ -16,6 +16,9 @@ export default defineType({
 			name: 'parentCategory',
 			type: 'reference',
 			to: [{ type: 'gCategories' }],
+			options: {
+				filter: '_type == "gCategories" && language == "en"',
+			},
 			validation: (Rule) => Rule.required(),
 		},
 		{

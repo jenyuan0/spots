@@ -59,7 +59,7 @@ export default async function Page({ params }) {
 					}}
 				/>
 			)}
-			<PageLocationsSingle data={page} />
+			<PageLocationsSingle data={page} siteData={site} />
 		</LiveQuery>
 	);
 }

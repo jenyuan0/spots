@@ -26,6 +26,9 @@ export default defineType({
 				{
 					type: 'reference',
 					to: [{ type: 'gLocations' }],
+					options: {
+						filter: '_type == "gLocations" && language == "en"',
+					},
 				},
 			],
 		},
@@ -49,6 +52,9 @@ export default defineType({
 					name: 'itinerary',
 					type: 'reference',
 					to: [{ type: 'gCases' }],
+					options: {
+						filter: '_type == "gCases" && language == "en"',
+					},
 				},
 			],
 		},

@@ -196,6 +196,14 @@ export const getLocationsData = (type) => {
 			"readMore": ${getTranslationByLanguage('readMore')},
 			"detailsLabel": ${getTranslationByLanguage('detailsLabel')},
 			"getDirection": ${getTranslationByLanguage('getDirection')},
+			"moreSpotsToDiscover": ${getTranslationByLanguage('moreSpotsToDiscover')},
+			"locationsLabel": ${getTranslationByLanguage('locationsLabel')},
+		},
+		"localizationHighlights": *[_type == "settingsLocalization"][0].globalHighlights {
+			"iconic": ${getTranslationByLanguage('iconic')},
+			"trending": ${getTranslationByLanguage('trending')},
+			"editorsPick": ${getTranslationByLanguage('editorsPick')},
+			"onOurRadar": ${getTranslationByLanguage('onOurRadar')},
 		},
 		`;
 	if (type === 'card') {
