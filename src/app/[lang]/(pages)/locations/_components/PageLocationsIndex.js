@@ -9,7 +9,8 @@ import CategoryPillList from '@/components/CategoryPillList';
 import CustomPortableText from '@/components/CustomPortableText';
 import { useCurrentLang } from '@/hooks/useCurrentLang';
 
-export default function PageLocationsIndex({ data }) {
+export default function PageLocationsIndex({ data, siteData }) {
+	const [currentLanguageCode] = useCurrentLang();
 	const {
 		title,
 		slug,
@@ -27,17 +28,11 @@ export default function PageLocationsIndex({ data }) {
 		localization,
 	} = data || {};
 
-	const {
-		allSpots,
-		categoriesLabel,
-		noItemsFound,
-		locationsLabel,
-		bestPlacesInParis,
-	} = localization || {};
+	const { localization: localizationGlobal } = siteData || {};
+	const { categoriesLabel, noItemsFound } = localizationGlobal || {};
+	const { allSpots, locationsLabel, bestPlacesInParis } = localization || {};
 
-	const [currentLanguageCode] = useCurrentLang();
 	const breadcrumbTitle = locationsLabel ? locationsLabel : 'Locations';
-
 	const breadcrumb = [
 		{
 			title: breadcrumbTitle,
@@ -53,7 +48,7 @@ export default function PageLocationsIndex({ data }) {
 			: []),
 	];
 	const dataAllPill = {
-		title: `${allSpots ? allSpots : 'All Spots'}`,
+		title: allSpots || 'All Spots',
 		slug: '',
 		parentCategory: null,
 	};

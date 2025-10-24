@@ -32,11 +32,8 @@ export default async function Page({ params }) {
 		params,
 		isPreviewMode,
 	});
-	const { page } = pageData || {};
-	const site = await getSiteData({
-		params,
-		isPreviewMode,
-	});
+	const { page, site } = pageData || {};
+
 	const metadata = defineMetadata({ data: { site, page } });
 
 	if (!page) return notFound();
@@ -57,7 +54,7 @@ export default async function Page({ params }) {
 					}}
 				/>
 			)}
-			<PageGuidesSingle data={page} />
+			<PageGuidesSingle data={page} siteData={site} />
 		</LiveQuery>
 	);
 }

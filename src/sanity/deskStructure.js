@@ -1,4 +1,11 @@
-import { BookIcon, PinIcon, DocumentIcon, EarthGlobeIcon } from '@sanity/icons';
+import {
+	BookIcon,
+	PinIcon,
+	DocumentIcon,
+	EarthGlobeIcon,
+	CalendarIcon,
+	HighlightIcon,
+} from '@sanity/icons';
 import { globalMenu } from './desk/global';
 import { pagesMenu, otherPagesMenu, pageTravelDesign } from './desk/pages';
 import {
@@ -26,6 +33,7 @@ import {
 import { menusMenu } from './desk/menus';
 import { colorsMenu } from './desk/colors';
 import { settingsMenu, settingsLocalization } from './desk/settings';
+import { createBulkActionsTable } from 'sanity-plugin-bulk-actions-table';
 
 export const pageParis = (S) => {
 	return S.listItem()
@@ -92,7 +100,7 @@ export const pageHotelBooking = (S) => {
 		.icon(DocumentIcon);
 };
 
-const deskStructure = (S) =>
+const deskStructure = (S, context) =>
 	S.list()
 		.title('Spots.Paris')
 		.items([
@@ -128,6 +136,35 @@ const deskStructure = (S) =>
 			globalCategories(S),
 			globalSubcategories(S),
 			// globalAuthors(S),
+			S.divider(),
+			createBulkActionsTable({
+				type: 'gGuides',
+				S,
+				context,
+				title: 'Guides Bulk Edit',
+				icon: BookIcon,
+			}),
+			createBulkActionsTable({
+				type: 'gLocations',
+				S,
+				context,
+				title: 'Locations Bulk Edit',
+				icon: PinIcon,
+			}),
+			createBulkActionsTable({
+				type: 'gItineraries',
+				S,
+				context,
+				title: 'Itinerary Bulk Edit',
+				icon: HighlightIcon,
+			}),
+			createBulkActionsTable({
+				type: 'gItinerariesDay',
+				S,
+				context,
+				title: 'Itinerary Day Bulk Edit',
+				icon: CalendarIcon,
+			}),
 			S.divider(),
 			menusMenu(S),
 			colorsMenu(S),

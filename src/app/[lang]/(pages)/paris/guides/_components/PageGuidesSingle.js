@@ -21,15 +21,17 @@ import ResponsiveGrid from '@/components/ResponsiveGrid';
 import { motion, useScroll, useSpring, useTransform } from 'motion/react';
 import { useInView } from 'react-intersection-observer';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
+import { useCurrentLang } from '@/hooks/useCurrentLang';
 
 function Excerpt({ data }) {
-	const { excerpt } = data;
+	const { excerpt, localization } = data;
+	const { introLabel } = localization || {};
 
 	return (
 		excerpt && (
 			<div className="p-guide__content">
 				<div className="p-guide__content__sidebar">
-					<div className="t-l-1">Intro</div>
+					<div className="t-l-1">{introLabel || 'Intro'}</div>
 				</div>
 				<div className="p-guide__content__content">
 					<p
@@ -78,7 +80,8 @@ function Itineraries({ data, isInView }) {
 }
 
 function Related({ data }) {
-	const { related, defaultRelated, colorHex } = data;
+	const { related, defaultRelated, colorHex, localization } = data;
+	const { continueReading } = localization || {};
 	const allItems = [...(related || []), ...(defaultRelated || [])];
 	return (
 		allItems.length > 0 && (
@@ -88,7 +91,7 @@ function Related({ data }) {
 			>
 				<div className="p-guide__content">
 					<div className="p-guide__content__sidebar">
-						<h2 className="t-l-1">Continue Reading</h2>
+						<h2 className="t-l-1">{continueReading || 'Continue Reading'}</h2>
 					</div>
 					<div className="p-guide__content__content wysiwyg-page">
 						<ResponsiveGrid className="p-guide__related__list">
@@ -113,7 +116,8 @@ function Related({ data }) {
 	);
 }
 
-const PageGuidesSingle = ({ data = {} }) => {
+const PageGuidesSingle = ({ data = {}, siteData }) => {
+	const [currentLanguageCode] = useCurrentLang();
 	const {
 		title,
 		thumb,
@@ -123,15 +127,26 @@ const PageGuidesSingle = ({ data = {} }) => {
 		subcategories,
 		showMap,
 		content,
+		localization,
 	} = data;
+	const { publishedBy } = localization || {};
+	const { localization: localizationGlobal } = siteData || {};
+	const { parisLabel, guidesLabel } = localizationGlobal || {};
+
 	const breadcrumb = [
-		{ title: 'Paris', url: '/paris' },
-		{ title: 'Guides', url: '/paris/guides' },
+		{
+			title: parisLabel || 'Paris',
+			url: `/${currentLanguageCode}/paris`,
+		},
+		{
+			title: guidesLabel || 'Guides',
+			url: `/${currentLanguageCode}/paris/guides`,
+		},
 		...(categories[0]
 			? [
 					{
 						title: categories[0].title,
-						url: `/paris/locations/category/${categories[0].slug}`,
+						url: `/${currentLanguageCode}/paris/locations/category/${categories[0].slug}`,
 					},
 				]
 			: []),
@@ -222,7 +237,9 @@ const PageGuidesSingle = ({ data = {} }) => {
 				<Excerpt data={data} />
 				<div className="p-guide__content">
 					<div className="p-guide__content__sidebar">
-						<div className="t-l-1">Published by SPOTS Staff</div>
+						<div className="t-l-1">
+							{publishedBy || 'Published by SPOTS Staff'}
+						</div>
 						<div className="t-l-1">{format(publishDate, 'MMMM do, yyyy')}</div>
 					</div>
 					<div className="p-guide__content__content wysiwyg-page">

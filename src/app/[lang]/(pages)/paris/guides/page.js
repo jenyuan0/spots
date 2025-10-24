@@ -20,7 +20,7 @@ export default async function Page({ params }) {
 		isPreviewMode,
 		isArticleDataSSG: true,
 	});
-	const { page } = pageData || {};
+	const { page, site } = pageData || {};
 
 	if (!page) return notFound();
 
@@ -31,7 +31,7 @@ export default async function Page({ params }) {
 			initialData={page}
 			as={PreviewPageGuidesIndex}
 		>
-			<PageGuidesIndex data={page} />
+			<PageGuidesIndex data={page} siteData={site} />
 		</LiveQuery>
 	);
 }

@@ -209,8 +209,11 @@ export default function Header({ data, isActive }) {
 
 		setIsMobileMenuOpen(false);
 
+		// Ignore the first segment (language)
+		const [, ...pathWithoutLang] = pathnameArray;
+
 		const isNonCategoryPage =
-			pathnameArray[2] !== 'category' &&
+			pathWithoutLang[2] !== 'category' && // second segment after language
 			(pathname.includes('/paris/itinerary/') ||
 				pathname.includes('/paris/guides/'));
 

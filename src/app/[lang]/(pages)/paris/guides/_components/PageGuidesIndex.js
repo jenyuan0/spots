@@ -7,8 +7,10 @@ import Breadcrumb from '@/components/Breadcrumb';
 import CategoryPill from '@/components/CategoryPill';
 import CategoryPillList from '@/components/CategoryPillList';
 import CustomPortableText from '@/components/CustomPortableText';
+import { useCurrentLang } from '@/hooks/useCurrentLang';
 
-export default function PageGuidesIndex({ data }) {
+export default function PageGuidesIndex({ data, siteData }) {
+	const [currentLanguageCode] = useCurrentLang();
 	const {
 		slug,
 		heading,
@@ -22,27 +24,33 @@ export default function PageGuidesIndex({ data }) {
 		categoryTitle,
 		articleList,
 		paginationMethod,
+		localization,
 	} = data || {};
+	const { allGuides, parisTravelGuides } = localization || {};
+	const { localization: localizationGlobal } = siteData || {};
+	const { categoriesLabel, parisLabel, guidesLabel, noItemsFound } =
+		localizationGlobal || {};
+
 	const breadcrumb = [
 		{
-			title: 'Paris',
-			url: '/paris',
+			title: parisLabel || 'Paris',
+			url: `/${currentLanguageCode}/paris`,
 		},
 		{
-			title: 'Guides',
-			url: '/paris/guides',
+			title: guidesLabel || 'Guides',
+			url: `/${currentLanguageCode}/paris/guides`,
 		},
 		...(parentCategory
 			? [
 					{
 						title: parentCategory.title,
-						url: `/paris/locations/category/${categories[0].slug}`,
+						url: `/${currentLanguageCode}/paris/locations/category/${categories[0].slug}`,
 					},
 				]
 			: []),
 	];
 	const dataAllPill = {
-		title: 'All Guides',
+		title: allGuides || 'All Guides',
 		slug: '',
 		parentCategory: null,
 	};
@@ -50,9 +58,18 @@ export default function PageGuidesIndex({ data }) {
 	const introHeading = isCategoryPage
 		? guidesHeading || (
 				<>
-					Paris Travel Guides
-					<br />
-					for {categoryTitle}
+					{currentLanguageCode === 'en' ? (
+						<>
+							{parisTravelGuides || 'Paris Travel Guides'}
+							<br />
+							for {categoryTitle}
+						</>
+					) : (
+						<>
+							{parisTravelGuides || 'Paris Travel Guides'}
+							{categoryTitle}
+						</>
+					)}
 				</>
 			)
 		: heading;
@@ -88,7 +105,7 @@ export default function PageGuidesIndex({ data }) {
 								isLink={true}
 							>
 								<li className="c-category-pill-list__title t-l-2">
-									Categories:
+									{categoriesLabel || 'Categories'}:
 								</li>
 								<li>
 									<CategoryPill
@@ -121,7 +138,7 @@ export default function PageGuidesIndex({ data }) {
 					)
 				) : (
 					<div className="p-guides__empty">
-						<p className="t-l-2">No items found</p>
+						<p className="t-l-2">{noItemsFound || 'No items found'}</p>
 					</div>
 				)}
 			</section>

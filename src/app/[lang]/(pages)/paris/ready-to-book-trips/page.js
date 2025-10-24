@@ -17,7 +17,7 @@ export default async function Page({ params }) {
 	const isPreviewMode = draftMode().isEnabled;
 	const pageData = await getTripReadyPage({ params, isPreviewMode });
 
-	const { page } = pageData || {};
+	const { page, site } = pageData || {};
 
 	if (!page) return notFound();
 
@@ -28,7 +28,7 @@ export default async function Page({ params }) {
 			initialData={page}
 			as={PreviewPageReadyTrip}
 		>
-			<PageTripReady data={page} />
+			<PageTripReady data={page} siteData={site} />
 		</LiveQuery>
 	);
 }

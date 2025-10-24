@@ -115,8 +115,23 @@ function globalLabelLocalization() {
 				type: 'internationalizedArrayString',
 			}),
 			defineField({
+				title: 'Guides Label',
+				name: 'guidesLabel',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
 				title: 'Ready-to-Book Trips',
 				name: 'readyToBookLabel',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Categories Label',
+				name: 'categoriesLabel',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'No Items Found',
+				name: 'noItemsFound',
 				type: 'internationalizedArrayString',
 			}),
 		],
@@ -382,16 +397,6 @@ function globalLocationCard() {
 				type: 'internationalizedArrayString',
 			}),
 			defineField({
-				title: 'Categories Label',
-				name: 'categoriesLabel',
-				type: 'internationalizedArrayString',
-			}),
-			defineField({
-				title: 'No Items Found',
-				name: 'noItemsFound',
-				type: 'internationalizedArrayString',
-			}),
-			defineField({
 				title: 'More Spots to Discover',
 				name: 'moreSpotsToDiscover',
 				type: 'internationalizedArrayString',
@@ -506,6 +511,31 @@ function globalGuide() {
 			defineField({
 				title: 'Guide Coming Soon',
 				name: 'guideComingSoon',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'All Guides',
+				name: 'allGuides',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Paris Travel Guides',
+				name: 'parisTravelGuides',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Continue Reading',
+				name: 'continueReading',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Intro Label',
+				name: 'introLabel',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'Published by SPOTS Staff',
+				name: 'publishedBy',
 				type: 'internationalizedArrayString',
 			}),
 		],

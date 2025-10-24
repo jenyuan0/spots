@@ -17,6 +17,7 @@ import Pagination from '@/components/Pagination';
 import { useSearchParams } from 'next/navigation';
 import { client } from '@/sanity/lib/client';
 import { getGuidesData } from '@/sanity/lib/queries';
+import { useCurrentLang } from '@/hooks/useCurrentLang';
 
 const getGuidesQueryGROQ = ({ pageNumber, pageSize }) => {
 	let queryGroq = `_type == "gGuides"`;
@@ -99,6 +100,7 @@ const ListWithSSG = ({ data, currentPageNumber }) => {
 };
 
 export default function GuidesPagination({ data }) {
+	const [currentLanguageCode] = useCurrentLang();
 	const searchParams = useSearchParams();
 	const { slug, isCategoryPage, itemsPerPage = 12 } = data;
 	const items = data?.articleList || [];
@@ -117,7 +119,7 @@ export default function GuidesPagination({ data }) {
 				<Pagination
 					currentPageNumber={currentPageNumber}
 					totalPage={totalPages}
-					url={`/paris/guides${isCategoryPage ? `/category/${slug}` : ''}`}
+					url={`/${currentLanguageCode}/paris/guides${isCategoryPage ? `/category/${slug}` : ''}`}
 				/>
 			)}
 		</>

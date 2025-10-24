@@ -6,22 +6,19 @@ import ItineraryCard from '@/components/ItineraryCard';
 import ResponsiveGrid from '@/components/ResponsiveGrid';
 import { useCurrentLang } from '@/hooks/useCurrentLang';
 
-export default function PageReadyToBook({ data }) {
-	const { title, paragraph, itineraries, localization } = data || {};
-	const { parisLabel, readyToBookLabel } = localization || {};
+export default function PageReadyToBook({ data, siteData }) {
 	const [currentLanguageCode] = useCurrentLang();
-	const breadcrumbTitle = parisLabel ? parisLabel : 'Paris';
-	const breadcrumbTitleSec = readyToBookLabel
-		? readyToBookLabel
-		: 'Ready-to-Book Trips';
+	const { title, paragraph, itineraries } = data || {};
+	const { localization } = siteData || {};
+	const { parisLabel, readyToBookLabel } = localization || {};
 
 	const breadcrumb = [
 		{
-			title: breadcrumbTitle,
+			title: parisLabel || 'Paris',
 			url: `/${currentLanguageCode}/paris`,
 		},
 		{
-			title: breadcrumbTitleSec,
+			title: readyToBookLabel || 'Ready-to-Book Trips',
 			url: `/${currentLanguageCode}/paris/ready-to-book-trips`,
 		},
 	];
