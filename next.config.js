@@ -1,4 +1,5 @@
 const { createClient } = require('@sanity/client');
+const { i18n } = require('./languages');
 
 const sanityOptions = {
 	projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -25,20 +26,27 @@ const nextConfig = {
 
 		const redirects = await client.fetch(
 			`*[_type == "settingsRedirect"]{
-					"source": url.current,
-					"destination": destination,
-					"permanent": permanent
+				"source": url.current,
+				"destination": destination,
+				"permanent": permanent
         }`
 		);
 
 		if (redirects && Array.isArray(redirects)) {
-			dynamicRedirects = redirects.map((redirect) => ({
-				source: redirect?.source,
-				destination: redirect?.destination,
-				permanent: redirect.permanent,
-				...(isExternalURL(redirect?.destination) && { basePath: false }),
-			}));
+			dynamicRedirects = redirects.flatMap((redirect) =>
+				i18n.languages.map((language) => ({
+					source: `/${language.id}${redirect?.source}`,
+					destination: `/${language.id}${redirect?.destination}`,
+					permanent: redirect.permanent,
+					...(isExternalURL(redirect?.destination) && { basePath: false }),
+				}))
+			);
 		}
+
+		console.log(
+			'dynamicRedirectsdynamicRedirectsdynamicRedirects',
+			dynamicRedirects
+		);
 
 		return dynamicRedirects;
 	},

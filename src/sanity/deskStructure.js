@@ -145,10 +145,17 @@ const deskStructure = (S, context) =>
 				icon: BookIcon,
 			}),
 			createBulkActionsTable({
-				type: 'gLocations',
+				type: 'gCategories',
 				S,
 				context,
-				title: 'Locations Bulk Edit',
+				title: 'Category Bulk Edit',
+				icon: PinIcon,
+			}),
+			createBulkActionsTable({
+				type: 'gSubcategories',
+				S,
+				context,
+				title: 'Subcategory Bulk Edit',
 				icon: PinIcon,
 			}),
 			createBulkActionsTable({
