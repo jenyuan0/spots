@@ -17,8 +17,8 @@ import { useCurrentLang } from '@/hooks/useCurrentLang';
 
 export default function PageLocationsSingle({ data, siteData }) {
 	const [currentLanguageCode] = useCurrentLang();
-	const { localization: siteLocalization } = siteData?.site || {};
-	const { addressLabel } = siteLocalization || {};
+	const { localization: siteLocalization } = siteData || {};
+	const { addressLabel, websiteLabel } = siteLocalization || {};
 	const {
 		color,
 		title,
@@ -102,7 +102,7 @@ export default function PageLocationsSingle({ data, siteData }) {
 				)}
 				{hasArrayValue(urls) && (
 					<div className="p-locations-single__urls wysiwyg-b-1">
-						<h3 className="t-l-1">Website</h3>
+						<h3 className="t-l-1">{websiteLabel || 'Website'}</h3>
 						<ul>
 							{urls.map((url, i) => (
 								<li key={`url-${i}`}>

@@ -99,8 +99,6 @@ export async function getPageTravelDesign({ params, isPreviewMode }) {
 }
 
 export async function get404PageData({ params }) {
-	console.log('🚀🚀🚀🚀 ~ get404PageData ~ params:', params);
-
 	const modifiedParam = {
 		...params,
 		language: params.lang?.replace('-', '_') || params.lang,

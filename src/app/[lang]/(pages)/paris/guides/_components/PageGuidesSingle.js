@@ -7,8 +7,8 @@ import {
 	springConfig,
 	scrollEnable,
 	scrollDisable,
+	formatDate,
 } from '@/lib/helpers';
-import { format } from 'date-fns';
 import Img from '@/components/Image';
 import Button from '@/components/Button';
 import CustomPortableText from '@/components/CustomPortableText';
@@ -240,7 +240,12 @@ const PageGuidesSingle = ({ data = {}, siteData }) => {
 						<div className="t-l-1">
 							{publishedBy || 'Published by SPOTS Staff'}
 						</div>
-						<div className="t-l-1">{format(publishDate, 'MMMM do, yyyy')}</div>
+						<div className="t-l-1">
+							{formatDate({
+								date: publishDate,
+								languageCode: currentLanguageCode,
+							})}
+						</div>
 					</div>
 					<div className="p-guide__content__content wysiwyg-page">
 						<CustomPortableText blocks={content} />

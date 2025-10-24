@@ -20,6 +20,7 @@ export default function MagnifyLocation({
 	localization,
 	localizationHighlights,
 }) {
+	console.log('🚀 ~ MagnifyLocation ~ localization:', localization);
 	const [currentLanguageCode] = useCurrentLang();
 	const [locationContent, setLocationContent] = useState(null);
 	const [color, setColor] = useState(null);

@@ -1,6 +1,7 @@
 import sanitizeHtml from 'sanitize-html';
 import { imageBuilder } from '@/sanity/lib/image';
 import { format, add, isSameMonth } from 'date-fns';
+import { enUS, zhTW, zhCN } from 'date-fns/locale';
 
 // ***UTILITIES / GET***
 
@@ -643,4 +644,20 @@ export function getLocalizationPlural(lang, items, word) {
 	const isEnglish = lang === 'en';
 	const pluralSuffix = isEnglish && count > 1 ? 's' : '';
 	return `${count} ${word}${pluralSuffix}`;
+}
+
+const localeMap = {
+	en: enUS,
+	zh_TW: zhTW,
+	zh_CN: zhCN,
+};
+
+export function formatDate({
+	date,
+	formatStr = 'MMMM do, yyyy',
+	languageCode = 'en',
+} = {}) {
+	return format(date, formatStr, {
+		locale: localeMap[languageCode] || localeMap['en'],
+	});
 }
