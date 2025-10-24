@@ -9,13 +9,13 @@ import SectionCase from './SectionCase';
 import SectionFaq from './SectionFaq';
 import SectionContact from './SectionContact';
 
-export default function PageTravelDesign({ data }) {
+export default function PageTravelDesign({ data, siteData }) {
 	return (
 		<>
 			<SectionHero data={data} />
 			<SectionIntro data={data} />
 			<SectionSpots data={data} />
-			<SectionCase data={data} />
+			<SectionCase data={data} siteData={siteData} />
 			<SectionWhy data={data} />
 			<SectionFaq data={data} />
 			<SectionContact data={data} />

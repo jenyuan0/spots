@@ -6,12 +6,17 @@ import { pagesBySlugQuery } from '@/sanity/lib/queries';
 import { notFound } from 'next/navigation';
 import PageGeneral from '../../(pages)/_components/PageGeneral';
 import PreviewPageGeneral from '../../(pages)/_components/PreviewPageGeneral';
+import { i18n } from '../../../../../languages';
 
 export async function generateStaticParams() {
 	const slugs = await getPagesPaths({ pageType: 'pGeneral' });
-	const params = slugs.map((slug) => ({ slug }));
 
-	return params;
+	return i18n.languages.flatMap((language) =>
+		slugs.map((slug) => ({
+			lang: language.id,
+			slug,
+		}))
+	);
 }
 
 const getPageData = async ({ params }) => {

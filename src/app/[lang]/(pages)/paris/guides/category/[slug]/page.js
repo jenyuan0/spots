@@ -6,12 +6,17 @@ import { LiveQuery } from 'next-sanity/preview/live-query';
 import defineMetadata from '@/lib/defineMetadata';
 import { pageGuidesCategoryQuery } from '@/sanity/lib/queries';
 import { getGuidesCategoryPage, getPagesPaths } from '@/sanity/lib/fetch';
+import { i18n } from '../../../../../../../../languages';
 
 export async function generateStaticParams() {
 	const slugs = await getPagesPaths({ pageType: 'gCategories' });
-	const params = slugs.map((slug) => ({ slug }));
 
-	return params;
+	return i18n.languages.flatMap((language) =>
+		slugs.map((slug) => ({
+			lang: language.id,
+			slug,
+		}))
+	);
 }
 
 export async function generateMetadata({ params }) {

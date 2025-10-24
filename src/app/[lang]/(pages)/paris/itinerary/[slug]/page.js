@@ -5,16 +5,18 @@ import { notFound } from 'next/navigation';
 import { LiveQuery } from 'next-sanity/preview/live-query';
 import defineMetadata from '@/lib/defineMetadata';
 import { pageItinerariesSingleQuery } from '@/sanity/lib/queries';
-import {
-	getItinerariesSinglePage,
-	getPagesPaths,
-	getSiteData,
-} from '@/sanity/lib/fetch';
+import { getItinerariesSinglePage, getPagesPaths } from '@/sanity/lib/fetch';
+import { i18n } from '../../../../../../../languages';
 
 export async function generateStaticParams() {
 	const slugs = await getPagesPaths({ pageType: 'gItineraries' });
-	const params = slugs.map((slug) => ({ slug }));
-	return params;
+
+	return i18n.languages.flatMap((language) =>
+		slugs.map((slug) => ({
+			lang: language.id,
+			slug,
+		}))
+	);
 }
 
 export async function generateMetadata({ params }) {
@@ -38,11 +40,7 @@ export default async function Page({ params }) {
 		language: params.lang?.replace('-', '_'),
 	};
 
-	const { page } = pageData || {};
-	const site = await getSiteData({
-		params,
-		isPreviewMode,
-	});
+	const { page, site } = pageData || {};
 	const metadata = defineMetadata({ data: { site, page } });
 
 	if (!page) return notFound();

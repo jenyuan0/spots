@@ -11,8 +11,9 @@ import useWindowDimensions from '@/hooks/useWindowDimensions';
 import useMagnify from '@/hooks/useMagnify';
 import useKey from '@/hooks/useKey';
 
-export default function SectionCase({ data }) {
-	const { caseHeading, caseItems, localization } = data || {};
+export default function SectionCase({ data, siteData }) {
+	const { caseHeading, caseItems } = data || {};
+	const { localization } = siteData || {};
 	const { exploreCaseStudy } = localization || {};
 	const { isTouchDevice, width, height } = useWindowDimensions();
 	const [isMounted, setIsMounted] = useState(false);

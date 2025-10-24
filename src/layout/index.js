@@ -17,7 +17,7 @@ import ProgressLoader from './ProgressLoader';
 import useAsideMap from '@/hooks/useAsideMap';
 
 export default function Layout({ children, siteData }) {
-	const { announcement, header, footer } = siteData || {};
+	const { announcement, header, footer, localization } = siteData || {};
 	const pathname = usePathname();
 	const [isHeaderActive, setIsHeaderActive] = useState(false);
 	const [isFooterActive, setIsFooterActive] = useState(false);
@@ -100,7 +100,7 @@ export default function Layout({ children, siteData }) {
 			<ProgressLoader />
 			<AdaSkip />
 			<Announcement data={announcement} />
-			<Header data={header} isActive={isHeaderActive} />
+			<Header isActive={isHeaderActive} localization={localization} />
 			<Main>{children}</Main>
 			{/* <AsideMap /> */}
 			<Magnify siteData={siteData} />

@@ -32,8 +32,8 @@ function SpotsColumns({ data, index, scrollYProgress }) {
 	);
 }
 
-export default function SectionHero({ data }) {
-	const { heroHeading, heroSubheading, heroSpots, localization } = data;
+export default function SectionHero({ data, localization }) {
+	const { heroHeading, heroSubheading, heroSpots } = data;
 	const { travelDesign, searchHotel, scrollToExplore } = localization || {};
 	const { setPlannerActive } = usePlanner();
 	const ref = useRef(null);

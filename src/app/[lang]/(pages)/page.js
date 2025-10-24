@@ -15,7 +15,7 @@ export async function generateMetadata({ params }) {
 export default async function Page({ params }) {
 	const isPreviewMode = draftMode().isEnabled;
 	const pageData = await getPageHotelBooking({ params, isPreviewMode });
-	const { page } = pageData || {};
+	const { page, site } = pageData || {};
 
 	if (page) {
 		return (
@@ -25,7 +25,7 @@ export default async function Page({ params }) {
 				initialData={page}
 				as={PreviewPageHotelBooking}
 			>
-				<PageHotelBooking data={page} />
+				<PageHotelBooking data={page} siteData={site} />
 			</LiveQuery>
 		);
 	}

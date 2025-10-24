@@ -393,6 +393,7 @@ export const getItineraryData = (type) => {
 				"spotLabel": ${getTranslationByLanguage('spot')},
 				"tripItinerary": ${getTranslationByLanguage('tripItinerary')},
 				"planYourTripToday": ${getTranslationByLanguage('planYourTripToday')},
+				"person": ${getTranslationByLanguage('person')},
 			},
 			"localizationGlobal": *[_type == "settingsLocalization"][0].globalLabel {
 				"tripHighlights": ${getTranslationByLanguage('tripHighlights')},
@@ -464,13 +465,6 @@ export const getCaseData = (type) => {
 				sourceField: 'accomodations',
 				projection: `${getLocationsData('card')}`,
 			})},
-			"localization": *[_type == "settingsLocalization"][0].globalLabel {
-				"tripHighlights": ${getTranslationByLanguage('tripHighlights')},
-				"ourRole": ${getTranslationByLanguage('ourRole')},
-				"suggestedAccomodations": ${getTranslationByLanguage('suggestedAccomodations')},
-				"planYourTrip": ${getTranslationByLanguage('planYourTrip')},
-				"option": ${getTranslationByLanguage('option')},
-			},
 		`;
 	}
 	return defaultData;
@@ -633,12 +627,6 @@ export const site = groq`
       menu[]{
         ${menuFields}
       },
-			"localization": *[_type == "settingsLocalization"][0].globalLabel {
-				"travelDesign": ${getTranslationByLanguage('travelDesign')},
-				"hotelBooking": ${getTranslationByLanguage('hotelBooking')},
-				"searchHotel": ${getTranslationByLanguage('searchHotel')},
-				"planYourTrip": ${getTranslationByLanguage('planYourTrip')},
-			},
     },
     "footer": *[_type == "gFooter"][0]{
       menu->{
@@ -676,6 +664,11 @@ export const site = groq`
 			"parisLabel": ${getTranslationByLanguage('parisLabel')},
 			"guidesLabel": ${getTranslationByLanguage('guidesLabel')},
 			"readyToBookLabel": ${getTranslationByLanguage('readyToBookLabel')},
+			"exploreCaseStudy": ${getTranslationByLanguage('exploreCaseStudy')},
+			"hotelBooking": ${getTranslationByLanguage('hotelBooking')},
+			"travelDesign": ${getTranslationByLanguage('travelDesign')},
+			"searchHotel": ${getTranslationByLanguage('searchHotel')},
+			"scrollToExplore": ${getTranslationByLanguage('scrollToExplore')},
 		},
 		"localizationHighlights": *[_type == "settingsLocalization"][0].globalHighlights {
 			"iconic": ${getTranslationByLanguage('iconic')},
@@ -795,11 +788,6 @@ export const pageHotelBookingQuery = groq`
         ${portableTextContentFields}
       }
     },
-		"localization": *[_type == "settingsLocalization"][0].globalLabel {
-			"travelDesign": ${getTranslationByLanguage('travelDesign')},
-			"searchHotel": ${getTranslationByLanguage('searchHotel')},
-			"scrollToExplore": ${getTranslationByLanguage('scrollToExplore')},
-		},
   }
 `;
 
@@ -852,9 +840,6 @@ export const pageTravelDesignQuery = groq`
         ${portableTextContentFields}
       }
     },
-		"localization": *[_type == "settingsLocalization"][0].globalLabel {
-			"exploreCaseStudy": ${getTranslationByLanguage('exploreCaseStudy')},
-		},
   }
 `;
 

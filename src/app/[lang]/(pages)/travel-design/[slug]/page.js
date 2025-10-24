@@ -5,16 +5,18 @@ import { notFound } from 'next/navigation';
 import { LiveQuery } from 'next-sanity/preview/live-query';
 import defineMetadata from '@/lib/defineMetadata';
 import { pageCasesSingleQuery } from '@/sanity/lib/queries';
-import {
-	getCasesSinglePage,
-	getPagesPaths,
-	getSiteData,
-} from '@/sanity/lib/fetch';
+import { getCasesSinglePage, getPagesPaths } from '@/sanity/lib/fetch';
+import { i18n } from '../../../../../../languages';
 
 export async function generateStaticParams() {
 	const slugs = await getPagesPaths({ pageType: 'gCases' });
-	const params = slugs.map((slug) => ({ slug }));
-	return params;
+
+	return i18n.languages.flatMap((language) =>
+		slugs.map((slug) => ({
+			lang: language.id,
+			slug,
+		}))
+	);
 }
 
 export async function generateMetadata({ params }) {
@@ -34,11 +36,7 @@ export default async function Page({ params }) {
 		isPreviewMode,
 	});
 
-	const { page } = pageData || {};
-	const site = await getSiteData({
-		params,
-		isPreviewMode,
-	});
+	const { page, site } = pageData || {};
 	const metadata = defineMetadata({ data: { site, page } });
 
 	if (!page) return notFound();
@@ -59,7 +57,7 @@ export default async function Page({ params }) {
 					}}
 				/>
 			)}
-			<PageCasesSingle data={page} />
+			<PageCasesSingle data={page} siteData={site} />
 		</LiveQuery>
 	);
 }

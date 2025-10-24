@@ -128,8 +128,7 @@ const DesignDots = () => {
 	);
 };
 
-export default function Header({ data, isActive }) {
-	const { localization } = data || {};
+export default function Header({ isActive, localization }) {
 	const { travelDesign, hotelBooking, searchHotel, planYourTrip } =
 		localization || {};
 	const [currentLanguageCode] = useCurrentLang();

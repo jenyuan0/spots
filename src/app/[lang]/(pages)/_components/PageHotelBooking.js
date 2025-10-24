@@ -7,10 +7,11 @@ import SectionExamples from './SectionExamples';
 import SectionFaq from './SectionFaq';
 import SectionContact from './SectionContact';
 
-export default function PageHotelBooking({ data }) {
+export default function PageHotelBooking({ data, siteData }) {
+	const { localization } = siteData || {};
 	return (
 		<>
-			<SectionHero data={data} />
+			<SectionHero data={data} localization={localization} />
 			<SectionWhy data={data} />
 			<SectionExamples data={data} />
 			<SectionFaq data={data} />

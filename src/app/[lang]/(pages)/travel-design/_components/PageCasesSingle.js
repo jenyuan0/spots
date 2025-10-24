@@ -10,7 +10,7 @@ import ResponsiveGrid from '@/components/ResponsiveGrid';
 import usePlanner from '@/hooks/usePlanner';
 import { useCurrentLang } from '@/hooks/useCurrentLang';
 
-export default function PageCasesSingle({ data }) {
+export default function PageCasesSingle({ data, siteData }) {
 	const [currentLanguageCode] = useCurrentLang();
 	const { setPlannerActive, setPlannerContent } = usePlanner();
 	const color = data.color.title;
@@ -22,9 +22,8 @@ export default function PageCasesSingle({ data }) {
 		offers,
 		content,
 		accomodations,
-		localization,
 	} = data || {};
-
+	const { localization } = siteData || {};
 	const {
 		tripHighlights,
 		ourRole,

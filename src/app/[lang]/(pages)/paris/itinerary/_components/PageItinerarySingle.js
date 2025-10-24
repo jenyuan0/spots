@@ -68,7 +68,7 @@ export default function PageItinerarySingle({ data }) {
 		localizationGlobal,
 		localizationMap,
 	} = data || {};
-	const { dayLabel, spotLabel, tripItinerary, planYourTripToday } =
+	const { dayLabel, spotLabel, tripItinerary, planYourTripToday, person } =
 		localization || {};
 	const { tripHighlights, suggestedAccomodations, option, closeLabel } =
 		localizationGlobal || {};

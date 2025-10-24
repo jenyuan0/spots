@@ -3,12 +3,10 @@ import Link from '@/components/CustomLink';
 import useMagnify from '@/hooks/useMagnify';
 import useKey from '@/hooks/useKey';
 import { getRandomInt } from '@/lib/helpers';
+import { useCurrentLang } from '@/hooks/useCurrentLang';
 
-export default function LocationDot({
-	data,
-	initialLightOrDark,
-	currentLanguageCode,
-}) {
+export default function LocationDot({ data, initialLightOrDark }) {
+	const [currentLanguageCode] = useCurrentLang();
 	const { slug, title, color } = data;
 	const [lightOrDark, setLightOrDark] = useState(initialLightOrDark);
 	const setMag = useMagnify((state) => state.setMag);
