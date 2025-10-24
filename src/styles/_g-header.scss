@@ -34,7 +34,8 @@
 
 	&__cta {
 		@include headerBlock;
-		width: var(--logo-cta-width);
+		gap: 10px;
+		// width: var(--logo-cta-width);
 	}
 
 	&__menu {

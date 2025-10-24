@@ -21,7 +21,6 @@ export default async function Page({ params }) {
 		isArticleDataSSG: true,
 	});
 	const { page, site } = pageData || {};
-	console.log('🚀 ~ Page ~ pageData:', pageData);
 
 	if (!page) return notFound();
 

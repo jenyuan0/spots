@@ -617,6 +617,11 @@ export const springConfig = {
 };
 
 export function formatLanguageCode(lang) {
+	// Ignore favicon requests
+	if (lang === 'favicon.ico') {
+		return 'en';
+	}
+
 	if (!lang || typeof lang !== 'string') {
 		return 'en';
 	}

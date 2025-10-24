@@ -9,6 +9,7 @@ import { motion } from 'motion/react';
 import { usePathname } from 'next/navigation';
 import { checkIfActive } from '@/lib/routes';
 import { useCurrentLang } from '@/hooks/useCurrentLang';
+import LanguageSelector from '@/components/LanguageSelector';
 
 // TODO
 // Megamenu
@@ -301,7 +302,9 @@ export default function Header({ data, isActive }) {
 						</div>
 					</div>
 				)} */}
-				<div className="g-header__cta">
+
+				<div className="g-header__cta f-h f-a-c gap-2">
+					<LanguageSelector />
 					{isHomepage && (
 						<Button
 							className="btn-underline js-gtm-booking-popup"

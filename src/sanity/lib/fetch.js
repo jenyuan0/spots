@@ -84,7 +84,6 @@ export async function getPageHotelBooking({ params, isPreviewMode }) {
 }
 
 export async function getPageTravelDesign({ params, isPreviewMode }) {
-	console.log('🚀 ~ getPageTravelDesign ~ params:', params);
 	const modifiedParam = {
 		slug: params.slug,
 		language: params.lang?.replace('-', '_') || params.lang,

@@ -29,6 +29,7 @@
 		"@vimeo/player": "^2.15.3",
 		"@vis.gl/react-google-maps": "^1.5.1",
 		"clsx": "^2.1.1",
+		"country-flag-icons": "^1.5.21",
 		"date-fns": "^4.1.0",
 		"dayjs": "^1.11.13",
 		"embla-carousel": "^8.6.0",
