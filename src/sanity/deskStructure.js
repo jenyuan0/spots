@@ -136,7 +136,7 @@ const deskStructure = (S, context) =>
 			globalCategories(S),
 			globalSubcategories(S),
 			// globalAuthors(S),
-			S.divider(),
+			// S.divider(),
 			// createBulkActionsTable({
 			// 	type: 'gGuides',
 			// 	S,

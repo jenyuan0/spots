@@ -47,6 +47,7 @@ const translationDocuments = [
 	'pLocations',
 	'pGeneral',
 	'pContact',
+	'p404',
 ];
 
 export const i18n = {

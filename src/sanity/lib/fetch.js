@@ -98,7 +98,13 @@ export async function getPageTravelDesign({ params, isPreviewMode }) {
 	});
 }
 
-export async function get404PageData() {
+export async function get404PageData({ params }) {
+	console.log('🚀🚀🚀🚀 ~ get404PageData ~ params:', params);
+
+	const modifiedParam = {
+		...params,
+		language: params.lang?.replace('-', '_') || params.lang,
+	};
 	const query = getPageDataStructure({
 		query: queries.page404Query,
 		includeSite: false,
@@ -106,6 +112,7 @@ export async function get404PageData() {
 
 	return sanityFetch({
 		query,
+		params: modifiedParam,
 		tags: ['p404'],
 	});
 }

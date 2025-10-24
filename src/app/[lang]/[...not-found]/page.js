@@ -1,7 +1,7 @@
 import { headers } from 'next/headers';
 import { get404PageData } from '@/sanity/lib/fetch';
 import Page404 from '@/app/[lang]/(pages)/_components/Page404';
-import { i18n } from '../../../languages';
+import { i18n } from '../../../../languages';
 
 async function detectLanguage(headersList) {
 	const activatedLanguages = i18n.languages.map((language) => language.id);

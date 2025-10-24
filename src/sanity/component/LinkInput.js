@@ -23,7 +23,7 @@ const pageDocumentOrder = [
 ];
 
 const fetchOptions = async () => {
-	const groqQuery = `* [_type in ${JSON.stringify(pageDocumentOrder)}] {
+	const groqQuery = `* [_type in ${JSON.stringify(pageDocumentOrder)} && language == "en"] {
 		title,
 		_type,
 		_id,

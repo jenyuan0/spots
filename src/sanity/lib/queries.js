@@ -727,7 +727,7 @@ export const pageHomeQuery = groq`
 `;
 
 export const page404Query = groq`
-  *[_type == "p404" && _id == "p404"][0]{
+	${getDocumentWithFallback({ docType: 'p404' })}{
     ${baseFields},
     heading,
     paragraph[]{
