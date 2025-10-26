@@ -20,7 +20,6 @@ export default function MagnifyLocation({
 	localization,
 	localizationHighlights,
 }) {
-	console.log('🚀 ~ MagnifyLocation ~ localization:', localization);
 	const [currentLanguageCode] = useCurrentLang();
 	const [locationContent, setLocationContent] = useState(null);
 	const [color, setColor] = useState(null);
@@ -123,7 +122,7 @@ export default function MagnifyLocation({
 		fees,
 	} = data?.content || {};
 
-	const { addressLabel, websiteLabel } = localization || {};
+	const { addressLabel, websiteLabel, reservationLabel } = localization || {};
 
 	const res = data.reservations?.filter((r) => r.location._id === _id);
 	const addressString =
@@ -151,7 +150,10 @@ export default function MagnifyLocation({
 			)}
 			{res?.length > 0 && (
 				<div className="g-magnify-locations__res wysiwyg-b-1">
-					<h3 className="t-l-1">Reservation{res.length > 1 && 's'}</h3>
+					<h3 className="t-l-1">
+						{reservationLabel || 'Reservation'}
+						{currentLanguageCode === 'en' && res.length > 1 && 's'}
+					</h3>
 					{res?.map((res, i) => {
 						const resStart = res?.startTime && new Date(res?.startTime);
 						const resEnd = res?.endTime && new Date(res?.endTime);

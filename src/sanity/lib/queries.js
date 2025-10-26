@@ -669,6 +669,7 @@ export const site = groq`
 			"travelDesign": ${getTranslationByLanguage('travelDesign')},
 			"searchHotel": ${getTranslationByLanguage('searchHotel')},
 			"scrollToExplore": ${getTranslationByLanguage('scrollToExplore')},
+			"reservationLabel": ${getTranslationByLanguage('reservationLabel')},
 		},
 		"localizationHighlights": *[_type == "settingsLocalization"][0].globalHighlights {
 			"iconic": ${getTranslationByLanguage('iconic')},

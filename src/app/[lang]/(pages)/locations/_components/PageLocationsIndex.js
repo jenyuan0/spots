@@ -32,10 +32,9 @@ export default function PageLocationsIndex({ data, siteData }) {
 	const { categoriesLabel, noItemsFound } = localizationGlobal || {};
 	const { allSpots, locationsLabel, bestPlacesInParis } = localization || {};
 
-	const breadcrumbTitle = locationsLabel ? locationsLabel : 'Locations';
 	const breadcrumb = [
 		{
-			title: breadcrumbTitle,
+			title: locationsLabel || 'Locations',
 			url: `/${currentLanguageCode}/locations`,
 		},
 		...(parentCategory

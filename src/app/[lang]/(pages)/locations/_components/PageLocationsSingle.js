@@ -37,9 +37,8 @@ export default function PageLocationsSingle({ data, siteData }) {
 		defaultRelatedGuides,
 		localization,
 	} = data || {};
-
 	const { moreSpotsToDiscover, locationsLabel } = localization || {};
-	const breadcrumbTitle = locationsLabel ? locationsLabel : 'Locations';
+
 	const addressString =
 		address &&
 		Object.values(address)
@@ -49,7 +48,7 @@ export default function PageLocationsSingle({ data, siteData }) {
 
 	const breadcrumb = [
 		{
-			title: breadcrumbTitle,
+			title: locationsLabel || 'Locations',
 			url: `/${currentLanguageCode}/locations`,
 		},
 		{

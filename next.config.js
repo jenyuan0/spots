@@ -43,11 +43,6 @@ const nextConfig = {
 			);
 		}
 
-		console.log(
-			'dynamicRedirectsdynamicRedirectsdynamicRedirects',
-			dynamicRedirects
-		);
-
 		return dynamicRedirects;
 	},
 	sassOptions: {

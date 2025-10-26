@@ -134,6 +134,11 @@ function globalLabelLocalization() {
 				name: 'noItemsFound',
 				type: 'internationalizedArrayString',
 			}),
+			defineField({
+				title: 'Reservation Label',
+				name: 'reservationLabel',
+				type: 'internationalizedArrayString',
+			}),
 		],
 		options: {
 			collapsible: true,
