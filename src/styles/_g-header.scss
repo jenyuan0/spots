@@ -12,9 +12,7 @@
 	background-color: var(--cr-cream);
 	border-bottom: 1px solid;
 	z-index: 100;
-	transition:
-		color var(--t-2),
-		background var(--t-2);
+	transition: 0.5s;
 
 	&__logo {
 		@include headerBlock;
@@ -186,8 +184,8 @@
 			line-height: calc(var(--height) - 4px - 2px);
 			border-radius: calc((var(--height) - 4px) / 2);
 			transition:
-				color var(--t-1),
-				background-color var(--t-2);
+				color 0.25s,
+				background-color 0.5s;
 
 			&.is-active {
 				color: var(--cr-cream);
@@ -246,6 +244,15 @@
 	&.is-transparent:not(.is-scrolled):not(.is-mobile-open) {
 		color: var(--cr-white);
 		background-color: transparent;
+
+		.g-header__toggle__active {
+			background-color: var(--cr-white);
+		}
+
+		.g-header__toggle a.is-active {
+			color: var(--cr-brown);
+			background-color: var(--cr-white);
+		}
 
 		.g-header__design {
 			&-dot:nth-child(1) {

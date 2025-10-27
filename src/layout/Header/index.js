@@ -248,7 +248,7 @@ export default function Header({ data, isActive }) {
 							width: `${toggleActiveProp.width}px`,
 							transform: `translateX(${toggleActiveProp.left}px)`,
 							transition: toggleActiveInit
-								? `width var(--t-1), transform var(--t-1)`
+								? `width var(--t-1), background var(--t-1), transform var(--t-1)`
 								: '0s',
 						}}
 					/>
@@ -290,7 +290,7 @@ export default function Header({ data, isActive }) {
 					</div>
 				)} */}
 				<div className="g-header__cta">
-					{pathname === '/' && (
+					{pathname === '/' ? (
 						<Button
 							className="btn-underline js-gtm-booking-popup"
 							onClick={() => {
@@ -300,8 +300,7 @@ export default function Header({ data, isActive }) {
 						>
 							Search Hotel
 						</Button>
-					)}
-					{pathname === '/travel-design' && (
+					) : (
 						<Button
 							className="btn-underline js-gtm-design-popup"
 							onClick={() => {
