@@ -174,7 +174,7 @@
 	}
 
 	&__content {
-		width: Min(1800px, 90vw);
+		width: Min(1360px, 90vw);
 	}
 
 	@include tabletDown {
@@ -191,7 +191,7 @@
 	&__hero {
 		position: relative;
 		display: flex;
-		min-height: clamp(400px, calc(var(--s-vp-height) * 0.5), 800px);
+		min-height: clamp(400px, calc(var(--s-vp-height) * 0.65), 800px);
 		align-items: flex-end;
 		padding: 40px var(--s-contain);
 		background-color: var(--cr-primary);
@@ -289,6 +289,8 @@
 		}
 
 		.c-image-columns {
+			max-width: 1280px;
+			margin-inline: auto;
 			margin-block: 60px;
 
 			&:has(+ .c-image-columns) {
