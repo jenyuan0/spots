@@ -4,7 +4,7 @@ import { getPagesPaths } from '@/sanity/lib/fetch';
 import { formatUrl } from '@/lib/helpers';
 import fs from 'fs';
 import path from 'path';
-import { i18n } from '../../languages';
+import { i18n } from '../../languages.js';
 
 const ROUTES = [
 	{

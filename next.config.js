@@ -1,5 +1,5 @@
 const { createClient } = require('@sanity/client');
-const { i18n } = require('./languages');
+const { i18n } = require('./languages.js');
 
 const sanityOptions = {
 	projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,

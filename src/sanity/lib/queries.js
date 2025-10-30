@@ -1,5 +1,5 @@
 import { groq } from 'next-sanity';
-import { i18n } from '../../../languages';
+import { i18n } from '../../../languages.js';
 
 export const getDocumentWithFallback = ({ docType, withSlug = false } = {}) => {
 	const slugCondition = withSlug ? ' && slug.current == $slug' : '';

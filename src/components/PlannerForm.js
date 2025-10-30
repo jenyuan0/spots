@@ -24,7 +24,7 @@ import dayjs from 'dayjs';
 import useOutsideClick from '@/hooks/useOutsideClick';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
 import { useCurrentLang } from '@/hooks/useCurrentLang';
-import { i18n } from '../../languages';
+import { i18n } from '../../languages.js';
 
 const DATE_FORMAT = 'MMM D';
 

@@ -9,7 +9,7 @@ import { defineConfig, isDev } from 'sanity';
 import { structureTool } from 'sanity/structure';
 import { media } from 'sanity-plugin-media';
 import { getWindowURl } from '@/lib/routes';
-import { i18n } from './languages';
+import { i18n } from './languages.js';
 import deskStructure from './src/sanity/deskStructure';
 import {
 	apiVersion,

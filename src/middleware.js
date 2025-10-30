@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { match as matchLocale } from '@formatjs/intl-localematcher';
-import { i18n } from '../languages';
+import { i18n } from '../languages.js';
 import Negotiator from 'negotiator';
 
 // Cache supported locale IDs to avoid repeated array mapping

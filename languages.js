@@ -50,9 +50,11 @@ const translationDocuments = [
 	'p404',
 ];
 
-export const i18n = {
+const i18n = {
 	languages,
 	defaultLanguage: languages.find((item) => item.isDefault),
 	base: languages.find((item) => item.isDefault).id,
 	translationDocuments,
 };
+
+module.exports = { i18n };

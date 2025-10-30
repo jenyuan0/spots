@@ -6,7 +6,7 @@ import { LiveQuery } from 'next-sanity/preview/live-query';
 import defineMetadata from '@/lib/defineMetadata';
 import { pageGuidesSingleQuery } from '@/sanity/lib/queries';
 import { getGuidesSinglePage, getPagesPaths } from '@/sanity/lib/fetch';
-import { i18n } from '../../../../../../../languages';
+import { i18n } from '../../../../../../../languages.js';
 
 export async function generateStaticParams() {
 	const slugs = await getPagesPaths({ pageType: 'gGuides' });

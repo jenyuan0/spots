@@ -4,7 +4,7 @@ import { useCurrentLang } from '@/hooks/useCurrentLang';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { hasArrayValue } from '@/lib/helpers';
-import { i18n } from '../../languages';
+import { i18n } from '../../languages.js';
 import * as Flags from 'country-flag-icons/react/3x2';
 
 const generateUrl = (languageId, pathname) => `/${languageId}/${pathname}`;
