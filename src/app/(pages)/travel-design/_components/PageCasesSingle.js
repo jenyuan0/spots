@@ -67,7 +67,7 @@ export default function PageCasesSingle({ data }) {
 						});
 					}}
 				>
-					Plan Your Trip
+					Plan Your Trip with Spots
 				</Button>
 			</div>
 			<div className="g-magnify-cases__content wysiwyg-page">
