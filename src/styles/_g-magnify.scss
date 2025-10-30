@@ -288,6 +288,7 @@
 			margin-block: 60px;
 		}
 
+		.c-carousel,
 		.c-image-columns {
 			max-width: 1280px;
 			margin-inline: auto;
@@ -298,7 +299,12 @@
 			}
 		}
 
+		.c-carousel-item {
+			width: 50%;
+		}
+
 		@include tabletDown {
+			.c-carousel,
 			.c-image-columns {
 				width: 100vw;
 				margin-inline: calc(-1 * var(--s-contain));
