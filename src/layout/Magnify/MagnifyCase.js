@@ -123,7 +123,7 @@ export default function MagnifyCase({
 						});
 					}}
 				>
-					{planYourTrip || 'Plan Your Trip'}
+					{planYourTrip || 'Plan Your Trip with Spots'}
 				</Button>
 			</div>
 			<div className="g-magnify-cases__content wysiwyg-page">

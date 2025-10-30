@@ -190,7 +190,7 @@ export function Magnify({ siteData }) {
 								});
 							}}
 						>
-							{planYourTrip || 'Plan Your Trip'}
+							{planYourTrip || 'Plan Your Trip with Spots'}
 						</Button>
 					)}
 				</div>
