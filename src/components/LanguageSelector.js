@@ -108,21 +108,11 @@ const LanguageSelector = () => {
 				aria-expanded={isOpen}
 				aria-label={`Select language. Current: ${currentLanguage?.title}`}
 			>
-				<span className="c-language-selector__trigger-content f-h f-a-c">
-					<FlagIcon country={currentLanguage?.country} />
-					<span className="c-language-selector__label t-l-2">
-						{currentLanguage?.subtitle}
-					</span>
+				<FlagIcon country={currentLanguage?.country} />
+				<span className="c-language-selector__label t-l-2">
+					{currentLanguage?.subtitle}
 				</span>
-				<svg
-					className="c-language-selector__icon"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					strokeWidth="2"
-				>
-					<polyline points="6 9 12 15 18 9" />
-				</svg>
+				<span className="c-language-selector__caret icon-caret-down" />
 			</button>
 
 			{isOpen && (

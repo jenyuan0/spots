@@ -338,6 +338,7 @@
 	&__chat {
 		flex: 1;
 		max-width: 420px;
+		margin-inline: auto;
 		transition: opacity var(--t-1);
 
 		&__header {

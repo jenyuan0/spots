@@ -1,34 +1,31 @@
 @use '_mixin' as *;
 
 .c-language-selector {
-	--height: 35px;
+	--height: 25px;
 	position: relative;
-	display: inline-block;
+	height: var(--height);
 
 	&__trigger {
-		height: var(--height);
+		height: 100%;
 		gap: 5px;
-		padding: 10px;
+		padding-left: 12px;
+		padding-right: 8px;
 		border: 1px solid;
-		border-radius: var(--br-1);
+		border-radius: calc(var(--height) / 2);
 		cursor: pointer;
-		transition: all 0.2s ease-in-out;
+		transition: 0.2s;
+
+		svg {
+			filter: contrast(5) grayscale(1);
+		}
 
 		&:hover {
-			background-color: var(--cr-brown);
-			color: var(--cr-white);
+			background-color: var(--cr-subtle);
 		}
 	}
 
-	&__trigger-content {
-		gap: 5px;
-		flex: 1;
-	}
-
-	&__icon {
-		width: 10px;
-		height: 10px;
-		flex-shrink: 0;
+	&__caret {
+		font-size: 12px;
 		transition: transform 0.2s ease-in-out;
 
 		.is-open & {
@@ -41,23 +38,28 @@
 		top: calc(100% + 4px);
 		right: 0;
 		width: fit-content;
+		padding: 4px;
 		background-color: var(--cr-cream);
 		border: 1px solid;
 		border-radius: var(--br-1);
 		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 		z-index: 10;
+
+		li:not(:last-child) {
+			margin-bottom: 2px;
+		}
 	}
 
 	&__option {
 		gap: 5px;
 		width: 100%;
 		padding: 10px;
-		transition: all 0.2s ease-in-out;
+		border-radius: calc(var(--br-1) / 2);
+		transition: 0.2s;
 		cursor: pointer;
 
 		&:hover {
-			background-color: var(--cr-brown);
-			color: var(--cr-white);
+			background-color: var(--cr-subtle-1);
 		}
 
 		&.is-active {
@@ -76,14 +78,5 @@
 	&__label {
 		flex: 1;
 		white-space: nowrap;
-	}
-
-	@include mobileDown {
-		&__options {
-			top: unset;
-			bottom: calc(100% + 4px);
-			left: 50%;
-			transform: translate3d(-50%, 0, 0);
-		}
 	}
 }

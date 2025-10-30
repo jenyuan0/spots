@@ -30,6 +30,10 @@ function globalLabelLocalization() {
 		type: 'object',
 		fields: [
 			defineField({
+				name: 'menuLabel',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
 				title: 'Travel Design',
 				name: 'travelDesign',
 				type: 'internationalizedArrayString',

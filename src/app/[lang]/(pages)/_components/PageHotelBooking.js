@@ -12,7 +12,7 @@ export default function PageHotelBooking({ data, siteData }) {
 	return (
 		<>
 			<SectionHero data={data} localization={localization} />
-			<SectionWhy data={data} />
+			<SectionWhy data={data} localization={localization} />
 			<SectionExamples data={data} />
 			<SectionFaq data={data} />
 			<SectionContact data={data} />

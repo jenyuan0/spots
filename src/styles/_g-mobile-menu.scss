@@ -50,3 +50,66 @@
 		display: none;
 	}
 }
+
+@include tabletDown {
+	.g-header__logo {
+		margin-right: auto;
+	}
+
+	.g-header__toggle,
+	.g-header__links,
+	.g-header .c-language-selector {
+		display: none;
+	}
+}
+
+.g-mobile-menu {
+	position: fixed;
+	width: fit-content;
+	min-width: 200px;
+	height: fit-content;
+	right: 10px;
+	top: calc(var(--s-header) + 10px);
+	padding: 16px 24px;
+	gap: 30px;
+	background-color: var(--cr-cream);
+	border-radius: var(--br-2);
+	border: 1px solid;
+
+	&__overlay {
+		position: fixed;
+		inset: 0;
+		background-color: rgba(0, 0, 0, 0.4);
+		backdrop-filter: blur(2px);
+	}
+
+	&,
+	&__overlay {
+		transition: opacity var(--t-2);
+		z-index: 100;
+	}
+
+	.g-header:not(.is-mobile-open) ~ &,
+	.g-header:not(.is-mobile-open) ~ &__overlay {
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	&__links {
+		a.is-active {
+			color: var(--cr-green-d);
+			text-decoration: underline;
+			text-decoration-thickness: 1px;
+			text-underline-offset: 4px;
+			text-decoration-color: var(--cr-green-d);
+		}
+
+		a:not(:last-child) {
+			margin-bottom: 10px;
+		}
+	}
+
+	@include tabletUp {
+		display: none;
+	}
+}

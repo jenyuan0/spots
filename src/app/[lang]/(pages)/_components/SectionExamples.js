@@ -98,7 +98,7 @@ function ExampleChat({ example, delayOffset }) {
 export default function SectionExamples({ data }) {
 	const { examplesHeading, examplesList } = data;
 	const { ref, inView } = useInView({ triggerOnce: true });
-	const { isMdscreen } = useWindowDimensions();
+	const { isSmScreen } = useWindowDimensions();
 	const [isMounted, setIsMounted] = useState(false);
 
 	useEffect(() => {
@@ -114,7 +114,7 @@ export default function SectionExamples({ data }) {
 		>
 			<h2 className="p-booking__examples__header t-h-1">{examplesHeading}</h2>
 			{isMounted &&
-				(isMdscreen ? (
+				(isSmScreen ? (
 					<Carousel
 						itemWidth="Min(85vw, 500px)"
 						gap={'10px'}

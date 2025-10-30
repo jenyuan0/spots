@@ -81,7 +81,7 @@ export default async function RootLayout({ children, params }) {
 	return (
 		<StoreProvider>
 			<ReactQueryProvider>
-				<html lang="en" className={`${fontKalice.variable}`}>
+				<html lang={params?.lang || 'en'} className={`${fontKalice.variable}`}>
 					<head>
 						<meta
 							httpEquiv="Content-Type"

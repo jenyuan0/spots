@@ -27,8 +27,8 @@ function ListItem({ children }) {
 	);
 }
 
-export default function SectionWhy({ data }) {
-	const { whyList, whyListHeading, localization } = data;
+export default function SectionWhy({ data, localization }) {
+	const { whyList, whyListHeading } = data;
 	const { setPlannerActive } = usePlanner();
 	const ref = useRef(null);
 	const { scrollYProgress } = useScroll({
