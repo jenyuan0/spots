@@ -111,9 +111,9 @@ export default function SectionHero({ data, localization }) {
 						</h1>
 					)}
 					{heroSubheading && <p className="t-h-4">{heroSubheading}</p>}
-					<Button className="btn-outline cr-green-l" href="/travel-design">
+					{/* <Button className="btn-outline cr-green-l" href="/travel-design">
 						{travelDesign || 'Travel Design'}
-					</Button>
+					</Button> */}
 					<Button
 						className={'btn cr-green-l js-gtm-booking-popup'}
 						caret="right"
