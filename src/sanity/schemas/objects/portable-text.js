@@ -78,7 +78,11 @@ export default defineType({
 				],
 			},
 		},
-		customImage({ hasLinkOptions: true, hasCaptionOptions: true }),
+		customImage({
+			hasLinkOptions: true,
+			hasCaptionOptions: true,
+			hasCropOptions: true,
+		}),
 		imageColumns(),
 		customIframe(),
 		carousel(),
