@@ -291,7 +291,7 @@
 		.c-carousel,
 		.c-image-columns {
 			--item-gap: 10px !important;
-			max-width: 1280px;
+			max-width: 1080px;
 			margin-inline: auto;
 			margin-block: 60px;
 
@@ -301,7 +301,7 @@
 		}
 
 		.c-carousel-item {
-			width: 50%;
+			width: calc(50% - var(--item-gap) / 2);
 		}
 
 		@include tabletDown {

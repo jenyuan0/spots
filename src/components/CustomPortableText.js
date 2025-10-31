@@ -109,7 +109,7 @@ export default function CustomPortableText({ blocks, hasPTag = true }) {
 					if (!value?.items) return null;
 
 					return (
-						<Carousel isShowDots={true}>
+						<Carousel align={'start'} isShowDots={true}>
 							{value.items.map((item, i) => (
 								<div key={`image-${i}`} className="c-carousel-item">
 									{item._type == 'image' ? (
