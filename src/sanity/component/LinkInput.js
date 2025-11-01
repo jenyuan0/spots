@@ -103,9 +103,10 @@ export const LinkInput = (props) => {
 				);
 			});
 
+			const isPathPattern = query?.startsWith('/'); // ← Add this check
 			const result = filteredOptions.length
 				? filteredOptions
-				: isValidUrl(query)
+				: isValidUrl(query) || isPathPattern // ← Allow paths OR valid URLs
 					? [
 							{
 								value: getRoute({ documentType: 'externalUrl', slug: query }),
