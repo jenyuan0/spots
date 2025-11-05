@@ -1205,8 +1205,8 @@ export const pageLocationsSingleQuery = groq`
   ${getDocumentWithFallback({ docType: 'gLocations', withSlug: true })}{
     ${getLocationsData()},
     "defaultRelatedLocations": *[_type == "gLocations" && language == "en"
-      && count(categories[@._ref in ^.^.categories[]._ref ]) > 0
       && _id != ^._id
+      && lower(address.city) == lower(^.address.city)
       ] | order(publishedAt desc, _createdAt desc) [0..11] {
         ${getLocationsData('card')}
       },
