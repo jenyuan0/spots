@@ -1,0 +1,30 @@
+.c-newsletter {
+	display: flex;
+	flex-direction: column;
+	gap: 40px;
+
+	&__header {
+		max-width: 450px;
+		margin-inline: auto;
+		text-wrap: balance;
+		text-align: center;
+	}
+
+	&__form {
+		display: flex;
+		width: 100%;
+		max-width: 450px;
+		margin-inline: auto;
+		gap: 10px;
+		flex-direction: column;
+
+		input {
+			text-align: center;
+		}
+	}
+
+	&__success,
+	&__error {
+		text-align: center;
+	}
+}

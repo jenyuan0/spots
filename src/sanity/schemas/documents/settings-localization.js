@@ -34,6 +34,10 @@ function globalLabelLocalization() {
 				type: 'internationalizedArrayString',
 			}),
 			defineField({
+				name: 'newsletterLabel',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
 				title: 'Travel Design',
 				name: 'travelDesign',
 				type: 'internationalizedArrayString',

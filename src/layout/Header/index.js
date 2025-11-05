@@ -11,8 +11,13 @@ import { useCurrentLang } from '@/hooks/useCurrentLang';
 import LanguageSelector from '@/components/LanguageSelector';
 
 export default function Header({ isActive, localization }) {
-	const { travelDesign, hotelBooking, searchHotel, planYourTrip } =
-		localization || {};
+	const {
+		travelDesign,
+		hotelBooking,
+		searchHotel,
+		planYourTrip,
+		newsletterLabel,
+	} = localization || {};
 	const [currentLanguageCode] = useCurrentLang();
 	const pathname = usePathname();
 	const ref = useRef();
@@ -53,12 +58,22 @@ export default function Header({ isActive, localization }) {
 	);
 	const elLinks = (
 		<>
-			<Link href={'https://www.instagram.com/spotstravel.co'} isNewTab={true}>
+			<Link
+				className="increase-target-size"
+				href={'https://www.instagram.com/spotstravel.co'}
+				isNewTab={true}
+			>
 				Instagram
 			</Link>
-			{/* <Link href={'https://www.instagram.com/spotstravel.co'}>
-						Newsletter
-					</Link> */}
+			<Button
+				className="increase-target-size js-gtm-newsletter-popup"
+				onClick={() => {
+					setPlannerActive(true);
+					setPlannerContent({ type: 'newsletter' });
+				}}
+			>
+				{newsletterLabel || 'Newsletter'}
+			</Button>
 		</>
 	);
 
@@ -183,7 +198,7 @@ export default function Header({ isActive, localization }) {
 							{searchHotel || 'Search Hotel'}
 						</Button>
 					)}
-					{isTravelDesign && (
+					{!isHomepage && (
 						<Button
 							className="btn-underline js-gtm-design-popup"
 							onClick={() => {
