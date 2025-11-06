@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import Img from '@/components/Image';
 import CustomPortableText from '@/components/CustomPortableText';
