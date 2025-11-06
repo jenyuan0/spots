@@ -14,12 +14,30 @@ export default defineType({
 		title({ readOnly: true }),
 		slug({ readOnly: true }),
 		{
+			title: 'Eyebrow',
+			name: 'eyebrow',
+			type: 'string',
+		},
+		{
+			title: 'Title',
+			name: 'titleHeader',
+			type: 'string',
+		},
+		{
+			title: 'CTA Label',
+			name: 'ctaLabel',
+			type: 'string',
+		},
+		{
 			name: 'locationCategories',
 			type: 'array',
 			of: [
 				{
 					type: 'reference',
 					to: [{ type: 'gCategories' }],
+					options: {
+						filter: '_type == "gCategories" && language == "en"',
+					},
 				},
 			],
 		},
@@ -39,6 +57,9 @@ export default defineType({
 					name: 'itinerary',
 					type: 'reference',
 					to: [{ type: 'gItineraries' }],
+					options: {
+						filter: '_type == "gItineraries" && language == "en"',
+					},
 				},
 			],
 		},
@@ -73,6 +94,9 @@ export default defineType({
 							type: 'reference',
 							name: 'guide',
 							to: [{ type: 'gGuides' }],
+							options: {
+								filter: '_type == "gGuides" && language == "en"',
+							},
 						},
 						{
 							name: 'months',
@@ -90,6 +114,9 @@ export default defineType({
 											type: 'reference',
 											name: 'guide',
 											to: [{ type: 'gGuides' }],
+											options: {
+												filter: '_type == "gGuides" && language == "en"',
+											},
 										},
 									],
 								},
@@ -104,8 +131,8 @@ export default defineType({
 			// should match 'languageField' plugin configuration setting, if customized
 			name: 'language',
 			type: 'string',
-			// readOnly: true,
-			// hidden: true,
+			readOnly: true,
+			hidden: true,
 		},
 	],
 	preview: {

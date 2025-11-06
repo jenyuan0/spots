@@ -49,7 +49,7 @@ export default defineType({
 					type: 'reference',
 					to: [{ type: 'gLocations' }],
 					options: {
-						filter: `_type == "gLocations" && references(*[_type == "gCategories" && slug.current == "hotels"]._id)`,
+						filter: `_type == "gLocations" && language == "en" && references(*[_type == "gCategories" && slug.current == "hotels"]._id)`,
 					},
 				},
 			],
@@ -66,6 +66,9 @@ export default defineType({
 							name: 'itineraryDay',
 							type: 'reference',
 							to: [{ type: 'gItinerariesDay' }],
+							options: {
+								filter: '_type == "gItinerariesDay" && language == "en"',
+							},
 						},
 						{
 							name: 'title',
@@ -105,6 +108,9 @@ export default defineType({
 				{
 					type: 'reference',
 					to: [{ type: 'gGuides' }],
+					options: {
+						filter: '_type == "gGuides" && language == "en"',
+					},
 				},
 			],
 		},
@@ -209,7 +215,7 @@ export default defineType({
 					type: 'reference',
 					to: [{ type: 'gLocations' }],
 					options: {
-						filter: `_type == "gLocations" && references(*[_type == "gCategories" && slug.current == "hotels"]._id)`,
+						filter: `_type == "gLocations" && language == "en" && references(*[_type == "gCategories" && slug.current == "hotels"]._id)`,
 					},
 				},
 				{
@@ -252,6 +258,9 @@ export default defineType({
 							type: 'reference',
 							name: 'location',
 							to: [{ type: 'gLocations' }],
+							options: {
+								filter: '_type == "gLocations" && language == "en"',
+							},
 						},
 						{
 							name: 'startTime',
@@ -354,8 +363,8 @@ export default defineType({
 			// should match 'languageField' plugin configuration setting, if customized
 			name: 'language',
 			type: 'string',
-			// readOnly: true,
-			// hidden: true,
+			readOnly: true,
+			hidden: true,
 		},
 	],
 	preview: {

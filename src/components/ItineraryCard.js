@@ -3,8 +3,10 @@ import { hasArrayValue, formatTime } from '@/lib/helpers';
 import Img from '@/components/Image';
 import Button from '@/components/Button';
 import Link from '@/components/CustomLink';
+import { useCurrentLang } from '@/hooks/useCurrentLang';
 
 export default function ItineraryCard({ data }) {
+	const [currentLanguageCode] = useCurrentLang();
 	const {
 		title,
 		subtitle,
@@ -14,8 +16,15 @@ export default function ItineraryCard({ data }) {
 		totalDays,
 		totalActivities,
 		totalLocations,
+		localization,
 	} = data || {};
-	const url = `/paris/itinerary/${slug}`;
+	const { dayLabel, itineraryLabel, viewTrip } = localization || {};
+	const url = `/${currentLanguageCode}/paris/itinerary/${slug}`;
+
+	const isEnglish = currentLanguageCode === 'en';
+	const headerLabel = isEnglish
+		? `${totalDays} ${dayLabel} ${itineraryLabel}`
+		: `${totalDays}${dayLabel} ${itineraryLabel}`;
 
 	return (
 		<div
@@ -26,7 +35,7 @@ export default function ItineraryCard({ data }) {
 			}}
 		>
 			<div className="c-itinerary-card__header">
-				<h3 className="t-l-1">{totalDays} Day Itinerary</h3>
+				<h3 className="t-l-1">{headerLabel}</h3>
 				<h2 className="c-itinerary-card__title t-l-1">{title}</h2>
 			</div>
 			<div className="c-itinerary-card__thumb">
@@ -34,7 +43,7 @@ export default function ItineraryCard({ data }) {
 			</div>
 			<h2 className="c-itinerary-card__subtitle">{subtitle}</h2>
 			<Button className="c-itinerary-card__cta btn-outline cr-white" href={url}>
-				View Trip
+				{viewTrip || 'View Trip'}
 			</Button>
 			<Link
 				href={url}

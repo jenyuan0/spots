@@ -32,6 +32,9 @@ export default defineType({
 				{
 					type: 'reference',
 					to: [{ type: 'gCategories' }],
+					options: {
+						filter: '_type == "gCategories" && language == "en"',
+					},
 				},
 			],
 			validation: (Rule) => [Rule.required()],
@@ -44,8 +47,11 @@ export default defineType({
 					type: 'reference',
 					to: [{ type: 'gSubcategories' }],
 					options: {
-						// filter: `_type == "gSubcategories" && references(*[_type == "gCategories" && _id in ^.^.categories[]._ref]._id)`,
+						filter: '_type == "gSubcategories" && language == "en"',
 					},
+					// options: {
+					// 	// filter: `_type == "gSubcategories" && references(*[_type == "gCategories" && _id in ^.^.categories[]._ref]._id)`,
+					// },
 				},
 			],
 			hidden: ({ parent }) => !parent?.categories,
@@ -72,6 +78,9 @@ export default defineType({
 					name: 'itinerary',
 					type: 'reference',
 					to: [{ type: 'gItineraries' }],
+					options: {
+						filter: '_type == "gItineraries" && language == "en"',
+					},
 				},
 			],
 		},
@@ -82,6 +91,9 @@ export default defineType({
 				{
 					type: 'reference',
 					to: [{ type: 'gGuides' }],
+					options: {
+						filter: '_type == "gGuides" && language == "en"',
+					},
 				},
 			],
 		},
@@ -90,8 +102,8 @@ export default defineType({
 			// should match 'languageField' plugin configuration setting, if customized
 			name: 'language',
 			type: 'string',
-			// readOnly: true,
-			// hidden: true,
+			readOnly: true,
+			hidden: true,
 		},
 	],
 	preview: {

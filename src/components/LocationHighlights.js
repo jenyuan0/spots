@@ -1,9 +1,14 @@
-export default function LocationHighlights({ highlights }) {
+export default function LocationHighlights({
+	highlights,
+	localizationHighlights,
+}) {
+	const { iconic, trending, editorsPick, onOurRadar } =
+		localizationHighlights || {};
 	const map = {
-		iconic: 'Iconic',
-		trending: 'Trending',
-		'editors-pick': 'Editor’s Pick',
-		'on-our-radar': 'On Our Radar',
+		iconic: iconic || 'Iconic',
+		trending: trending || 'Trending',
+		'editors-pick': editorsPick || 'Editor’s Pick',
+		'on-our-radar': onOurRadar || 'On Our Radar',
 	};
 	return highlights?.map((tag) => map[tag] || tag).join(', ');
 }

@@ -11,6 +11,7 @@ import useMagnify from '@/hooks/useMagnify';
 import useLightbox from '@/hooks/useLightbox';
 import useKey from '@/hooks/useKey';
 import { IconMaximize } from '@/components/SvgIcons';
+import { useCurrentLang } from '@/hooks/useCurrentLang';
 
 // Extract ImageGallery into separate component
 const ImageGallery = ({ images, layout, onLightbox }) => {
@@ -40,7 +41,7 @@ const ImageGallery = ({ images, layout, onLightbox }) => {
 				<button
 					className="c-card__lightbox trigger"
 					onClick={onLightbox}
-					aria-label="View full size images"
+					tabIndex={-1}
 				>
 					<IconMaximize />
 				</button>
@@ -70,9 +71,14 @@ export default function LocationCard({
 		address,
 		res,
 		content,
-	} = data;
+		localization,
+		localizationHighlights,
+	} = data || {};
 
-	const url = `/locations/${slug}`;
+	const { readMore, detailsLabel, getDirection } = localization || {};
+	const [currentLanguageCode] = useCurrentLang();
+
+	const url = `/${currentLanguageCode}/locations/${slug}`;
 	const addressString =
 		address && Object.values(address).filter(Boolean).join(', ');
 	const resStart = res?.startTime && new Date(res?.startTime);
@@ -130,7 +136,10 @@ export default function LocationCard({
 				<div className="c-card__header">
 					{highlights && layout == 'vertical-2' && (
 						<div className="c-card__highlights t-l-2">
-							<LocationHighlights highlights={highlights} />
+							<LocationHighlights
+								highlights={highlights}
+								localizationHighlights={localizationHighlights}
+							/>
 						</div>
 					)}
 					<h3
@@ -169,7 +178,9 @@ export default function LocationCard({
 						isNewTab={true}
 						onClick={handleDetailsClick}
 					>
-						{isShowContent && layout !== 'embed' ? 'Read More' : 'Details'}
+						{isShowContent && layout !== 'embed'
+							? `${readMore ? readMore : 'Read More'}`
+							: `${detailsLabel ? detailsLabel : 'Details'}`}
 					</Button>
 					{hasDirection && addressString && (
 						<Button
@@ -180,7 +191,7 @@ export default function LocationCard({
 							isNewTab={true}
 							rel="noopener noreferrer"
 						>
-							Get Direction
+							{getDirection || 'Get Direction'}
 						</Button>
 					)}
 				</div>

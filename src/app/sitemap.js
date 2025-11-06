@@ -4,6 +4,7 @@ import { getPagesPaths } from '@/sanity/lib/fetch';
 import { formatUrl } from '@/lib/helpers';
 import fs from 'fs';
 import path from 'path';
+import { i18n } from '../../languages.js';
 
 const ROUTES = [
 	{
@@ -94,16 +95,32 @@ async function getDocumentData(type, slug) {
 	}
 }
 
+function buildAlternates(url, lang) {
+	const alternates = {
+		languages: {},
+	};
+
+	i18n.languages.forEach((language) => {
+		const alternateUrl = url.replace(`/${lang}/`, `/${language.id}/`);
+		alternates.languages[language.id] = alternateUrl;
+	});
+
+	return alternates;
+}
+
 async function getStaticRoutes(baseUrl) {
-	const fullPath = path.join(process.cwd(), 'src/app/(pages)');
+	const fullPath = path.join(process.cwd(), 'src/app/[lang]/(pages)');
 	const routes = [];
 
-	// Add homepage
-	routes.push({
-		url: formatUrl(baseUrl),
-		lastModified: new Date().toISOString(),
-		changeFrequency: 'weekly',
-		priority: 1.0,
+	// Add homepage for each language
+	i18n.languages.forEach((language) => {
+		routes.push({
+			url: formatUrl(`${baseUrl}/${language.id}`),
+			lastModified: new Date().toISOString(),
+			changeFrequency: 'weekly',
+			priority: 1.0,
+			alternates: buildAlternates(`${baseUrl}/${language.id}`, language.id),
+		});
 	});
 
 	async function traverse(dir) {
@@ -113,7 +130,6 @@ async function getStaticRoutes(baseUrl) {
 			if (entry.isDirectory() && !EXCLUDED_DIRS.includes(entry.name)) {
 				const fullEntryPath = path.join(dir, entry.name);
 				const relativePath = path.relative(fullPath, fullEntryPath);
-				const url = new URL(`${baseUrl}/${relativePath}`).toString();
 				const lastPath = relativePath.split('/').pop();
 
 				// Check if this path matches any routes with skipParentPath
@@ -140,11 +156,16 @@ async function getStaticRoutes(baseUrl) {
 				);
 
 				if (!disableIndex) {
-					routes.push({
-						url: formatUrl(url),
-						lastModified,
-						changeFrequency: 'weekly',
-						priority: 1.0,
+					// Create routes for each language
+					i18n.languages.forEach((language) => {
+						const url = `${baseUrl}/${language.id}/${relativePath}`;
+						routes.push({
+							url: formatUrl(url),
+							lastModified,
+							changeFrequency: 'weekly',
+							priority: 0.8,
+							alternates: buildAlternates(url, language.id),
+						});
 					});
 				}
 
@@ -170,10 +191,6 @@ async function getDynamicRoutes(baseUrl) {
 							// Skip if this is a parent path and skipParentPath is true
 							if (skipParentPath && !pageSlug) return null;
 
-							const url = new URL(
-								`${baseUrl}${urlPrefix}${pageSlug.startsWith('/') ? pageSlug : `/${pageSlug}`}`
-							).toString();
-
 							const { lastModified, disableIndex } = await getDocumentData(
 								type,
 								pageSlug
@@ -181,16 +198,22 @@ async function getDynamicRoutes(baseUrl) {
 
 							if (disableIndex) return null;
 
-							return {
-								url: formatUrl(url),
-								lastModified,
-								changeFrequency,
-								priority,
-							};
+							// Create routes for each language
+							return i18n.languages.map((language) => {
+								const url = `${baseUrl}/${language.id}${urlPrefix}${pageSlug.startsWith('/') ? pageSlug : `/${pageSlug}`}`;
+
+								return {
+									url: formatUrl(url),
+									lastModified,
+									changeFrequency,
+									priority,
+									alternates: buildAlternates(url, language.id),
+								};
+							});
 						})
 					);
 
-					return pageRoutes.filter(Boolean);
+					return pageRoutes.flat().filter(Boolean);
 				}
 			)
 		);

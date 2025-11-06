@@ -29,7 +29,7 @@ const useScaleAnimation = (ref) => {
 const ContactLink = ({ type, value }) => {
 	const linkProps = {
 		email: {
-			href: `mailto:${value}`,
+			href: `/mailto:${value}`,
 			icon: <IconEmail />,
 			className: 'g-plan__contact-item',
 		},
@@ -66,7 +66,7 @@ const ContactItems = ({ email, whatsapp, line }) => (
 	</div>
 );
 
-function Faq({ faq, isInView }) {
+function Faq({ faq, title, isInView }) {
 	const [activeAccordion, setActiveAccordion] = useState(null);
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -92,7 +92,9 @@ function Faq({ faq, isInView }) {
 					{!isOpen ? 'Have questions? See our FAQ' : 'Close FAQ'}
 				</div>
 			</Button>
-			<h3 className="g-plan__faq__title t-h-4">Frequently asked questions</h3>
+			<h3 className="g-plan__faq__title t-h-4">
+				{title || 'Frequently asked questions'}
+			</h3>
 			<div className="g-plan__faq__content">
 				{faq?.map((item, index) => (
 					<Accordion
@@ -119,7 +121,9 @@ export default function PlanSection({
 	budget,
 	hiddenFields,
 }) {
-	const { image, mobileImage, faq, email, whatsapp, line } = data;
+	const { image, mobileImage, faq, email, whatsapp, line, localizationTitle } =
+		data;
+	const { contactUs, frequentlyAskedQuestions } = localizationTitle || {};
 	const containerRef = useRef(null);
 	const [inViewRef, inView] = useInView({
 		rootMargin: '-100% 0% 0% 0%',
@@ -166,10 +170,12 @@ export default function PlanSection({
 				/>
 				<div className="g-plan__support">
 					<div className="g-plan__contact">
-						<h3 className="g-plan__contact__title t-h-4">Contact us</h3>
+						<h3 className="g-plan__contact__title t-h-4">
+							{contactUs || 'Contact us'}
+						</h3>
 						<ContactItems email={email} whatsapp={whatsapp} line={line} />
 					</div>
-					<Faq faq={faq} isInView={inView} />
+					<Faq faq={faq} isInView={inView} title={frequentlyAskedQuestions} />
 				</div>
 			</div>
 		</section>

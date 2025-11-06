@@ -1,6 +1,7 @@
 import sanitizeHtml from 'sanitize-html';
 import { imageBuilder } from '@/sanity/lib/image';
 import { format, add, isSameMonth } from 'date-fns';
+import { enUS, zhTW, zhCN } from 'date-fns/locale';
 
 // ***UTILITIES / GET***
 
@@ -615,3 +616,48 @@ export const springConfig = {
 	damping: 30,
 	mass: 0.5,
 };
+
+export function formatLanguageCode(lang) {
+	// Ignore favicon requests
+	if (lang === 'favicon.ico') {
+		return 'en';
+	}
+
+	if (!lang || typeof lang !== 'string') {
+		return 'en';
+	}
+
+	const formatted = lang.toLowerCase().replace('_', '-');
+
+	// Validate that this is a proper locale code
+	try {
+		new Intl.DateTimeFormat(formatted);
+		return lang;
+	} catch (error) {
+		console.warn(`Invalid locale "${formatted}", falling back to "en"`);
+		return 'en';
+	}
+}
+
+export function getLocalizationPlural(lang, items, word) {
+	const count = Array.isArray(items) ? items.length : items;
+	const isEnglish = lang === 'en';
+	const pluralSuffix = isEnglish && count > 1 ? 's' : '';
+	return `${count} ${word}${pluralSuffix}`;
+}
+
+const localeMap = {
+	en: enUS,
+	zh_TW: zhTW,
+	zh_CN: zhCN,
+};
+
+export function formatDate({
+	date,
+	formatStr = 'MMMM do, yyyy',
+	languageCode = 'en',
+} = {}) {
+	return format(date, formatStr, {
+		locale: localeMap[languageCode] || localeMap['en'],
+	});
+}

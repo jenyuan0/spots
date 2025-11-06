@@ -4,6 +4,7 @@ import settingsBrandColors from './schemas/documents/settings-color';
 import settingsMenu from './schemas/documents/settings-menu';
 import settingsRedirect from './schemas/documents/settings-redirect';
 import settingsIntegration from './schemas/documents/settings-integrations';
+import settingsLocalization from './schemas/documents/settings-localization';
 
 // Object types
 import button from './schemas/objects/button';
@@ -23,6 +24,7 @@ import colorSelect from './schemas/objects/color-select';
 import gAnnouncement from './schemas/documents/g-announcement';
 import gHeader from './schemas/documents/g-header';
 import gFooter from './schemas/documents/g-footer';
+import gNewsletter from './schemas/documents/g-newsletter';
 import gPlanForm from './schemas/documents/g-plan-form';
 import gLocations from './schemas/documents/g-locations';
 import gItinerariesDay from './schemas/documents/g-itineraries-day';
@@ -54,6 +56,7 @@ const schemas = [
 	settingsMenu,
 	settingsRedirect,
 	settingsIntegration,
+	settingsLocalization,
 
 	button,
 	formFields,
@@ -71,6 +74,7 @@ const schemas = [
 	gAnnouncement,
 	gHeader,
 	gFooter,
+	gNewsletter,
 	gPlanForm,
 	gLocations,
 	gItinerariesDay,

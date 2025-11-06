@@ -10,13 +10,17 @@ import LocationHighlights from '@/components/LocationHighlights';
 import useLightbox from '@/hooks/useLightbox';
 import { client } from '@/sanity/lib/client';
 import { getLocationsData, fileMetaFields } from '@/sanity/lib/queries';
+import { useCurrentLang } from '@/hooks/useCurrentLang';
 
 export default function MagnifyLocation({
 	mParam,
 	pageSlug,
 	onColorChange,
 	onMeta,
+	localization,
+	localizationHighlights,
 }) {
+	const [currentLanguageCode] = useCurrentLang();
 	const [locationContent, setLocationContent] = useState(null);
 	const [color, setColor] = useState(null);
 	const [reservations, setReservations] = useState([]);
@@ -30,19 +34,28 @@ export default function MagnifyLocation({
 				const dataSlug = mParam.split('/').pop();
 				const [content, resvs] = await Promise.all([
 					client.fetch(
-						`*[_type == "gLocations" && language == "en" && slug.current == "${dataSlug}"][0]{
-                ${getLocationsData()}
-              }`
+						`coalesce(
+								*[_type == "gLocations" && language == "${currentLanguageCode}" && slug.current == "${dataSlug}"][0],
+								*[_type == "gLocations" && language == "en" && slug.current == "${dataSlug}"][0]
+							){
+								${getLocationsData()}
+							}`,
+						{ language: currentLanguageCode }
 					),
-					client.fetch(`
-              *[_type == "gItineraries" && language == "en" && slug.current == "${pageSlug}"][0].reservations[]{
-                "location": location->{ _id },
+
+					client.fetch(
+						`coalesce(
+								*[_type == "gItineraries" && language == "${currentLanguageCode}" && slug.current == "${pageSlug}"][0],
+								*[_type == "gItineraries" && language == "en" && slug.current == "${pageSlug}"][0]
+							).reservations[]{
+								"location": location->{ _id },
                 startTime,
                 endTime,
                 notes,
                 attachments[]{${fileMetaFields}}
-              }
-            `),
+							}`,
+						{ language: currentLanguageCode }
+					),
 				]);
 				const contentColor =
 					(content &&
@@ -108,6 +121,9 @@ export default function MagnifyLocation({
 		urls,
 		fees,
 	} = data?.content || {};
+
+	const { addressLabel, websiteLabel, reservationLabel } = localization || {};
+
 	const res = data.reservations?.filter((r) => r.location._id === _id);
 	const addressString =
 		address &&
@@ -120,7 +136,10 @@ export default function MagnifyLocation({
 		<div className="g-magnify-locations">
 			{highlights && (
 				<div className="g-magnify-locations__highlights t-l-2">
-					<LocationHighlights highlights={highlights} />
+					<LocationHighlights
+						highlights={highlights}
+						localizationHighlights={localizationHighlights}
+					/>
 				</div>
 			)}
 			{title && (
@@ -131,7 +150,10 @@ export default function MagnifyLocation({
 			)}
 			{res?.length > 0 && (
 				<div className="g-magnify-locations__res wysiwyg-b-1">
-					<h3 className="t-l-1">Reservation{res.length > 1 && 's'}</h3>
+					<h3 className="t-l-1">
+						{reservationLabel || 'Reservation'}
+						{currentLanguageCode === 'en' && res.length > 1 && 's'}
+					</h3>
 					{res?.map((res, i) => {
 						const resStart = res?.startTime && new Date(res?.startTime);
 						const resEnd = res?.endTime && new Date(res?.endTime);
@@ -179,7 +201,7 @@ export default function MagnifyLocation({
 			)}
 			{address && (
 				<div className="g-magnify-locations__address wysiwyg-b-1">
-					<h3 className="t-l-1">Address</h3>
+					<h3 className="t-l-1">{addressLabel || 'Address'}</h3>
 					<p>
 						<Link
 							href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(title)}+${encodeURIComponent(addressString)}`}
@@ -192,7 +214,7 @@ export default function MagnifyLocation({
 			)}
 			{hasArrayValue(urls) && (
 				<div className="g-magnify-locations__urls wysiwyg-b-1">
-					<h3 className="t-l-1">Website</h3>
+					<h3 className="t-l-1">{websiteLabel || 'Website'}</h3>
 					<ul>
 						{urls.map((url, i) => (
 							<li key={`url-${i}`}>

@@ -34,6 +34,9 @@ export default function locationList({
 					{
 						type: 'reference',
 						to: [{ type: 'gLocations' }],
+						options: {
+							filter: '_type == "gLocations" && language == "en"',
+						},
 					},
 				],
 			},
@@ -47,6 +50,9 @@ export default function locationList({
 								{
 									type: 'reference',
 									to: [{ type: 'gLocations' }],
+									options: {
+										filter: '_type == "gLocations" && language == "en"',
+									},
 								},
 							],
 						},
@@ -62,6 +68,9 @@ export default function locationList({
 								{
 									type: 'reference',
 									to: [{ type: 'gLocations' }],
+									options: {
+										filter: '_type == "gLocations" && language == "en"',
+									},
 								},
 							],
 						},

@@ -3,12 +3,13 @@ import {
 	DeleteTranslationAction,
 	documentInternationalization,
 } from '@sanity/document-internationalization';
+import { internationalizedArray } from 'sanity-plugin-internationalized-array';
 import { visionTool } from '@sanity/vision';
 import { defineConfig, isDev } from 'sanity';
 import { structureTool } from 'sanity/structure';
 import { media } from 'sanity-plugin-media';
 import { getWindowURl } from '@/lib/routes';
-import { i18n } from './languages';
+import { i18n } from './languages.js';
 import deskStructure from './src/sanity/deskStructure';
 import {
 	apiVersion,
@@ -42,6 +43,22 @@ const commonPlugins = [
 	documentInternationalization({
 		supportedLanguages: i18n.languages,
 		schemaTypes: i18n.translationDocuments,
+		allowCreateMetaDoc: true,
+	}),
+	internationalizedArray({
+		languages: i18n.languages,
+		defaultLanguages: [i18n.base],
+		fieldTypes: [
+			'string',
+			{
+				name: 'text',
+				type: 'text',
+				rows: 3,
+			},
+		],
+		buttonLocations: ['document'],
+		buttonAddAll: true,
+		languageDisplay: 'titleAndCode',
 	}),
 ];
 

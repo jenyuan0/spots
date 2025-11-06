@@ -57,7 +57,7 @@ const getFieldRules = ({ required, inputType, minLength }) => {
 	return rules;
 };
 
-const FormItem = ({ item, control }) => {
+const FormItem = ({ item, control, selectOption }) => {
 	const {
 		inputType,
 		fieldLabel,
@@ -78,6 +78,7 @@ const FormItem = ({ item, control }) => {
 						{...field}
 						options={selectOptions}
 						placeholder={placeholder}
+						selectOption={selectOption}
 					/>
 				);
 			default:
@@ -114,7 +115,11 @@ export default function CustomForm({ data, hiddenFields }) {
 		sendToEmail,
 		emailSubject,
 		formFailureNotificationEmail,
+		localization,
 	} = data || {};
+
+	const { sending, sendMessage, averageResponseTime, selectOption } =
+		localization || {};
 	const [formState, setFormState] = useState(FORM_STATES.IDLE);
 	const dispatch = useAppDispatch();
 	const formFieldsData = (formFields || []).map((item) => {
@@ -198,7 +203,12 @@ export default function CustomForm({ data, hiddenFields }) {
 						/>
 					))}
 					{formFieldsData.map((item) => (
-						<FormItem key={item._key} item={item} control={form.control} />
+						<FormItem
+							key={item._key}
+							item={item}
+							control={form.control}
+							selectOption={selectOption}
+						/>
 					))}
 					{formState === FORM_STATES.SUCCESS ? (
 						<p className="c-form__message t-l-1">
@@ -213,14 +223,14 @@ export default function CustomForm({ data, hiddenFields }) {
 							className="c-form__cta btn cr-green-d"
 						>
 							{formState === FORM_STATES.SUBMITTING
-								? 'Sending...'
-								: 'Send Message'}
+								? `${sending || 'Sending...'}`
+								: `${sendMessage || 'Send Message'}`}
 						</Button>
 					)}
 				</form>
 				{formState !== FORM_STATES.ERROR && (
 					<div className="c-form__message t-b-2 cr-subtle-5">
-						{'Average response time < 8hr'}
+						{averageResponseTime || 'Average response time < 8hr'}
 					</div>
 				)}
 				{formState === FORM_STATES.ERROR && (

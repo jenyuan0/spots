@@ -6,6 +6,7 @@ export const guidesFilterByCategory = (S) => {
 		.child(
 			S.documentTypeList('gCategories')
 				.title('Guides by Category')
+				.filter('_type == "gCategories" && language == "en"')
 				.child((categoryId) => {
 					return S.documentList()
 						.title('Blogs')
@@ -24,6 +25,7 @@ export const guidesFilterBySubcategory = (S) => {
 		.child(
 			S.documentTypeList('gSubcategories')
 				.title('Guides by Subcategory')
+				.filter('_type == "gSubcategories" && language == "en"')
 				.child((categoryId) => {
 					return S.documentList()
 						.title('Blogs')

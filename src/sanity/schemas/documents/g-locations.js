@@ -40,6 +40,9 @@ export default defineType({
 				{
 					type: 'reference',
 					to: [{ type: 'gCategories' }],
+					options: {
+						filter: '_type == "gCategories" && language == "en"',
+					},
 				},
 			],
 			validation: (Rule) => [Rule.required()],
@@ -52,7 +55,7 @@ export default defineType({
 					type: 'reference',
 					to: [{ type: 'gSubcategories' }],
 					options: {
-						// filter: `_type == "gSubcategories" && references(*[_type == "gCategories" && _id in ^.^.categories[]._ref]._id)`,
+						filter: '_type == "gSubcategories" && language == "en"',
 					},
 				},
 			],
@@ -120,6 +123,9 @@ export default defineType({
 				{
 					type: 'reference',
 					to: [{ type: 'gLocations' }],
+					options: {
+						filter: '_type == "gLocations" && language == "en"',
+					},
 				},
 			],
 		},
@@ -130,6 +136,9 @@ export default defineType({
 				{
 					type: 'reference',
 					to: [{ type: 'gGuides' }],
+					options: {
+						filter: '_type == "gGuides" && language == "en"',
+					},
 				},
 			],
 		},

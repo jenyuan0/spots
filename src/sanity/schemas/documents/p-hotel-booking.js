@@ -29,7 +29,7 @@ export default defineType({
 					to: [{ type: 'gLocations' }],
 					options: {
 						filter:
-							'references(*[_type == "gCategories" && slug.current == $slug]._id)',
+							'references(*[_type == "gCategories" && language == "en" && slug.current == $slug]._id)',
 						filterParams: { slug: 'hotels' },
 					},
 				},

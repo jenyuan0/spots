@@ -9,7 +9,7 @@ export default defineType({
 	name: 'pLocations',
 	type: 'document',
 	fields: [
-		title({ readOnly: true }),
+		title(),
 		slug({ readOnly: true }),
 		{
 			name: 'heading',
@@ -26,6 +26,9 @@ export default defineType({
 				{
 					type: 'reference',
 					to: [{ type: 'gCategories' }],
+					options: {
+						filter: '_type == "gCategories" && language == "en"',
+					},
 				},
 			],
 		},
@@ -78,8 +81,8 @@ export default defineType({
 			// should match 'languageField' plugin configuration setting, if customized
 			name: 'language',
 			type: 'string',
-			// readOnly: true,
-			// hidden: true,
+			readOnly: true,
+			hidden: true,
 		},
 	],
 	preview: {

@@ -5,128 +5,20 @@ import Link from '@/components/CustomLink';
 import MobileMenuTrigger from './mobile-menu-trigger';
 import Button from '@/components/Button';
 import usePlanner from '@/hooks/usePlanner';
-import { motion } from 'motion/react';
 import { usePathname } from 'next/navigation';
 import { checkIfActive } from '@/lib/routes';
+import { useCurrentLang } from '@/hooks/useCurrentLang';
+import LanguageSelector from '@/components/LanguageSelector';
 
-// TODO
-// Megamenu
-
-const leftNav = [
-	{
-		title: 'Explore Paris',
-		url: '/paris',
-	},
-	{
-		title: 'Guides',
-		url: '/paris/guides',
-		// hasCaret: true,
-	},
-	{
-		title: 'Locations',
-		url: '/locations',
-		// hasCaret: true,
-	},
-];
-
-const rightNav = [
-	{
-		title: 'Our Service',
-		url: '/',
-	},
-	{
-		title: 'Ready-to-book Trips',
-		url: '/paris/ready-to-book-trips',
-	},
-];
-
-function NavLink({ nav, pathname }) {
-	return (
-		<ul className="g-header__links t-l-2">
-			{nav.map((item, index) => {
-				const isActive = checkIfActive({
-					pathname: pathname,
-					url: item.url,
-				});
-
-				return (
-					<li
-						key={`${item.title}-${index}`}
-						className={clsx({ 'is-active': isActive })}
-					>
-						<Link href={item?.url} className={'increase-target-size'}>
-							{item?.title}
-							{item.hasCaret && (
-								<>
-									{' '}
-									<span className="icon-caret-down" />
-								</>
-							)}
-						</Link>
-					</li>
-				);
-			})}
-		</ul>
-	);
-}
-
-const FrenchDots = () => {
-	const dotVariants = {
-		animate: (i) => ({
-			y: [0, -4, 0],
-			transition: {
-				duration: 1.2,
-				repeat: Infinity,
-				ease: 'easeInOut',
-				delay: i * 0.2,
-			},
-		}),
-	};
-
-	return (
-		<div className="g-header__flag">
-			{[0, 1, 2].map((i) => (
-				<motion.div
-					key={i}
-					className="g-header__flag-dot"
-					custom={i}
-					variants={dotVariants}
-					animate="animate"
-				/>
-			))}
-		</div>
-	);
-};
-
-const DesignDots = () => {
-	const dotVariants = {
-		animate: (i) => ({
-			scale: [1, 0.5, 1],
-			transition: {
-				duration: 1.2,
-				repeat: Infinity,
-				ease: 'easeInOut',
-				delay: i * 0.2,
-			},
-		}),
-	};
-
-	return (
-		<div className="g-header__design">
-			{[0, 1, 2].map((i) => (
-				<motion.div
-					key={i}
-					className="g-header__design-dot"
-					custom={i}
-					variants={dotVariants}
-					animate="animate"
-				/>
-			))}
-		</div>
-	);
-};
-
-export default function Header({ data, isActive }) {
+export default function Header({ isActive, localization }) {
+	const {
+		travelDesign,
+		hotelBooking,
+		searchHotel,
+		planYourTrip,
+		newsletterLabel,
+	} = localization || {};
+	const [currentLanguageCode] = useCurrentLang();
 	const pathname = usePathname();
 	const ref = useRef();
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -140,13 +32,62 @@ export default function Header({ data, isActive }) {
 		width: 0,
 		left: 0,
 	});
+	const homepageUrl = `/${currentLanguageCode}`;
+	const travelDesignUrl = `/${currentLanguageCode}/travel-design`;
+	const isHomepage = pathname === homepageUrl;
+	// const isTravelDesign = pathname === travelDesignUrl;
+	const isTravelDesign = pathname !== homepageUrl;
+	const elLinkBooking = (
+		<Link
+			href={homepageUrl}
+			className={clsx({
+				'is-active': isHomepage,
+			})}
+		>
+			{hotelBooking || 'Hotel Booking'}
+		</Link>
+	);
+	const elLinkTravelDesign = (
+		<Link
+			href={travelDesignUrl}
+			className={clsx({
+				'is-active': isTravelDesign,
+			})}
+		>
+			{travelDesign || 'Travel Design'}
+		</Link>
+	);
+	const elLinks = (
+		<>
+			<Link
+				className="increase-target-size"
+				href={'https://www.instagram.com/spotstravel.co'}
+				isNewTab={true}
+			>
+				Instagram
+			</Link>
+			<Button
+				className="increase-target-size js-gtm-newsletter-popup"
+				onClick={() => {
+					setPlannerActive(true);
+					setPlannerContent({ type: 'newsletter' });
+				}}
+			>
+				{newsletterLabel || 'Newsletter'}
+			</Button>
+		</>
+	);
 
 	useEffect(() => {
-		const activeRef = pathname == '/' ? refLinkBooking : refLinkDesign;
+		const activeRef = isHomepage
+			? refLinkBooking
+			: isTravelDesign
+				? refLinkDesign
+				: null;
 
 		setToggleActiveProp({
-			width: activeRef.current.offsetWidth,
-			left: activeRef.current.offsetLeft,
+			width: activeRef?.current.offsetWidth || 0,
+			left: activeRef?.current.offsetLeft || 0,
 		});
 	}, [pathname]);
 
@@ -200,8 +141,11 @@ export default function Header({ data, isActive }) {
 
 		setIsMobileMenuOpen(false);
 
+		// Ignore the first segment (language)
+		const [, ...pathWithoutLang] = pathnameArray;
+
 		const isNonCategoryPage =
-			pathnameArray[2] !== 'category' &&
+			pathWithoutLang[2] !== 'category' && // second segment after language
 			(pathname.includes('/paris/itinerary/') ||
 				pathname.includes('/paris/guides/'));
 
@@ -220,7 +164,7 @@ export default function Header({ data, isActive }) {
 				})}
 			>
 				<Link
-					href={'/'}
+					href={homepageUrl}
 					className="g-header__logo t-h-3"
 					aria-label="View homepage"
 				>
@@ -232,65 +176,23 @@ export default function Header({ data, isActive }) {
 					</svg>
 				</Link>
 				<div className="g-header__toggle t-l-2">
-					<div ref={refLinkBooking}>
-						<Link
-							href="/"
-							className={clsx({
-								'is-active': pathname === '/',
-							})}
-						>
-							Hotel Booking
-						</Link>
-					</div>
+					<div ref={refLinkBooking}>{elLinkBooking}</div>
 					<div
 						className="g-header__toggle__active"
 						style={{
 							width: `${toggleActiveProp.width}px`,
 							transform: `translateX(${toggleActiveProp.left}px)`,
 							transition: toggleActiveInit
-								? `width var(--t-1), background var(--t-1), transform var(--t-1)`
+								? `width var(--t-1), transform var(--t-1)`
 								: '0s',
 						}}
 					/>
-					<div ref={refLinkDesign}>
-						<Link
-							href="/travel-design"
-							className={clsx({
-								'is-active': pathname !== '/',
-							})}
-						>
-							Travel Design
-						</Link>
-					</div>
+					<div ref={refLinkDesign}>{elLinkTravelDesign}</div>
 				</div>
-				{/* {pathname === '/' || pathname === '/travel-design' ? (
-					<></>
-				) : (
-					<div className="g-header__menu">
-						<div className="g-header__menu__block">
-							<div className="g-header__menu__translate">
-								<motion.div className="g-header__tagline t-h-5">
-									<span className="icon-plus" />
-									Parisian Treasures Refreshed Weekly
-									<FrenchDots />
-								</motion.div>
-								<NavLink nav={leftNav} pathname={pathname} />
-							</div>
-						</div>
-						<div className="g-header__menu__block">
-							<div className="g-header__menu__translate">
-								<motion.div className="g-header__tagline t-h-5">
-									<span className="icon-plus" />
-									Design Conscious Travel Planning
-									<DesignDots />
-								</motion.div>
-								<NavLink nav={rightNav} pathname={pathname} />
-							</div>
-						</div>
-					</div>
-				)} */}
-				<div className="g-header__cta">
-					{pathname === '/' ? (
+				<div className="g-header__links f-h f-a-c gap-2 t-l-1">{elLinks}</div>
+				<LanguageSelector />
+				<div className="g-header__cta f-h f-a-c gap-2">
+					{isHomepage && (
 						<Button
 							className="btn-underline js-gtm-booking-popup"
 							onClick={() => {
@@ -298,9 +200,10 @@ export default function Header({ data, isActive }) {
 								setPlannerContent({ type: 'hotel' });
 							}}
 						>
-							Search Hotel
+							{searchHotel || 'Search Hotel'}
 						</Button>
-					) : (
+					)}
+					{!isHomepage && (
 						<Button
 							className="btn-underline js-gtm-design-popup"
 							onClick={() => {
@@ -308,17 +211,31 @@ export default function Header({ data, isActive }) {
 								setPlannerContent({ type: 'design' });
 							}}
 						>
-							Plan Your Trip
+							{planYourTrip || 'Plan Your Trip'}
 						</Button>
 					)}
 				</div>
-				{/* {pathname !== '/' && pathname !== '/travel-design' && (
-					<MobileMenuTrigger
-						isMobileMenuOpen={isMobileMenuOpen}
-						onHandleClick={onToggleMenu}
-					/>
-				)} */}
+				<MobileMenuTrigger
+					isMobileMenuOpen={isMobileMenuOpen}
+					onHandleClick={onToggleMenu}
+					localization={localization}
+				/>
 			</header>
+
+			<button
+				type="button"
+				className="g-mobile-menu__overlay"
+				onClick={onToggleMenu}
+				tabIndex={-1}
+			></button>
+			<div className="g-mobile-menu f-v f-a-e">
+				<div className="g-mobile-menu__links f-v f-a-e t-h-3">
+					{elLinkBooking}
+					{elLinkTravelDesign}
+					{elLinks}
+				</div>
+				<LanguageSelector />
+			</div>
 		</>
 	);
 }

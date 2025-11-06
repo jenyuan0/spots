@@ -11,6 +11,9 @@ export default function locationSingle({} = {}) {
 				name: 'location',
 				type: 'reference',
 				to: [{ type: 'gLocations' }],
+				options: {
+					filter: '_type == "gLocations" && language == "en"',
+				},
 			},
 			{
 				name: 'contentReplace',

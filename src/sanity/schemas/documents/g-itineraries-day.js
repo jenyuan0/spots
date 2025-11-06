@@ -33,8 +33,18 @@ export default defineType({
 				{
 					type: 'reference',
 					to: [{ type: 'gGuides' }],
+					options: {
+						filter: '_type == "gGuides" && language == "en"',
+					},
 				},
 			],
+		},
+		{
+			// should match 'languageField' plugin configuration setting, if customized
+			name: 'language',
+			type: 'string',
+			readOnly: true,
+			hidden: true,
 		},
 	],
 	preview: {

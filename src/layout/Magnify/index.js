@@ -16,7 +16,9 @@ import MagnifyCase from './MagnifyCase';
 import Button from '@/components/Button';
 import usePlanner from '@/hooks/usePlanner';
 
-export function Magnify() {
+export function Magnify({ siteData }) {
+	const { localization, localizationHighlights } = siteData || {};
+	const { planYourTrip, unlockInsiderRates, closeLabel } = localization || {};
 	const [isActive, setIsActive] = useState(false);
 	const [color, setColor] = useState('brown');
 	const [locMeta, setLocMeta] = useState({
@@ -158,7 +160,7 @@ export function Magnify() {
 								`cr-${color}-l`
 							)}
 						>
-							Close
+							{closeLabel || 'Close'}
 						</div>
 						<div className="g-magnify__toggle__icon trigger">
 							<div className="icon-close" />
@@ -176,7 +178,7 @@ export function Magnify() {
 								});
 							}}
 						>
-							Unlock Insider Rates
+							{unlockInsiderRates || 'Unlock Insider Rates'}
 						</Button>
 					) : (
 						<Button
@@ -188,7 +190,7 @@ export function Magnify() {
 								});
 							}}
 						>
-							Plan Your Trip
+							{planYourTrip || 'Plan Your Trip with Spots'}
 						</Button>
 					)}
 				</div>
@@ -200,6 +202,8 @@ export function Magnify() {
 							pageSlug={pageSlug}
 							onColorChange={handleColorChange}
 							onMeta={handleMeta}
+							localization={localization}
+							localizationHighlights={localizationHighlights}
 						/>
 					)}
 					{type === 'case' && (
@@ -208,6 +212,7 @@ export function Magnify() {
 							mParam={mParam}
 							pageSlug={pageSlug}
 							onColorChange={handleColorChange}
+							localization={localization}
 						/>
 					)}
 				</div>
@@ -216,10 +221,10 @@ export function Magnify() {
 	);
 }
 
-export default function Export() {
+export default function Export({ siteData }) {
 	return (
 		<Suspense>
-			<Magnify />
+			<Magnify siteData={siteData} />
 		</Suspense>
 	);
 }

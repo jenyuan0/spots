@@ -4,8 +4,10 @@ import Img from '@/components/Image';
 import Button from '@/components/Button';
 import Link from '@/components/CustomLink';
 import CategoryPillList from '@/components/CategoryPillList';
+import { useCurrentLang } from '@/hooks/useCurrentLang';
 
 export default function GuideCard({ data, layout = 'vertical-1', color }) {
+	const [currentLanguageCode] = useCurrentLang();
 	const {
 		title,
 		slug,
@@ -14,8 +16,10 @@ export default function GuideCard({ data, layout = 'vertical-1', color }) {
 		categories,
 		subcategories,
 		excerpt,
+		localization,
 	} = data || {};
-	const url = `/paris/guides/${slug}`;
+	const { readGuide } = localization || {};
+	const url = `/${currentLanguageCode}/paris/guides/${slug}`;
 
 	return (
 		<div
@@ -65,7 +69,7 @@ export default function GuideCard({ data, layout = 'vertical-1', color }) {
 						})}
 						href={url}
 					>
-						Read Guide
+						{readGuide || 'Read Guide'}
 					</Button>
 				</div>
 			</div>

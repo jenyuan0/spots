@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from '@/components/CustomLink';
+import { useCurrentLang } from '@/hooks/useCurrentLang';
 
 function Content({ children, icon, caret, underline }) {
 	return (
@@ -30,10 +31,17 @@ export default function Button({
 	...props
 }) {
 	const underline = className.includes('btn-underline');
+	const isMailTo = href?.match('^mailto:');
+	const [currentLanguageCode] = useCurrentLang();
 
 	if (href) {
 		return (
-			<Link className={className} href={href} isNewTab={isNewTab} {...props}>
+			<Link
+				className={className}
+				href={`${isMailTo ? '' : `/${currentLanguageCode}`}${href}`}
+				isNewTab={isNewTab}
+				{...props}
+			>
 				<Content icon={icon} caret={caret} underline={underline}>
 					{children}
 				</Content>

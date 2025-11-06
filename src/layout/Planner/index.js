@@ -1,12 +1,13 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import PlannerForm from '@/components/PlannerForm';
+import NewsletterForm from '@/components/NewsletterForm';
 import usePlanner from '@/hooks/usePlanner';
 import useKey from '@/hooks/useKey';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
 import { scrollEnable, scrollDisable } from '@/lib/helpers';
 
-export default function Planner() {
+export default function Planner({ localization }) {
 	const ref = useRef();
 	const refContent = useRef();
 	const {
@@ -14,6 +15,7 @@ export default function Planner() {
 		clearPlannerContent,
 		plannerContent,
 		setPlannerActive,
+		setPlannerContent,
 	} = usePlanner();
 	const { height } = useWindowDimensions();
 	const [isFullScreen, setIsFullScreen] = useState(false);
@@ -30,11 +32,18 @@ export default function Planner() {
 		if (typeof window === 'undefined') return;
 
 		const params = new URLSearchParams(window.location.search);
-		const shouldTrigger = params.get('s') === 'true';
+		const shouldTriggerSearch = params.get('s') === 'true';
+		const shouldTriggerNewsletter = params.get('n') === 'true';
 
-		if (shouldTrigger) {
+		if (shouldTriggerSearch) {
 			setPlannerActive(true);
+			const cleanUrl = window.location.pathname;
+			window.history.replaceState({}, '', cleanUrl);
+		}
 
+		if (shouldTriggerNewsletter) {
+			setPlannerActive(true);
+			setPlannerContent({ type: 'newsletter' });
 			const cleanUrl = window.location.pathname;
 			window.history.replaceState({}, '', cleanUrl);
 		}
@@ -73,7 +82,11 @@ export default function Planner() {
 				<button className="g-planner__close trigger" onClick={handleClose}>
 					<div className="icon-close" />
 				</button>
-				<PlannerForm data={plannerContent} />
+				{plannerContent?.type == 'newsletter' ? (
+					<NewsletterForm localization={localization} />
+				) : (
+					<PlannerForm data={plannerContent} />
+				)}
 			</div>
 		</div>
 	);

@@ -1,0 +1,84 @@
+@use '_mixin' as *;
+
+.c-language-selector {
+	--height: 25px;
+	position: relative;
+	height: var(--height);
+	width: 75px;
+
+	&__trigger {
+		height: 100%;
+		gap: 5px;
+		padding-left: 12px;
+		padding-right: 8px;
+		border: 1px solid;
+		border-radius: calc(var(--height) / 2);
+		cursor: pointer;
+		transition: 0.2s;
+
+		&:hover {
+			background-color: var(--cr-subtle);
+		}
+	}
+
+	&__label {
+		font-size: 12px !important;
+		font-family: 'Helvetica Neue', Helvetica, sans-serif !important;
+	}
+
+	&__caret {
+		font-size: 12px;
+		transition: transform 0.2s ease-in-out;
+
+		.is-open & {
+			transform: rotate(180deg);
+		}
+	}
+
+	&__options {
+		position: absolute;
+		top: calc(100% + 4px);
+		right: 0;
+		width: fit-content;
+		padding: 4px;
+		background-color: var(--cr-cream);
+		border: 1px solid;
+		border-radius: var(--br-1);
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		z-index: 10;
+
+		li:not(:last-child) {
+			margin-bottom: 2px;
+		}
+	}
+
+	&__option {
+		gap: 5px;
+		width: 100%;
+		padding: 10px;
+		border-radius: calc(var(--br-1) / 2);
+		transition: 0.2s;
+		cursor: pointer;
+
+		&:hover {
+			background-color: var(--cr-subtle-1);
+		}
+
+		&.is-active {
+			background-color: var(--cr-brown);
+			color: var(--cr-white);
+			pointer-events: none;
+		}
+	}
+
+	&__flag {
+		width: 16px;
+		height: 12px;
+		flex-shrink: 0;
+	}
+
+	&__label {
+		flex: 1;
+		white-space: nowrap;
+	}
+}

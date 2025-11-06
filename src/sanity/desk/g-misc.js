@@ -186,6 +186,7 @@ export const pageGuidesFilters = (S) => {
 						.title('By Category')
 						.child(
 							S.documentTypeList('gCategories')
+								.filter('_type == "gCategories" && language == "en"')
 								.title('Guides by Category')
 								.child((categoryId) => {
 									return S.documentList()

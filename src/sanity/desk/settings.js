@@ -3,6 +3,7 @@ import {
 	EarthGlobeIcon,
 	PackageIcon,
 	EnterRightIcon,
+	BookIcon,
 } from '@sanity/icons';
 
 export const settingsMenu = (S) => {
@@ -37,4 +38,18 @@ export const settingsMenu = (S) => {
 				])
 		)
 		.icon(CogIcon);
+};
+
+export const settingsLocalization = (S) => {
+	return S.listItem()
+		.id('settingsLocalization')
+		.title('Localization')
+		.icon(BookIcon)
+		.child(
+			S.editor()
+				.title('Localization')
+				.id('settingsLocalization')
+				.schemaType('settingsLocalization')
+				.documentId('settingsLocalization')
+		);
 };

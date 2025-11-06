@@ -23,7 +23,7 @@ const pageDocumentOrder = [
 ];
 
 const fetchOptions = async () => {
-	const groqQuery = `* [_type in ${JSON.stringify(pageDocumentOrder)}] {
+	const groqQuery = `* [_type in ${JSON.stringify(pageDocumentOrder)} && language == "en"] {
 		title,
 		_type,
 		_id,
@@ -103,9 +103,10 @@ export const LinkInput = (props) => {
 				);
 			});
 
+			const isPathPattern = query?.startsWith('/'); // ← Add this check
 			const result = filteredOptions.length
 				? filteredOptions
-				: isValidUrl(query)
+				: isValidUrl(query) || isPathPattern // ← Allow paths OR valid URLs
 					? [
 							{
 								value: getRoute({ documentType: 'externalUrl', slug: query }),
