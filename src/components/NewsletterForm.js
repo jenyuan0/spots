@@ -82,6 +82,7 @@ export default function NewsletterForm({ localization }) {
 	return (
 		<div className="g-planner-form">
 			<div className="c-newsletter">
+				<div className="c-newsletter__pulse" />
 				<div className="c-newsletter__header wysiwyg">
 					{content?.heading && (
 						<h3 className="c-newsletter__heading t-h-2">{content.heading}</h3>
