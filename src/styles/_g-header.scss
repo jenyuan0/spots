@@ -10,6 +10,7 @@
 	top: 0;
 	display: flex;
 	gap: 20px;
+	overflow: clip;
 	background-color: var(--cr-cream);
 	border-bottom: 1px solid;
 	z-index: 105;
@@ -157,8 +158,6 @@
 	}
 
 	@include mobileDown {
-		border-top: 1px solid;
-
 		&__logo {
 			font-size: 34px;
 		}

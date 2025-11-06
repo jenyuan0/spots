@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef, createRef } from 'react';
 import clsx from 'clsx';
-import { scrollEnable, scrollDisable } from '@/lib/helpers';
 import Link from '@/components/CustomLink';
 import MobileMenuTrigger from './mobile-menu-trigger';
 import Button from '@/components/Button';
@@ -133,7 +132,6 @@ export default function Header({ isActive, localization }) {
 
 	const onToggleMenu = () => {
 		setIsMobileMenuOpen(!isMobileMenuOpen);
-		isMobileMenuOpen ? scrollEnable() : scrollDisable();
 	};
 
 	useEffect(() => {
