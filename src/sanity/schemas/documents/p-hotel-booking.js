@@ -21,6 +21,10 @@ export default defineType({
 			type: 'string',
 		},
 		{
+			name: 'heroCta',
+			type: 'string',
+		},
+		{
 			name: 'heroSpots',
 			type: 'array',
 			of: [

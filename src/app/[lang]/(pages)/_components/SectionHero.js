@@ -33,7 +33,7 @@ function SpotsColumns({ data, index, scrollYProgress }) {
 }
 
 export default function SectionHero({ data, localization }) {
-	const { heroHeading, heroSubheading, heroSpots } = data;
+	const { heroHeading, heroSubheading, heroCta, heroSpots } = data;
 	const { travelDesign, searchHotel, scrollToExplore } = localization || {};
 	const { setPlannerActive } = usePlanner();
 	const ref = useRef(null);
@@ -114,13 +114,15 @@ export default function SectionHero({ data, localization }) {
 					{/* <Button className="btn-outline cr-green-l" href="/travel-design">
 						{travelDesign || 'Travel Design'}
 					</Button> */}
-					<Button
-						className={'btn cr-green-l js-gtm-booking-popup'}
-						caret="right"
-						onClick={() => setPlannerActive(true)}
-					>
-						{searchHotel || 'Search Hotel'}
-					</Button>
+					{heroCta && (
+						<Button
+							className={'btn cr-green-l js-gtm-booking-popup'}
+							caret="right"
+							onClick={() => setPlannerActive(true)}
+						>
+							{heroCta}
+						</Button>
+					)}
 				</div>
 				<div className={'p-booking__hero__scroll t-l-1'}>
 					{scrollToExplore || 'Scroll to Explore'}

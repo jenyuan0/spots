@@ -764,6 +764,7 @@ export const pageHotelBookingQuery = groq`
       ${portableTextContentFields}
     },
     heroSubheading,
+		heroCta,
     heroSpots[]->{
       ${getLocationsData('card')}
     },
