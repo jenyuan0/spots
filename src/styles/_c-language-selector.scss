@@ -4,6 +4,7 @@
 	--height: 25px;
 	position: relative;
 	height: var(--height);
+	width: 75px;
 
 	&__trigger {
 		height: 100%;
@@ -15,13 +16,14 @@
 		cursor: pointer;
 		transition: 0.2s;
 
-		svg {
-			filter: contrast(5) grayscale(1);
-		}
-
 		&:hover {
 			background-color: var(--cr-subtle);
 		}
+	}
+
+	&__label {
+		font-size: 12px !important;
+		font-family: 'Helvetica Neue', Helvetica, sans-serif !important;
 	}
 
 	&__caret {

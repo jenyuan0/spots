@@ -8,6 +8,12 @@ import defineMetadata from '@/lib/defineMetadata';
 import Layout from '@/layout';
 import StyledJsxRegistry from '@/lib/registry';
 import localFont from 'next/font/local';
+import {
+	Noto_Sans_TC,
+	Noto_Serif_TC,
+	Noto_Sans_SC,
+	Noto_Serif_SC,
+} from 'next/font/google';
 import ReactQueryProvider from '@/lib/providers/ReactQueryProvider';
 import StoreProvider from '@/lib/providers/StoreProvider';
 import HeadTrackingCode from '@/layout/HeadTrackingCode';
@@ -65,6 +71,34 @@ const fontKalice = localFont({
 	variable: '--font-kalice',
 });
 
+const notoSansTC = Noto_Sans_TC({
+	weight: ['400', '500', '700'],
+	display: 'swap',
+	preload: false,
+	variable: '--font-noto-sans',
+});
+
+const notoSerifTC = Noto_Serif_TC({
+	weight: ['400', '500', '700'],
+	display: 'swap',
+	preload: false,
+	variable: '--font-noto-serif',
+});
+
+const notoSansSC = Noto_Sans_SC({
+	weight: ['400', '500'],
+	display: 'swap',
+	preload: false,
+	variable: '--font-noto-sans',
+});
+
+const notoSerifSC = Noto_Serif_SC({
+	weight: ['400', '500'],
+	display: 'swap',
+	preload: false,
+	variable: '--font-noto-serif',
+});
+
 export default async function RootLayout({ children, params }) {
 	const isPreviewMode = draftMode().isEnabled;
 	const { site } = await getSiteData({ params, isPreviewMode });
@@ -81,7 +115,10 @@ export default async function RootLayout({ children, params }) {
 	return (
 		<StoreProvider>
 			<ReactQueryProvider>
-				<html lang={params?.lang || 'en'} className={`${fontKalice.variable}`}>
+				<html
+					lang={params?.lang || 'en'}
+					className={`${fontKalice.variable} ${notoSansTC.variable} ${notoSerifTC.variable} ${notoSansSC.variable} ${notoSerifSC.variable}`}
+				>
 					<head>
 						<meta
 							httpEquiv="Content-Type"

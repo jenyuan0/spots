@@ -75,28 +75,27 @@ html {
 
 	&[lang='zh_TW'] {
 		--font-serif:
-			var(--font-kalice), 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei',
-			'Heiti TC', sans-serif;
+			var(--font-kalice), var(--font-noto-serif), 'Songti TC', 'PMingLiU',
+			'MingLiU', Georgia, 'Times New Roman', serif;
 		--font-sans:
-			'Helvetica Neue', Noto Sans TC, 'PingFang TC', 'Microsoft JhengHei',
-			'Heiti TC';
-		--t-l-1-weight: 500;
+			'Helvetica Neue', var(--font-noto-sans), 'PingFang TC',
+			'Microsoft JhengHei', 'Heiti TC', 'PMingLiU', 'MingLiU', sans-serif;
 	}
 
 	&[lang='zh_CN'] {
 		--font-serif:
-			var(--font-kalice), 'Noto Sans SC', 'PingFang SC', 'Microsoft JhengHei',
-			'Heiti SC', sans-serif;
+			var(--font-kalice), var(--font-noto-serif), 'Songti SC', 'STSong',
+			'SimSun', 'NSimSun', Georgia, 'Times New Roman', serif;
 		--font-sans:
-			'Helvetica Neue', Noto Sans SC, 'PingFang SC', 'Microsoft JhengHei',
-			'Heiti SC';
-		--t-l-1-weight: 500;
+			'Helvetica Neue', var(--font-noto-sans), 'PingFang SC', 'Microsoft YaHei',
+			'Heiti SC', 'SimHei', 'Arial Unicode MS', sans-serif;
 	}
 
 	&[lang='zh_TW'],
 	&[lang='zh_CN'] {
 		--t-b-3: 14px/1.5 var(--font-sans);
 		--t-l-2: 500 14px/1 var(--font-sans);
+		--t-l-1-weight: 500;
 
 		b,
 		strong {
