@@ -174,7 +174,7 @@
 	}
 
 	&__content {
-		width: Min(1800px, 90vw);
+		width: Min(1360px, 90vw);
 	}
 
 	@include tabletDown {
@@ -191,7 +191,7 @@
 	&__hero {
 		position: relative;
 		display: flex;
-		min-height: clamp(400px, calc(var(--s-vp-height) * 0.5), 800px);
+		min-height: clamp(400px, calc(var(--s-vp-height) * 0.65), 800px);
 		align-items: flex-end;
 		padding: 40px var(--s-contain);
 		background-color: var(--cr-primary);
@@ -288,7 +288,11 @@
 			margin-block: 60px;
 		}
 
+		.c-carousel,
 		.c-image-columns {
+			--item-gap: 10px !important;
+			max-width: 1080px;
+			margin-inline: auto;
 			margin-block: 60px;
 
 			&:has(+ .c-image-columns) {
@@ -296,8 +300,14 @@
 			}
 		}
 
+		.c-carousel-item {
+			width: calc(50% - var(--item-gap) / 2);
+		}
+
 		@include tabletDown {
+			.c-carousel,
 			.c-image-columns {
+				--item-gap: 5px !important;
 				width: 100vw;
 				margin-inline: calc(-1 * var(--s-contain));
 				gap: 5px;

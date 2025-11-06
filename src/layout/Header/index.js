@@ -35,7 +35,8 @@ export default function Header({ isActive, localization }) {
 	const homepageUrl = `/${currentLanguageCode}`;
 	const travelDesignUrl = `/${currentLanguageCode}/travel-design`;
 	const isHomepage = pathname === homepageUrl;
-	const isTravelDesign = pathname === travelDesignUrl;
+	// const isTravelDesign = pathname === travelDesignUrl;
+	const isTravelDesign = pathname !== homepageUrl;
 	const elLinkBooking = (
 		<Link
 			href={homepageUrl}
@@ -78,11 +79,15 @@ export default function Header({ isActive, localization }) {
 	);
 
 	useEffect(() => {
-		const activeRef = isHomepage ? refLinkBooking : refLinkDesign;
+		const activeRef = isHomepage
+			? refLinkBooking
+			: isTravelDesign
+				? refLinkDesign
+				: null;
 
 		setToggleActiveProp({
-			width: activeRef.current.offsetWidth,
-			left: activeRef.current.offsetLeft,
+			width: activeRef?.current.offsetWidth || 0,
+			left: activeRef?.current.offsetLeft || 0,
 		});
 	}, [pathname]);
 

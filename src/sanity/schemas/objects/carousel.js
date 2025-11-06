@@ -13,7 +13,11 @@ export default function carousel() {
 				name: 'items',
 				type: 'array',
 				of: [
-					customImage({ hasCaptionOptions: true, hasCropOptions: true }),
+					customImage({
+						hasCaptionOptions: true,
+						hasCropOptions: true,
+						hasCropOptions: true,
+					}),
 					customIframe(),
 				],
 				validation: (Rule) => Rule.min(1).required(),

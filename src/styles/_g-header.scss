@@ -86,8 +86,8 @@
 			line-height: calc(var(--height) - 4px - 2px);
 			border-radius: calc((var(--height) - 4px) / 2);
 			transition:
-				color var(--t-1),
-				background-color var(--t-2);
+				color 0.25s,
+				background-color 0.5s;
 
 			&.is-active {
 				color: var(--cr-cream);
@@ -116,6 +116,44 @@
 				line-height: 28px;
 				padding-inline: 12px;
 			}
+		}
+	}
+
+	@include mobileDown {
+		&__toggle + &__cta {
+			position: fixed;
+			width: 100%;
+			height: 50px;
+			left: 0;
+			bottom: 0;
+			font-size: 14px;
+			font-weight: 500;
+			background-color: var(--cr-cream);
+			border-left: 0;
+			border-top: 1px solid;
+
+			.btn-underline {
+				width: fit-content;
+			}
+
+			.btn-underline:before,
+			.btn-underline:after {
+				display: block;
+			}
+		}
+	}
+
+	&.is-transparent:not(.is-scrolled):not(.is-mobile-open) {
+		color: var(--cr-white);
+		background-color: transparent;
+
+		.g-header__toggle__active {
+			background-color: var(--cr-white);
+		}
+
+		.g-header__toggle a.is-active {
+			color: var(--cr-brown);
+			background-color: var(--cr-white);
 		}
 	}
 
