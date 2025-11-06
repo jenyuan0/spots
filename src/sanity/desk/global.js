@@ -35,6 +35,15 @@ export const globalMenu = (S) => {
 						)
 						.icon(ComponentIcon),
 					S.listItem()
+						.title('Newsletter')
+						.child(
+							S.editor()
+								.id('gNewsletter')
+								.schemaType('gNewsletter')
+								.documentId('gNewsletter')
+						)
+						.icon(ComponentIcon),
+					S.listItem()
 						.title('Plan Form')
 						.child(
 							S.editor()

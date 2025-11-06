@@ -37,6 +37,7 @@ const translationDocuments = [
 	'gCategories',
 	'gSubcategories',
 	'gPlanForm',
+	'gNewsletter',
 	'gAds',
 	'pHotelBooking',
 	'pTravelDesign',

@@ -29,7 +29,7 @@ const useScaleAnimation = (ref) => {
 const ContactLink = ({ type, value }) => {
 	const linkProps = {
 		email: {
-			href: `mailto:${value}`,
+			href: `/mailto:${value}`,
 			icon: <IconEmail />,
 			className: 'g-plan__contact-item',
 		},

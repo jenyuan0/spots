@@ -105,7 +105,7 @@ export default function Layout({ children, siteData }) {
 			{/* <AsideMap /> */}
 			<Magnify siteData={siteData} />
 			<Lightbox />
-			<Planner />
+			<Planner localization={localization} />
 			<Footer siteData={siteData} data={footer} isActive={isFooterActive} />
 		</>
 	);

@@ -31,7 +31,12 @@ export async function PUT(req) {
 		let errorMessage = '';
 
 		if (title == 'Member Exists' && detail) {
-			errorMessage = detail.match(/.*?is already a list member\./)[0];
+			const match = detail.match(/(.*?) is already a list member\./);
+			if (match && match[1]) {
+				errorMessage = `${match[1]} is already signed up.`;
+			} else {
+				errorMessage = 'This email is already signed up.';
+			}
 			return NextResponse.json({ error: errorMessage }, { status });
 		}
 

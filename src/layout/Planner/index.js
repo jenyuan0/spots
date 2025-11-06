@@ -7,7 +7,7 @@ import useKey from '@/hooks/useKey';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
 import { scrollEnable, scrollDisable } from '@/lib/helpers';
 
-export default function Planner() {
+export default function Planner({ localization }) {
 	const ref = useRef();
 	const refContent = useRef();
 	const {
@@ -83,7 +83,7 @@ export default function Planner() {
 					<div className="icon-close" />
 				</button>
 				{plannerContent?.type == 'newsletter' ? (
-					<NewsletterForm />
+					<NewsletterForm localization={localization} />
 				) : (
 					<PlannerForm data={plannerContent} />
 				)}

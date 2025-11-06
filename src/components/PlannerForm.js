@@ -532,7 +532,7 @@ export default function PlannerForm({ data, plan }) {
 							'js-gtm-booking-email': type != 'design',
 							'js-gtm-design-email': type == 'design',
 						})}
-						href={`mailto:${type == 'design' ? 'vip' : 'hotels'}@spotstravel.co?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(computedMessage)}`}
+						href={`/mailto:${type == 'design' ? 'vip' : 'hotels'}@spotstravel.co?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(computedMessage)}`}
 						isNewTab={true}
 						onClick={() => {
 							setErrorIsVisible(true);

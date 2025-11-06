@@ -10,6 +10,10 @@
 		text-align: center;
 	}
 
+	&__paragraph {
+		text-wrap: balance;
+	}
+
 	&__form {
 		display: flex;
 		width: 100%;
@@ -23,8 +27,17 @@
 		}
 	}
 
+	&__footer {
+		position: relative;
+	}
+
 	&__success,
 	&__error {
+		position: absolute;
+		width: 100%;
+		top: 50%;
+		left: 50%;
+		transform: translate3d(-50%, -50%, 0);
 		text-align: center;
 	}
 }

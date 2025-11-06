@@ -102,7 +102,7 @@ export const pageHotelBooking = (S) => {
 
 const deskStructure = (S, context) =>
 	S.list()
-		.title('Spots.Paris')
+		.title('Spots Travel')
 		.items([
 			globalMenu(S),
 			pagesMenu(S),

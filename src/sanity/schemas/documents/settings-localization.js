@@ -38,6 +38,10 @@ function globalLabelLocalization() {
 				type: 'internationalizedArrayString',
 			}),
 			defineField({
+				name: 'newsletterSignUpLabel',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
 				title: 'Travel Design',
 				name: 'travelDesign',
 				type: 'internationalizedArrayString',

@@ -668,6 +668,7 @@ export const site = groq`
 			"hotelBooking": ${getTranslationByLanguage('hotelBooking')},
 			"travelDesign": ${getTranslationByLanguage('travelDesign')},
 			"newsletterLabel": ${getTranslationByLanguage('newsletterLabel')},
+			"newsletterSignUpLabel": ${getTranslationByLanguage('newsletterSignUpLabel')},
 			"menuLabel": ${getTranslationByLanguage('menuLabel')},
 			"searchHotel": ${getTranslationByLanguage('searchHotel')},
 			"scrollToExplore": ${getTranslationByLanguage('scrollToExplore')},
