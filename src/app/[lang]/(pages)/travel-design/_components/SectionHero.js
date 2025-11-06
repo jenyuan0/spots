@@ -11,14 +11,10 @@ export default function SectionHero({ data }) {
 	const ref = useRef();
 	const [isVideoActive, setIsVideoActive] = useState(false);
 	const { scrollY } = useScroll();
-	const progress = useTransform(
-		scrollY,
-		[0, ref.current?.offsetHeight * 0.4],
-		[0, 1],
-		{
-			clamp: true,
-		}
-	);
+	const height = ref.current?.offsetHeight || 1000; // fallback value
+	const progress = useTransform(scrollY, [0, height * 0.4], [0, 1], {
+		clamp: true,
+	});
 	const motionOpacity = useTransform(progress, [0, 1], [1, 0]);
 	const motionSCale = useTransform(progress, [0, 1], [1, 0.95]);
 
@@ -42,7 +38,7 @@ export default function SectionHero({ data }) {
 			ref={ref}
 			className="p-design__hero"
 			style={{
-				opacity: motionOpacity?.current ? motionOpacity : 1,
+				opacity: motionOpacity,
 				scale: motionSCale,
 			}}
 		>
