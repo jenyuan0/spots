@@ -702,11 +702,8 @@
 
 		@include tabletDown {
 			--padding: 15px;
+			padding-left: 30px;
 			gap: 10px;
-
-			// &__subtitle {
-			// 	display: none;
-			// }
 
 			&__img {
 				width: 60px;
