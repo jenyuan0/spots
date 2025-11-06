@@ -41,7 +41,10 @@ export default function SectionHero({ data }) {
 		<motion.section
 			ref={ref}
 			className="p-design__hero"
-			style={{ opacity: motionOpacity, scale: motionSCale }}
+			style={{
+				opacity: motionOpacity?.current ? motionOpacity : 1,
+				scale: motionSCale,
+			}}
 		>
 			<div className="object-fit">
 				{heroImage && !isVideoActive && <Img image={heroImage} />}
