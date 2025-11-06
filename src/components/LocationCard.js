@@ -41,7 +41,7 @@ const ImageGallery = ({ images, layout, onLightbox }) => {
 				<button
 					className="c-card__lightbox trigger"
 					onClick={onLightbox}
-					aria-label="View full size images"
+					tabIndex={-1}
 				>
 					<IconMaximize />
 				</button>

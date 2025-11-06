@@ -141,7 +141,11 @@ export default function SectionHero({ data, localization }) {
 						})}
 					</Carousel>
 				) : (
-					<div className="p-booking__hero__spots" ref={columnsRef}>
+					<div
+						className="p-booking__hero__spots"
+						tabIndex={-1}
+						ref={columnsRef}
+					>
 						{shuffledColumns.map((spots, index) => (
 							<SpotsColumns
 								data={spots}

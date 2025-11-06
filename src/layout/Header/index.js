@@ -221,6 +221,7 @@ export default function Header({ isActive, localization }) {
 				type="button"
 				className="g-mobile-menu__overlay"
 				onClick={onToggleMenu}
+				tabIndex={-1}
 			></button>
 			<div className="g-mobile-menu f-v f-a-e">
 				<div className="g-mobile-menu__links f-v f-a-e t-h-3">
