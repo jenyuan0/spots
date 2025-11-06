@@ -121,27 +121,31 @@ const LanguageSelector = () => {
 					role="listbox"
 					aria-label="Language options"
 				>
-					{i18n.languages.map((language, index) => (
-						<li key={language.id} role="presentation">
-							<Link
-								id={`lang-option-${index}`}
-								href={generateUrl(language.id, currentSlug)}
-								onClick={() => handleLanguageChange(language.id)}
-								onKeyDown={(e) => handleKeyDown(e, index)}
-								className={clsx('c-language-selector__option f-h f-a-c', {
-									'is-active': currentLanguage?.id === language.id,
-								})}
-								role="option"
-								aria-selected={currentLanguage?.id === language.id}
-								tabIndex={currentLanguage?.id === language.id ? 0 : -1}
-							>
-								<FlagIcon country={language.country} />
-								<span className="c-language-selector__label t-l-2">
-									{language.title}
-								</span>
-							</Link>
-						</li>
-					))}
+					{i18n.languages.map((language, index) => {
+						if (language.id == 'zh_CN') return false;
+
+						return (
+							<li key={language.id} role="presentation">
+								<Link
+									id={`lang-option-${index}`}
+									href={generateUrl(language.id, currentSlug)}
+									onClick={() => handleLanguageChange(language.id)}
+									onKeyDown={(e) => handleKeyDown(e, index)}
+									className={clsx('c-language-selector__option f-h f-a-c', {
+										'is-active': currentLanguage?.id === language.id,
+									})}
+									role="option"
+									aria-selected={currentLanguage?.id === language.id}
+									tabIndex={currentLanguage?.id === language.id ? 0 : -1}
+								>
+									<FlagIcon country={language.country} />
+									<span className="c-language-selector__label t-l-2">
+										{language.title}
+									</span>
+								</Link>
+							</li>
+						);
+					})}
 				</ul>
 			)}
 		</div>
