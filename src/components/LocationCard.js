@@ -39,6 +39,7 @@ const ImageGallery = ({ images, layout, onLightbox }) => {
 			</div>
 			{images && (
 				<button
+					aria-hidden="true"
 					className="c-card__lightbox trigger"
 					onClick={onLightbox}
 					tabIndex={-1}

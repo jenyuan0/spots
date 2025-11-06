@@ -79,7 +79,11 @@ export default function Planner({ localization }) {
 				onClick={handleClose}
 			/>
 			<div ref={refContent} className="g-planner__content">
-				<button className="g-planner__close trigger" onClick={handleClose}>
+				<button
+					aria-label="Close"
+					className="g-planner__close trigger"
+					onClick={handleClose}
+				>
 					<div className="icon-close" />
 				</button>
 				{plannerContent?.type == 'newsletter' ? (

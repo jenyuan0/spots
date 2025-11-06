@@ -368,6 +368,7 @@ export default function PlannerForm({ data, plan }) {
 							<div className="g-planner-form__who__detail__form">
 								<button
 									type="button"
+									aria-label="Decrease"
 									onClick={() => updateWho(0, -1)}
 									disabled={who[0] === 1}
 								>
@@ -378,6 +379,7 @@ export default function PlannerForm({ data, plan }) {
 								</div>
 								<button
 									type="button"
+									aria-label="Increase"
 									onClick={() => updateWho(0, 1)}
 									disabled={who[0] === 8}
 								>
@@ -397,6 +399,7 @@ export default function PlannerForm({ data, plan }) {
 							<div className="g-planner-form__who__detail__form">
 								<button
 									type="button"
+									aria-label="Decrease"
 									onClick={() => updateWho(1, -1)}
 									disabled={who[1] === 0}
 								>
@@ -407,6 +410,7 @@ export default function PlannerForm({ data, plan }) {
 								</div>
 								<button
 									type="button"
+									aria-label="Increase"
 									onClick={() => updateWho(1, 1)}
 									disabled={who[1] === 8}
 								>
@@ -426,6 +430,7 @@ export default function PlannerForm({ data, plan }) {
 							<div className="g-planner-form__who__detail__form">
 								<button
 									type="button"
+									aria-label="Decrease"
 									onClick={() => updateWho(2, -1)}
 									disabled={who[2] === 0}
 								>
@@ -436,6 +441,7 @@ export default function PlannerForm({ data, plan }) {
 								</div>
 								<button
 									type="button"
+									aria-label="Increase"
 									onClick={() => updateWho(2, 1)}
 									disabled={who[2] === 8}
 								>

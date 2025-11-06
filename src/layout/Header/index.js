@@ -222,6 +222,7 @@ export default function Header({ isActive, localization }) {
 
 			<button
 				type="button"
+				aria-hidden="true"
 				className="g-mobile-menu__overlay"
 				onClick={onToggleMenu}
 				tabIndex={-1}
