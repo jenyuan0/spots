@@ -301,7 +301,12 @@
 		}
 
 		.c-carousel-item {
-			width: calc(50% - var(--item-gap) / 2);
+			&:has(.is-landscape) {
+				width: 100%;
+			}
+			&:has(.is-portrait) {
+				width: calc(50% - var(--item-gap) / 2);
+			}
 		}
 
 		@include tabletDown {

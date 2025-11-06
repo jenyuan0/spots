@@ -1,13 +1,16 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { getLocalizationPlural } from '@/lib/helpers';
 import Img from '@/components/Image';
 import CustomPortableText from '@/components/CustomPortableText';
 import Button from '@/components/Button';
 import LocationCard from '@/components/LocationCard';
 import ResponsiveGrid from '@/components/ResponsiveGrid';
+import { useCurrentLang } from '@/hooks/useCurrentLang';
 
 export default function MagnifyCase({ data }) {
+	const [currentLanguageCode] = useCurrentLang();
 	const {
 		title,
 		subtitle,
@@ -17,7 +20,15 @@ export default function MagnifyCase({ data }) {
 		content,
 		accomodations,
 		color,
+		localizationGlobal,
 	} = data || {};
+	const {
+		tripHighlights,
+		ourRole,
+		planYourTrip,
+		suggestedAccomodations,
+		option,
+	} = localizationGlobal;
 
 	return (
 		<div className="g-magnify-cases">
@@ -37,7 +48,7 @@ export default function MagnifyCase({ data }) {
 			</div>
 			<div className="g-magnify-cases__highlights">
 				<h3 className="g-magnify-cases__highlights__title t-l-1">
-					Trip Highlights
+					{tripHighlights || 'Trip Highlights'}
 				</h3>
 				{highlights && (
 					<div className="g-magnify-cases__highlights__summary wysiwyg">
@@ -47,7 +58,7 @@ export default function MagnifyCase({ data }) {
 				{offers && (
 					<>
 						<h3 className="g-magnify-cases__highlights__offers-title t-l-1">
-							Our Role
+							{ourRole || 'Our Role'}
 						</h3>
 						<ul className="g-magnify-cases__highlights__offers t-b-1">
 							{offers?.map((item, index) => (
@@ -65,7 +76,7 @@ export default function MagnifyCase({ data }) {
 						});
 					}}
 				>
-					Plan Your Trip
+					{planYourTrip || 'Plan Your Trip with Spots'}
 				</Button>
 			</div>
 			<div className="g-magnify-cases__content wysiwyg-page">
@@ -74,10 +85,13 @@ export default function MagnifyCase({ data }) {
 			{accomodations && (
 				<div className="g-magnify-cases__accomodations">
 					<h3 className="g-magnify-cases__title t-h-2">
-						Suggested Accomodations
+						{suggestedAccomodations || 'Suggested Accomodations'}
 						<span className="t-l-1">
-							{accomodations.length} Option
-							{accomodations.length > 1 && 's'}
+							{getLocalizationPlural(
+								currentLanguageCode,
+								accomodations,
+								option || 'Option'
+							)}
 						</span>
 					</h3>
 					<ResponsiveGrid

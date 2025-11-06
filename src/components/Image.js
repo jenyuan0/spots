@@ -118,6 +118,8 @@ function Img({
 					lazyload: !isLoaded,
 					lazyloaded: isLoaded,
 					loading: !isLoaded && !error,
+					'is-landscape': aspectRatio > 1,
+					'is-portrait': aspectRatio <= 1,
 				})}
 				role="img"
 				loading="lazy"

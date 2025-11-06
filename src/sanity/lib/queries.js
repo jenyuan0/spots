@@ -465,6 +465,13 @@ export const getCaseData = (type) => {
 				sourceField: 'accomodations',
 				projection: `${getLocationsData('card')}`,
 			})},
+			"localizationGlobal": *[_type == "settingsLocalization"][0].globalLabel {
+				"tripHighlights": ${getTranslationByLanguage('tripHighlights')},
+				"ourRole": ${getTranslationByLanguage('ourRole')},
+				"planYourTrip": ${getTranslationByLanguage('planYourTrip')},
+				"suggestedAccomodations": ${getTranslationByLanguage('suggestedAccomodations')},
+				"option": ${getTranslationByLanguage('option')},
+			},
 		`;
 	}
 	return defaultData;
