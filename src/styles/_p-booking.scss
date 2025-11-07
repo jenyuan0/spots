@@ -18,6 +18,8 @@
 		padding-block: var(--s-4-v);
 
 		p {
+			max-width: 500px;
+			margin-inline: auto;
 			text-wrap: balance;
 		}
 	}
