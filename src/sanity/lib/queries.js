@@ -674,7 +674,7 @@ export const site = groq`
 			"exploreCaseStudy": ${getTranslationByLanguage('exploreCaseStudy')},
 			"hotelBooking": ${getTranslationByLanguage('hotelBooking')},
 			"travelDesign": ${getTranslationByLanguage('travelDesign')},
-			"newsletterLabel": ${getTranslationByLanguage('newsletterLabel')},
+			"newsletterLabel2": ${getTranslationByLanguage('newsletter')},
 			"newsletterSignUpLabel": ${getTranslationByLanguage('newsletterSignUpLabel')},
 			"menuLabel": ${getTranslationByLanguage('menuLabel')},
 			"searchHotel": ${getTranslationByLanguage('searchHotel')},

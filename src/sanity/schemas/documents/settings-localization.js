@@ -34,7 +34,7 @@ function globalLabelLocalization() {
 				type: 'internationalizedArrayString',
 			}),
 			defineField({
-				name: 'newsletterLabel',
+				name: 'newsletterLabel2',
 				type: 'internationalizedArrayString',
 			}),
 			defineField({

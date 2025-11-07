@@ -15,7 +15,7 @@ export default function Header({ isActive, localization }) {
 		hotelBooking,
 		searchHotel,
 		planYourTrip,
-		newsletterLabel,
+		newsletterLabel2,
 	} = localization || {};
 	const [currentLanguageCode] = useCurrentLang();
 	const pathname = usePathname();
@@ -72,7 +72,7 @@ export default function Header({ isActive, localization }) {
 					setPlannerContent({ type: 'newsletter' });
 				}}
 			>
-				{newsletterLabel || 'Newsletter'}
+				{newsletterLabel2 || 'Newsletter'}
 			</Button>
 		</>
 	);
