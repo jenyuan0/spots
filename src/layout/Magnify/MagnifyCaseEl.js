@@ -7,9 +7,11 @@ import CustomPortableText from '@/components/CustomPortableText';
 import Button from '@/components/Button';
 import LocationCard from '@/components/LocationCard';
 import ResponsiveGrid from '@/components/ResponsiveGrid';
+import usePlanner from '@/hooks/usePlanner';
 import { useCurrentLang } from '@/hooks/useCurrentLang';
 
 export default function MagnifyCase({ data }) {
+	const { setPlannerActive, setPlannerContent } = usePlanner();
 	const [currentLanguageCode] = useCurrentLang();
 	const {
 		title,

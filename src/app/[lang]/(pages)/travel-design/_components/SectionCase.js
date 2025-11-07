@@ -109,9 +109,9 @@ export default function SectionCase({ data, siteData }) {
 							className={'p-design__case__card'}
 						>
 							<h3 className="p-design__case__card__title t-h-3">{el.title}</h3>
-							{/* <p className="p-design__case__card__subtitle t-b-2">
+							<p className="p-design__case__card__subtitle t-b-2">
 								{el.subtitle}
-							</p> */}
+							</p>
 							{el.thumbs && el.thumbs.length > 0 && (
 								<div className={'p-design__case__card__images'}>
 									{(() => {

@@ -21,7 +21,7 @@ export default function MobileMenuTrigger({
 				<div className="g-mobile-menu-trigger__line" />
 				<div className="g-mobile-menu-trigger__line" />
 			</div>
-			<span className="t-l-2">{menuLabel}</span>
+			{/* <span className="t-l-2">{menuLabel}</span> */}
 		</button>
 	);
 }

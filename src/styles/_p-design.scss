@@ -45,6 +45,7 @@
 	width: var(--width-sml);
 	margin: var(--s-section) auto;
 	text-align: center;
+	transform: translate3d(0, 0, 0);
 
 	&__title {
 		color: var(--cr-red-d);
@@ -646,7 +647,12 @@
 			box-shadow var(--t-1);
 
 		&__subtitle {
+			width: Max(240px, 50%);
 			text-wrap: balance;
+
+			[lang='en'] & {
+				display: none;
+			}
 		}
 
 		&__images {

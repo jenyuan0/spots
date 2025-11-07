@@ -18,7 +18,8 @@ export default defineType({
 		},
 		{
 			name: 'heroSubheading',
-			type: 'string',
+			type: 'text',
+			rows: 2,
 		},
 		{
 			name: 'heroCta',

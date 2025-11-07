@@ -16,6 +16,7 @@
 		text-align: center;
 		width: Min(1000px, 100%);
 		padding-block: var(--s-4-v);
+		transform: translate3d(0, 0, 0);
 
 		p {
 			max-width: 500px;
@@ -401,6 +402,11 @@
 			&.is-client + &.is-spots,
 			&.is-spots + &.is-client {
 				margin-top: 8px;
+			}
+
+			[lang='zh_TW'] &,
+			[lang='zh_CN'] & {
+				font-size: 15px;
 			}
 		}
 

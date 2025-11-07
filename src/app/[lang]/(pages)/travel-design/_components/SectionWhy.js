@@ -305,20 +305,6 @@ const ClockBlock = ({ data, index, color }) => {
 							}}
 						/>
 					))}
-					{/* {clockText?.map((item, index) => {
-						return (
-							<div
-								key={`clock-image-${index}`}
-								className={clsx('p-design__clock__img', {
-									'is-active': state.textIndex == index,
-								})}
-							>
-								<div className="object-fit">
-									{item.image && <Img image={item.image} />}
-								</div>
-							</div>
-						);
-					})} */}
 					<div
 						ref={centerRef}
 						className="p-design__clock__center"

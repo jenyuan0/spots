@@ -65,7 +65,7 @@ export default defineType({
 		{
 			name: 'whyParagraph',
 			type: 'text',
-			row: 4,
+			rows: 4,
 		},
 		{
 			name: 'clockHeading',
@@ -78,23 +78,6 @@ export default defineType({
 		},
 		callToAction({ name: 'clockCta' }),
 		{
-			name: 'clockText',
-			type: 'array',
-			of: [
-				{
-					name: 'item',
-					type: 'object',
-					fields: [
-						{
-							name: 'text',
-							type: 'string',
-						},
-						customImage(),
-					],
-				},
-			],
-		},
-		{
 			name: 'masksHeading',
 			type: 'string',
 		},
@@ -102,14 +85,6 @@ export default defineType({
 			name: 'masksParagraph',
 			type: 'text',
 			rows: 4,
-		},
-		{
-			name: 'masksImages',
-			type: 'array',
-			of: [customImage()],
-			options: {
-				layout: 'grid',
-			},
 		},
 		callToAction({ name: 'masksCta' }),
 		{

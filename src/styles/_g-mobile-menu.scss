@@ -96,16 +96,14 @@
 	}
 
 	&__links {
+		gap: 10px;
+
 		a.is-active {
 			color: var(--cr-green-d);
 			text-decoration: underline;
 			text-decoration-thickness: 1px;
 			text-underline-offset: 4px;
 			text-decoration-color: var(--cr-green-d);
-		}
-
-		a:not(:last-child) {
-			margin-bottom: 10px;
 		}
 	}
 
