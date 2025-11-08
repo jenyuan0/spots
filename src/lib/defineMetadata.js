@@ -6,8 +6,7 @@ import { toPlainText } from '@portabletext/react';
 
 export default function defineMetadata({ data }) {
 	const { site, page } = data || {};
-	const { _type, slug } = page || {};
-
+	const { _type, slug, language } = page || {};
 	const siteTitle = site?.title || '';
 	// Compose metaDesc: prefer sharing.metaDesc, then locationsParagraph (as plain text, truncated), or fallback to ''
 	let rawParagraph = '';
@@ -44,20 +43,21 @@ export default function defineMetadata({ data }) {
 			? rawParagraph.slice(0, 152).trim() + '...'
 			: rawParagraph;
 	const metaDesc = truncatedParagraph || '';
-
-	const metaTitle = page?.isHomepage
-		? page?.sharing?.metaTitle || siteTitle
-		: page?._type === 'pLocationsCategory'
-			? `The Best ${page?.title} in Paris | Updated ${new Date().toLocaleDateString(
-					'en-US',
-					{
-						month: 'long',
-						year: 'numeric',
-					}
-				)}`
-			: page?.sharing?.metaTitle || page?.title
-				? `${page?.title}${page?.title?.length < 48 ? ` | ${siteTitle}` : ''}`
-				: `Page not found | ${siteTitle}`;
+	const metaTitle = page?.sharing?.metaTitle
+		? page.sharing.metaTitle
+		: page?.isHomepage
+			? siteTitle
+			: page?._type === 'pLocationsCategory'
+				? `The Best ${page?.title} in Paris | Updated ${new Date().toLocaleDateString(
+						'en-US',
+						{
+							month: 'long',
+							year: 'numeric',
+						}
+					)}`
+				: page?.title
+					? `${page.title}${page.title?.length < 48 ? ` | ${siteTitle}` : ''}`
+					: `Page not found | ${siteTitle}`;
 
 	const siteFavicon = site?.sharing?.favicon || false;
 	const siteFaviconUrl = siteFavicon
@@ -156,7 +156,9 @@ export default function defineMetadata({ data }) {
 		metadataBase: new URL(process.env.SITE_URL),
 		alternates: {
 			...(pageRoute && {
-				canonical: formatUrl(`${process.env.SITE_URL}${pageRoute}`),
+				canonical: formatUrl(
+					`${process.env.SITE_URL}/${language}${pageRoute == '/' ? '' : pageRoute}`
+				),
 			}),
 			// TODO: enable when site is multilingual
 			// languages: {

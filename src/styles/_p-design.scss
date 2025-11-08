@@ -27,7 +27,6 @@
 .p-design__spots {
 	position: relative;
 	height: 10px;
-	overflow-x: clip;
 	margin-block: calc(var(--s-section) * 1.5);
 
 	&__spot {

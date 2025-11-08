@@ -23,18 +23,17 @@ export default function MagnifyCase({
 				const [content] = await Promise.all([
 					client.fetch(
 						`coalesce(
-			*[_type == "gCases" && language == "${currentLanguageCode}" && slug.current == "${dataSlug}"][0],
-			*[_type == "gCases" && language == "en" && slug.current == "${dataSlug}"][0]
-		){
-			${getCaseData()}
-		}`,
+							*[_type == "gCases" && language == "${currentLanguageCode}" && slug.current == "${dataSlug}"][0],
+							*[_type == "gCases" && language == "en" && slug.current == "${dataSlug}"][0]
+						){
+							${getCaseData()}
+						}`,
 						{ language: currentLanguageCode } // Add this parameter
 					),
 				]);
 				const contentColor = (content && content.color.title) || 'brown';
 				setCaseContent(content);
-
-				setColor(contentColor);
+				console.log(contentColor);
 				if (onColorChange) onColorChange(contentColor);
 			} catch (e) {
 				console.error('Error fetching location content:', e);

@@ -10,6 +10,7 @@ html {
 
 #main {
 	min-height: var(--s-main-min-height);
+	overflow-x: clip;
 	padding: 0.1px 0;
 }
 

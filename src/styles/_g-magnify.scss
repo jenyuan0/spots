@@ -194,7 +194,7 @@
 		min-height: clamp(400px, calc(var(--s-vp-height) * 0.65), 800px);
 		align-items: flex-end;
 		padding: 40px var(--s-contain);
-		background-color: var(--cr-primary);
+		background-color: var(--cr-subtle-5);
 		justify-content: stretch;
 
 		&__image:after {

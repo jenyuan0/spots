@@ -33,7 +33,7 @@ export default function MagnifyCase({ data }) {
 	} = localizationGlobal;
 
 	return (
-		<div className="g-magnify-cases">
+		<>
 			<div className="g-magnify-cases__hero">
 				{heroImage && (
 					<span className="g-magnify-cases__hero__image object-fit">
@@ -112,6 +112,6 @@ export default function MagnifyCase({ data }) {
 					</ResponsiveGrid>
 				</div>
 			)}
-		</div>
+		</>
 	);
 }

@@ -207,13 +207,15 @@ export function Magnify({ siteData }) {
 						/>
 					)}
 					{type === 'case' && (
-						<MagnifyCase
-							key={mParam || 'case'}
-							mParam={mParam}
-							pageSlug={pageSlug}
-							onColorChange={handleColorChange}
-							localization={localization}
-						/>
+						<div className="g-magnify-cases">
+							<MagnifyCase
+								key={mParam || 'case'}
+								mParam={mParam}
+								pageSlug={pageSlug}
+								onColorChange={handleColorChange}
+								localization={localization}
+							/>
+						</div>
 					)}
 				</div>
 			</div>
