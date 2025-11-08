@@ -24,7 +24,7 @@ export default function LocationDot({ data, initialLightOrDark }) {
 			style={{ '--cr-primary': `var(--cr-${color}-${lightOrDark})` }}
 			href={`/${currentLanguageCode}/paris/locations/${slug}`}
 			title={`View ${title}`}
-			aria-label={`Link to ${title}`}
+			tabIndex={-1}
 			{...(!hasPressedKeys && {
 				onClick: (e) => {
 					e.preventDefault();
