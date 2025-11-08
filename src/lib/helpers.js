@@ -2,6 +2,7 @@ import sanitizeHtml from 'sanitize-html';
 import { imageBuilder } from '@/sanity/lib/image';
 import { format, add, isSameMonth } from 'date-fns';
 import { enUS, zhTW, zhCN } from 'date-fns/locale';
+import { i18n } from '../../languages';
 
 // ***UTILITIES / GET***
 
@@ -637,6 +638,20 @@ export function formatLanguageCode(lang) {
 		console.warn(`Invalid locale "${formatted}", falling back to "en"`);
 		return 'en';
 	}
+}
+
+export function normalizeLanguageParam(langParam) {
+	// Direct match first
+	const directMatch = i18n?.languages.find(
+		(lang) =>
+			lang.id === langParam ||
+			lang.code === langParam ||
+			lang.country === langParam
+	);
+
+	if (directMatch) return directMatch.id;
+
+	return langParam; // fallback
 }
 
 export function getLocalizationPlural(lang, items, word) {

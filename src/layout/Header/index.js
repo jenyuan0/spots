@@ -17,7 +17,7 @@ export default function Header({ isActive, localization }) {
 		planYourTrip,
 		newsletterLabel2,
 	} = localization || {};
-	const [currentLanguageCode] = useCurrentLang();
+	const [currentLanguageCode, currentLanguageCodeDisplay] = useCurrentLang();
 	const pathname = usePathname();
 	const ref = useRef();
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -31,8 +31,9 @@ export default function Header({ isActive, localization }) {
 		width: 0,
 		left: 0,
 	});
-	const homepageUrl = `/${currentLanguageCode}`;
-	const travelDesignUrl = `/${currentLanguageCode}/travel-design`;
+	const homepageUrl = `/${currentLanguageCodeDisplay}`;
+	const travelDesignUrl = `/${currentLanguageCodeDisplay}/travel-design`;
+
 	const isHomepage = pathname === homepageUrl;
 	// const isTravelDesign = pathname === travelDesignUrl;
 	const isTravelDesign = pathname !== homepageUrl;

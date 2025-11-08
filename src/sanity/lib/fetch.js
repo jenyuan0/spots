@@ -3,6 +3,7 @@ import { client } from '@/sanity/lib/client';
 import * as queries from '@/sanity/lib/queries';
 import { token } from '../env';
 import { groq } from 'next-sanity';
+import { normalizeLanguageParam } from '@/lib/helpers';
 
 export async function sanityFetch({ query, params = {}, tags, isPreviewMode }) {
 	if (isPreviewMode && !token) {
@@ -25,8 +26,9 @@ export async function sanityFetch({ query, params = {}, tags, isPreviewMode }) {
 
 export async function getSiteData({ params, isPreviewMode }) {
 	const modifiedParam = {
-		language: params.lang?.replace('-', '_'),
+		language: normalizeLanguageParam(params.lang),
 	};
+
 	const data = sanityFetch({
 		query: `{${queries.site}}`,
 		params: modifiedParam,
@@ -56,7 +58,7 @@ const getPageDataStructure = ({ query, includeSite = true }) => {
 export async function getPageHomeData({ params, isPreviewMode }) {
 	const modifiedParam = {
 		slug: params.slug,
-		language: params.lang?.replace('-', '_') || params.lang,
+		language: normalizeLanguageParam(params.lang),
 	};
 	const query = getPageDataStructure({ query: queries.pageHomeQuery });
 
@@ -71,8 +73,9 @@ export async function getPageHomeData({ params, isPreviewMode }) {
 export async function getPageHotelBooking({ params, isPreviewMode }) {
 	const modifiedParam = {
 		slug: params.slug,
-		language: params.lang?.replace('-', '_') || params.lang,
+		language: normalizeLanguageParam(params.lang),
 	};
+
 	const query = getPageDataStructure({ query: queries.pageHotelBookingQuery });
 
 	return sanityFetch({
@@ -86,7 +89,7 @@ export async function getPageHotelBooking({ params, isPreviewMode }) {
 export async function getPageTravelDesign({ params, isPreviewMode }) {
 	const modifiedParam = {
 		slug: params.slug,
-		language: params.lang?.replace('-', '_') || params.lang,
+		language: normalizeLanguageParam(params.lang),
 	};
 	const query = getPageDataStructure({ query: queries.pageTravelDesignQuery });
 
@@ -101,7 +104,7 @@ export async function getPageTravelDesign({ params, isPreviewMode }) {
 export async function get404PageData({ params }) {
 	const modifiedParam = {
 		...params,
-		language: params.lang?.replace('-', '_') || params.lang,
+		language: normalizeLanguageParam(params.lang),
 	};
 	const query = getPageDataStructure({
 		query: queries.page404Query,
@@ -145,7 +148,7 @@ export function getPagesPaths({ pageType }) {
 export function getPageBySlug({ params }) {
 	const modifiedParam = {
 		slug: params.slug,
-		language: params.lang?.replace('-', '_') || params.lang,
+		language: normalizeLanguageParam(params.lang),
 	};
 	const query = getPageDataStructure({ query: queries.pagesBySlugQuery });
 
@@ -159,7 +162,7 @@ export function getPageBySlug({ params }) {
 export function getContactPage({ params, isPreviewMode }) {
 	const modifiedParam = {
 		...params,
-		language: params.lang?.replace('-', '_') || params.lang,
+		language: normalizeLanguageParam(params.lang),
 	};
 	const query = getPageDataStructure({ query: queries.pageContactQuery });
 
@@ -174,7 +177,7 @@ export function getContactPage({ params, isPreviewMode }) {
 export function getTripReadyPage({ params, isPreviewMode }) {
 	const modifiedParam = {
 		slug: params.slug,
-		language: params.lang?.replace('-', '_') || params.lang,
+		language: normalizeLanguageParam(params.lang),
 	};
 	const query = getPageDataStructure({ query: queries.pageTripReadyQuery });
 
@@ -206,7 +209,7 @@ export function getTripReadyPage({ params, isPreviewMode }) {
 export function getParisPage({ params, isPreviewMode }) {
 	const modifiedParam = {
 		slug: params.slug,
-		language: params.lang?.replace('-', '_') || params.lang,
+		language: normalizeLanguageParam(params.lang),
 	};
 	const query = getPageDataStructure({ query: queries.pageParisQuery });
 
@@ -233,7 +236,7 @@ export function getGuidesIndexPage({
 }) {
 	const modifiedParam = {
 		...params,
-		language: params.lang?.replace('-', '_') || params.lang,
+		language: normalizeLanguageParam(params.lang),
 	};
 	const query = getPageDataStructure({
 		query: isArticleDataSSG
@@ -252,7 +255,7 @@ export function getGuidesIndexPage({
 export function getGuidesCategoryPage({ params, isPreviewMode }) {
 	const modifiedParam = {
 		slug: params.slug,
-		language: params.lang?.replace('-', '_') || params.lang,
+		language: normalizeLanguageParam(params.lang),
 	};
 	const query = getPageDataStructure({
 		query: queries.pageGuidesCategoryQuery,
@@ -269,7 +272,7 @@ export function getGuidesCategoryPage({ params, isPreviewMode }) {
 export function getGuidesSinglePage({ params, isPreviewMode }) {
 	const modifiedParam = {
 		slug: params.slug,
-		language: params.lang?.replace('-', '_') || params.lang,
+		language: normalizeLanguageParam(params.lang),
 	};
 	const query = getPageDataStructure({ query: queries.pageGuidesSingleQuery });
 
@@ -296,7 +299,7 @@ export function getLocationsIndexPage({
 }) {
 	const modifiedParam = {
 		slug: params.slug,
-		language: params.lang?.replace('-', '_') || params.lang,
+		language: normalizeLanguageParam(params.lang),
 	};
 	const query = getPageDataStructure({
 		query: isArticleDataSSG
@@ -315,7 +318,7 @@ export function getLocationsIndexPage({
 export function getLocationsCategoryPage({ params, isPreviewMode }) {
 	const modifiedParam = {
 		slug: params.slug,
-		language: params.lang?.replace('-', '_') || params.lang,
+		language: normalizeLanguageParam(params.lang),
 	};
 
 	const query = getPageDataStructure({
@@ -333,7 +336,7 @@ export function getLocationsCategoryPage({ params, isPreviewMode }) {
 export function getLocationsSinglePage({ params, isPreviewMode }) {
 	const modifiedParam = {
 		slug: params.slug,
-		language: params.lang?.replace('-', '_') || params.lang,
+		language: normalizeLanguageParam(params.lang),
 	};
 	const query = getPageDataStructure({
 		query: queries.pageLocationsSingleQuery,
@@ -350,7 +353,7 @@ export function getLocationsSinglePage({ params, isPreviewMode }) {
 export function getCasesSinglePage({ params, isPreviewMode }) {
 	const modifiedParam = {
 		slug: params.slug,
-		language: params.lang?.replace('-', '_') || params.lang,
+		language: normalizeLanguageParam(params.lang),
 	};
 	const query = getPageDataStructure({
 		query: queries.pageCasesSingleQuery,
@@ -368,7 +371,7 @@ export function getCasesSinglePage({ params, isPreviewMode }) {
 export function getItinerariesSinglePage({ params, isPreviewMode }) {
 	const modifiedParam = {
 		slug: params.slug,
-		language: params.lang?.replace('-', '_') || params.lang,
+		language: normalizeLanguageParam(params.lang),
 	};
 	const query = getPageDataStructure({
 		query: queries.pageItinerariesSingleQuery,
