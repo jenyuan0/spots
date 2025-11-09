@@ -100,7 +100,7 @@ const ListWithSSG = ({ data, currentPageNumber }) => {
 };
 
 export default function GuidesPagination({ data }) {
-	const [currentLanguageCode] = useCurrentLang();
+	const [currentLanguageCode, currentLanguageCodeDisplay] = useCurrentLang();
 	const searchParams = useSearchParams();
 	const { slug, isCategoryPage, itemsPerPage = 12 } = data;
 	const items = data?.articleList || [];
@@ -119,7 +119,7 @@ export default function GuidesPagination({ data }) {
 				<Pagination
 					currentPageNumber={currentPageNumber}
 					totalPage={totalPages}
-					url={`/${currentLanguageCode}/paris/guides${isCategoryPage ? `/category/${slug}` : ''}`}
+					url={`/${currentLanguageCodeDisplay}/paris/guides${isCategoryPage ? `/category/${slug}` : ''}`}
 				/>
 			)}
 		</>

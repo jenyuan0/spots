@@ -37,7 +37,7 @@ import { useCurrentLang } from '@/hooks/useCurrentLang';
 // https://www.airbnb.com/rooms/32011367
 
 export default function PageItinerarySingle({ data }) {
-	const [currentLanguageCode] = useCurrentLang();
+	const [currentLanguageCode, currentLanguageCodeDisplay] = useCurrentLang();
 	const {
 		title,
 		subtitle,

@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 import { useCurrentLang } from '@/hooks/useCurrentLang';
 
 export default function NewsletterForm({ localization }) {
-	const [currentLanguageCode] = useCurrentLang();
+	const [currentLanguageCode, currentLanguageCodeDisplay] = useCurrentLang();
 	const [content, setContent] = useState();
 	const [isSuccess, setIsSuccess] = useState(false);
 	const [isError, setIsError] = useState(false);
@@ -35,7 +35,6 @@ export default function NewsletterForm({ localization }) {
 				);
 
 				setContent(doc || {});
-				console.log(currentLanguageCode, doc);
 			} catch (error) {
 				if (error.name !== 'AbortError') {
 					console.error('Error fetching data:', error);

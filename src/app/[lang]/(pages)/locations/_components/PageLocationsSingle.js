@@ -16,7 +16,7 @@ import Carousel from '@/components/Carousel';
 import { useCurrentLang } from '@/hooks/useCurrentLang';
 
 export default function PageLocationsSingle({ data, siteData }) {
-	const [currentLanguageCode] = useCurrentLang();
+	const [currentLanguageCode, currentLanguageCodeDisplay] = useCurrentLang();
 	const { localization: siteLocalization } = siteData || {};
 	const { addressLabel, websiteLabel } = siteLocalization || {};
 	const {
@@ -49,11 +49,11 @@ export default function PageLocationsSingle({ data, siteData }) {
 	const breadcrumb = [
 		{
 			title: locationsLabel || 'Locations',
-			url: `/${currentLanguageCode}/locations`,
+			url: `/${currentLanguageCodeDisplay}/locations`,
 		},
 		{
 			title: categories[0].title,
-			url: `/${currentLanguageCode}/locations/category/${categories[0].slug}`,
+			url: `/${currentLanguageCodeDisplay}/locations/category/${categories[0].slug}`,
 		},
 	];
 

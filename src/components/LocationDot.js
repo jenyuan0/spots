@@ -6,7 +6,7 @@ import { getRandomInt } from '@/lib/helpers';
 import { useCurrentLang } from '@/hooks/useCurrentLang';
 
 export default function LocationDot({ data, initialLightOrDark }) {
-	const [currentLanguageCode] = useCurrentLang();
+	const [currentLanguageCode, currentLanguageCodeDisplay] = useCurrentLang();
 	const { slug, title, color } = data;
 	const [lightOrDark, setLightOrDark] = useState(initialLightOrDark);
 	const setMag = useMagnify((state) => state.setMag);
@@ -22,7 +22,7 @@ export default function LocationDot({ data, initialLightOrDark }) {
 		<Link
 			className="c-location-dot"
 			style={{ '--cr-primary': `var(--cr-${color}-${lightOrDark})` }}
-			href={`/${currentLanguageCode}/paris/locations/${slug}`}
+			href={`/${currentLanguageCodeDisplay}/paris/locations/${slug}`}
 			title={`View ${title}`}
 			aria-label={`Link to ${title}`}
 			{...(!hasPressedKeys && {
