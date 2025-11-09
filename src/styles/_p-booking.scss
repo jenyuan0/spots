@@ -22,6 +22,10 @@
 			max-width: 500px;
 			margin-inline: auto;
 			text-wrap: balance;
+
+			html[lang='zh_TW'] & {
+				white-space: break-spaces;
+			}
 		}
 	}
 
