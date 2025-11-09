@@ -17,6 +17,7 @@ import {
 import ReactQueryProvider from '@/lib/providers/ReactQueryProvider';
 import StoreProvider from '@/lib/providers/StoreProvider';
 import HeadTrackingCode from '@/layout/HeadTrackingCode';
+import { normalizeLanguageParam } from '@/lib/helpers';
 
 const PreviewProvider = dynamic(
 	() => import('@/components/preview/PreviewProvider')
@@ -116,7 +117,7 @@ export default async function RootLayout({ children, params }) {
 		<StoreProvider>
 			<ReactQueryProvider>
 				<html
-					lang={params?.lang || 'en'}
+					lang={params?.lang ? normalizeLanguageParam(params.lang) : 'en'}
 					className={`${fontKalice.variable} ${notoSansTC.variable} ${notoSerifTC.variable} ${notoSansSC.variable} ${notoSerifSC.variable}`}
 				>
 					<head>
