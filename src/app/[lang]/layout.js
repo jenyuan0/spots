@@ -74,28 +74,28 @@ const fontKalice = localFont({
 
 const notoSansTC = Noto_Sans_TC({
 	weight: ['400', '500', '700'],
-	display: 'swap',
+	display: 'optional',
 	preload: false,
 	variable: '--font-noto-sans',
 });
 
 const notoSerifTC = Noto_Serif_TC({
 	weight: ['400', '500', '700'],
-	display: 'swap',
+	display: 'optional',
 	preload: false,
 	variable: '--font-noto-serif',
 });
 
 const notoSansSC = Noto_Sans_SC({
 	weight: ['400', '500'],
-	display: 'swap',
+	display: 'optional',
 	preload: false,
 	variable: '--font-noto-sans',
 });
 
 const notoSerifSC = Noto_Serif_SC({
 	weight: ['400', '500'],
-	display: 'swap',
+	display: 'optional',
 	preload: false,
 	variable: '--font-noto-serif',
 });
