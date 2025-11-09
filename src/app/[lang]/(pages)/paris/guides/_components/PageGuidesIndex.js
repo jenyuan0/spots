@@ -10,7 +10,7 @@ import CustomPortableText from '@/components/CustomPortableText';
 import { useCurrentLang } from '@/hooks/useCurrentLang';
 
 export default function PageGuidesIndex({ data, siteData }) {
-	const [currentLanguageCode] = useCurrentLang();
+	const [currentLanguageCode, currentLanguageCodeDisplay] = useCurrentLang();
 	const {
 		slug,
 		heading,
@@ -34,17 +34,17 @@ export default function PageGuidesIndex({ data, siteData }) {
 	const breadcrumb = [
 		{
 			title: parisLabel || 'Paris',
-			url: `/${currentLanguageCode}/paris`,
+			url: `/${currentLanguageCodeDisplay}/paris`,
 		},
 		{
 			title: guidesLabel || 'Guides',
-			url: `/${currentLanguageCode}/paris/guides`,
+			url: `/${currentLanguageCodeDisplay}/paris/guides`,
 		},
 		...(parentCategory
 			? [
 					{
 						title: parentCategory.title,
-						url: `/${currentLanguageCode}/paris/locations/category/${categories[0].slug}`,
+						url: `/${currentLanguageCodeDisplay}/paris/locations/category/${categories[0].slug}`,
 					},
 				]
 			: []),

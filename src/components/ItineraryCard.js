@@ -6,7 +6,7 @@ import Link from '@/components/CustomLink';
 import { useCurrentLang } from '@/hooks/useCurrentLang';
 
 export default function ItineraryCard({ data }) {
-	const [currentLanguageCode] = useCurrentLang();
+	const [currentLanguageCode, currentLanguageCodeDisplay] = useCurrentLang();
 	const {
 		title,
 		subtitle,
@@ -19,7 +19,7 @@ export default function ItineraryCard({ data }) {
 		localization,
 	} = data || {};
 	const { dayLabel, itineraryLabel, viewTrip } = localization || {};
-	const url = `/${currentLanguageCode}/paris/itinerary/${slug}`;
+	const url = `/${currentLanguageCodeDisplay}/paris/itinerary/${slug}`;
 
 	const isEnglish = currentLanguageCode === 'en';
 	const headerLabel = isEnglish

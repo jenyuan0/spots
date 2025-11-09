@@ -77,9 +77,9 @@ export default function LocationCard({
 	} = data || {};
 
 	const { readMore, detailsLabel, getDirection } = localization || {};
-	const [currentLanguageCode] = useCurrentLang();
+	const [currentLanguageCode, currentLanguageCodeDisplay] = useCurrentLang();
 
-	const url = `/${currentLanguageCode}/locations/${slug}`;
+	const url = `/${currentLanguageCodeDisplay}/locations/${slug}`;
 	const addressString =
 		address && Object.values(address).filter(Boolean).join(', ');
 	const resStart = res?.startTime && new Date(res?.startTime);

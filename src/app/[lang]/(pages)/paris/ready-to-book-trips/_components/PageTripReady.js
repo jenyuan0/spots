@@ -7,7 +7,7 @@ import ResponsiveGrid from '@/components/ResponsiveGrid';
 import { useCurrentLang } from '@/hooks/useCurrentLang';
 
 export default function PageReadyToBook({ data, siteData }) {
-	const [currentLanguageCode] = useCurrentLang();
+	const [currentLanguageCode, currentLanguageCodeDisplay] = useCurrentLang();
 	const { title, paragraph, itineraries } = data || {};
 	const { localization } = siteData || {};
 	const { parisLabel, readyToBookLabel } = localization || {};
@@ -15,11 +15,11 @@ export default function PageReadyToBook({ data, siteData }) {
 	const breadcrumb = [
 		{
 			title: parisLabel || 'Paris',
-			url: `/${currentLanguageCode}/paris`,
+			url: `/${currentLanguageCodeDisplay}/paris`,
 		},
 		{
 			title: readyToBookLabel || 'Ready-to-Book Trips',
-			url: `/${currentLanguageCode}/paris/ready-to-book-trips`,
+			url: `/${currentLanguageCodeDisplay}/paris/ready-to-book-trips`,
 		},
 	];
 	// TODO

@@ -22,6 +22,8 @@ export const getRoute = ({ documentType, slug }) => {
 			return `/contact`;
 		case 'pHotelBooking':
 			return '/';
+		case 'pTravelDesign':
+			return '/travel-design';
 
 		case 'pLocations':
 			return `/locations`;

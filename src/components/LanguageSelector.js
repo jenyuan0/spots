@@ -29,12 +29,12 @@ const FlagIcon = ({ country }) => {
 };
 
 const LanguageSelector = () => {
-	const [currentLanguageCode] = useCurrentLang();
+	const [currentLanguageCode, currentLanguageCodeDisplay] = useCurrentLang();
 	const pathname = usePathname();
 	const [isOpen, setIsOpen] = useState(false);
 	const containerRef = useRef(null);
 
-	const currentSlug = stripLangFromPath(pathname, currentLanguageCode);
+	const currentSlug = stripLangFromPath(pathname, currentLanguageCodeDisplay);
 	const currentLanguage =
 		i18n.languages.find((lang) => lang.id === currentLanguageCode) ||
 		i18n.defaultLanguage;

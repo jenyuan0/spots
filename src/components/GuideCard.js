@@ -7,7 +7,7 @@ import CategoryPillList from '@/components/CategoryPillList';
 import { useCurrentLang } from '@/hooks/useCurrentLang';
 
 export default function GuideCard({ data, layout = 'vertical-1', color }) {
-	const [currentLanguageCode] = useCurrentLang();
+	const [currentLanguageCode, currentLanguageCodeDisplay] = useCurrentLang();
 	const {
 		title,
 		slug,
@@ -19,7 +19,7 @@ export default function GuideCard({ data, layout = 'vertical-1', color }) {
 		localization,
 	} = data || {};
 	const { readGuide } = localization || {};
-	const url = `/${currentLanguageCode}/paris/guides/${slug}`;
+	const url = `/${currentLanguageCodeDisplay}/paris/guides/${slug}`;
 
 	return (
 		<div

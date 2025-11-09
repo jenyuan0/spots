@@ -32,13 +32,13 @@ export default function Button({
 }) {
 	const underline = className.includes('btn-underline');
 	const isMailTo = href?.match('^mailto:');
-	const [currentLanguageCode] = useCurrentLang();
+	const [currentLanguageCode, currentLanguageCodeDisplay] = useCurrentLang();
 
 	if (href) {
 		return (
 			<Link
 				className={className}
-				href={`${isMailTo ? '' : `/${currentLanguageCode}`}${href}`}
+				href={`${isMailTo ? '' : `/${currentLanguageCodeDisplay}`}${href}`}
 				isNewTab={isNewTab}
 				{...props}
 			>

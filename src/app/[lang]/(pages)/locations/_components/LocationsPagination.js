@@ -101,7 +101,7 @@ const ListWithSSG = ({ data, currentPageNumber }) => {
 };
 
 export default function LocationsPagination({ data }) {
-	const [currentLanguageCode] = useCurrentLang();
+	const [currentLanguageCode, currentLanguageCodeDisplay] = useCurrentLang();
 
 	const searchParams = useSearchParams();
 	const { slug, isCategoryPage, itemsPerPage = 12 } = data;
@@ -121,7 +121,7 @@ export default function LocationsPagination({ data }) {
 				<Pagination
 					currentPageNumber={currentPageNumber}
 					totalPage={totalPages}
-					url={`/${currentLanguageCode}/locations${isCategoryPage ? `/category/${slug}` : ''}`}
+					url={`/${currentLanguageCodeDisplay}/locations${isCategoryPage ? `/category/${slug}` : ''}`}
 				/>
 			)}
 		</>
