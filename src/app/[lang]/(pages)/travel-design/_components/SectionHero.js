@@ -29,21 +29,6 @@ export default function SectionHero({ data }) {
 		setHasMounted(true);
 	}, []);
 
-	useEffect(() => {
-		if (!heroVideo?.url || !videoRef.current) return;
-		// Try to play programmatically to detect autoplay availability
-		const v = videoRef.current;
-		const tryPlay = async () => {
-			try {
-				await v.play();
-				// onPlay will set isVideoActive
-			} catch (e) {
-				// Autoplay blocked (e.g., iOS Low Power Mode). Keep image visible.
-			}
-		};
-		tryPlay();
-	}, [heroVideo?.url]);
-
 	if (!hasMounted) return null;
 
 	return (
@@ -65,6 +50,10 @@ export default function SectionHero({ data }) {
 						playsInline
 						loop
 						preload="metadata"
+						onLoadedMetadata={() => {
+							const v = videoRef.current;
+							if (v) v.play().catch(() => {});
+						}}
 						onPlay={() => setIsVideoActive(true)}
 						className={clsx({
 							'is-active': isVideoActive,
