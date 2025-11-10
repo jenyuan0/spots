@@ -77,6 +77,12 @@ const EXCLUDED_DIRS = [
 	'_tests',
 ];
 
+const CHINESE_LOCALES = ['zh_TW', 'zh_CN'];
+
+function getPathSegment(language) {
+	return CHINESE_LOCALES.includes(language.id) ? language.country : language.id;
+}
+
 async function getDocumentData(type, slug) {
 	try {
 		const query = groq`*[${type ? `_type == "${type}" &&` : ''} slug.current == "${slug}"][0] {
@@ -101,7 +107,11 @@ function buildAlternates(url, lang) {
 	};
 
 	i18n.languages.forEach((language) => {
-		const alternateUrl = url.replace(`/${lang}/`, `/${language.id}/`);
+		const langSegment = getPathSegment(language);
+		const alternateUrl = url.replace(
+			`/${getPathSegment({ id: lang })}/`,
+			`/${langSegment}/`
+		);
 		alternates.languages[language.id] = alternateUrl;
 	});
 
@@ -114,12 +124,13 @@ async function getStaticRoutes(baseUrl) {
 
 	// Add homepage for each language
 	i18n.languages.forEach((language) => {
+		const pathSegment = getPathSegment(language);
 		routes.push({
-			url: formatUrl(`${baseUrl}/${language.id}`),
+			url: formatUrl(`${baseUrl}/${pathSegment}`),
 			lastModified: new Date().toISOString(),
 			changeFrequency: 'weekly',
 			priority: 1.0,
-			alternates: buildAlternates(`${baseUrl}/${language.id}`, language.id),
+			alternates: buildAlternates(`${baseUrl}/${pathSegment}`, language.id),
 		});
 	});
 
@@ -158,7 +169,8 @@ async function getStaticRoutes(baseUrl) {
 				if (!disableIndex) {
 					// Create routes for each language
 					i18n.languages.forEach((language) => {
-						const url = `${baseUrl}/${language.id}/${relativePath}`;
+						const pathSegment = getPathSegment(language);
+						const url = `${baseUrl}/${pathSegment}/${relativePath}`;
 						routes.push({
 							url: formatUrl(url),
 							lastModified,
@@ -200,7 +212,8 @@ async function getDynamicRoutes(baseUrl) {
 
 							// Create routes for each language
 							return i18n.languages.map((language) => {
-								const url = `${baseUrl}/${language.id}${urlPrefix}${pageSlug.startsWith('/') ? pageSlug : `/${pageSlug}`}`;
+								const pathSegment = getPathSegment(language);
+								const url = `${baseUrl}/${pathSegment}${urlPrefix}${pageSlug.startsWith('/') ? pageSlug : `/${pageSlug}`}`;
 
 								return {
 									url: formatUrl(url),

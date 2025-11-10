@@ -171,6 +171,15 @@ export function formatUrl(url) {
 	return `${protocol}://${normalizedRest}`;
 }
 
+export function convertChineseLocale(language) {
+	const chineseLocaleMap = {
+		zh_TW: 'tw',
+		zh_CN: 'cn',
+	};
+
+	return chineseLocaleMap[language] || language;
+}
+
 export function formatPluralize(phrase) {
 	const irregularPlurals = {
 		man: 'men',

@@ -32,14 +32,17 @@ const nextConfig = {
         }`
 		);
 
-		if (redirects && Array.isArray(redirects)) {
+		if (redirects?.length) {
 			dynamicRedirects = redirects.flatMap((redirect) =>
-				i18n.languages.map((language) => ({
-					source: `/${language.id}${redirect?.source}`,
-					destination: `/${language.id}${redirect?.destination}`,
-					permanent: redirect.permanent,
-					...(isExternalURL(redirect?.destination) && { basePath: false }),
-				}))
+				i18n.languages.map((language) => {
+					const isExternal = isExternalURL(redirect.destination);
+					return {
+						source: `/${language.id}${redirect.source}`,
+						destination: `${isExternal ? '' : `/${language.id}`}${redirect.destination}`,
+						permanent: redirect.permanent,
+						...(isExternal && { basePath: false }),
+					};
+				})
 			);
 		}
 

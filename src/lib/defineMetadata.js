@@ -1,12 +1,13 @@
 import { imageBuilder } from '@/sanity/lib/image';
 import { getRoute } from '@/lib/routes';
-import { formatUrl } from '@/lib/helpers';
+import { formatUrl, convertChineseLocale } from '@/lib/helpers';
 import { toPlainText } from '@portabletext/react';
 // https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadata-fields
 
 export default function defineMetadata({ data }) {
 	const { site, page } = data || {};
 	const { _type, slug, language } = page || {};
+	const languageParam = convertChineseLocale(language);
 	const siteTitle = site?.title || '';
 	// Compose metaDesc: prefer sharing.metaDesc, then locationsParagraph (as plain text, truncated), or fallback to ''
 	let rawParagraph = '';
@@ -157,7 +158,7 @@ export default function defineMetadata({ data }) {
 		alternates: {
 			...(pageRoute && {
 				canonical: formatUrl(
-					`${process.env.SITE_URL}/${language}${pageRoute == '/' ? '' : pageRoute}`
+					`${process.env.SITE_URL}/${languageParam}${pageRoute == '/' ? '' : pageRoute}`
 				),
 			}),
 			// TODO: enable when site is multilingual

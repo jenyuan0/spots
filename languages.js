@@ -18,13 +18,13 @@ const languages = [
 		subtitle: '繁',
 		country: 'tw',
 	},
-	{
-		id: 'zh_CN',
-		code: 'zh-CN',
-		title: '简体中文',
-		subtitle: '简',
-		country: 'cn',
-	},
+	// {
+	// 	id: 'zh_CN',
+	// 	code: 'zh-CN',
+	// 	title: '简体中文',
+	// 	subtitle: '简',
+	// 	country: 'cn',
+	// },
 ];
 
 // Add document's type to the list to enable localization for the document
