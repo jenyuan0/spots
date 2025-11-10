@@ -885,7 +885,7 @@ export const pageParisQuery = groq`
 			sourceField: 'locationCategories',
 			projection: `${categoryMetaFields}`,
 		})},
-    "locationList": *[_type == "gLocations" && language == "en"] | order(_updatedAt desc)[0...30] {
+    "locationList": *[_type == "gLocations" && language == "en" && hideFromIndex != true] | order(_updatedAt desc)[0...30] {
       ${getLocationsData('card')}
     },
     itinerariesTitle,
@@ -1096,8 +1096,8 @@ export const pageGuidesSingleQuery = groq`
 
 export const locationListAllQuery = groq`
 	"locationList": coalesce(
-		*[_type == "gLocations" && language == $language],
-		*[_type == "gLocations" && language == "en"]
+		*[_type == "gLocations" && language == $language && hideFromIndex != true],
+		*[_type == "gLocations" && language == "en" && hideFromIndex != true]
 	) | order(_updatedAt desc)[0...300]{
 		${getLocationsData('card')}
 	}
@@ -1207,7 +1207,7 @@ export const pageLocationsIndexWithArticleDataSSGQuery = groq`
 
 export const pageLocationsPaginationMethodQuery = groq`
   {
-    "articleTotalNumber": count(*[_type == "gLocations" && language == "en"]),
+    "articleTotalNumber": count(*[_type == "gLocations" && language == "en" && hideFromIndex != true]),
     "itemsPerPage": *[_type == "pLocations" && language == "en"][0].itemsPerPage
   }`;
 
@@ -1215,6 +1215,7 @@ export const pageLocationsSingleQuery = groq`
   ${getDocumentWithFallback({ docType: 'gLocations', withSlug: true })}{
     ${getLocationsData()},
     "defaultRelatedLocations": *[_type == "gLocations" && language == "en"
+			&& hideFromIndex != true
       && _id != ^._id
       && lower(address.city) == lower(^.address.city)
       ] | order(publishedAt desc, _createdAt desc) [0..11] {
