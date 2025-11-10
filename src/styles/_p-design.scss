@@ -7,8 +7,6 @@
 	width: var(--size);
 	margin-top: calc(var(--s-header) + var(--s-section));
 	margin-inline: auto;
-	position: sticky;
-	top: calc(var(--s-header) + var(--s-section));
 	pointer-events: none;
 	background-color: var(--cr-subtle);
 	overflow: hidden;
@@ -21,6 +19,11 @@
 
 	video.is-active {
 		animation: fadeIn 2s 0.2s both;
+	}
+
+	@include tabletUp {
+		position: sticky;
+		top: calc(var(--s-header) + var(--s-section));
 	}
 }
 
