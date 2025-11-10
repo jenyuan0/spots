@@ -11,6 +11,7 @@ export default function SectionHero({ data }) {
 	const videoRef = useRef(null);
 	const ref = useRef();
 	const [isVideoActive, setIsVideoActive] = useState(false);
+	const [showFallbackImage, setShowFallbackImage] = useState(!heroVideo?.url);
 	const { scrollY } = useScroll();
 	const { isTabletScreen } = useWindowDimensions();
 	const height = ref.current?.offsetHeight || 1000; // fallback value
@@ -25,6 +26,41 @@ export default function SectionHero({ data }) {
 	const motionOpacity = useTransform(progress, [0, 1], [1, 0]);
 	const motionSCale = useTransform(progress, [0, 1], [1, 0.95]);
 	const [hasMounted, setHasMounted] = useState(false);
+
+	useEffect(() => {
+		if (!hasMounted) return;
+
+		if (!heroVideo?.url) {
+			setShowFallbackImage(!!heroImage);
+			return;
+		}
+
+		const v = videoRef.current;
+		if (!v) return;
+
+		setShowFallbackImage(false);
+
+		const tryPlay = async () => {
+			try {
+				await v.play();
+			} catch {
+				setShowFallbackImage(true);
+				v.pause();
+			}
+		};
+
+		if (v.readyState >= 2) {
+			tryPlay();
+		} else {
+			const onCanPlay = () => {
+				tryPlay();
+				v.removeEventListener('canplay', onCanPlay);
+			};
+			v.addEventListener('canplay', onCanPlay);
+			return () => v.removeEventListener('canplay', onCanPlay);
+		}
+	}, [hasMounted, heroVideo?.url, heroImage]);
+
 	useEffect(() => {
 		setHasMounted(true);
 	}, []);
@@ -41,7 +77,7 @@ export default function SectionHero({ data }) {
 			}}
 		>
 			<div className="object-fit">
-				{heroImage && !isVideoActive && <Img image={heroImage} />}
+				{heroImage && showFallbackImage && <Img image={heroImage} />}
 				{heroVideo?.url && (
 					<video
 						ref={videoRef}
@@ -52,8 +88,12 @@ export default function SectionHero({ data }) {
 						preload="metadata"
 						onLoadedMetadata={() => {
 							const v = videoRef.current;
-							if (v) v.play().catch(() => {});
+							if (v)
+								v.play().catch(() => {
+									setShowFallbackImage(true);
+								});
 						}}
+						onError={() => setShowFallbackImage(true)}
 						onPlay={() => setIsVideoActive(true)}
 						className={clsx({
 							'is-active': isVideoActive,
