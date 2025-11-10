@@ -69,12 +69,15 @@
 		}
 
 		@media (hover: hover) {
-			&__info {
-				transition: var(--t-2);
+			&__title {
+				transition:
+					opacity 0.3s,
+					transform 0.3s;
 			}
 
-			&:not(:hover) .c-card__info {
+			&:not(:hover) .c-card__title {
 				opacity: 0;
+				transform: translateY(10px);
 			}
 		}
 	}

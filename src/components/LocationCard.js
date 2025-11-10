@@ -135,14 +135,14 @@ export default function LocationCard({
 						</div>
 					)}
 				<div className="c-card__header">
-					{highlights && layout == 'vertical-2' && (
+					{/* {highlights && layout == 'vertical-2' && (
 						<div className="c-card__highlights t-l-2">
 							<LocationHighlights
 								highlights={highlights}
 								localizationHighlights={localizationHighlights}
 							/>
 						</div>
-					)}
+					)} */}
 					<h3
 						className={clsx('c-card__title', {
 							't-h-3': layout === 'embed',
@@ -154,6 +154,9 @@ export default function LocationCard({
 					>
 						{title}
 					</h3>
+					{address?.city && layout == 'vertical-2' && (
+						<div className="c-card__city t-l-2">{address?.city}</div>
+					)}
 				</div>
 				{resStart && (
 					<div className="c-card__badge" role="status">
@@ -170,7 +173,7 @@ export default function LocationCard({
 						<CustomPortableText blocks={contentReplace || content} />
 					</div>
 				)}
-				<div className="c-card__actions">
+				{/* <div className="c-card__actions">
 					<Button
 						className={clsx('btn-underline', {
 							'cr-cream': layout === 'vertical-2',
@@ -195,7 +198,7 @@ export default function LocationCard({
 							{getDirection || 'Get Direction'}
 						</Button>
 					)}
-				</div>
+				</div> */}
 			</div>
 			<Link
 				className={`c-card__url p-fill`}
