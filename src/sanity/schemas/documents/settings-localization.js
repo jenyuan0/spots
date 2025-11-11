@@ -305,68 +305,7 @@ function globalCustomEmailLocalization() {
 		type: 'object',
 		fields: [
 			defineField({
-				title: 'Greeting',
-				name: 'greeting',
-				type: 'internationalizedArrayString',
-			}),
-			defineField({
-				title: 'I’m looking for help planning a trip',
-				name: 'helpPlanTrip',
-				type: 'internationalizedArrayString',
-			}),
-			defineField({
-				title: 'To',
-				name: 'toPreposition',
-				type: 'internationalizedArrayString',
-			}),
-			defineField({
-				title: 'Travel Planning to ',
-				name: 'travelPlanning',
-				type: 'internationalizedArrayString',
-			}),
-			defineField({
-				title: 'I’m looking to book a room at',
-				name: 'bookRoomAt',
-				type: 'internationalizedArrayString',
-			}),
-			defineField({
-				title: 'I’m looking for help finding a hotel in',
-				name: 'findHotelIn',
-				type: 'internationalizedArrayString',
-			}),
-			defineField({
-				title: 'Hotel',
-				name: 'hotel',
-				type: 'internationalizedArrayString',
-			}),
-			defineField({
-				title: 'Inquiry for',
-				name: 'inquiryFor',
-				type: 'internationalizedArrayString',
-			}),
-			defineField({
-				title: 'Search in',
-				name: 'searchIn',
-				type: 'internationalizedArrayString',
-			}),
-			defineField({
-				title: 'I’m looking for help finding a hotel',
-				name: 'findHotel',
-				type: 'internationalizedArrayString',
-			}),
-			defineField({
-				title: 'For',
-				name: 'forConjunction',
-				type: 'internationalizedArrayString',
-			}),
-			defineField({
-				title: 'with a nightly budget of',
-				name: 'withNightlyBudget',
-				type: 'internationalizedArrayString',
-			}),
-			defineField({
-				title: 'and I’d like help planning the trip',
-				name: 'andHelpPlanTrip',
+				name: 'tester',
 				type: 'internationalizedArrayString',
 			}),
 		],

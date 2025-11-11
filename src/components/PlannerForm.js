@@ -28,31 +28,64 @@ import { i18n } from '../../languages.js';
 
 const DATE_FORMAT = 'MMM D';
 
+function getBudgetOptions(currentLanguageCode) {
+	const isChinese = currentLanguageCode?.startsWith('zh');
+	if (isChinese) {
+		return [
+			'$6,000\u201312,000 台幣',
+			'$12,000\u201320,000 台幣',
+			'$20,000+ 台幣',
+		];
+	}
+	return ['$250\u2013500 USD', '$500\u2013750 USD', '$750 USD+'];
+}
+
 function getWhoMessage(
 	[adults, children, pets],
 	localization,
 	currentLanguageCode
 ) {
-	const isEnglish = currentLanguageCode == 'en';
+	const isEnglish =
+		currentLanguageCode === 'en' || currentLanguageCode?.startsWith('en');
+	const isChinese = currentLanguageCode?.startsWith('zh');
 	const {
 		adult,
 		children: childrenLabel,
 		pets: petsLabel,
 	} = localization || {};
+
 	if (adults === 0 && children === 0 && pets === 0) return '';
+
+	if (isEnglish) {
+		const parts = [];
+		if (adults > 0)
+			parts.push(`${adults} ${adult || 'Adult'}${adults > 1 ? 's' : ''}`);
+		if (children > 0)
+			parts.push(
+				`${children} ${children > 1 ? childrenLabel || 'Children' : 'Child'}`
+			);
+		if (pets > 0)
+			parts.push(`${pets} ${petsLabel || 'Pet'}${pets > 1 ? 's' : ''}`);
+		return parts.join(', ');
+	}
+
+	if (isChinese) {
+		// Use measure words and natural Chinese phrasing
+		const cnAdult = adult || '大人';
+		const cnChildren = childrenLabel || '兒童';
+		const cnPets = petsLabel || '寵物';
+		const parts = [];
+		if (adults > 0) parts.push(`${adults} 位${cnAdult}`);
+		if (children > 0) parts.push(`${children} 位${cnChildren}`);
+		if (pets > 0) parts.push(`${pets} 隻${cnPets}`);
+		return parts.join('、');
+	}
+
+	// Fallback for other languages
 	const parts = [];
-	if (adults > 0)
-		parts.push(
-			`${adults} ${adult || 'Adult'}${adults && isEnglish > 1 ? 's' : ''}`
-		);
-	if (children > 0)
-		parts.push(
-			`${children} ${childrenLabel || 'Children'}${children && isEnglish > 1 ? 's' : ''}`
-		);
-	if (pets > 0)
-		parts.push(
-			`${pets} ${petsLabel || 'Pet'}${pets && isEnglish > 1 ? 's' : ''}`
-		);
+	if (adults > 0) parts.push(`${adults} ${adult || 'Adult'}`);
+	if (children > 0) parts.push(`${children} ${childrenLabel || 'Children'}`);
+	if (pets > 0) parts.push(`${pets} ${petsLabel || 'Pet'}`);
 	return parts.join(', ');
 }
 
@@ -130,6 +163,7 @@ export default function PlannerForm({ data, plan }) {
 		subheading: data?.subheading ?? '',
 	});
 	const [where, setWhere] = useState('');
+	const [when, setWhen] = useState('');
 	const [whenMessage, setWhenMessage] = useState('');
 	const [whoMessage, setWhoMessage] = useState('');
 	const [budgetChoice, setBudgetChoice] = useState('');
@@ -158,6 +192,7 @@ export default function PlannerForm({ data, plan }) {
 		const endDate = endDateObj.format(DATE_FORMAT);
 		const nights = endDateObj.diff(startDateObj, 'day');
 
+		setWhen(`${startDate}—${endDate}`);
 		setWhenMessage(`${startDate}—${endDate} (${nights} nights)`);
 		setWhenCalActive(false);
 	};
@@ -180,7 +215,7 @@ export default function PlannerForm({ data, plan }) {
 
 	useEffect(() => {
 		setWhoMessage(getWhoMessage(who, localization, currentLanguageCode));
-	}, [localization]);
+	}, [localization, currentLanguageCode]);
 
 	const updateWho = useCallback(
 		(index, delta) => {
@@ -210,54 +245,68 @@ export default function PlannerForm({ data, plan }) {
 	}, [content, plan, data]);
 
 	const computedMessage = useMemo(() => {
-		const {
-			greeting,
-			helpPlanTrip,
-			toPreposition,
-			travelPlanning,
-			bookRoomAt,
-			findHotelIn,
-			hotel,
-			inquiryFor,
-			searchIn,
-			findHotel,
-			forConjunction,
-			withNightlyBudget,
-			andHelpPlanTrip,
-		} = emailLocalization || {};
+		const isChinese = currentLanguageCode?.startsWith('zh');
 
-		let parts = [`${greeting || 'Hi'},`];
+		if (isChinese) {
+			// Chinese-specific assembly (hardcoded)
+			let message = `嗨，`;
+
+			if (type === 'design') {
+				message += `我想規劃旅程${where && ` (${where})`}`;
+			} else {
+				message += `我想尋找${where && `在 ${where} 的`}飯店`;
+			}
+
+			if (whenMessage) message += `，${whenMessage}`;
+			if (whoMessage) message += `，${whoMessage}`;
+			if (budgetChoice) message += `，每晚預算為 ${budgetChoice}`;
+			if (helpPlanChoice === 0) message += `，並希望妳能協助我規劃行程`;
+
+			message += '。';
+
+			// Subject in Chinese (hardcoded)
+			if (type === 'design') {
+				setSubject(`旅程規劃 ${where}${when && ` (${when})`}`.trim());
+			} else if (where) {
+				setSubject(`飯店預訂 ${where}${when && ` (${when})`}`);
+			} else {
+				setSubject(`飯店詢問${when && ` (${when})`}`);
+			}
+
+			return message;
+		}
+
+		// Default (English and others) assembly (hardcoded)
+		let parts = ['Hi,'];
 
 		if (type == 'design') {
 			parts.push(
-				`${helpPlanTrip || 'I’m looking for help planning a trip'}${where && `${toPreposition || 'to'} ${where}`}`
+				`I’m looking for help planning a trip${where ? ` to ${where}` : ''}`
 			);
-			setSubject(`${travelPlanning || 'Travel Planning to'} ${where}`);
+			setSubject(
+				`Travel Planning${where && ` to ${where}`}${when && ` (${when})`}`.trim()
+			);
 		} else if (where) {
 			const isRoom = data?.where;
 			parts.push(
-				`${isRoom ? `${bookRoomAt || 'I’m looking to book a room at'}` : `${findHotelIn || 'I’m looking for help finding a hotel in'} ${where}`}`
+				isRoom
+					? 'I’m looking to book a room at'
+					: `I’m looking for help finding a hotel in ${where}`
 			);
 			setSubject(
-				`${hotel || 'Hotel'} ${
-					isRoom ? inquiryFor || 'inquiry for' : searchIn || 'search in'
-				} ${where}`
+				`Hotel ${isRoom ? 'inquiry for' : 'search in'} ${where}${when && ` (${when})`}`
 			);
 		} else {
-			parts.push(`${findHotel || 'I’m looking for help finding a hotel'}`);
+			parts.push('I’m looking for help finding a hotel');
 		}
-		if (whenMessage) parts.push(`${forConjunction || 'for'} ${whenMessage}`);
+		if (whenMessage) parts.push(`for ${whenMessage}`);
 		if (whoMessage)
-			parts.push(`${forConjunction || 'for'} ${whoMessage.toLowerCase()}`);
-		if (budgetChoice)
-			parts.push(
-				`${withNightlyBudget || 'with a nightly budget of'} ${budgetChoice}`
-			);
+			parts.push(`for ${isChinese ? whoMessage : whoMessage.toLowerCase()}`);
+		if (budgetChoice) parts.push(`with a nightly budget of ${budgetChoice}`);
 		if (helpPlanChoice && helpPlanChoice === 0) {
-			parts.push(`${andHelpPlanTrip || 'and I’d like help planning the trip'}`);
+			parts.push('and I’d like help planning the trip');
 		}
-		const newMessage = parts.join(' ') + '.';
-		return newMessage;
+		return parts.join(' ') + '.';
 	}, [
 		data,
 		content,
@@ -266,11 +315,18 @@ export default function PlannerForm({ data, plan }) {
 		budgetChoice,
 		where,
 		helpPlanChoice,
+		currentLanguageCode,
+		type,
 	]);
 
 	useEffect(() => {
 		setWhere(data?.where || '');
 	}, [data]);
+
+	const budgetOptions = useMemo(
+		() => getBudgetOptions(currentLanguageCode),
+		[currentLanguageCode]
+	);
 
 	if (!isMounted) return null;
 
@@ -454,6 +510,30 @@ export default function PlannerForm({ data, plan }) {
 				{type !== 'design' && (
 					<>
 						<div
+							className={clsx('g-planner-form__budget c-field', {
+								'is-visible': whenRange[0] && whenRange[1],
+							})}
+							role="radiogroup"
+							aria-label="Budget choice"
+						>
+							<div className="g-planner-form__budget__title t-b-1">
+								{whatsYourBudget || 'What’s your ideal nightly budget?'}
+							</div>
+							{budgetOptions.map((option) => (
+								<button
+									key={option}
+									className={clsx('pill', {
+										'is-active': budgetChoice === option,
+									})}
+									onClick={() =>
+										setBudgetChoice(budgetChoice === option ? '' : option)
+									}
+								>
+									{option}
+								</button>
+							))}
+						</div>
+						<div
 							className={clsx('g-planner-form__help c-field', {
 								'is-visible': whenRange[0] && whenRange[1],
 							})}
@@ -473,30 +553,6 @@ export default function PlannerForm({ data, plan }) {
 									aria-checked={helpPlanChoice === index}
 									onClick={() =>
 										setHelpPlanChoice(helpPlanChoice === index ? '' : index)
-									}
-								>
-									{option}
-								</button>
-							))}
-						</div>
-						<div
-							className={clsx('g-planner-form__budget c-field', {
-								'is-visible': whenRange[0] && whenRange[1],
-							})}
-							role="radiogroup"
-							aria-label="Budget choice"
-						>
-							<div className="g-planner-form__budget__title t-b-1">
-								{whatsYourBudget || 'What’s your ideal nightly budget?'}
-							</div>
-							{['$250—$500', '$500—$750', '$750+'].map((option) => (
-								<button
-									key={option}
-									className={clsx('pill', {
-										'is-active': budgetChoice === option,
-									})}
-									onClick={() =>
-										setBudgetChoice(budgetChoice === option ? '' : option)
 									}
 								>
 									{option}

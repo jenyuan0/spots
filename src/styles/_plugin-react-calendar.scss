@@ -79,6 +79,7 @@
 
 	&__month-view {
 		abbr[title] {
+			white-space: nowrap;
 			text-decoration: none;
 		}
 

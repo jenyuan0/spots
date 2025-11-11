@@ -563,21 +563,7 @@ export const formLocalization = groq`
 `;
 
 export const customEmailLocalization = groq`
-	"emailLocalization": *[_type == "settingsLocalization"][0].globalCustomEmail {
-		"greeting": ${getTranslationByLanguage('greeting')},
-		"helpPlanTrip": ${getTranslationByLanguage('helpPlanTrip')},
-		"toPreposition": ${getTranslationByLanguage('toPreposition')},
-		"travelPlanning": ${getTranslationByLanguage('travelPlanning')},
-		"bookRoomAt": ${getTranslationByLanguage('bookRoomAt')},
-		"findHotelIn": ${getTranslationByLanguage('findHotelIn')},
-		"hotel": ${getTranslationByLanguage('hotel')},
-		"inquiryFor": ${getTranslationByLanguage('inquiryFor')},
-		"searchIn": ${getTranslationByLanguage('searchIn')},
-		"findHotel": ${getTranslationByLanguage('findHotel')},
-		"forConjunction": ${getTranslationByLanguage('forConjunction')},
-		"withNightlyBudget": ${getTranslationByLanguage('withNightlyBudget')},
-		"andHelpPlanTrip": ${getTranslationByLanguage('andHelpPlanTrip')},
-	},
+	"emailLocalization": *[_type == "settingsLocalization"][0].globalCustomEmail {},
 `;
 
 export const planFormData = groq`
