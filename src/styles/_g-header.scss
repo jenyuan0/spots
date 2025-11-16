@@ -144,6 +144,10 @@
 			padding: 0 8px;
 		}
 
+		&__cta {
+			border-left: unset;
+		}
+
 		&__cta .btn-underline {
 			text-transform: uppercase;
 			letter-spacing: 0.04em;
@@ -159,10 +163,6 @@
 	@include mobileDown {
 		&__logo {
 			font-size: 34px;
-		}
-
-		&__cta {
-			border-left: unset;
 		}
 	}
 }
