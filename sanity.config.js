@@ -31,7 +31,7 @@ const allowDuplicateDocumentTypes = ['pGeneral', 'gGuides', 'settingsRedirect'];
 
 const commonPlugins = [
 	structureTool({
-		// structure: deskStructure,
+		structure: deskStructure,
 	}),
 	media(),
 	colorInput(),
@@ -80,38 +80,38 @@ export default defineConfig({
 				(template) => !i18n.translationDocuments.includes(template.id)
 			),
 	},
-	// document: {
-	// 	productionUrl: (prev, context) => {
-	// 		// Do nothing when rendering on the server / in non-browser environments
-	// 		if (typeof window === 'undefined') return prev;
+	document: {
+		productionUrl: (prev, context) => {
+			// Do nothing when rendering on the server / in non-browser environments
+			if (typeof window === 'undefined') return prev;
 
-	// 		const { document } = context;
-	// 		const { slug, _type, _id } = document;
+			const { document } = context;
+			const { slug, _type, _id } = document;
 
-	// 		if (!previewDocumentTypes.includes(_type)) {
-	// 			return prev;
-	// 		}
+			if (!previewDocumentTypes.includes(_type)) {
+				return prev;
+			}
 
-	// 		const url = `${getWindowURl(
-	// 			window.location.host
-	// 		)}${previewBaseURL}?documentType=${_type}&docId=${_id}&secret=${previewSecretId}${
-	// 			slug?.current ? `&slug=${slug?.current}` : ''
-	// 		}`;
+			const url = `${getWindowURl(
+				window.location.host
+			)}${previewBaseURL}?documentType=${_type}&docId=${_id}&secret=${previewSecretId}${
+				slug?.current ? `&slug=${slug?.current}` : ''
+			}`;
 
-	// 		return url;
-	// 	},
-	// 	actions: (prev, context) => {
-	// 		const { schemaType } = context;
-	// 		return prev.map((originalAction) => {
-	// 			if (
-	// 				originalAction.action === 'duplicate' &&
-	// 				!allowDuplicateDocumentTypes.includes(schemaType)
-	// 			) {
-	// 				return () => null;
-	// 			}
+			return url;
+		},
+		actions: (prev, context) => {
+			const { schemaType } = context;
+			return prev.map((originalAction) => {
+				if (
+					originalAction.action === 'duplicate' &&
+					!allowDuplicateDocumentTypes.includes(schemaType)
+				) {
+					return () => null;
+				}
 
-	// 			return originalAction;
-	// 		});
-	// 	},
-	// },
+				return originalAction;
+			});
+		},
+	},
 });
