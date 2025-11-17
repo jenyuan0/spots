@@ -81,20 +81,24 @@ export default defineConfig({
 			),
 	},
 	document: {
-		productionUrl: async (prev, context) => {
-			// context includes the client and other details
+		productionUrl: (prev, context) => {
+			// Do nothing when rendering on the server / in non-browser environments
+			if (typeof window === 'undefined') return prev;
+
 			const { document } = context;
 			const { slug, _type, _id } = document;
-			if (previewDocumentTypes.includes(_type)) {
-				const url = `${getWindowURl(
-					window.location.host
-				)}${previewBaseURL}?documentType=${_type}&docId=${_id}&secret=${previewSecretId}${
-					slug?.current ? `&slug=${slug?.current}` : ''
-				}`;
 
-				return url;
+			if (!previewDocumentTypes.includes(_type)) {
+				return prev;
 			}
-			return prev;
+
+			const url = `${getWindowURl(
+				window.location.host
+			)}${previewBaseURL}?documentType=${_type}&docId=${_id}&secret=${previewSecretId}${
+				slug?.current ? `&slug=${slug?.current}` : ''
+			}`;
+
+			return url;
 		},
 		actions: (prev, context) => {
 			const { schemaType } = context;
