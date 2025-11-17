@@ -4,6 +4,7 @@ import { NextStudio } from 'next-sanity/studio';
 import { StudioLayout, StudioProvider } from 'sanity';
 import config from '/sanity.config';
 import { createGlobalStyle } from 'styled-components';
+export const dynamic = 'force-static';
 
 const GlobalStyle = createGlobalStyle(({ theme }) => ({
 	html: { backgroundColor: theme.sanity.color.base.bg },
