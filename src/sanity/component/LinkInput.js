@@ -1,3 +1,5 @@
+'use client';
+
 import { LinkIcon, MasterDetailIcon, SearchIcon } from '@sanity/icons';
 import { Autocomplete, Card, Flex, Stack, Text } from '@sanity/ui';
 import React, { useCallback, useEffect, useState } from 'react';

@@ -1,21 +1,29 @@
+'use client';
+import React from 'react';
 import { LinkIcon } from '@sanity/icons';
 
 const Preview = (props) => {
 	const { embedSnippet, renderDefault } = props;
 	if (!embedSnippet) {
-		return <div>Missing Embed Snippet</div>;
+		return React.createElement('div', null, 'Missing Embed Snippet');
 	}
 
-	return (
-		<div className="iframe-preview">
-			{renderDefault({ ...props, title: 'Iframe Embed' })}
-			<div dangerouslySetInnerHTML={{ __html: embedSnippet }} />
-			<style jsx>{`
-				:global(.iframe-preview iframe) {
-					width: 100%;
-				}
-			`}</style>
-		</div>
+	return React.createElement(
+		'div',
+		{ className: 'iframe-preview' },
+		renderDefault({ ...props, title: 'Iframe Embed' }),
+		React.createElement('div', {
+			dangerouslySetInnerHTML: { __html: embedSnippet },
+		}),
+		React.createElement(
+			'style',
+			{ jsx: true },
+			`
+			:global(.iframe-preview iframe) {
+				width: 100%;
+			}
+		`
+		)
 	);
 };
 
