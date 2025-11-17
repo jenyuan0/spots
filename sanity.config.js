@@ -31,7 +31,7 @@ const allowDuplicateDocumentTypes = ['pGeneral', 'gGuides', 'settingsRedirect'];
 
 const commonPlugins = [
 	structureTool({
-		structure: deskStructure,
+		// structure: deskStructure,
 	}),
 	media(),
 	colorInput(),
