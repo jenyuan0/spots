@@ -269,11 +269,11 @@
 				}
 			}
 		}
-	}
 
-	@include mdScreenDown {
-		&__card__title {
-			font: var(--t-h-4);
+		@include mdScreenDown {
+			&__card__title {
+				font: var(--t-h-4);
+			}
 		}
 	}
 
@@ -297,7 +297,7 @@
 		}
 
 		&__card {
-			--padding: 30px;
+			--padding: 24px;
 			position: relative;
 			display: flex;
 			min-height: 120px;
@@ -347,8 +347,7 @@
 				width: 70px;
 				overflow: hidden;
 				border-radius: var(--br-1);
-				transform: translate3d(calc(100% * (var(--index))), 0, 0)
-					rotate(calc(var(--rot, 0deg) * -1));
+				transform: translate3d(calc(100% * (var(--index))), 0, 0) rotate(0deg);
 				transition:
 					transform var(--t-1) 0.4s,
 					opacity var(--t-1);
