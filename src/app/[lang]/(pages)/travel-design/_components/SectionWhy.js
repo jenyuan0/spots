@@ -50,14 +50,14 @@ export default function SectionWhy({ data }) {
 						gap={'5vw'}
 						isShowDots={true}
 					>
-						{whyBlocks.map((el) => {
-							return <WhyBlock data={el} />;
+						{whyBlocks.map((el, i) => {
+							return <WhyBlock data={el} key={i} />;
 						})}
 					</Carousel>
 				) : (
 					<div className="p-design__why__list">
-						{whyBlocks.map((el) => {
-							return <WhyBlock data={el} />;
+						{whyBlocks.map((el, i) => {
+							return <WhyBlock data={el} key={i} />;
 						})}
 					</div>
 				))}
