@@ -27,7 +27,7 @@ export default function SectionCase({ data, siteData }) {
 		return (caseItems || []).map((item) => {
 			const count = Math.min(item?.thumbs?.length || 0, 4);
 			return Array.from({ length: count }).map((el, i) => ({
-				rot: i % 2 === 0 ? getRandomInt(4, 8) : getRandomInt(-8, 4),
+				rot: i % 2 === 0 ? i * 5 : i * -5,
 				delay: getRandomInt(0, 10) / 100,
 				dur: getRandomInt(6, 12) / 10,
 			}));
