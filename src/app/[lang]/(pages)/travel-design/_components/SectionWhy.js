@@ -15,8 +15,8 @@ const WhyBlock = ({ data }) => {
 				<span className="object-fit">{image && <Img image={image} />}</span>
 			</div>
 			<div className="p-design__why-block__text wysiwyg">
-				<h2 className="p-design__why-block__heading t-h-3">{heading}</h2>
-				<p className="p-design__why-block__paragraph t-b-1">{paragraph}</p>
+				<h2 className="p-design__why-block__heading t-h-4">{heading}</h2>
+				<p className="p-design__why-block__paragraph t-b-2">{paragraph}</p>
 			</div>
 		</div>
 	);
