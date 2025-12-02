@@ -238,6 +238,11 @@
 				transform: translate3d(-50%, -50%, 0);
 			}
 
+			&__images:has(.p-design__case__card__img:first-child img:not(.lazyloaded))
+				&__img:not(:first-child) {
+				opacity: 0;
+			}
+
 			@media (hover: hover) {
 				&:hover {
 					z-index: 1;
