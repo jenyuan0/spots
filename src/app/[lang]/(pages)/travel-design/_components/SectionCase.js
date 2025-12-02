@@ -26,8 +26,8 @@ export default function SectionCase({ data, siteData }) {
 	const seeds = useMemo(() => {
 		return (caseItems || []).map((item) => {
 			const count = Math.min(item?.thumbs?.length || 0, 4);
-			return Array.from({ length: count }).map(() => ({
-				rot: getRandomInt(-5, 5),
+			return Array.from({ length: count }).map((el, i) => ({
+				rot: i % 2 === 0 ? getRandomInt(4, 8) : getRandomInt(-8, 4),
 				delay: getRandomInt(0, 10) / 100,
 				dur: getRandomInt(6, 12) / 10,
 			}));
@@ -108,10 +108,6 @@ export default function SectionCase({ data, siteData }) {
 							style={{ '--cr-primary': `var(--cr-${color}-d)` }}
 							className={'p-design__case__card'}
 						>
-							<h3 className="p-design__case__card__title t-h-3">{el.title}</h3>
-							<p className="p-design__case__card__subtitle t-b-2">
-								{el.subtitle}
-							</p>
 							{el.thumbs && el.thumbs.length > 0 && (
 								<div className={'p-design__case__card__images'}>
 									{(() => {
@@ -137,6 +133,14 @@ export default function SectionCase({ data, siteData }) {
 									})()}
 								</div>
 							)}
+							<div className="p-design__case__card__text wysiwyg">
+								<h3 className="p-design__case__card__title t-h-3">
+									{el.title}
+								</h3>
+								<p className="p-design__case__card__subtitle t-b-2">
+									{el.subtitle}
+								</p>
+							</div>
 						</button>
 					);
 				})}

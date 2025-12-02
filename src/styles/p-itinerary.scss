@@ -41,7 +41,7 @@
 			background-color: var(--cr-secondary);
 		}
 
-		@include midScreenDown {
+		@include smScreenDown {
 			margin-bottom: 0;
 		}
 
@@ -73,7 +73,7 @@
 			column-gap: var(--s-4-h);
 		}
 
-		@include midScreenDown {
+		@include smScreenDown {
 			margin-block: 10px;
 			flex-direction: column;
 
@@ -153,13 +153,13 @@
 			height: calc(var(--height) * 2);
 		}
 
-		@include midScreenUp {
+		@include smScreenUp {
 			&__toggle {
 				display: none;
 			}
 		}
 
-		@include midScreenDown {
+		@include smScreenDown {
 			--bar-size: 60px;
 			position: fixed;
 			height: calc(100% + 2px);

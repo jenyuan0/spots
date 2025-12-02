@@ -172,7 +172,7 @@
 		}
 	}
 
-	@include midScreenDown {
+	@include smScreenDown {
 		padding: var(--g-spacing-md);
 
 		&__container {

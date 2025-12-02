@@ -68,35 +68,26 @@ export default defineType({
 			rows: 4,
 		},
 		{
-			name: 'clockHeading',
-			type: 'string',
+			name: 'whyBlocks',
+			type: 'array',
+			of: [
+				{
+					type: 'object',
+					fields: [
+						customImage({ name: 'image' }),
+						{
+							name: 'heading',
+							type: 'string',
+						},
+						{
+							name: 'paragraph',
+							type: 'text',
+							rows: 4,
+						},
+					],
+				},
+			],
 		},
-		{
-			name: 'clockParagraph',
-			type: 'text',
-			rows: 4,
-		},
-		callToAction({ name: 'clockCta' }),
-		{
-			name: 'masksHeading',
-			type: 'string',
-		},
-		{
-			name: 'masksParagraph',
-			type: 'text',
-			rows: 4,
-		},
-		callToAction({ name: 'masksCta' }),
-		{
-			name: 'toggleHeading',
-			type: 'string',
-		},
-		{
-			name: 'toggleParagraph',
-			type: 'text',
-			rows: 4,
-		},
-		callToAction({ name: 'toggleCta' }),
 		{
 			name: 'faqHeading',
 			type: 'string',

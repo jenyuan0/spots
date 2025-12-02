@@ -107,7 +107,7 @@
 		gap: 10px;
 	}
 
-	@include midScreenDown {
+	@include smScreenDown {
 		flex-direction: column;
 
 		&__items {

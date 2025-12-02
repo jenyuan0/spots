@@ -816,19 +816,11 @@ export const pageTravelDesignQuery = groq`
       ${portableTextContentFields}
     },
 		whyParagraph,
-    clockHeading,
-    clockParagraph,
-    clockText,
-    clockCta,
-    masksHeading,
-    masksParagraph,
-    masksCta,
-    masksImages[0...8]{
-      ${imageMetaFields}
-    },
-    toggleHeading,
-    toggleParagraph,
-    toggleCta,
+		whyBlocks[]{
+			heading,
+			paragraph,
+			image{${imageMetaFields}}
+		},
     faqHeading,
     faqSubheading,
     faq[]{

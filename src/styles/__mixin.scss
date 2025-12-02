@@ -20,12 +20,22 @@
 		@content;
 	}
 }
-@mixin midScreenUp {
+@mixin mdScreenUp {
+	@media screen and (min-width: 1561px) {
+		@content;
+	}
+}
+@mixin mdScreenDown {
+	@media screen and (max-width: 1560px) {
+		@content;
+	}
+}
+@mixin smScreenUp {
 	@media screen and (min-width: 1281px) {
 		@content;
 	}
 }
-@mixin midScreenDown {
+@mixin smScreenDown {
 	@media screen and (max-width: 1280px) {
 		@content;
 	}
