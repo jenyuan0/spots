@@ -15,10 +15,6 @@ export default defineType({
 			name: 'subtitle',
 			type: 'string',
 		},
-		{
-			name: 'subtitle',
-			type: 'string',
-		},
 		slug(),
 		{
 			name: 'color',
