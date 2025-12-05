@@ -450,6 +450,7 @@ export const getCaseData = (type) => {
     },`;
 	if (type !== 'card') {
 		defaultData += groq`
+			heroSubtitle,
 			heroImage{
 				${imageMetaFields}
 			},

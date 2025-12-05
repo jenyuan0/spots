@@ -15,6 +15,10 @@ export default defineType({
 			name: 'subtitle',
 			type: 'string',
 		},
+		{
+			name: 'subtitle',
+			type: 'string',
+		},
 		slug(),
 		{
 			name: 'color',
@@ -30,6 +34,10 @@ export default defineType({
 			},
 		},
 		customImage({ name: 'heroImage' }),
+		{
+			name: 'heroSubtitle',
+			type: 'string',
+		},
 		{
 			name: 'highlights',
 			type: 'portableTextSimple',

@@ -17,6 +17,7 @@ export default function MagnifyCase({ data }) {
 		title,
 		subtitle,
 		heroImage,
+		heroSubtitle,
 		highlights,
 		offers,
 		content,
@@ -44,7 +45,9 @@ export default function MagnifyCase({ data }) {
 				<div className="g-magnify-cases__hero__text wysiwyg">
 					{title && <h2 className="g-magnify-cases__heading t-h-1">{title}</h2>}
 					{subtitle && (
-						<h2 className="g-magnify-cases__subtitle t-h-4">{subtitle}</h2>
+						<h2 className="g-magnify-cases__subtitle t-h-4">
+							{heroSubtitle || subtitle}
+						</h2>
 					)}
 				</div>
 			</div>
