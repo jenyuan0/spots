@@ -78,8 +78,10 @@ export default function SectionWhy({ data, localization }) {
 								{index + 1}
 							</span>
 						</div>
-						<h3 className="t-h-4">{el.title}</h3>
-						<p className="t-b-1">{el.paragraph}</p>
+						<h3 className="p-booking__why__lists__title t-h-4">{el.title}</h3>
+						<p className="p-booking__why__lists__paragraph t-b-1">
+							{el.paragraph}
+						</p>
 					</ListItem>
 				))}
 				<ListItem>

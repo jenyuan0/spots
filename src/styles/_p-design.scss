@@ -143,12 +143,12 @@
 
 		&-block {
 			width: 90vw;
-			padding: 20px;
+			padding: 60px 20px;
 			border: 1px solid;
 			border-radius: var(--br-1);
 
 			&__text {
-				padding-bottom: 15px;
+				padding-bottom: 0;
 			}
 
 			&__heading {
@@ -324,6 +324,10 @@
 				margin-bottom: 0;
 			}
 
+			&__title:not(:last-child) {
+				margin-bottom: 10px;
+			}
+
 			&__subtitle {
 				width: Max(240px, 50%);
 				text-wrap: balance;
@@ -331,6 +335,10 @@
 				[lang='en'] & {
 					display: none;
 				}
+			}
+
+			&__text {
+				width: calc(100% - 80px - 10px);
 			}
 
 			&__images {
