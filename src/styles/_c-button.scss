@@ -281,11 +281,12 @@ input[disabled] {
 
 .trigger {
 	background-color: var(--cr-primary);
-	box-shadow: var(--shadow-3);
+	border: var(--outline) dashed;
+	// box-shadow: var(--shadow-1);
 }
 
 .trigger-outline {
-	border: var(--outline) solid var(--cr-primary);
+	border: var(--outline) dashed var(--cr-primary);
 }
 
 .pill {

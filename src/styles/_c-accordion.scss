@@ -1,6 +1,6 @@
 .c-accordion {
 	position: relative;
-	border-top: 1px solid var(--cr-subtle);
+	border-top: 1px dashed;
 
 	&__toggle {
 		width: 100%;
@@ -16,13 +16,14 @@
 		align-items: center;
 		width: 30px;
 		height: 30px;
-		border: 1px solid var(--cr-subtle);
+		border: 1px dashed;
 		border-radius: 100%;
 		transition: transform var(--t-1);
 		box-shadow: var(--shadow-1);
 
 		.icon-plus,
 		.icon-caret-down {
+			font-size: 12px;
 			transition: transform var(--t-1);
 		}
 	}

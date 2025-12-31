@@ -252,7 +252,7 @@
 	justify-content: center;
 	height: var(--header-size);
 	padding: var(--block-padding);
-	border-left: 1px solid;
+	border-left: 1px dashed;
 }
 
 @mixin v2SectionHeader {
@@ -355,6 +355,7 @@
 	padding: var(--s-5-v) var(--s-5-h);
 	box-shadow: var(--shadow-1);
 	background-color: var(--cr-white);
+	border: 1px dashed;
 	border-radius: var(--br-3);
 
 	.g-planner-form {

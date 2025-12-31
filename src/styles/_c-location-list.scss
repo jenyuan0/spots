@@ -1,9 +1,11 @@
 @use '_mixin' as *;
 
 .c-location-list {
+	padding: 10px;
+	border: 1px dashed;
+
 	&__title {
-		padding-block: var(--s-3-v);
-		border-top: 1px solid;
+		margin-bottom: 20px;
 	}
 
 	&__content:not(:last-child),

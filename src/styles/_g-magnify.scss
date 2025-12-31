@@ -10,11 +10,8 @@
 	overflow-y: auto;
 	overflow-x: clip;
 	transform: translate3d(0, 0, 0);
-	backdrop-filter: blur(10px);
-	background-color: rgba(125, 125, 125, 0.6);
-	transition:
-		background-color 1s,
-		backdrop-filter var(--t-2);
+	background-color: rgba(0, 0, 0, 0.8);
+	transition: background-color var(--t-2);
 	z-index: 200;
 
 	&__overlay {
@@ -33,7 +30,6 @@
 		min-height: 100%;
 		color: var(--cr-primary);
 		background-color: var(--cr-cream);
-		box-shadow: var(--shadow-1);
 		gap: 30px;
 		z-index: 200;
 		transition:
@@ -51,7 +47,7 @@
 		top: 0;
 		padding-right: 5px;
 		background-color: var(--cr-cream);
-		border-bottom: 1px solid;
+		border-bottom: 1px dashed;
 		z-index: 205;
 	}
 
@@ -148,8 +144,16 @@
 	&__address,
 	&__fees,
 	&__categories {
-		border-top: 1px solid var(--cr-subtle);
-		padding: var(--s-3-v) var(--s-3-h);
+		--padding: 20px;
+		width: calc(100% - var(--padding) * 2);
+		padding: var(--padding);
+		margin: var(--padding);
+		border: 1px dashed;
+
+		@include mobileDown {
+			--padding: 10px;
+			padding: 20px;
+		}
 	}
 
 	&__images {
@@ -245,7 +249,7 @@
 				align-items: center;
 				gap: 0.5em;
 				padding: var(--s-2-v) 0;
-				border-top: 1px solid var(--cr-subtle);
+				border-top: 1px dashed;
 
 				&:before {
 					content: '✓';
@@ -260,6 +264,10 @@
 
 				span {
 					flex: 1;
+				}
+
+				&:last-child {
+					border-bottom: 1px dashed;
 				}
 			}
 		}
@@ -347,6 +355,6 @@
 		text-wrap: balance;
 		padding-top: var(--s-3-v);
 		gap: var(--s-3-v) var(--s-3-h);
-		border-top: 1px solid;
+		border-top: 1px dashed;
 	}
 }

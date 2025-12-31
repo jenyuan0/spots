@@ -8,8 +8,8 @@
 	padding: 2px;
 	color: var(--cr-card-text, var(--cr-brown));
 	background-color: var(--cr-card-bg, var(--cr-white));
-	border: 1px solid var(--cr-subtle);
-	box-shadow: var(--shadow-3-transparent);
+	border: 1px dashed var(--cr-subtle);
+	box-shadow: var(--shadow-2-transparent);
 	border-radius: var(--br-2);
 	gap: 5px;
 	transition:
@@ -19,7 +19,7 @@
 
 	@media (hover: hover) {
 		&:hover {
-			box-shadow: var(--shadow-3);
+			box-shadow: var(--shadow-2);
 			border-color: var(--cr-card-bg);
 			z-index: 10;
 		}
