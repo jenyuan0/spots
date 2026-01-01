@@ -92,16 +92,22 @@
 
 	&__content {
 		display: -webkit-box;
-		-webkit-line-clamp: 6;
+		-webkit-line-clamp: 2;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
+		margin-top: auto;
+
+		b,
+		strong {
+			font-weight: normal;
+		}
 	}
 
 	&__excerpt {
 		max-width: 500px;
 		text-wrap: balance;
 		display: -webkit-box;
-		-webkit-line-clamp: 3;
+		-webkit-line-clamp: 2;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}

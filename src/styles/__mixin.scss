@@ -167,7 +167,7 @@
 @mixin triggerProperties {
 	--size: 40px;
 	--outline: 1.5px;
-	--cr-primary: var(--cr-white);
+	--cr-primary: var(--cr-cream);
 	--cr-secondary: inherit;
 	@include buttonProperties;
 
@@ -185,9 +185,8 @@
 		position: absolute;
 		inset: var(--outline);
 		border-radius: 100%;
-		transform: scale(0.8);
 		opacity: 0;
-		background-color: var(--cr-subtle-1);
+		border: 1px dashed;
 		transition: var(--t-1);
 	}
 

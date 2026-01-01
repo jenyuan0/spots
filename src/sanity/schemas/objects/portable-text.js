@@ -56,7 +56,6 @@ export default defineType({
 					title: 'Heading 6',
 					value: 'h6',
 				},
-				{ title: 'Quote', value: 'blockquote' },
 			],
 			lists: [
 				{ title: 'Bullet', value: 'bullet' },
@@ -76,6 +75,39 @@ export default defineType({
 					},
 					callToAction({ title: 'Button', showLabel: false }),
 				],
+			},
+		},
+		{
+			name: 'divider',
+			title: 'Divider',
+			type: 'object',
+			fields: [
+				{
+					name: 'noop',
+					title: 'noop',
+					type: 'string',
+					hidden: true,
+					readOnly: true,
+					initialValue: '1',
+				},
+			],
+			preview: {
+				prepare() {
+					return { title: 'Divider' };
+				},
+			},
+			components: {
+				preview: () => (
+					<div style={{ padding: '8px 0' }}>
+						<hr
+							style={{
+								border: 0,
+								borderTop: '1px solid currentColor',
+								opacity: 0.25,
+							}}
+						/>
+					</div>
+				),
 			},
 		},
 		customImage({

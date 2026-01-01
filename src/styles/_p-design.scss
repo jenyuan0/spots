@@ -238,6 +238,8 @@
 				top: 50%;
 				left: 50%;
 				transform: translate3d(-50%, -50%, 0);
+				border: 1px dashed;
+				box-shadow: var(--shadow-2);
 			}
 
 			&__images:has(.p-design__case__card__img:first-child img:not(.lazyloaded))

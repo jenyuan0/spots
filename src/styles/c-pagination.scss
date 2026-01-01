@@ -12,20 +12,22 @@
 		width: 40px;
 		height: 40px;
 		border-radius: 100%;
-		box-shadow: var(--shadow-3-transparent);
+		border: 1px dashed transparent;
+		box-shadow: var(--shadow-1-transparent);
 		transition:
-			background var(--t-1),
-			box-shadow var(--t-1);
+			background 0.2s,
+			box-shadow 0.2s;
 
 		@media (hover: hover) {
 			&:not(.is-disabled):hover {
+				border: 1px dashed;
 				background-color: var(--cr-subtle);
 			}
 		}
 
 		&.is-active {
-			background-color: var(--cr-white);
-			box-shadow: var(--shadow-3);
+			border: 1px dashed;
+			box-shadow: var(--shadow-1);
 		}
 
 		&.is-disabled {

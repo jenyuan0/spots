@@ -142,8 +142,7 @@
 	&__urls,
 	&__content,
 	&__address,
-	&__fees,
-	&__categories {
+	&__fees {
 		--padding: 20px;
 		width: calc(100% - var(--padding) * 2);
 		padding: var(--padding);
@@ -294,6 +293,10 @@
 
 		.c-location-list {
 			margin-block: 60px;
+		}
+
+		.c-divider {
+			margin-block: var(--s-5-v);
 		}
 
 		.c-carousel,

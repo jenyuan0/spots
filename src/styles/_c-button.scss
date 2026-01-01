@@ -281,8 +281,6 @@ input[disabled] {
 
 .trigger {
 	background-color: var(--cr-primary);
-	border: var(--outline) dashed;
-	// box-shadow: var(--shadow-1);
 }
 
 .trigger-outline {
@@ -298,7 +296,7 @@ input[disabled] {
 	font: var(--t-b-3);
 	border-radius: 14px;
 	color: var(--cr-secondary, var(--cr-brown));
-	border: 1px solid transparent;
+	border: 1px dashed transparent;
 	background-color: var(--cr-primary, var(--cr-subtle));
 	transition: var(--t-1);
 

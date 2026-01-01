@@ -20,7 +20,7 @@ export default function LocationList({ data }) {
 						<LocationCard
 							key={`item-${index}`}
 							data={item}
-							layout={'horizontal-1'}
+							layout={'horizontal-2'}
 							hasDirection={false}
 							isLinkout={true}
 						/>
