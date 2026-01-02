@@ -3,24 +3,13 @@
 .c-location-list {
 	padding: 10px;
 	border: 1px dashed;
+	border-radius: var(--br-2);
 
 	&__title {
 		margin-bottom: 20px;
-	}
 
-	&__content:not(:last-child),
-	&__item-content:not(:last-child) {
-		margin-bottom: var(--s-4-v);
-	}
-
-	&__item-content {
-		margin-top: var(--s-3-v);
-	}
-
-	@include mobileDown {
-		&__title {
-			padding-block: 15px;
-			margin-bottom: 5px;
+		@include mobileDown {
+			margin-bottom: 10px;
 		}
 	}
 }

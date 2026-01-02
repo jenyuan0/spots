@@ -101,10 +101,6 @@
 		}
 
 		@include tabletDown {
-			&:not(:last-child) {
-				margin-bottom: 10px;
-			}
-
 			&:not(:first-child) {
 				margin-top: 40px;
 			}

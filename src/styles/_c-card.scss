@@ -266,6 +266,12 @@
 	.c-card__lightbox {
 		--size: 36px;
 	}
+
+	@include mobileDown {
+		.c-card__categories {
+			display: none;
+		}
+	}
 }
 
 // location embed in guide singles
