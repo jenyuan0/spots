@@ -9,7 +9,7 @@ export default function LocationDot({ data, initialLightOrDark }) {
 	const [currentLanguageCode, currentLanguageCodeDisplay] = useCurrentLang();
 	const { slug, title, color } = data;
 	const [lightOrDark, setLightOrDark] = useState(initialLightOrDark);
-	const setMag = useMagnify((state) => state.setMag);
+	const { addMag } = useMagnify();
 	const { hasPressedKeys } = useKey();
 
 	useEffect(() => {
@@ -28,7 +28,7 @@ export default function LocationDot({ data, initialLightOrDark }) {
 			{...(!hasPressedKeys && {
 				onClick: (e) => {
 					e.preventDefault();
-					setMag({
+					addMag({
 						slug,
 						type: 'location',
 						color,

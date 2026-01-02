@@ -5,12 +5,7 @@ import usePlanner from '@/hooks/usePlanner';
 import { useCurrentLang } from '@/hooks/useCurrentLang';
 import MagnifyCaseEl from './MagnifyCaseEl';
 
-export default function MagnifyCase({
-	mParam,
-	pageSlug,
-	onColorChange,
-	localization,
-}) {
+export default function MagnifyCase({ mParam, pageSlug, onColorChange }) {
 	const [caseContent, setCaseContent] = useState(null);
 	const [isLoaded, setIsLoaded] = useState(false);
 	const [currentLanguageCode] = useCurrentLang();
@@ -33,7 +28,6 @@ export default function MagnifyCase({
 				]);
 				const contentColor = (content && content.color.title) || 'brown';
 				setCaseContent(content);
-				console.log(contentColor);
 				if (onColorChange) onColorChange(contentColor);
 			} catch (e) {
 				console.error('Error fetching location content:', e);

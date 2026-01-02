@@ -109,7 +109,6 @@ export default function MagnifyCase({ data }) {
 								data={item}
 								layout={'vertical-2'}
 								hasDirection={false}
-								isLinkout={true}
 							/>
 						))}
 					</ResponsiveGrid>

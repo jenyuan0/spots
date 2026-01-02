@@ -102,7 +102,6 @@ export default function Layout({ children, siteData }) {
 			<Announcement data={announcement} />
 			<Header isActive={isHeaderActive} localization={localization} />
 			<Main>{children}</Main>
-			{/* <AsideMap /> */}
 			<Magnify siteData={siteData} />
 			<Lightbox />
 			<Planner localization={localization} />
