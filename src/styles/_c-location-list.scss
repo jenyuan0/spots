@@ -1,15 +1,15 @@
 @use '_mixin' as *;
 
 .c-location-list {
-	padding: 10px;
 	border: 1px dashed;
 	border-radius: var(--br-2);
 
 	&__title {
-		margin-bottom: 20px;
+		padding: 16px;
+		border-bottom: 1px dashed;
+	}
 
-		@include mobileDown {
-			margin-bottom: 10px;
-		}
+	&__cards {
+		padding: 10px;
 	}
 }

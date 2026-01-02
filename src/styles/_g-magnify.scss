@@ -10,8 +10,9 @@
 	overflow-y: auto;
 	overflow-x: clip;
 	transform: translate3d(0, 0, 0);
+	backdrop-filter: blur(3px);
 	background-color: rgba(0, 0, 0, 0.6);
-	transition: background-color var(--t-2);
+	transition: var(--t-2);
 	z-index: 200;
 
 	&__overlay {
@@ -30,7 +31,7 @@
 		min-height: 100%;
 		color: var(--cr-primary);
 		background-color: var(--cr-cream);
-		box-shadow: var(--shadow-2);
+		box-shadow: var(--shadow-3);
 		gap: 30px;
 		z-index: 200;
 		transition:
@@ -234,7 +235,7 @@
 		min-height: clamp(400px, calc(var(--s-vp-height) * 0.65), 800px);
 		align-items: flex-end;
 		padding: 40px var(--s-contain);
-		background-color: var(--cr-subtle-5);
+		background-color: var(--cr-primary);
 		justify-content: stretch;
 
 		&__image:after {
