@@ -331,10 +331,26 @@
 
 		.c-location-list {
 			margin-block: 60px;
+
+			&:has(+ .c-location-list) {
+				margin-bottom: -30px;
+			}
 		}
 
 		.c-divider {
-			margin-block: var(--s-5-v);
+			margin-block: 60px;
+		}
+
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+			&:has(+ .c-image-columns),
+			&:has(+ .c-carousel) {
+				margin-bottom: -30px;
+			}
 		}
 
 		.c-carousel,
@@ -344,7 +360,8 @@
 			margin-inline: auto;
 			margin-block: 60px;
 
-			&:has(+ .c-image-columns) {
+			&:has(+ .c-image-columns),
+			&:has(+ .c-carousel) {
 				margin-bottom: -50px;
 			}
 		}

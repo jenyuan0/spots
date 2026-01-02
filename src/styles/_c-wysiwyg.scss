@@ -97,7 +97,7 @@
 			margin-bottom: 20px;
 		}
 		&:not(:first-child) {
-			margin-top: var(--s-5-v);
+			margin-top: 60px;
 		}
 
 		@include tabletDown {
@@ -223,7 +223,7 @@
 		}
 
 		.large-paragraph {
-			margin-bottom: var(--s-4-v);
+			margin-bottom: 40px;
 			font: var(--t-h-3);
 		}
 	}
