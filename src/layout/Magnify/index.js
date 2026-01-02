@@ -84,7 +84,7 @@ function MagnifyContent({ item, localization, localizationHighlights }) {
 	useOutsideClick(contentRef, () => {
 		if (!isTop) return;
 		handleClose();
-	});
+	}, ['g-planner', 'g-lightbox']);
 
 	useKey(() => {
 		if (lightboxActive) return;

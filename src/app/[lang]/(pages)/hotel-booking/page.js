@@ -1,0 +1,32 @@
+import { draftMode } from 'next/headers';
+import { LiveQuery } from 'next-sanity/preview/live-query';
+import defineMetadata from '@/lib/defineMetadata';
+import { getPageHotelBooking } from '@/sanity/lib/fetch';
+import { pageHotelBookingQuery } from '@/sanity/lib/queries';
+import PageHotelBooking from '@/app/[lang]/(pages)/hotel-booking/_components/PageHotelBooking';
+import PreviewPageHotelBooking from '@/app/[lang]/(pages)/hotel-booking/_components/PreviewPageHotelBooking';
+
+export async function generateMetadata({ params }) {
+	const isPreviewMode = draftMode().isEnabled;
+	const data = await getPageHotelBooking({ params, isPreviewMode });
+	return defineMetadata({ data });
+}
+
+export default async function Page({ params }) {
+	const isPreviewMode = draftMode().isEnabled;
+	const pageData = await getPageHotelBooking({ params, isPreviewMode });
+	const { page, site } = pageData || {};
+
+	if (page) {
+		return (
+			<LiveQuery
+				enabled={isPreviewMode}
+				query={pageHotelBookingQuery}
+				initialData={page}
+				as={PreviewPageHotelBooking}
+			>
+				<PageHotelBooking data={page} siteData={site} />
+			</LiveQuery>
+		);
+	}
+}

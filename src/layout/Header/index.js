@@ -24,24 +24,25 @@ export default function Header({ isActive, localization }) {
 	const [isScrolled, setIsScrolled] = useState(false);
 	const [isTransparent, setIsTransparent] = useState(false);
 	const { setPlannerActive, setPlannerContent } = usePlanner();
-	const refLinkBooking = useRef();
-	const refLinkDesign = useRef();
+	const refLinkHotelBooking = useRef();
+	const refLinkTravelDesign = useRef();
 	const [toggleActiveInit, setToggleActiveInit] = useState(false);
 	const [toggleActiveProp, setToggleActiveProp] = useState({
 		width: 0,
 		left: 0,
 	});
-	const homepageUrl = `/${currentLanguageCodeDisplay}`;
-	const travelDesignUrl = `/${currentLanguageCodeDisplay}/travel-design`;
-
+	const travelDesignUrl = `/${currentLanguageCodeDisplay}`;
+	const hotelBookingUrl = `/${currentLanguageCodeDisplay}/hotel-booking`;
+	const homepageUrl = travelDesignUrl;
+	const isTravelDesign = pathname === travelDesignUrl;
+	const isHotelBooking = pathname === hotelBookingUrl;
 	const isHomepage = pathname === homepageUrl;
-	// const isTravelDesign = pathname === travelDesignUrl;
-	const isTravelDesign = pathname !== homepageUrl;
+
 	const elLinkBooking = (
 		<Link
-			href={homepageUrl}
+			href={hotelBookingUrl}
 			className={clsx({
-				'is-active': isHomepage,
+				'is-active': isHotelBooking,
 			})}
 		>
 			{hotelBooking || 'Hotel Booking'}
@@ -51,7 +52,7 @@ export default function Header({ isActive, localization }) {
 		<Link
 			href={travelDesignUrl}
 			className={clsx({
-				'is-active': isTravelDesign,
+				'is-active': !isHotelBooking,
 			})}
 		>
 			{travelDesign || 'Travel Design'}
@@ -79,11 +80,9 @@ export default function Header({ isActive, localization }) {
 	);
 
 	useEffect(() => {
-		const activeRef = isHomepage
-			? refLinkBooking
-			: isTravelDesign
-				? refLinkDesign
-				: null;
+		const activeRef = isHotelBooking
+			? refLinkHotelBooking
+			: refLinkTravelDesign;
 
 		setToggleActiveProp({
 			width: activeRef?.current.offsetWidth || 0,
@@ -175,7 +174,6 @@ export default function Header({ isActive, localization }) {
 					</svg>
 				</Link>
 				<div className="g-header__toggle t-l-2">
-					<div ref={refLinkBooking}>{elLinkBooking}</div>
 					<div
 						className="g-header__toggle__active"
 						style={{
@@ -186,12 +184,13 @@ export default function Header({ isActive, localization }) {
 								: '0s',
 						}}
 					/>
-					<div ref={refLinkDesign}>{elLinkTravelDesign}</div>
+					<div ref={refLinkTravelDesign}>{elLinkTravelDesign}</div>
+					<div ref={refLinkHotelBooking}>{elLinkBooking}</div>
 				</div>
 				<div className="g-header__links f-h f-a-c gap-2 t-l-1">{elLinks}</div>
 				<LanguageSelector />
 				<div className="g-header__cta f-h f-a-c gap-2">
-					{isHomepage && (
+					{isHotelBooking && (
 						<Button
 							className="btn-underline js-gtm-booking-popup"
 							onClick={() => {
@@ -202,7 +201,7 @@ export default function Header({ isActive, localization }) {
 							{searchHotel || 'Search Hotel'}
 						</Button>
 					)}
-					{!isHomepage && (
+					{!isHotelBooking && (
 						<Button
 							className="btn-underline js-gtm-design-popup"
 							onClick={() => {
