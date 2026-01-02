@@ -198,7 +198,7 @@ export default function Header({ isActive, localization }) {
 								setPlannerContent({ type: 'hotel' });
 							}}
 						>
-							{searchHotel || 'Search Hotel'}
+							{searchHotel || 'Book Hotel'}
 						</Button>
 					)}
 					{!isHotelBooking && (
