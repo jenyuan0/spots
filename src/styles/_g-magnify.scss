@@ -58,7 +58,6 @@
 
 	&__toggle__icon {
 		--cr-primary: var(--cr-white);
-		box-shadow: var(--shadow-1);
 	}
 
 	&__body {
@@ -70,8 +69,13 @@
 		background-color: var(--cr-primary);
 	}
 
-	&:not(.is-active) {
+	// keep clickable, until body is emptied
+	// avoid opening another case, while previous case is being cleared
+	&:has(&__body:empty) {
 		pointer-events: none;
+	}
+
+	&:not(.is-active) {
 		background-color: rgba(0, 0, 0, 0);
 	}
 

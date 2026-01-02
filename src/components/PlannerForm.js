@@ -405,7 +405,7 @@ export default function PlannerForm({ data, plan }) {
 						placeholder={addGuests || 'Add guests'}
 						value={whoMessage}
 						readOnly={true}
-						onClick={(e) => {
+						onClick={() => {
 							setWhoDetailsActive(!whoDetailsActive);
 						}}
 					/>

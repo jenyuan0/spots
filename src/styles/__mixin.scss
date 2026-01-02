@@ -166,7 +166,6 @@
 // ***Buttons***
 @mixin triggerProperties {
 	--size: 40px;
-	--outline: 1.5px;
 	--cr-primary: var(--cr-cream);
 	--cr-secondary: inherit;
 	@include buttonProperties;
@@ -174,20 +173,22 @@
 	width: var(--size);
 	height: var(--size);
 	gap: 5px;
+	transform: scale(1);
+	background-color: var(--cr-primary);
 	border-radius: 100%;
 	font: var(--t-l-1);
 	line-height: 1;
+	box-shadow: var(--shadow-1-shadow);
 	transition: var(--t-1);
 
 	&:before {
 		content: '';
 		display: block;
 		position: absolute;
-		inset: var(--outline);
+		inset: 0;
 		border-radius: 100%;
-		opacity: 0;
 		border: 1px dashed;
-		transition: var(--t-1);
+		transition: 2s;
 	}
 
 	svg {
@@ -196,9 +197,13 @@
 	}
 
 	@media (hover: hover) {
+		&:hover {
+			box-shadow: var(--shadow-1);
+		}
+
 		&:hover:before {
-			opacity: 1;
-			transform: scale(1);
+			transform: rotate(360deg);
+			transition: 24s;
 		}
 	}
 
@@ -292,14 +297,8 @@
 			transition: color var(--t-1);
 		}
 
-		.c-accordion__icon {
-			transition: background-color var(--t-1);
-		}
-
-		.c-accordion:hover {
-			.c-accordion__toggle {
-				color: var(--cr-orange-d);
-			}
+		.c-accordion__toggle:hover {
+			color: var(--cr-orange-d);
 
 			.c-accordion__icon {
 				background-color: var(--cr-orange-l);
@@ -327,11 +326,6 @@
 	.c-accordion__inner {
 		padding-top: var(--s-2-v);
 		padding-bottom: var(--s-4-v);
-
-		@include mobileDown() {
-			.c-portable-table {
-			}
-		}
 
 		@include mobileUp {
 			padding-left: 40px;

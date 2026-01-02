@@ -124,7 +124,6 @@
 		opacity: 0;
 		border-radius: calc(var(--height) / 2);
 		background-color: var(--cr-secondary);
-		border: 1px dashed;
 		transition:
 			opacity var(--t-2),
 			transform var(--t-2);
@@ -150,6 +149,10 @@
 .btn {
 	background-color: var(--cr-primary);
 	color: var(--cr-secondary);
+
+	&:before {
+		border: 1px dashed;
+	}
 
 	@include hover {
 		color: var(--cr-primary);
@@ -275,17 +278,8 @@ input[disabled] {
 	}
 }
 
-.trigger,
-.trigger-outline {
-	@include triggerProperties;
-}
-
 .trigger {
-	background-color: var(--cr-primary);
-}
-
-.trigger-outline {
-	border: var(--outline) dashed var(--cr-primary);
+	@include triggerProperties;
 }
 
 .pill {
@@ -293,7 +287,7 @@ input[disabled] {
 
 	height: 24px;
 	gap: 5px;
-	padding-inline: 6px;
+	padding-inline: 10px;
 	font: var(--t-b-3);
 	border-radius: 12px;
 	color: var(--cr-secondary, var(--cr-brown));

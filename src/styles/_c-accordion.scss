@@ -7,7 +7,6 @@
 		padding: var(--s-3-v) 0;
 		gap: 20px;
 		text-align: left;
-		transition: transform var(--t-1);
 	}
 
 	&__icon {
@@ -18,8 +17,8 @@
 		height: 30px;
 		border: 1px dashed;
 		border-radius: 100%;
-		transition: transform var(--t-1);
-		box-shadow: var(--shadow-1);
+		box-shadow: var(--shadow-1-transparent);
+		transition: var(--t-1);
 
 		.icon-plus,
 		.icon-caret-down {
@@ -35,6 +34,12 @@
 
 	&__content {
 		overflow: hidden;
+	}
+
+	@media (hover: hover) {
+		&__toggle:hover &__icon {
+			box-shadow: var(--shadow-1);
+		}
 	}
 
 	&.is-active {
