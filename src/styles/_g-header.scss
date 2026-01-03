@@ -11,7 +11,7 @@
 	display: flex;
 	gap: 20px;
 	background-color: var(--cr-cream);
-	border-bottom: 1px solid;
+	border-bottom: 1px dashed;
 	z-index: 105;
 	transition:
 		color var(--t-2),
@@ -24,7 +24,7 @@
 		letter-spacing: -0.02em;
 		line-height: 1;
 		border: none;
-		border-right: 1px solid;
+		border-right: 1px dashed;
 
 		svg {
 			display: block;
@@ -65,7 +65,7 @@
 		padding: 2px;
 		height: var(--height);
 		border-radius: calc(var(--height) / 2);
-		border: 1px solid;
+		border: 1px dashed;
 		background-color: var(--cr-subtle);
 
 		&__active {

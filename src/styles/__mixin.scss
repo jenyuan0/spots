@@ -166,29 +166,29 @@
 // ***Buttons***
 @mixin triggerProperties {
 	--size: 40px;
-	--outline: 1.5px;
-	--cr-primary: var(--cr-white);
+	--cr-primary: var(--cr-cream);
 	--cr-secondary: inherit;
 	@include buttonProperties;
 
 	width: var(--size);
 	height: var(--size);
 	gap: 5px;
+	transform: scale(1);
+	background-color: var(--cr-primary);
 	border-radius: 100%;
 	font: var(--t-l-1);
 	line-height: 1;
+	box-shadow: var(--shadow-1-shadow);
 	transition: var(--t-1);
 
 	&:before {
 		content: '';
 		display: block;
 		position: absolute;
-		inset: var(--outline);
+		inset: 0;
 		border-radius: 100%;
-		transform: scale(0.8);
-		opacity: 0;
-		background-color: var(--cr-subtle-1);
-		transition: var(--t-1);
+		border: 1px dashed;
+		transition: 2s;
 	}
 
 	svg {
@@ -197,9 +197,13 @@
 	}
 
 	@media (hover: hover) {
+		&:hover {
+			box-shadow: var(--shadow-1);
+		}
+
 		&:hover:before {
-			opacity: 1;
-			transform: scale(1);
+			transform: rotate(360deg);
+			transition: 24s;
 		}
 	}
 
@@ -252,7 +256,7 @@
 	justify-content: center;
 	height: var(--header-size);
 	padding: var(--block-padding);
-	border-left: 1px solid;
+	border-left: 1px dashed;
 }
 
 @mixin v2SectionHeader {
@@ -293,14 +297,8 @@
 			transition: color var(--t-1);
 		}
 
-		.c-accordion__icon {
-			transition: background-color var(--t-1);
-		}
-
-		.c-accordion:hover {
-			.c-accordion__toggle {
-				color: var(--cr-orange-d);
-			}
+		.c-accordion__toggle:hover {
+			color: var(--cr-orange-d);
 
 			.c-accordion__icon {
 				background-color: var(--cr-orange-l);
@@ -329,11 +327,6 @@
 		padding-top: var(--s-2-v);
 		padding-bottom: var(--s-4-v);
 
-		@include mobileDown() {
-			.c-portable-table {
-			}
-		}
-
 		@include mobileUp {
 			padding-left: 40px;
 		}
@@ -355,6 +348,7 @@
 	padding: var(--s-5-v) var(--s-5-h);
 	box-shadow: var(--shadow-1);
 	background-color: var(--cr-white);
+	border: 1px dashed;
 	border-radius: var(--br-3);
 
 	.g-planner-form {

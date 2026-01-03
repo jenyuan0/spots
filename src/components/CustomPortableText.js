@@ -99,6 +99,7 @@ export default function CustomPortableText({ blocks, hasPTag = true }) {
 						</div>
 					);
 				},
+				divider: () => <hr className="c-divider" aria-hidden="true" />,
 				iframe: (data) => <Iframe data={data?.value} />,
 				portableTable: (data) => {
 					return <PortableTable blocks={data?.value} />;

@@ -51,7 +51,7 @@ export default function TheMap({ id, locations, color }) {
 	const [selectedMarker, setSelectedMarker] = useState();
 	const [center, setCenter] = useState();
 	const [zoom, setZoom] = useState(13);
-	const setMag = useMagnify((state) => state.setMag);
+	const { addMag } = useMagnify();
 
 	useEffect(() => {
 		setCenter({
@@ -97,7 +97,7 @@ export default function TheMap({ id, locations, color }) {
 										style={{ '--index': `${index}` }}
 										title={location.title}
 										onClick={() => {
-											setMag({
+											addMag({
 												slug: location.slug,
 												type: 'location',
 											});

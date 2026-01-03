@@ -1,31 +1,31 @@
 import { draftMode } from 'next/headers';
 import { LiveQuery } from 'next-sanity/preview/live-query';
 import defineMetadata from '@/lib/defineMetadata';
-import { getPageHotelBooking } from '@/sanity/lib/fetch';
-import { pageHotelBookingQuery } from '@/sanity/lib/queries';
-import PageHotelBooking from '@/app/[lang]/(pages)/_components/PageHotelBooking';
-import PreviewPageHotelBooking from '@/app/[lang]/(pages)/_components/PreviewPageHotelBooking';
+import { getPageTravelDesign } from '@/sanity/lib/fetch';
+import { pageTravelDesignQuery } from '@/sanity/lib/queries';
+import PageTravelDesign from './travel-design/_components/PageTravelDesign';
+import PreviewPageTravelDesign from './travel-design/_components/PreviewPageTravelDesign';
 
 export async function generateMetadata({ params }) {
 	const isPreviewMode = draftMode().isEnabled;
-	const data = await getPageHotelBooking({ params, isPreviewMode });
+	const data = await getPageTravelDesign({ params, isPreviewMode });
 	return defineMetadata({ data });
 }
 
 export default async function Page({ params }) {
 	const isPreviewMode = draftMode().isEnabled;
-	const pageData = await getPageHotelBooking({ params, isPreviewMode });
+	const pageData = await getPageTravelDesign({ params, isPreviewMode });
 	const { page, site } = pageData || {};
 
 	if (page) {
 		return (
 			<LiveQuery
 				enabled={isPreviewMode}
-				query={pageHotelBookingQuery}
+				query={pageTravelDesignQuery}
 				initialData={page}
-				as={PreviewPageHotelBooking}
+				as={PreviewPageTravelDesign}
 			>
-				<PageHotelBooking data={page} siteData={site} />
+				<PageTravelDesign data={page} siteData={site} />
 			</LiveQuery>
 		);
 	}

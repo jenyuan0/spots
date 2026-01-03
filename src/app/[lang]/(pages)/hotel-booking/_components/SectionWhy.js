@@ -92,7 +92,7 @@ export default function SectionWhy({ data, localization }) {
 						caret="right"
 						onClick={() => setPlannerActive(true)}
 					>
-						{localization?.searchHotel || 'Search Hotel'}
+						{localization?.searchHotel || 'Book Hotel'}
 					</Button>
 				</ListItem>
 			</div>

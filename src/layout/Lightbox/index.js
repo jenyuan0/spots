@@ -60,7 +60,7 @@ export default function Lightbox() {
 					saving interests
 				 */}
 				{/* <div className="g-lightbox__tools">
-					<Button className="trigger-outline" onClick={() => {}}>
+					<Button className="trigger" onClick={() => {}}>
 						<IconSave />
 					</Button>
 				</div> */}

@@ -1,13 +1,12 @@
 .c-accordion {
 	position: relative;
-	border-top: 1px solid var(--cr-subtle);
+	border-top: 1px dashed;
 
 	&__toggle {
 		width: 100%;
 		padding: var(--s-3-v) 0;
 		gap: 20px;
 		text-align: left;
-		transition: transform var(--t-1);
 	}
 
 	&__icon {
@@ -16,13 +15,14 @@
 		align-items: center;
 		width: 30px;
 		height: 30px;
-		border: 1px solid var(--cr-subtle);
+		border: 1px dashed;
 		border-radius: 100%;
-		transition: transform var(--t-1);
-		box-shadow: var(--shadow-1);
+		box-shadow: var(--shadow-1-transparent);
+		transition: var(--t-1);
 
 		.icon-plus,
 		.icon-caret-down {
+			font-size: 12px;
 			transition: transform var(--t-1);
 		}
 	}
@@ -34,6 +34,12 @@
 
 	&__content {
 		overflow: hidden;
+	}
+
+	@media (hover: hover) {
+		&__toggle:hover &__icon {
+			box-shadow: var(--shadow-1);
+		}
 	}
 
 	&.is-active {

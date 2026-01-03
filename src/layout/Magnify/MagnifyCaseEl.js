@@ -44,7 +44,7 @@ export default function MagnifyCase({ data }) {
 
 				<div className="g-magnify-cases__hero__text wysiwyg">
 					{title && <h2 className="g-magnify-cases__heading t-h-1">{title}</h2>}
-					{subtitle && (
+					{(heroSubtitle || subtitle) && (
 						<h2 className="g-magnify-cases__subtitle t-h-4">
 							{heroSubtitle || subtitle}
 						</h2>
@@ -109,7 +109,6 @@ export default function MagnifyCase({ data }) {
 								data={item}
 								layout={'vertical-2'}
 								hasDirection={false}
-								isLinkout={true}
 							/>
 						))}
 					</ResponsiveGrid>

@@ -70,13 +70,13 @@ export default function SectionCase({ data, siteData }) {
 		mvY.set(e.clientY - 45 / 2);
 	};
 
-	const setMag = useMagnify((state) => state.setMag);
+	const { mag, addMag } = useMagnify();
 	const { hasPressedKeys } = useKey();
 
 	const handleDetailsClick = (e, slug) => {
 		if (!hasPressedKeys) {
 			e.preventDefault();
-			setMag({
+			addMag({
 				slug,
 				type: 'case',
 			});

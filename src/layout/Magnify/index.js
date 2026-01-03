@@ -4,6 +4,7 @@ import React, {
 	useRef,
 	useState,
 	useCallback,
+	useMemo,
 } from 'react';
 import clsx from 'clsx';
 import { scrollEnable, scrollDisable } from '@/lib/helpers';
@@ -15,25 +16,32 @@ import MagnifyLocation from './MagnifyLocation';
 import MagnifyCase from './MagnifyCase';
 import Button from '@/components/Button';
 import usePlanner from '@/hooks/usePlanner';
+import useOutsideClick from '@/hooks/useOutsideClick';
 
-export function Magnify({ siteData }) {
-	const { localization, localizationHighlights } = siteData || {};
+function MagnifyContent({ item, localization, localizationHighlights }) {
 	const { planYourTrip, unlockInsiderRates, closeLabel } = localization || {};
+	const containerRef = useRef();
+	const contentRef = useRef();
+	const timerRef = useRef();
 	const [isActive, setIsActive] = useState(false);
+	const [pageSlug, setPageSlug] = useState(null);
 	const [color, setColor] = useState('brown');
 	const [locMeta, setLocMeta] = useState({
 		hasHotelCategory: false,
 		title: '',
 	});
-	const [type, setType] = useState('location');
-	const [pageSlug, setPageSlug] = useState(null);
-	const [mParam, setMParam] = useState(null);
-	const { mag, clearMag } = useMagnify();
 	const { lightboxActive } = useLightbox();
-	const searchParams = useSearchParams();
-	const containerRef = useRef();
-	const timerRef = useRef();
+	const { mag, removeMag } = useMagnify();
 	const { setPlannerActive, setPlannerContent } = usePlanner();
+	const isTop = useMemo(() => {
+		const stack = mag || [];
+		if (!stack.length) return false;
+
+		const top = stack[stack.length - 1];
+		return top?.slug === item?.slug && top?.type === item?.type;
+	}, [mag]);
+	const type = item?.type || 'location';
+	const mParam = item?.slug;
 
 	const handleMeta = useCallback((meta) => {
 		setLocMeta(meta);
@@ -45,93 +53,51 @@ export function Magnify({ siteData }) {
 
 	useEffect(() => {
 		setPageSlug(window?.location.pathname?.split('/').pop());
+		setTimeout(() => {
+			setIsActive(true);
+		}, 1);
 	}, []);
 
 	useEffect(() => {
-		const m = searchParams.get('m');
-		const t = searchParams.get('t');
-
-		if (m) {
-			if (t) setType(t);
-			setMParam(m);
-			setIsActive(true);
+		if (isActive) {
 			scrollDisable(containerRef.current);
 		} else {
-			setIsActive(false);
-			setMParam(null);
 			scrollEnable();
 		}
-		return () => {
-			scrollEnable();
-			cleanup();
-		};
-	}, [searchParams]);
-
-	useEffect(() => {
-		cleanup();
-
-		if (mag?.type) setType(mag?.type);
-
-		if (mag?.slug) {
-			const url = new URL(window.location.href);
-			const params = url.searchParams;
-
-			// Add/replace params
-			const mValue = `${mag.slug}`;
-			params.set('m', mValue);
-			params.set('t', mag?.type);
-
-			// Build URL with both params
-			const newUrl = `${window.location.pathname}?${params.toString()}`;
-			window.history.pushState({}, '', newUrl);
-		}
-	}, [mag]);
-
-	const cleanup = () => {
-		if (timerRef.current) {
-			clearTimeout(timerRef.current);
-			timerRef.current = null;
-		}
-	};
+	}, [isActive]);
 
 	const handleClose = () => {
-		if (!isActive) return;
+		const stack = useMagnify.getState().mag || [];
+		if (!stack.length) return;
 
 		setIsActive(false);
+
 		if (timerRef.current) {
 			clearTimeout(timerRef.current);
 		}
 
 		timerRef.current = setTimeout(() => {
-			clearMag();
-			setMParam(null);
-
-			// Reset URL param
-			const url = new URL(window.location.href);
-			const params = url.searchParams;
-
-			params.delete('m');
-			params.delete('t');
-
-			// Construct new URL with remaining parameters
-			const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
-			window.history.pushState({}, '', newUrl);
+			removeMag();
 		}, 500);
 	};
 
-	// TODO
-	// having to click esc twice in order to close magnify
+	useOutsideClick(contentRef, () => {
+		if (!isTop) return;
+		handleClose();
+	}, ['g-planner', 'g-lightbox']);
 
 	useKey(() => {
-		if (!lightboxActive) {
-			handleClose();
-		}
+		if (lightboxActive) return;
+		if (!isTop) return;
+		handleClose();
 	});
 
 	return (
 		<div
+			className={clsx('g-magnify', {
+				'is-active': isActive,
+			})}
 			ref={containerRef}
-			className={clsx('g-magnify', { 'is-active': isActive })}
 			style={{
 				'--cr-primary': `var(--cr-${color}-d)`,
 				'--cr-secondary': `var(--cr-${color}-l)`,
@@ -140,13 +106,7 @@ export function Magnify({ siteData }) {
 			aria-label="Content details"
 			aria-modal={isActive}
 		>
-			<div
-				className="g-magnify__overlay"
-				aria-hidden="true"
-				role="presentation"
-				onClick={handleClose}
-			/>
-			<div className="g-magnify__content">
+			<div className="g-magnify__content" ref={contentRef}>
 				<div className="g-magnify__header">
 					<button
 						type="button"
@@ -197,7 +157,7 @@ export function Magnify({ siteData }) {
 				<div className="g-magnify__body">
 					{type === 'location' && (
 						<MagnifyLocation
-							key={mParam || 'location'}
+							key={mParam || `location-${idx}`}
 							mParam={mParam}
 							pageSlug={pageSlug}
 							onColorChange={handleColorChange}
@@ -209,7 +169,7 @@ export function Magnify({ siteData }) {
 					{type === 'case' && (
 						<div className="g-magnify-cases">
 							<MagnifyCase
-								key={mParam || 'case'}
+								key={mParam || `case-${idx}`}
 								mParam={mParam}
 								pageSlug={pageSlug}
 								onColorChange={handleColorChange}
@@ -220,6 +180,115 @@ export function Magnify({ siteData }) {
 				</div>
 			</div>
 		</div>
+	);
+}
+
+export function Magnify({ siteData }) {
+	const { localization, localizationHighlights } = siteData || {};
+	const { mag, addMag, clearMag } = useMagnify();
+	// Prevent duplicate hydration in React 18 StrictMode (effects run twice in dev)
+	const hasHydratedFromUrlRef = useRef(false);
+	const hydratedSearchKeyRef = useRef('');
+	const searchParams = useSearchParams();
+
+	// Supports multi-layer deep links via query params:
+	// m=slug1~slug2~slug3
+	// t=location~case~location
+	const STACK_SEP = '~';
+
+	const parseStackFromSearch = useCallback((sp) => {
+		const mRaw = sp?.get('m');
+		if (!mRaw) return [];
+		const tRaw = sp?.get('t') || '';
+
+		const slugs = decodeURIComponent(mRaw).split(STACK_SEP).filter(Boolean);
+		const types = decodeURIComponent(tRaw).split(STACK_SEP).filter(Boolean);
+
+		return slugs.map((slug, i) => ({
+			slug,
+			type: types[i] || 'location',
+		}));
+	}, []);
+
+	const serializeStackToSearch = useCallback((stack, url) => {
+		const params = url.searchParams;
+
+		if (!stack?.length) {
+			params.delete('m');
+			params.delete('t');
+			return;
+		}
+
+		params.set(
+			'm',
+			encodeURIComponent(
+				stack
+					.map((x) => x?.slug)
+					.filter(Boolean)
+					.join(STACK_SEP)
+			)
+		);
+		params.set(
+			't',
+			encodeURIComponent(
+				stack.map((x) => x?.type || 'location').join(STACK_SEP)
+			)
+		);
+	}, []);
+
+	useEffect(() => {
+		const searchKey = searchParams?.toString() || '';
+
+		// React 18 StrictMode runs effects twice in dev; this keeps hydration idempotent.
+		if (
+			hasHydratedFromUrlRef.current &&
+			hydratedSearchKeyRef.current === searchKey
+		) {
+			return;
+		}
+
+		const stackFromUrl = parseStackFromSearch(searchParams);
+		const currentStack = useMagnify.getState().mag || mag || [];
+
+		// Deep link support (multi-layer): only hydrate if nothing is open yet
+		if (stackFromUrl.length && currentStack.length === 0) {
+			// Mark hydrated BEFORE mutating state so a StrictMode re-run can't duplicate.
+			hasHydratedFromUrlRef.current = true;
+			hydratedSearchKeyRef.current = searchKey;
+
+			stackFromUrl.forEach((item) => addMag(item));
+			return;
+		}
+
+		// Even if there's nothing to hydrate, record that we've processed this URL.
+		hasHydratedFromUrlRef.current = true;
+		hydratedSearchKeyRef.current = searchKey;
+	}, [parseStackFromSearch, searchParams, addMag, mag]);
+
+	useEffect(() => {
+		const stack = mag || [];
+		const url = new URL(window.location.href);
+		serializeStackToSearch(stack, url);
+		const newUrl = `${window.location.pathname}${url.searchParams.toString() ? `?${url.searchParams.toString()}` : ''}`;
+
+		if (!stack) {
+			clearMag();
+		}
+
+		window.history.pushState({}, '', newUrl);
+	}, [serializeStackToSearch, mag, clearMag]);
+
+	return (
+		<>
+			{(mag || []).map((item, idx) => (
+				<MagnifyContent
+					key={idx}
+					item={item}
+					localization={localization}
+					localizationHighlights={localizationHighlights}
+				/>
+			))}
+		</>
 	);
 }
 

@@ -82,8 +82,9 @@
 
 	&__list {
 		display: flex;
-		border-top: 1px solid;
-		border-bottom: 1px solid;
+		border-top: 1px dashed;
+		border-bottom: 1px dashed;
+		border-right: 1px dashed;
 	}
 
 	&-block {
@@ -92,10 +93,7 @@
 		flex-direction: column;
 		overflow: hidden;
 		padding: 60px 30px;
-
-		&:not(:first-child) {
-			border-left: 1px solid;
-		}
+		border-left: 1px dashed;
 
 		&__img {
 			display: none;
@@ -137,14 +135,13 @@
 
 		&__list {
 			display: block;
-			border-top: unset;
-			border-bottom: unset;
+			border: unset;
 		}
 
 		&-block {
 			width: 90vw;
 			padding: 60px 20px;
-			border: 1px solid;
+			border: 1px dashed;
 			border-radius: var(--br-1);
 
 			&__text {
@@ -187,8 +184,8 @@
 			display: flex;
 			flex: row;
 			justify-content: flex-start;
-			border-top: 1px solid;
-			border-bottom: 1px solid;
+			border-top: 1px dashed;
+			border-bottom: 1px dashed;
 		}
 
 		&__card {
@@ -198,14 +195,14 @@
 			flex: 1;
 			gap: 30px;
 			padding: 30px;
-			box-shadow: var(--shadow-2-transparent);
+			box-shadow: var(--shadow-3-transparent);
 			transition:
 				color var(--t-1),
 				border-color var(--t-1),
 				box-shadow var(--t-1);
 
 			&:not(:last-child) {
-				border-right: 1px solid var(--cr-brown);
+				border-right: 1px dashed var(--cr-brown);
 			}
 
 			&__text {
@@ -241,6 +238,8 @@
 				top: 50%;
 				left: 50%;
 				transform: translate3d(-50%, -50%, 0);
+				border: 1px dashed;
+				box-shadow: var(--shadow-2);
 			}
 
 			&__images:has(.p-design__case__card__img:first-child img:not(.lazyloaded))
@@ -252,7 +251,7 @@
 				&:hover {
 					z-index: 1;
 					color: var(--cr-primary);
-					box-shadow: var(--shadow-2);
+					box-shadow: var(--shadow-3);
 
 					@include selection {
 						color: var(--cr-cream);
@@ -311,9 +310,9 @@
 			gap: 15px;
 			padding: var(--padding);
 			background-color: var(--cr-white);
-			border: 1px solid var(--cr-subtle);
+			border: 1px dashed;
 			box-shadow: var(--shadow-2-transparent);
-			border-radius: var(--br-3);
+			border-radius: var(--br-2);
 			cursor: pointer;
 			transition:
 				color var(--t-1),

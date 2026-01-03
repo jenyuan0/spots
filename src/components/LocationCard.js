@@ -87,7 +87,7 @@ export default function LocationCard({
 	const [categoryPillLimit, setCategoryPillLimit] = useState(1);
 
 	// Hooks
-	const setMag = useMagnify((state) => state.setMag);
+	const { addMag } = useMagnify();
 	const { setLightboxImages, setLightboxActive } = useLightbox();
 	const { hasPressedKeys } = useKey();
 
@@ -100,7 +100,7 @@ export default function LocationCard({
 	const handleDetailsClick = (e) => {
 		if (!hasPressedKeys && !isLinkout) {
 			e.preventDefault();
-			setMag({
+			addMag({
 				slug,
 				type: 'location',
 			});

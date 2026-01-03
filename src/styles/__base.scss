@@ -56,12 +56,12 @@
 	--br-1: 4px;
 	--br-2: 8px;
 	--br-3: 16px;
-	--shadow-1: 0px 12px 40px rgba(0, 0, 0, 0.15);
-	--shadow-1-transparent: 0px 12px 40px rgba(0, 0, 0, 0);
-	--shadow-2: 0px 6px 20px rgba(0, 0, 0, 0.15);
-	--shadow-2-transparent: 0px 6px 20px rgba(0, 0, 0, 0);
-	--shadow-3: 0px 3px 10px rgba(0, 0, 0, 0.15);
-	--shadow-3-transparent: 0px 3px 10px rgba(0, 0, 0, 0);
+	--shadow-1: 0px 1px 1px 1px rgba(0, 0, 0, 0.15);
+	--shadow-1-transparent: 0px 2px 1px 1px rgba(0, 0, 0, 0);
+	--shadow-2: 0px 3px 3px 3px rgba(0, 0, 0, 0.15);
+	--shadow-2-transparent: 0px 3px 3px 3px rgba(0, 0, 0, 0);
+	--shadow-3: 0px 6px 6px 6px rgba(0, 0, 0, 0.15);
+	--shadow-3-transparent: 0px 6px 6px 6px rgba(0, 0, 0, 0);
 }
 
 // --- Language-specific typography overrides ---
