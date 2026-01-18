@@ -74,7 +74,6 @@ export default defineType({
 				{
 					type: 'object',
 					fields: [
-						customImage({ name: 'image' }),
 						{
 							name: 'heading',
 							type: 'string',
