@@ -10,8 +10,9 @@ function HeroSpot({ data, index, totalChild, isLastChild, progress }) {
 	const motionY = useTransform(
 		progress,
 		[0, index * 0.01, 0.25, 1],
-		[0, 0, 180, 150]
+		[0, 0, 120, 80]
 	);
+	const springY = useSpring(motionY, springConfig);
 	const motionOpacity = useTransform(
 		progress,
 		[0, 0.15, 0.25, 1],
@@ -19,7 +20,7 @@ function HeroSpot({ data, index, totalChild, isLastChild, progress }) {
 	);
 	const angle = 180 + index * (360 / totalChild);
 	const motionAngle = useTransform(progress, [0, 1], [angle, angle + 360]);
-	const springY = useSpring(motionY, springConfig);
+	const springAngle = useSpring(motionAngle, springConfig);
 
 	if (!data) return null;
 
@@ -27,14 +28,14 @@ function HeroSpot({ data, index, totalChild, isLastChild, progress }) {
 		<motion.div
 			className={'p-design__spots__spot'}
 			style={{
-				rotate: motionAngle,
-				scale: 0.5,
+				rotate: springAngle,
 			}}
 		>
 			<motion.div
 				style={{
 					y: springY,
 					opacity: motionOpacity,
+					scale: 0.5,
 				}}
 			>
 				<LocationDot data={data} initialLightOrDark={isLastChild && 'd'} />
@@ -85,7 +86,6 @@ export default function SectionSpots({ data }) {
 	}, [isMounted, viewportHeight, progress]);
 
 	const motionRotate = useTransform(progress, [0, 0.28, 1], [0, 0, 360 * 0.5]);
-	const springRotate = useSpring(motionRotate, springConfig);
 
 	// Use useMemo to prevent re-renders
 	const spotElements = useMemo(() => {
