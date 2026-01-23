@@ -2,16 +2,36 @@
 
 .p-design__hero {
 	--size: Min(50vw, 420px);
-	position: relative;
-	height: var(--size);
-	width: var(--size);
-	margin-top: calc(var(--s-header) + var(--s-section));
-	margin-inline: auto;
-	pointer-events: none;
-	background-color: var(--cr-subtle);
-	overflow: hidden;
-	border-radius: 100%;
-	z-index: -1;
+
+	@include tabletUp {
+		position: sticky;
+		padding: 0.1px;
+		top: 0;
+	}
+
+	&__header {
+		text-align: center;
+		width: var(--width-med);
+		margin-block: var(--s-section);
+		margin-inline: auto;
+
+		h1 {
+			font: var(--t-h-2);
+			color: var(--cr-red-d);
+		}
+	}
+
+	&__image {
+		position: relative;
+		height: var(--size);
+		width: var(--size);
+		margin-inline: auto;
+		pointer-events: none;
+		background-color: var(--cr-subtle);
+		overflow: hidden;
+		border-radius: 100%;
+		z-index: -1;
+	}
 
 	video {
 		opacity: 0;
@@ -20,27 +40,6 @@
 	video.is-active {
 		animation: fadeIn 2s 0.2s both;
 	}
-
-	@include tabletUp {
-		position: sticky;
-		top: calc(var(--s-header) + var(--s-section));
-	}
-}
-
-.p-design__spots {
-	position: relative;
-	height: 10px;
-	margin-block: 200px;
-
-	&__spot {
-		--size: clamp(35px, 5vw, 50px);
-		position: absolute;
-		width: fit-content;
-		height: fit-content;
-		left: 50%;
-		transform-origin: center;
-		margin: calc(var(--size) / 2 * -1);
-	}
 }
 
 .p-design__intro {
@@ -48,9 +47,18 @@
 	margin: var(--s-section) auto;
 	text-align: center;
 	transform: translate3d(0, 0, 0);
+	background-color: var(--cr-cream);
+	border: 1px dashed var(--cr-red-d);
+	border-radius: var(--br-1);
 
 	&__title {
+		padding: 16px;
 		color: var(--cr-red-d);
+		border-bottom: 1px dashed;
+	}
+
+	&__paragraph {
+		padding: 60px 40px;
 	}
 
 	p {
@@ -66,6 +74,50 @@
 				font-size: 20px;
 			}
 		}
+	}
+
+	// Scroll “fill” effect (line-by-line, word-by-word opacity).
+	.c-filltext {
+		position: relative;
+	}
+
+	// Line wrappers are used for measurement; block makes the line bounds stable.
+	.c-filltext__line {
+		display: block;
+	}
+
+	// Each token includes trailing whitespace, so spacing remains correct.
+	.c-filltext__word {
+		opacity: 0.2;
+		transition: opacity var(--t-2);
+		will-change: opacity;
+	}
+
+	.c-filltext__word.is-visible {
+		opacity: 1;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.c-filltext__word {
+			transition: none;
+			opacity: 1;
+		}
+	}
+}
+
+.p-design__spots {
+	position: relative;
+	height: 10px;
+	margin-block: 240px;
+
+	&__spot {
+		--size: clamp(35px, 5vw, 50px);
+		position: absolute;
+		width: fit-content;
+		height: fit-content;
+		left: 50%;
+		transform-origin: center;
+		margin: calc(var(--size) / 2 * -1);
 	}
 }
 

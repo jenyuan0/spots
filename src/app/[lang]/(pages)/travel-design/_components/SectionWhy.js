@@ -36,12 +36,7 @@ export default function SectionWhy({ data }) {
 	return (
 		<section className="p-design__why">
 			<section className="p-design__why__header wysiwyg">
-				{whyHeading && (
-					<h2 className="t-h-2">
-						<CustomPortableText blocks={whyHeading} hasPTag={false} />
-					</h2>
-				)}
-				{whyParagraph && <p className="t-b-2">{whyParagraph}</p>}
+				{whyHeading && <h2 className="t-h-2">{whyHeading}</h2>}
 			</section>
 			{whyBlocks &&
 				(isTabletScreen ? (

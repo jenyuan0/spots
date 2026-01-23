@@ -3,7 +3,6 @@ import title from '@/sanity/schemas/objects/title';
 import slug from '@/sanity/schemas/objects/slug';
 import sharing from '@/sanity/schemas/objects/sharing';
 import customImage from '@/sanity/schemas/objects/custom-image';
-import callToAction from '@/sanity/schemas/objects/call-to-action';
 
 export default defineType({
 	title: 'Travel Design',
@@ -13,6 +12,11 @@ export default defineType({
 		title(),
 		slug(),
 		customImage({ name: 'heroImage' }),
+		{
+			name: 'heroHeading',
+			type: 'text',
+			rows: 3,
+		},
 		{
 			name: 'heroVideo',
 			title: 'Hero Video',
@@ -41,31 +45,8 @@ export default defineType({
 			type: 'portableTextSimple',
 		},
 		{
-			name: 'caseHeading',
-			type: 'string',
-		},
-		{
-			name: 'caseItems',
-			type: 'array',
-			of: [
-				{
-					name: 'itinerary',
-					type: 'reference',
-					to: [{ type: 'gCases' }],
-					options: {
-						filter: '_type == "gCases" && language == "en"',
-					},
-				},
-			],
-		},
-		{
 			name: 'whyHeading',
-			type: 'portableTextSimple',
-		},
-		{
-			name: 'whyParagraph',
-			type: 'text',
-			rows: 4,
+			type: 'string',
 		},
 		{
 			name: 'whyBlocks',
@@ -84,6 +65,24 @@ export default defineType({
 							rows: 4,
 						},
 					],
+				},
+			],
+		},
+		{
+			name: 'caseHeading',
+			type: 'string',
+		},
+		{
+			name: 'caseItems',
+			type: 'array',
+			of: [
+				{
+					name: 'itinerary',
+					type: 'reference',
+					to: [{ type: 'gCases' }],
+					options: {
+						filter: '_type == "gCases" && language == "en"',
+					},
 				},
 			],
 		},

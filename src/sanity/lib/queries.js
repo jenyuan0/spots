@@ -794,6 +794,7 @@ export const pageTravelDesignQuery = groq`
  ${getDocumentWithFallback({ docType: 'pTravelDesign' })}{
     ${baseFields},
     "isHomepage": true,
+		heroHeading,
     heroImage,
     heroVideo{
       ${fileMetaFields}
@@ -808,20 +809,17 @@ export const pageTravelDesignQuery = groq`
     introParagraph[]{
       ${portableTextContentFields}
 		},
-    caseHeading,
-		${translatedReferenceArray({
-			sourceField: 'caseItems',
-			projection: `${getCaseData('card')}`,
-		})},
-    whyHeading[]{
-      ${portableTextContentFields}
-    },
-		whyParagraph,
+    whyHeading,
 		whyBlocks[]{
 			heading,
 			paragraph,
 			image{${imageMetaFields}}
 		},
+    caseHeading,
+		${translatedReferenceArray({
+			sourceField: 'caseItems',
+			projection: `${getCaseData('card')}`,
+		})},
     faqHeading,
     faqSubheading,
     faq[]{
