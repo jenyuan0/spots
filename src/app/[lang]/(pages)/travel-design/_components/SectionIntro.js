@@ -41,6 +41,7 @@ function ScrollFill({ blocks }) {
 				const span = document.createElement('span');
 				span.className = 'c-filltext__word';
 				span.textContent = token;
+
 				frag.appendChild(span);
 			});
 
@@ -105,7 +106,7 @@ function ScrollFill({ blocks }) {
 			: window.innerHeight / 1.6;
 		const lines = Array.from(rootEl.querySelectorAll('.c-filltext__line'));
 
-		lines.forEach((line, index) => {
+		lines.forEach((line) => {
 			const rect = line.getBoundingClientRect();
 			const height = Math.max(rect.height, 1);
 			const progress = (midY - rect.top) / height;

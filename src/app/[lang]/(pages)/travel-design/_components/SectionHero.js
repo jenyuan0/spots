@@ -16,7 +16,7 @@ export default function SectionHero({ data }) {
 	const progress = useTransform(scrollY, [0, height], [0, 1], {
 		clamp: true,
 	});
-	const motionOpacity = useTransform(progress, [0, 0.8, 1], [1, 1, 0]);
+	const motionOpacity = useTransform(progress, [0, 0.6, 0.8], [1, 1, 0]);
 	const motionScale = useTransform(progress, [0, 1], [1, 0.9]);
 	const [hasMounted, setHasMounted] = useState(false);
 
