@@ -106,12 +106,11 @@ function ScrollFill({ blocks }) {
 			: window.innerHeight / 1.6;
 		const lines = Array.from(rootEl.querySelectorAll('.c-filltext__line'));
 
-		lines.forEach((line) => {
+		lines.forEach((line, index) => {
 			const rect = line.getBoundingClientRect();
 			const height = Math.max(rect.height, 1);
-			const progress = (midY - rect.top) / height;
+			const progress = (midY - rect.top) / (height * 2);
 			const p = Math.max(0, Math.min(1, progress));
-
 			const words = Array.from(line.querySelectorAll('.c-filltext__word'));
 			const n = words.length;
 			if (!n) return;
