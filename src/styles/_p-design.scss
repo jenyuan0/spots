@@ -96,13 +96,14 @@
 
 		// Each token includes trailing whitespace, so spacing remains correct.
 		&__word {
-			opacity: 0.2;
-			transition: opacity var(--t-2);
+			opacity: 0.1;
+			transition: var(--t-3);
 			will-change: opacity;
 		}
 
 		&__word.is-visible {
 			opacity: 1;
+			color: var(--cr-red-d);
 		}
 
 		@media (prefers-reduced-motion: reduce) {
@@ -222,7 +223,6 @@
 	&__heading {
 		max-width: Min(80vw, 400px);
 		margin-inline: auto;
-		color: var(--cr-red-d);
 	}
 
 	&__header {
