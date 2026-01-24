@@ -107,7 +107,7 @@ function ScrollFill({ blocks }) {
 		const words = Array.from(rootEl.querySelectorAll('.c-filltext__word'));
 		if (!words.length) return;
 
-		const midY = window.innerHeight / 2;
+		const midY = window.innerHeight * 0.7;
 
 		// Group words by their assigned visual line.
 		const byLine = new Map();
