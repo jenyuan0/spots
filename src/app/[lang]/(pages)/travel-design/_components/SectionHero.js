@@ -60,7 +60,7 @@ export default function SectionHero({ data }) {
 	useEffect(() => {
 		setHasMounted(true);
 	}, []);
-	console.log(progress);
+
 	if (!hasMounted) return null;
 
 	return (
