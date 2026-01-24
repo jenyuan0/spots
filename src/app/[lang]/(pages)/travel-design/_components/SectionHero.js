@@ -18,6 +18,9 @@ export default function SectionHero({ data }) {
 	});
 	const motionOpacity = useTransform(progress, [0, 0.6, 0.8], [1, 1, 0]);
 	const motionScale = useTransform(progress, [0, 1], [1, 0.9]);
+	const pointerEvents = useTransform(progress, (v) =>
+		v < 1 ? 'auto' : 'none'
+	);
 	const [hasMounted, setHasMounted] = useState(false);
 
 	useEffect(() => {
@@ -57,7 +60,7 @@ export default function SectionHero({ data }) {
 	useEffect(() => {
 		setHasMounted(true);
 	}, []);
-
+	console.log(progress);
 	if (!hasMounted) return null;
 
 	return (
@@ -66,6 +69,7 @@ export default function SectionHero({ data }) {
 			className="p-design__hero"
 			style={{
 				opacity: motionOpacity,
+				pointerEvents,
 			}}
 		>
 			{heroHeading && (
