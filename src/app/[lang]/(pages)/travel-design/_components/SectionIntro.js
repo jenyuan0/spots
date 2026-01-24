@@ -6,18 +6,26 @@ import CustomPortableText from '@/components/CustomPortableText';
 function ScrollFill({ blocks }) {
 	const rootRef = useRef(null);
 
-	// Wrap text nodes into word spans while preserving existing markup (<a>, <em>, etc.).
+	// Wrap text nodes into word spans while preserving existing markup (<a>, <em>, <i>, etc.).
 	// Each span includes its trailing whitespace, so spacing remains correct.
 	const wrapTextNodesIntoWords = (rootEl) => {
 		const walker = document.createTreeWalker(rootEl, NodeFilter.SHOW_TEXT, {
 			acceptNode(node) {
 				const v = node.nodeValue;
 				if (!v || !v.trim()) return NodeFilter.FILTER_REJECT;
+
 				const parent = node.parentElement;
 				if (!parent) return NodeFilter.FILTER_REJECT;
+
+				// Don’t process inside script/style.
 				const tag = parent.tagName?.toLowerCase();
 				if (tag === 'script' || tag === 'style')
 					return NodeFilter.FILTER_REJECT;
+
+				// Don’t re-wrap text that’s already inside a word span.
+				if (parent.closest?.('.c-filltext__word'))
+					return NodeFilter.FILTER_REJECT;
+
 				return NodeFilter.FILTER_ACCEPT;
 			},
 		});
@@ -35,13 +43,17 @@ function ScrollFill({ blocks }) {
 
 			const frag = document.createDocumentFragment();
 			tokens.forEach((token) => {
-				// Avoid empty spans.
-				if (!token) return;
+				// Prevent empty/zero-width-only spans.
+				// (Some content sources include \u200B/\uFEFF which can render as "empty".)
+				const visible = token.replace(/[\s\u200B\uFEFF]/g, '');
+				if (!visible) {
+					frag.appendChild(document.createTextNode(token));
+					return;
+				}
 
 				const span = document.createElement('span');
 				span.className = 'c-filltext__word';
 				span.textContent = token;
-
 				frag.appendChild(span);
 			});
 
@@ -49,17 +61,14 @@ function ScrollFill({ blocks }) {
 		});
 	};
 
-	// Group word spans into visual lines (based on offsetTop) and wrap each line.
-	const wrapWordsIntoLines = (rootEl) => {
+	// Assign each word span to a visual line (based on offsetTop) without moving nodes.
+	// This preserves inline markup like <em>/<i> because we never re-parent word spans.
+	const assignWordsToVisualLines = (rootEl) => {
 		const words = Array.from(rootEl.querySelectorAll('.c-filltext__word'));
 		if (!words.length) return [];
 
-		// Unwrap any previous line wrappers.
-		rootEl.querySelectorAll('.c-filltext__line').forEach((line) => {
-			while (line.firstChild)
-				line.parentNode?.insertBefore(line.firstChild, line);
-			line.parentNode?.removeChild(line);
-		});
+		// Clear previous line ids.
+		words.forEach((w) => w.removeAttribute('data-line'));
 
 		const tolerance = 2;
 		const lines = [];
@@ -84,43 +93,46 @@ function ScrollFill({ blocks }) {
 		});
 		if (current.length) lines.push(current);
 
-		lines.forEach((lineWords) => {
-			const line = document.createElement('span');
-			line.className = 'c-filltext__line';
-			const first = lineWords[0];
-			first.parentNode?.insertBefore(line, first);
-			lineWords.forEach((w) => line.appendChild(w));
+		lines.forEach((lineWords, idx) => {
+			lineWords.forEach((w) => w.setAttribute('data-line', String(idx)));
 		});
 
-		return Array.from(rootEl.querySelectorAll('.c-filltext__line'));
+		return lines;
 	};
 
 	// Reveal words based on a line-local progress value:
 	// - progress = 0 when the top of the line hits the viewport midpoint
 	// - progress = 1 when the bottom of the line hits the viewport midpoint
 	const updateReveal = (rootEl) => {
-		const introEl = rootEl.closest('.p-design__intro');
-		// Use the top edge of the intro section (in viewport coordinates) as the reveal threshold.
-		const midY = introEl
-			? introEl.getBoundingClientRect().top + scrollY
-			: window.innerHeight / 1.6;
-		const lines = Array.from(rootEl.querySelectorAll('.c-filltext__line'));
+		const words = Array.from(rootEl.querySelectorAll('.c-filltext__word'));
+		if (!words.length) return;
 
-		lines.forEach((line, index) => {
-			const rect = line.getBoundingClientRect();
-			const height = Math.max(rect.height, 1);
-			const progress = (midY - rect.top) / (height * 2);
-			const p = Math.max(0, Math.min(1, progress));
-			const words = Array.from(line.querySelectorAll('.c-filltext__word'));
-			const n = words.length;
-			if (!n) return;
+		const midY = window.innerHeight / 2;
 
-			// How many words should be visible at this progress?
-			// If only 1 word, it becomes visible as soon as progress > 0.
+		// Group words by their assigned visual line.
+		const byLine = new Map();
+		words.forEach((w) => {
+			const key = w.getAttribute('data-line') || '0';
+			if (!byLine.has(key)) byLine.set(key, []);
+			byLine.get(key).push(w);
+		});
+
+		byLine.forEach((lineWords) => {
+			if (!lineWords.length) return;
+
+			// Determine the visual top/bottom of the line.
+			const firstRect = lineWords[0].getBoundingClientRect();
+			const lastRect = lineWords[lineWords.length - 1].getBoundingClientRect();
+			const top = firstRect.top;
+			const bottom = lastRect.bottom;
+			const span = Math.max(bottom - top, 1);
+
+			const p = Math.max(0, Math.min(1, (midY - top) / span));
+			const n = lineWords.length;
 			const visibleCount = p <= 0 ? 0 : Math.min(n, Math.ceil(p * n));
-			words.forEach((w, i) => {
-				const shouldShow = i < visibleCount;
-				w.classList.toggle('is-visible', shouldShow);
+
+			lineWords.forEach((w, i) => {
+				w.classList.toggle('is-visible', i < visibleCount);
 			});
 		});
 	};
@@ -137,7 +149,7 @@ function ScrollFill({ blocks }) {
 			// Reset any previous processing by letting React re-render on blocks change.
 			// At this point, the DOM contains the latest PortableText output.
 			wrapTextNodesIntoWords(rootEl);
-			wrapWordsIntoLines(rootEl);
+			assignWordsToVisualLines(rootEl);
 
 			if (reduceMotion) {
 				rootEl
