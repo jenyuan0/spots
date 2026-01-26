@@ -15,6 +15,12 @@
 		h1 {
 			font: var(--t-h-2);
 			color: var(--cr-red-d);
+
+			@include mobileDown {
+				html[lang='zh_TW'] & {
+					font-size: 26px;
+				}
+			}
 		}
 	}
 

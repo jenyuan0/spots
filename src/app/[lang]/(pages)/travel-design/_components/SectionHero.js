@@ -74,7 +74,14 @@ export default function SectionHero({ data }) {
 		>
 			{heroHeading && (
 				<div className="p-design__hero__header">
-					<h1>{heroHeading}</h1>
+					<h1>
+						{heroHeading.split('\n').map((line, i) => (
+							<React.Fragment key={i}>
+								{line}
+								{i < heroHeading.split('\n').length - 1 && <br />}
+							</React.Fragment>
+						))}
+					</h1>
 				</div>
 			)}
 			<motion.div
