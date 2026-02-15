@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState, useMemo } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import clsx from 'clsx';
 import { buildImageSrc } from '@/lib/helpers';
 import { useInView } from 'react-intersection-observer';
 import { HalftoneCmyk } from '@paper-design/shaders-react';
@@ -57,7 +58,12 @@ function ImageHalftone({ image }) {
 	if (!image || !imageId) return null;
 
 	return (
-		<span ref={setRefs} className="c-image-halftone">
+		<span
+			ref={setRefs}
+			className={clsx('c-image-halftone', {
+				'is-loaded': renderedSize,
+			})}
+		>
 			<HalftoneCmyk
 				width={renderedSize.width}
 				height={renderedSize.height}

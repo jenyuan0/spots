@@ -1,4 +1,9 @@
 .c-image-halftone {
 	position: absolute;
 	inset: 0;
+	opacity: 0;
+
+	&.is-loaded {
+		animation: fadeIn 0.4s 0.4s both;
+	}
 }
