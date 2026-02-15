@@ -279,6 +279,7 @@
 
 			&__img {
 				overflow: hidden;
+				aspect-ratio: 0.8;
 				border-radius: var(--br-1);
 				transition:
 					transform var(--t-1) 0.4s,

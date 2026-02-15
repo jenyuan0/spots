@@ -10,6 +10,7 @@ import { springConfig } from '@/lib/helpers';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
 import useMagnify from '@/hooks/useMagnify';
 import useKey from '@/hooks/useKey';
+import ImageHalftone from '@/components/ImageHalftone';
 
 export default function SectionCase({ data, siteData }) {
 	const { caseHeading, caseItems } = data || {};
@@ -117,7 +118,7 @@ export default function SectionCase({ data, siteData }) {
 										return thumbs.map((img, j) => {
 											const s = seeds[i]?.[j] || { rot: 0, dur: 0.6 };
 											return (
-												<span
+												<div
 													className="p-design__case__card__img"
 													key={j}
 													style={{
@@ -126,8 +127,8 @@ export default function SectionCase({ data, siteData }) {
 														'--dur': `${0.4 + j * 0.1}s`,
 													}}
 												>
-													<Img image={img} />
-												</span>
+													<ImageHalftone image={img} />
+												</div>
 											);
 										});
 									})()}

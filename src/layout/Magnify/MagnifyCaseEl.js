@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { getLocalizationPlural } from '@/lib/helpers';
-import Img from '@/components/Image';
+import ImageHalftone from '@/components/ImageHalftone';
 import CustomPortableText from '@/components/CustomPortableText';
 import Button from '@/components/Button';
 import LocationCard from '@/components/LocationCard';
@@ -38,7 +38,7 @@ export default function MagnifyCase({ data }) {
 			<div className="g-magnify-cases__hero">
 				{heroImage && (
 					<span className="g-magnify-cases__hero__image object-fit">
-						<Img image={heroImage} />
+						<ImageHalftone image={heroImage} />
 					</span>
 				)}
 
