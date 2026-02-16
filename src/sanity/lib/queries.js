@@ -458,7 +458,13 @@ export const getCaseData = (type) => {
 			highlights[]{
 				${portableTextObj}
 			},
+			"budget": {
+				"low": budget.budgetLow,
+				"high": budget.budgetHigh
+			},
 			offers,
+			inclusions,
+			exclusions,
 			content[]{
 				${portableTextObj}
 			},
@@ -468,6 +474,8 @@ export const getCaseData = (type) => {
 			})},
 			"localizationGlobal": *[_type == "settingsLocalization"][0].globalLabel {
 				"tripHighlights": ${getTranslationByLanguage('tripHighlights')},
+				"fees": ${getTranslationByLanguage('fees')},
+				"feesNotes": ${getTranslationByLanguage('feesNotes')},
 				"ourRole": ${getTranslationByLanguage('ourRole')},
 				"planYourTrip": ${getTranslationByLanguage('planYourTrip')},
 				"suggestedAccomodations": ${getTranslationByLanguage('suggestedAccomodations')},
