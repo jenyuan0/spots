@@ -67,6 +67,7 @@ export default function MagnifyCase({ data }) {
 						</div>
 					</div>
 				)}
+
 				{budget.low && (
 					<div className="g-magnify-cases__budget">
 						<h3 className="g-magnify-cases__budget-title t-l-1">
