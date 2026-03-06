@@ -10,7 +10,7 @@ import { getRandomInt, springConfig } from '@/lib/helpers';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
 
 // Spot component for individual animated spots
-function HeroSpot({ index, data, boundary, isLastChild, scrollYProgress }) {
+function HeroSpot({ data, boundary, isLastChild, scrollYProgress }) {
 	const { isMobileScreen, width, height } = useWindowDimensions();
 	const [isMounted, setIsMounted] = useState(false);
 
@@ -216,7 +216,6 @@ export default function HeroSection({ data }) {
 					return (
 						<HeroSpot
 							key={`spot-${i}`}
-							index={i}
 							boundary={boundary}
 							data={{
 								...el,

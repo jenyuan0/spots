@@ -24,7 +24,7 @@ export default defineType({
 			options: { accept: 'video/*' },
 		},
 		{
-			name: 'heroSpots',
+			name: 'heroGallery',
 			type: 'array',
 			of: [
 				{
@@ -32,6 +32,23 @@ export default defineType({
 					to: [{ type: 'gLocations' }],
 					options: {
 						filter: '_type == "gLocations" && language == "en"',
+					},
+				},
+			],
+		},
+		{
+			name: 'heroCtaLabel',
+			type: 'string',
+		},
+		{
+			name: 'heroCta',
+			type: 'array',
+			of: [
+				{
+					type: 'reference',
+					to: [{ type: 'gCases' }],
+					options: {
+						filter: '_type == "gCases" && language == "en"',
 					},
 				},
 			],
@@ -82,6 +99,19 @@ export default defineType({
 					to: [{ type: 'gCases' }],
 					options: {
 						filter: '_type == "gCases" && language == "en"',
+					},
+				},
+			],
+		},
+		{
+			name: 'heroSpots',
+			type: 'array',
+			of: [
+				{
+					type: 'reference',
+					to: [{ type: 'gLocations' }],
+					options: {
+						filter: '_type == "gLocations" && language == "en"',
 					},
 				},
 			],

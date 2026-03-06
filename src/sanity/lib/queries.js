@@ -807,12 +807,20 @@ export const pageTravelDesignQuery = groq`
     heroVideo{
       ${fileMetaFields}
     },
-    heroSpots[]->{
+    heroGallery[]->{
       title,
       _id,
       "slug": slug.current,
-      "color": lower(categories[0]->color->title)
+			"color": lower(categories[0]->color->title),
+    	images[0]{
+      	${imageMetaFields}
+    	},
     },
+		heroCtaLabel,
+		${translatedReferenceArray({
+			sourceField: 'heroCta',
+			projection: `${getCaseData('card')}`,
+		})},
     introHeading,
     introParagraph[]{
       ${portableTextContentFields}
@@ -828,6 +836,12 @@ export const pageTravelDesignQuery = groq`
 			sourceField: 'caseItems',
 			projection: `${getCaseData('card')}`,
 		})},
+    heroSpots[]->{
+      title,
+      _id,
+      "slug": slug.current,
+      "color": lower(categories[0]->color->title),
+    },
     faqHeading,
     faqSubheading,
     faq[]{
