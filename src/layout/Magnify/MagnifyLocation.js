@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { hasArrayValue, formatAddress } from '@/lib/helpers';
 import Link from '@/components/CustomLink';
@@ -15,14 +15,12 @@ import { useCurrentLang } from '@/hooks/useCurrentLang';
 export default function MagnifyLocation({
 	mParam,
 	pageSlug,
-	onColorChange,
-	onMeta,
+	onDataChange,
 	localization,
 	localizationHighlights,
 }) {
 	const [currentLanguageCode] = useCurrentLang();
 	const [locationContent, setLocationContent] = useState(null);
-	const [color, setColor] = useState(null);
 	const [reservations, setReservations] = useState([]);
 	const [isLoaded, setIsLoaded] = useState(false);
 	const { setLightboxImages, setLightboxActive } = useLightbox();
@@ -57,16 +55,10 @@ export default function MagnifyLocation({
 						{ language: currentLanguageCode }
 					),
 				]);
-				const contentColor =
-					(content &&
-						(content.color ||
-							content?.categories?.[0]?.color?.title?.toLowerCase())) ||
-					'brown';
 
 				setLocationContent(content);
 				setReservations(resvs || []);
-				setColor(contentColor);
-				if (onColorChange) onColorChange(contentColor);
+				if (onDataChange) onDataChange(content);
 			} catch (e) {
 				console.error('Error fetching location content:', e);
 			}
@@ -76,30 +68,7 @@ export default function MagnifyLocation({
 			setIsLoaded(true);
 			fetchData();
 		}
-	}, [mParam, pageSlug, onColorChange]);
-
-	// --- meta for parent (must run before any early return) ---
-	const metaTitle = locationContent?.title || '';
-	const metaHasHotelCategory = Array.isArray(locationContent?.categories)
-		? locationContent.categories.some((cat) => cat?.slug === 'hotels')
-		: false;
-	const lastMetaRef = useRef({ hasHotelCategory: false, title: '' });
-
-	useEffect(() => {
-		const nextMeta = {
-			hasHotelCategory: metaHasHotelCategory,
-			title: metaTitle,
-		};
-		const prev = lastMetaRef.current;
-		if (
-			prev.hasHotelCategory !== nextMeta.hasHotelCategory ||
-			prev.title !== nextMeta.title
-		) {
-			lastMetaRef.current = nextMeta;
-			if (onMeta) onMeta(nextMeta);
-		}
-	}, [metaHasHotelCategory, metaTitle, onMeta]);
-	// --- end meta ---
+	}, [mParam, pageSlug, onDataChange]);
 
 	if (!isLoaded || !locationContent) {
 		return null;

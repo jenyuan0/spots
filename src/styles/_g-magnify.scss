@@ -11,7 +11,6 @@
 	overflow-y: auto;
 	overflow-x: clip;
 	transform: translate3d(0, 0, 0);
-	backdrop-filter: blur(3px);
 	background-color: rgba(0, 0, 0, 0.6);
 	transition: var(--t-2);
 	z-index: 200;
@@ -44,18 +43,43 @@
 		--height: 60px;
 		position: sticky;
 		display: flex;
-		justify-content: flex-end;
+		justify-content: space-between;
 		align-items: center;
 		height: var(--height);
 		top: 0;
-		padding-right: 7px;
-		background-color: var(--cr-cream);
-		border-bottom: 1px dashed;
+		gap: 16px;
+		padding-inline: 8px;
+		border-bottom: 1px dashed transparent;
 		z-index: 205;
+		transition: var(--t-1);
+	}
+
+	&__title {
+		flex: 1;
+		opacity: 0;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		line-height: 0.9;
+		transition: opacity var(--t-1);
+
+		em {
+			margin-left: 0.6em;
+			font-style: italic;
+		}
+	}
+
+	&.is-scrolled &__header {
+		background-color: var(--cr-cream);
+		border-color: inherit;
+	}
+
+	&.is-scrolled &__title {
+		opacity: 1;
 	}
 
 	&__toggle {
-		@include asideToggle;
+		@include asideToggleStatic;
 	}
 
 	&__toggle__icon {
@@ -93,9 +117,9 @@
 
 	@include tabletDown {
 		&__header {
-			padding-inline: 10px;
-			padding-right: 5px;
-			justify-content: space-between;
+			--height: 50px;
+			padding-inline: 4px;
+			gap: 10px;
 		}
 
 		&__toggle {
@@ -182,8 +206,6 @@
 .g-magnify:has(.g-magnify-cases) {
 	.g-magnify__header {
 		margin-bottom: calc(-1 * var(--height));
-		background-color: transparent;
-		border-bottom: unset;
 	}
 
 	.g-magnify__content {
@@ -194,6 +216,7 @@
 			margin-inline: auto;
 			border-top-left-radius: var(--br-3);
 			border-top-right-radius: var(--br-3);
+			overflow: clip;
 		}
 
 		@include tabletDown {
@@ -205,18 +228,6 @@
 		position: sticky;
 		width: 100%;
 		top: 0;
-	}
-
-	@include tabletUp {
-		.g-magnify__body {
-			overflow: clip;
-			border-radius: var(--br-3);
-		}
-
-		.g-magnify__toggle {
-			left: 10px;
-			transform: translate3d(0, -50%, 0);
-		}
 	}
 
 	&:not(.is-active) .g-magnify__content {
