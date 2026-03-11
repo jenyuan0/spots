@@ -2,38 +2,60 @@
 
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import clsx from 'clsx';
-import { getRandomInt } from '@/lib/helpers';
 import Img from '@/components/Image';
 import Button from '@/components/Button';
+import Carousel from '@/components/Carousel';
 import { motion, useMotionValue, useSpring } from 'motion/react';
 import { springConfig } from '@/lib/helpers';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
 import useMagnify from '@/hooks/useMagnify';
 import useKey from '@/hooks/useKey';
-import ImageHalftone from '@/components/ImageHalftone';
+
+const ItemBlock = ({
+	data,
+	index,
+	onItemEnter,
+	onItemLeave,
+	onItemMove,
+	handleDetailsClick,
+	itemRef,
+}) => {
+	const { slug, title, color, thumbs } = data;
+	const colorTitle = color?.title || 'brown';
+
+	return (
+		<button
+			ref={itemRef}
+			onMouseEnter={(e) => onItemEnter(e, colorTitle, index)}
+			onMouseLeave={onItemLeave}
+			onMouseMove={onItemMove}
+			onClick={(e) => {
+				handleDetailsClick(e, slug, title);
+			}}
+			style={{ '--cr-primary': `var(--cr-${colorTitle}-d)` }}
+			className={'p-design__case__card'}
+		>
+			{thumbs && thumbs.length > 0 && (
+				<div className={'p-design__case__card__thumb'}>
+					<Img image={thumbs[0]} />
+				</div>
+			)}
+			<h3 className="p-design__case__card__title t-h-5">{title}</h3>
+		</button>
+	);
+};
 
 export default function SectionCase({ data, siteData }) {
-	const { caseHeading, caseItems } = data || {};
+	const { caseHeading, caseParagraph, caseItems } = data || {};
 	const { localization } = siteData || {};
 	const { exploreCaseStudy } = localization || {};
-	const { isTouchDevice, width, height } = useWindowDimensions();
+	const { isTouchDevice, isTabletScreen, width, height } =
+		useWindowDimensions();
 	const [isMounted, setIsMounted] = useState(false);
 
 	useEffect(() => {
 		setIsMounted(true);
 	}, []);
-
-	// Pre-compute randomized motion/size/ timing for each image so it stays stable per render
-	const seeds = useMemo(() => {
-		return (caseItems || []).map((item) => {
-			const count = Math.min(item?.thumbs?.length || 0, 4);
-			return Array.from({ length: count }).map((el, i) => ({
-				rot: i % 2 === 0 ? i * 5 : i * -5,
-				delay: getRandomInt(0, 10) / 100,
-				dur: getRandomInt(6, 12) / 10,
-			}));
-		});
-	}, [caseItems]);
 
 	const itemRefs = useRef([]);
 	const sectionRef = useRef(null);
@@ -71,14 +93,14 @@ export default function SectionCase({ data, siteData }) {
 		mvY.set(e.clientY - 45 / 2);
 	};
 
-	const { mag, addMag } = useMagnify();
+	const { addMag } = useMagnify();
 	const { hasPressedKeys } = useKey();
-
-	const handleDetailsClick = (e, slug) => {
+	const handleDetailsClick = (e, slug, title) => {
 		if (!hasPressedKeys) {
 			e.preventDefault();
 			addMag({
 				slug,
+				title,
 				type: 'case',
 			});
 		}
@@ -88,74 +110,61 @@ export default function SectionCase({ data, siteData }) {
 
 	return (
 		<section className="p-design__case" ref={sectionRef}>
-			<div className="p-design__case__header">
-				<h2 className="t-h-2 p-design__case__heading">{caseHeading}</h2>
-			</div>
-			<div className="p-design__case__list">
-				{caseItems?.map((el, i) => {
-					let slug = el?.slug;
-					let color = el?.color?.title || 'red';
-
-					return (
-						<button
-							key={i}
-							ref={(el) => (itemRefs.current[i] = el)}
-							onMouseEnter={(e) => onItemEnter(e, color, i)}
-							onMouseLeave={onItemLeave}
-							onMouseMove={onItemMove}
-							onClick={(e) => {
-								handleDetailsClick(e, slug);
-							}}
-							style={{ '--cr-primary': `var(--cr-${color}-d)` }}
-							className={'p-design__case__card'}
-						>
-							{el.thumbs && el.thumbs.length > 0 && (
-								<div className={'p-design__case__card__images'}>
-									{(() => {
-										const count =
-											seeds[i]?.length || Math.min(el?.thumbs?.length || 0, 4);
-										const thumbs = (el?.thumbs || []).slice(0, count);
-										return thumbs.map((img, j) => {
-											const s = seeds[i]?.[j] || { rot: 0, dur: 0.6 };
-											return (
-												<div
-													className="p-design__case__card__img"
-													key={j}
-													style={{
-														'--index': j,
-														'--rot': `${s.rot}deg`,
-														'--dur': `${0.4 + j * 0.1}s`,
-													}}
-												>
-													<ImageHalftone image={img} />
-												</div>
-											);
-										});
-									})()}
-								</div>
-							)}
-							<div className="p-design__case__card__text wysiwyg">
-								<h3 className="p-design__case__card__title t-h-3">
-									{el.title}
-								</h3>
-								<p className="p-design__case__card__subtitle t-b-2">
-									{el.subtitle}
-								</p>
-							</div>
-						</button>
-					);
-				})}
-			</div>
-			<motion.div
-				className={clsx('p-design__case__cta', {
-					'is-visible': !isTouchDevice && ctaVisible,
-				})}
-				style={{ x: springX, y: springY, scale }}
-			>
-				<Button className={clsx('btn', `cr-${ctaColor}-d`)}>
-					{exploreCaseStudy || 'Explore Case Study'}
-				</Button>
-			</motion.div>
+			<h2 className="p-design__case__title t-l-2">{caseHeading}</h2>
+			<p className="p-design__case__paragraph t-h-5">{caseParagraph}</p>
+			{caseItems &&
+				(isTabletScreen ? (
+					<Carousel
+						className="p-design__case__list"
+						gap={0}
+						isShowDots={true}
+						isAutoHeight={false}
+					>
+						{caseItems.map((el, i) => {
+							return (
+								<ItemBlock
+									key={i}
+									data={el}
+									index={i}
+									onItemEnter={onItemEnter}
+									onItemLeave={onItemLeave}
+									onItemMove={onItemMove}
+									handleDetailsClick={handleDetailsClick}
+									itemRef={(node) => (itemRefs.current[i] = node)}
+								/>
+							);
+						})}
+					</Carousel>
+				) : (
+					<div className="p-design__case__list">
+						{caseItems.map((el, i) => {
+							return (
+								<ItemBlock
+									key={i}
+									data={el}
+									index={i}
+									onItemEnter={onItemEnter}
+									onItemLeave={onItemLeave}
+									onItemMove={onItemMove}
+									handleDetailsClick={handleDetailsClick}
+									itemRef={(node) => (itemRefs.current[i] = node)}
+								/>
+							);
+						})}
+					</div>
+				))}
+			{!isTouchDevice && (
+				<motion.div
+					className={clsx('p-design__case__cta', {
+						'is-visible': ctaVisible,
+					})}
+					style={{ x: springX, y: springY, scale }}
+				>
+					<Button className={clsx('btn', `cr-${ctaColor}-d`)}>
+						{exploreCaseStudy || 'Explore Case Study'}
+					</Button>
+				</motion.div>
+			)}
 		</section>
 	);
 }

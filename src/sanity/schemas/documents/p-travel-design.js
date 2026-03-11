@@ -90,6 +90,11 @@ export default defineType({
 			type: 'string',
 		},
 		{
+			name: 'caseParagraph',
+			type: 'text',
+			rows: 3,
+		},
+		{
 			name: 'caseItems',
 			type: 'array',
 			of: [

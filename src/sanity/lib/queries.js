@@ -832,6 +832,7 @@ export const pageTravelDesignQuery = groq`
 			image{${imageMetaFields}}
 		},
     caseHeading,
+		caseParagraph,
 		${translatedReferenceArray({
 			sourceField: 'caseItems',
 			projection: `${getCaseData('card')}`,
