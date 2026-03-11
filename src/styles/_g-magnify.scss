@@ -244,7 +244,7 @@
 	&__hero {
 		position: relative;
 		display: flex;
-		min-height: clamp(400px, calc(var(--s-vp-height) * 0.45), 800px);
+		min-height: clamp(400px, calc(var(--s-vp-height) * 0.55), 800px);
 		align-items: flex-end;
 		padding: 40px var(--s-contain);
 		background-color: var(--cr-primary);
