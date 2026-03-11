@@ -301,7 +301,7 @@
 
 	&__paragraph {
 		text-wrap: balance;
-		padding: 32px;
+		padding: 32px Min(4vw, 120px);
 		border-bottom: 1px dashed;
 	}
 

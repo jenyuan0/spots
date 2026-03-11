@@ -111,7 +111,7 @@ export default function SectionCase({ data, siteData }) {
 	return (
 		<section className="p-design__case" ref={sectionRef}>
 			<h2 className="p-design__case__title t-l-2">{caseHeading}</h2>
-			<p className="p-design__case__paragraph t-h-5">{caseParagraph}</p>
+			<p className="p-design__case__paragraph t-h-4">{caseParagraph}</p>
 			{caseItems &&
 				(isTabletScreen ? (
 					<Carousel
