@@ -592,7 +592,7 @@ export default function PlannerForm({ data, plan }) {
 					<div className="t-l-2 cr-subtle-5">Or</div> */}
 					<Button
 						icon={<IconEmail />}
-						className={clsx('btn cr-blue-d', {
+						className={clsx('btn cr-green-d', {
 							'js-gtm-booking-email': type != 'design',
 							'js-gtm-design-email': type == 'design',
 						})}

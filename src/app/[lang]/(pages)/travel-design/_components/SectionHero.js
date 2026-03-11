@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import Img from '@/components/Image';
-import ImageHalftone from '@/components/ImageHalftone';
 import { motion, useScroll, useTransform } from 'motion/react';
 import Button from '@/components/Button';
 import Link from '@/components/CustomLink';
@@ -33,7 +32,7 @@ export default function SectionHero({ data }) {
 	});
 	const motionOpacity = useTransform(
 		progress,
-		[0, 0.6, isMobileScreen ? 0.61 : 0.75],
+		[0, 0.5, isMobileScreen ? 0.61 : 0.72],
 		[1, 1, 0]
 	);
 	const pointerEvents = useTransform(progress, (v) =>
@@ -41,6 +40,16 @@ export default function SectionHero({ data }) {
 	);
 	const { addMag } = useMagnify();
 	const { hasPressedKeys } = useKey();
+	const handleDetailsClick = (e, slug, title, type = 'case') => {
+		if (!hasPressedKeys) {
+			e.preventDefault();
+			addMag({
+				slug,
+				title,
+				type,
+			});
+		}
+	};
 
 	const shuffledHeroGallery = React.useMemo(
 		() => shuffleArray(heroGallery),
@@ -78,7 +87,8 @@ export default function SectionHero({ data }) {
 			<div className="p-design__hero__gallery">
 				{shuffledHeroGallery.slice(0, 9).map((el, index) => {
 					const key = `${el._id || index}-${index}`;
-					const { slug, title, color } = el;
+					const { slug, title } = el;
+
 					if (index > 8) {
 						return false;
 					}
@@ -90,19 +100,11 @@ export default function SectionHero({ data }) {
 							href={`/${currentLanguageCodeDisplay}/paris/locations/${slug}`}
 							title={`View ${title}`}
 							tabIndex={-1}
-							{...(!hasPressedKeys && {
-								onClick: (e) => {
-									e.preventDefault();
-									addMag({
-										slug,
-										type: 'location',
-										color,
-									});
-								},
-							})}
+							onClick={(e) => {
+								handleDetailsClick(e, slug, title, 'location');
+							}}
 						>
 							<Img image={el.images} />
-							{/* <ImageHalftone image={el.images} /> */}
 						</Link>
 					);
 				})}
@@ -117,15 +119,9 @@ export default function SectionHero({ data }) {
 						<Button
 							key={key}
 							className="btn-underline t-h-5"
-							{...(!hasPressedKeys && {
-								onClick: (e) => {
-									e.preventDefault();
-									addMag({
-										slug,
-										type: 'case',
-									});
-								},
-							})}
+							onClick={(e) => {
+								handleDetailsClick(e, slug, title);
+							}}
 						>
 							{title}
 						</Button>
