@@ -803,10 +803,6 @@ export const pageTravelDesignQuery = groq`
     ${baseFields},
     "isHomepage": true,
 		heroHeading,
-    heroImage,
-    heroVideo{
-      ${fileMetaFields}
-    },
     heroGallery[]->{
       title,
       _id,
@@ -824,12 +820,6 @@ export const pageTravelDesignQuery = groq`
     introHeading,
     introParagraph[]{
       ${portableTextContentFields}
-		},
-    whyHeading,
-		whyBlocks[]{
-			heading,
-			paragraph,
-			image{${imageMetaFields}}
 		},
     caseHeading,
 		caseParagraph,

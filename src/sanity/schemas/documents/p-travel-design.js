@@ -11,17 +11,10 @@ export default defineType({
 	fields: [
 		title(),
 		slug(),
-		customImage({ name: 'heroImage' }),
 		{
 			name: 'heroHeading',
 			type: 'text',
 			rows: 3,
-		},
-		{
-			name: 'heroVideo',
-			title: 'Hero Video',
-			type: 'file',
-			options: { accept: 'video/*' },
 		},
 		{
 			name: 'heroGallery',
@@ -60,30 +53,6 @@ export default defineType({
 		{
 			name: 'introParagraph',
 			type: 'portableTextSimple',
-		},
-		{
-			name: 'whyHeading',
-			type: 'string',
-		},
-		{
-			name: 'whyBlocks',
-			type: 'array',
-			of: [
-				{
-					type: 'object',
-					fields: [
-						{
-							name: 'heading',
-							type: 'string',
-						},
-						{
-							name: 'paragraph',
-							type: 'text',
-							rows: 4,
-						},
-					],
-				},
-			],
 		},
 		{
 			name: 'caseHeading',
