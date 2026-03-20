@@ -824,9 +824,15 @@ export const pageTravelDesignQuery = groq`
     faqSubheading,
     faq[]{
       _key,
-      title,
-      answer[]{
-        ${portableTextContentFields}
+      _type,
+      _type == 'item' => {
+        title,
+        answer[]{
+          ${portableTextContentFields}
+        }
+      },
+      _type == 'sectionTitle' => {
+        title
       }
     },
   }

@@ -1,4 +1,5 @@
 import { defineType } from 'sanity';
+import { BlockContentIcon } from '@sanity/icons';
 import title from '@/sanity/schemas/objects/title';
 import slug from '@/sanity/schemas/objects/slug';
 import sharing from '@/sanity/schemas/objects/sharing';
@@ -112,6 +113,27 @@ export default defineType({
 							type: 'portableTextSimple',
 						},
 					],
+				},
+				{
+					name: 'sectionTitle',
+					type: 'object',
+					fields: [
+						{
+							name: 'title',
+							type: 'string',
+						},
+					],
+					preview: {
+						select: {
+							title: 'title',
+						},
+						prepare({ title }) {
+							return {
+								title: title,
+								media: BlockContentIcon,
+							};
+						},
+					},
 				},
 			],
 		},

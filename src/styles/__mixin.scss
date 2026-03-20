@@ -292,6 +292,13 @@
 		margin-inline: auto;
 	}
 
+	&__title {
+		margin-top: 40px;
+		margin-bottom: 20px;
+		text-align: center;
+		color: var(--cr-orange-d);
+	}
+
 	@media (hover: hover) {
 		.c-accordion__toggle {
 			transition: color var(--t-1);
