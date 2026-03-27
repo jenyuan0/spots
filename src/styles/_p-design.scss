@@ -8,12 +8,11 @@
 	top: 0;
 
 	&__header {
-		text-align: center;
-		width: var(--width-med);
-		// margin-block: var(--s-section);
+		width: var(--width-sml);
 		margin-top: calc(var(--s-header) + var(--space));
 		margin-bottom: var(--space);
 		margin-inline: auto;
+		text-align: center;
 
 		h1 {
 			font: var(--t-h-2);
@@ -24,6 +23,11 @@
 					font-size: 26px;
 				}
 			}
+		}
+
+		p {
+			text-wrap: balance;
+			font: var(--t-h-4);
 		}
 	}
 
@@ -65,7 +69,8 @@
 	&__cta {
 		display: flex;
 		flex-direction: column;
-		gap: 6px;
+		align-items: center;
+		gap: 15px;
 		width: var(--width-sml);
 		margin-top: 60px;
 		margin-inline: auto;

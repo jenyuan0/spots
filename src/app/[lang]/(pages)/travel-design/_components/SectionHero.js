@@ -7,6 +7,7 @@ import Button from '@/components/Button';
 import Link from '@/components/CustomLink';
 import useMagnify from '@/hooks/useMagnify';
 import useKey from '@/hooks/useKey';
+import usePlanner from '@/hooks/usePlanner';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
 import { useCurrentLang } from '@/hooks/useCurrentLang';
 
@@ -22,7 +23,15 @@ function shuffleArray(arr) {
 export default function SectionHero({ data }) {
 	const { isMobileScreen } = useWindowDimensions();
 	const [currentLanguageCode, currentLanguageCodeDisplay] = useCurrentLang();
-	const { heroHeading, heroGallery, heroCtaLabel, heroCta } = data || {};
+	const {
+		heroHeading,
+		heroSubheading,
+		heroGallery,
+		heroCtaLabel,
+		heroCta,
+		heroCtaPlanLabel,
+	} = data || {};
+	const { setPlannerActive, setPlannerContent } = usePlanner();
 	const [hasMounted, setHasMounted] = useState(false);
 	const ref = useRef();
 	const { scrollY } = useScroll();
@@ -71,8 +80,8 @@ export default function SectionHero({ data }) {
 				pointerEvents,
 			}}
 		>
-			{heroHeading && (
-				<div className="p-design__hero__header">
+			<div className="p-design__hero__header wysiwyg">
+				{heroHeading && (
 					<h1>
 						{heroHeading.split('\n').map((line, i) => (
 							<React.Fragment key={i}>
@@ -81,9 +90,18 @@ export default function SectionHero({ data }) {
 							</React.Fragment>
 						))}
 					</h1>
-				</div>
-			)}
-
+				)}
+				{heroSubheading && (
+					<p>
+						{heroSubheading.split('\n').map((line, i) => (
+							<React.Fragment key={i}>
+								{line}
+								{i < heroHeading.split('\n').length - 1 && <br />}
+							</React.Fragment>
+						))}
+					</p>
+				)}
+			</div>
 			<div className="p-design__hero__gallery">
 				{shuffledHeroGallery.slice(0, 9).map((el, index) => {
 					const key = `${el._id || index}-${index}`;
@@ -111,22 +129,34 @@ export default function SectionHero({ data }) {
 			</div>
 			<div className="p-design__hero__cta">
 				{heroCtaLabel && <h2 className="t-b-2">{heroCtaLabel}</h2>}
-				{heroCta?.map((el, index) => {
-					const key = `${el._id || index}-${index}`;
-					const { slug, title } = el;
+				{heroCta ? (
+					heroCta?.map((el, index) => {
+						const key = `${el._id || index}-${index}`;
+						const { slug, title } = el;
 
-					return (
-						<Button
-							key={key}
-							className="btn-underline t-h-5"
-							onClick={(e) => {
-								handleDetailsClick(e, slug, title);
-							}}
-						>
-							{title}
-						</Button>
-					);
-				})}
+						return (
+							<Button
+								key={key}
+								className="btn-underline t-h-5"
+								onClick={(e) => {
+									handleDetailsClick(e, slug, title);
+								}}
+							>
+								{title}
+							</Button>
+						);
+					})
+				) : (
+					<Button
+						className="btn-underline t-h-5 js-gtm-design-popup"
+						onClick={() => {
+							setPlannerActive(true);
+							setPlannerContent({ type: 'design' });
+						}}
+					>
+						{heroCtaPlanLabel}
+					</Button>
+				)}
 			</div>
 		</motion.section>
 	);

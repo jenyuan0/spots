@@ -803,6 +803,7 @@ export const pageTravelDesignQuery = groq`
     ${baseFields},
     "isHomepage": true,
 		heroHeading,
+		heroSubheading,
     heroGallery[]->{
       title,
       _id,
@@ -817,6 +818,7 @@ export const pageTravelDesignQuery = groq`
 			sourceField: 'heroCta',
 			projection: `${getCaseData('card')}`,
 		})},
+		heroCtaPlanLabel,
     introHeading,
     introParagraph[]{
       ${portableTextContentFields}

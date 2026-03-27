@@ -14,7 +14,12 @@ export default defineType({
 		{
 			name: 'heroHeading',
 			type: 'text',
-			rows: 3,
+			rows: 2,
+		},
+		{
+			name: 'heroSubheading',
+			type: 'text',
+			rows: 2,
 		},
 		{
 			name: 'heroGallery',
@@ -45,6 +50,10 @@ export default defineType({
 					},
 				},
 			],
+		},
+		{
+			name: 'heroCtaPlanLabel',
+			type: 'string',
 		},
 		{
 			name: 'introHeading',
