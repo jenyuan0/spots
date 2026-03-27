@@ -105,10 +105,18 @@
 
 	video {
 		opacity: 0;
+
+		&.is-active {
+			animation: fadeIn 2s 0.2s both;
+		}
 	}
 
-	video.is-active {
-		animation: fadeIn 2s 0.2s both;
+	@include mobileDown {
+		--space: 60px;
+	}
+
+	@media screen and (max-height: 620px) {
+		position: relative;
 	}
 }
 
