@@ -115,7 +115,7 @@
 		--space: 60px;
 	}
 
-	@media screen and (max-height: 620px) {
+	@media screen and (max-height: 630px) {
 		position: relative;
 	}
 }
@@ -405,6 +405,7 @@
 		}
 
 		&__card {
+			align-self: stretch;
 			width: Max(80, 240px);
 			padding: Min(48px, 8vw);
 		}
