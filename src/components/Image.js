@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import React, { useEffect, useRef, useState, useMemo, forwardRef } from 'react';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { buildImageSrc } from '@/lib/helpers';
@@ -20,16 +20,19 @@ function getImageDimensions(id) {
 	return { width, height, aspectRatio: width / height };
 }
 
-function Img({
-	image,
-	alt,
-	className,
-	responsiveImage = false,
-	breakpoint = 600,
-	quality = 80,
-	format = 'webp',
-}) {
-	const { ref, inView } = useInView({ triggerOnce: true });
+const Img = forwardRef(function Img(
+	{
+		image,
+		alt,
+		className,
+		responsiveImage = false,
+		breakpoint = 600,
+		quality = 80,
+		format = 'webp',
+	},
+	forwardedRef
+) {
+	const { ref: inViewRef, inView } = useInView({ triggerOnce: true });
 	const [isLoaded, setIsLoaded] = useState(false);
 	const [error, setError] = useState(false);
 	const pictureRef = useRef();
@@ -105,7 +108,11 @@ function Img({
 				</>
 			)}
 			<Image
-				ref={ref}
+				ref={(node) => {
+					inViewRef(node);
+					if (typeof forwardedRef === 'function') forwardedRef(node);
+					else if (forwardedRef) forwardedRef.current = node;
+				}}
 				width={imageWidth}
 				height={imageHeight}
 				sizes={`${renderedWidth}px`}
@@ -126,6 +133,6 @@ function Img({
 			/>
 		</picture>
 	);
-}
+});
 
 export default React.memo(Img);

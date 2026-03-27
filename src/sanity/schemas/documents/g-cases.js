@@ -4,6 +4,7 @@ import slug from '@/sanity/schemas/objects/slug';
 import sharing from '@/sanity/schemas/objects/sharing';
 import customImage from '@/sanity/schemas/objects/custom-image';
 import { getSwatch } from '@/sanity/lib/helpers';
+import { PriceInput } from '@/sanity/component/PriceInput';
 
 export default defineType({
 	title: 'Cases',
@@ -39,6 +40,32 @@ export default defineType({
 			type: 'portableTextSimple',
 		},
 		{
+			title: 'Budget (USD) / per person',
+			name: 'budget',
+			type: 'object',
+			options: {
+				columns: 2,
+			},
+			fields: [
+				{
+					title: 'Low',
+					name: 'budgetLow',
+					type: 'number',
+					components: {
+						field: PriceInput,
+					},
+				},
+				{
+					title: 'High',
+					name: 'budgetHigh',
+					type: 'number',
+					components: {
+						field: PriceInput,
+					},
+				},
+			],
+		},
+		{
 			name: 'offers',
 			type: 'array',
 			of: [
@@ -47,6 +74,10 @@ export default defineType({
 					type: 'string',
 				},
 			],
+		},
+		{
+			name: 'exclusions',
+			type: 'string',
 		},
 		{
 			name: 'accomodations',

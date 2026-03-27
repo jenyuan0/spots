@@ -250,6 +250,26 @@
 	}
 }
 
+@mixin asideToggleStatic {
+	&__label {
+		position: absolute;
+		white-space: nowrap;
+		top: 50%;
+		left: -5px;
+		transform: translate3d(-90%, -50%, 0);
+		opacity: 0;
+		pointer-events: none;
+		transition: var(--t-1);
+	}
+
+	@media (hover: hover) {
+		&:hover &__label {
+			transform: translate3d(-100%, -50%, 0);
+			opacity: 1;
+		}
+	}
+}
+
 @mixin headerBlock {
 	display: flex;
 	align-items: center;
@@ -313,12 +333,7 @@
 		}
 	}
 
-	.c-accordion__toggle {
-		align-items: flex-start;
-	}
-
 	.c-accordion__subtitle {
-		margin-top: 0.22em;
 		font-weight: 500;
 		color: var(--cr-orange-d);
 	}

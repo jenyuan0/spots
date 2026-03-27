@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import HeroSection from './HeroSection';
 import IntroSection from './IntroSection';
 import WhySection from './WhySection';

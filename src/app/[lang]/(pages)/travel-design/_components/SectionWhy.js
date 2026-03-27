@@ -2,9 +2,8 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Img from '@/components/Image';
-import CustomPortableText from '@/components/CustomPortableText';
-import useWindowDimensions from '@/hooks/useWindowDimensions';
 import Carousel from '@/components/Carousel';
+import useWindowDimensions from '@/hooks/useWindowDimensions';
 
 const WhyBlock = ({ data }) => {
 	const { image, heading, paragraph } = data;

@@ -87,6 +87,16 @@ function globalLabelLocalization() {
 				type: 'internationalizedArrayString',
 			}),
 			defineField({
+				title: 'Fees',
+				name: 'fees',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
+				title: 'FeesNotes',
+				name: 'feesNotes',
+				type: 'internationalizedArrayString',
+			}),
+			defineField({
 				title: 'Our Role',
 				name: 'ourRole',
 				type: 'internationalizedArrayString',

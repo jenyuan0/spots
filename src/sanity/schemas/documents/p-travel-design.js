@@ -12,20 +12,18 @@ export default defineType({
 	fields: [
 		title(),
 		slug(),
-		customImage({ name: 'heroImage' }),
 		{
 			name: 'heroHeading',
 			type: 'text',
-			rows: 3,
+			rows: 2,
 		},
 		{
-			name: 'heroVideo',
-			title: 'Hero Video',
-			type: 'file',
-			options: { accept: 'video/*' },
+			name: 'heroSubheading',
+			type: 'text',
+			rows: 2,
 		},
 		{
-			name: 'heroSpots',
+			name: 'heroGallery',
 			type: 'array',
 			of: [
 				{
@@ -38,6 +36,27 @@ export default defineType({
 			],
 		},
 		{
+			name: 'heroCtaLabel',
+			type: 'string',
+		},
+		{
+			name: 'heroCta',
+			type: 'array',
+			of: [
+				{
+					type: 'reference',
+					to: [{ type: 'gCases' }],
+					options: {
+						filter: '_type == "gCases" && language == "en"',
+					},
+				},
+			],
+		},
+		{
+			name: 'heroCtaPlanLabel',
+			type: 'string',
+		},
+		{
 			name: 'introHeading',
 			type: 'string',
 		},
@@ -46,32 +65,13 @@ export default defineType({
 			type: 'portableTextSimple',
 		},
 		{
-			name: 'whyHeading',
-			type: 'string',
-		},
-		{
-			name: 'whyBlocks',
-			type: 'array',
-			of: [
-				{
-					type: 'object',
-					fields: [
-						{
-							name: 'heading',
-							type: 'string',
-						},
-						{
-							name: 'paragraph',
-							type: 'text',
-							rows: 4,
-						},
-					],
-				},
-			],
-		},
-		{
 			name: 'caseHeading',
 			type: 'string',
+		},
+		{
+			name: 'caseParagraph',
+			type: 'text',
+			rows: 3,
 		},
 		{
 			name: 'caseItems',
@@ -83,6 +83,19 @@ export default defineType({
 					to: [{ type: 'gCases' }],
 					options: {
 						filter: '_type == "gCases" && language == "en"',
+					},
+				},
+			],
+		},
+		{
+			name: 'heroSpots',
+			type: 'array',
+			of: [
+				{
+					type: 'reference',
+					to: [{ type: 'gLocations' }],
+					options: {
+						filter: '_type == "gLocations" && language == "en"',
 					},
 				},
 			],

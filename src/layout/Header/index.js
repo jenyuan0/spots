@@ -79,16 +79,16 @@ export default function Header({ isActive, localization }) {
 		</>
 	);
 
-	useEffect(() => {
-		const activeRef = isHotelBooking
-			? refLinkHotelBooking
-			: refLinkTravelDesign;
+	// useEffect(() => {
+	// 	const activeRef = isHotelBooking
+	// 		? refLinkHotelBooking
+	// 		: refLinkTravelDesign;
 
-		setToggleActiveProp({
-			width: activeRef?.current.offsetWidth || 0,
-			left: activeRef?.current.offsetLeft || 0,
-		});
-	}, [pathname]);
+	// 	setToggleActiveProp({
+	// 		width: activeRef?.current.offsetWidth || 0,
+	// 		left: activeRef?.current.offsetLeft || 0,
+	// 	});
+	// }, [pathname]);
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -173,7 +173,7 @@ export default function Header({ isActive, localization }) {
 						/>
 					</svg>
 				</Link>
-				<div className="g-header__toggle t-l-2">
+				{/* <div className="g-header__toggle t-l-2">
 					<div
 						className="g-header__toggle__active"
 						style={{
@@ -186,9 +186,9 @@ export default function Header({ isActive, localization }) {
 					/>
 					<div ref={refLinkTravelDesign}>{elLinkTravelDesign}</div>
 					<div ref={refLinkHotelBooking}>{elLinkBooking}</div>
-				</div>
-				<div className="g-header__links f-h f-a-c gap-2 t-l-1">{elLinks}</div>
+				</div> */}
 				<LanguageSelector />
+				<div className="g-header__links f-h f-a-c gap-2 t-l-1">{elLinks}</div>
 				<div className="g-header__cta f-h f-a-c gap-2">
 					{isHotelBooking && (
 						<Button
@@ -229,8 +229,8 @@ export default function Header({ isActive, localization }) {
 			></button>
 			<div className="g-mobile-menu f-v f-a-e">
 				<div className="g-mobile-menu__links f-v f-a-e t-h-3">
-					{elLinkBooking}
-					{elLinkTravelDesign}
+					{/* {elLinkBooking}
+					{elLinkTravelDesign} */}
 					{elLinks}
 				</div>
 				<LanguageSelector />

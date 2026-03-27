@@ -458,7 +458,13 @@ export const getCaseData = (type) => {
 			highlights[]{
 				${portableTextObj}
 			},
+			"budget": {
+				"low": budget.budgetLow,
+				"high": budget.budgetHigh
+			},
 			offers,
+			inclusions,
+			exclusions,
 			content[]{
 				${portableTextObj}
 			},
@@ -468,6 +474,8 @@ export const getCaseData = (type) => {
 			})},
 			"localizationGlobal": *[_type == "settingsLocalization"][0].globalLabel {
 				"tripHighlights": ${getTranslationByLanguage('tripHighlights')},
+				"fees": ${getTranslationByLanguage('fees')},
+				"feesNotes": ${getTranslationByLanguage('feesNotes')},
 				"ourRole": ${getTranslationByLanguage('ourRole')},
 				"planYourTrip": ${getTranslationByLanguage('planYourTrip')},
 				"suggestedAccomodations": ${getTranslationByLanguage('suggestedAccomodations')},
@@ -795,31 +803,38 @@ export const pageTravelDesignQuery = groq`
     ${baseFields},
     "isHomepage": true,
 		heroHeading,
-    heroImage,
-    heroVideo{
-      ${fileMetaFields}
-    },
-    heroSpots[]->{
+		heroSubheading,
+    heroGallery[]->{
       title,
       _id,
       "slug": slug.current,
-      "color": lower(categories[0]->color->title)
+			"color": lower(categories[0]->color->title),
+    	images[0]{
+      	${imageMetaFields}
+    	},
     },
+		heroCtaLabel,
+		${translatedReferenceArray({
+			sourceField: 'heroCta',
+			projection: `${getCaseData('card')}`,
+		})},
+		heroCtaPlanLabel,
     introHeading,
     introParagraph[]{
       ${portableTextContentFields}
 		},
-    whyHeading,
-		whyBlocks[]{
-			heading,
-			paragraph,
-			image{${imageMetaFields}}
-		},
     caseHeading,
+		caseParagraph,
 		${translatedReferenceArray({
 			sourceField: 'caseItems',
 			projection: `${getCaseData('card')}`,
 		})},
+    heroSpots[]->{
+      title,
+      _id,
+      "slug": slug.current,
+      "color": lower(categories[0]->color->title),
+    },
     faqHeading,
     faqSubheading,
     faq[]{

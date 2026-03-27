@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import { getLocalizationPlural } from '@/lib/helpers';
-import Img from '@/components/Image';
+import { formatNumberWithCommas, getLocalizationPlural } from '@/lib/helpers';
+import ImageHalftone from '@/components/ImageHalftone';
 import CustomPortableText from '@/components/CustomPortableText';
 import Button from '@/components/Button';
 import LocationCard from '@/components/LocationCard';
@@ -20,13 +20,18 @@ export default function MagnifyCase({ data }) {
 		heroSubtitle,
 		highlights,
 		offers,
+		inclusions,
+		exclusions,
 		content,
 		accomodations,
 		color,
 		localizationGlobal,
+		budget,
 	} = data || {};
 	const {
 		tripHighlights,
+		fees,
+		feesNotes,
 		ourRole,
 		planYourTrip,
 		suggestedAccomodations,
@@ -38,12 +43,12 @@ export default function MagnifyCase({ data }) {
 			<div className="g-magnify-cases__hero">
 				{heroImage && (
 					<span className="g-magnify-cases__hero__image object-fit">
-						<Img image={heroImage} />
+						<ImageHalftone image={heroImage} />
 					</span>
 				)}
 
 				<div className="g-magnify-cases__hero__text wysiwyg">
-					{title && <h2 className="g-magnify-cases__heading t-h-1">{title}</h2>}
+					{title && <h1 className="g-magnify-cases__heading t-h-1">{title}</h1>}
 					{(heroSubtitle || subtitle) && (
 						<h2 className="g-magnify-cases__subtitle t-h-4">
 							{heroSubtitle || subtitle}
@@ -52,26 +57,45 @@ export default function MagnifyCase({ data }) {
 				</div>
 			</div>
 			<div className="g-magnify-cases__highlights">
-				<h3 className="g-magnify-cases__highlights__title t-l-1">
-					{tripHighlights || 'Trip Highlights'}
-				</h3>
 				{highlights && (
-					<div className="g-magnify-cases__highlights__summary wysiwyg">
-						<CustomPortableText blocks={highlights} />
+					<div className="g-magnify-cases__summary">
+						<h3 className="g-magnify-cases__summary-title t-l-1">
+							{tripHighlights || 'Trip Highlights'}
+						</h3>
+						<div className="wysiwyg">
+							<CustomPortableText blocks={highlights} />
+						</div>
 					</div>
 				)}
-				{offers && (
-					<>
-						<h3 className="g-magnify-cases__highlights__offers-title t-l-1">
-							{ourRole || 'Our Role'}
+
+				{budget.low && (
+					<div className="g-magnify-cases__budget">
+						<h3 className="g-magnify-cases__budget-title t-l-1">
+							{fees || 'Fees'}
 						</h3>
-						<ul className="g-magnify-cases__highlights__offers t-b-1">
-							{offers?.map((item, index) => (
-								<li key={`offer-${index}`}>{item}</li>
-							))}
-						</ul>
-					</>
+						<p className="t-h-4">
+							USD ${formatNumberWithCommas(budget.low)}
+							{budget.high && `—$${formatNumberWithCommas(budget.high)}`}
+							{` per person`}
+						</p>
+						{feesNotes && <p className="t-b-2">{feesNotes}</p>}
+					</div>
 				)}
+				<div className="g-magnify-cases__offers">
+					<h3 className="g-magnify-cases__offers-title t-l-1">
+						{ourRole || 'Our Role'}
+					</h3>
+					<ul className="t-b-1">
+						{offers?.map((item, index) => (
+							<li key={`offer-${index}`}>{item}</li>
+						))}
+					</ul>
+					{exclusions && (
+						<p>
+							(<em>{exclusions}</em>)
+						</p>
+					)}
+				</div>
 				<Button
 					className={`btn cr-${color.title || 'brown'}-d js-gtm-design-popup`}
 					onClick={() => {

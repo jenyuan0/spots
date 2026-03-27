@@ -335,7 +335,7 @@ export default function PlannerForm({ data, plan }) {
 	return (
 		<div className="g-planner-form c-form">
 			<div className="g-planner-form__header wysiwyg">
-				<div
+				{/* <div
 					className="pill"
 					style={{
 						'--cr-primary': 'var(--cr-green-l)',
@@ -345,7 +345,7 @@ export default function PlannerForm({ data, plan }) {
 					{type == 'design'
 						? `${firstConsultationNoFees || 'First Consultation · No Fees'}`
 						: `${hotelBookingNoFees || 'Hotel Booking · No Fees'}`}
-				</div>
+				</div> */}
 				{formText.heading && <h2 className="t-h-1">{formText.heading}</h2>}
 				{formText.subheading && <p className="t-h-4">{formText.subheading}</p>}
 			</div>
@@ -592,7 +592,7 @@ export default function PlannerForm({ data, plan }) {
 					<div className="t-l-2 cr-subtle-5">Or</div> */}
 					<Button
 						icon={<IconEmail />}
-						className={clsx('btn cr-blue-d', {
+						className={clsx('btn cr-green-d', {
 							'js-gtm-booking-email': type != 'design',
 							'js-gtm-design-email': type == 'design',
 						})}

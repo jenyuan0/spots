@@ -19,17 +19,15 @@ import usePlanner from '@/hooks/usePlanner';
 import useOutsideClick from '@/hooks/useOutsideClick';
 
 function MagnifyContent({ item, localization, localizationHighlights }) {
-	const { planYourTrip, unlockInsiderRates, closeLabel } = localization || {};
+	const { planYourTrip, closeLabel } = localization || {};
 	const containerRef = useRef();
 	const contentRef = useRef();
 	const timerRef = useRef();
 	const [isActive, setIsActive] = useState(false);
 	const [pageSlug, setPageSlug] = useState(null);
 	const [color, setColor] = useState('brown');
-	const [locMeta, setLocMeta] = useState({
-		hasHotelCategory: false,
-		title: '',
-	});
+	const [locMeta, setLocMeta] = useState(null);
+	const [isScrolled, setIsScrolled] = useState(false);
 	const { lightboxActive } = useLightbox();
 	const { mag, removeMag } = useMagnify();
 	const { setPlannerActive, setPlannerContent } = usePlanner();
@@ -43,12 +41,15 @@ function MagnifyContent({ item, localization, localizationHighlights }) {
 	const type = item?.type || 'location';
 	const mParam = item?.slug;
 
-	const handleMeta = useCallback((meta) => {
-		setLocMeta(meta);
-	}, []);
-
-	const handleColorChange = useCallback((c) => {
-		setColor(c || 'brown');
+	const handleChildData = useCallback((childData = {}) => {
+		setLocMeta(childData);
+		const locColor =
+			typeof childData.color === 'string'
+				? childData.color
+				: childData.color?.title ||
+					childData?.categories?.[0]?.color?.title?.toLowerCase() ||
+					'brown';
+		setColor(locColor);
 	}, []);
 
 	useEffect(() => {
@@ -65,6 +66,22 @@ function MagnifyContent({ item, localization, localizationHighlights }) {
 			scrollEnable();
 		}
 	}, [isActive]);
+
+	useEffect(() => {
+		const el = containerRef.current;
+		if (!el) return;
+
+		const handleScroll = () => {
+			setIsScrolled(el.scrollTop > 200);
+		};
+
+		handleScroll();
+		el.addEventListener('scroll', handleScroll, { passive: true });
+
+		return () => {
+			el.removeEventListener('scroll', handleScroll);
+		};
+	}, []);
 
 	const handleClose = () => {
 		const stack = useMagnify.getState().mag || [];
@@ -96,6 +113,7 @@ function MagnifyContent({ item, localization, localizationHighlights }) {
 		<div
 			className={clsx('g-magnify', {
 				'is-active': isActive,
+				'is-scrolled': isScrolled,
 			})}
 			ref={containerRef}
 			style={{
@@ -126,33 +144,21 @@ function MagnifyContent({ item, localization, localizationHighlights }) {
 							<div className="icon-close" />
 						</div>
 					</button>
-					{type === 'location' && locMeta.hasHotelCategory ? (
-						<Button
-							className={`btn cr-${color}-d`}
-							onClick={() => {
-								setPlannerActive(true);
-								setPlannerContent({
-									heading: 'Unlock Insider Rate & Perks',
-									subject: `Rate & Perks for ${locMeta.title}`,
-									where: locMeta.title,
-								});
-							}}
-						>
-							{unlockInsiderRates || 'Unlock Insider Rates'}
-						</Button>
-					) : (
-						<Button
-							className={`btn cr-${color}-d js-gtm-design-popup`}
-							onClick={() => {
-								setPlannerActive(true);
-								setPlannerContent({
-									type: 'design',
-								});
-							}}
-						>
-							{planYourTrip || 'Plan Your Trip with Spots'}
-						</Button>
-					)}
+					<h2 className="g-magnify__title">
+						{locMeta?.title && <span className="t-h-4">{locMeta.title}</span>}
+						{locMeta?.subtitle && <em className="t-h-5">{locMeta.subtitle}</em>}
+					</h2>
+					<Button
+						className={`btn cr-${color}-d js-gtm-design-popup`}
+						onClick={() => {
+							setPlannerActive(true);
+							setPlannerContent({
+								type: 'design',
+							});
+						}}
+					>
+						{planYourTrip || 'Plan Your Trip with Spots'}
+					</Button>
 				</div>
 				<div className="g-magnify__body">
 					{type === 'location' && (
@@ -160,8 +166,7 @@ function MagnifyContent({ item, localization, localizationHighlights }) {
 							key={mParam || `location-${idx}`}
 							mParam={mParam}
 							pageSlug={pageSlug}
-							onColorChange={handleColorChange}
-							onMeta={handleMeta}
+							onDataChange={handleChildData}
 							localization={localization}
 							localizationHighlights={localizationHighlights}
 						/>
@@ -172,7 +177,7 @@ function MagnifyContent({ item, localization, localizationHighlights }) {
 								key={mParam || `case-${idx}`}
 								mParam={mParam}
 								pageSlug={pageSlug}
-								onColorChange={handleColorChange}
+								onDataChange={handleChildData}
 								localization={localization}
 							/>
 						</div>
