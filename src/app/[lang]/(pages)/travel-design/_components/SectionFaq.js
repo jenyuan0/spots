@@ -26,7 +26,7 @@ export default function SectionFaq({ data }) {
 						return (
 							<h3
 								key={`faq-section-${index}`}
-								className="p-design__faq__title t-h-4"
+								className="p-design__faq__title t-l-1"
 							>
 								{title}
 							</h3>

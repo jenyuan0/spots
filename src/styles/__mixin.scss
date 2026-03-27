@@ -282,7 +282,7 @@
 @mixin v2SectionHeader {
 	&__header {
 		width: Min(80vw, 800px);
-		margin-bottom: var(--s-5-v);
+		margin-bottom: 60px;
 		margin-inline: auto;
 		text-align: center;
 
@@ -313,7 +313,7 @@
 	}
 
 	&__title {
-		margin-top: 40px;
+		margin-top: 30px;
 		margin-bottom: 20px;
 		text-align: center;
 		color: var(--cr-orange-d);

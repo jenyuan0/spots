@@ -118,17 +118,17 @@
 	text-align: center;
 	transform: translate3d(0, 0, 0);
 	background-color: var(--cr-cream);
-	border: 1px dashed var(--cr-red-d);
+	border: 1px dashed;
 	border-radius: var(--br-1);
 
 	&__title {
 		padding: 16px;
-		color: var(--cr-red-d);
 		border-bottom: 1px dashed;
 	}
 
 	&__paragraph {
 		padding: 60px;
+		color: var(--cr-red-d);
 
 		@include mobileDown {
 			padding: 20px 20px 50px;

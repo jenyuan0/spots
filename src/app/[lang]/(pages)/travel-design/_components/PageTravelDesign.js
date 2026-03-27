@@ -14,8 +14,8 @@ export default function PageTravelDesign({ data, siteData }) {
 		<>
 			<SectionHero data={data} />
 			<SectionIntro data={data} />
-			<SectionSpots data={data} />
 			<SectionCase data={data} siteData={siteData} />
+			<SectionSpots data={data} />
 			{/* <SectionWhy data={data} /> */}
 			<SectionFaq data={data} />
 			<SectionContact data={data} />
