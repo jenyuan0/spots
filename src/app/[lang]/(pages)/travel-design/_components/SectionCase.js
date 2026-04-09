@@ -36,7 +36,7 @@ const ItemBlock = ({
 			className={'p-design__case__card'}
 		>
 			{thumbs && thumbs.length > 0 && (
-				<div className={'p-design__case__card__thumb'}>
+				<div className={'p-design__case__card__thumb bg-subtle'}>
 					<Img image={thumbs[0]} />
 				</div>
 			)}
