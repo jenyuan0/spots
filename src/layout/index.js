@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { client } from '@/sanity/lib/client';
 import { siteSetup } from '@/hooks/useVsSetup';
 import * as gtag from '@/lib/gtag';
@@ -19,6 +19,9 @@ import useAsideMap from '@/hooks/useAsideMap';
 export default function Layout({ children, siteData }) {
 	const { announcement, header, footer, localization } = siteData || {};
 	const pathname = usePathname();
+	const searchParams = useSearchParams();
+	const search = searchParams?.toString();
+	const pagePath = search ? `${pathname}?${search}` : pathname;
 	const [isHeaderActive, setIsHeaderActive] = useState(false);
 	const [isFooterActive, setIsFooterActive] = useState(false);
 	const setAsideMapActive = useAsideMap((state) => state.setAsideMapActive);
@@ -36,7 +39,7 @@ export default function Layout({ children, siteData }) {
 
 	useEffect(() => {
 		if (siteData?.integrations?.gaID) {
-			gtag.pageview(pathname, siteData.integrations.gaID);
+			gtag.pageview(pagePath, siteData.integrations.gaID);
 		}
 
 		// Optimize color mapping with early return
@@ -54,7 +57,7 @@ export default function Layout({ children, siteData }) {
 		Object.entries(colorUpdates).forEach(([property, value]) => {
 			document.documentElement.style.setProperty(property, value);
 		});
-	}, [siteData, pathname]);
+	}, [siteData, pagePath]);
 
 	const fetchIsCustomItinerary = async (pathname) => {
 		try {
